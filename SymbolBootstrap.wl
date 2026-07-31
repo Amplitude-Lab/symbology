@@ -149,7 +149,7 @@ rules=Table[With[{terms=DeleteCases[sqrtlist2^vec,1]},terms[[-1]]->Factor[(Power
 alpexpr=Factor[alpexpr/.Dispatch[rules]]/.sqrt[a_]:>sqrt[Expand[a]];sqrtlist1=SortBy[Union@Cases[alpexpr,_sqrt,\[Infinity]],ByteCount];];
 If[!AllTrue[alpexpr,RationalExpressionQ[#,Join[vars,sqrtlist1]]&],Print["Error: unsupported input alphabet expression"];Return[$Failed]];
 (* Rationalize the denominator *)
-alpexpr=Simplify[alpexpr]/.sqrt[a_]:>sqrt[Expand[a]];dlogexpr=Factor[D[alpexpr,{vars}]/alpexpr//.{Derivative[1][sqrt][x_]:>sqrt[x]/(2x)}];
+alpexpr=Simplify[alpexpr]/.sqrt[a_]:>sqrt[Expand[a]];dlogexpr=Factor[ExpandDenominator[Factor[D[alpexpr,{vars}]/alpexpr//.{Derivative[1][sqrt][x_]:>sqrt[x]/(2x)}]]];
 With[{sepsqrt=(If[Head[#]===Times,{Times@@Select[List@@#,Not@*FreeQ[_sqrt]],Times@@Select[List@@#,FreeQ[_sqrt]]},If[FreeQ[#,_sqrt],{1,#},{#,1}]]&),
 sqrtconjs=(expr|->With[{sqlist=Union@Cases[{expr},_sqrt,\[Infinity]]},Flatten[Outer[(expr/.Thread[sqlist->(sqlist*{##})])&,Sequence@@Table[{1,-1},Length[sqlist]]]][[2;;]]])},
 With[{den2rat=(expr|->With[{dens=sepsqrt[Denominator[expr]]},If[NumberQ[dens[[1]]],Factor[Expand[expr]],Factor[Expand[Numerator[expr]Times@@sqrtconjs[dens[[1]]]]/(Expand[dens[[1]]Times@@sqrtconjs[dens[[1]]]]dens[[2]])]]])},
