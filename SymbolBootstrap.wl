@@ -139,7 +139,7 @@ sqrt/:sqrt[x_]^k_Integer/;OddQ[k]:=x^Quotient[k,2]sqrt[x]
 
 
 Options[GenSqrtD]={"Verbose"->True};
-GenSqrtD[alphabetExpr_?VectorQ,OptionsPattern[]]:=Module[{alpexpr,dlogexpr,vars,sqrtlist1,sqrtlist2,irrpolys,rules,print,p,i,j,time},time=AbsoluteTime[];vars=Variables[alphabetExpr];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Independent variables: ",vars];
+GenSqrtD[alphabetExpr_?VectorQ,OptionsPattern[]]:=Module[{alpexpr,dlogexpr,vars,sqrtlist1,sqrtlist2,irrpolys,rules,print,p,id,i,j,time},time=AbsoluteTime[];vars=Variables[alphabetExpr];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Independent variables: ",vars];
 alpexpr=alphabetExpr/.Power[a_,k_]/;IntegerQ[k-1/2]:>Power[Factor[a],Floor[k]]sqrt[Factor[a]]//.{sqrt[a_*b_^k_Integer]:>sqrt[a*If[OddQ[k],b,1]] b^Quotient[k,2],sqrt[b_^k_Integer]:>If[OddQ[k],sqrt[b],1]* b^Quotient[k,2]};sqrtlist1=SortBy[Union@Cases[alpexpr,_sqrt,\[Infinity]],ByteCount];
 (* Z2 row reduce to get independent sqrt *)
 If[sqrtlist1=!={},SmartPrintTemporary[" Z2 row reducing the roots...",OptionValue["Verbose"]];irrpolys=SortBy[DeleteCases[Union@Flatten[sqrtlist1/.{sqrt[a_Times]:>List@@a}/.sqrt->List],_?NumberQ],ByteCount];
@@ -150,9 +150,9 @@ alpexpr=Factor[alpexpr/.Dispatch[rules]]/.sqrt[a_]:>sqrt[Expand[a]];sqrtlist1=So
 If[!AllTrue[alpexpr,RationalExpressionQ[#,Join[vars,sqrtlist1]]&],Print["Error: unsupported input alphabet expression"];Return[$Failed]];
 (* Rationalize the denominator *)
 alpexpr=Simplify[alpexpr]/.sqrt[a_]:>sqrt[Expand[a]];dlogexpr=Factor[ExpandDenominator[Factor[D[alpexpr,{vars}]/alpexpr//.{Derivative[1][sqrt][x_]:>sqrt[x]/(2x)}]]];
-With[{sepsqrt=(If[Head[#]===Times,{Times@@Select[List@@#,Not@*FreeQ[_sqrt]],Times@@Select[List@@#,FreeQ[_sqrt]]},If[FreeQ[#,_sqrt],{1,#},{#,1}]]&),
+With[{sepsqrt=(If[Head[#]===Times,{Collect[Times@@Select[List@@#,Not@*FreeQ[_sqrt]],_sqrt,id],Times@@Select[List@@#,FreeQ[_sqrt]]},If[FreeQ[#,_sqrt],{1,#},{Collect[#,_sqrt,id],1}]]&),
 sqrtconjs=(expr|->With[{sqlist=Union@Cases[{expr},_sqrt,\[Infinity]]},Flatten[Outer[(expr/.Thread[sqlist->(sqlist*{##})])&,Sequence@@Table[{1,-1},Length[sqlist]]]][[2;;]]])},
-With[{den2rat=(expr|->With[{dens=sepsqrt[Denominator[expr]]},If[NumberQ[dens[[1]]],Factor[Expand[expr]],Factor[Expand[Numerator[expr]Times@@sqrtconjs[dens[[1]]]]/(Expand[dens[[1]]Times@@sqrtconjs[dens[[1]]]]dens[[2]])]]])},
+With[{den2rat=(expr|->With[{dens=sepsqrt[Denominator[expr]]},If[NumberQ[dens[[1]]],Factor[Expand[expr]],Factor[Expand[Collect[Numerator[expr],_sqrt,id]Times@@sqrtconjs[dens[[1]]]]/(Expand[dens[[1]]Times@@sqrtconjs[dens[[1]]]]dens[[2]])/.id->Identity]]])},
 If[!FreeQ[dlogexpr,_sqrt],SmartPrintTemporary[" Rationalizing the denominator...",OptionValue["Verbose"]];
 dlogexpr=SmartMonitor[Table[den2rat[dlogexpr[[i,j]]],{i,Length[alpexpr]},{j,Length[vars]}],ProgressIndicator[i*Length[vars]+j,{1,Length[alpexpr]*Length[vars]}],OptionValue["Verbose"]]]];sqrtlist1=SortBy[Union@Cases[alpexpr,_sqrt,\[Infinity]],ByteCount];];
 If[!AllTrue[Denominator/@Flatten[dlogexpr],RationalExpressionQ[#,vars]&],Print["Error: unable to rationalize the denominator"];Return[$Failed]];
@@ -161,11 +161,11 @@ print["Square roots: ",sqrtlist1/.sqrt->Sqrt];print["Symbolic sqrt-reduced dlog 
 
 Options[GenIntRelMat]={"Samples"->Automatic,"Tries"->100,"Threads"->0,"Verbose"->True};
 GenIntRelMat[{dlogexpr_?MatrixQ,vars_?VectorQ,sqrtlist_?VectorQ},OptionsPattern[]]:=With[{n$samp=If[OptionValue["Samples"]===Automatic,10+Ceiling[Binomial[Length[dlogexpr],2]/Binomial[Length[vars],2]],OptionValue["Samples"]],
-den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[dlogexpr]]],genRand=(Thread[vars->RandomPrime[{2,3*Length[dlogexpr]},Length[vars]]]&)},
+den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[dlogexpr]]],genRand=(Thread[vars->RandomPrime[{2,3*Length[dlogexpr]},Length[vars]]]&),idx$dlogL=Subsets[Range[Length[dlogexpr]],{2}][[All,1]],idx$dlogR=Subsets[Range[Length[dlogexpr]],{2}][[All,2]],idx$dvars=Subsets[Range[Length[vars]],{2}]},
 (* Generate numeric dlog \wedge dlog coefficient vectors *)
 Module[{dlogsqexpr,mat,tocoeff,print,sq,cnt,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Numeric sampling points: ",n$samp];dlogsqexpr=dlogexpr/.Dispatch[Thread[sqrtlist->Array[sq,Length[sqrtlist]]]];tocoeff=If[sqrtlist==={},Identity,Flatten[CoefficientArrays[#,Array[sq,Length[sqrtlist]]]]&];
 mat=SmartMonitor[Table[With[{numrule=Dispatch[NestWhile[genRand,genRand[],(den$lcm/.#)===0&,1,OptionValue["Tries"]]]},If[(den$lcm/.numrule)===0,Print["Error: unable to avoid zero denominator within ",OptionValue["Tries"]," sampling tries"];Return[$Failed]];
-With[{dlogexprnum=dlogsqexpr/.numrule,radiclistnum=sqrtlist[[All,1]]/.numrule},tocoeff/@Table[ExpandNumerator[Det[dlogexprnum[[idx$dlog,idx$dvar]]]]/.{sq[i_]^2:>radiclistnum[[i]]},{idx$dlog,Subsets[Range[Length[dlogexpr]],{2}]},{idx$dvar,Subsets[Range[Length[vars]],{2}]}]]],{cnt,n$samp}],ProgressIndicator[cnt,{1,n$samp}],OptionValue["Verbose"]];
+With[{dlogexprnum=dlogsqexpr/.numrule,radiclistnum=sqrtlist[[All,1]]/.numrule},tocoeff/@Transpose[Table[(ExpandNumerator/@(dlogexprnum[[idx$dlogL,idx$dvar[[1]]]]dlogexprnum[[idx$dlogR,idx$dvar[[2]]]]-dlogexprnum[[idx$dlogL,idx$dvar[[2]]]]dlogexprnum[[idx$dlogR,idx$dvar[[1]]]]))/.{sq[k_]^2:>radiclistnum[[k]]},{idx$dvar,idx$dvars}]]]],{cnt,n$samp}],ProgressIndicator[cnt,{1,n$samp}],OptionValue["Verbose"]];
 With[{len=Max[Flatten[Map[Length,mat,{2}]]]},mat=CanonSparseArray[SparseArray[Flatten[Map[PadRight[#,len]&,mat,{2}],{{1,3},{2}}]]]];
 (* Row reduce numeric dlog \wedge dlog coefficient vectors *)
 SmartPrintTemporary[" Row reducing numeric system...",OptionValue["Verbose"]];mat=SparseRREF`SparseRREF[mat,"Method"->"Right","Threads"->OptionValue["Threads"]];If[mat===$Failed,Return[$Failed]];
