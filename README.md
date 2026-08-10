@@ -295,6 +295,124 @@ Generated files (under `output/`):
 
 `output/`, `output_*/`, `logs/`, the compiled `bootstrap` / `compute_rhs` / `inspect_tensors` executables, `temp/`, and `tmp/` are ignored by git.
 
+## SymbolBootstrap.wl
+
+`SymbolBootstrap.wl` is the primary Wolfram Language package for generating symbol-level constraint tensors (dlogmat) from an alphabet of symbol letters. It depends on `SparseRREF/SparseRREF.wl` (clone SparseRREF into the repository root, or place it next to `SymbolBootstrap.wl`).
+
+Load the package with:
+
+```wolfram
+Get[FileNameJoin[{<repo root>, "SymbolBootstrap.wl"}]];
+```
+
+### Workflow overview
+
+1. **Provide an alphabet definition** (`alphabet.wl`): a Wolfram Language file defining the letter expressions as functions of kinematic variables, plus any square-root substitutions. See `data_pentagon/alphabet.wl` (variables `LetterRep`, `RootDef`) and `data_4pformfactor/alphabet.wl` (variables `alphabetf`, `sqrtrep`) for templates.
+2. **Document the kinematics** (`Description.md`): record the variable definitions, letter classification, and any symmetry transformations (cyclic, flip, Galois) as kinematic substitution rules. See [data_pentagon/Description.md](data_pentagon/Description.md) and [data_4pformfactor/Description.md](data_4pformfactor/Description.md) for templates.
+3. **Declare the alphabet** in Wolfram Language and **set its parametrized expressions** (letters as functions of kinematic variables, including any square roots).
+4. **Set conditions** as needed: cluster adjacency, extended Steinmann, first/last entry, letter transformations (using the kinematic rules from `Description.md`).
+5. **Request condition tensors** via the `Get*` functions. Results are cached per alphabet; re-setting a condition clears its cached tensor.
+6. **Export** the returned `SparseArray` to WXF for use by the C++ pipeline, or combine multiple tensors with `GetAlphabetConditionTensor`.
+
+### Alphabet management
+
+| Function | Description |
+| --- | --- |
+| `DeclareAlphabet[name, alphabet]` | Register a new symbol alphabet (e.g. `{W[1], ..., W[n]}`). Fails if `name` is already declared. |
+| `ResetAlphabet[name, alphabet]` | Overwrite an existing alphabet and clear its conditions/results. |
+| `ClearAlphabet[name]` | Remove an alphabet and all its conditions/results. |
+| `SetAlphabetExpression[name, alphabetExpr]` | Set the parametrized letter expressions (a vector parallel to `alphabet`). Required for integrability and letter-transformation tensors. Re-setting clears the integrability and letter-transformation caches. |
+
+### Condition setters
+
+| Function | Input | Description |
+| --- | --- | --- |
+| `SetClusterAdjacency[name, adjpairs]` | n×2 matrix of ordered adjacent pairs `{W[i], W[j]}` | Pairs of letters that **may** appear adjacent in symbol words. |
+| `SetExtendedSteinmann[name, nonadjpairs]` | n×2 matrix of ordered non-adjacent pairs | Pairs of letters that **may not** appear adjacent (Steinmann/extended-Steinmann relations). Internally converted to the complement adjacency set. |
+| `SetFirstEntry[name, firstentry]` | vector of letters | Letters allowed as the first entry of a symbol word. |
+| `SetLastEntry[name, lastentry]` | vector of letters | Letters allowed as the last entry of a symbol word. |
+| `SetLetterTransformation[name, transName, kineMap]` | name + kinematic substitution rule | Register one named transformation (e.g. `"Cyclic"`, `"Flip"`, `"Galois1a"`) as a rule on the kinematic variables. Multiple transformations can coexist on one alphabet. |
+| `SetAlphabetCondition[name, key, content]` | dispatch form of the above | Uniform setter; `key` is one of `"Expression"`, `"Cluster Adjacency"`, `"Extended Steinmann"`, `"First Entry"`, `"Last Entry"`, or `{"Letter Transformation", transName}`. |
+
+### Tensor generators (Get*)
+
+All `Get*` functions require the corresponding condition to have been set and return a `SparseArray` (CSR format). Results are cached on the alphabet.
+
+| Function | Returns | Shape | Notes |
+| --- | --- | --- | --- |
+| `GetIntegrabilityTensor[name, opts]` | Integrability tensor (dlog∧dlog=0) | `{n, n, r}` | Uses `GenSqrtD` (sqrt separation + Z2 reduction + denominator rationalization) then `GenIntRelMat` (numeric sampling + SparseRREF). Supports square-root alphabets. |
+| `GetClusterAdjacencyTensor[name]` | Cluster adjacency condition tensor | `{n, n, r}` | Built from the null space of the adjacency coefficient array. |
+| `GetExtendedSteinmannTensor[name]` | Extended Steinmann condition tensor | `{n, n, r}` | Complement of cluster adjacency: takes the non-adjacent pairs and internally calls the cluster-adjacency generator on the complement. |
+| `GetFirstEntryTensor[name]` | First-entry seed tensor | `{k, 1, n}` | One row per allowed first letter. |
+| `GetLastEntryTensor[name]` | Last-entry seed tensor | `{k, n, 1}` | One row per allowed last letter. |
+| `GetLetterTransformationTensor[name, transName, opts]` | Transformation matrix | `{n, n}` | Square matrix mapping old dlog vector to new dlog vector under the kinematic substitution. Uses `GenSqrtD` on the joined old+new alphabet, then `GenLettRelMat`. |
+| `GetAlphabetConditionTensor[name, key, opts]` | Dispatch form | — | Calls the matching `Get*` above. Also accepts a **list** of dlogmat-type conditions (`{"Integrability", "Extended Steinmann", ...}`) and returns their combined, row-reduced tensor via `CombineConditionTensor`. |
+
+### Options
+
+The integrability and letter-transformation generators accept these options (inherited from `GenIntRelMat` / `GenLettRelMat`):
+
+- `"Samples" -> Automatic` (default): number of numeric sampling points. `Automatic` picks `10 + Ceiling[Binomial[n,2]/Binomial[v,2]]` for integrability and `10 + 2 Ceiling[n/v]` for letter transformations, where `n` is the letter count and `v` the variable count. Increase if reconstruction fails.
+- `"Tries" -> 100`: max attempts to find a sampling point that avoids zero denominators.
+- `"Threads" -> 0`: thread count for SparseRREF (0 = automatic).
+- `"Verbose" -> True`: print progress and timing.
+
+### Square-root alphabets
+
+`GenSqrtD` handles alphabets containing square roots:
+
+1. Each `Sqrt[x]` is rewritten to a custom `sqrt[x]` symbol.
+2. The set of square roots is Z2-reduced (row reduction mod 2) to find the independent roots and express dependent ones as products.
+3. Denominators containing square roots are rationalized by multiplying by all Galois conjugates of the sqrt-containing denominator part.
+4. The resulting dlog expressions are rational functions of the kinematic variables only (no square roots in denominators).
+
+The integrability sampling then expands each minor's coefficient in the basis of independent `sqrt[i]` symbols (2^k coefficients per minor, where k is the number of independent roots), so the reconstructed relations are exact rational identities. This has been verified for alphabets with up to 5 independent square roots (the 4-point form factor example in `data_4pformfactor/`).
+
+### Example: 4-point form factor (`data_4pformfactor/`)
+
+```wolfram
+Get["SymbolBootstrap.wl"];
+Get["data_4pformfactor/alphabet.wl"];  (* defines alphabetf, sqrtrep *)
+
+DeclareAlphabet["4pFF", Table[W[i], {i, 93}]];
+SetAlphabetExpression["4pFF", alphabetf[[All, 2]] /. sqrtrep];
+
+(* Integrability tensor: {93, 93, 3774}, nnz=22092 *)
+dlogmat = GetIntegrabilityTensor["4pFF"];
+Export["data_4pformfactor/dlogmat_4pformfactor.wxf", dlogmat];
+
+(* Extended Steinmann from non-adjacent pairs *)
+SetExtendedSteinmann["4pFF", {
+  {W[5], W[6]}, {W[5], W[7]}, {W[5], W[8]}, {W[6], W[5]},
+  {W[6], W[7]}, {W[6], W[8]}, {W[7], W[5]}, {W[7], W[6]},
+  {W[7], W[8]}, {W[8], W[5]}, {W[8], W[6]}, {W[8], W[7]}}];
+esTensor = GetExtendedSteinmannTensor["4pFF"];  (* {93, 93, 12} *)
+Export["data_4pformfactor/dlogmatES_4pformfactor.wxf", esTensor];
+
+(* Joined integrability + ES tensor: {93, 93, 3786} *)
+joined = GetAlphabetConditionTensor["4pFF", {"Integrability", "Extended Steinmann"}];
+Export["data_4pformfactor/dlogmat_full_4pformfactor.wxf", joined];
+
+(* Letter transformation matrices (cyclic, flip, 5 Galois) *)
+SetLetterTransformation["4pFF", "Cyclic", {u1 -> u2, u2 -> u3, ...}];
+cycmat = GetLetterTransformationTensor["4pFF", "Cyclic"];
+Export["data_4pformfactor/cycmat.wxf", cycmat];
+```
+
+See [data_4pformfactor/Description.md](data_4pformfactor/Description.md) for the full variable definitions, letter classification, transformation rules, and verified letter replacement rules.
+
+### Example: pentagon (`data_pentagon/`)
+
+```wolfram
+Get["SymbolBootstrap.wl"];
+Get["data_pentagon/alphabet.wl"];  (* defines LetterRep, RootDef *)
+
+DeclareAlphabet["Pentagon", Table[W[i], {i, 31}]];
+SetAlphabetExpression["Pentagon", LetterRep[[All, 2]] /. RootDef];
+
+dlogmat = GetIntegrabilityTensor["Pentagon"];  (* {31, 31, 361}, nnz=1754 *)
+```
+
 ## Skills and Changelog
 
 - `skills/` holds per-module reference documents (concise, model-agnostic) for AI agents and new contributors. Start at `skills/README.md`.
