@@ -177,3 +177,270 @@ Do[
   {k, Length[sqrtrep]}
 ];
 ```
+
+## Letter replacement rules
+
+Each transformation matrix `M` acts on the letter logarithms as
+`dlog(W[i]_new) = Sum_j M[[i,j]] * dlog(W[j])`, which integrates to
+`W[i] -> product_j W[j]^M[[i,j]]` (up to an overall constant, which is 1 for
+all entries below). Only non-trivial transformations are listed; letters not
+shown map to themselves (`W[i] -> W[i]`).
+
+### Cyclic (Z4): `cycmat.wxf`
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[1] | W[2] |
+| W[2] | W[3] |
+| W[3] | W[4] |
+| W[4] | W[1] |
+| W[5] | W[6] |
+| W[6] | W[7] |
+| W[7] | W[8] |
+| W[8] | W[5] |
+| W[9] | W[10] |
+| W[10] | W[11] |
+| W[11] | W[12] |
+| W[12] | W[9] |
+| W[13] | W[14] |
+| W[14] | W[15] |
+| W[15] | W[16] |
+| W[16] | W[13] |
+| W[17] | W[18] |
+| W[18] | W[19] |
+| W[19] | W[20] |
+| W[20] | W[17] |
+| W[21] | W[22] |
+| W[22] | W[21] |
+| W[23] | W[24] |
+| W[24] | W[25] |
+| W[25] | W[26] |
+| W[26] | W[23] |
+| W[27] | W[28] |
+| W[28] | W[29] |
+| W[29] | W[30] |
+| W[30] | W[27] |
+| W[31] | W[32] |
+| W[32] | W[33] |
+| W[33] | W[34] |
+| W[34] | W[31] |
+| W[35] | W[36] |
+| W[36] | W[37] |
+| W[37] | W[38] |
+| W[38] | W[35] |
+| W[39] | W[40] |
+| W[40] | W[41] |
+| W[41] | W[42] |
+| W[42] | W[39] |
+| W[43] | W[44] |
+| W[44] | W[43] |
+| W[45] | W[46] |
+| W[46] | W[45] |
+| W[47] | W[48] |
+| W[48] | W[49] |
+| W[49] | W[50] |
+| W[50] | W[47] |
+| W[51] | W[52] |
+| W[52] | W[53] |
+| W[53] | W[54] |
+| W[54] | W[51] |
+| W[55] | W[56] |
+| W[56] | W[55] |
+| W[57] | W[60] |
+| W[58] | W[59] |
+| W[59] | W[57] |
+| W[60] | W[58] |
+| W[61] | 1/W[64] |
+| W[62] | W[63] |
+| W[63] | 1/W[61] |
+| W[64] | W[62] |
+| W[65] | W[71] |
+| W[66] | W[69] |
+| W[67] | W[72] |
+| W[68] | W[70] |
+| W[69] | 1/W[67] |
+| W[70] | W[65] |
+| W[71] | W[68] |
+| W[72] | 1/W[66] |
+| W[73] | W[73] |
+| W[74] | W[83] |
+| W[75] | W[80] |
+| W[76] | W[87] |
+| W[77] | 1/W[78] |
+| W[78] | W[77]^(-1/2) * W[88]^(-1/2) * W[93]^(-1/2) |
+| W[79] | W[84] |
+| W[80] | W[79] |
+| W[81] | W[82] |
+| W[82] | W[74] |
+| W[83] | W[81] |
+| W[84] | W[75] |
+| W[85] | W[92] |
+| W[86] | W[86] |
+| W[87] | 1/W[76] * W[86] |
+| W[88] | W[78] * W[86] / (W[77] * W[88]) |
+| W[89] | 1/W[88] |
+| W[90] | 1/W[91] |
+| W[91] | 1/W[90] |
+| W[92] | W[85] |
+| W[93] | W[86] * W[89]^2 / (W[77] * W[88]) |
+
+### Flip (Z2): `flipmat.wxf`
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[1] | W[4] |
+| W[2] | W[3] |
+| W[3] | W[2] |
+| W[4] | W[1] |
+| W[5] | W[7] |
+| W[6] | W[6] |
+| W[7] | W[5] |
+| W[8] | W[8] |
+| W[9] | W[11] |
+| W[10] | W[10] |
+| W[11] | W[9] |
+| W[12] | W[12] |
+| W[13] | W[20] |
+| W[14] | W[19] |
+| W[15] | W[18] |
+| W[16] | W[17] |
+| W[17] | W[16] |
+| W[18] | W[15] |
+| W[19] | W[14] |
+| W[20] | W[13] |
+| W[23] | W[26] |
+| W[24] | W[25] |
+| W[25] | W[24] |
+| W[26] | W[23] |
+| W[27] | W[34] |
+| W[28] | W[33] |
+| W[29] | W[32] |
+| W[30] | W[31] |
+| W[31] | W[30] |
+| W[32] | W[29] |
+| W[33] | W[28] |
+| W[34] | W[27] |
+| W[35] | W[42] |
+| W[36] | W[41] |
+| W[37] | W[40] |
+| W[38] | W[39] |
+| W[39] | W[38] |
+| W[40] | W[37] |
+| W[41] | W[36] |
+| W[42] | W[35] |
+| W[45] | W[46] |
+| W[46] | W[45] |
+| W[47] | W[51] |
+| W[48] | W[54] |
+| W[49] | W[53] |
+| W[50] | W[52] |
+| W[51] | W[47] |
+| W[52] | W[50] |
+| W[53] | W[49] |
+| W[54] | W[48] |
+| W[57] | W[59] |
+| W[58] | W[60] |
+| W[59] | W[57] |
+| W[60] | W[58] |
+| W[61] | W[63] |
+| W[62] | 1/W[64] |
+| W[63] | W[61] |
+| W[64] | 1/W[62] |
+| W[65] | W[67] |
+| W[66] | 1/W[68] |
+| W[67] | W[65] |
+| W[68] | 1/W[66] |
+| W[69] | 1/W[71] |
+| W[70] | W[72] |
+| W[71] | 1/W[69] |
+| W[72] | W[70] |
+| W[74] | W[79] |
+| W[75] | W[81] |
+| W[76] | W[86] / W[76] |
+| W[77] | W[78] * W[86] / (W[77] * W[88]) |
+| W[78] | 1/W[88] |
+| W[79] | W[74] |
+| W[80] | W[83] |
+| W[81] | W[75] |
+| W[82] | W[84] |
+| W[83] | W[80] |
+| W[84] | W[82] |
+| W[88] | 1/W[78] |
+| W[89] | W[77]^(-1/2) * W[88]^(-1/2) * W[93]^(-1/2) |
+| W[90] | 1/W[91] |
+| W[91] | 1/W[90] |
+| W[93] | W[77] * W[88] / (W[86] * W[89]^2) |
+
+### Galois1a (sqrt1a -> -sqrt1a): `galois1a.wxf`
+
+Only 5 letters are non-trivial (inversions); all others are fixed.
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[59] | 1/W[59] |
+| W[60] | 1/W[60] |
+| W[63] | 1/W[63] |
+| W[64] | 1/W[64] |
+| W[91] | 1/W[91] |
+
+### Galois1b (sqrt1b -> -sqrt1b): `galois1b.wxf`
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[57] | 1/W[57] |
+| W[58] | 1/W[58] |
+| W[61] | 1/W[61] |
+| W[62] | 1/W[62] |
+| W[90] | 1/W[90] |
+
+### Galois2a (sqrt2a -> -sqrt2a): `galois2a.wxf`
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[65] | 1/W[65] |
+| W[66] | 1/W[66] |
+| W[67] | 1/W[67] |
+| W[68] | 1/W[68] |
+| W[92] | 1/W[92] |
+
+### Galois2b (sqrt2b -> -sqrt2b): `galois2b.wxf`
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[69] | 1/W[69] |
+| W[70] | 1/W[70] |
+| W[71] | 1/W[71] |
+| W[72] | 1/W[72] |
+| W[85] | 1/W[85] |
+
+### Galois3 (sqrt3 -> -sqrt3): `galois3.wxf`
+
+20 letters are inverted (W[74]–W[93]); all others are fixed.
+
+| W[i] | Replacement rule |
+|------|-----------------|
+| W[74]–W[93] | 1/W[i] (each letter in this range is inverted) |
+
+### Notes on fractional exponents and verification
+
+Two entries involve half-integer exponents:
+
+- **Cyclic W[78]**: `W[77]^(-1/2) * W[88]^(-1/2) * W[93]^(-1/2)`
+- **Flip W[89]**: `W[77]^(-1/2) * W[88]^(-1/2) * W[93]^(-1/2)`
+
+These arise because W[78] and W[89] contain `sqrt3` in their definitions, and
+the cyclic/flip transformations mix them with other sqrt3-containing letters in
+a way that produces square-root combinations. The half-integer powers are
+consistent with the group structure (applying the transformation twice yields
+integer powers, and four times returns the identity for cyclic).
+
+**Verification**: All replacement rules have been verified by two methods:
+1. **Matrix extraction**: each rule matches the nonzero entries of the
+   corresponding `.wxf` matrix file.
+2. **Algebraic substitution**: for each rule, the LHS (letter expression under
+   the kinematic map) was compared against the RHS (product of letter
+   expressions) by computing their ratio. Integer-exponent rules verified
+   symbolically via `FullSimplify` (ratio == 1). Half-integer-exponent rules
+   (W[78] cyclic, W[89] flip) verified numerically at two independent rational
+   points (ratio == 1 to 30-digit precision), since `FullSimplify` could not
+   resolve the nested square-root signs symbolically.
