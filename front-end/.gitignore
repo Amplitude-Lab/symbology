@@ -1,0 +1,6 @@
+server/.venv/
+web/node_modules/
+web/dist/
+projects/
+__pycache__/
+*.pyc

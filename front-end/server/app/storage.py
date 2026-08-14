@@ -1,0 +1,130 @@
+from __future__ import annotations
+
+import json
+import re
+import shutil
+import threading
+from datetime import datetime, timezone
+from pathlib import Path
+
+from .config import PROJECTS_DIR
+
+_lock = threading.RLock()
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _slugify(name: str) -> str:
+    slug = re.sub(r"[^a-zA-Z0-9_-]+", "-", name.strip()).strip("-").lower()
+    return slug or "project"
+
+
+def project_dir(pid: str) -> Path:
+    return PROJECTS_DIR / pid
+
+
+def _project_file(pid: str) -> Path:
+    return project_dir(pid) / "project.json"
+
+
+def _new_id(base: str) -> str:
+    slug = _slugify(base)
+    pid, i = slug, 2
+    while project_dir(pid).exists():
+        pid = f"{slug}-{i}"
+        i += 1
+    return pid
+
+
+def init_dirs() -> None:
+    PROJECTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def create_project(name: str) -> dict:
+    with _lock:
+        pid = _new_id(name)
+        pdir = project_dir(pid)
+        (pdir / "data").mkdir(parents=True)
+        (pdir / "output").mkdir(parents=True)
+        (pdir / "runs").mkdir(parents=True)
+        (pdir / "wolfram_gen").mkdir(parents=True)
+        proj = {
+            "id": pid,
+            "name": name,
+            "created_at": _now(),
+            "alphabets": [],
+            "flows": [],
+        }
+        save_project(proj)
+        return proj
+
+
+def load_project(pid: str) -> dict | None:
+    with _lock:
+        f = _project_file(pid)
+        if not f.exists():
+            return None
+        return json.loads(f.read_text())
+
+
+def save_project(proj: dict) -> None:
+    with _lock:
+        f = _project_file(proj["id"])
+        tmp = f.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(proj, indent=2))
+        tmp.replace(f)
+
+
+def delete_project(pid: str) -> bool:
+    with _lock:
+        pdir = project_dir(pid)
+        if not pdir.exists():
+            return False
+        shutil.rmtree(pdir)
+        return True
+
+
+def list_projects() -> list:
+    with _lock:
+        out = []
+        if not PROJECTS_DIR.exists():
+            return out
+        for d in sorted(PROJECTS_DIR.iterdir()):
+            f = d / "project.json"
+            if not f.exists():
+                continue
+            try:
+                p = json.loads(f.read_text())
+            except Exception:
+                continue
+            out.append({
+                "id": p["id"],
+                "name": p["name"],
+                "created_at": p.get("created_at"),
+                "n_alphabets": len(p.get("alphabets", [])),
+                "n_flows": len(p.get("flows", [])),
+            })
+        return out
+
+
+def find_alphabet(proj: dict, aid: str) -> dict | None:
+    for a in proj.get("alphabets", []):
+        if a["id"] == aid:
+            return a
+    return None
+
+
+def find_flow(proj: dict, fid: str) -> dict | None:
+    for fl in proj.get("flows", []):
+        if fl["id"] == fid:
+            return fl
+    return None
+
+
+def find_property(alphabet: dict, prop_id: str) -> dict | None:
+    for p in alphabet.get("properties", []):
+        if p["id"] == prop_id:
+            return p
+    return None
