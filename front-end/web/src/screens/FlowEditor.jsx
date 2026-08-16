@@ -263,19 +263,44 @@ function FlowEditorInner() {
   const [sideTab, setSideTab] = useState('inspector')
   const [running, setRunning] = useState(false)
   const [flowName, setFlowName] = useState('')
+  const [saveState, setSaveState] = useState('saved')
   const rf = useRef(null)
   const wrapper = useRef(null)
+  const skipAutosave = useRef(true)
 
   const flow = project?.flows.find((f) => f.id === fid)
 
   useEffect(() => {
     if (flow) {
+      skipAutosave.current = true
       setFlowName(flow.name)
       setNodes(flow.graph?.nodes || [])
       setEdges(flow.graph?.edges || [])
       setCompileResult(null)
+      setSaveState('saved')
     }
   }, [flow?.id]) // eslint-disable-line
+
+  const serializeGraph = useCallback(() => ({
+    nodes: nodes.map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
+    edges: edges.map((e) => ({ id: e.id, source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle })),
+  }), [nodes, edges])
+
+  useEffect(() => {
+    if (!flow) return undefined
+    if (skipAutosave.current) { skipAutosave.current = false; return undefined }
+    setSaveState('unsaved')
+    const t = setTimeout(async () => {
+      setSaveState('saving')
+      try {
+        await api.updateFlow(project.id, fid, { name: flowName, graph: serializeGraph() })
+        setSaveState('saved')
+      } catch {
+        setSaveState('error')
+      }
+    }, 800)
+    return () => clearTimeout(t)
+  }, [nodes, edges, flowName]) // eslint-disable-line
 
   const isValidConnection = useCallback((conn) => {
     const sn = nodes.find((n) => n.id === conn.source)
@@ -306,12 +331,10 @@ function FlowEditorInner() {
   }, [setNodes])
 
   const save = async () => {
-    const graph = {
-      nodes: nodes.map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
-      edges: edges.map((e) => ({ id: e.id, source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle })),
-    }
-    await api.updateFlow(project.id, fid, { name: flowName, graph })
+    setSaveState('saving')
+    await api.updateFlow(project.id, fid, { name: flowName, graph: serializeGraph() })
     await refreshProject()
+    setSaveState('saved')
     toast('Flow saved.')
   }
 
@@ -391,6 +414,12 @@ function FlowEditorInner() {
       <div className="flow-canvas" ref={wrapper} onDrop={onDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flow-toolbar">
           <input style={{ width: 180 }} value={flowName} onChange={(e) => setFlowName(e.target.value)} />
+          <span className="muted shrink" style={{ fontSize: 11, alignSelf: 'center', minWidth: 90 }}>
+            {saveState === 'saved' && '✓ saved'}
+            {saveState === 'saving' && 'saving…'}
+            {saveState === 'unsaved' && 'unsaved changes'}
+            {saveState === 'error' && <span className="error-text">save failed</span>}
+          </span>
           <button onClick={save}>Save</button>
           <button onClick={compile}>Compile</button>
           <button className="primary" onClick={compile}>Run…</button>
