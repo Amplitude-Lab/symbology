@@ -15,13 +15,60 @@ function StatusDot({ status }) {
   return <span className={`dot ${status || 'pending'}`} />
 }
 
+function parseLetterList(text, letters) {
+  const letterSet = new Set(letters)
+  const body = (text || '').trim()
+  if (!body) return { found: [], errors: ['Nothing to import.'] }
+  const stripped = body.replace(/^\{+|\}+$/g, '')
+  const items = stripped.split(',').map((s) => s.trim()).filter(Boolean)
+  if (!items.length) return { found: [], errors: ['No letters found. Expected e.g. {W[1],W[2],W[3]}'] }
+  const bad = items.filter((x) => !letterSet.has(x))
+  return { found: items.filter((x) => letterSet.has(x)), errors: bad.length ? [`unknown letter(s): ${bad.join(', ')}`] : [] }
+}
+
 function LetterMultiSelect({ letters, value, onChange }) {
+  const [showPaste, setShowPaste] = useState(false)
+  const [pasteText, setPasteText] = useState('')
+  const [pasteErrors, setPasteErrors] = useState([])
   const toggle = (l) => onChange(value.includes(l) ? value.filter((x) => x !== l) : [...value, l])
+  const importLetters = () => {
+    const { found, errors } = parseLetterList(pasteText, letters)
+    setPasteErrors(errors)
+    if (found.length) {
+      onChange([...new Set([...value, ...found])])
+      if (!errors.length) {
+        setShowPaste(false)
+        setPasteText('')
+      }
+    }
+  }
   return (
-    <div style={{ maxHeight: 180, overflow: 'auto', border: '1px solid var(--border)', borderRadius: 6, padding: 6 }}>
-      {letters.map((l) => (
-        <span key={l} className={`chip selectable ${value.includes(l) ? 'selected' : ''}`} onClick={() => toggle(l)}>{l}</span>
-      ))}
+    <div>
+      <div style={{ maxHeight: 180, overflow: 'auto', border: '1px solid var(--border)', borderRadius: 6, padding: 6 }}>
+        {letters.map((l) => (
+          <span key={l} className={`chip selectable ${value.includes(l) ? 'selected' : ''}`} onClick={() => toggle(l)}>{l}</span>
+        ))}
+      </div>
+      <div className="row" style={{ marginTop: 6 }}>
+        <span className="muted" style={{ fontSize: 11 }}>{value.length} selected</span>
+        <button className="small shrink" onClick={() => { setShowPaste(!showPaste); setPasteErrors([]) }}>
+          {showPaste ? 'Hide list input' : 'Paste a letter list…'}
+        </button>
+      </div>
+      {showPaste && (
+        <div style={{ marginTop: 6 }}>
+          <textarea
+            rows={3} value={pasteText}
+            onChange={(e) => setPasteText(e.target.value)}
+            placeholder="{W[1],W[2],W[3]} or W[1],W[2],W[3]"
+          />
+          <div className="row" style={{ marginTop: 6 }}>
+            <span className="muted" style={{ fontSize: 11 }}>Imported letters are added to the selection above.</span>
+            <button className="small primary shrink" onClick={importLetters}>Import</button>
+          </div>
+          {pasteErrors.map((e, i) => <p key={i} className="error-text" style={{ margin: '4px 0' }}>{e}</p>)}
+        </div>
+      )}
     </div>
   )
 }
