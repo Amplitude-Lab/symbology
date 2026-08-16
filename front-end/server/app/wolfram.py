@@ -27,23 +27,36 @@ def _wl_string_list(items: list) -> str:
     return "{" + ",".join(_q(str(i)) for i in items) + "}"
 
 
+def _safe_name(name: str) -> str:
+    return "".join(c if c.isalnum() or c in "_-" else "_" for c in name)
+
+
+def property_display_name(prop: dict) -> str:
+    name = (prop.get("name") or "").strip()
+    if name:
+        return name
+    if prop["type"] == "transformation":
+        return prop.get("params", {}).get("name", "transformation")
+    return prop["type"].replace("_", " ")
+
+
 def property_tensor_relpath(alphabet: dict, prop: dict) -> str:
     aname = alphabet["name"]
     ptype = prop["type"]
+    suffix = _safe_name(prop["name"].strip()) if (prop.get("name") or "").strip() else ""
     if ptype == "integrability":
-        return f"data/dlogmat_{aname}.wxf"
+        return f"data/dlogmat_{aname}{'_' + suffix if suffix else ''}.wxf"
     if ptype == "extended_steinmann":
-        return f"data/dlogmatES_{aname}.wxf"
+        return f"data/dlogmatES_{aname}{'_' + suffix if suffix else ''}.wxf"
     if ptype == "cluster_adjacency":
-        return f"data/dlogmatCA_{aname}.wxf"
+        return f"data/dlogmatCA_{aname}{'_' + suffix if suffix else ''}.wxf"
     if ptype == "first_entry":
-        return "data/FEC_1.wxf"
+        return f"data/FEC_1{'_' + suffix if suffix else ''}.wxf"
     if ptype == "last_entry":
-        return "data/LEC_1.wxf"
+        return f"data/LEC_1{'_' + suffix if suffix else ''}.wxf"
     if ptype == "transformation":
         tname = prop.get("params", {}).get("name", "trans")
-        safe = "".join(c if c.isalnum() or c in "_-" else "_" for c in tname)
-        return f"data/{safe}.wxf"
+        return f"data/{_safe_name(tname)}.wxf"
     raise ValueError(f"unknown property type {ptype}")
 
 

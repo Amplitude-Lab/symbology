@@ -62,6 +62,7 @@ function PairEditor({ letters, value, onChange }) {
 function AddPropertyModal({ alphabet, onClose, onAdded }) {
   const { project } = useProject()
   const [type, setType] = useState('')
+  const [propName, setPropName] = useState('')
   const [letters, setLetters] = useState([])
   const [pairs, setPairs] = useState([])
   const [transName, setTransName] = useState('')
@@ -84,9 +85,10 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
       if (!transName.trim() || !transMap.trim()) return setError('Provide a name and a kinematic map.')
       params = { name: transName.trim(), map: transMap.trim() }
     }
+    const name = type === 'transformation' ? transName.trim() : propName.trim()
     setBusy(true); setError(null)
     try {
-      await api.addProperty(project.id, alphabet.id, { type, params })
+      await api.addProperty(project.id, alphabet.id, { type, name, params })
       onAdded()
     } catch (e) { setError(e.message); setBusy(false) }
   }
@@ -124,6 +126,12 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
             <input value={transName} onChange={(e) => setTransName(e.target.value)} placeholder="e.g. Cyclic" />
             <label>Kinematic map (Wolfram rules)</label>
             <textarea rows={4} value={transMap} onChange={(e) => setTransMap(e.target.value)} placeholder="{u1->u2, u2->u3, u3->1+u2-v1-v2, v1->v2, v2->1+u3-u1-v2}" />
+          </>
+        )}
+        {type && type !== 'transformation' && (
+          <>
+            <label>Property name (optional — needed if you add several {PROP_LABEL[type] || type} properties, e.g. for different physical objects)</label>
+            <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. e12FirstEntry, mhvFirstEntry" />
           </>
         )}
         {type === 'integrability' && (
@@ -219,9 +227,11 @@ function PropertyRow({ alphabet, prop, onChanged }) {
     onChanged()
   }
 
+  const display = (prop.name || '').trim() || (prop.type === 'transformation' ? prop.params?.name : '') || PROP_LABEL[prop.type] || prop.type
+  const showType = display !== (PROP_LABEL[prop.type] || prop.type)
   return (
     <tr>
-      <td><StatusDot status={busy ? 'computing' : prop.status} /> {PROP_LABEL[prop.type] || prop.type}{prop.precomputed ? ' (precomputed)' : ''}</td>
+      <td><StatusDot status={busy ? 'computing' : prop.status} /> <strong>{display}</strong>{showType && <span className="muted"> ({PROP_LABEL[prop.type] || prop.type})</span>}{prop.precomputed ? ' (precomputed)' : ''}</td>
       <td className="mono">
         {prop.type === 'transformation' ? prop.params?.name : ''}
         {(prop.type === 'first_entry' || prop.type === 'last_entry') && (prop.params?.letters || []).join(', ')}
@@ -327,7 +337,7 @@ export default function Materials() {
             <div>
               {a.properties.map((p) => (
                 <span key={p.id} className="badge" style={{ marginRight: 4, marginBottom: 4 }}>
-                  <StatusDot status={p.status} /> {PROP_LABEL[p.type] || p.type}
+                  <StatusDot status={p.status} /> {(p.name || '').trim() || (p.type === 'transformation' ? p.params?.name : '') || PROP_LABEL[p.type] || p.type}
                 </span>
               ))}
             </div>

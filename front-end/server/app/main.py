@@ -12,7 +12,7 @@ from . import storage, templates
 from .compile import compile_flow
 from .config import WEB_DIST, env_status, find_wolframscript
 from .jobs import engine
-from .wolfram import property_script, property_tensor_relpath, read_result_file, summary_script
+from .wolfram import property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
 
 app = FastAPI(title="Symbology Front-End")
 
@@ -150,9 +150,18 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
                 raise HTTPException(400, f"invalid letter pair: {pair}")
     if ptype == "transformation" and not params.get("name"):
         raise HTTPException(400, "transformation property needs a name")
+    pname = (body.get("name") or "").strip()
+    if ptype == "transformation" and not pname:
+        pname = params["name"]
+    if pname:
+        for other in alpha.get("properties", []):
+            existing = (other.get("name") or "").strip() or (other.get("params", {}).get("name") if other["type"] == "transformation" else "") or other["type"]
+            if existing == pname:
+                raise HTTPException(400, f"a property named '{pname}' already exists on this alphabet")
     prop = {
         "id": uuid.uuid4().hex[:8],
         "type": ptype,
+        "name": pname,
         "params": params,
         "status": "pending",
         "error": None,
@@ -191,7 +200,7 @@ def _property_step(proj: dict, alpha: dict, prop: dict) -> dict:
         raise HTTPException(500, "wolframscript not found on this machine")
     return {
         "id": "step-1",
-        "label": f"Compute {prop['type'].replace('_', ' ')} for alphabet '{alpha['name']}'",
+        "label": f"Compute {property_display_name(prop)} ({prop['type'].replace('_', ' ')}) for alphabet '{alpha['name']}'",
         "kind": "wolfram",
         "command": f"{ws} -script {script_path}",
         "argv": [ws, "-script", str(script_path)],

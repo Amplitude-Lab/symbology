@@ -8,7 +8,7 @@ import 'reactflow/dist/style.css'
 import { api } from '../api'
 import { useProject, useToast } from '../App'
 import {
-  NODE_DEFS, PALETTE, PROP_KIND, PROP_LABEL,
+  NODE_DEFS, PALETTE, PROP_KIND, propLabel,
   kindsCompatible, sourceKindFor, targetKindFor,
 } from '../flowdefs'
 
@@ -31,8 +31,7 @@ function AlphabetNode({ id, data, selected }) {
         {alphabet && alphabet.properties.filter((p) => selectedProps.includes(p.id)).map((p, i) => (
           <div key={p.id} className="handle-row" style={{ textAlign: 'right' }}>
             <span className={`kind-${PROP_KIND[p.type]}`}>
-              {PROP_LABEL[p.type] || p.type}
-              {p.type === 'transformation' ? `: ${p.params?.name}` : ''}
+              {propLabel(p)}
             </span>{' '}
             <StatusDot status={p.status} />
             <Handle
@@ -131,7 +130,7 @@ function Inspector({ node, onChange }) {
                   />
                   <StatusDot status={p.status} />
                   <span className={`kind-${PROP_KIND[p.type]}`}>
-                    {PROP_LABEL[p.type] || p.type}{p.type === 'transformation' ? `: ${p.params?.name}` : ''}
+                    {propLabel(p)}
                   </span>
                 </label>
               </div>

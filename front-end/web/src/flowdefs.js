@@ -16,6 +16,12 @@ export const PROP_LABEL = {
   transformation: 'Transformation',
 }
 
+export function propLabel(prop) {
+  const base = PROP_LABEL[prop.type] || prop.type
+  const custom = (prop.name || '').trim() || (prop.type === 'transformation' ? prop.params?.name : '')
+  return custom ? `${custom} · ${base}` : base
+}
+
 export const NODE_DEFS = {
   alphabet: { title: 'Alphabet', color: '#eef0fe', inputs: [] },
   merge_conditions: {

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from . import storage
 from .config import find_bootstrap, find_compute_rhs, find_wolframscript
-from .wolfram import PROP_KIND, merge_script, property_script, property_tensor_relpath
+from .wolfram import PROP_KIND, merge_script, property_display_name, property_script, property_tensor_relpath
 
 EDGE_RULES = {
     ("merge_conditions", None): {"dlogmat"},
@@ -182,7 +182,7 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
             script_path = gen_dir / f"prop_{prop_id}.wl"
             script_path.write_text(script)
             add_step(
-                f"Compute {prop['type'].replace('_', ' ')} for alphabet '{alphabet['name']}'",
+                f"Compute {property_display_name(prop)} ({prop['type'].replace('_', ' ')}) for alphabet '{alphabet['name']}'",
                 "wolfram",
                 [wolframscript, "-script", str(script_path)],
                 proj_dir,
