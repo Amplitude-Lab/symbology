@@ -127,7 +127,7 @@ def api_delete_alphabet(pid: str, aid: str) -> dict:
     return {"ok": True}
 
 
-VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation", "precomputed_tensor"}
+VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation", "precomputed_tensor", "letter_symmetry"}
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties")
@@ -170,6 +170,21 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
         if not target.exists():
             raise HTTPException(400, f"tensor file '{rel}' does not exist in this project")
         params["tensor_file"] = rel
+    if ptype == "letter_symmetry":
+        if not pname:
+            raise HTTPException(400, "a letter-rule symmetry property needs a name")
+        if not (params.get("rule") or "").strip():
+            raise HTTPException(400, "provide a replacement rule (e.g. {W[1]->W[2], W[2]->W[1]})")
+        defs = (params.get("defs_file") or "").strip().lstrip("/")
+        if defs:
+            if ".." in defs.split("/"):
+                raise HTTPException(400, "invalid definitions file path")
+            target = (storage.project_dir(pid) / defs).resolve()
+            if not str(target).startswith(str(storage.project_dir(pid).resolve())) or not target.exists():
+                raise HTTPException(400, f"definitions file '{defs}' does not exist in this project")
+            params["defs_file"] = defs
+        else:
+            params.pop("defs_file", None)
     prop = {
         "id": uuid.uuid4().hex[:8],
         "type": ptype,

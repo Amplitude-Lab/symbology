@@ -17,6 +17,7 @@ PROP_KIND = {
     "last_entry": "lec1",
     "transformation": "matrix",
     "precomputed_tensor": "matrix",
+    "letter_symmetry": "matrix",
 }
 
 
@@ -63,6 +64,9 @@ def property_tensor_relpath(alphabet: dict, prop: dict) -> str:
         if rel:
             return rel
         return f"data/{_safe_name((prop.get('name') or 'tensor').strip())}.wxf"
+    if ptype == "letter_symmetry":
+        sname = _safe_name((prop.get("name") or "").strip() or prop.get("params", {}).get("name", "sym"))
+        return f"data/{sname}.wxf"
     raise ValueError(f"unknown property type {ptype}")
 
 
@@ -128,6 +132,15 @@ def property_script(alphabet: dict, prop: dict, out_abs: str) -> str:
         kmap = params.get("map", "{}")
         parts.append(f'SymbolBootstrap`SetLetterTransformation[$alphaName, {_q(tname)}, ToExpression[{_q(kmap)}]];')
         parts.append(f'$tensor = SymbolBootstrap`GetLetterTransformationTensor[$alphaName, {_q(tname)}];')
+    elif ptype == "letter_symmetry":
+        rule = (params.get("rule") or "").strip()
+        defs = (params.get("defs_file") or "").strip()
+        if defs:
+            parts.append(f'If[Get[{_q(defs)}] === $Failed, Print["@@RESULT@@FAIL"]; Exit[1]];')
+        parts.append(f'$rule = ToExpression[{_q(rule)}];')
+        parts.append('$tensor = SparseArray[CoefficientArrays[$letters /. $rule, $letters][[2]]];')
+        n = len(alphabet["letters"])
+        parts.append(f'If[Dimensions[$tensor] =!= {{{n}, {n}}}, Print["@@RESULT@@FAIL"]; Exit[1]];')
     else:
         raise ValueError(f"unknown property type {ptype}")
 

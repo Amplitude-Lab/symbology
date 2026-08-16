@@ -46,6 +46,8 @@ Property types and params:
 | `extended_steinmann` | `{"nonadjacent_pairs": [["x","y"],...]}` (letter names) | ES dlogmat |
 | `cluster_adjacency` | `{"adjacent_pairs": [["x","y"],...]}` | CA dlogmat |
 | `transformation` | `{"name": "cyclic", "map": "{x->y, y->z, z->x}"}` (Wolfram rules string) | n x n rational matrix |
+| `precomputed_tensor` | `{"tensor_file": "data/cycrepmat.wxf"}` | registers an existing project file (ready immediately, no compute path; matrix kind) |
+| `letter_symmetry` | `{"rule": "{W[1]->W[2], ...}", "defs_file": "data/defs.wl"?}` | computes `CoefficientArrays[letters /. rule, letters][[2]]`, the n x n letter-space symmetry matrix (matrix kind) |
 
 Property object:
 

@@ -6,6 +6,7 @@ export const PROP_KIND = {
   last_entry: 'lec1',
   transformation: 'matrix',
   precomputed_tensor: 'matrix',
+  letter_symmetry: 'matrix',
 }
 
 export const PROP_LABEL = {
@@ -16,6 +17,7 @@ export const PROP_LABEL = {
   cluster_adjacency: 'Cluster Adj.',
   transformation: 'Transformation',
   precomputed_tensor: 'Tensor file',
+  letter_symmetry: 'Symmetry (rule)',
 }
 
 export function propLabel(prop) {

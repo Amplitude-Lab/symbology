@@ -10,6 +10,7 @@ const PROP_LABEL = {
   cluster_adjacency: 'Cluster Adjacency',
   transformation: 'Transformation',
   precomputed_tensor: 'Existing tensor file',
+  letter_symmetry: 'Symmetry (letter rule)',
 }
 
 function StatusDot({ status }) {
@@ -175,6 +176,8 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
   const [transName, setTransName] = useState('')
   const [transMap, setTransMap] = useState('')
   const [tensorFile, setTensorFile] = useState('')
+  const [symRule, setSymRule] = useState('')
+  const [symDefs, setSymDefs] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
@@ -195,6 +198,10 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
     } else if (type === 'precomputed_tensor') {
       if (!propName.trim() || !tensorFile.trim()) return setError('Provide a name and a tensor file path.')
       params = { tensor_file: tensorFile.trim() }
+    } else if (type === 'letter_symmetry') {
+      if (!propName.trim() || !symRule.trim()) return setError('Provide a name and a replacement rule.')
+      params = { rule: symRule.trim() }
+      if (symDefs.trim()) params.defs_file = symDefs.trim()
     }
     const name = type === 'transformation' ? transName.trim() : propName.trim()
     setBusy(true); setError(null)
@@ -239,10 +246,23 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
             <textarea rows={4} value={transMap} onChange={(e) => setTransMap(e.target.value)} placeholder="{u1->u2, u2->u3, u3->1+u2-v1-v2, v1->v2, v2->1+u3-u1-v2}" />
           </>
         )}
-        {type && type !== 'transformation' && type !== 'precomputed_tensor' && (
+        {type && type !== 'transformation' && type !== 'precomputed_tensor' && type !== 'letter_symmetry' && (
           <>
             <label>Property name (optional — needed if you add several {PROP_LABEL[type] || type} properties, e.g. for different physical objects)</label>
             <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. e12FirstEntry, mhvFirstEntry" />
+          </>
+        )}
+        {type === 'letter_symmetry' && (
+          <>
+            <label>Name</label>
+            <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. map12inv" />
+            <label>Replacement rule on the letters</label>
+            <textarea rows={3} value={symRule} onChange={(e) => setSymRule(e.target.value)} placeholder="{W[1]->W[2], W[2]->W[1], ...} or a symbol loaded from a definitions file" />
+            <label>Definitions file (optional — a .wl inside the project that defines the rule symbol)</label>
+            <input value={symDefs} onChange={(e) => setSymDefs(e.target.value)} placeholder="e.g. data/symmetries.wl" />
+            <p className="muted" style={{ fontSize: 11 }}>
+              Computes CoefficientArrays[letters /. rule, letters][[2]] — the n×n letter-space transformation matrix. Letters not touched by the rule are kept fixed.
+            </p>
           </>
         )}
         {type === 'precomputed_tensor' && (
@@ -356,6 +376,8 @@ function PropertyRow({ alphabet, prop, onChanged }) {
       <td><StatusDot status={busy ? 'computing' : prop.status} /> <strong>{display}</strong>{showType && <span className="muted"> ({PROP_LABEL[prop.type] || prop.type})</span>}{prop.precomputed ? ' (precomputed)' : ''}</td>
       <td className="mono">
         {prop.type === 'transformation' && (prop.params?.map || '').length > 60 ? `${prop.params.map.slice(0, 60)}…` : prop.params?.map}
+        {prop.type === 'letter_symmetry' && ((prop.params?.rule || '').length > 60 ? `${prop.params.rule.slice(0, 60)}…` : prop.params?.rule)}
+        {prop.type === 'precomputed_tensor' && prop.params?.tensor_file}
         {(prop.type === 'first_entry' || prop.type === 'last_entry') && (prop.params?.letters || []).join(', ')}
         {prop.type === 'extended_steinmann' && (prop.params?.nonadjacent_pairs || []).length > 0 && `${prop.params.nonadjacent_pairs.length} pairs`}
         {prop.type === 'cluster_adjacency' && (prop.params?.adjacent_pairs || []).length > 0 && `${prop.params.adjacent_pairs.length} pairs`}
@@ -381,6 +403,7 @@ function detailsEmpty(p) {
   if (p.type === 'extended_steinmann') return !(params.nonadjacent_pairs || []).length
   if (p.type === 'cluster_adjacency') return !(params.adjacent_pairs || []).length
   if (p.type === 'transformation') return !(params.map || '').trim()
+  if (p.type === 'letter_symmetry') return !(params.rule || '').trim()
   return true
 }
 
