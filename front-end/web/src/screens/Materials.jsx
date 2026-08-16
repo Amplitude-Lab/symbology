@@ -26,13 +26,53 @@ function LetterMultiSelect({ letters, value, onChange }) {
   )
 }
 
+function parsePairList(text, letters) {
+  const letterSet = new Set(letters)
+  const pairs = []
+  const errors = []
+  const body = (text || '').trim()
+  if (!body) return { pairs, errors: ['Nothing to import.'] }
+  const groups = body.match(/\{[^{}]+\}/g)
+  if (!groups) return { pairs, errors: ['No {letter1,letter2} groups found. Expected e.g. {{W[1],W[2]},{W[3],W[5]}}'] }
+  for (const g of groups) {
+    const items = g.slice(1, -1).split(',').map((s) => s.trim()).filter(Boolean)
+    if (items.length !== 2) {
+      errors.push(`${g} is not a pair`)
+      continue
+    }
+    const bad = items.filter((x) => !letterSet.has(x))
+    if (bad.length) {
+      errors.push(`unknown letter(s): ${bad.join(', ')}`)
+      continue
+    }
+    pairs.push([items[0], items[1]])
+  }
+  return { pairs, errors }
+}
+
 function PairEditor({ letters, value, onChange }) {
   const [a, setA] = useState('')
   const [b, setB] = useState('')
+  const [showPaste, setShowPaste] = useState(false)
+  const [pasteText, setPasteText] = useState('')
+  const [pasteErrors, setPasteErrors] = useState([])
   const add = () => {
     if (!a || !b) return
     onChange([...value, [a, b]])
     setA(''); setB('')
+  }
+  const importPairs = () => {
+    const { pairs, errors } = parsePairList(pasteText, letters)
+    setPasteErrors(errors)
+    if (pairs.length) {
+      const seen = new Set(value.map((p) => `${p[0]}|${p[1]}`))
+      const fresh = pairs.filter((p) => !seen.has(`${p[0]}|${p[1]}`))
+      onChange([...value, ...fresh])
+      if (!errors.length) {
+        setShowPaste(false)
+        setPasteText('')
+      }
+    }
   }
   return (
     <div>
@@ -55,6 +95,25 @@ function PairEditor({ letters, value, onChange }) {
           </span>
         ))}
       </div>
+      <div style={{ marginTop: 8 }}>
+        <button className="small" onClick={() => { setShowPaste(!showPaste); setPasteErrors([]) }}>
+          {showPaste ? 'Hide list input' : 'Paste a pair list…'}
+        </button>
+      </div>
+      {showPaste && (
+        <div style={{ marginTop: 6 }}>
+          <textarea
+            rows={4} value={pasteText}
+            onChange={(e) => setPasteText(e.target.value)}
+            placeholder="{{W[1],W[2]},{W[3],W[5]},...}"
+          />
+          <div className="row" style={{ marginTop: 6 }}>
+            <span className="muted" style={{ fontSize: 11 }}>Wolfram-style list; imported pairs are added to the ones above.</span>
+            <button className="small primary shrink" onClick={importPairs}>Import</button>
+          </div>
+          {pasteErrors.map((e, i) => <p key={i} className="error-text" style={{ margin: '4px 0' }}>{e}</p>)}
+        </div>
+      )}
     </div>
   )
 }
