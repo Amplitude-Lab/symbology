@@ -98,9 +98,14 @@ const nodeTypes = {
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
 }
 
-function Inspector({ node, onChange }) {
+function Inspector({ node, onChange, onDelete }) {
   const { project } = useProject()
-  if (!node) return <p className="muted">Select a node to edit its parameters.</p>
+  if (!node) return (
+    <div>
+      <p className="muted">Select a node to edit its parameters.</p>
+      <p className="muted" style={{ fontSize: 11 }}>Tip: click a node or edge, then press Delete/Backspace — or use the Delete button here — to remove it.</p>
+    </div>
+  )
   const d = node.data || {}
   const set = (patch) => onChange(node.id, patch)
 
@@ -139,6 +144,9 @@ function Inspector({ node, onChange }) {
             <p className="muted" style={{ fontSize: 11 }}>Properties that are not ready will be computed automatically when the flow runs.</p>
           </>
         )}
+        <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+          <button className="danger" onClick={() => onDelete(node.id)}>Delete this node</button>
+        </div>
       </div>
     )
   }
@@ -200,6 +208,9 @@ function Inspector({ node, onChange }) {
       )}
       {node.type === 'merge_conditions' && <p className="muted">Connect two or more dlogmat outputs (integrability, extended Steinmann, cluster adjacency) to merge them into a single condition tensor.</p>}
       {node.type === 'sew' && <p className="muted">Combines a condition tensor, an FEC tensor of weight F and an LEC tensor of weight L into SEW_FpL.</p>}
+      <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+        <button className="danger" onClick={() => onDelete(node.id)}>Delete this node</button>
+      </div>
     </div>
   )
 }
@@ -332,6 +343,32 @@ function FlowEditorInner() {
     setCompileResult(null)
   }, [setNodes])
 
+  const deleteNode = useCallback((id) => {
+    setNodes((ns) => ns.filter((n) => n.id !== id))
+    setEdges((es) => es.filter((e) => e.source !== id && e.target !== id))
+    setSelectedId(null)
+    setCompileResult(null)
+    toast('Node deleted.')
+  }, [setNodes, setEdges, toast])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      const t = e.target
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return
+      const nodeIds = new Set(nodes.filter((n) => n.selected).map((n) => n.id))
+      const edgeIds = new Set(edges.filter((ed) => ed.selected).map((ed) => ed.id))
+      if (!nodeIds.size && !edgeIds.size) return
+      e.preventDefault()
+      setNodes((ns) => ns.filter((n) => !nodeIds.has(n.id)))
+      setEdges((es) => es.filter((ed) => !edgeIds.has(ed.id) && !nodeIds.has(ed.source) && !nodeIds.has(ed.target)))
+      setSelectedId(null)
+      setCompileResult(null)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [nodes, edges, setNodes, setEdges])
+
   const selectedNode = nodes.find((n) => n.id === selectedId)
 
   if (!flow) return <div className="page"><p className="muted">Loading flow…</p></div>
@@ -379,7 +416,7 @@ function FlowEditorInner() {
           <button className={sideTab === 'inspector' ? 'primary' : ''} onClick={() => setSideTab('inspector')}>Inspector</button>
           <button className={sideTab === 'plan' ? 'primary' : ''} onClick={() => setSideTab('plan')}>Plan</button>
         </div>
-        {sideTab === 'inspector' && <Inspector node={selectedNode} onChange={updateNodeData} />}
+        {sideTab === 'inspector' && <Inspector node={selectedNode} onChange={updateNodeData} onDelete={deleteNode} />}
         {sideTab === 'plan' && (
           compileResult
             ? <CompilePanel result={compileResult} onRun={run} running={running} />
