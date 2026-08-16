@@ -5,6 +5,7 @@ export const PROP_KIND = {
   first_entry: 'fec1',
   last_entry: 'lec1',
   transformation: 'matrix',
+  precomputed_tensor: 'matrix',
 }
 
 export const PROP_LABEL = {
@@ -14,6 +15,7 @@ export const PROP_LABEL = {
   extended_steinmann: 'Ext. Steinmann',
   cluster_adjacency: 'Cluster Adj.',
   transformation: 'Transformation',
+  precomputed_tensor: 'Tensor file',
 }
 
 export function propLabel(prop) {

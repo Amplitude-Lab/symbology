@@ -102,6 +102,13 @@ TEMPLATES = {
             {"type": "integrability", "params": {}, "tensor_file": "data/dlogmat_E6.wxf"},
             {"type": "first_entry", "params": {}, "tensor_file": "data/FEC_1.wxf"},
             {"type": "last_entry", "params": {}, "tensor_file": "data/LEC_1.wxf"},
+            {"type": "precomputed_tensor", "name": "colmat42 (collinear map)", "params": {"tensor_file": "data/colmat42.wxf"}, "tensor_file": "data/colmat42.wxf"},
+            {"type": "precomputed_tensor", "name": "colprojdiv (divergent)", "params": {"tensor_file": "data/colprojdiv.wxf"}, "tensor_file": "data/colprojdiv.wxf"},
+            {"type": "precomputed_tensor", "name": "colprojfin (finite)", "params": {"tensor_file": "data/colprojfin.wxf"}, "tensor_file": "data/colprojfin.wxf"},
+            {"type": "precomputed_tensor", "name": "cycrepmat (cyclic rep)", "params": {"tensor_file": "data/cycrepmat.wxf"}, "tensor_file": "data/cycrepmat.wxf"},
+            {"type": "precomputed_tensor", "name": "fliprepmat (flip rep)", "params": {"tensor_file": "data/fliprepmat.wxf"}, "tensor_file": "data/fliprepmat.wxf"},
+            {"type": "precomputed_tensor", "name": "parityrepmat (parity rep)", "params": {"tensor_file": "data/parityrepmat.wxf"}, "tensor_file": "data/parityrepmat.wxf"},
+            {"type": "precomputed_tensor", "name": "E1 (one-loop seed)", "params": {"tensor_file": "data/E1.wxf"}, "tensor_file": "data/E1.wxf"},
         ],
     },
 }
@@ -140,6 +147,7 @@ def apply_template(proj: dict, template_id: str) -> None:
         props.append({
             "id": uuid.uuid4().hex[:8],
             "type": p["type"],
+            "name": p.get("name", ""),
             "params": p["params"],
             "status": "ready",
             "error": None,

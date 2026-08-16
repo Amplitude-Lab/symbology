@@ -9,6 +9,7 @@ const PROP_LABEL = {
   extended_steinmann: 'Extended Steinmann',
   cluster_adjacency: 'Cluster Adjacency',
   transformation: 'Transformation',
+  precomputed_tensor: 'Existing tensor file',
 }
 
 function StatusDot({ status }) {
@@ -173,6 +174,7 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
   const [pairs, setPairs] = useState([])
   const [transName, setTransName] = useState('')
   const [transMap, setTransMap] = useState('')
+  const [tensorFile, setTensorFile] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
@@ -190,6 +192,9 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
     } else if (type === 'transformation') {
       if (!transName.trim() || !transMap.trim()) return setError('Provide a name and a kinematic map.')
       params = { name: transName.trim(), map: transMap.trim() }
+    } else if (type === 'precomputed_tensor') {
+      if (!propName.trim() || !tensorFile.trim()) return setError('Provide a name and a tensor file path.')
+      params = { tensor_file: tensorFile.trim() }
     }
     const name = type === 'transformation' ? transName.trim() : propName.trim()
     setBusy(true); setError(null)
@@ -234,10 +239,21 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
             <textarea rows={4} value={transMap} onChange={(e) => setTransMap(e.target.value)} placeholder="{u1->u2, u2->u3, u3->1+u2-v1-v2, v1->v2, v2->1+u3-u1-v2}" />
           </>
         )}
-        {type && type !== 'transformation' && (
+        {type && type !== 'transformation' && type !== 'precomputed_tensor' && (
           <>
             <label>Property name (optional — needed if you add several {PROP_LABEL[type] || type} properties, e.g. for different physical objects)</label>
             <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. e12FirstEntry, mhvFirstEntry" />
+          </>
+        )}
+        {type === 'precomputed_tensor' && (
+          <>
+            <label>Name</label>
+            <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. cycrepmat (cyclic rep)" />
+            <label>Tensor file (relative to the project folder)</label>
+            <input value={tensorFile} onChange={(e) => setTensorFile(e.target.value)} placeholder="e.g. data/cycrepmat.wxf or output/SEW_3p1.wxf" />
+            <p className="muted" style={{ fontSize: 11 }}>
+              Registers an existing .wxf tensor as a property so it appears here and can be wired as an output port on the canvas (e.g. into Add Tensors). The file is not recomputed.
+            </p>
           </>
         )}
         {type === 'integrability' && (

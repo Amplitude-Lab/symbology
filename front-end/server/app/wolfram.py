@@ -16,6 +16,7 @@ PROP_KIND = {
     "first_entry": "fec1",
     "last_entry": "lec1",
     "transformation": "matrix",
+    "precomputed_tensor": "matrix",
 }
 
 
@@ -57,6 +58,11 @@ def property_tensor_relpath(alphabet: dict, prop: dict) -> str:
     if ptype == "transformation":
         tname = prop.get("params", {}).get("name", "trans")
         return f"data/{_safe_name(tname)}.wxf"
+    if ptype == "precomputed_tensor":
+        rel = (prop.get("params", {}) or {}).get("tensor_file", "").strip()
+        if rel:
+            return rel
+        return f"data/{_safe_name((prop.get('name') or 'tensor').strip())}.wxf"
     raise ValueError(f"unknown property type {ptype}")
 
 
@@ -92,6 +98,8 @@ Print["@@RESULT@@OK"];
 def property_script(alphabet: dict, prop: dict, out_abs: str) -> str:
     ptype = prop["type"]
     params = prop.get("params", {}) or {}
+    if ptype == "precomputed_tensor":
+        raise ValueError("precomputed tensors are shipped files and cannot be computed")
     parts = [_preamble(alphabet)]
 
     if ptype in ("integrability", "transformation"):

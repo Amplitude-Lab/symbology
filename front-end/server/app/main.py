@@ -127,7 +127,7 @@ def api_delete_alphabet(pid: str, aid: str) -> dict:
     return {"ok": True}
 
 
-VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation"}
+VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation", "precomputed_tensor"}
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties")
@@ -158,15 +158,27 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
             existing = (other.get("name") or "").strip() or (other.get("params", {}).get("name") if other["type"] == "transformation" else "") or other["type"]
             if existing == pname:
                 raise HTTPException(400, f"a property named '{pname}' already exists on this alphabet")
+    if ptype == "precomputed_tensor":
+        if not pname:
+            raise HTTPException(400, "a precomputed tensor property needs a name")
+        rel = (params.get("tensor_file") or "").strip().lstrip("/")
+        if not rel or ".." in rel.split("/"):
+            raise HTTPException(400, "provide a valid relative tensor file path (e.g. data/cycrepmat.wxf)")
+        target = (storage.project_dir(pid) / rel).resolve()
+        if not str(target).startswith(str(storage.project_dir(pid).resolve())):
+            raise HTTPException(400, "tensor file must live inside the project")
+        if not target.exists():
+            raise HTTPException(400, f"tensor file '{rel}' does not exist in this project")
+        params["tensor_file"] = rel
     prop = {
         "id": uuid.uuid4().hex[:8],
         "type": ptype,
         "name": pname,
         "params": params,
-        "status": "pending",
+        "status": "ready" if ptype == "precomputed_tensor" else "pending",
         "error": None,
-        "precomputed": False,
-        "tensor_file": None,
+        "precomputed": ptype == "precomputed_tensor",
+        "tensor_file": params.get("tensor_file") if ptype == "precomputed_tensor" else None,
         "summary": None,
     }
     alpha["properties"].append(prop)
