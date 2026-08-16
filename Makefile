@@ -1,5 +1,13 @@
 # compiler
+# On macOS the default g++ is Apple Clang, which cannot compile SparseRREF
+# (it uses std::execution::par, missing from Apple's libc++). Prefer a real
+# GCC from Homebrew when available; override anytime with `make CXX=...`.
+ifeq ($(shell uname -s),Darwin)
+HOMEBREW_GXX := $(firstword $(sort $(wildcard /opt/homebrew/bin/g++-[0-9]* /usr/local/bin/g++-[0-9]*)))
+CXX := $(if $(HOMEBREW_GXX),$(HOMEBREW_GXX),g++)
+else
 CXX := g++
+endif
 CXXFLAGS := -O3 -flto -mcpu=native -mtune=native -std=c++20 -I.
 LDLIBS := -lflint -lgmp -lmimalloc
 
