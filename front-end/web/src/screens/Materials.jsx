@@ -292,12 +292,15 @@ function PropertyRow({ alphabet, prop, onChanged }) {
     <tr>
       <td><StatusDot status={busy ? 'computing' : prop.status} /> <strong>{display}</strong>{showType && <span className="muted"> ({PROP_LABEL[prop.type] || prop.type})</span>}{prop.precomputed ? ' (precomputed)' : ''}</td>
       <td className="mono">
-        {prop.type === 'transformation' ? prop.params?.name : ''}
+        {prop.type === 'transformation' && (prop.params?.map || '').length > 60 ? `${prop.params.map.slice(0, 60)}…` : prop.params?.map}
         {(prop.type === 'first_entry' || prop.type === 'last_entry') && (prop.params?.letters || []).join(', ')}
         {prop.type === 'extended_steinmann' && `${(prop.params?.nonadjacent_pairs || []).length} pairs`}
         {prop.type === 'cluster_adjacency' && `${(prop.params?.adjacent_pairs || []).length} pairs`}
+        {prop.summary?.dims && (
+          <div className="muted" style={{ fontSize: 11 }}>dims {prop.summary.dims.join('×')}, nnz {prop.summary.nnz}</div>
+        )}
       </td>
-      <td className="mono">{prop.summary?.dims ? `dims ${prop.summary.dims.join('×')}, nnz ${prop.summary.nnz}` : (prop.tensor_file || '—')}</td>
+      <td className="mono">{prop.tensor_file || '—'}</td>
       <td style={{ textAlign: 'right' }}>
         {!prop.precomputed && prop.status !== 'ready' && (
           <button className="small primary" disabled={busy} onClick={compute}>{busy ? 'Computing…' : 'Compute'}</button>
