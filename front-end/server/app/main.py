@@ -270,16 +270,14 @@ def api_list_tensors(pid: str, dir: str = "data") -> list:
     return out
 
 
-@app.get("/api/projects/{pid}/tensor_summary")
-def api_tensor_summary(pid: str, file: str) -> dict:
-    _get_project(pid)
+def summarize_tensor_file(pid: str, rel_file: str) -> dict:
     proj_dir = storage.project_dir(pid)
-    target = (proj_dir / file).resolve()
+    target = (proj_dir / rel_file).resolve()
     if not str(target).startswith(str(proj_dir.resolve())) or not target.exists():
         raise HTTPException(404, "tensor file not found")
     cache_dir = proj_dir / ".summary_cache"
     cache_dir.mkdir(exist_ok=True)
-    cache_file = cache_dir / (file.replace("/", "_") + ".json")
+    cache_file = cache_dir / (rel_file.replace("/", "_") + ".json")
     mtime = target.stat().st_mtime
     if cache_file.exists():
         try:
@@ -294,7 +292,7 @@ def api_tensor_summary(pid: str, file: str) -> dict:
     gen_dir = proj_dir / "wolfram_gen"
     gen_dir.mkdir(exist_ok=True)
     script_path = gen_dir / "summary.wl"
-    result_path = cache_dir / (file.replace("/", "_") + ".result.json")
+    result_path = cache_dir / (rel_file.replace("/", "_") + ".result.json")
     if result_path.exists():
         result_path.unlink()
     script_path.write_text(summary_script(str(target), str(result_path)))
@@ -310,6 +308,27 @@ def api_tensor_summary(pid: str, file: str) -> dict:
     summary = {"dims": result.get("dims"), "nnz": result.get("nnz"), "sample": result.get("sample", [])}
     cache_file.write_text(json.dumps({"mtime": mtime, "summary": summary}))
     return summary
+
+
+@app.get("/api/projects/{pid}/tensor_summary")
+def api_tensor_summary(pid: str, file: str) -> dict:
+    _get_project(pid)
+    return summarize_tensor_file(pid, file)
+
+
+@app.post("/api/projects/{pid}/alphabets/{aid}/properties/{prop_id}/summarize")
+def api_summarize_property(pid: str, aid: str, prop_id: str) -> dict:
+    proj = _get_project(pid)
+    alpha = _get_alphabet(proj, aid)
+    prop = storage.find_property(alpha, prop_id)
+    if prop is None:
+        raise HTTPException(404, "property not found")
+    rel = prop.get("tensor_file") or property_tensor_relpath(alpha, prop)
+    summary = summarize_tensor_file(pid, rel)
+    prop["tensor_file"] = rel
+    prop["summary"] = {"dims": summary.get("dims"), "nnz": summary.get("nnz")}
+    storage.save_project(proj)
+    return prop
 
 
 @app.post("/api/projects/{pid}/flows")

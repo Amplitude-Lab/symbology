@@ -33,6 +33,7 @@ export const api = {
   addProperty: (pid, aid, p) => request('POST', `/projects/${pid}/alphabets/${aid}/properties`, p),
   deleteProperty: (pid, aid, propId) => request('DELETE', `/projects/${pid}/alphabets/${aid}/properties/${propId}`),
   computeProperty: (pid, aid, propId) => request('POST', `/projects/${pid}/alphabets/${aid}/properties/${propId}/compute`),
+  summarizeProperty: (pid, aid, propId) => request('POST', `/projects/${pid}/alphabets/${aid}/properties/${propId}/summarize`),
   listTensors: (pid, dir) => request('GET', `/projects/${pid}/tensors?dir=${dir}`),
   tensorSummary: (pid, file) => request('GET', `/projects/${pid}/tensor_summary?file=${encodeURIComponent(file)}`),
   createFlow: (pid, name) => request('POST', `/projects/${pid}/flows`, { name }),

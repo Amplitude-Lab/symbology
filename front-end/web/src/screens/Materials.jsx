@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { api } from '../api'
 import { useProject, useToast } from '../App'
 
@@ -294,8 +294,8 @@ function PropertyRow({ alphabet, prop, onChanged }) {
       <td className="mono">
         {prop.type === 'transformation' && (prop.params?.map || '').length > 60 ? `${prop.params.map.slice(0, 60)}…` : prop.params?.map}
         {(prop.type === 'first_entry' || prop.type === 'last_entry') && (prop.params?.letters || []).join(', ')}
-        {prop.type === 'extended_steinmann' && `${(prop.params?.nonadjacent_pairs || []).length} pairs`}
-        {prop.type === 'cluster_adjacency' && `${(prop.params?.adjacent_pairs || []).length} pairs`}
+        {prop.type === 'extended_steinmann' && (prop.params?.nonadjacent_pairs || []).length > 0 && `${prop.params.nonadjacent_pairs.length} pairs`}
+        {prop.type === 'cluster_adjacency' && (prop.params?.adjacent_pairs || []).length > 0 && `${prop.params.adjacent_pairs.length} pairs`}
         {prop.summary?.dims && (
           <div className="muted" style={{ fontSize: 11 }}>dims {prop.summary.dims.join('×')}, nnz {prop.summary.nnz}</div>
         )}
@@ -312,10 +312,35 @@ function PropertyRow({ alphabet, prop, onChanged }) {
   )
 }
 
+function detailsEmpty(p) {
+  const params = p.params || {}
+  if (p.type === 'first_entry' || p.type === 'last_entry') return !(params.letters || []).length
+  if (p.type === 'extended_steinmann') return !(params.nonadjacent_pairs || []).length
+  if (p.type === 'cluster_adjacency') return !(params.adjacent_pairs || []).length
+  if (p.type === 'transformation') return !(params.map || '').trim()
+  return true
+}
+
 function AlphabetDetail({ alphabet, onBack }) {
-  const { refreshProject } = useProject()
+  const { project, refreshProject } = useProject()
   const [showAdd, setShowAdd] = useState(false)
+  const backfillRef = useRef(new Set())
   const refresh = () => refreshProject()
+
+  useEffect(() => {
+    const need = alphabet.properties.filter((p) =>
+      p.status === 'ready' && p.tensor_file && !p.summary && detailsEmpty(p) && !backfillRef.current.has(p.id))
+    if (!need.length) return
+    ;(async () => {
+      for (const p of need) {
+        backfillRef.current.add(p.id)
+        try {
+          await api.summarizeProperty(project.id, alphabet.id, p.id)
+          await refreshProject()
+        } catch { /* leave the summary empty */ }
+      }
+    })()
+  }, [alphabet, project.id, refreshProject])
 
   return (
     <div className="page">
