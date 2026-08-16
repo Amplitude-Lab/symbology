@@ -157,6 +157,7 @@ tr:hover td { background: #fafbfc; }
 .kind-fec1, .kind-fec { color: var(--fec); }
 .kind-lec1, .kind-lec { color: var(--lec); }
 .kind-matrix { color: var(--matrix); }
+.kind-tensor { color: #64748b; }
 
 .log-console {
   background: #0f1219; color: #d4d7dd; border-radius: 8px; padding: 12px;
@@ -171,6 +172,7 @@ tr:hover td { background: #fafbfc; }
 .kind-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 4px; margin-right: 6px; font-weight: 700; }
 .kind-badge.wolfram { background: #fee2e2; color: #b91c1c; }
 .kind-badge.bootstrap { background: #dbeafe; color: #1d4ed8; }
+.kind-badge.tensor_add { background: #dcfce7; color: #15803d; }
 
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);

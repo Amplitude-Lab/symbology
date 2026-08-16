@@ -75,6 +75,14 @@ export const NODE_DEFS = {
     inputs: [{ id: 'seed', kind: 'seed', label: 'seed' }],
     outputs: [{ id: 'boundary', kind: 'boundary', label: 'boundary' }],
   },
+  add_tensors: {
+    title: 'Add Tensors', color: '#dcfce7',
+    inputs: [
+      { id: 'a', kind: 'tensor', label: 'A' },
+      { id: 'b', kind: 'tensor', label: 'B' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'wA·A + wB·B' }],
+  },
 }
 
 export const PALETTE = [
@@ -86,6 +94,7 @@ export const PALETTE = [
   { type: 'solve_symmetry', label: 'Solve Symmetry', sub: 'constrain by symmetry' },
   { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
   { type: 'compute_rhs', label: 'Compute RHS', sub: 'boundary terms' },
+  { type: 'add_tensors', label: 'Add Tensors', sub: 'weighted sum wA·A + wB·B' },
 ]
 
 const ACCEPTS = {
@@ -93,6 +102,7 @@ const ACCEPTS = {
   fec: ['fec1', 'fec'],
   lec: ['lec1', 'lec'],
   seed: ['fec1', 'fec', 'lec1', 'sew'],
+  tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary'],
 }
 
 export function kindsCompatible(sourceKind, targetKind) {

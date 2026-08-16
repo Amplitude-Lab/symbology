@@ -56,6 +56,7 @@ function OpNode({ type, data, selected }) {
     : type === 'solve_symmetry' ? `${data.symmetry || '…'} ${data.target || ''}`
     : type === 'solve_collinear' ? `${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
+    : type === 'add_tensors' ? `${data.weight_a || '1'}·A + ${data.weight_b || '1'}·B → ${data.target || '…'}`
     : ''
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
@@ -96,6 +97,7 @@ const nodeTypes = {
   solve_symmetry: (p) => <OpNode {...p} type="solve_symmetry" />,
   solve_collinear: (p) => <OpNode {...p} type="solve_collinear" />,
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
+  add_tensors: (p) => <OpNode {...p} type="add_tensors" />,
 }
 
 function Inspector({ node, onChange, onDelete }) {
@@ -206,6 +208,17 @@ function Inspector({ node, onChange, onDelete }) {
           <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
         </>
       )}
+      {node.type === 'add_tensors' && (
+        <>
+          <label>Weight of A (rational)</label>
+          <input value={d.weight_a || ''} onChange={(e) => set({ weight_a: e.target.value })} placeholder="1" />
+          <label>Weight of B (rational)</label>
+          <input value={d.weight_b || ''} onChange={(e) => set({ weight_b: e.target.value })} placeholder="1" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. SEW_3p1_total" />
+          <p className="muted" style={{ fontSize: 11 }}>Computes wA·A + wB·B with exact rational arithmetic (tensor_add). A and B must have identical dimensions (same kind and weight).</p>
+        </>
+      )}
       {node.type === 'merge_conditions' && <p className="muted">Connect two or more dlogmat outputs (integrability, extended Steinmann, cluster adjacency) to merge them into a single condition tensor.</p>}
       {node.type === 'sew' && <p className="muted">Combines a condition tensor, an FEC tensor of weight F and an LEC tensor of weight L into SEW_FpL.</p>}
       <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
@@ -302,13 +315,23 @@ function FlowEditorInner() {
     return () => clearTimeout(t)
   }, [nodes, edges, flowName]) // eslint-disable-line
 
+  const resolveSourceKind = useCallback((nodeId, handleId, depth = 0) => {
+    const node = nodes.find((n) => n.id === nodeId)
+    if (!node) return null
+    if (node.type === 'add_tensors' && handleId === 'out') {
+      if (depth > 8) return 'tensor'
+      const e = edges.find((ed) => ed.target === nodeId && (ed.targetHandle === 'a' || ed.targetHandle === 'b'))
+      return e ? resolveSourceKind(e.source, e.sourceHandle, depth + 1) : 'tensor'
+    }
+    return sourceKindFor(node, handleId, project)
+  }, [nodes, edges, project])
+
   const isValidConnection = useCallback((conn) => {
-    const sn = nodes.find((n) => n.id === conn.source)
     const tn = nodes.find((n) => n.id === conn.target)
-    const sk = sourceKindFor(sn, conn.sourceHandle, project)
+    const sk = resolveSourceKind(conn.source, conn.sourceHandle)
     const tk = targetKindFor(tn, conn.targetHandle)
     return !!(sk && tk && kindsCompatible(sk, tk))
-  }, [nodes, project])
+  }, [nodes, resolveSourceKind])
 
   const onConnect = useCallback((conn) => {
     if (!isValidConnection(conn)) {

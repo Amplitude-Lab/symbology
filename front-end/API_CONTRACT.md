@@ -84,6 +84,7 @@ Node `type` values and `data`:
 | `solve_symmetry` | `{"projection_file": "cycrepmat.wxf"}` | inputs; output `solution` |
 | `solve_collinear` | `{"target": "SEW_3p1", "rhs": "boundary_2L.wxf", "projection": "finite"}` | output `solution` |
 | `compute_rhs` | `{"loops": 2}` | output `boundary` |
+| `add_tensors` | `{"weight_a": "1", "weight_b": "-1", "target": "SEW_3p1_total"}` | inputs `a`, `b` (any tensor kind, must match in kind and weight); output `out` carrying the inputs' kind/weight; runs `tensor_add A B wA wB out` |
 
 Edges: `{"id", "source", "sourceHandle", "target", "targetHandle"}`.
 Tensor-kind compatibility (validated at compile time):

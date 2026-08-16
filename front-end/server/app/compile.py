@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import re
 import shlex
 from pathlib import Path
 
 from . import storage
-from .config import find_bootstrap, find_compute_rhs, find_wolframscript
+from .config import find_bootstrap, find_compute_rhs, find_tensor_add, find_wolframscript
 from .wolfram import PROP_KIND, merge_script, property_display_name, property_script, property_tensor_relpath
+
+TENSOR_KINDS = {"dlogmat", "fec1", "fec", "lec1", "lec", "sew", "matrix", "basis", "solution", "boundary"}
 
 EDGE_RULES = {
     ("merge_conditions", None): {"dlogmat"},
@@ -18,9 +21,13 @@ EDGE_RULES = {
     ("project", "seed"): {"fec1", "fec", "sew"},
     ("solve_symmetry", "seed"): {"fec1", "fec", "sew"},
     ("solve_collinear", "seed"): {"fec1", "fec", "sew"},
+    ("add_tensors", "a"): TENSOR_KINDS,
+    ("add_tensors", "b"): TENSOR_KINDS,
 }
 
 SYMMETRIES = {"collinear", "cyclic", "flip", "parity"}
+
+RAT_RE = re.compile(r"^-?\d+(/\d+)?$")
 
 
 def _abs(proj_dir: Path, rel: str) -> str:
@@ -46,6 +53,7 @@ def compile_flow(proj: dict, graph: dict) -> dict:
     wolframscript = find_wolframscript()
     bootstrap = find_bootstrap()
     compute_rhs_bin = find_compute_rhs()
+    tensor_add_bin = find_tensor_add()
 
     if not nodes:
         return {"ok": False, "errors": ["The flow is empty. Add at least one node."], "steps": []}
@@ -102,6 +110,8 @@ def compile_flow(proj: dict, graph: dict) -> dict:
             _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
         elif ntype == "compute_rhs":
             _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir)
+        elif ntype == "add_tensors":
+            _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_bin, proj_dir)
         else:
             errors.append(f"Unknown node type '{ntype}'.")
 
@@ -428,3 +438,43 @@ def _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs
         {"type": "compute_rhs"},
     )
     provides[(node["id"], "boundary")] = {"kind": "boundary", "file": None, "weight": None, "name": target}
+
+
+def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    a = _edge_input(provides, incoming, nid, "a")
+    b = _edge_input(provides, incoming, nid, "b")
+    if a is None or b is None:
+        errors.append("An Add Tensors node needs both A and B inputs.")
+        return
+    if a["kind"] != b["kind"]:
+        errors.append(f"Add Tensors requires two tensors of the same kind, got '{a['kind']}' and '{b['kind']}'.")
+        return
+    if a.get("weight") != b.get("weight"):
+        errors.append("Add Tensors inputs must have the same weight (tensors must have identical dimensions).")
+        return
+    wa = str(data.get("weight_a") or "1").strip()
+    wb = str(data.get("weight_b") or "1").strip()
+    for w in (wa, wb):
+        if not RAT_RE.match(w):
+            errors.append(f"Add Tensors weight '{w}' is not a rational number (examples: 1, -2, 1/2).")
+            return
+    target = (data.get("target") or "").strip()
+    if not target:
+        errors.append("An Add Tensors node needs a target name for the output tensor.")
+        return
+    if tensor_add_bin is None:
+        errors.append("The tensor_add binary was not found; build it with `make tensor_add`.")
+        return
+    rel = f"output/{target}.wxf"
+    add_step(
+        f"Add {wa}*{a['name']} + {wb}*{b['name']} -> {target}",
+        "tensor_add",
+        [tensor_add_bin, _abs(proj_dir, a["file"]), _abs(proj_dir, b["file"]), wa, wb, _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "add_tensors", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": a.get("weight"), "name": target}

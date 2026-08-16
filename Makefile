@@ -22,10 +22,14 @@ $(EXE): bootstrap.cpp bootstrap.hpp projection.hpp solve_symmetry.hpp solve_coll
 compute_rhs: compute_rhs.cpp compute_rhs.hpp tensor_shuffle.h bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp tensor_expand.hpp
 	$(CXX) compute_rhs.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
+# tensor_add executable (weighted sum of sparse tensors)
+tensor_add: tensor_add.cpp tensor_shuffle.h
+	$(CXX) tensor_add.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
+
 # inspect_tensors diagnostic tool
 inspect_tensors: inspect_tensors.cpp bootstrap.hpp projection.hpp tensor_shuffle.h
 	$(CXX) inspect_tensors.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
 # clean target
 clean:
-	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors
+	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors tensor_add
