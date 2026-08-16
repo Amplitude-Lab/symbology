@@ -11,6 +11,7 @@ EDGE_RULES = {
     ("merge_conditions", None): {"dlogmat"},
     ("extend", "condition"): {"dlogmat"},
     ("extend", "fec"): {"fec1", "fec"},
+    ("extend", "lec"): {"lec1", "lec"},
     ("sew", "condition"): {"dlogmat"},
     ("sew", "fec"): {"fec1", "fec"},
     ("sew", "lec"): {"lec1", "lec"},
@@ -236,35 +237,47 @@ def _compile_extend(node, incoming, provides, add_step, errors, bootstrap, proj_
     data = node.get("data", {}) or {}
     cond = _edge_input(provides, incoming, nid, "condition")
     fec = _edge_input(provides, incoming, nid, "fec")
+    lec = _edge_input(provides, incoming, nid, "lec")
     if cond is None:
         errors.append("An Extend node is missing its condition (dlogmat) input.")
         return
-    if fec is None:
-        errors.append("An Extend node is missing its FEC input.")
+    if fec is not None and lec is not None:
+        errors.append("An Extend node takes either a FEC input or a LEC input, not both.")
+        return
+    if fec is None and lec is None:
+        errors.append("An Extend node is missing its FEC or LEC input.")
         return
     if bootstrap is None:
         errors.append("The bootstrap binary was not found; build it with `make bootstrap`.")
         return
-    w_in = fec.get("weight")
+    seed = fec or lec
+    direction = "FEC" if fec is not None else "LEC"
+    flag = "-f" if fec is not None else "-l"
+    w_in = seed.get("weight")
     if w_in is None:
-        errors.append("Cannot determine the weight of the FEC input to an Extend node.")
+        errors.append(f"Cannot determine the weight of the {direction} input to an Extend node.")
         return
     w_out = w_in + 1
     target = data.get("target_weight")
     if target not in (None, "", 0) and int(target) != w_out:
         errors.append(f"Extend node target weight {target} does not match input weight {w_in} + 1.")
         return
-    rel = f"output/FEC_{w_out}.wxf"
+    rel = f"output/{direction}_{w_out}.wxf"
     add_step(
-        f"Extend FEC_{w_in} -> FEC_{w_out}",
+        f"Extend {direction}_{w_in} -> {direction}_{w_out}",
         "bootstrap",
-        [bootstrap, "--extend", "-c", _abs(proj_dir, cond["file"]), "-f", _abs(proj_dir, fec["file"]), "-o", _abs(proj_dir, rel)],
+        [bootstrap, "--extend", "-c", _abs(proj_dir, cond["file"]), flag, _abs(proj_dir, seed["file"]), "-o", _abs(proj_dir, rel)],
         proj_dir,
         [rel],
         True,
         {"type": "extend", "tensor_file": rel},
     )
-    provides[(nid, "fec")] = {"kind": "fec", "file": rel, "weight": w_out, "name": f"FEC_{w_out}"}
+    provides[(nid, "fec" if fec is not None else "lec")] = {
+        "kind": "fec" if fec is not None else "lec",
+        "file": rel,
+        "weight": w_out,
+        "name": f"{direction}_{w_out}",
+    }
 
 
 def _compile_sew(node, incoming, provides, add_step, errors, bootstrap, proj_dir):

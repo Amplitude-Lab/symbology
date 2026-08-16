@@ -150,7 +150,7 @@ function Inspector({ node, onChange }) {
         <>
           <label>Target weight</label>
           <input type="number" min="2" value={d.target_weight || ''} onChange={(e) => set({ target_weight: e.target.value ? Number(e.target.value) : null })} />
-          <p className="muted" style={{ fontSize: 11 }}>Must equal input FEC weight + 1 (checked at compile time).</p>
+          <p className="muted" style={{ fontSize: 11 }}>Must equal input FEC/LEC weight + 1 (checked at compile time). Connect exactly one of FEC in / LEC in — LEC extends backward.</p>
         </>
       )}
       {node.type === 'project' && (

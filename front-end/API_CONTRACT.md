@@ -78,7 +78,7 @@ Node `type` values and `data`:
 |---|---|---|
 | `alphabet` | `{"alphabet_id": "...", "selected_properties": ["prop_id", ...]}` | one output handle per selected property: `prop_<prop_id>` with tensor kind (`dlogmat`, `fec1`, `lec1`, `matrix`) |
 | `merge_conditions` | `{}` | input handles `in_0..in_n` (kind `dlogmat`), output `out` (kind `dlogmat`) |
-| `extend` | `{"target_weight": 2}` | inputs `condition` (dlogmat), `fec` (fec tensor); output `fec` (FEC_W) |
+| `extend` | `{"target_weight": 2}` | inputs `condition` (dlogmat) plus exactly one of `fec` (fec1/fec) or `lec` (lec1/lec); output `fec`/`lec` matching the input direction (weight +1) |
 | `sew` | `{}` | inputs `condition`, `fec`, `lec`; output `sew` |
 | `project` | `{"symmetry": "collinear", "target": "SEW_5p1"}` | input `seed`; output `basis` |
 | `solve_symmetry` | `{"projection_file": "cycrepmat.wxf"}` | inputs; output `solution` |

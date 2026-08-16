@@ -39,8 +39,12 @@ export const NODE_DEFS = {
     inputs: [
       { id: 'condition', kind: 'dlogmat', label: 'condition' },
       { id: 'fec', kind: 'fec', label: 'FEC in' },
+      { id: 'lec', kind: 'lec', label: 'LEC in' },
     ],
-    outputs: [{ id: 'fec', kind: 'fec', label: 'FEC out' }],
+    outputs: [
+      { id: 'fec', kind: 'fec', label: 'FEC out' },
+      { id: 'lec', kind: 'lec', label: 'LEC out' },
+    ],
   },
   sew: {
     title: 'Sew', color: '#ffedd5',
