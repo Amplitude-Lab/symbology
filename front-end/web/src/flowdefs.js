@@ -87,6 +87,28 @@ export const NODE_DEFS = {
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'wA·A + wB·B' }],
   },
+  apply_symmetry: {
+    title: 'Apply Symmetry', color: '#fef3c7',
+    inputs: [
+      { id: 'tensor', kind: 'r3tensor', label: 'tensor' },
+      { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
+      { id: 'trans2', kind: 'matrix', label: 'trans2 (last axis)' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
+  },
+  matrix_power: {
+    title: 'Matrix Power', color: '#fef3c7',
+    inputs: [{ id: 'matrix', kind: 'matrix', label: 'matrix M' }],
+    outputs: [{ id: 'out', kind: 'matrix', label: 'M^n' }],
+  },
+  tensor_join: {
+    title: 'Join Tensors', color: '#dcfce7',
+    inputs: [
+      { id: 'a', kind: 'tensor', label: 'A' },
+      { id: 'b', kind: 'tensor', label: 'B' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'joined' }],
+  },
 }
 
 export const PALETTE = [
@@ -99,6 +121,9 @@ export const PALETTE = [
   { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
   { type: 'compute_rhs', label: 'Compute RHS', sub: 'boundary terms' },
   { type: 'add_tensors', label: 'Add Tensors', sub: 'weighted sum wA·A + wB·B' },
+  { type: 'apply_symmetry', label: 'Apply Symmetry', sub: 'contract last two entries' },
+  { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n group elements' },
+  { type: 'tensor_join', label: 'Join Tensors', sub: 'concat along an axis' },
 ]
 
 const ACCEPTS = {
@@ -107,6 +132,8 @@ const ACCEPTS = {
   lec: ['lec1', 'lec'],
   seed: ['fec1', 'fec', 'lec1', 'sew'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary'],
+  r3tensor: ['fec1', 'fec', 'lec1', 'lec', 'sew'],
+  matrix: ['matrix'],
 }
 
 export function kindsCompatible(sourceKind, targetKind) {

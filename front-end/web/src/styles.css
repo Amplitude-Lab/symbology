@@ -146,6 +146,8 @@ tr:hover td { background: #fafbfc; }
   background: #fff; border: 1.5px solid var(--border); border-radius: 8px; min-width: 170px;
   font-size: 12px; box-shadow: var(--shadow);
 }
+.group-node { background: #f1f5f9; border-style: dashed; border-width: 2px; min-width: 150px; }
+.group-node .node-title { color: #475569; }
 .node-card .node-title {
   font-weight: 600; padding: 6px 10px; border-bottom: 1px solid var(--border);
   border-radius: 7px 7px 0 0; font-size: 12px;
@@ -173,6 +175,7 @@ tr:hover td { background: #fafbfc; }
 .kind-badge.wolfram { background: #fee2e2; color: #b91c1c; }
 .kind-badge.bootstrap { background: #dbeafe; color: #1d4ed8; }
 .kind-badge.tensor_add { background: #dcfce7; color: #15803d; }
+.kind-badge.tensor_ops { background: #fef3c7; color: #b45309; }
 
 .toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);

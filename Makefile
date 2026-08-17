@@ -34,10 +34,14 @@ compute_rhs: compute_rhs.cpp compute_rhs.hpp tensor_shuffle.h bootstrap.hpp proj
 tensor_add: tensor_add.cpp tensor_shuffle.h
 	$(CXX) tensor_add.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
+# tensor_ops executable (ternary contraction, matrix power, tensor join)
+tensor_ops: tensor_ops.cpp
+	$(CXX) tensor_ops.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
+
 # inspect_tensors diagnostic tool
 inspect_tensors: inspect_tensors.cpp bootstrap.hpp projection.hpp tensor_shuffle.h
 	$(CXX) inspect_tensors.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
 # clean target
 clean:
-	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors tensor_add
+	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors tensor_add tensor_ops

@@ -57,6 +57,9 @@ function OpNode({ type, data, selected }) {
     : type === 'solve_collinear' ? `${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
     : type === 'add_tensors' ? `${data.weight_a || '1'}·A + ${data.weight_b || '1'}·B → ${data.target || '…'}`
+    : type === 'apply_symmetry' ? `→ ${data.target || '…'}`
+    : type === 'matrix_power' ? `M^${data.n || '?'} → ${data.target || '…'}`
+    : type === 'tensor_join' ? `axis ${data.axis || '?'} → ${data.target || '…'}`
     : ''
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
@@ -98,18 +101,37 @@ const nodeTypes = {
   solve_collinear: (p) => <OpNode {...p} type="solve_collinear" />,
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
   add_tensors: (p) => <OpNode {...p} type="add_tensors" />,
+  apply_symmetry: (p) => <OpNode {...p} type="apply_symmetry" />,
+  matrix_power: (p) => <OpNode {...p} type="matrix_power" />,
+  tensor_join: (p) => <OpNode {...p} type="tensor_join" />,
+  groupBox: GroupNode,
 }
 
-function Inspector({ node, onChange, onDelete }) {
+function Inspector({ node, onChange, onDelete, groupOps }) {
   const { project } = useProject()
   if (!node) return (
     <div>
       <p className="muted">Select a node to edit its parameters.</p>
-      <p className="muted" style={{ fontSize: 11 }}>Tip: click a node or edge, then press Delete/Backspace — or use the Delete button here — to remove it.</p>
+      <p className="muted" style={{ fontSize: 11 }}>Tips: Shift+drag or Cmd/Ctrl+click selects multiple blocks · Cmd/Ctrl+C / V / D copy, paste, duplicate · Delete removes the selection.</p>
     </div>
   )
+  if (node.type === 'groupBox') {
+    const g = groupOps.groups.find((x) => x.id === node.id)
+    return (
+      <div>
+        <label>Group name</label>
+        <input value={g?.name || ''} onChange={(e) => groupOps.onRename(node.id, e.target.value)} />
+        <p className="muted">Collapsed group of {(g?.node_ids || []).length} blocks. Wires crossing the group boundary are shown dashed.</p>
+        <div className="row" style={{ marginTop: 8 }}>
+          <button className="small" onClick={() => groupOps.onExpand(node.id)}>Expand</button>
+          <button className="small danger" onClick={() => groupOps.onUngroup(node.id)}>Ungroup</button>
+        </div>
+      </div>
+    )
+  }
   const d = node.data || {}
   const set = (patch) => onChange(node.id, patch)
+  const myGroup = groupOps.groups.find((g) => !g.collapsed && g.node_ids.includes(node.id))
 
   if (node.type === 'alphabet') {
     const alphabet = project?.alphabets.find((a) => a.id === d.alphabet_id)
@@ -147,6 +169,11 @@ function Inspector({ node, onChange, onDelete }) {
           </>
         )}
         <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+          {myGroup && (
+            <button className="small" style={{ marginBottom: 8 }} onClick={() => groupOps.onCollapse(myGroup.id)}>
+              Collapse group “{myGroup.name}”
+            </button>
+          )}
           <button className="danger" onClick={() => onDelete(node.id)}>Delete this node</button>
         </div>
       </div>
@@ -219,9 +246,39 @@ function Inspector({ node, onChange, onDelete }) {
           <p className="muted" style={{ fontSize: 11 }}>Computes wA·A + wB·B with exact rational arithmetic (tensor_add). A and B must have identical dimensions (same kind and weight).</p>
         </>
       )}
+      {node.type === 'apply_symmetry' && (
+        <>
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_2_sym" />
+          <p className="muted" style={{ fontSize: 11 }}>TernaryContracts: contracts trans1 with the 2nd-to-last axis and trans2 with the last axis of the rank-3 input tensor (T&apos;[a,b&apos;,c&apos;] = Σ T·M1·M2), exact rational arithmetic via tensor_ops.</p>
+        </>
+      )}
+      {node.type === 'matrix_power' && (
+        <>
+          <label>Power n (non-negative integer)</label>
+          <input value={d.n || ''} onChange={(e) => set({ n: e.target.value })} placeholder="2" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. cyc2" />
+          <p className="muted" style={{ fontSize: 11 }}>M^n with exact rational arithmetic (binary exponentiation). n=0 gives the identity. Use it to generate group elements M, M², … feeding Apply Symmetry.</p>
+        </>
+      )}
+      {node.type === 'tensor_join' && (
+        <>
+          <label>Axis (1-based; negative counts from the end)</label>
+          <input value={d.axis || ''} onChange={(e) => set({ axis: e.target.value })} placeholder="1 = first entry, -1 = last entry" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_1_joined" />
+          <p className="muted" style={{ fontSize: 11 }}>Like Mathematica Join: all dimensions except the join axis must match; the join axis dimension grows.</p>
+        </>
+      )}
       {node.type === 'merge_conditions' && <p className="muted">Connect two or more dlogmat outputs (integrability, extended Steinmann, cluster adjacency) to merge them into a single condition tensor.</p>}
       {node.type === 'sew' && <p className="muted">Combines a condition tensor, an FEC tensor of weight F and an LEC tensor of weight L into SEW_FpL.</p>}
       <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+        {myGroup && (
+          <button className="small" style={{ marginBottom: 8 }} onClick={() => groupOps.onCollapse(myGroup.id)}>
+            Collapse group “{myGroup.name}”
+          </button>
+        )}
         <button className="danger" onClick={() => onDelete(node.id)}>Delete this node</button>
       </div>
     </div>
@@ -263,6 +320,24 @@ function CompilePanel({ result, onRun, running }) {
 }
 
 let nodeSeq = 1
+let groupSeq = 1
+let pasteCount = 0
+let canvasClipboard = null
+
+function GroupNode({ data }) {
+  return (
+    <div className="node-card group-node">
+      <div className="node-title">▣ {data.name || 'Group'}</div>
+      <div className="node-sub muted">{data.count || 0} block{(data.count || 0) === 1 ? '' : 's'} collapsed</div>
+      <Handle type="target" position={Position.Left} id="in" style={{ top: '50%' }} />
+      <Handle type="source" position={Position.Right} id="out" style={{ top: '50%' }} />
+    </div>
+  )
+}
+
+function groupBoxNode(g, extra = {}) {
+  return { id: g.id, type: 'groupBox', position: g.position, data: { group_id: g.id, name: g.name, count: g.node_ids.length }, ...extra }
+}
 
 function FlowEditorInner() {
   const { fid } = useParams()
@@ -277,6 +352,8 @@ function FlowEditorInner() {
   const [running, setRunning] = useState(false)
   const [flowName, setFlowName] = useState('')
   const [saveState, setSaveState] = useState('saved')
+  const [groups, setGroups] = useState([])
+  const [selCount, setSelCount] = useState(0)
   const rf = useRef(null)
   const wrapper = useRef(null)
   const skipAutosave = useRef(true)
@@ -287,7 +364,18 @@ function FlowEditorInner() {
     if (flow) {
       skipAutosave.current = true
       setFlowName(flow.name)
-      setNodes(flow.graph?.nodes || [])
+      const gr = (flow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
+      let ns = flow.graph?.nodes || []
+      for (const g of gr) {
+        const num = parseInt(String(g.id).replace(/\D/g, ''), 10)
+        if (!Number.isNaN(num)) groupSeq = Math.max(groupSeq, num + 1)
+        if (!g.collapsed) continue
+        const ids = new Set(g.node_ids)
+        ns = ns.map((n) => (ids.has(n.id) ? { ...n, hidden: true } : n))
+        ns = ns.concat(groupBoxNode(g))
+      }
+      setGroups(gr)
+      setNodes(ns)
       setEdges(flow.graph?.edges || [])
       setCompileResult(null)
       setSaveState('saved')
@@ -295,9 +383,10 @@ function FlowEditorInner() {
   }, [flow?.id]) // eslint-disable-line
 
   const serializeGraph = useCallback(() => ({
-    nodes: nodes.map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
+    nodes: nodes.filter((n) => n.type !== 'groupBox').map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
     edges: edges.map((e) => ({ id: e.id, source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle })),
-  }), [nodes, edges])
+    groups: groups.filter((g) => g.node_ids.some((id) => nodes.some((n) => n.id === id && n.type !== 'groupBox'))),
+  }), [nodes, edges, groups])
 
   useEffect(() => {
     if (!flow) return undefined
@@ -313,14 +402,15 @@ function FlowEditorInner() {
       }
     }, 800)
     return () => clearTimeout(t)
-  }, [nodes, edges, flowName]) // eslint-disable-line
+  }, [nodes, edges, flowName, groups]) // eslint-disable-line
 
   const resolveSourceKind = useCallback((nodeId, handleId, depth = 0) => {
     const node = nodes.find((n) => n.id === nodeId)
     if (!node) return null
-    if (node.type === 'add_tensors' && handleId === 'out') {
+    if (handleId === 'out' && (node.type === 'add_tensors' || node.type === 'tensor_join' || node.type === 'apply_symmetry')) {
       if (depth > 8) return 'tensor'
-      const e = edges.find((ed) => ed.target === nodeId && (ed.targetHandle === 'a' || ed.targetHandle === 'b'))
+      const handle = node.type === 'apply_symmetry' ? 'tensor' : 'a'
+      const e = edges.find((ed) => ed.target === nodeId && (ed.targetHandle === handle || (handle === 'a' && ed.targetHandle === 'b')))
       return e ? resolveSourceKind(e.source, e.sourceHandle, depth + 1) : 'tensor'
     }
     return sourceKindFor(node, handleId, project)
@@ -389,31 +479,163 @@ function FlowEditorInner() {
     setCompileResult(null)
   }, [setNodes])
 
+  const groupOf = useMemo(() => {
+    const m = new Map()
+    for (const g of groups) if (g.collapsed) for (const id of g.node_ids) m.set(id, g.id)
+    return m
+  }, [groups])
+
+  const visibleEdges = useMemo(() => {
+    const out = []
+    for (const e of edges) {
+      const gs = groupOf.get(e.source)
+      const gt = groupOf.get(e.target)
+      if (gs && gt && gs === gt) continue
+      if (!gs && !gt) { out.push(e); continue }
+      out.push({
+        ...e,
+        id: `px_${e.id}`,
+        source: gs || e.source,
+        sourceHandle: gs ? 'out' : e.sourceHandle,
+        target: gt || e.target,
+        targetHandle: gt ? 'in' : e.targetHandle,
+        selectable: false,
+        focusable: false,
+        style: { ...e.style, strokeDasharray: '6 3', opacity: 0.7 },
+      })
+    }
+    return out
+  }, [edges, groupOf])
+
+  const groupSelection = useCallback(() => {
+    const members = nodes.filter((n) => n.selected && n.type !== 'groupBox' && !n.hidden)
+    if (members.length < 2) return
+    const gid = `group_${groupSeq++}`
+    const minX = Math.min(...members.map((n) => n.position.x))
+    const minY = Math.min(...members.map((n) => n.position.y))
+    const memberIds = members.map((n) => n.id)
+    const g = { id: gid, name: `Group ${groupSeq - 1}`, node_ids: memberIds, collapsed: true, position: { x: minX, y: minY } }
+    setNodes((ns) => ns
+      .map((n) => (memberIds.includes(n.id) ? { ...n, hidden: true, selected: false } : n))
+      .concat(groupBoxNode(g, { selected: true })))
+    setGroups((gs) => [...gs, g])
+    setSelectedId(gid)
+    setCompileResult(null)
+  }, [nodes, setNodes])
+
+  const expandGroup = useCallback((gid, dissolve = false) => {
+    const g = groups.find((x) => x.id === gid)
+    if (!g) return
+    const ids = new Set(g.node_ids)
+    setNodes((ns) => ns.filter((n) => n.id !== gid).map((n) => (ids.has(n.id) ? { ...n, hidden: undefined } : n)))
+    setGroups((gs) => (dissolve ? gs.filter((x) => x.id !== gid) : gs.map((x) => (x.id === gid ? { ...x, collapsed: false } : x))))
+    setSelectedId(null)
+    setCompileResult(null)
+  }, [groups, setNodes])
+
+  const collapseGroup = useCallback((gid) => {
+    const g = groups.find((x) => x.id === gid)
+    if (!g) return
+    const ids = new Set(g.node_ids)
+    const members = nodes.filter((n) => ids.has(n.id))
+    if (!members.length) return
+    const minX = Math.min(...members.map((n) => n.position.x))
+    const minY = Math.min(...members.map((n) => n.position.y))
+    setNodes((ns) => ns
+      .map((n) => (ids.has(n.id) ? { ...n, hidden: true, selected: false } : n))
+      .concat(groupBoxNode({ ...g, position: { x: minX, y: minY } })))
+    setGroups((gs) => gs.map((x) => (x.id === gid ? { ...x, collapsed: true, position: { x: minX, y: minY } } : x)))
+    setCompileResult(null)
+  }, [groups, nodes, setNodes])
+
+  const renameGroup = useCallback((gid, name) => {
+    setGroups((gs) => gs.map((x) => (x.id === gid ? { ...x, name } : x)))
+    setNodes((ns) => ns.map((n) => (n.id === gid && n.type === 'groupBox' ? { ...n, data: { ...n.data, name } } : n)))
+  }, [setNodes])
+
+  const onNodeDragStop = useCallback((e, node) => {
+    if (node.type !== 'groupBox') return
+    const g = groups.find((x) => x.id === node.id)
+    if (!g || !g.position) return
+    const dx = node.position.x - g.position.x
+    const dy = node.position.y - g.position.y
+    if (!dx && !dy) return
+    const ids = new Set(g.node_ids)
+    setNodes((ns) => ns.map((n) => (ids.has(n.id) ? { ...n, position: { x: n.position.x + dx, y: n.position.y + dy } } : n)))
+    setGroups((gs) => gs.map((x) => (x.id === node.id ? { ...x, position: { x: node.position.x, y: node.position.y } } : x)))
+  }, [groups, setNodes])
+
+  const copySelection = useCallback(() => {
+    const sel = nodes.filter((n) => n.selected && n.type !== 'groupBox' && !n.hidden)
+    if (!sel.length) return false
+    const ids = new Set(sel.map((n) => n.id))
+    canvasClipboard = {
+      nodes: sel.map((n) => ({ id: n.id, type: n.type, position: { ...n.position }, data: JSON.parse(JSON.stringify(n.data || {})) })),
+      edges: edges.filter((ed) => ids.has(ed.source) && ids.has(ed.target))
+        .map((ed) => ({ id: ed.id, source: ed.source, sourceHandle: ed.sourceHandle, target: ed.target, targetHandle: ed.targetHandle })),
+    }
+    return true
+  }, [nodes, edges])
+
+  const pasteClipboard = useCallback(() => {
+    if (!canvasClipboard?.nodes?.length) return
+    pasteCount += 1
+    const off = 40 * pasteCount
+    const idMap = new Map()
+    const newNodes = canvasClipboard.nodes.map((n) => {
+      const nid = `${n.type}_${nodeSeq++}`
+      idMap.set(n.id, nid)
+      return { id: nid, type: n.type, position: { x: n.position.x + off, y: n.position.y + off }, data: JSON.parse(JSON.stringify(n.data)), selected: true }
+    })
+    const newEdges = canvasClipboard.edges
+      .filter((ed) => idMap.has(ed.source) && idMap.has(ed.target))
+      .map((ed) => ({ id: `edge_${nodeSeq++}`, source: idMap.get(ed.source), sourceHandle: ed.sourceHandle, target: idMap.get(ed.target), targetHandle: ed.targetHandle }))
+    setNodes((ns) => ns.map((n) => ({ ...n, selected: false })).concat(newNodes))
+    setEdges((es) => es.concat(newEdges))
+    setCompileResult(null)
+    toast(`Pasted ${newNodes.length} node${newNodes.length === 1 ? '' : 's'}.`)
+  }, [setNodes, setEdges, toast])
+
   const deleteNode = useCallback((id) => {
+    const node = nodes.find((n) => n.id === id)
+    if (node?.type === 'groupBox') { expandGroup(id); return }
     setNodes((ns) => ns.filter((n) => n.id !== id))
     setEdges((es) => es.filter((e) => e.source !== id && e.target !== id))
+    setGroups((gs) => gs.map((g) => ({ ...g, node_ids: g.node_ids.filter((x) => x !== id) })))
     setSelectedId(null)
     setCompileResult(null)
     toast('Node deleted.')
-  }, [setNodes, setEdges, toast])
+  }, [nodes, setNodes, setEdges, expandGroup, toast])
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key !== 'Delete' && e.key !== 'Backspace') return
       const t = e.target
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return
-      const nodeIds = new Set(nodes.filter((n) => n.selected).map((n) => n.id))
+      const mod = e.metaKey || e.ctrlKey
+      if (mod && (e.key === 'c' || e.key === 'C')) {
+        if (copySelection()) toast('Selection copied.')
+        e.preventDefault()
+        return
+      }
+      if (mod && (e.key === 'v' || e.key === 'V')) { pasteClipboard(); e.preventDefault(); return }
+      if (mod && (e.key === 'd' || e.key === 'D')) { if (copySelection()) pasteClipboard(); e.preventDefault(); return }
+      if (e.key !== 'Delete' && e.key !== 'Backspace') return
+      const selected = nodes.filter((n) => n.selected)
+      const groupIds = selected.filter((n) => n.type === 'groupBox').map((n) => n.id)
+      const nodeIds = new Set(selected.filter((n) => n.type !== 'groupBox').map((n) => n.id))
       const edgeIds = new Set(edges.filter((ed) => ed.selected).map((ed) => ed.id))
-      if (!nodeIds.size && !edgeIds.size) return
+      if (!nodeIds.size && !edgeIds.size && !groupIds.length) return
       e.preventDefault()
+      for (const gid of groupIds) expandGroup(gid)
       setNodes((ns) => ns.filter((n) => !nodeIds.has(n.id)))
       setEdges((es) => es.filter((ed) => !edgeIds.has(ed.id) && !nodeIds.has(ed.source) && !nodeIds.has(ed.target)))
+      setGroups((gs) => gs.map((g) => ({ ...g, node_ids: g.node_ids.filter((x) => !nodeIds.has(x)) })))
       setSelectedId(null)
       setCompileResult(null)
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [nodes, edges, setNodes, setEdges])
+  }, [nodes, edges, setNodes, setEdges, copySelection, pasteClipboard, expandGroup, toast])
 
   const selectedNode = nodes.find((n) => n.id === selectedId)
 
@@ -448,15 +670,23 @@ function FlowEditorInner() {
           <button className="primary" onClick={compile}>Run…</button>
         </div>
         <ReactFlow
-          nodes={nodes} edges={edges}
+          nodes={nodes} edges={visibleEdges}
           onNodesChange={(chg) => { onNodesChange(chg); setCompileResult(null) }}
           onEdgesChange={(chg) => { onEdgesChange(chg); setCompileResult(null) }}
           onConnect={onConnect}
           isValidConnection={isValidConnection}
           nodeTypes={nodeTypes}
           onInit={(inst) => { rf.current = inst }}
-          onSelectionChange={(sel) => setSelectedId(sel.nodes[0]?.id || null)}
-          deleteKeyCode={['Backspace', 'Delete']}
+          onSelectionChange={(sel) => {
+            setSelectedId(sel.nodes[0]?.id || null)
+            setSelCount(sel.nodes.filter((n) => n.type !== 'groupBox').length)
+          }}
+          onNodeDragStop={onNodeDragStop}
+          deleteKeyCode={null}
+            selectionOnDrag
+            panOnDrag={[1, 2]}
+            selectionKeyCode="Shift"
+            multiSelectionKeyCode={['Meta', 'Control']}
           fitView
         >
           <Background gap={18} />
@@ -468,7 +698,14 @@ function FlowEditorInner() {
           <button className={sideTab === 'inspector' ? 'primary' : ''} onClick={() => setSideTab('inspector')}>Inspector</button>
           <button className={sideTab === 'plan' ? 'primary' : ''} onClick={() => setSideTab('plan')}>Plan</button>
         </div>
-        {sideTab === 'inspector' && <Inspector node={selectedNode} onChange={updateNodeData} onDelete={deleteNode} />}
+        {sideTab === 'inspector' && (
+          <Inspector
+            node={selectedNode}
+            onChange={updateNodeData}
+            onDelete={deleteNode}
+            groupOps={{ groups, onExpand: (id) => expandGroup(id), onUngroup: (id) => expandGroup(id, true), onCollapse: collapseGroup, onRename: renameGroup }}
+          />
+        )}
         {sideTab === 'plan' && (
           compileResult
             ? <CompilePanel result={compileResult} onRun={run} running={running} />

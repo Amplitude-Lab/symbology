@@ -59,6 +59,14 @@ def find_tensor_add() -> str | None:
     return None
 
 
+def find_tensor_ops() -> str | None:
+    for name in ("tensor_ops", "tensor_ops.exe"):
+        p = REPO_ROOT / name
+        if p.exists() and os.access(p, os.X_OK):
+            return str(p)
+    return None
+
+
 def env_status() -> dict:
     ws = find_wolframscript()
     bs = find_bootstrap()
@@ -68,5 +76,6 @@ def env_status() -> dict:
         "bootstrap": {"found": bs is not None, "path": bs},
         "compute_rhs": {"found": find_compute_rhs() is not None, "path": find_compute_rhs()},
         "tensor_add": {"found": find_tensor_add() is not None, "path": find_tensor_add()},
+        "tensor_ops": {"found": find_tensor_ops() is not None, "path": find_tensor_ops()},
         "projects_dir": str(PROJECTS_DIR),
     }

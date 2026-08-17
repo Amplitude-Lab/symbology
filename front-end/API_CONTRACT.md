@@ -87,6 +87,11 @@ Node `type` values and `data`:
 | `solve_collinear` | `{"target": "SEW_3p1", "rhs": "boundary_2L.wxf", "projection": "finite"}` | output `solution` |
 | `compute_rhs` | `{"loops": 2}` | output `boundary` |
 | `add_tensors` | `{"weight_a": "1", "weight_b": "-1", "target": "SEW_3p1_total"}` | inputs `a`, `b` (any tensor kind, must match in kind and weight); output `out` carrying the inputs' kind/weight; runs `tensor_add A B wA wB out` |
+| `apply_symmetry` | `{"target": "FEC_2_sym"}` | inputs `tensor` (rank-3: fec1/fec/lec1/lec/sew), `trans1`, `trans2` (matrix); TernaryContracts on the last two entries; runs `tensor_ops ternary T M1 M2 out` |
+| `matrix_power` | `{"n": 2, "target": "cyc2"}` | input `matrix`; output `matrix`; runs `tensor_ops power M n out` |
+| `tensor_join` | `{"axis": -1, "target": "FEC_1_dup"}` | inputs `a`, `b` (same kind); output keeps the kind (weight unset); runs `tensor_ops join A B axis out`; axis 1-based, negative counts from the end |
+
+Graphs may also carry a `groups` array (`{"id","name","node_ids","collapsed","position"}`) for collapsible canvas groups; groups are view-only and are expanded to their member nodes at compile time.
 
 Edges: `{"id", "source", "sourceHandle", "target", "targetHandle"}`.
 Tensor-kind compatibility (validated at compile time):

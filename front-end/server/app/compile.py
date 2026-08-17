@@ -5,7 +5,7 @@ import shlex
 from pathlib import Path
 
 from . import storage
-from .config import find_bootstrap, find_compute_rhs, find_tensor_add, find_wolframscript
+from .config import find_bootstrap, find_compute_rhs, find_tensor_add, find_tensor_ops, find_wolframscript
 from .wolfram import PROP_KIND, merge_script, property_display_name, property_script, property_tensor_relpath
 
 TENSOR_KINDS = {"dlogmat", "fec1", "fec", "lec1", "lec", "sew", "matrix", "basis", "solution", "boundary"}
@@ -23,6 +23,12 @@ EDGE_RULES = {
     ("solve_collinear", "seed"): {"fec1", "fec", "sew"},
     ("add_tensors", "a"): TENSOR_KINDS,
     ("add_tensors", "b"): TENSOR_KINDS,
+    ("apply_symmetry", "tensor"): {"fec1", "fec", "lec1", "lec", "sew"},
+    ("apply_symmetry", "trans1"): {"matrix"},
+    ("apply_symmetry", "trans2"): {"matrix"},
+    ("matrix_power", "matrix"): {"matrix"},
+    ("tensor_join", "a"): TENSOR_KINDS,
+    ("tensor_join", "b"): TENSOR_KINDS,
 }
 
 SYMMETRIES = {"collinear", "cyclic", "flip", "parity"}
@@ -54,6 +60,7 @@ def compile_flow(proj: dict, graph: dict) -> dict:
     bootstrap = find_bootstrap()
     compute_rhs_bin = find_compute_rhs()
     tensor_add_bin = find_tensor_add()
+    tensor_ops_bin = find_tensor_ops()
 
     if not nodes:
         return {"ok": False, "errors": ["The flow is empty. Add at least one node."], "steps": []}
@@ -112,6 +119,12 @@ def compile_flow(proj: dict, graph: dict) -> dict:
             _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir)
         elif ntype == "add_tensors":
             _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_bin, proj_dir)
+        elif ntype == "apply_symmetry":
+            _compile_apply_symmetry(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "matrix_power":
+            _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "tensor_join":
+            _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         else:
             errors.append(f"Unknown node type '{ntype}'.")
 
@@ -478,3 +491,115 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
         {"type": "add_tensors", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": a.get("weight"), "name": target}
+
+
+def _require_target(data, what, errors):
+    target = (data.get("target") or "").strip()
+    if not target:
+        errors.append(f"A {what} node needs a target name for the output tensor.")
+        return None
+    return target
+
+
+def _compile_apply_symmetry(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    tensor = _edge_input(provides, incoming, nid, "tensor")
+    m1 = _edge_input(provides, incoming, nid, "trans1")
+    m2 = _edge_input(provides, incoming, nid, "trans2")
+    if tensor is None or m1 is None or m2 is None:
+        errors.append("An Apply Symmetry node needs tensor, trans1 and trans2 inputs.")
+        return
+    if m1.get("file") is None or m2.get("file") is None:
+        errors.append("Apply Symmetry: trans1/trans2 must be concrete matrix tensors (a symmetry matrix property or a Matrix Power output).")
+        return
+    target = _require_target(data, "Apply Symmetry", errors)
+    if target is None:
+        return
+    if tensor_ops_bin is None:
+        errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+        return
+    rel = f"output/{target}.wxf"
+    add_step(
+        f"Apply symmetry to {tensor['name']} -> {target}",
+        "tensor_ops",
+        [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]), _abs(proj_dir, m1["file"]), _abs(proj_dir, m2["file"]), _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "apply_symmetry", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"), "name": target}
+
+
+def _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    mat = _edge_input(provides, incoming, nid, "matrix")
+    if mat is None:
+        errors.append("A Matrix Power node needs a matrix input.")
+        return
+    if mat.get("file") is None:
+        errors.append("Matrix Power: the matrix input must be a concrete matrix tensor (a symmetry matrix property or another Matrix Power output).")
+        return
+    try:
+        n = int(str(data.get("n") or "").strip())
+        if n < 0:
+            raise ValueError
+    except ValueError:
+        errors.append("Matrix Power: n must be a non-negative integer.")
+        return
+    target = _require_target(data, "Matrix Power", errors)
+    if target is None:
+        return
+    if tensor_ops_bin is None:
+        errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+        return
+    rel = f"output/{target}.wxf"
+    add_step(
+        f"Matrix power {mat['name']}^{n} -> {target}",
+        "tensor_ops",
+        [tensor_ops_bin, "power", _abs(proj_dir, mat["file"]), str(n), _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "matrix_power", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": "matrix", "file": rel, "weight": None, "name": target}
+
+
+def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    a = _edge_input(provides, incoming, nid, "a")
+    b = _edge_input(provides, incoming, nid, "b")
+    if a is None or b is None:
+        errors.append("A Join Tensors node needs both A and B inputs.")
+        return
+    if a["kind"] != b["kind"]:
+        errors.append(f"Join Tensors requires two tensors of the same kind, got '{a['kind']}' and '{b['kind']}'.")
+        return
+    try:
+        axis = int(str(data.get("axis") or "").strip())
+        if axis == 0:
+            raise ValueError
+    except ValueError:
+        errors.append("Join Tensors: axis must be a nonzero integer (1-based; negative counts from the end).")
+        return
+    target = _require_target(data, "Join Tensors", errors)
+    if target is None:
+        return
+    if tensor_ops_bin is None:
+        errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+        return
+    rel = f"output/{target}.wxf"
+    add_step(
+        f"Join {a['name']} + {b['name']} along axis {axis} -> {target}",
+        "tensor_ops",
+        [tensor_ops_bin, "join", _abs(proj_dir, a["file"]), _abs(proj_dir, b["file"]), str(axis), _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "tensor_join", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target}
