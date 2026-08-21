@@ -11,6 +11,12 @@ from .config import PROJECTS_DIR
 
 _lock = threading.RLock()
 
+_PID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
+
+
+def _valid_pid(pid: str) -> bool:
+    return bool(_PID_RE.match(pid or ""))
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -63,6 +69,8 @@ def create_project(name: str) -> dict:
 
 def load_project(pid: str) -> dict | None:
     with _lock:
+        if not _valid_pid(pid):
+            return None
         f = _project_file(pid)
         if not f.exists():
             return None
@@ -79,6 +87,8 @@ def save_project(proj: dict) -> None:
 
 def delete_project(pid: str) -> bool:
     with _lock:
+        if not _valid_pid(pid):
+            return False
         pdir = project_dir(pid)
         if not pdir.exists():
             return False

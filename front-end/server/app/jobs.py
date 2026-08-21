@@ -109,6 +109,10 @@ class Engine:
             pass
 
     def _execute(self, run: Run) -> None:
+        if run.status == "cancelled":
+            run.emit("end", {})
+            self._persist(run)
+            return
         run.status = "running"
         run.emit("status", {"status": "running"})
         self._persist(run)

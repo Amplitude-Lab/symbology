@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import subprocess
 import uuid
+from pathlib import Path
 
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,7 +11,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 
 from . import storage, templates
 from .compile import compile_flow
-from .config import WEB_DIST, env_status, find_wolframscript
+from .config import WEB_DIST, env_status, find_tensor_ops, find_wolframscript
 from .jobs import engine
 from .wolfram import property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
 
@@ -26,6 +27,19 @@ app.add_middleware(
 @app.on_event("startup")
 def _startup() -> None:
     storage.init_dirs()
+
+
+@app.post("/api/client-log")
+def api_client_log(body: dict = Body(...)) -> dict:
+    from datetime import datetime, timezone
+    entry = {"ts": datetime.now(timezone.utc).isoformat(), **{k: body.get(k) for k in ("kind", "message", "stack", "url", "ua")}}
+    log_file = storage.PROJECTS_DIR / "_client_errors.log"
+    try:
+        with open(log_file, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+    except OSError:
+        pass
+    return {"ok": True}
 
 
 def _get_project(pid: str) -> dict:
@@ -90,6 +104,10 @@ def api_create_alphabet(pid: str, body: dict = Body(...)) -> dict:
     letters = [s.strip() for s in (body.get("letters") or []) if str(s).strip()]
     if not body.get("name") or not letters:
         raise HTTPException(400, "alphabet name and letters are required")
+    if len(set(letters)) != len(letters):
+        raise HTTPException(400, "letters must be unique")
+    if any(a["name"] == body["name"] for a in proj.get("alphabets", [])):
+        raise HTTPException(400, f"an alphabet named '{body['name']}' already exists in this project")
     alpha = {
         "id": uuid.uuid4().hex[:8],
         "name": body["name"],
@@ -245,12 +263,34 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
     prop = storage.find_property(alpha, prop_id)
     if prop is None:
         raise HTTPException(404, "property not found")
+    if prop["type"] == "precomputed_tensor":
+        raise HTTPException(400, "a precomputed tensor is a shipped file and cannot be recomputed")
     step = _property_step(proj, alpha, prop)
+    steps = [step]
+    if prop["type"] in ("first_entry", "last_entry"):
+        tensor_ops = find_tensor_ops()
+        if tensor_ops is not None:
+            proj_dir = storage.project_dir(proj["id"])
+            rel = step["meta"]["tensor_file"]
+            proj_rel = f"data/{Path(rel).stem}_proj.wxf"
+            steps.append({
+                "id": "step-2",
+                "label": f"Derive projection map {Path(rel).stem} -> {Path(proj_rel).stem} (drop size-1 axis)",
+                "kind": "tensor_ops",
+                "command": f"{tensor_ops} squeeze {proj_dir / rel} {proj_dir / proj_rel}",
+                "argv": [tensor_ops, "squeeze", str(proj_dir / rel), str(proj_dir / proj_rel)],
+                "cwd": str(proj_dir),
+                "outputs": [proj_rel],
+                "skip_if_exists": False,
+                "meta": {"type": "squeeze", "tensor_file": proj_rel},
+            })
     prop["status"] = "computing"
     prop["error"] = None
     storage.save_project(proj)
 
     def on_step_done(run, st, result):
+        if st.get("meta", {}).get("type") != "property":
+            return
         p2 = storage.load_project(pid)
         if p2 is None:
             return
@@ -494,5 +534,6 @@ if WEB_DIST.exists():
     def spa(full_path: str):
         candidate = (WEB_DIST / full_path).resolve()
         if full_path and candidate.exists() and candidate.is_file() and str(candidate).startswith(str(WEB_DIST.resolve())):
-            return FileResponse(candidate)
-        return FileResponse(WEB_DIST / "index.html")
+            headers = {"Cache-Control": "public, max-age=31536000, immutable"} if full_path.startswith("assets/") else None
+            return FileResponse(candidate, headers=headers)
+        return FileResponse(WEB_DIST / "index.html", headers={"Cache-Control": "no-cache"})

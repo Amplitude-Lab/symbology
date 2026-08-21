@@ -143,17 +143,17 @@ tr:hover td { background: #fafbfc; }
 .flow-side h3 { margin-top: 0; font-size: 14px; }
 
 .node-card {
-  background: #fff; border: 1.5px solid var(--border); border-radius: 8px; min-width: 170px;
-  font-size: 12px; box-shadow: var(--shadow);
+  background: #fff; border: 1.5px solid var(--border); border-radius: 8px; min-width: 132px;
+  font-size: 9.5px; box-shadow: var(--shadow);
 }
-.group-node { background: #f1f5f9; border-style: dashed; border-width: 2px; min-width: 150px; }
+.group-node { background: #f1f5f9; border-style: dashed; border-width: 2px; min-width: 130px; }
 .group-node .node-title { color: #475569; }
 .node-card .node-title {
-  font-weight: 600; padding: 6px 10px; border-bottom: 1px solid var(--border);
-  border-radius: 7px 7px 0 0; font-size: 12px;
+  font-weight: 600; padding: 3px 8px; border-bottom: 1px solid var(--border);
+  border-radius: 7px 7px 0 0; font-size: 10px;
 }
-.node-card .node-body { padding: 6px 10px; color: var(--muted); }
-.handle-row { position: relative; padding: 3px 0; }
+.node-card .node-body { padding: 3px 8px; color: var(--muted); }
+.handle-row { position: relative; padding: 1px 0; line-height: 13px; white-space: nowrap; }
 
 .kind-dlogmat { color: var(--dlogmat); }
 .kind-fec1, .kind-fec { color: var(--fec); }

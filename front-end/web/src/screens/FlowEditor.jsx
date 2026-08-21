@@ -2,15 +2,19 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactFlow, {
   Background, Controls, Handle, Position, ReactFlowProvider,
-  addEdge, useEdgesState, useNodesState,
+  addEdge, useEdges, useEdgesState, useNodesState, useUpdateNodeInternals,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { api } from '../api'
 import { useProject, useToast } from '../App'
 import {
-  NODE_DEFS, PALETTE, PROP_KIND, propLabel,
+  NODE_DEFS, PALETTE_SECTIONS, PROP_KIND, propLabel,
   kindsCompatible, sourceKindFor, targetKindFor,
 } from '../flowdefs'
+
+const ROW0 = 29
+const ROW_STEP = 15
+const SUB_EXTRA = 15
 
 function StatusDot({ status }) {
   return <span className={`dot ${status || 'pending'}`} />
@@ -20,6 +24,15 @@ function AlphabetNode({ id, data, selected }) {
   const { project } = useProject()
   const alphabet = project?.alphabets.find((a) => a.id === data.alphabet_id)
   const selectedProps = data.selected_properties || []
+  const outRows = []
+  if (alphabet) {
+    for (const p of alphabet.properties.filter((x) => selectedProps.includes(x.id))) {
+      outRows.push({ key: p.id, handle: `prop_${p.id}`, label: propLabel(p), kind: PROP_KIND[p.type], status: p.status })
+      if (p.type === 'first_entry' || p.type === 'last_entry') {
+        outRows.push({ key: `${p.id}_proj`, handle: `proj_${p.id}`, label: `${propLabel(p)} · proj map`, kind: 'matrix', status: p.status })
+      }
+    }
+  }
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
       <div className="node-title" style={{ background: NODE_DEFS.alphabet.color }}>
@@ -28,15 +41,15 @@ function AlphabetNode({ id, data, selected }) {
       <div className="node-body">
         {!alphabet && <span>select in inspector →</span>}
         {alphabet && selectedProps.length === 0 && <span>no outputs selected</span>}
-        {alphabet && alphabet.properties.filter((p) => selectedProps.includes(p.id)).map((p, i) => (
-          <div key={p.id} className="handle-row" style={{ textAlign: 'right' }}>
-            <span className={`kind-${PROP_KIND[p.type]}`}>
-              {propLabel(p)}
+        {outRows.map((r, i) => (
+          <div key={r.key} className="handle-row" style={{ textAlign: 'right' }}>
+            <span className={`kind-${r.kind}`}>
+              {r.label}
             </span>{' '}
-            <StatusDot status={p.status} />
+            <StatusDot status={r.status} />
             <Handle
-              type="source" position={Position.Right} id={`prop_${p.id}`}
-              style={{ top: 52 + i * 22, background: 'var(--accent)' }}
+              type="source" position={Position.Right} id={r.handle}
+              style={{ top: ROW0 + i * ROW_STEP, background: 'var(--accent)' }}
             />
           </div>
         ))}
@@ -57,9 +70,10 @@ function OpNode({ type, data, selected }) {
     : type === 'solve_collinear' ? `${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
     : type === 'add_tensors' ? `${data.weight_a || '1'}·A + ${data.weight_b || '1'}·B → ${data.target || '…'}`
-    : type === 'apply_symmetry' ? `→ ${data.target || '…'}`
+    : (type === 'ternary_contract' || type === 'apply_symmetry') ? `→ ${data.target || '…'}`
     : type === 'matrix_power' ? `M^${data.n || '?'} → ${data.target || '…'}`
     : type === 'tensor_join' ? `axis ${data.axis || '?'} → ${data.target || '…'}`
+    : type === 'impose_integrability' ? `${data.transpose === false ? 'relations among conditions' : 'solve coefficients'} → ${data.target || '…'}`
     : ''
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
@@ -77,15 +91,54 @@ function OpNode({ type, data, selected }) {
         {inputs.map((inp, i) => (
           <Handle
             key={inp.id} type="target" position={Position.Left} id={inp.id}
-            style={{ top: 58 + i * 20 }}
+            style={{ top: (subtitle ? ROW0 + SUB_EXTRA : ROW0) + i * ROW_STEP }}
           />
         ))}
         {outputs.map((out, i) => (
           <Handle
             key={out.id} type="source" position={Position.Right} id={out.id}
-            style={{ top: 58 + i * 20, background: 'var(--accent)' }}
+            style={{ top: (subtitle ? ROW0 + SUB_EXTRA : ROW0) + i * ROW_STEP, background: 'var(--accent)' }}
           />
         ))}
+      </div>
+    </div>
+  )
+}
+
+function AssembleNode({ id, data, selected }) {
+  const edges = useEdges()
+  const updateNodeInternals = useUpdateNodeInternals()
+  const def = NODE_DEFS.assemble
+  let maxConnected = -1
+  for (const e of edges) {
+    if (e.target === id && (e.targetHandle || '').startsWith('in_')) {
+      const idx = parseInt(e.targetHandle.slice(3).split('@')[0], 10)
+      if (!Number.isNaN(idx)) maxConnected = Math.max(maxConnected, idx)
+    }
+  }
+  const slots = Math.max(def.inputs.length, maxConnected + 2)
+  useEffect(() => { updateNodeInternals(id) }, [id, slots, updateNodeInternals])
+  return (
+    <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
+      <div className="node-title" style={{ background: def.color }}>{def.title}</div>
+      <div className="node-body">
+        <div style={{ marginBottom: 2 }}>{`A = Σc·B → ${data.target || '…'}`}</div>
+        {Array.from({ length: slots }).map((_, i) => (
+          <div key={i} className="handle-row" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span className="kind-tensor">elem {i + 1}</span>
+            <span className={i === 0 ? 'kind-tensor' : ''}>{i === 0 ? def.outputs[0].label : ''}</span>
+          </div>
+        ))}
+        {Array.from({ length: slots }).map((_, i) => (
+          <Handle
+            key={`in_${i}`} type="target" position={Position.Left} id={`in_${i}`}
+            style={{ top: ROW0 + SUB_EXTRA + i * ROW_STEP }}
+          />
+        ))}
+        <Handle
+          type="source" position={Position.Right} id="out"
+          style={{ top: ROW0 + SUB_EXTRA, background: 'var(--accent)' }}
+        />
       </div>
     </div>
   )
@@ -101,9 +154,12 @@ const nodeTypes = {
   solve_collinear: (p) => <OpNode {...p} type="solve_collinear" />,
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
   add_tensors: (p) => <OpNode {...p} type="add_tensors" />,
+  ternary_contract: (p) => <OpNode {...p} type="ternary_contract" />,
   apply_symmetry: (p) => <OpNode {...p} type="apply_symmetry" />,
   matrix_power: (p) => <OpNode {...p} type="matrix_power" />,
   tensor_join: (p) => <OpNode {...p} type="tensor_join" />,
+  impose_integrability: (p) => <OpNode {...p} type="impose_integrability" />,
+  assemble: AssembleNode,
   groupBox: GroupNode,
 }
 
@@ -165,7 +221,7 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
               </div>
             ))}
             {!alphabet.properties.length && <p className="muted">This alphabet has no properties yet — add them on the Materials screen.</p>}
-            <p className="muted" style={{ fontSize: 11 }}>Properties that are not ready will be computed automatically when the flow runs.</p>
+            <p className="muted" style={{ fontSize: 11 }}>Properties that are not ready will be computed automatically when the flow runs. First/Last Entry outputs also expose a “proj map” matrix output: the rank-3 tensor with its size-1 axis dropped (e.g. (a,1,b) → (a,b)), derived automatically as a named matrix.</p>
           </>
         )}
         <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
@@ -246,11 +302,11 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
           <p className="muted" style={{ fontSize: 11 }}>Computes wA·A + wB·B with exact rational arithmetic (tensor_add). A and B must have identical dimensions (same kind and weight).</p>
         </>
       )}
-      {node.type === 'apply_symmetry' && (
+      {(node.type === 'ternary_contract' || node.type === 'apply_symmetry') && (
         <>
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_2_sym" />
-          <p className="muted" style={{ fontSize: 11 }}>TernaryContracts: contracts trans1 with the 2nd-to-last axis and trans2 with the last axis of the rank-3 input tensor (T&apos;[a,b&apos;,c&apos;] = Σ T·M1·M2), exact rational arithmetic via tensor_ops.</p>
+          <p className="muted" style={{ fontSize: 11 }}>TernaryContract: contracts trans1 with the 2nd-to-last axis and trans2 with the last axis of the rank-3 input tensor (T&apos;[a,b&apos;,c&apos;] = Σ T·M1·M2), exact rational arithmetic via tensor_ops. The transformations can be any matrices — symmetry transformations included.</p>
         </>
       )}
       {node.type === 'matrix_power' && (
@@ -259,7 +315,7 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
           <input value={d.n || ''} onChange={(e) => set({ n: e.target.value })} placeholder="2" />
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. cyc2" />
-          <p className="muted" style={{ fontSize: 11 }}>M^n with exact rational arithmetic (binary exponentiation). n=0 gives the identity. Use it to generate group elements M, M², … feeding Apply Symmetry.</p>
+          <p className="muted" style={{ fontSize: 11 }}>M^n with exact rational arithmetic (binary exponentiation). n=0 gives the identity. Use it to generate group elements M, M², … feeding Ternary Contract.</p>
         </>
       )}
       {node.type === 'tensor_join' && (
@@ -269,6 +325,44 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_1_joined" />
           <p className="muted" style={{ fontSize: 11 }}>Like Mathematica Join: all dimensions except the join axis must match; the join axis dimension grows.</p>
+        </>
+      )}
+      {node.type === 'impose_integrability' && (
+        <>
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. NMHV_E14_w2f_integ" />
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
+            <input
+              type="checkbox" style={{ width: 'auto' }}
+              checked={d.transpose !== false}
+              onChange={(e) => set({ transpose: e.target.checked })}
+            />
+            Transpose before solving (solve for tensor coefficients)
+          </label>
+          <p className="muted" style={{ fontSize: 11 }}>
+            Contracts the last two axes of the rank-3 tensor S[s,i,a] with the integrability dlog D[a,i,c]
+            (M[s,c] = Σ S[s,i,a]·D[a,i,c], like TensorContract[S . dlogmat, {'{2, 3}'}]), then row-reduces
+            with SparseRREF. With transpose on, the output basis is the kernel of Mᵀ — combinations of the
+            s tensors satisfying all c conditions. With transpose off, it is the kernel of M — linear
+            relations among the conditions.
+          </p>
+        </>
+      )}
+      {node.type === 'assemble' && (
+        <>
+          <label>Groups (one group index per connected element, in elem order top to bottom)</label>
+          <input value={d.groups || ''} onChange={(e) => set({ groups: e.target.value })} placeholder="e.g. 1,1,2,3 → B1={elem1,elem2}, B2={elem3}, B3={elem4}" />
+          <label>Coefficients (one rational per group; 0 excludes the group)</label>
+          <input value={d.coefs || ''} onChange={(e) => set({ coefs: e.target.value })} placeholder="e.g. 1/2,2,0 → A = (1/2)·B1 + 2·B2" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. sol_A" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Assembles A = Σ cⱼ·Bⱼ in the common aligned frame: the element solution spaces are scaled by
+            their group&apos;s coefficient and joined along the first axis in the given order, then projected
+            by P_A — rows of groups with coefficient 0 stay in the frame but are zeroed. Connect any number
+            of elements (a new empty slot appears as you wire); all must have the same kind and matching
+            trailing dimensions. Runs tensor_ops assemble.
+          </p>
         </>
       )}
       {node.type === 'merge_conditions' && <p className="muted">Connect two or more dlogmat outputs (integrability, extended Steinmann, cluster adjacency) to merge them into a single condition tensor.</p>}
@@ -324,6 +418,13 @@ let groupSeq = 1
 let pasteCount = 0
 let canvasClipboard = null
 
+function bumpNodeSeqFromIds(ids) {
+  for (const id of ids) {
+    const m = /_(\d+)$/.exec(String(id))
+    if (m) nodeSeq = Math.max(nodeSeq, parseInt(m[1], 10) + 1)
+  }
+}
+
 function GroupNode({ data }) {
   return (
     <div className="node-card group-node">
@@ -364,8 +465,23 @@ function FlowEditorInner() {
     if (flow) {
       skipAutosave.current = true
       setFlowName(flow.name)
-      const gr = (flow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
+      const gr0 = (flow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
       let ns = flow.graph?.nodes || []
+      const seenIds = new Set()
+      const renamedIds = new Map()
+      ns = ns.map((n) => {
+        if (!seenIds.has(n.id)) { seenIds.add(n.id); return n }
+        bumpNodeSeqFromIds(seenIds)
+        let nid = `${n.type}_${nodeSeq++}`
+        while (seenIds.has(nid)) nid = `${n.type}_${nodeSeq++}`
+        seenIds.add(nid)
+        renamedIds.set(n.id, nid)
+        return { ...n, id: nid }
+      })
+      const gr = renamedIds.size
+        ? gr0.map((g) => ({ ...g, node_ids: g.node_ids.map((x) => renamedIds.get(x) || x) }))
+        : gr0
+      if (renamedIds.size) skipAutosave.current = false
       for (const g of gr) {
         const num = parseInt(String(g.id).replace(/\D/g, ''), 10)
         if (!Number.isNaN(num)) groupSeq = Math.max(groupSeq, num + 1)
@@ -377,6 +493,7 @@ function FlowEditorInner() {
       setGroups(gr)
       setNodes(ns)
       setEdges(flow.graph?.edges || [])
+      bumpNodeSeqFromIds([...ns.map((n) => n.id), ...(flow.graph?.edges || []).map((e) => e.id)])
       setCompileResult(null)
       setSaveState('saved')
     }
@@ -407,10 +524,12 @@ function FlowEditorInner() {
   const resolveSourceKind = useCallback((nodeId, handleId, depth = 0) => {
     const node = nodes.find((n) => n.id === nodeId)
     if (!node) return null
-    if (handleId === 'out' && (node.type === 'add_tensors' || node.type === 'tensor_join' || node.type === 'apply_symmetry')) {
+    if (handleId === 'out' && (node.type === 'add_tensors' || node.type === 'tensor_join' || node.type === 'ternary_contract' || node.type === 'apply_symmetry' || node.type === 'assemble')) {
       if (depth > 8) return 'tensor'
-      const handle = node.type === 'apply_symmetry' ? 'tensor' : 'a'
-      const e = edges.find((ed) => ed.target === nodeId && (ed.targetHandle === handle || (handle === 'a' && ed.targetHandle === 'b')))
+      const handle = (node.type === 'ternary_contract' || node.type === 'apply_symmetry') ? 'tensor' : 'a'
+      const e = node.type === 'assemble'
+        ? edges.find((ed) => ed.target === nodeId && (ed.targetHandle || '').startsWith('in_'))
+        : edges.find((ed) => ed.target === nodeId && (ed.targetHandle === handle || (handle === 'a' && ed.targetHandle === 'b')))
       return e ? resolveSourceKind(e.source, e.sourceHandle, depth + 1) : 'tensor'
     }
     return sourceKindFor(node, handleId, project)
@@ -428,7 +547,10 @@ function FlowEditorInner() {
       toast('Those ports are not compatible.')
       return
     }
-    setEdges((eds) => addEdge({ ...conn, animated: false }, eds))
+    setEdges((eds) => addEdge(
+      { ...conn, animated: false },
+      eds.filter((ed) => !(ed.target === conn.target && (ed.targetHandle || null) === (conn.targetHandle || null))),
+    ))
     setCompileResult(null)
   }, [isValidConnection, setEdges, toast])
 
@@ -437,9 +559,13 @@ function FlowEditorInner() {
     const type = e.dataTransfer.getData('application/symbology-node')
     if (!type || !rf.current) return
     const pos = rf.current.screenToFlowPosition({ x: e.clientX, y: e.clientY })
-    const id = `${type}_${nodeSeq++}`
     const defaults = type === 'alphabet' ? { alphabet_id: '', selected_properties: [] } : {}
-    setNodes((ns) => [...ns, { id, type, position: pos, data: defaults }])
+    setNodes((ns) => {
+      const used = new Set(ns.map((n) => n.id))
+      let id = `${type}_${nodeSeq++}`
+      while (used.has(id)) id = `${type}_${nodeSeq++}`
+      return [...ns, { id, type, position: pos, data: defaults }]
+    })
     setCompileResult(null)
   }, [setNodes])
 
@@ -452,7 +578,12 @@ function FlowEditorInner() {
   }
 
   const compile = async () => {
-    await save()
+    try {
+      await save()
+    } catch (e) {
+      toast('Save failed: ' + e.message)
+      return
+    }
     try {
       const res = await api.compileFlow(project.id, fid)
       setCompileResult(res)
@@ -476,8 +607,13 @@ function FlowEditorInner() {
 
   const updateNodeData = useCallback((id, patch) => {
     setNodes((ns) => ns.map((n) => (n.id === id ? { ...n, data: { ...n.data, ...patch } } : n)))
+    if ('selected_properties' in patch || 'alphabet_id' in patch) {
+      const keep = new Set()
+      for (const pid of patch.selected_properties || []) { keep.add(`prop_${pid}`); keep.add(`proj_${pid}`) }
+      setEdges((es) => es.filter((e) => e.source !== id || !/^(prop|proj)_/.test(e.sourceHandle || '') || keep.has(e.sourceHandle)))
+    }
     setCompileResult(null)
-  }, [setNodes])
+  }, [setNodes, setEdges])
 
   const groupOf = useMemo(() => {
     const m = new Map()
@@ -581,20 +717,27 @@ function FlowEditorInner() {
     if (!canvasClipboard?.nodes?.length) return
     pasteCount += 1
     const off = 40 * pasteCount
+    const used = new Set([...nodes.map((n) => n.id), ...edges.map((e) => e.id)])
+    const fresh = (prefix) => {
+      let id = `${prefix}_${nodeSeq++}`
+      while (used.has(id)) id = `${prefix}_${nodeSeq++}`
+      used.add(id)
+      return id
+    }
     const idMap = new Map()
     const newNodes = canvasClipboard.nodes.map((n) => {
-      const nid = `${n.type}_${nodeSeq++}`
+      const nid = fresh(n.type)
       idMap.set(n.id, nid)
       return { id: nid, type: n.type, position: { x: n.position.x + off, y: n.position.y + off }, data: JSON.parse(JSON.stringify(n.data)), selected: true }
     })
     const newEdges = canvasClipboard.edges
       .filter((ed) => idMap.has(ed.source) && idMap.has(ed.target))
-      .map((ed) => ({ id: `edge_${nodeSeq++}`, source: idMap.get(ed.source), sourceHandle: ed.sourceHandle, target: idMap.get(ed.target), targetHandle: ed.targetHandle }))
+      .map((ed) => ({ id: fresh('edge'), source: idMap.get(ed.source), sourceHandle: ed.sourceHandle, target: idMap.get(ed.target), targetHandle: ed.targetHandle }))
     setNodes((ns) => ns.map((n) => ({ ...n, selected: false })).concat(newNodes))
     setEdges((es) => es.concat(newEdges))
     setCompileResult(null)
     toast(`Pasted ${newNodes.length} node${newNodes.length === 1 ? '' : 's'}.`)
-  }, [setNodes, setEdges, toast])
+  }, [nodes, edges, setNodes, setEdges, toast])
 
   const deleteNode = useCallback((id) => {
     const node = nodes.find((n) => n.id === id)
@@ -639,19 +782,34 @@ function FlowEditorInner() {
 
   const selectedNode = nodes.find((n) => n.id === selectedId)
 
-  if (!flow) return <div className="page"><p className="muted">Loading flow…</p></div>
+  if (!flow) {
+    if (project) return (
+      <div className="page">
+        <div className="empty-state">
+          <div className="big">Flow not found</div>
+          <p>This flow does not exist in project “{project.name}” — it may belong to another project.</p>
+          <button className="primary" onClick={() => navigate('/flows')}>Back to flows</button>
+        </div>
+      </div>
+    )
+    return <div className="page"><p className="muted">Loading flow…</p></div>
+  }
 
   return (
     <div className="flow-layout">
       <div className="flow-palette">
-        <div className="muted" style={{ fontSize: 11, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>Nodes</div>
-        {PALETTE.map((p) => (
-          <div
-            key={p.type} className="palette-item" draggable
-            onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', p.type)}
-          >
-            {p.label}
-            <div className="sub">{p.sub}</div>
+        {PALETTE_SECTIONS.map((sec) => (
+          <div key={sec.title}>
+            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>{sec.title}</div>
+            {sec.items.map((p) => (
+              <div
+                key={p.type} className="palette-item" draggable
+                onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', p.type)}
+              >
+                {p.label}
+                <div className="sub">{p.sub}</div>
+              </div>
+            ))}
           </div>
         ))}
         <div className="muted" style={{ fontSize: 11, marginTop: 12 }}>Drag a node onto the canvas. Wire colored ports of the same kind together.</div>

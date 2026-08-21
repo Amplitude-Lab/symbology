@@ -87,8 +87,17 @@ export const NODE_DEFS = {
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'wA·A + wB·B' }],
   },
+  ternary_contract: {
+    title: 'Ternary Contract', color: '#fef3c7',
+    inputs: [
+      { id: 'tensor', kind: 'r3tensor', label: 'tensor' },
+      { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
+      { id: 'trans2', kind: 'matrix', label: 'trans2 (last axis)' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
+  },
   apply_symmetry: {
-    title: 'Apply Symmetry', color: '#fef3c7',
+    title: 'Ternary Contract', color: '#fef3c7',
     inputs: [
       { id: 'tensor', kind: 'r3tensor', label: 'tensor' },
       { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
@@ -109,28 +118,61 @@ export const NODE_DEFS = {
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'joined' }],
   },
+  impose_integrability: {
+    title: 'Impose Integrability', color: '#ede9fe',
+    inputs: [
+      { id: 'tensor', kind: 'r3tensor', label: 'tensor (rank 3)' },
+      { id: 'dlogmat', kind: 'dlogmat', label: 'integrability dlog' },
+    ],
+    outputs: [{ id: 'out', kind: 'matrix', label: 'solution basis' }],
+  },
+  assemble: {
+    title: 'Assemble Solution Space', color: '#cffafe',
+    inputs: [
+      { id: 'in_0', kind: 'tensor', label: 'elem 1' },
+      { id: 'in_1', kind: 'tensor', label: 'elem 2' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'aligned space' }],
+  },
 }
 
-export const PALETTE = [
-  { type: 'alphabet', label: 'Alphabet', sub: 'building block' },
-  { type: 'merge_conditions', label: 'Merge Conditions', sub: 'join dlogmats' },
-  { type: 'extend', label: 'Extend', sub: 'grow weight by 1' },
-  { type: 'sew', label: 'Sew', sub: 'FEC + LEC → SEW' },
-  { type: 'project', label: 'Project', sub: 'symmetry / collinear' },
-  { type: 'solve_symmetry', label: 'Solve Symmetry', sub: 'constrain by symmetry' },
-  { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
-  { type: 'compute_rhs', label: 'Compute RHS', sub: 'boundary terms' },
-  { type: 'add_tensors', label: 'Add Tensors', sub: 'weighted sum wA·A + wB·B' },
-  { type: 'apply_symmetry', label: 'Apply Symmetry', sub: 'contract last two entries' },
-  { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n group elements' },
-  { type: 'tensor_join', label: 'Join Tensors', sub: 'concat along an axis' },
+export const PALETTE_SECTIONS = [
+  {
+    title: 'Building blocks',
+    items: [
+      { type: 'alphabet', label: 'Alphabet', sub: 'letters, properties, tensors' },
+    ],
+  },
+  {
+    title: 'Basic tensor operations',
+    items: [
+      { type: 'merge_conditions', label: 'Merge Conditions', sub: 'combine dlogmats' },
+      { type: 'add_tensors', label: 'Add Tensors', sub: 'wA·A + wB·B' },
+      { type: 'ternary_contract', label: 'Ternary Contract', sub: 'T·M1·M2 contraction' },
+      { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n' },
+      { type: 'tensor_join', label: 'Join Tensors', sub: 'join along an axis' },
+      { type: 'impose_integrability', label: 'Impose Integrability', sub: 'contract with dlog & solve' },
+      { type: 'assemble', label: 'Assemble Solution Space', sub: 'align & project element spaces' },
+    ],
+  },
+  {
+    title: 'Composite operations',
+    items: [
+      { type: 'extend', label: 'Extend', sub: 'FEC/LEC weight +1' },
+      { type: 'sew', label: 'Sew', sub: 'FEC + LEC → SEW' },
+      { type: 'project', label: 'Project', sub: 'project seed onto symmetry' },
+      { type: 'solve_symmetry', label: 'Solve Symmetry', sub: 'cyclic / flip / parity' },
+      { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
+      { type: 'compute_rhs', label: 'Compute RHS', sub: 'collinear RHS / boundary' },
+    ],
+  },
 ]
 
 const ACCEPTS = {
   dlogmat: ['dlogmat'],
   fec: ['fec1', 'fec'],
   lec: ['lec1', 'lec'],
-  seed: ['fec1', 'fec', 'lec1', 'sew'],
+  seed: ['fec1', 'fec', 'sew'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary'],
   r3tensor: ['fec1', 'fec', 'lec1', 'lec', 'sew'],
   matrix: ['matrix'],
@@ -144,8 +186,13 @@ export function kindsCompatible(sourceKind, targetKind) {
 export function sourceKindFor(node, handleId, project) {
   if (!node) return null
   if (node.type === 'alphabet') {
-    const propId = (handleId || '').replace(/^prop_/, '')
     const alphabet = project?.alphabets.find((a) => a.id === node.data?.alphabet_id)
+    if ((handleId || '').startsWith('proj_')) {
+      const propId = handleId.replace(/^proj_/, '')
+      const prop = alphabet?.properties.find((p) => p.id === propId)
+      return prop && (prop.type === 'first_entry' || prop.type === 'last_entry') ? 'matrix' : null
+    }
+    const propId = (handleId || '').replace(/^prop_/, '')
     const prop = alphabet?.properties.find((p) => p.id === propId)
     return prop ? PROP_KIND[prop.type] : null
   }
@@ -157,6 +204,7 @@ export function sourceKindFor(node, handleId, project) {
 export function targetKindFor(node, handleId) {
   const def = node ? NODE_DEFS[node.type] : null
   if (!def) return null
+  if (node.type === 'assemble' && (handleId || '').startsWith('in_')) return 'tensor'
   const inp = def.inputs.find((i) => i.id === handleId)
   return inp ? inp.kind : null
 }

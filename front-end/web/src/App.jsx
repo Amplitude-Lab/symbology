@@ -14,6 +14,45 @@ export const useProject = () => useContext(ProjectCtx)
 const ToastCtx = createContext(() => {})
 export const useToast = () => useContext(ToastCtx)
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { error: null }
+  }
+  static getDerivedStateFromError(error) {
+    return { error }
+  }
+  componentDidCatch(error, info) {
+    try {
+      fetch('/api/client-log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          kind: 'render',
+          message: String(error?.message || error).slice(0, 4000),
+          stack: String(error?.stack || '').slice(0, 4000) + '\n' + String(info?.componentStack || '').slice(0, 2000),
+          url: window.location.href,
+          ua: navigator.userAgent,
+        }),
+      })
+    } catch { /* best effort */ }
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="page">
+          <div className="empty-state">
+            <div className="big">Something went wrong rendering this page</div>
+            <p className="error-text mono" style={{ whiteSpace: 'pre-wrap', maxWidth: 640 }}>{String(this.state.error?.message || this.state.error)}</p>
+            <button className="primary" onClick={() => this.setState({ error: null })}>Try again</button>
+          </div>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
 function NewProjectModal({ templates, onClose, onCreated }) {
   const [name, setName] = useState('')
   const [templateId, setTemplateId] = useState('')
@@ -134,15 +173,17 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <Routes>
-            <Route path="/materials" element={<Materials />} />
-            <Route path="/flows" element={<Flows />} />
-            <Route path="/flows/:fid" element={<FlowEditor />} />
-            <Route path="/runs" element={<Runs />} />
-            <Route path="/runs/:rid" element={<RunDetail />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="*" element={<Navigate to="/materials" replace />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/materials" element={<Materials />} />
+              <Route path="/flows" element={<Flows />} />
+              <Route path="/flows/:fid" element={<FlowEditor />} />
+              <Route path="/runs" element={<Runs />} />
+              <Route path="/runs/:rid" element={<RunDetail />} />
+              <Route path="/results" element={<Results />} />
+              <Route path="*" element={<Navigate to="/materials" replace />} />
+            </Routes>
+          </ErrorBoundary>
         )}
         {showNew && (
           <NewProjectModal

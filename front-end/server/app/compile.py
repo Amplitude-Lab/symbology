@@ -23,12 +23,18 @@ EDGE_RULES = {
     ("solve_collinear", "seed"): {"fec1", "fec", "sew"},
     ("add_tensors", "a"): TENSOR_KINDS,
     ("add_tensors", "b"): TENSOR_KINDS,
+    ("ternary_contract", "tensor"): {"fec1", "fec", "lec1", "lec", "sew"},
+    ("ternary_contract", "trans1"): {"matrix"},
+    ("ternary_contract", "trans2"): {"matrix"},
     ("apply_symmetry", "tensor"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("apply_symmetry", "trans1"): {"matrix"},
     ("apply_symmetry", "trans2"): {"matrix"},
     ("matrix_power", "matrix"): {"matrix"},
     ("tensor_join", "a"): TENSOR_KINDS,
     ("tensor_join", "b"): TENSOR_KINDS,
+    ("impose_integrability", "tensor"): {"fec1", "fec", "lec1", "lec", "sew"},
+    ("impose_integrability", "dlogmat"): {"dlogmat"},
+    ("assemble", None): TENSOR_KINDS,
 }
 
 SYMMETRIES = {"collinear", "cyclic", "flip", "parity"}
@@ -78,6 +84,7 @@ def compile_flow(proj: dict, graph: dict) -> dict:
 
     provides: dict[tuple, dict] = {}
     step_counter = [0]
+    file_steps: set = set()
 
     def next_step_id() -> str:
         step_counter[0] += 1
@@ -102,7 +109,7 @@ def compile_flow(proj: dict, graph: dict) -> dict:
         data = node.get("data", {}) or {}
 
         if ntype == "alphabet":
-            _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir)
+            _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir, tensor_ops_bin, file_steps)
         elif ntype == "merge_conditions":
             _compile_merge(node, incoming, provides, add_step, errors, wolframscript, gen_dir, proj_dir)
         elif ntype == "extend":
@@ -119,12 +126,16 @@ def compile_flow(proj: dict, graph: dict) -> dict:
             _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir)
         elif ntype == "add_tensors":
             _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_bin, proj_dir)
-        elif ntype == "apply_symmetry":
-            _compile_apply_symmetry(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype in ("ternary_contract", "apply_symmetry"):
+            _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "matrix_power":
             _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "tensor_join":
             _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "impose_integrability":
+            _compile_impose(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "assemble":
+            _compile_assemble(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         else:
             errors.append(f"Unknown node type '{ntype}'.")
 
@@ -139,8 +150,8 @@ def compile_flow(proj: dict, graph: dict) -> dict:
         ttype = tnode.get("type")
         th = e.get("targetHandle") or ""
         key = (ttype, th.split("@")[0] if th.startswith("in_") else th)
-        if ttype == "merge_conditions":
-            allowed = EDGE_RULES[("merge_conditions", None)]
+        if ttype in ("merge_conditions", "assemble"):
+            allowed = EDGE_RULES[(ttype, None)]
         else:
             allowed = EDGE_RULES.get((ttype, th))
             if allowed is None and th.startswith("seed"):
@@ -182,7 +193,9 @@ def _edge_input(provides, incoming, nid, handle_prefix):
     return None
 
 
-def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir):
+def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir, tensor_ops_bin=None, file_steps=None):
+    if file_steps is None:
+        file_steps = set()
     nid = node["id"]
     data = node.get("data", {}) or {}
     alphabet = storage.find_alphabet(proj, data.get("alphabet_id", ""))
@@ -196,13 +209,23 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
             errors.append(f"Alphabet '{alphabet['name']}': selected property not found.")
             continue
         kind = PROP_KIND.get(prop["type"])
+        if kind is None:
+            errors.append(f"Alphabet '{alphabet['name']}': property has unknown type '{prop['type']}'.")
+            continue
         rel = prop.get("tensor_file") or property_tensor_relpath(alphabet, prop)
         if prop.get("status") != "ready" or not (proj_dir / rel).exists():
+            if prop["type"] == "precomputed_tensor":
+                errors.append(f"Alphabet '{alphabet['name']}': precomputed tensor file '{rel}' is missing from the project.")
+                continue
             if wolframscript is None:
                 errors.append("wolframscript was not found; cannot compute properties.")
                 continue
             out_abs = _abs(proj_dir, rel)
-            script = property_script(alphabet, prop, out_abs)
+            try:
+                script = property_script(alphabet, prop, out_abs)
+            except ValueError as exc:
+                errors.append(f"Alphabet '{alphabet['name']}': {exc}")
+                continue
             script_path = gen_dir / f"prop_{prop_id}.wl"
             script_path.write_text(script)
             add_step(
@@ -220,6 +243,28 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
             "weight": 1 if kind in ("fec1", "lec1") else None,
             "name": Path(rel).stem,
         }
+        if prop["type"] in ("first_entry", "last_entry"):
+            proj_rel = f"data/{Path(rel).stem}_proj.wxf"
+            if not (proj_dir / proj_rel).exists() and proj_rel not in file_steps:
+                file_steps.add(proj_rel)
+                if tensor_ops_bin is None:
+                    errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+                    continue
+                add_step(
+                    f"Derive projection map {Path(rel).stem} -> {Path(proj_rel).stem} (drop size-1 axis)",
+                    "tensor_ops",
+                    [tensor_ops_bin, "squeeze", _abs(proj_dir, rel), _abs(proj_dir, proj_rel)],
+                    proj_dir,
+                    [proj_rel],
+                    True,
+                    {"type": "squeeze", "tensor_file": proj_rel},
+                )
+            provides[(nid, f"proj_{prop_id}")] = {
+                "kind": "matrix",
+                "file": proj_rel,
+                "weight": None,
+                "name": Path(proj_rel).stem,
+            }
 
 
 def _compile_merge(node, incoming, provides, add_step, errors, wolframscript, gen_dir, proj_dir):
@@ -282,9 +327,15 @@ def _compile_extend(node, incoming, provides, add_step, errors, bootstrap, proj_
         return
     w_out = w_in + 1
     target = data.get("target_weight")
-    if target not in (None, "", 0) and int(target) != w_out:
-        errors.append(f"Extend node target weight {target} does not match input weight {w_in} + 1.")
-        return
+    if target not in (None, "", 0):
+        try:
+            target = int(target)
+        except (TypeError, ValueError):
+            errors.append(f"Extend node target weight '{target}' is not an integer.")
+            return
+        if target != w_out:
+            errors.append(f"Extend node target weight {target} does not match input weight {w_in} + 1.")
+            return
     rel = f"output/{direction}_{w_out}.wxf"
     add_step(
         f"Extend {direction}_{w_in} -> {direction}_{w_out}",
@@ -464,6 +515,9 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
     if a["kind"] != b["kind"]:
         errors.append(f"Add Tensors requires two tensors of the same kind, got '{a['kind']}' and '{b['kind']}'.")
         return
+    if a.get("file") is None or b.get("file") is None:
+        errors.append("Add Tensors: both inputs must be concrete tensor files (the basis/solution/boundary outputs of Project/Solve/Compute RHS nodes are virtual and cannot be added).")
+        return
     if a.get("weight") != b.get("weight"):
         errors.append("Add Tensors inputs must have the same weight (tensors must have identical dimensions).")
         return
@@ -501,19 +555,22 @@ def _require_target(data, what, errors):
     return target
 
 
-def _compile_apply_symmetry(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
     nid = node["id"]
     data = node.get("data", {}) or {}
     tensor = _edge_input(provides, incoming, nid, "tensor")
     m1 = _edge_input(provides, incoming, nid, "trans1")
     m2 = _edge_input(provides, incoming, nid, "trans2")
     if tensor is None or m1 is None or m2 is None:
-        errors.append("An Apply Symmetry node needs tensor, trans1 and trans2 inputs.")
+        errors.append("A Ternary Contract node needs tensor, trans1 and trans2 inputs.")
+        return
+    if tensor.get("file") is None:
+        errors.append("Ternary Contract: the tensor input must be a concrete rank-3 tensor file.")
         return
     if m1.get("file") is None or m2.get("file") is None:
-        errors.append("Apply Symmetry: trans1/trans2 must be concrete matrix tensors (a symmetry matrix property or a Matrix Power output).")
+        errors.append("Ternary Contract: trans1/trans2 must be concrete matrix tensors (a matrix property or a Matrix Power output).")
         return
-    target = _require_target(data, "Apply Symmetry", errors)
+    target = _require_target(data, "Ternary Contract", errors)
     if target is None:
         return
     if tensor_ops_bin is None:
@@ -521,13 +578,13 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, tensor_o
         return
     rel = f"output/{target}.wxf"
     add_step(
-        f"Apply symmetry to {tensor['name']} -> {target}",
+        f"Ternary contract {tensor['name']} -> {target}",
         "tensor_ops",
         [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]), _abs(proj_dir, m1["file"]), _abs(proj_dir, m2["file"]), _abs(proj_dir, rel)],
         proj_dir,
         [rel],
         True,
-        {"type": "apply_symmetry", "tensor_file": rel},
+        {"type": "ternary_contract", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"), "name": target}
 
@@ -568,6 +625,75 @@ def _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops
     provides[(nid, "out")] = {"kind": "matrix", "file": rel, "weight": None, "name": target}
 
 
+def _compile_assemble(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    indexed = []
+    seen_handles = set()
+    for e in incoming.get(nid, []):
+        th = e.get("targetHandle") or ""
+        if not th.startswith("in_") or th in seen_handles:
+            continue
+        seen_handles.add(th)
+        try:
+            idx = int(th[3:].split("@")[0])
+        except ValueError:
+            idx = 0
+        src = (e.get("source"), e.get("sourceHandle"))
+        if src in provides:
+            indexed.append((idx, provides[src]))
+    indexed.sort(key=lambda x: x[0])
+    elems = [info for _, info in indexed]
+    if not elems:
+        errors.append("An Assemble Solution Space node needs at least one element input.")
+        return
+    kind = elems[0]["kind"]
+    for info in elems:
+        if info["kind"] != kind:
+            errors.append("Assemble Solution Space: all element inputs must have the same kind.")
+            return
+        if info.get("file") is None:
+            errors.append("Assemble Solution Space: element inputs must be concrete tensor files.")
+            return
+    group_tokens = [t.strip() for t in str(data.get("groups") or "").split(",") if t.strip()]
+    if len(group_tokens) != len(elems):
+        errors.append(f"Assemble Solution Space: groups must give one group index per element ({len(elems)} connected, in elem order top to bottom).")
+        return
+    for t in group_tokens:
+        if not t.isdigit() or int(t) < 1:
+            errors.append(f"Assemble Solution Space: group index '{t}' is not a positive integer.")
+            return
+    n_groups = max(int(t) for t in group_tokens)
+    coef_tokens = [t.strip() for t in str(data.get("coefs") or "").split(",") if t.strip()]
+    if len(coef_tokens) != n_groups:
+        errors.append(f"Assemble Solution Space: coefs must give one rational coefficient per group (groups are 1..{n_groups}).")
+        return
+    for t in coef_tokens:
+        if not RAT_RE.match(t) or ("/" in t and int(t.split("/")[1]) == 0):
+            errors.append(f"Assemble Solution Space coefficient '{t}' is not a rational number (examples: 1, -2, 1/2).")
+            return
+    target = _require_target(data, "Assemble Solution Space", errors)
+    if target is None:
+        return
+    if tensor_ops_bin is None:
+        errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+        return
+    rel = f"output/{target}.wxf"
+    argv = [tensor_ops_bin, "assemble", _abs(proj_dir, rel), "--elems"]
+    argv += [_abs(proj_dir, info["file"]) for info in elems]
+    argv += ["--groups", ",".join(group_tokens), "--coefs", ",".join(coef_tokens)]
+    add_step(
+        f"Assemble solution space of {target} from {len(elems)} elements in {n_groups} groups",
+        "tensor_ops",
+        argv,
+        proj_dir,
+        [rel],
+        True,
+        {"type": "assemble", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": kind, "file": rel, "weight": None, "name": target}
+
+
 def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
     nid = node["id"]
     data = node.get("data", {}) or {}
@@ -578,6 +704,9 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
         return
     if a["kind"] != b["kind"]:
         errors.append(f"Join Tensors requires two tensors of the same kind, got '{a['kind']}' and '{b['kind']}'.")
+        return
+    if a.get("file") is None or b.get("file") is None:
+        errors.append("Join Tensors: both inputs must be concrete tensor files (the basis/solution/boundary outputs of Project/Solve/Compute RHS nodes are virtual and cannot be joined).")
         return
     try:
         axis = int(str(data.get("axis") or "").strip())
@@ -603,3 +732,35 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
         {"type": "tensor_join", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target}
+
+
+def _compile_impose(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    tensor = _edge_input(provides, incoming, nid, "tensor")
+    dlog = _edge_input(provides, incoming, nid, "dlogmat")
+    if tensor is None or dlog is None:
+        errors.append("An Impose Integrability node needs tensor and integrability dlog inputs.")
+        return
+    if tensor.get("file") is None or dlog.get("file") is None:
+        errors.append("Impose Integrability: both inputs must be concrete tensor files.")
+        return
+    target = _require_target(data, "Impose Integrability", errors)
+    if target is None:
+        return
+    if tensor_ops_bin is None:
+        errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
+        return
+    trans_flag = "0" if data.get("transpose", True) is False else "1"
+    rel = f"output/{target}.wxf"
+    add_step(
+        f"Impose integrability on {tensor['name']} -> {target}",
+        "tensor_ops",
+        [tensor_ops_bin, "impose", _abs(proj_dir, tensor["file"]), _abs(proj_dir, dlog["file"]),
+         trans_flag, _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "impose_integrability", "tensor_file": rel},
+    )
+    provides[(nid, "out")] = {"kind": "matrix", "file": rel, "weight": None, "name": target}

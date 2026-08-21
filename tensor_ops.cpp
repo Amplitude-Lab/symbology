@@ -2,8 +2,14 @@
 //   ternary  T.wxf M1.wxf M2.wxf out.wxf   T'[a,b',c'] = sum_{b,c} T[a,b,c] M1[b,b'] M2[c,c']
 //   power    M.wxf n out.wxf               M^n (n >= 0, exact rational arithmetic)
 //   join     A.wxf B.wxf axis out.wxf      Join along 1-based axis (negative counts from the end)
+//   impose   T.wxf D.wxf trans out.wxf     contract S[s,i,a].D[a,i,c], SparseRREF-solve, output kernel
+//   assemble out.wxf --elems s1..sn --groups g1,..,gn --coefs c1,..,cm
+//                                          aligned solution space of A = sum_j cj*Bj in the common frame
+//                                          Join[c_(g1)*s1, ..., 1] projected by P_A (groups with cj == 0 zeroed)
+//   squeeze  T.wxf out.wxf                 drop all size-1 axes (e.g. (a,1,b) -> (a,b) matrix)
 
 #include <chrono>
+#include <cctype>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -24,6 +30,30 @@ static void write_tensor(const sparse_tensor<scalar_t, index_t, SPARSE_COO>& T, 
 	auto u8arr = sparse_tensor_write_wxf(sparse_tensor<scalar_t, index_t, SPARSE_CSR>(T));
 	std::ofstream ofs(path, std::ios::binary);
 	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+}
+
+// sparse_mat_write_wxf / sparse_tensor_write_wxf cannot encode a matrix with 0 rows;
+// build the WXF for SparseArray[Automatic, {0, ncol}, 0, {1, {{0}, {}}, {}}] directly.
+static std::vector<uint8_t> write_empty_sparse_mat_wxf(index_t ncol) {
+	using namespace WXF_PARSER;
+	std::string_view tpl = "SparseArray[Automatic,#dims,0,{1,{#rowptr,#colindex},#vals}]";
+	std::unordered_map<std::string, std::function<void(Encoder&)>> fm;
+	fm["#dims"] = [&](Encoder& enc) {
+		enc.push_packed_array({ 2 }, std::vector<int64_t>{ 0, (int64_t)ncol });
+	};
+	fm["#rowptr"] = [&](Encoder& enc) {
+		enc.push_packed_array({ 1 }, std::vector<int64_t>{ 0 });
+	};
+	fm["#colindex"] = [&](Encoder& enc) {
+		enc.push_array_info({ 0, 1 }, WXF_HEAD::array, 0);
+		const char* empty_data = "";
+		enc.push_ustr(empty_data, 0);
+	};
+	fm["#vals"] = [&](Encoder& enc) {
+		enc.push_function("List", 0);
+	};
+	Encoder enc = fullform_to_wxf(tpl, fm, true);
+	return enc.buffer;
 }
 
 static sparse_tensor<scalar_t, index_t, SPARSE_COO> mat_to_tensor2(const sparse_mat<scalar_t, index_t>& M) {
@@ -93,6 +123,52 @@ static int run_power(int argc, char* argv[], const field_t& F, thread_pool* pool
 	return 0;
 }
 
+static int run_impose(int argc, char* argv[], const field_t& F, rref_option_t& opt, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops impose <tensor.wxf> <dlogmat.wxf> <transpose 0|1> <out.wxf>");
+	auto S = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	auto D = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[3], F, pool);
+	bool trans = std::string(argv[4]) == "1";
+	if (S.rank() != 3 || D.rank() != 3 || S.dim(2) != D.dim(0) || S.dim(1) != D.dim(1))
+		throw std::runtime_error("impose: need S[s,i,a] and D[a,i,c] (both rank 3) with S.dim(2)==D.dim(0) and S.dim(1)==D.dim(1)");
+
+	sparse_tensor<scalar_t, index_t, SPARSE_COO> Scoo(S), Dcoo(D);
+	auto X = tensor_contract(Scoo, Dcoo, 2, 0, F, pool);   // [s, i, b, c]
+
+	// trace over the (i, b) axes: M[s,c] = sum_i X[s,i,i,c]
+	std::vector<std::map<index_t, scalar_t>> acc(S.dim(0));
+	for (size_t k = 0; k < X.nnz(); k++) {
+		auto idx = X.index_vector(k);
+		if (idx[1] != idx[2]) continue;
+		acc[idx[0]][idx[3]] += X.val(k);
+	}
+	sparse_mat<scalar_t, index_t> M(S.dim(0), D.dim(2));
+	for (index_t s = 0; s < (index_t)S.dim(0); s++) {
+		for (auto& [c, v] : acc[s])
+			if (!(v == 0)) M[s].push_back(c, v);
+		M[s].compress();
+	}
+	std::cout << "condition matrix: " << M.nrow << " x " << M.ncol << ", nnz " << M.nnz()
+	          << (trans ? " (transposed before solving)" : "") << std::endl;
+
+	if (trans) M = M.transpose();
+	auto pivots = sparse_mat_rref_reconstruct(M, opt);
+	// kernel vectors as columns; transpose to rows = solution basis
+	auto Kcols = sparse_mat_rref_kernel(M, pivots, F, opt);
+	if (Kcols.nrow == 0 && Kcols.ncol == 0) Kcols = sparse_mat<scalar_t, index_t>(M.ncol, 0);  // nullity 0 keeps column count
+	auto K = Kcols.transpose();
+	std::vector<uint8_t> u8arr;
+	if (K.nrow == 0) {
+		u8arr = write_empty_sparse_mat_wxf(K.ncol);
+	} else {
+		u8arr = sparse_mat_write_wxf(K);
+	}
+	std::ofstream ofs(base / argv[5], std::ios::binary);
+	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	std::cout << "impose: solution basis " << K.nrow << " x " << K.ncol << ", nnz " << K.nnz()
+	          << " -> " << argv[5] << std::endl;
+	return 0;
+}
+
 static int run_join(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
 	if (argc != 6) throw std::runtime_error("usage: tensor_ops join <A.wxf> <B.wxf> <axis> <out.wxf>");
 	auto A = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
@@ -128,9 +204,171 @@ static int run_join(int argc, char* argv[], const field_t& F, thread_pool* pool,
 	return 0;
 }
 
+static std::vector<std::string> split_commas(const std::string& s) {
+	std::vector<std::string> out;
+	size_t pos = 0;
+	while (true) {
+		size_t comma = s.find(',', pos);
+		std::string tok = s.substr(pos, comma == std::string::npos ? comma : comma - pos);
+		if (!tok.empty()) out.push_back(tok);
+		if (comma == std::string::npos) break;
+		pos = comma + 1;
+	}
+	return out;
+}
+
+static int run_assemble(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	std::string out_arg, groups_arg, coefs_arg;
+	std::vector<std::string> elem_args;
+	for (int i = 2; i < argc; i++) {
+		std::string a = argv[i];
+		if (a == "--elems") {
+			while (i + 1 < argc && std::string(argv[i + 1]).rfind("--", 0) != 0) elem_args.push_back(argv[++i]);
+		} else if (a == "--groups" && i + 1 < argc) {
+			groups_arg = argv[++i];
+		} else if (a == "--coefs" && i + 1 < argc) {
+			coefs_arg = argv[++i];
+		} else if (a.rfind("--", 0) != 0 && out_arg.empty()) {
+			out_arg = a;
+		} else {
+			throw std::runtime_error("assemble: unexpected argument '" + a + "'");
+		}
+	}
+	if (out_arg.empty() || elem_args.empty() || groups_arg.empty() || coefs_arg.empty())
+		throw std::runtime_error("usage: tensor_ops assemble <out.wxf> --elems s1.wxf [s2.wxf ...] --groups g1,...,gn --coefs c1,...,cm");
+
+	auto group_tokens = split_commas(groups_arg);
+	if (group_tokens.size() != elem_args.size())
+		throw std::runtime_error("assemble: --groups must give one group index per element");
+	std::vector<long long> group_of;
+	for (auto& t : group_tokens) {
+		try { group_of.push_back(std::stoll(t)); } catch (...) { throw std::runtime_error("assemble: invalid group index '" + t + "'"); }
+		if (group_of.back() < 1) throw std::runtime_error("assemble: group indices are 1-based positive integers");
+	}
+	long long n_groups = 0;
+	for (auto g : group_of) n_groups = std::max(n_groups, g);
+
+	auto coef_tokens = split_commas(coefs_arg);
+	if ((long long)coef_tokens.size() != n_groups)
+		throw std::runtime_error("assemble: --coefs must give one rational coefficient per group (groups are 1.." + std::to_string(n_groups) + ")");
+	std::vector<scalar_t> coefs;
+	for (auto& t : coef_tokens) {
+		size_t i = (t.size() > 0 && t[0] == '-') ? 1 : 0;
+		size_t digits = 0;
+		while (i < t.size() && std::isdigit((unsigned char)t[i])) { i++; digits++; }
+		bool ok = digits > 0;
+		bool zero_denominator = false;
+		if (ok && i < t.size() && t[i] == '/') {
+			i++;
+			size_t den_start = i;
+			digits = 0;
+			while (i < t.size() && std::isdigit((unsigned char)t[i])) { i++; digits++; }
+			ok = digits > 0;
+			if (ok) zero_denominator = std::stoll(t.substr(den_start)) == 0;
+		}
+		if (!ok || i != t.size() || zero_denominator)
+			throw std::runtime_error("assemble: invalid rational coefficient '" + t + "' (examples: 1, -2, 1/2)");
+		coefs.push_back(scalar_t(t));
+	}
+
+	std::vector<sparse_tensor<scalar_t, index_t, SPARSE_COO>> elems;
+	elems.reserve(elem_args.size());
+	for (auto& e : elem_args)
+		elems.emplace_back(sparse_tensor_read_wxf<scalar_t, index_t>(base / e, F, pool));
+
+	size_t rank = elems[0].rank();
+	if (rank < 1) throw std::runtime_error("assemble: elements must have rank >= 1");
+	std::vector<size_t> dims = elems[0].dims();
+	index_t total_rows = 0;
+	for (size_t i = 0; i < elems.size(); i++) {
+		if (elems[i].rank() != rank)
+			throw std::runtime_error("assemble: rank mismatch between element 1 and element " + std::to_string(i + 1));
+		for (size_t r = 1; r < rank; r++)
+			if (elems[i].dim(r) != dims[r])
+				throw std::runtime_error("assemble: trailing dimensions of element " + std::to_string(i + 1) + " do not match element 1");
+		total_rows += (index_t)elems[i].dim(0);
+	}
+	dims[0] = (size_t)total_rows;
+
+	sparse_tensor<scalar_t, index_t, SPARSE_COO> out(dims);
+	index_t offset = 0;
+	std::cout << "assemble frame: first-axis dim " << total_rows << " (order as given)" << std::endl;
+	for (size_t i = 0; i < elems.size(); i++) {
+		const scalar_t& c = coefs[group_of[i] - 1];
+		bool included = !(c == 0);
+		std::cout << "  element " << (i + 1) << " (" << elem_args[i] << "): group B" << group_of[i]
+		          << ", coef " << c << ", rows [" << offset << ", " << offset + (index_t)elems[i].dim(0) << ")"
+		          << (included ? "" : "  <- zeroed by P_A") << std::endl;
+		if (included) {
+			for (size_t k = 0; k < elems[i].nnz(); k++) {
+				auto idx = elems[i].index_vector(k);
+				idx[0] += offset;
+				out.push_back(idx, elems[i].val(k) * c);
+			}
+		}
+		offset += (index_t)elems[i].dim(0);
+	}
+	out.canonicalize();
+	out.sort_indices();
+	out.reserve(out.nnz());
+	write_tensor(out, base / out_arg);
+	std::cout << "assemble: dims";
+	for (size_t r = 0; r < rank; r++) std::cout << " " << out.dim(r);
+	std::cout << ", nnz " << out.nnz() << " -> " << out_arg << std::endl;
+	return 0;
+}
+
+static int run_squeeze(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 4) throw std::runtime_error("usage: tensor_ops squeeze <tensor.wxf> <out.wxf>");
+	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	std::vector<size_t> dims;
+	std::vector<bool> keep(T.rank());
+	for (size_t r = 0; r < T.rank(); r++) {
+		keep[r] = T.dim(r) != 1;
+		if (keep[r]) dims.push_back(T.dim(r));
+	}
+	if (dims.size() < 2)
+		throw std::runtime_error("squeeze: removing the size-1 axes must leave at least rank 2");
+
+	auto squeeze_idx = [&](const std::vector<index_t>& idx) {
+		std::vector<index_t> s;
+		s.reserve(dims.size());
+		for (size_t r = 0; r < idx.size(); r++)
+			if (keep[r]) s.push_back(idx[r]);
+		return s;
+	};
+
+	if (dims.size() == 2) {
+		sparse_mat<scalar_t, index_t> M(dims[0], dims[1]);
+		for (size_t k = 0; k < T.nnz(); k++) {
+			auto idx = squeeze_idx(T.index_vector(k));
+			M[idx[0]].push_back(idx[1], T.val(k));
+		}
+		for (index_t i = 0; i < M.nrow; i++) M[i].compress();
+		auto u8arr = sparse_mat_write_wxf(M);
+		std::ofstream ofs(base / argv[3], std::ios::binary);
+		ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+		std::cout << "squeeze: rank " << T.rank() << " -> matrix " << M.nrow << "x" << M.ncol
+		          << ", nnz " << M.nnz() << " -> " << argv[3] << std::endl;
+		return 0;
+	}
+
+	sparse_tensor<scalar_t, index_t, SPARSE_COO> out(dims);
+	out.reserve(T.nnz());
+	for (size_t k = 0; k < T.nnz(); k++)
+		out.push_back(squeeze_idx(T.index_vector(k)), T.val(k));
+	out.canonicalize();
+	out.sort_indices();
+	out.reserve(out.nnz());
+	write_tensor(out, base / argv[3]);
+	std::cout << "squeeze: rank " << T.rank() << " -> rank " << dims.size() << ", nnz " << out.nnz()
+	          << " -> " << argv[3] << std::endl;
+	return 0;
+}
+
 int main(int argc, char* argv[]) {
 	try {
-		if (argc < 2) throw std::runtime_error("usage: tensor_ops <ternary|power|join> ...");
+		if (argc < 2) throw std::runtime_error("usage: tensor_ops <ternary|power|join|impose|assemble|squeeze> ...");
 		field_t F(FIELD_QQ);
 		rref_option_t opt;
 		opt->pool.reset(n_of_threads);
@@ -143,7 +381,10 @@ int main(int argc, char* argv[]) {
 		if (mode == "ternary") rc = run_ternary(argc, argv, F, pool, base);
 		else if (mode == "power") rc = run_power(argc, argv, F, pool, base);
 		else if (mode == "join") rc = run_join(argc, argv, F, pool, base);
-		else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join)");
+		else if (mode == "impose") rc = run_impose(argc, argv, F, opt, pool, base);
+		else if (mode == "assemble") rc = run_assemble(argc, argv, F, pool, base);
+		else if (mode == "squeeze") rc = run_squeeze(argc, argv, F, pool, base);
+		else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|assemble|squeeze)");
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
 		std::cout << "** tensor_ops " << mode << " finished in " << ms << " ms **" << std::endl;
 		return rc;

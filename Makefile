@@ -34,7 +34,7 @@ compute_rhs: compute_rhs.cpp compute_rhs.hpp tensor_shuffle.h bootstrap.hpp proj
 tensor_add: tensor_add.cpp tensor_shuffle.h
 	$(CXX) tensor_add.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
-# tensor_ops executable (ternary contraction, matrix power, tensor join)
+# tensor_ops executable (ternary contraction, matrix power, tensor join, squeeze)
 tensor_ops: tensor_ops.cpp
 	$(CXX) tensor_ops.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 

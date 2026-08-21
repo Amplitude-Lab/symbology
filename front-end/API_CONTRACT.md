@@ -78,7 +78,7 @@ Node `type` values and `data`:
 
 | type | data | typed outputs |
 |---|---|---|
-| `alphabet` | `{"alphabet_id": "...", "selected_properties": ["prop_id", ...]}` | one output handle per selected property: `prop_<prop_id>` with tensor kind (`dlogmat`, `fec1`, `lec1`, `matrix`) |
+| `alphabet` | `{"alphabet_id": "...", "selected_properties": ["prop_id", ...]}` | one output handle per selected property: `prop_<prop_id>` with tensor kind (`dlogmat`, `fec1`, `lec1`, `matrix`). Selected `first_entry`/`last_entry` properties additionally expose `proj_<prop_id>` (kind `matrix`): the projection map derived by dropping the size-1 axis of the rank-3 tensor (e.g. (a,1,b) → (a,b)), auto-computed as `data/<stem>_proj.wxf` via `tensor_ops squeeze` |
 | `merge_conditions` | `{}` | input handles `in_0..in_n` (kind `dlogmat`), output `out` (kind `dlogmat`) |
 | `extend` | `{"target_weight": 2}` | inputs `condition` (dlogmat) plus exactly one of `fec` (fec1/fec) or `lec` (lec1/lec); output `fec`/`lec` matching the input direction (weight +1) |
 | `sew` | `{}` | inputs `condition`, `fec`, `lec`; output `sew` |
@@ -87,9 +87,11 @@ Node `type` values and `data`:
 | `solve_collinear` | `{"target": "SEW_3p1", "rhs": "boundary_2L.wxf", "projection": "finite"}` | output `solution` |
 | `compute_rhs` | `{"loops": 2}` | output `boundary` |
 | `add_tensors` | `{"weight_a": "1", "weight_b": "-1", "target": "SEW_3p1_total"}` | inputs `a`, `b` (any tensor kind, must match in kind and weight); output `out` carrying the inputs' kind/weight; runs `tensor_add A B wA wB out` |
-| `apply_symmetry` | `{"target": "FEC_2_sym"}` | inputs `tensor` (rank-3: fec1/fec/lec1/lec/sew), `trans1`, `trans2` (matrix); TernaryContracts on the last two entries; runs `tensor_ops ternary T M1 M2 out` |
+| `ternary_contract` | `{"target": "FEC_2_sym"}` | inputs `tensor` (rank-3: fec1/fec/lec1/lec/sew), `trans1`, `trans2` (any matrices — symmetry transformations included); TernaryContract T'[a,b',c'] = Σ T[a,b,c]·M1[b,b']·M2[c,c'] on the last two entries; runs `tensor_ops ternary T M1 M2 out`. Legacy graphs saved with node type `apply_symmetry` are compiled identically |
 | `matrix_power` | `{"n": 2, "target": "cyc2"}` | input `matrix`; output `matrix`; runs `tensor_ops power M n out` |
 | `tensor_join` | `{"axis": -1, "target": "FEC_1_dup"}` | inputs `a`, `b` (same kind); output keeps the kind (weight unset); runs `tensor_ops join A B axis out`; axis 1-based, negative counts from the end |
+| `impose_integrability` | `{"target": "NMHV_E14_w2f_integ", "transpose": true}` | inputs `tensor` (rank-3: fec1/fec/lec1/lec/sew), `dlogmat` (integrability); output `matrix` solution basis; runs `tensor_ops impose T D trans out`; contracts S[s,i,a]·D[a,i,c] and SparseRREF-solves — with `transpose` (default) the kernel of Mᵀ (tensor coefficients satisfying all conditions), without it the kernel of M (relations among conditions) |
+| `assemble` | `{"groups": "1,1,2,3", "coefs": "1/2,2,0", "target": "sol_A"}` | inputs `in_0`, `in_1`, … (element tensors, same kind; any count — the canvas adds an empty slot as you connect; handle order = alignment order); output keeps the kind in the common aligned frame; runs `tensor_ops assemble out --elems … --groups … --coefs …`; assembles A = Σ cⱼ·Bⱼ as P_A·Join[c-scaled elements, 1] — groups with coefficient 0 keep their rows in the frame but zeroed |
 
 Graphs may also carry a `groups` array (`{"id","name","node_ids","collapsed","position"}`) for collapsible canvas groups; groups are view-only and are expanded to their member nodes at compile time.
 
