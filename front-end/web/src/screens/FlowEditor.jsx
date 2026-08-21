@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactFlow, {
-  Background, Controls, Handle, Position, ReactFlowProvider,
+  Background, ConnectionMode, Controls, Handle, Position, ReactFlowProvider,
   addEdge, useEdges, useEdgesState, useNodesState, useUpdateNodeInternals,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
@@ -425,6 +425,14 @@ function bumpNodeSeqFromIds(ids) {
   }
 }
 
+function isOutputHandle(node, handleId) {
+  if (!node || !handleId) return false
+  if (node.type === 'groupBox') return handleId === 'out'
+  if (node.type === 'alphabet') return /^(prop|proj)_/.test(handleId)
+  const def = NODE_DEFS[node.type]
+  return !!(def?.outputs || []).some((o) => o.id === handleId)
+}
+
 function GroupNode({ data }) {
   return (
     <div className="node-card group-node">
@@ -535,24 +543,32 @@ function FlowEditorInner() {
     return sourceKindFor(node, handleId, project)
   }, [nodes, edges, project])
 
+  const normalizeConn = useCallback((conn) => {
+    const srcNode = nodes.find((n) => n.id === conn.source)
+    if (isOutputHandle(srcNode, conn.sourceHandle)) return conn
+    return { source: conn.target, sourceHandle: conn.targetHandle, target: conn.source, targetHandle: conn.sourceHandle }
+  }, [nodes])
+
   const isValidConnection = useCallback((conn) => {
-    const tn = nodes.find((n) => n.id === conn.target)
-    const sk = resolveSourceKind(conn.source, conn.sourceHandle)
-    const tk = targetKindFor(tn, conn.targetHandle)
+    const c = normalizeConn(conn)
+    const tn = nodes.find((n) => n.id === c.target)
+    const sk = resolveSourceKind(c.source, c.sourceHandle)
+    const tk = targetKindFor(tn, c.targetHandle)
     return !!(sk && tk && kindsCompatible(sk, tk))
-  }, [nodes, resolveSourceKind])
+  }, [nodes, resolveSourceKind, normalizeConn])
 
   const onConnect = useCallback((conn) => {
     if (!isValidConnection(conn)) {
       toast('Those ports are not compatible.')
       return
     }
+    const c = normalizeConn(conn)
     setEdges((eds) => addEdge(
-      { ...conn, animated: false },
-      eds.filter((ed) => !(ed.target === conn.target && (ed.targetHandle || null) === (conn.targetHandle || null))),
+      { ...c, animated: false },
+      eds.filter((ed) => !(ed.target === c.target && (ed.targetHandle || null) === (c.targetHandle || null))),
     ))
     setCompileResult(null)
-  }, [isValidConnection, setEdges, toast])
+  }, [isValidConnection, normalizeConn, setEdges, toast])
 
   const onDrop = useCallback((e) => {
     e.preventDefault()

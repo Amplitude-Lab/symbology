@@ -193,6 +193,14 @@ def _edge_input(provides, incoming, nid, handle_prefix):
     return None
 
 
+def _has_incoming(incoming, nid, handle_prefix) -> bool:
+    for e in incoming.get(nid, []):
+        th = e.get("targetHandle") or ""
+        if th == handle_prefix or th.startswith(handle_prefix):
+            return True
+    return False
+
+
 def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir, tensor_ops_bin=None, file_steps=None):
     if file_steps is None:
         file_steps = set()
@@ -562,7 +570,10 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
     m1 = _edge_input(provides, incoming, nid, "trans1")
     m2 = _edge_input(provides, incoming, nid, "trans2")
     if tensor is None or m1 is None or m2 is None:
-        errors.append("A Ternary Contract node needs tensor, trans1 and trans2 inputs.")
+        missing = [h for h, v in (("tensor", tensor), ("trans1", m1), ("trans2", m2))
+                   if v is None and not _has_incoming(incoming, nid, h)]
+        if missing:
+            errors.append(f"A Ternary Contract node is missing its {' and '.join(missing)} input{'s' if len(missing) > 1 else ''}.")
         return
     if tensor.get("file") is None:
         errors.append("Ternary Contract: the tensor input must be a concrete rank-3 tensor file.")
@@ -751,7 +762,7 @@ def _compile_impose(node, incoming, provides, add_step, errors, tensor_ops_bin, 
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    trans_flag = "0" if data.get("transpose", True) is False else "1"
+    trans_flag = "1" if data.get("transpose", True) else "0"
     rel = f"output/{target}.wxf"
     add_step(
         f"Impose integrability on {tensor['name']} -> {target}",
