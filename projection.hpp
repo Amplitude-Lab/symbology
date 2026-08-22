@@ -438,9 +438,14 @@ inline symmetry_info_t get_symmetry_info(const std::string& symmetry) {
 		return {"flip", "fliprepmat.wxf", false};
 	} else if (symmetry == "parity") {
 		return {"parity", "parityrepmat.wxf", false};
+	} else if (!symmetry.empty() && symmetry != "." && symmetry != ".."
+	           && symmetry.find('/') == std::string::npos
+	           && symmetry.find('\\') == std::string::npos) {
+		// Custom letter-symmetry matrix: data/<name>.wxf (square rep matrix).
+		return {symmetry, symmetry + ".wxf", false};
 	}
 	throw std::runtime_error("Unknown symmetry: " + symmetry
-		+ ". Valid: collinear, cyclic, flip, parity");
+		+ ". Valid: collinear, cyclic, flip, parity, or a custom data/<name>.wxf");
 }
 
 // ========== Pipeline orchestration ==========

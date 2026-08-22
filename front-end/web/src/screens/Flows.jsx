@@ -17,6 +17,43 @@ export default function Flows() {
     navigate(`/flows/${flow.id}`)
   }
 
+  const createBlock = async () => {
+    const flow = await api.createFlow(project.id, name.trim() || 'New custom block', { custom_block: true })
+    await refreshProject()
+    navigate(`/flows/${flow.id}`)
+  }
+
+  const toggleBlock = async (f) => {
+    if (!f.custom_block) {
+      const nodes = f.graph?.nodes || []
+      const edges = f.graph?.edges || []
+      const ins = nodes.filter((n) => n.type === 'cb_in')
+      const outs = nodes.filter((n) => n.type === 'cb_out')
+      const problems = []
+      if (!ins.length) problems.push('at least one Input port')
+      if (!outs.length) problems.push('at least one Output port')
+      const srcs = new Set(edges.map((e) => e.source))
+      const tgts = new Set(edges.map((e) => e.target))
+      if (ins.some((n) => !srcs.has(n.id))) problems.push('every Input port wired onwards')
+      if (outs.some((n) => !tgts.has(n.id))) problems.push('every Output port wired from something')
+      const unnamed = [...ins, ...outs].filter((n) => !(n.data?.name || '').trim())
+      if (unnamed.length) problems.push('all ports named')
+      if (problems.length) {
+        toast(`Cannot seal yet — the block needs: ${problems.join('; ')}.`)
+        return
+      }
+    }
+    await api.updateFlow(project.id, f.id, { custom_block: !f.custom_block })
+    await refreshProject()
+    toast(f.custom_block ? 'Converted back to a normal flow.' : 'Sealed as a custom block — it now appears in the flow editor palette.')
+  }
+
+  const duplicate = async (f) => {
+    const dup = await api.duplicateFlow(project.id, f.id)
+    await refreshProject()
+    navigate(`/flows/${dup.id}`)
+  }
+
   const remove = async (fid) => {
     await api.deleteFlow(project.id, fid)
     await refreshProject()
@@ -34,7 +71,12 @@ export default function Flows() {
         <div className="row">
           <input placeholder="New flow name…" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && create()} />
           <button className="primary shrink" onClick={create}>+ New flow</button>
+          <button className="shrink" onClick={createBlock}>+ New custom block</button>
         </div>
+        <p className="muted" style={{ marginBottom: 0, fontSize: 11 }}>
+          A custom block is a sub-diagram with abstract Input/Output ports. Once it contains wired Input and
+          Output nodes, seal it — it becomes a single reusable block in every flow&apos;s palette.
+        </p>
       </div>
       {!project.flows.length && (
         <div className="empty-state"><div className="big">No flows yet</div><p>Create your first flow to wire operations together.</p></div>
@@ -42,9 +84,15 @@ export default function Flows() {
       <div className="grid">
         {project.flows.map((f) => (
           <div key={f.id} className="card clickable" onClick={() => navigate(`/flows/${f.id}`)}>
-            <h2 style={{ marginTop: 0 }}>{f.name}</h2>
+            <h2 style={{ marginTop: 0 }}>{f.name}{f.custom_block && <span className="muted" style={{ fontSize: 11, fontWeight: 400 }}> · custom block</span>}</h2>
             <p className="muted">{(f.graph?.nodes || []).length} nodes, {(f.graph?.edges || []).length} connections</p>
-            <button className="small danger" onClick={(e) => { e.stopPropagation(); remove(f.id) }}>Delete</button>
+            <div className="row">
+              <button className="small" onClick={(e) => { e.stopPropagation(); duplicate(f) }}>Duplicate</button>
+              <button className="small" onClick={(e) => { e.stopPropagation(); toggleBlock(f) }}>
+                {f.custom_block ? 'Unseal (normal flow)' : 'Seal as custom block'}
+              </button>
+              <button className="small danger" onClick={(e) => { e.stopPropagation(); remove(f.id) }}>Delete</button>
+            </div>
           </div>
         ))}
       </div>

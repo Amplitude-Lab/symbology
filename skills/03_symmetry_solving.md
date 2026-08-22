@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Given a target tensor and a discrete symmetry (cyclic, flip, parity),
+Given a target tensor and a discrete symmetry (collinear, cyclic, flip, parity),
 compute the invariant subspace of the target's projection matrix. The
 result is a square matrix `<target>_invariant.wxf` whose columns span
 the symmetry-invariant subspace.
@@ -10,7 +10,7 @@ the symmetry-invariant subspace.
 ## CLI entry point
 
 ```bash
-./bootstrap --solve-symmetry --symmetry <cyclic|flip|parity> --target <name>
+./bootstrap --solve-symmetry --symmetry <collinear|cyclic|flip|parity> --target <name>
 ```
 
 ## Flags
@@ -18,7 +18,7 @@ the symmetry-invariant subspace.
 | Flag | Description |
 |------|-------------|
 | `--solve-symmetry` | Compute the invariant subspace. |
-| `--symmetry <cyclic\|flip\|parity>` | Symmetry name. (`collinear` is excluded — it has its own solver, see [04_collinear_solving.md](04_collinear_solving.md).) |
+| `--symmetry <collinear\|cyclic\|flip\|parity>` | Symmetry name. For `collinear`, the projection is usually non-square (`42 × 2`) and the solver rejects it at runtime — use the dedicated collinear solver instead (see [04_collinear_solving.md](04_collinear_solving.md)). |
 | `--target <SEW_FpL \| FEC_W \| LEC_W>` | Target name. |
 
 ## How it works
@@ -60,9 +60,10 @@ the symmetry-invariant subspace.
 
 ## Conventions
 
-- **The collinear symmetry is excluded** from this solver because its
-  projection is dimension-shrinking (not square). Use the collinear
-  solver instead.
+- **The collinear symmetry is accepted by the CLI** but its projection
+  is usually dimension-shrinking (not square), which the solver rejects
+  at runtime. Use the collinear solver instead for real collinear
+  targets.
 - **Auto-invocation**: if the projection file is missing, the solver
   transparently runs `--project` to generate it. The user does not need
   to run `--project` separately.

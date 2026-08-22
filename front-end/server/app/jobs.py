@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import signal
@@ -108,6 +109,86 @@ class Engine:
         except Exception:
             pass
 
+    # ---- smart skipping -------------------------------------------------
+    # A step is skipped only when its outputs exist AND a stored fingerprint
+    # (command + identity of every existing input file it reads) matches.
+    # Any change to the command or to an upstream file invalidates the
+    # fingerprint and forces recomputation of the affected chain.
+    @staticmethod
+    def _step_fingerprint(run: Run, step: dict) -> str | None:
+        proj_dir = storage.project_dir(run.project_id)
+        outputs = set(step.get("outputs") or [])
+        cwd = step.get("cwd")
+        h = hashlib.sha256()
+        h.update(step.get("command", "").encode())
+        h.update("\x00".join(str(a) for a in (step.get("argv") or [])).encode())
+        for arg in step.get("argv") or []:
+            p = Path(arg)
+            if not p.is_absolute():
+                if cwd is None:
+                    continue
+                p = Path(cwd) / p
+            try:
+                rp = p.resolve().relative_to(proj_dir.resolve())
+            except ValueError:
+                rp = None
+            rel = rp.as_posix() if rp is not None else str(p)
+            if rel in outputs or not p.exists() or p.is_dir():
+                continue
+            try:
+                st = p.stat()
+                h.update(f"{rel}:{st.st_size}:{st.st_mtime_ns}:{st.st_ino};".encode())
+            except OSError:
+                h.update(f"{rel}:?;".encode())
+        return h.hexdigest()
+
+    @staticmethod
+    def _sig_path(run: Run, output: str) -> Path:
+        return storage.project_dir(run.project_id) / f"{output}.sig"
+
+    def _step_cached(self, run: Run, step: dict) -> bool:
+        outputs = step.get("outputs") or []
+        if not outputs:
+            return False
+        proj_dir = storage.project_dir(run.project_id)
+        for o in outputs:
+            if not (proj_dir / o).exists():
+                return False
+        fp = self._step_fingerprint(run, step)
+        if fp is None:
+            return False
+        for o in outputs:
+            sp = self._sig_path(run, o)
+            try:
+                if sp.read_text().strip() != fp:
+                    return False
+            except OSError:
+                return False
+        return True
+
+    def _record_sigs(self, run: Run, step: dict, fp: str | None = None) -> None:
+        if fp is None:
+            fp = self._step_fingerprint(run, step)
+        if fp is None:
+            return
+        proj_dir = storage.project_dir(run.project_id)
+        for o in step.get("outputs") or []:
+            try:
+                sp = proj_dir / f"{o}.sig"
+                tmp = sp.with_suffix(sp.suffix + ".tmp")
+                tmp.write_text(fp)
+                os.replace(tmp, sp)
+            except OSError:
+                pass
+
+    def _clear_sigs(self, run: Run, step: dict) -> None:
+        proj_dir = storage.project_dir(run.project_id)
+        for o in step.get("outputs") or []:
+            try:
+                (proj_dir / f"{o}.sig").unlink(missing_ok=True)
+            except OSError:
+                pass
+
     def _execute(self, run: Run) -> None:
         if run.status == "cancelled":
             run.emit("end", {})
@@ -123,27 +204,29 @@ class Engine:
             step_id = step["id"]
             run.current_step = step_id
             outputs = step.get("outputs") or []
-            if step.get("skip_if_exists") and outputs:
-                proj_dir = storage.project_dir(run.project_id)
-                if all((proj_dir / o).exists() for o in outputs):
-                    step["status"] = "skipped"
-                    run.emit("step", {"step_id": step_id, "status": "skipped"})
-                    self._persist(run)
-                    continue
+            if step.get("skip_if_exists") and outputs and self._step_cached(run, step):
+                step["status"] = "skipped"
+                run.emit("step", {"step_id": step_id, "status": "skipped"})
+                self._persist(run)
+                continue
             step["status"] = "running"
             run.emit("step", {"step_id": step_id, "status": "running"})
             self._persist(run)
+            pre_fp = self._step_fingerprint(run, step)
             rc = self._run_step(run, step)
             step["returncode"] = rc
             if rc == 0:
                 step["status"] = "done"
+                self._record_sigs(run, step, pre_fp)
                 run.emit("step", {"step_id": step_id, "status": "done"})
             elif run.status == "cancelled":
                 step["status"] = "failed"
+                self._clear_sigs(run, step)
                 run.emit("step", {"step_id": step_id, "status": "failed"})
                 break
             else:
                 step["status"] = "failed"
+                self._clear_sigs(run, step)
                 run.emit("step", {"step_id": step_id, "status": "failed"})
                 failed = True
             self._persist(run)
@@ -164,6 +247,12 @@ class Engine:
     def _run_step(self, run: Run, step: dict) -> int:
         argv = step["argv"]
         cwd = step.get("cwd")
+        proj_dir = storage.project_dir(run.project_id)
+        for o in step.get("outputs") or []:
+            try:
+                (proj_dir / o).parent.mkdir(parents=True, exist_ok=True)
+            except OSError:
+                pass
         env = os.environ.copy()
         try:
             proc = subprocess.Popen(

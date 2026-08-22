@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactFlow, {
   Background, ConnectionMode, Controls, Handle, Position, ReactFlowProvider,
@@ -9,12 +9,36 @@ import { api } from '../api'
 import { useProject, useToast } from '../App'
 import {
   NODE_DEFS, PALETTE_SECTIONS, PROP_KIND, propLabel,
-  kindsCompatible, sourceKindFor, targetKindFor,
+  kindsCompatible, sourceKindFor, targetKindFor, alphabetOutSlots,
+  registerCustomBlocks, customBlockPalette,
 } from '../flowdefs'
 
 const ROW0 = 29
 const ROW_STEP = 15
 const SUB_EXTRA = 15
+
+const DimsContext = React.createContext(() => null)
+
+function propDimsText(prop) {
+  const dims = prop?.summary?.dims
+  return Array.isArray(dims) && dims.length ? dims.join('×') : null
+}
+
+function projDimsText(prop) {
+  const dims = (prop?.summary?.dims || []).filter((d) => d !== 1)
+  return dims.length ? dims.join('×') : null
+}
+
+function alphabetHandleDims(project, node, handleId) {
+  const alphabet = project?.alphabets.find((a) => a.id === node.data?.alphabet_id)
+  const prop = alphabet?.properties.find((p) => handleId === `prop_${p.id}` || handleId === `proj_${p.id}`)
+  if (!prop) return null
+  return handleId.startsWith('proj_') ? projDimsText(prop) : propDimsText(prop)
+}
+
+function useHandleDims() {
+  return useContext(DimsContext)
+}
 
 function StatusDot({ status }) {
   return <span className={`dot ${status || 'pending'}`} />
@@ -24,32 +48,35 @@ function AlphabetNode({ id, data, selected }) {
   const { project } = useProject()
   const alphabet = project?.alphabets.find((a) => a.id === data.alphabet_id)
   const selectedProps = data.selected_properties || []
-  const outRows = []
-  if (alphabet) {
-    for (const p of alphabet.properties.filter((x) => selectedProps.includes(x.id))) {
-      outRows.push({ key: p.id, handle: `prop_${p.id}`, label: propLabel(p), kind: PROP_KIND[p.type], status: p.status })
-      if (p.type === 'first_entry' || p.type === 'last_entry') {
-        outRows.push({ key: `${p.id}_proj`, handle: `proj_${p.id}`, label: `${propLabel(p)} · proj map`, kind: 'matrix', status: p.status })
-      }
+  const outRows = alphabetOutSlots(alphabet, selectedProps).map((slot) => {
+    const p = alphabet.properties.find((x) => x.id === slot.propId)
+    return {
+      ...slot,
+      label: slot.proj ? `${propLabel(p)} · proj map` : propLabel(p),
+      status: p.status,
+      dims: slot.proj ? projDimsText(p) : propDimsText(p),
     }
-  }
+  })
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
-      <div className="node-title" style={{ background: NODE_DEFS.alphabet.color }}>
-        Alphabet: {alphabet ? alphabet.name : '—'}
-      </div>
       <div className="node-body">
-        {!alphabet && <span>select in inspector →</span>}
-        {alphabet && selectedProps.length === 0 && <span>no outputs selected</span>}
+        {!alphabet && <span>select property in inspector →</span>}
+        {alphabet && selectedProps.length === 0 && <span>no output selected</span>}
+        {alphabet && (
+          <div style={{ fontWeight: 600, marginBottom: 4, paddingBottom: 4, borderBottom: '1px solid var(--border)' }}>
+            {alphabet.name}
+          </div>
+        )}
         {outRows.map((r, i) => (
           <div key={r.key} className="handle-row" style={{ textAlign: 'right' }}>
             <span className={`kind-${r.kind}`}>
               {r.label}
             </span>{' '}
+            {r.dims && <span className="dim-badge">{r.dims}</span>}{' '}
             <StatusDot status={r.status} />
             <Handle
               type="source" position={Position.Right} id={r.handle}
-              style={{ top: ROW0 + i * ROW_STEP, background: 'var(--accent)' }}
+              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, background: 'var(--accent)' }}
             />
           </div>
         ))}
@@ -58,22 +85,43 @@ function AlphabetNode({ id, data, selected }) {
   )
 }
 
-function OpNode({ type, data, selected }) {
+function OpNode({ id, type, data, selected }) {
   const def = NODE_DEFS[type]
-  const inputs = def.inputs || []
+  const handleDims = useHandleDims()
+  const allEdges = useEdges()
+  const updateNodeInternals = useUpdateNodeInternals()
+  const dynamicInputs = type === 'add_tensors'
+  let inputs = def.inputs || []
+  if (dynamicInputs) {
+    let maxConnected = 1
+    for (const e of allEdges) {
+      if (e.target === id && (e.targetHandle || '').startsWith('in_')) {
+        const idx = parseInt(e.targetHandle.slice(3).split('@')[0], 10)
+        if (!Number.isNaN(idx)) maxConnected = Math.max(maxConnected, idx)
+      }
+    }
+    inputs = Array.from({ length: Math.max(inputs.length, maxConnected + 2) }, (_, i) => ({
+      id: `in_${i}`, kind: 'tensor', label: String.fromCharCode(65 + i),
+    }))
+  }
+  useEffect(() => { if (dynamicInputs) updateNodeInternals(id) }, [id, dynamicInputs, inputs.length, updateNodeInternals])
   const outputs = def.outputs || []
   const rows = Math.max(inputs.length, outputs.length)
+  const cbWeights = (data.weights || '').split(',').map((s) => s.trim())
   const subtitle =
     type === 'extend' ? (data.target_weight ? `→ weight ${data.target_weight}` : 'weight +1')
-    : type === 'project' ? `${data.symmetry || '…'} ${data.target || ''}`
-    : type === 'solve_symmetry' ? `${data.symmetry || '…'} ${data.target || ''}`
+    : (type === 'project' || type === 'solve_symmetry' || type === 'symderive') ? `→ ${data.target || '…'}`
+    : type === 'sew' ? `→ ${data.target || 'SEW_FpL'}`
     : type === 'solve_collinear' ? `${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
-    : type === 'add_tensors' ? `${data.weight_a || '1'}·A + ${data.weight_b || '1'}·B → ${data.target || '…'}`
+    : type === 'add_tensors' ? `${inputs.map((_, i) => `${cbWeights[i] || '1'}·${String.fromCharCode(65 + i)}`).join(' + ')} → ${data.target || '…'}`
     : (type === 'ternary_contract' || type === 'apply_symmetry') ? `→ ${data.target || '…'}`
     : type === 'matrix_power' ? `M^${data.n || '?'} → ${data.target || '…'}`
     : type === 'tensor_join' ? `axis ${data.axis || '?'} → ${data.target || '…'}`
+    : type === 'tensor_dot' ? `A[${data.axis_a ?? '?'}]·B[${data.axis_b ?? '?'}] → ${data.target || '…'}`
     : type === 'impose_integrability' ? `${data.transpose === false ? 'relations among conditions' : 'solve coefficients'} → ${data.target || '…'}`
+    : type === 'integrability_condition' ? `M[(a), b·d] = Σ S·dlog → ${data.target || '…'}`
+    : type === 'solve_conditions' ? `${data.transpose === false ? 'relations among conditions' : 'solve coefficients'} → ${data.target || '…'}`
     : ''
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
@@ -84,8 +132,12 @@ function OpNode({ type, data, selected }) {
           <div key={i} className="handle-row" style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span className={inputs[i] ? `kind-${inputs[i].kind === 'seed' ? 'fec' : inputs[i].kind}` : ''}>
               {inputs[i]?.label || ''}
+              {inputs[i] && handleDims(id, inputs[i].id) && <span className="dim-badge"> {handleDims(id, inputs[i].id)}</span>}
             </span>
-            <span className={outputs[i] ? `kind-${outputs[i].kind}` : ''}>{outputs[i]?.label || ''}</span>
+            <span className={outputs[i] ? `kind-${outputs[i].kind}` : ''}>
+              {outputs[i]?.label || ''}
+              {outputs[i] && handleDims(id, outputs[i].id) && <span className="dim-badge"> {handleDims(id, outputs[i].id)}</span>}
+            </span>
           </div>
         ))}
         {inputs.map((inp, i) => (
@@ -108,6 +160,7 @@ function OpNode({ type, data, selected }) {
 function AssembleNode({ id, data, selected }) {
   const edges = useEdges()
   const updateNodeInternals = useUpdateNodeInternals()
+  const handleDims = useHandleDims()
   const def = NODE_DEFS.assemble
   let maxConnected = -1
   for (const e of edges) {
@@ -118,15 +171,27 @@ function AssembleNode({ id, data, selected }) {
   }
   const slots = Math.max(def.inputs.length, maxConnected + 2)
   useEffect(() => { updateNodeInternals(id) }, [id, slots, updateNodeInternals])
+  const outputs = data.outputs || []
+  const rows = Math.max(slots, outputs.length)
   return (
     <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
       <div className="node-title" style={{ background: def.color }}>{def.title}</div>
       <div className="node-body">
         <div style={{ marginBottom: 2 }}>{`A = Σc·B → ${data.target || '…'}`}</div>
-        {Array.from({ length: slots }).map((_, i) => (
-          <div key={i} className="handle-row" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span className="kind-tensor">elem {i + 1}</span>
-            <span className={i === 0 ? 'kind-tensor' : ''}>{i === 0 ? def.outputs[0].label : ''}</span>
+        {Array.from({ length: rows }).map((_, i) => (
+          <div key={i} className="handle-row" style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+            {i < slots ? (
+              <span className="kind-tensor">
+                elem {i + 1}
+                {handleDims(id, `in_${i}`) && <span className="dim-badge"> {handleDims(id, `in_${i}`)}</span>}
+              </span>
+            ) : <span />}
+            {outputs[i] && (
+              <span className="kind-tensor">
+                {handleDims(id, `out_${i}`) && <span className="dim-badge">{handleDims(id, `out_${i}`)} </span>}
+                {outputs[i].name || `out ${i + 1}`} →
+              </span>
+            )}
           </div>
         ))}
         {Array.from({ length: slots }).map((_, i) => (
@@ -135,10 +200,75 @@ function AssembleNode({ id, data, selected }) {
             style={{ top: ROW0 + SUB_EXTRA + i * ROW_STEP }}
           />
         ))}
-        <Handle
-          type="source" position={Position.Right} id="out"
-          style={{ top: ROW0 + SUB_EXTRA, background: 'var(--accent)' }}
-        />
+        {outputs.map((o, oi) => (
+          <Handle
+            key={`out_${oi}`} type="source" position={Position.Right} id={`out_${oi}`}
+            style={{ top: ROW0 + SUB_EXTRA + oi * ROW_STEP, background: 'var(--accent)' }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CBIONode({ id, data, selected, type }) {
+  const def = NODE_DEFS[type]
+  const isIn = type === 'cb_in'
+  const label = (data?.name || '').trim() || (isIn ? 'in' : 'out')
+  return (
+    <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined, borderStyle: 'dashed' }}>
+      <div className="node-title" style={{ background: def.color }}>{def.title}</div>
+      <div className="node-body">
+        <div className="handle-row" style={{ position: 'relative', display: 'flex', justifyContent: isIn ? 'flex-end' : 'flex-start' }}>
+          <span className={`kind-${data?.kind || 'tensor'}`}>
+            {label}
+          </span>
+          {isIn ? (
+            <Handle type="source" position={Position.Right} id="out"
+              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -18, background: 'var(--accent)' }} />
+          ) : (
+            <Handle type="target" position={Position.Left} id="in"
+              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: -18 }} />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CustomBlockNode({ id, data, selected }) {
+  const { project } = useProject()
+  const def = NODE_DEFS[`cb_${data?.block}`]
+  if (!def) {
+    return (
+      <div className="node-card" style={{ borderColor: '#c33', opacity: 0.8 }}>
+        <div className="node-title" style={{ background: '#fdd' }}>Custom block</div>
+        <div className="node-body"><span className="error-text">missing block — deleted?</span></div>
+      </div>
+    )
+  }
+  const rows = Math.max(def.inputs.length, def.outputs.length, 1)
+  return (
+    <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined }}>
+      <div className="node-title" style={{ background: def.color }}>{def.title}</div>
+      <div className="node-body">
+        {Array.from({ length: rows }).map((_, i) => (
+          <div key={i} className="handle-row" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span className={def.inputs[i] ? `kind-${def.inputs[i].kind}` : ''}>{def.inputs[i]?.label || ''}</span>
+            <span className={def.outputs[i] ? `kind-${def.outputs[i].kind}` : ''}>
+              {def.outputs[i]?.label || ''}
+              {' →'}
+            </span>
+          </div>
+        ))}
+        {def.inputs.map((inp, i) => (
+          <Handle key={inp.id} type="target" position={Position.Left} id={inp.id}
+            style={{ top: ROW0 + i * ROW_STEP }} />
+        ))}
+        {def.outputs.map((out, i) => (
+          <Handle key={out.id} type="source" position={Position.Right} id={out.id}
+            style={{ top: ROW0 + i * ROW_STEP, background: 'var(--accent)' }} />
+        ))}
       </div>
     </div>
   )
@@ -146,11 +276,15 @@ function AssembleNode({ id, data, selected }) {
 
 const nodeTypes = {
   alphabet: AlphabetNode,
+  cb_in: CBIONode,
+  cb_out: CBIONode,
+  customblock: CustomBlockNode,
   merge_conditions: (p) => <OpNode {...p} type="merge_conditions" />,
   extend: (p) => <OpNode {...p} type="extend" />,
   sew: (p) => <OpNode {...p} type="sew" />,
   project: (p) => <OpNode {...p} type="project" />,
   solve_symmetry: (p) => <OpNode {...p} type="solve_symmetry" />,
+  symderive: (p) => <OpNode {...p} type="symderive" />,
   solve_collinear: (p) => <OpNode {...p} type="solve_collinear" />,
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
   add_tensors: (p) => <OpNode {...p} type="add_tensors" />,
@@ -158,13 +292,17 @@ const nodeTypes = {
   apply_symmetry: (p) => <OpNode {...p} type="apply_symmetry" />,
   matrix_power: (p) => <OpNode {...p} type="matrix_power" />,
   tensor_join: (p) => <OpNode {...p} type="tensor_join" />,
+  tensor_dot: (p) => <OpNode {...p} type="tensor_dot" />,
   impose_integrability: (p) => <OpNode {...p} type="impose_integrability" />,
+  integrability_condition: (p) => <OpNode {...p} type="integrability_condition" />,
+  solve_conditions: (p) => <OpNode {...p} type="solve_conditions" />,
   assemble: AssembleNode,
   groupBox: GroupNode,
 }
 
-function Inspector({ node, onChange, onDelete, groupOps }) {
+function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock }) {
   const { project } = useProject()
+  const edges = useEdges()
   if (!node) return (
     <div>
       <p className="muted">Select a node to edit its parameters.</p>
@@ -189,6 +327,46 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
   const set = (patch) => onChange(node.id, patch)
   const myGroup = groupOps.groups.find((g) => !g.collapsed && g.node_ids.includes(node.id))
 
+  if (node.type === 'cb_in' || node.type === 'cb_out') {
+    return (
+      <div>
+        <h3>{node.type === 'cb_in' ? 'Block Input port' : 'Block Output port'}</h3>
+        <p className="muted" style={{ fontSize: 11 }}>
+          Abstract port of the custom block being defined. Name and kind become the port of the sealed block.
+        </p>
+        <label>Port name</label>
+        <input value={d.name || ''} onChange={(e) => set({ name: e.target.value })} placeholder="e.g. M / tensor / sym" />
+        <label>Port kind</label>
+        <select value={d.kind || 'tensor'} onChange={(e) => set({ kind: e.target.value })}>
+          {['tensor', 'matrix', 'dlogmat', 'fec', 'lec', 'seed'].map((k) => <option key={k} value={k}>{k}</option>)}
+        </select>
+        <p className="muted" style={{ fontSize: 11 }}>
+          Ports are ordered by placement on the card; the block exposes them in that order.
+        </p>
+        <button className="danger" onClick={() => onDelete(node.id)}>Delete node</button>
+      </div>
+    )
+  }
+  if (node.type === 'customblock') {
+    const cb = project?.flows.find((f) => f.id === d.block)
+    return (
+      <div>
+        <h3>Custom block: {cb?.name || '(missing)'}</h3>
+        <p className="muted" style={{ fontSize: 11 }}>
+          An instance of the sealed block “{cb?.name}”. Its internals are defined in that block&apos;s own
+          diagram — edit them there; every instance updates automatically. Definition-level parameters
+          (shared by all instances) are set inside the block.
+        </p>
+        <button onClick={() => onOpenBlock(d.block)}>Open block definition</button>
+        <p className="muted" style={{ fontSize: 11, marginTop: 12 }}>
+          Inputs: {(NODE_DEFS[`cb_${d.block}`]?.inputs || []).map((i) => `${i.label} (${i.kind})`).join(', ') || 'none'}
+          <br />
+          Outputs: {(NODE_DEFS[`cb_${d.block}`]?.outputs || []).map((o) => `${o.label} (${o.kind})`).join(', ') || 'none'}
+        </p>
+        <button className="danger" onClick={() => onDelete(node.id)}>Delete node</button>
+      </div>
+    )
+  }
   if (node.type === 'alphabet') {
     const alphabet = project?.alphabets.find((a) => a.id === d.alphabet_id)
     return (
@@ -201,17 +379,14 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
         </select>
         {alphabet && (
           <>
-            <label>Exposed outputs (properties)</label>
+            <label>Exposed output (property)</label>
             {alphabet.properties.map((p) => (
               <div key={p.id} style={{ padding: '2px 0' }}>
-                <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, margin: 0, color: 'var(--text)' }}>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, margin: 0, color: 'var(--text)', cursor: 'pointer' }}>
                   <input
-                    type="checkbox" style={{ width: 'auto' }}
+                    type="radio" name={`prop_${node.id}`} style={{ width: 'auto' }}
                     checked={(d.selected_properties || []).includes(p.id)}
-                    onChange={(e) => {
-                      const cur = d.selected_properties || []
-                      set({ selected_properties: e.target.checked ? [...cur, p.id] : cur.filter((x) => x !== p.id) })
-                    }}
+                    onChange={() => set({ selected_properties: [p.id] })}
                   />
                   <StatusDot status={p.status} />
                   <span className={`kind-${PROP_KIND[p.type]}`}>
@@ -246,26 +421,24 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
           <p className="muted" style={{ fontSize: 11 }}>Must equal input FEC/LEC weight + 1 (checked at compile time). Connect exactly one of FEC in / LEC in — LEC extends backward.</p>
         </>
       )}
-      {node.type === 'project' && (
+      {node.type === 'sew' && (
         <>
-          <label>Symmetry</label>
-          <select value={d.symmetry || ''} onChange={(e) => set({ symmetry: e.target.value })}>
-            <option value="">— choose —</option>
-            {['collinear', 'cyclic', 'flip', 'parity'].map((s) => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <label>Target (e.g. SEW_3p1 or FEC_3; derived from seed input if empty)</label>
-          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} />
+          <label>Target name (optional)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="auto: SEW_FpL" />
+          <p className="muted" style={{ fontSize: 11 }}>Defaults to SEW_FpL from the FEC/LEC weights; a counter suffix (_2, _3, …) is appended automatically when multiple Sew nodes share the same name.</p>
         </>
       )}
-      {node.type === 'solve_symmetry' && (
+      {(node.type === 'project' || node.type === 'solve_symmetry' || node.type === 'symderive') && (
         <>
-          <label>Symmetry</label>
-          <select value={d.symmetry || ''} onChange={(e) => set({ symmetry: e.target.value })}>
-            <option value="">— choose —</option>
-            {['cyclic', 'flip', 'parity'].map((s) => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <label>Target</label>
-          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} />
+          <label>Output name</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_proj" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            {node.type === 'project'
+              ? 'out[d,b\',c\'] = Σ P[d,a]·T[a,b,c]·S[b\',b]·S[c\',c] — wire the symmetry rep (square, axes 2,3) and the projection map (d×a, axis 1).'
+              : node.type === 'symderive'
+              ? 'Two steps: ① impose sym M on the last two entries of the extended tensor (s,a,b), ② solve R·T = T\' for the induced transformation matrix R (s×s). Feed R back as the sym M input of the next Symmetry Derive level. Wire sym M (c) only if the two axes use different matrices.'
+              : 'Three steps: ① impose sym M on the last two entries (ternary contract), ② derive the induced R (a×a) from R·T = T\' and take K = ker(Rᵀ−I), ③ contract K with the original tensor → (e,b,c). Wire sym M (c) only if the two axes use different matrices.'}
+          </p>
         </>
       )}
       {node.type === 'solve_collinear' && (
@@ -293,13 +466,11 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
       )}
       {node.type === 'add_tensors' && (
         <>
-          <label>Weight of A (rational)</label>
-          <input value={d.weight_a || ''} onChange={(e) => set({ weight_a: e.target.value })} placeholder="1" />
-          <label>Weight of B (rational)</label>
-          <input value={d.weight_b || ''} onChange={(e) => set({ weight_b: e.target.value })} placeholder="1" />
+          <label>Weights (comma-separated, one per input)</label>
+          <input value={d.weights || ''} onChange={(e) => set({ weights: e.target.value })} placeholder="1, -1, 1/2" />
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. SEW_3p1_total" />
-          <p className="muted" style={{ fontSize: 11 }}>Computes wA·A + wB·B with exact rational arithmetic (tensor_add). A and B must have identical dimensions (same kind and weight).</p>
+          <p className="muted" style={{ fontSize: 11 }}>Computes Σ wᵢ·Aᵢ with exact rational arithmetic (tensor_add). All inputs must have identical dimensions (same kind and weight). Weights default to 1 when omitted; extra entries are ignored.</p>
         </>
       )}
       {(node.type === 'ternary_contract' || node.type === 'apply_symmetry') && (
@@ -312,7 +483,7 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
       {node.type === 'matrix_power' && (
         <>
           <label>Power n (non-negative integer)</label>
-          <input value={d.n || ''} onChange={(e) => set({ n: e.target.value })} placeholder="2" />
+          <input value={d.n || ''} onChange={(e) => set({ n: e.target.value.replace(/[^\d-]/g, '') })} placeholder="2" />
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. cyc2" />
           <p className="muted" style={{ fontSize: 11 }}>M^n with exact rational arithmetic (binary exponentiation). n=0 gives the identity. Use it to generate group elements M, M², … feeding Ternary Contract.</p>
@@ -321,10 +492,21 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
       {node.type === 'tensor_join' && (
         <>
           <label>Axis (1-based; negative counts from the end)</label>
-          <input value={d.axis || ''} onChange={(e) => set({ axis: e.target.value })} placeholder="1 = first entry, -1 = last entry" />
+          <input value={d.axis || ''} onChange={(e) => set({ axis: e.target.value.replace(/[^\d-]/g, '') })} placeholder="1 = first entry, -1 = last entry" />
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_1_joined" />
           <p className="muted" style={{ fontSize: 11 }}>Like Mathematica Join: all dimensions except the join axis must match; the join axis dimension grows.</p>
+        </>
+      )}
+      {node.type === 'tensor_dot' && (
+        <>
+          <label>Axis of A (1-based; negative counts from the end)</label>
+          <input value={d.axis_a ?? ''} onChange={(e) => set({ axis_a: e.target.value.replace(/[^\d-]/g, '') })} placeholder="-1 = last entry" />
+          <label>Axis of B (1-based; negative counts from the end)</label>
+          <input value={d.axis_b ?? ''} onChange={(e) => set({ axis_b: e.target.value.replace(/[^\d-]/g, '') })} placeholder="-1 = last entry" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. contracted" />
+          <p className="muted" style={{ fontSize: 11 }}>Contraction Σ A[...,i,...]·B[...,i,...]: the two chosen axes must have equal dimension. Result = A's remaining axes followed by B's remaining axes. Dotting the last axis of A with the first of a matrix is ordinary matrix–tensor multiplication.</p>
         </>
       )}
       {node.type === 'impose_integrability' && (
@@ -348,25 +530,79 @@ function Inspector({ node, onChange, onDelete, groupOps }) {
           </p>
         </>
       )}
-      {node.type === 'assemble' && (
+      {node.type === 'integrability_condition' && (
         <>
-          <label>Groups (one group index per connected element, in elem order top to bottom)</label>
-          <input value={d.groups || ''} onChange={(e) => set({ groups: e.target.value })} placeholder="e.g. 1,1,2,3 → B1={elem1,elem2}, B2={elem3}, B3={elem4}" />
-          <label>Coefficients (one rational per group; 0 excludes the group)</label>
-          <input value={d.coefs || ''} onChange={(e) => set({ coefs: e.target.value })} placeholder="e.g. 1/2,2,0 → A = (1/2)·B1 + 2·B2" />
           <label>Target name (output file)</label>
-          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. sol_A" />
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. w2f_icond" />
           <p className="muted" style={{ fontSize: 11 }}>
-            Assembles A = Σ cⱼ·Bⱼ in the common aligned frame: the element solution spaces are scaled by
-            their group&apos;s coefficient and joined along the first axis in the given order, then projected
-            by P_A — rows of groups with coefficient 0 stay in the frame but are zeroed. Connect any number
-            of elements (a new empty slot appears as you wire); all must have the same kind and matching
-            trailing dimensions. Runs tensor_ops assemble.
+            Step 1 of Solve Integrability: contracts the last two axes of the rank-3 tensor S[s,i,a] with
+            the integrability dlog D[a,i,c] and writes the condition matrix M[s,c] = Σ S[s,i,a]·D[a,i,c].
+            Feed it to Solve Conditions (or manipulate it with matrix operations first).
           </p>
         </>
       )}
+      {node.type === 'solve_conditions' && (
+        <>
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. w2f_sol" />
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
+            <input
+              type="checkbox" style={{ width: 'auto' }}
+              checked={d.transpose !== false}
+              onChange={(e) => set({ transpose: e.target.checked })}
+            />
+            Transpose before solving (solve for tensor coefficients)
+          </label>
+          <p className="muted" style={{ fontSize: 11 }}>
+            Step 2 of Solve Integrability: computes the kernel of the condition matrix M. With transpose on,
+            the output basis is the kernel of Mᵀ — combinations of the s tensors satisfying all c conditions.
+            With transpose off, it is the kernel of M — linear relations among the conditions.
+          </p>
+        </>
+      )}
+      {node.type === 'assemble' && (() => {
+        const outs = d.outputs || []
+        const nElems = edges.filter((e) => e.target === node.id && (e.targetHandle || '').startsWith('in_')).length
+        const setOuts = (next) => set({ outputs: next })
+        return (
+          <>
+            <label>Target name (output files &lt;target&gt;_&lt;output&gt;.wxf)</label>
+            <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. sol_A" />
+            <label>
+              Outputs — each is a projection of the combined frame ({nElems || '…'} element{nElems === 1 ? '' : 's'} connected;
+              {' '}one rational coefficient per element, 0 keeps zero rows)
+            </label>
+            {outs.map((o, oi) => (
+              <div key={oi} style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 4 }}>
+                <input
+                  style={{ width: 90 }} value={o.name || ''}
+                  onChange={(e) => setOuts(outs.map((x, i) => (i === oi ? { ...x, name: e.target.value } : x)))}
+                  placeholder={`out ${oi + 1}`}
+                />
+                <input
+                  value={o.coefs || ''}
+                  onChange={(e) => setOuts(outs.map((x, i) => (i === oi ? { ...x, coefs: e.target.value } : x)))}
+                  placeholder={nElems ? Array(nElems).fill('1').join(',') : 'e.g. 1,0,-1/2'}
+                />
+                <button
+                  className="btn ghost" style={{ padding: '2px 7px' }}
+                  onClick={() => setOuts(outs.filter((_, i) => i !== oi))}
+                >✕</button>
+              </div>
+            ))}
+            <button className="btn ghost" style={{ width: '100%' }}
+              onClick={() => setOuts([...outs, { name: '', coefs: nElems ? Array(nElems).fill('1').join(',') : '' }])}
+            >+ add output</button>
+            <p className="muted" style={{ fontSize: 11 }}>
+              Elements first combine into one aligned frame (stacked along the first axis, in elem order).
+              Each output then takes its own linear combination: coefficient 0 leaves that element&apos;s block
+              as zero rows, so every output has the same shape as the frame. Runs one tensor_ops assemble per output.
+            </p>
+          </>
+        )
+      })()}
       {node.type === 'merge_conditions' && <p className="muted">Connect two or more dlogmat outputs (integrability, extended Steinmann, cluster adjacency) to merge them into a single condition tensor.</p>}
-      {node.type === 'sew' && <p className="muted">Combines a condition tensor, an FEC tensor of weight F and an LEC tensor of weight L into SEW_FpL.</p>}
+      {node.type === 'sew' && <p className="muted">Combines a condition tensor, an FEC tensor of weight F and an LEC tensor of weight L into SEW_FpL (or a custom target name). Multiple Sew nodes with the same auto-name get _2, _3… suffixes.</p>}
       <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
         {myGroup && (
           <button className="small" style={{ marginBottom: 8 }} onClick={() => groupOps.onCollapse(myGroup.id)}>
@@ -394,6 +630,18 @@ function CompilePanel({ result, onRun, running }) {
       )}
       {result.ok && (
         <>
+          {(result.flow_outputs || []).length > 0 && (
+            <div style={{ marginBottom: 8 }}>
+              <div className="muted" style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>Flow outputs</div>
+              {result.flow_outputs.map((o, i) => (
+                <div key={i} className="step-cmd" style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
+                  <span className={`kind-badge ${o.kind || 'tensor'}`}>{o.kind || '?'}</span>
+                  <strong>{o.name}</strong>
+                  <span className="muted">{o.dims ? `(${o.dims.join('×')})` : ''} {o.file}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <ul className="step-list">
             {result.steps.map((s) => (
               <li key={s.id}>
@@ -429,6 +677,12 @@ function isOutputHandle(node, handleId) {
   if (!node || !handleId) return false
   if (node.type === 'groupBox') return handleId === 'out'
   if (node.type === 'alphabet') return /^(prop|proj)_/.test(handleId)
+  if (node.type === 'assemble') return /^out_\d+$/.test(handleId)
+  if (node.type === 'customblock') {
+    const def = NODE_DEFS[`cb_${node.data?.block}`]
+    if (!def) return true
+    return !!(def?.outputs || []).some((o) => o.id === handleId)
+  }
   const def = NODE_DEFS[node.type]
   return !!(def?.outputs || []).some((o) => o.id === handleId)
 }
@@ -461,13 +715,17 @@ function FlowEditorInner() {
   const [running, setRunning] = useState(false)
   const [flowName, setFlowName] = useState('')
   const [saveState, setSaveState] = useState('saved')
+  const [autoSave, setAutoSave] = useState(() => localStorage.getItem('symbology.autosave') !== '0')
   const [groups, setGroups] = useState([])
   const [selCount, setSelCount] = useState(0)
   const rf = useRef(null)
   const wrapper = useRef(null)
   const skipAutosave = useRef(true)
+  const loadedSig = useRef('')
+  const stashTimer = useRef(null)
 
   const flow = project?.flows.find((f) => f.id === fid)
+  registerCustomBlocks(project)
 
   useEffect(() => {
     if (flow) {
@@ -498,11 +756,49 @@ function FlowEditorInner() {
         ns = ns.map((n) => (ids.has(n.id) ? { ...n, hidden: true } : n))
         ns = ns.concat(groupBoxNode(g))
       }
+      // migrate legacy assemble nodes: groups/coefs -> outputs list, out -> out_0
+      const legacyEdges = flow.graph?.edges || []
+      const migNodes = new Set()
+      ns = ns.map((n) => {
+        if (n.type !== 'assemble' || (n.data?.outputs?.length)) return n
+        migNodes.add(n.id)
+        const g = (n.data?.groups || '').split(',').map((s) => s.trim()).filter(Boolean)
+        const c = (n.data?.coefs || '').split(',').map((s) => s.trim()).filter(Boolean)
+        let coefs = null
+        if (g.length && c.length) {
+          try {
+            const ex = g.map((gi) => c[parseInt(gi, 10) - 1])
+            if (ex.every(Boolean)) coefs = ex.join(',')
+          } catch { coefs = null }
+        }
+        const outputs = coefs
+          ? [{ name: 'out1', coefs }]
+          : [{ name: 'out1', coefs: '' }]
+        const { groups, coefs: _c, ...rest } = n.data || {}
+        return { ...n, data: { ...rest, outputs } }
+      })
+      const migEdges = migNodes.size
+        ? legacyEdges.map((e) => (e.sourceHandle === 'out' && migNodes.has(e.source) ? { ...e, sourceHandle: 'out_0' } : e))
+        : legacyEdges
+      // migrate legacy add_tensors edges: a -> in_0, b -> in_1 (same shape, so ports stay aligned)
+      const addMig = migEdges.map((e) => {
+        if (e.targetHandle === 'a' || e.targetHandle === 'b') {
+          const t = ns.find((n) => n.id === e.target)
+          if (t?.type === 'add_tensors') return { ...e, targetHandle: e.targetHandle === 'a' ? 'in_0' : 'in_1' }
+        }
+        return e
+      })
       setGroups(gr)
       setNodes(ns)
-      setEdges(flow.graph?.edges || [])
+      setEdges(addMig)
       bumpNodeSeqFromIds([...ns.map((n) => n.id), ...(flow.graph?.edges || []).map((e) => e.id)])
       setCompileResult(null)
+      loadedSig.current = JSON.stringify({
+        name: flow.name || '',
+        nodes: ns.filter((n) => n.type !== 'groupBox').map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
+        edges: addMig.map((e) => ({ id: e.id, source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle })),
+        groups: gr.filter((g) => g.node_ids.some((id) => ns.some((n) => n.id === id && n.type !== 'groupBox'))),
+      })
       setSaveState('saved')
     }
   }, [flow?.id]) // eslint-disable-line
@@ -516,32 +812,142 @@ function FlowEditorInner() {
   useEffect(() => {
     if (!flow) return undefined
     if (skipAutosave.current) { skipAutosave.current = false; return undefined }
+    if (JSON.stringify({ name: flowName, ...serializeGraph() }) === loadedSig.current) return undefined
+    if (!autoSave) { setSaveState('unsaved'); return undefined }
     setSaveState('unsaved')
     const t = setTimeout(async () => {
       setSaveState('saving')
       try {
-        await api.updateFlow(project.id, fid, { name: flowName, graph: serializeGraph() })
+        const graph = serializeGraph()
+        await api.updateFlow(project.id, fid, { name: flowName, graph })
+        loadedSig.current = JSON.stringify({ name: flowName, ...graph })
         setSaveState('saved')
       } catch {
         setSaveState('error')
       }
     }, 800)
     return () => clearTimeout(t)
-  }, [nodes, edges, flowName, groups]) // eslint-disable-line
+  }, [nodes, edges, flowName, groups, autoSave, flow]) // eslint-disable-line
 
   const resolveSourceKind = useCallback((nodeId, handleId, depth = 0) => {
     const node = nodes.find((n) => n.id === nodeId)
     if (!node) return null
-    if (handleId === 'out' && (node.type === 'add_tensors' || node.type === 'tensor_join' || node.type === 'ternary_contract' || node.type === 'apply_symmetry' || node.type === 'assemble')) {
+    if ((handleId === 'out' || /^out_\d+$/.test(handleId)) && (node.type === 'add_tensors' || node.type === 'tensor_join' || node.type === 'ternary_contract' || node.type === 'apply_symmetry' || node.type === 'assemble')) {
       if (depth > 8) return 'tensor'
-      const handle = (node.type === 'ternary_contract' || node.type === 'apply_symmetry') ? 'tensor' : 'a'
-      const e = node.type === 'assemble'
+      const e = (node.type === 'assemble' || node.type === 'add_tensors')
         ? edges.find((ed) => ed.target === nodeId && (ed.targetHandle || '').startsWith('in_'))
-        : edges.find((ed) => ed.target === nodeId && (ed.targetHandle === handle || (handle === 'a' && ed.targetHandle === 'b')))
+        : edges.find((ed) => {
+            const h = node.type === 'ternary_contract' || node.type === 'apply_symmetry' ? 'tensor' : 'a'
+            return ed.target === nodeId && (ed.targetHandle === h || (h === 'a' && ed.targetHandle === 'b'))
+          })
       return e ? resolveSourceKind(e.source, e.sourceHandle, depth + 1) : 'tensor'
     }
     return sourceKindFor(node, handleId, project)
   }, [nodes, edges, project])
+
+  const compileShapes = compileResult?.ok ? compileResult.shapes : null
+
+  const inputDimsFor = useCallback((nodeId, handleId, depth = 0) => {
+    const node = nodes.find((n) => n.id === nodeId)
+    if (!node || depth > 8) return null
+    if (node.type === 'alphabet') return alphabetHandleDims(project, node, handleId)
+    const inbound = edges.find((ed) => ed.target === nodeId && ed.targetHandle === handleId)
+    if (inbound) {
+      const key = `${inbound.source}|${inbound.sourceHandle}`
+      const shape = compileShapes?.[key]
+      if (shape) return shape.join('×')
+      return inputDimsFor(inbound.source, inbound.sourceHandle, depth + 1)
+    }
+    return null
+  }, [nodes, edges, project, compileShapes])
+
+  const outputDimsFor = useCallback((nodeId, handleId, depth = 0) => {
+    const node = nodes.find((n) => n.id === nodeId)
+    if (!node || depth > 8) return null
+    if (node.type === 'alphabet') return alphabetHandleDims(project, node, handleId)
+    const shape = compileShapes?.[`${nodeId}|${handleId}`]
+    if (shape) return shape.join('×')
+    const inDims = (hid) => {
+      const e = edges.find((ed) => ed.target === nodeId && ed.targetHandle === hid)
+      return e ? inputDimsFor(e.source, e.sourceHandle, depth + 1) : null
+    }
+    const inDimsList = (hid) => {
+      const d = inDims(hid)
+      if (!d) return null
+      return d.split('×').map((x) => parseInt(x, 10))
+    }
+    switch (node.type) {
+      case 'add_tensors': {
+        const d = inDims('in_0') || inDims('in_1') || inDims('a') || inDims('b')
+        if (d) return d
+        break
+      }
+      case 'matrix_power': {
+        const d = inDims('matrix')
+        if (d) return d
+        break
+      }
+      case 'tensor_join': {
+        const a = inDimsList('a')
+        const b = inDimsList('b')
+        const axis = Number(node.data?.axis)
+        if (a && b && Number.isInteger(axis) && axis !== 0) {
+          const k = axis > 0 ? axis - 1 : a.length + axis
+          if (k >= 0 && k < a.length && a.length === b.length && a.every((x, i) => i === k || x === b[i])) {
+            const out = [...a]
+            out[k] += b[k]
+            return out.join('×')
+          }
+        }
+        break
+      }
+      case 'tensor_dot': {
+        const a = inDimsList('a')
+        const b = inDimsList('b')
+        const aa = Number(node.data?.axis_a ?? -1)
+        const ab = Number(node.data?.axis_b ?? -1)
+        if (a && b && Number.isInteger(aa) && Number.isInteger(ab)) {
+          const ka = aa > 0 ? aa - 1 : a.length + aa
+          const kb = ab > 0 ? ab - 1 : b.length + ab
+          if (ka >= 0 && ka < a.length && kb >= 0 && kb < b.length && a[ka] === b[kb])
+            return [...a.filter((_, i) => i !== ka), ...b.filter((_, i) => i !== kb)].join('×')
+        }
+        break
+      }
+      case 'integrability_condition': {
+        const t = inDimsList('tensor')
+        const d = inDimsList('dlog')
+        if (t && t.length >= 2 && d && d.length === 3) {
+          let inner = 1
+          for (let i = 1; i < t.length - 2; i++) inner *= t[i]
+          return [t.length > 2 ? t[0] : 1, inner * d[2]].join('×')
+        }
+        break
+      }
+      case 'ternary_contract': {
+        const t = inDimsList('tensor')
+        if (t && t.length === 3) return [t[0], t[2]].join('×')
+        break
+      }
+      case 'assemble': {
+        const first = edges.find((ed) => ed.target === nodeId && (ed.targetHandle || '').startsWith('in_'))
+        if (first) return inputDimsFor(first.source, first.sourceHandle, depth + 1)
+        break
+      }
+      default:
+        break
+    }
+    return null
+  }, [nodes, edges, project, compileShapes])
+
+  const dimsFor = useCallback((nodeId, handleId) => {
+    const node = nodes.find((n) => n.id === nodeId)
+    if (!node) return null
+    const inbound = edges.find((ed) => ed.target === nodeId && ed.targetHandle === handleId)
+    if (inbound) return inputDimsFor(inbound.source, inbound.sourceHandle)
+    if (isOutputHandle(node, handleId)) return outputDimsFor(nodeId, handleId)
+    return null
+  }, [nodes, edges, project, inputDimsFor, outputDimsFor])
 
   const normalizeConn = useCallback((conn) => {
     const srcNode = nodes.find((n) => n.id === conn.source)
@@ -572,10 +978,16 @@ function FlowEditorInner() {
 
   const onDrop = useCallback((e) => {
     e.preventDefault()
-    const type = e.dataTransfer.getData('application/symbology-node')
-    if (!type || !rf.current) return
+    const raw = e.dataTransfer.getData('application/symbology-node')
+    if (!raw || !rf.current) return
     const pos = rf.current.screenToFlowPosition({ x: e.clientX, y: e.clientY })
-    const defaults = type === 'alphabet' ? { alphabet_id: '', selected_properties: [] } : {}
+    let type = raw
+    let defaults = type === 'alphabet' ? { alphabet_id: '', selected_properties: [] } : {}
+    if (raw.startsWith('customblock:')) {
+      type = 'customblock'
+      defaults = { block: raw.slice('customblock:'.length) }
+    }
+    if (type === 'cb_in' || type === 'cb_out') defaults = { name: '', kind: 'tensor', order: Date.now() % 100000 }
     setNodes((ns) => {
       const used = new Set(ns.map((n) => n.id))
       let id = `${type}_${nodeSeq++}`
@@ -587,10 +999,17 @@ function FlowEditorInner() {
 
   const save = async () => {
     setSaveState('saving')
-    await api.updateFlow(project.id, fid, { name: flowName, graph: serializeGraph() })
-    await refreshProject()
-    setSaveState('saved')
-    toast('Flow saved.')
+    try {
+      const graph = serializeGraph()
+      await api.updateFlow(project.id, fid, { name: flowName, graph })
+      loadedSig.current = JSON.stringify({ name: flowName, ...graph })
+      await refreshProject()
+      setSaveState('saved')
+      toast('Flow saved.')
+    } catch (e) {
+      setSaveState('error')
+      throw e
+    }
   }
 
   const compile = async () => {
@@ -622,6 +1041,40 @@ function FlowEditorInner() {
   }
 
   const updateNodeData = useCallback((id, patch) => {
+    if ('selected_properties' in patch && !('alphabet_id' in patch)) {
+      // Defer pruning so the uncheck-A / check-B sequence can migrate the
+      // dangling edges to the replacement property within a short window.
+      if (stashTimer.current) clearTimeout(stashTimer.current)
+      const node = nodes.find((n) => n.id === id)
+      if (node?.type === 'alphabet') {
+        const prevSel = node.data?.selected_properties || []
+        const sel = patch.selected_properties || []
+        setNodes((ns) => ns.map((n) => (n.id === id ? { ...n, data: { ...n.data, ...patch } } : n)))
+        const keep = new Set()
+        for (const pid of sel) { keep.add(`prop_${pid}`); keep.add(`proj_${pid}`) }
+        // migrate dangling edges to newly added same-type properties
+        const alphabet = project?.alphabets?.find((a) => a.id === node.data?.alphabet_id)
+        const added = sel.filter((p) => !prevSel.includes(p))
+        const used = new Set()
+        const typeOf = (pid) => alphabet?.properties.find((p) => p.id === pid)?.type
+        const migrate = new Map()
+        for (const e of edges) {
+          if (e.source !== id || keep.has(e.sourceHandle)) continue
+          const m = /^(prop|proj)_(.+)$/.exec(e.sourceHandle || '')
+          if (!m) continue
+          const cand = added.find((a) => typeOf(a) === typeOf(m[2]) && !used.has(a))
+          if (cand) { used.add(cand); migrate.set(e.id, `${m[1]}_${cand}`) }
+        }
+        if (migrate.size) setEdges((es) => es.map((e) => (migrate.has(e.id) ? { ...e, sourceHandle: migrate.get(e.id) } : e)))
+        // prune anything still dangling after a grace period
+        if (stashTimer.current) clearTimeout(stashTimer.current)
+        stashTimer.current = setTimeout(() => {
+          setEdges((es) => es.filter((e) => e.source !== id || !/^(prop|proj)_/.test(e.sourceHandle || '') || keep.has(e.sourceHandle)))
+        }, 2500)
+        setCompileResult(null)
+        return
+      }
+    }
     setNodes((ns) => ns.map((n) => (n.id === id ? { ...n, data: { ...n.data, ...patch } } : n)))
     if ('selected_properties' in patch || 'alphabet_id' in patch) {
       const keep = new Set()
@@ -629,7 +1082,7 @@ function FlowEditorInner() {
       setEdges((es) => es.filter((e) => e.source !== id || !/^(prop|proj)_/.test(e.sourceHandle || '') || keep.has(e.sourceHandle)))
     }
     setCompileResult(null)
-  }, [setNodes, setEdges])
+  }, [nodes, edges, project, setNodes, setEdges])
 
   const groupOf = useMemo(() => {
     const m = new Map()
@@ -828,21 +1281,75 @@ function FlowEditorInner() {
             ))}
           </div>
         ))}
+        {flow.custom_block && (
+          <div>
+            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Block ports</div>
+            {[
+              { type: 'cb_in', label: 'Block Input', sub: 'abstract input port' },
+            ].map((p) => (
+              <div
+                key={p.type} className="palette-item" draggable
+                onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', p.type)}
+              >
+                {p.label}
+                <div className="sub">{p.sub}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div>
+          <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Flow outputs</div>
+          <div
+            className="palette-item" draggable
+            onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', 'cb_out')}
+          >
+            Flow Output
+            <div className="sub">named result of this flow</div>
+          </div>
+        </div>
+        {customBlockPalette(project).length > 0 && (
+          <div>
+            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Custom blocks</div>
+            {customBlockPalette(project).map((p) => (
+              <div
+                key={p.block} className="palette-item" draggable
+                onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', `customblock:${p.block}`)}
+              >
+                {p.label}
+                <div className="sub">{p.sub}</div>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="muted" style={{ fontSize: 11, marginTop: 12 }}>Drag a node onto the canvas. Wire colored ports of the same kind together.</div>
       </div>
       <div className="flow-canvas" ref={wrapper} onDrop={onDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flow-toolbar">
           <input style={{ width: 180 }} value={flowName} onChange={(e) => setFlowName(e.target.value)} />
+          {flow.custom_block && (
+            <span className="muted shrink" style={{ fontSize: 11, alignSelf: 'center' }} title="This flow is sealed as a reusable custom block (see Flows to unseal)">
+              ⬢ custom block
+            </span>
+          )}
           <span className="muted shrink" style={{ fontSize: 11, alignSelf: 'center', minWidth: 90 }}>
             {saveState === 'saved' && '✓ saved'}
             {saveState === 'saving' && 'saving…'}
             {saveState === 'unsaved' && 'unsaved changes'}
             {saveState === 'error' && <span className="error-text">save failed</span>}
           </span>
+          <label className="muted shrink" style={{ fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 4, alignSelf: 'center', cursor: 'pointer' }}>
+            <input
+              type="checkbox" style={{ width: 'auto' }}
+              checked={autoSave}
+              onChange={(e) => { setAutoSave(e.target.checked); localStorage.setItem('symbology.autosave', e.target.checked ? '1' : '0') }}
+            />
+            auto save
+          </label>
           <button onClick={save}>Save</button>
           <button onClick={compile}>Compile</button>
           <button className="primary" onClick={compile}>Run…</button>
         </div>
+        <DimsContext.Provider value={dimsFor}>
         <ReactFlow
           nodes={nodes} edges={visibleEdges}
           onNodesChange={(chg) => { onNodesChange(chg); setCompileResult(null) }}
@@ -866,6 +1373,7 @@ function FlowEditorInner() {
           <Background gap={18} />
           <Controls />
         </ReactFlow>
+        </DimsContext.Provider>
       </div>
       <div className="flow-side">
         <div className="row" style={{ marginBottom: 12 }}>
@@ -877,6 +1385,7 @@ function FlowEditorInner() {
             node={selectedNode}
             onChange={updateNodeData}
             onDelete={deleteNode}
+            onOpenBlock={(bid) => navigate(`/flows/${bid}`)}
             groupOps={{ groups, onExpand: (id) => expandGroup(id), onUngroup: (id) => expandGroup(id, true), onCollapse: collapseGroup, onRename: renameGroup }}
           />
         )}

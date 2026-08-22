@@ -160,6 +160,10 @@ tr:hover td { background: #fafbfc; }
 .kind-lec1, .kind-lec { color: var(--lec); }
 .kind-matrix { color: var(--matrix); }
 .kind-tensor { color: #64748b; }
+.dim-badge {
+  font-size: 8px; color: var(--muted); font-family: ui-monospace, Menlo, monospace;
+  opacity: 0.85;
+}
 
 .log-console {
   background: #0f1219; color: #d4d7dd; border-radius: 8px; padding: 12px;

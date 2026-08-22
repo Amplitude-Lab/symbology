@@ -406,9 +406,31 @@ def api_create_flow(pid: str, body: dict = Body(...)) -> dict:
         "name": body.get("name") or "Untitled flow",
         "graph": {"nodes": [], "edges": []},
     }
+    if body.get("custom_block"):
+        flow["custom_block"] = True
     proj["flows"].append(flow)
     storage.save_project(proj)
     return flow
+
+
+@app.post("/api/projects/{pid}/flows/{fid}/duplicate")
+def api_duplicate_flow(pid: str, fid: str, body: dict = Body(default={})) -> dict:
+    import copy as _copy
+    proj = _get_project(pid)
+    flow = storage.find_flow(proj, fid)
+    if flow is None:
+        raise HTTPException(404, "flow not found")
+    dup = {
+        "id": uuid.uuid4().hex[:8],
+        "name": (body.get("name") or f"Copy of {flow['name']}")[:120],
+        "graph": _copy.deepcopy(flow.get("graph") or {"nodes": [], "edges": []}),
+        "output_subdir": f"flow_{uuid.uuid4().hex[:6]}",
+    }
+    if flow.get("custom_block"):
+        dup["custom_block"] = True
+    proj["flows"].append(dup)
+    storage.save_project(proj)
+    return dup
 
 
 @app.put("/api/projects/{pid}/flows/{fid}")
@@ -421,6 +443,11 @@ def api_update_flow(pid: str, fid: str, body: dict = Body(...)) -> dict:
         flow["name"] = body["name"]
     if "graph" in body:
         flow["graph"] = body["graph"]
+    if "custom_block" in body:
+        if body["custom_block"]:
+            flow["custom_block"] = True
+        else:
+            flow.pop("custom_block", None)
     storage.save_project(proj)
     return flow
 
@@ -442,7 +469,7 @@ def api_compile_flow(pid: str, fid: str) -> dict:
     flow = storage.find_flow(proj, fid)
     if flow is None:
         raise HTTPException(404, "flow not found")
-    result = compile_flow(proj, flow.get("graph") or {})
+    result = compile_flow(proj, flow.get("graph") or {}, output_subdir=flow.get("output_subdir"))
     result.pop("_steps_full", None)
     return result
 
@@ -453,7 +480,7 @@ def api_run_flow(pid: str, fid: str) -> dict:
     flow = storage.find_flow(proj, fid)
     if flow is None:
         raise HTTPException(404, "flow not found")
-    result = compile_flow(proj, flow.get("graph") or {})
+    result = compile_flow(proj, flow.get("graph") or {}, output_subdir=flow.get("output_subdir"))
     if not result["ok"]:
         raise HTTPException(400, {"message": "flow does not compile", "errors": result["errors"]})
     steps = result["_steps_full"]
