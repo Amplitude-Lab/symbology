@@ -64,7 +64,7 @@ export const NODE_DEFS = {
   project: {
     title: 'Project', color: '#e2e8f0',
     inputs: [
-      { id: 'tensor', kind: 'tensor', label: 'tensor' },
+      { id: 'tensor', kind: 'seed', label: 'tensor' },
       { id: 'rep', kind: 'matrix', label: 'rep (axes 2,3)' },
       { id: 'map', kind: 'matrix', label: 'map (axis 1)' },
     ],
@@ -93,6 +93,16 @@ export const NODE_DEFS = {
     inputs: [{ id: 'seed', kind: 'seed', label: 'seed' }],
     outputs: [{ id: 'solution', kind: 'solution', label: 'solution' }],
   },
+  projection_chain: {
+    title: 'Projection Chain', color: '#e2e8f0',
+    inputs: [{ id: 'seed', kind: 'seed', label: 'chain seed (opt)' }],
+    outputs: [{ id: 'out', kind: 'basis', label: 'basis / projection' }],
+  },
+  symmetry_invariant: {
+    title: 'Symmetry Invariant', color: '#e2e8f0',
+    inputs: [{ id: 'seed', kind: 'seed', label: 'chain seed (opt)' }],
+    outputs: [{ id: 'out', kind: 'basis', label: 'invariant basis' }],
+  },
   compute_rhs: {
     title: 'Compute RHS', color: '#e2e8f0',
     inputs: [{ id: 'seed', kind: 'seed', label: 'seed' }],
@@ -116,7 +126,7 @@ export const NODE_DEFS = {
     outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
   },
   apply_symmetry: {
-    title: 'Ternary Contract', color: '#fef3c7',
+    title: 'Apply Symmetry', color: '#fef3c7',
     inputs: [
       { id: 'tensor', kind: 'tensor', label: 'tensor' },
       { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
@@ -165,7 +175,7 @@ export const NODE_DEFS = {
   solve_conditions: {
     title: 'Solve Conditions', color: '#ddd6fe',
     inputs: [
-      { id: 'cond', kind: 'matrix', label: 'condition matrix' },
+      { id: 'cond', kind: 'any', label: 'condition matrix' },
     ],
     outputs: [{ id: 'out', kind: 'matrix', label: 'solution basis' }],
   },
@@ -192,6 +202,7 @@ export const PALETTE_SECTIONS = [
       { type: 'merge_conditions', label: 'Merge Conditions', sub: 'combine dlogmats' },
       { type: 'add_tensors', label: 'Add Tensors', sub: 'Σ wᵢ·Aᵢ' },
       { type: 'ternary_contract', label: 'Ternary Contract', sub: 'T·M1·M2 contraction' },
+      { type: 'apply_symmetry', label: 'Apply Symmetry', sub: 'transformed tensor T·M1·M2 (alias)' },
       { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n' },
       { type: 'tensor_join', label: 'Join Tensors', sub: 'join along an axis' },
       { type: 'tensor_dot', label: 'Tensor Dot', sub: 'contract one axis of A with one of B' },
@@ -210,6 +221,8 @@ export const PALETTE_SECTIONS = [
       { type: 'solve_symmetry', label: 'Symmetry Solve', sub: 'invariant part of tensor' },
       { type: 'symderive', label: 'Symmetry Derive', sub: 'derive R (a,a) transformation' },
       { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
+      { type: 'projection_chain', label: 'Projection Chain', sub: 'bootstrap --project (basis chain)' },
+      { type: 'symmetry_invariant', label: 'Symmetry Invariant', sub: 'bootstrap --solve-symmetry' },
       { type: 'compute_rhs', label: 'Compute RHS', sub: 'collinear RHS / boundary' },
     ],
   },
@@ -219,7 +232,7 @@ const ACCEPTS = {
   dlogmat: ['dlogmat'],
   fec: ['fec1', 'fec'],
   lec: ['lec1', 'lec'],
-  seed: ['seed', 'fec1', 'fec', 'sew'],
+  seed: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
   matrix: ['matrix'],
   any: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],

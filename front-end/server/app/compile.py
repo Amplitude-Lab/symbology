@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import re
 import shlex
+import threading
 from pathlib import Path
 
 from . import storage
@@ -30,6 +31,9 @@ EDGE_RULES = {
     ("symderive", "matrix"): {"matrix"},
     ("symderive", "matrix2"): {"matrix"},
     ("solve_collinear", "seed"): {"fec1", "fec", "sew"},
+    ("projection_chain", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
+    ("symmetry_invariant", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
+    ("compute_rhs", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("add_tensors", None): TENSOR_KINDS,
     ("ternary_contract", "tensor"): R3_KINDS,
     ("ternary_contract", "trans1"): {"matrix"},
@@ -89,7 +93,11 @@ def _write_gen_script(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
 
 
-_out_prefix = "output/"
+_out_tls = threading.local()
+
+
+def _out() -> str:
+    return getattr(_out_tls, "prefix", "output/")
 
 
 def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> dict:
@@ -99,9 +107,8 @@ def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> d
     gen_dir = proj_dir / "wolfram_gen"
     gen_dir.mkdir(parents=True, exist_ok=True)
 
-    global _out_prefix
     subdir = (output_subdir or "").strip().strip("/")
-    _out_prefix = f"output/{subdir}/" if subdir else "output/"
+    _out_tls.prefix = f"output/{subdir}/" if subdir else "output/"
 
     step_counter = [0]
     file_steps: set = set()
@@ -158,7 +165,6 @@ def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> d
             continue
         ttype = tnode.get("type")
         th = e.get("targetHandle") or ""
-        key = (ttype, th.split("@")[0] if th.startswith("in_") else th)
         if ttype in ("merge_conditions", "assemble", "add_tensors"):
             allowed = EDGE_RULES[(ttype, None)]
         else:
@@ -241,6 +247,10 @@ def _compile_graph(ctx, node_list, edges, seed):
             _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "solve_collinear":
             _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
+        elif ntype == "projection_chain":
+            _compile_projection_chain(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
+        elif ntype == "symmetry_invariant":
+            _compile_symmetry_invariant(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
         elif ntype == "compute_rhs":
             _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir)
         elif ntype == "add_tensors":
@@ -421,7 +431,7 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
             "file": rel,
             "weight": 1 if kind in ("fec1", "lec1") else None,
             "name": Path(rel).stem,
-            "dims": prop.get("summary", {}).get("dims"),
+            "dims": (prop.get("summary") or {}).get("dims"),
         }
         provides[(nid, f"prop_{prop_id}")] = dict(base_info)
         if prop["type"] in ("first_entry", "last_entry"):
@@ -445,7 +455,7 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
                 "file": proj_rel,
                 "weight": None,
                 "name": Path(proj_rel).stem,
-                "dims": _squeeze_dims(prop.get("summary", {}).get("dims")),
+                "dims": _squeeze_dims((prop.get("summary") or {}).get("dims")),
             }
 
 
@@ -518,7 +528,7 @@ def _compile_extend(node, incoming, provides, add_step, errors, bootstrap, proj_
         if target != w_out:
             errors.append(f"Extend node target weight {target} does not match input weight {w_in} + 1.")
             return
-    rel = f"{_out_prefix}{direction}_{w_out}.wxf"
+    rel = f"{_out()}{direction}_{w_out}.wxf"
     add_step(
         f"Extend {direction}_{w_in} -> {direction}_{w_out}",
         "bootstrap",
@@ -559,7 +569,7 @@ def _compile_sew(node, incoming, provides, add_step, errors, bootstrap, proj_dir
         name = f"{base}_{counter}"
         counter += 1
     sew_names.add(name)
-    rel = f"{_out_prefix}{name}.wxf"
+    rel = f"{_out()}{name}.wxf"
     add_step(
         f"Sew FEC_{fw} + LEC_{lw} -> {name}",
         "bootstrap",
@@ -603,7 +613,7 @@ def _compile_project(node, incoming, provides, add_step, errors, tensor_ops_bin,
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Project {tensor['name']} -> {target}",
         "tensor_ops",
@@ -636,7 +646,7 @@ def _compile_solve_symmetry(node, incoming, provides, add_step, errors, tensor_o
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Symmetry solve {tensor['name']} -> {target}",
         "tensor_ops",
@@ -669,7 +679,7 @@ def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bi
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Symmetry derive R of {tensor['name']} -> {target}",
         "tensor_ops",
@@ -715,6 +725,98 @@ def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstr
         {"type": "solve_collinear"},
     )
     provides[(node["id"], "solution")] = {"kind": "solution", "file": None, "weight": None, "name": target}
+
+
+TARGET_RE = re.compile(r"^(SEW_\d+p\d+|FEC_(\d+)|LEC_(\d+))$", re.IGNORECASE)
+
+
+def _parse_chain_target(target: str) -> tuple[str, int | None, int | None, int | None]:
+    m = TARGET_RE.match(target or "")
+    if not m:
+        return (target, None, None, None)
+    kind = target[:3].upper()
+    if kind == "SEW":
+        f, l = target[4:].split("p")
+        return (target, int(f), int(l), int(f) + int(l))
+    w = int(target[4:])
+    return (target, w, None, w)
+
+
+def _projection_out_rel(symmetry: str, target: str) -> str:
+    """Tensor the projection chain reliably produces for this symmetry/target."""
+    _, fw, _, _ = _parse_chain_target(target)
+    kind = target[:3].upper()
+    if symmetry == "collinear":
+        if kind == "SEW":
+            return f"output/collinear/{target}_basis.wxf"
+        if kind == "FEC":
+            return f"output/collinear/first_w{fw}_basis.wxf"
+        return f"output/collinear/last_w{fw}_basis.wxf"
+    return f"output/{symmetry}/{target}.wxf" if kind == "SEW" else f"output/{symmetry}/first_w{fw}.wxf" if kind == "FEC" else f"output/{symmetry}/last_w{fw}.wxf"
+
+
+def _compile_projection_chain(node, incoming, provides, add_step, errors, bootstrap, proj_dir):
+    data = node.get("data") or {}
+    symmetry = data.get("symmetry") or ""
+    if symmetry not in ("collinear", "cyclic", "flip", "parity"):
+        errors.append("A Projection Chain node needs a symmetry (collinear, cyclic, flip or parity).")
+        return
+    target = _derive_target(node, incoming, provides, data)
+    if not target:
+        errors.append("Projection Chain node: provide a target (e.g. SEW_5p1).")
+        return
+    _, _, _, w = _parse_chain_target(target)
+    if w is None:
+        errors.append(f"Projection Chain node: invalid target '{target}' (expected SEW_FpL, FEC_W or LEC_W).")
+        return
+    if bootstrap is None:
+        errors.append("The bootstrap binary was not found; build it with `make bootstrap`.")
+        return
+    sym_dir = _abs(proj_dir, f"output/{symmetry}")
+    summary = f"output/{symmetry}/summary.txt"
+    add_step(
+        f"Projection chain ({symmetry}) on {target}",
+        "bootstrap",
+        [bootstrap, "--project", "--symmetry", symmetry, "--target", target,
+         "--data-dir", _abs(proj_dir, "data"), "--output-dir", _abs(proj_dir, "output")],
+        proj_dir,
+        [summary],
+        False,
+        {"type": "projection_chain", "symmetry": symmetry, "target": target, "sym_dir": sym_dir},
+    )
+    rel = _projection_out_rel(symmetry, target)
+    provides[(node["id"], "out")] = {"kind": "basis" if symmetry == "collinear" else "tensor", "file": rel, "weight": None, "name": Path(rel).stem}
+
+
+def _compile_symmetry_invariant(node, incoming, provides, add_step, errors, bootstrap, proj_dir):
+    data = node.get("data") or {}
+    symmetry = data.get("symmetry") or ""
+    if symmetry not in ("cyclic", "flip", "parity"):
+        errors.append("A Symmetry Invariant node needs a symmetry (cyclic, flip or parity; use Solve Collinear for collinear).")
+        return
+    target = _derive_target(node, incoming, provides, data)
+    if not target:
+        errors.append("Symmetry Invariant node: provide a target (e.g. SEW_5p1).")
+        return
+    _, _, _, w = _parse_chain_target(target)
+    if w is None:
+        errors.append(f"Symmetry Invariant node: invalid target '{target}' (expected SEW_FpL, FEC_W or LEC_W).")
+        return
+    if bootstrap is None:
+        errors.append("The bootstrap binary was not found; build it with `make bootstrap`.")
+        return
+    rel = f"output/{symmetry}/{target}_invariant.wxf"
+    add_step(
+        f"Symmetry invariant ({symmetry}) of {target}",
+        "bootstrap",
+        [bootstrap, "--solve-symmetry", "--symmetry", symmetry, "--target", target,
+         "--data-dir", _abs(proj_dir, "data"), "--output-dir", _abs(proj_dir, "output")],
+        proj_dir,
+        [rel],
+        False,
+        {"type": "symmetry_invariant", "symmetry": symmetry, "target": target, "tensor_file": rel},
+    )
+    provides[(node["id"], "out")] = {"kind": "basis", "file": rel, "weight": None, "name": Path(rel).stem}
 
 
 def _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir):
@@ -793,7 +895,7 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
         return
 
     def rel_path(name):
-        return f"{_out_prefix}{name}.wxf"
+        return f"{_out()}{name}.wxf"
 
     def partial_name(k):
         return target if k == len(tensors) - 1 else f"{target}_p{k}"
@@ -855,7 +957,7 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Ternary contract {tensor['name']} -> {target}",
         "tensor_ops",
@@ -891,7 +993,7 @@ def _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Matrix power {mat['name']}^{n} -> {target}",
         "tensor_ops",
@@ -987,7 +1089,7 @@ def _compile_assemble(node, incoming, provides, add_step, errors, tensor_ops_bin
     elem_files = [_abs(proj_dir, info["file"]) for info in elems]
     for oi, o in enumerate(outputs):
         name = names[oi]
-        rel = f"{_out_prefix}{target}_{name}.wxf"
+        rel = f"{_out()}{target}_{name}.wxf"
         add_step(
             f"Assemble output '{name}' of {target} from {len(elems)} elements",
             "tensor_ops",
@@ -1028,7 +1130,7 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Join {a['name']} + {b['name']} along axis {axis} -> {target}",
         "tensor_ops",
@@ -1084,7 +1186,7 @@ def _compile_tensor_dot(node, incoming, provides, add_step, errors, tensor_ops_b
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Dot {a['name']}[{axis_a}] · {b['name']}[{axis_b}] -> {target}",
         "tensor_ops",
@@ -1136,7 +1238,7 @@ def _compile_impose(node, incoming, provides, add_step, errors, tensor_ops_bin, 
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
     trans_flag = "1" if data.get("transpose", True) else "0"
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Solve integrability on {tensor['name']} -> {target}",
         "tensor_ops",
@@ -1169,7 +1271,7 @@ def _compile_integrability_condition(node, incoming, provides, add_step, errors,
     if tensor_ops_bin is None:
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Integrability conditions on {tensor['name']} -> {target}",
         "tensor_ops",
@@ -1207,7 +1309,7 @@ def _compile_solve_conditions(node, incoming, provides, add_step, errors, tensor
         errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
         return
     trans_flag = "1" if data.get("transpose", True) else "0"
-    rel = f"{_out_prefix}{target}.wxf"
+    rel = f"{_out()}{target}.wxf"
     add_step(
         f"Solve conditions from {cond['name']} -> {target}",
         "tensor_ops",

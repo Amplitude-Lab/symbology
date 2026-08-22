@@ -113,6 +113,8 @@ function OpNode({ id, type, data, selected }) {
     : (type === 'project' || type === 'solve_symmetry' || type === 'symderive') ? `→ ${data.target || '…'}`
     : type === 'sew' ? `→ ${data.target || 'SEW_FpL'}`
     : type === 'solve_collinear' ? `${data.target || '…'}`
+    : type === 'projection_chain' ? `${data.symmetry || '?'} · ${data.target || '…'}`
+    : type === 'symmetry_invariant' ? `${data.symmetry || '?'} · ${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
     : type === 'add_tensors' ? `${inputs.map((_, i) => `${cbWeights[i] || '1'}·${String.fromCharCode(65 + i)}`).join(' + ')} → ${data.target || '…'}`
     : (type === 'ternary_contract' || type === 'apply_symmetry') ? `→ ${data.target || '…'}`
@@ -286,6 +288,8 @@ const nodeTypes = {
   solve_symmetry: (p) => <OpNode {...p} type="solve_symmetry" />,
   symderive: (p) => <OpNode {...p} type="symderive" />,
   solve_collinear: (p) => <OpNode {...p} type="solve_collinear" />,
+  projection_chain: (p) => <OpNode {...p} type="projection_chain" />,
+  symmetry_invariant: (p) => <OpNode {...p} type="symmetry_invariant" />,
   compute_rhs: (p) => <OpNode {...p} type="compute_rhs" />,
   add_tensors: (p) => <OpNode {...p} type="add_tensors" />,
   ternary_contract: (p) => <OpNode {...p} type="ternary_contract" />,
@@ -454,6 +458,37 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock }) {
           </select>
           <label>Letter projection (file or identity)</label>
           <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
+        </>
+      )}
+      {node.type === 'projection_chain' && (
+        <>
+          <label>Symmetry</label>
+          <select value={d.symmetry || 'collinear'} onChange={(e) => set({ symmetry: e.target.value })}>
+            {['collinear', 'cyclic', 'flip', 'parity'].map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <label>Target</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_5p1" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Runs the full <code>bootstrap --project</code> pipeline for the chosen symmetry: builds the projection
+            matrices from the seed chain tensor (or a previously produced SEW/FEC/LEC chain tensor already in output/)
+            and applies them. Output goes to output/&lt;symmetry&gt;/ — collinear yields a basis
+            (&lt;T&gt;_basis.wxf), cyclic/flip/parity yield the projected tensor.
+          </p>
+        </>
+      )}
+      {node.type === 'symmetry_invariant' && (
+        <>
+          <label>Symmetry</label>
+          <select value={d.symmetry || 'cyclic'} onChange={(e) => set({ symmetry: e.target.value })}>
+            {['cyclic', 'flip', 'parity'].map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <label>Target</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_5p1" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Runs <code>bootstrap --solve-symmetry</code>: solves for the symmetry-invariant solution basis of the
+            seed chain tensor and writes output/&lt;symmetry&gt;/&lt;T&gt;_invariant.wxf. Not valid for collinear
+            (use the Projection Chain node or Solve Collinear instead).
+          </p>
         </>
       )}
       {node.type === 'compute_rhs' && (
