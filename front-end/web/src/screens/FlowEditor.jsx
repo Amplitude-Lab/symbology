@@ -878,7 +878,7 @@ function FlowEditorInner() {
     let alive = true
     if (project?.id) {
       api.flowOutputs(project.id)
-        .then((c) => { if (alive) setOutCatalog(c) })
+        .then((c) => { if (alive) setOutCatalog(Array.isArray(c) ? c : []) })
         .catch(() => { if (alive) setOutCatalog([]) })
     }
     return () => { alive = false }
@@ -1469,7 +1469,7 @@ function FlowEditorInner() {
             <div className="sub">named result of this flow</div>
           </div>
         </div>
-        {(outCatalog || []).filter((g) => g.flow_id !== fid).length > 0 && (
+        {Array.isArray(outCatalog) && outCatalog.filter((g) => g.flow_id !== fid && Array.isArray(g.outputs)).length > 0 && (
           <div>
             <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Calculated results</div>
             <div
