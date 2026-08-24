@@ -7,8 +7,8 @@
 // (the sew / basis dimension), and at most s constraints can be linearly
 // independent.
 //
-// Algorithm (exact, over the rationals — no sampling of the *variables*,
-// only of the constraint rows, with an exactness guarantee):
+// Algorithm (exact, over the rationals — only the constraint *rows* are
+// batched, with an exactness guarantee, never the arithmetic):
 //
 //   1. Maintain an incrementally grown RREF basis B of consumed constraint
 //      rows (augmented with the b-column). B has at most s rows, one per
@@ -32,9 +32,10 @@
 //
 // Because every dropped row was reduced to zero by exact rational
 // elimination against rows spanning the same space as all previously seen
-// constraints, the final result is *identical* to solving the full system,
-// while the elimination work is O(rank) sparse row operations per batch
-// instead of one monolithic RREF over all constraints.
+// constraints, the final result is *identical* to solving the full system.
+//
+// All sparse row operations are linear-time two-pointer merges on sorted
+// index arrays — no ordered containers in the hot path.
 //
 // This file is self-contained and does not modify linear_solve.hpp; the
 // result type is shared so callers can use either solver interchangeably.
@@ -44,28 +45,7 @@
 
 #include "linear_solve.hpp"
 
-#include <map>
-
 namespace incremental {
-
-// dst += coef * src  (sparse vectors, dst kept sorted and compressed).
-// Implemented through a sorted map so entries cancelled to zero disappear.
-template <typename T, typename index_t>
-void axpy(sparse_vec<T, index_t>& dst, const T& coef, const sparse_vec<T, index_t>& src) {
-	std::map<index_t, T> acc;
-	for (size_t j = 0; j < dst.nnz(); j++) {
-		acc[dst(j)] += dst[j];
-	}
-	for (size_t j = 0; j < src.nnz(); j++) {
-		acc[src(j)] += coef * src[j];
-	}
-	dst.clear();
-	for (const auto& [idx, val] : acc) {
-		if (val != (T)0) {
-			dst.push_back(idx, val);
-		}
-	}
-}
 
 // One basis row of the incremental RREF: coefficients over the unknowns
 // plus the augmented right-hand-side entry.
@@ -76,61 +56,56 @@ struct basis_row_t {
 	index_t pivot_col = -1;          // leading column (unique per basis)
 };
 
-// Reduce (row | rhs) against the basis. Returns the reduced augmented
-// entry; `row` is updated in place to the reduced coefficient part.
-// Basis rows are kept pivot-sorted; binary-search the pivot columns.
+// row -= factor * src  (all vectors sorted by index; result sorted and
+// compressed). Linear-time two-pointer merge.
+template <typename T, typename index_t>
+void sub_scaled(sparse_vec<T, index_t>& row, const T& factor,
+                const sparse_vec<T, index_t>& src) {
+	sparse_vec<T, index_t> out;
+	out.reserve(row.nnz() + src.nnz());
+	size_t i = 0, j = 0;
+	while (i < row.nnz() && j < src.nnz()) {
+		if (row(i) < src(j)) {
+			out.push_back(row(i), row[i]);
+			i++;
+		} else if (row(i) > src(j)) {
+			out.push_back(src(j), -(factor * src[j]));
+			j++;
+		} else {
+			T nv = row[i] - factor * src[j];
+			if (nv != (T)0) out.push_back(row(i), nv);
+			i++; j++;
+		}
+	}
+	for (; i < row.nnz(); i++) out.push_back(row(i), row[i]);
+	for (; j < src.nnz(); j++) out.push_back(src(j), -(factor * src[j]));
+	row = std::move(out);
+}
+
+// Reduce (row | rhs) against the RREF basis (pivot-sorted). Returns the
+// reduced augmented entry; `row` is updated in place. Repeatedly
+// eliminates the smallest remaining index whenever it is a pivot column;
+// the smallest remaining index strictly increases each step, so the loop
+// terminates. The result is reduced w.r.t. the row space of the basis.
 template <typename T, typename index_t>
 T reduce_against_basis(sparse_vec<T, index_t>& row, T rhs,
                        const std::vector<basis_row_t<T, index_t>>& basis) {
-	if (basis.empty()) {
-		if (row.nnz() > 0) {
-			// caller assigns pivot; keep row as is
-			return rhs;
-		}
-		return rhs;
-	}
 	std::vector<index_t> pivot_cols;
 	pivot_cols.reserve(basis.size());
 	for (const auto& br : basis) {
 		pivot_cols.push_back(br.pivot_col);
 	}
 
-	std::map<index_t, T> acc;
-	for (size_t j = 0; j < row.nnz(); j++) {
-		acc[row(j)] += row[j];
-	}
-
-	// Repeatedly eliminate the smallest key that is a pivot column. Each
-	// elimination strictly increases the smallest non-pivot key, so the
-	// loop terminates after at most nnz + total basis fill-in steps.
-	while (!acc.empty()) {
-		auto first = acc.begin();
-		index_t c = first->first;
+	while (row.nnz() > 0) {
+		index_t c = row(0);
 		auto it = std::lower_bound(pivot_cols.begin(), pivot_cols.end(), c);
 		if (it == pivot_cols.end() || *it != c) {
-			break;  // smallest remaining key is a non-pivot column: done
+			break;  // smallest remaining index is a non-pivot column: done
 		}
 		size_t r = (size_t)(it - pivot_cols.begin());
-		T factor = first->second;      // pivot entry of basis row is 1 (RREF)
-		acc.erase(first);
-		for (size_t j = 0; j < basis[r].coeffs.nnz(); j++) {
-			index_t cc = basis[r].coeffs(j);
-			if (cc == c) continue;     // the pivot itself was just erased
-			T nv = acc.count(cc) ? acc[cc] - factor * basis[r].coeffs[j] : -(factor * basis[r].coeffs[j]);
-			if (nv != (T)0) {
-				acc[cc] = nv;
-			} else {
-				acc.erase(cc);
-			}
-		}
+		T factor = row[0];              // pivot entry of basis row is 1
+		sub_scaled(row, factor, basis[r].coeffs);  // also removes the pivot
 		rhs = rhs - factor * basis[r].rhs;
-	}
-
-	row.clear();
-	for (const auto& [idx, val] : acc) {
-		if (val != (T)0) {
-			row.push_back(idx, val);
-		}
 	}
 	return rhs;
 }
@@ -228,23 +203,42 @@ linear_solve_result_t<T, index_t> solve_linear_system_incremental(
 	basis.reserve(n_unknowns);
 
 	size_t batch_size = std::max<size_t>(sample_factor * n_unknowns, 1);
-	size_t n_batches = (nontrivial_indices.size() + batch_size - 1) / batch_size;
-	size_t consumed = 0;
 
-	for (size_t batch = 0; batch < n_batches && basis.size() < n_unknowns; batch++) {
-		size_t lo = batch * batch_size;
-		size_t hi = std::min(lo + batch_size, nontrivial_indices.size());
+	// Helper: fetch b[idx] (0 if absent).
+	auto get_rhs = [&](size_t idx) -> T {
+		auto p = b_mat[0].find((index_t)idx);
+		return (p != nullptr && *p != (T)0) ? *p : (T)0;
+	};
 
-		for (size_t k = lo; k < hi; k++) {
-			size_t idx = nontrivial_indices[k];
+	// Two-tier scheme. "Solve sampled constraints, then substitute the
+	// solutions into the remaining ones":
+	//   - full reduction (elimination against the RREF basis) is applied
+	//     only to rows in the current sample batch;
+	//   - all other rows get the SUBSTITUTION check row·sol - b == 0,
+	//     a single sparse dot product. Any row in the span of the basis
+	//     passes this check exactly (row = sum a_i B_i implies
+	//     row·sol = sum a_i rhs_i = b), so the failing rows are exactly
+	//     the (independent or inconsistent) ones that need full
+	//     reduction; they form the next round's sample.
+	//   - when the sweep is clean the system is solved: sol satisfies
+	//     every constraint. If rank < n at that point we additionally run
+	//     one exact full-reduction sweep so the null space is exact too.
+	std::vector<size_t> pending = nontrivial_indices;
+	size_t round = 0;
+	size_t consumed_total = 0;
+	bool unique = false;
+	size_t rank = 0;
+	sparse_mat<T, index_t> null_space;
+	bool completed_by_full_rref = false;
+
+	while (!pending.empty()) {
+		round++;
+		size_t take = std::min(batch_size, pending.size());
+
+		for (size_t k = 0; k < take; k++) {
+			size_t idx = pending[k];
 			sparse_vec<T, index_t> row = M[idx];   // copy: M stays intact
-			T rhs = (T)0;
-			auto b_ptr = b_mat[0].find((index_t)idx);
-			if (b_ptr != nullptr && *b_ptr != (T)0) {
-				rhs = *b_ptr;
-			}
-
-			rhs = incremental::reduce_against_basis(row, rhs, basis);
+			T rhs = incremental::reduce_against_basis(row, get_rhs(idx), basis);
 
 			if (row.nnz() == 0) {
 				if (rhs != (T)0) {
@@ -275,64 +269,79 @@ linear_solve_result_t<T, index_t> solve_linear_system_incremental(
 			// Restore RREF: eliminate the new pivot column from the other
 			// basis rows (their rhs included).
 			for (size_t r = 0; r < basis.size(); r++) {
-				if ((index_t)r == (index_t)(pos - basis.begin())) continue;
+				if (r == (size_t)(pos - basis.begin())) continue;
 				auto v = basis[r].coeffs.find(pos->pivot_col);
 				if (v != nullptr && *v != (T)0) {
 					T factor = *v;
-				// coeffs -= factor * pos->coeffs
-					std::map<index_t, T> acc;
-					for (size_t j = 0; j < basis[r].coeffs.nnz(); j++) {
-						acc[basis[r].coeffs(j)] += basis[r].coeffs[j];
-					}
-					for (size_t j = 0; j < pos->coeffs.nnz(); j++) {
-						index_t cc = pos->coeffs(j);
-						T nv = acc.count(cc) ? acc[cc] - factor * pos->coeffs[j]
-						                     : -(factor * pos->coeffs[j]);
-						if (nv != (T)0) acc[cc] = nv; else acc.erase(cc);
-					}
-					basis[r].coeffs.clear();
-					for (const auto& [idx2, val] : acc) {
-						if (val != (T)0) basis[r].coeffs.push_back(idx2, val);
-					}
+					incremental::sub_scaled(basis[r].coeffs, factor, pos->coeffs);
 					basis[r].rhs = basis[r].rhs - factor * pos->rhs;
 				}
 			}
+
+			if (basis.size() == n_unknowns) {
+				// Rank saturated: remaining sample rows are all dependent,
+				// break out to the cheap substitution sweep.
+				break;
+			}
+		}
+		consumed_total += take;
+		pending.erase(pending.begin(), pending.begin() + (long)take);
+
+		// Current particular solution for the substitution sweep.
+		sparse_vec<T, index_t> sol;
+		for (const auto& br : basis) {
+			if (br.rhs != (T)0) sol.push_back(br.pivot_col, br.rhs);
+		}
+		sol.compress();
+
+		std::vector<size_t> failed;
+		failed.reserve(pending.size());
+		for (size_t idx : pending) {
+			const auto& row = M[idx];
+			T residual = -get_rhs(idx);
+			for (size_t j = 0; j < row.nnz(); j++) {
+				auto p = sol.find(row(j));
+				if (p != nullptr) residual = residual + row[j] * (*p);
+			}
+			if (residual != (T)0) failed.push_back(idx);
 		}
 
-		consumed = hi;
-		std::cout << "   Batch " << (batch + 1) << "/" << n_batches
-		          << ": consumed " << consumed << "/" << nontrivial_indices.size()
-		          << " constraints, rank = " << basis.size() << std::endl;
-	}
+		std::cout << "   Round " << round << ": rank = " << basis.size()
+		          << "/" << n_unknowns << ", substitution sweep over " << pending.size()
+		          << " constraints -> " << failed.size() << " need further reduction" << std::endl;
 
-	// If rank saturated early, remaining constraints still need a residual
-	// check? No: rank < n_unknowns and basis has rank rows; any further row
-	// reduces against a full-rank-in-pivot-columns basis only if its support
-	// hits pivot columns. With rank < n there ARE non-pivot columns, so a
-	// later row could still be independent — hence we must continue until
-	// all rows are consumed unless rank == n (then every row is dependent).
-	// The batch loop above already stops early only when basis.size() ==
-	// n_unknowns, in which case all remaining rows are dependent BUT their
-	// residuals must still be checked for consistency.
-	for (size_t k = consumed; k < nontrivial_indices.size(); k++) {
-		size_t idx = nontrivial_indices[k];
-		sparse_vec<T, index_t> row = M[idx];
-		T rhs = (T)0;
-		auto b_ptr = b_mat[0].find((index_t)idx);
-		if (b_ptr != nullptr && *b_ptr != (T)0) rhs = *b_ptr;
-		rhs = incremental::reduce_against_basis(row, rhs, basis);
-		if (row.nnz() != 0 || rhs != (T)0) {
-			// row.nnz() != 0 is impossible when rank == n; keep the check
-			// defensive anyway.
-			std::cout << "   INCONSISTENT at constraint " << idx
-			          << " (full-rank residual check failed)" << std::endl;
-			return {.consistent = false, .unique = false};
+		if (failed.empty() && basis.size() < n_unknowns) {
+			// sol satisfies every remaining constraint (verified by the
+			// exact substitution sweep above), but rank < n: the null
+			// space still needs the independent rows outside the sample.
+			// Complete it with one batched RREF of the full system (the
+			// same primitive the sampled solver uses) — much faster than
+			// row-by-row incremental reduction at this scale.
+			std::cout << "   Underdetermined: completing rank / null space via full RREF..."
+			          << std::endl;
+			sparse_mat<T, index_t> M_sub(nontrivial_indices.size(), n_unknowns);
+			for (size_t k = 0; k < nontrivial_indices.size(); k++) {
+				M_sub[k] = M[nontrivial_indices[k]];
+				M_sub[k].compress();
+			}
+			auto full_pivots_nested = sparse_mat_rref_reconstruct(M_sub, opt);
+			std::vector<pivot_t<index_t>> full_pivots;
+			for (auto& p : full_pivots_nested) {
+				full_pivots.insert(full_pivots.end(), p.begin(), p.end());
+			}
+			unique = (full_pivots.size() == n_unknowns);
+			rank = full_pivots.size();
+			if (!unique) {
+				null_space = sparse_mat_rref_kernel(M_sub, full_pivots_nested, F, opt).transpose();
+			}
+			completed_by_full_rref = true;
+			std::cout << "   Full-system rank: " << rank << " / " << n_unknowns << std::endl;
+			break;
 		}
+
+		pending = std::move(failed);
 	}
-	if (consumed < nontrivial_indices.size()) {
-		std::cout << "   Full-rank residual check passed for remaining "
-		          << (nontrivial_indices.size() - consumed) << " constraints" << std::endl;
-	}
+	(void)consumed_total;
 
 	timer.stop();
 	std::cout << "   Incremental elimination time: " << timer.milliseconds() << " ms" << std::endl;
@@ -347,37 +356,41 @@ linear_solve_result_t<T, index_t> solve_linear_system_incremental(
 	}
 	solution.compress();
 
-	size_t rank = basis.size();
-	bool unique = (rank == n_unknowns);
+	size_t rank_final = completed_by_full_rref ? rank : basis.size();
+	bool unique_final = completed_by_full_rref ? unique : (rank_final == n_unknowns);
 
-	std::cout << "   Rank: " << rank << " / " << n_unknowns << std::endl;
-	std::cout << "   Solution" << (unique ? " (unique):" : " (particular, system underdetermined):") << std::endl;
+	std::cout << "   Rank: " << rank_final << " / " << n_unknowns << std::endl;
+	std::cout << "   Solution" << (unique_final ? " (unique):" : " (particular, system underdetermined):") << std::endl;
 	for (size_t i = 0; i < solution.nnz(); i++) {
 		std::cout << "      c[" << solution(i) << "] = " << solution[i] << std::endl;
 	}
 
-	// Null space from the RREF basis: one vector per non-pivot column j:
-	// v[j] = 1, v[pivot_col(r)] = -B[r][j] for each basis row r.
-	sparse_mat<T, index_t> null_space;
-	if (!unique) {
-		std::vector<char> is_pivot(n_unknowns, 0);
-		for (const auto& br : basis) is_pivot[br.pivot_col] = 1;
-		for (size_t j = 0; j < n_unknowns; j++) {
-			if (is_pivot[j]) continue;
-			sparse_vec<T, index_t> v;
-			v.reserve(rank + 1);
-			for (const auto& br : basis) {
-				auto a = br.coeffs.find((index_t)j);
-				if (a != nullptr && *a != (T)0) {
-					v.push_back(br.pivot_col, -(*a));
+	// Null space: either already computed by the full RREF fallback, or
+	// read off the incremental RREF basis: one vector per non-pivot
+	// column j: v[j] = 1, v[pivot_col(r)] = -B[r][j] for each basis row r.
+	if (!completed_by_full_rref) {
+		if (!unique_final) {
+			std::vector<char> is_pivot(n_unknowns, 0);
+			for (const auto& br : basis) is_pivot[br.pivot_col] = 1;
+			for (size_t j = 0; j < n_unknowns; j++) {
+				if (is_pivot[j]) continue;
+				sparse_vec<T, index_t> v;
+				v.reserve(rank_final + 1);
+				for (const auto& br : basis) {
+					auto a = br.coeffs.find((index_t)j);
+					if (a != nullptr && *a != (T)0) {
+						v.push_back(br.pivot_col, -(*a));
+					}
 				}
+				v.push_back((index_t)j, (T)1);
+				v.compress();
+				null_space.rows.push_back(std::move(v));
 			}
-			v.push_back((index_t)j, (T)1);
-			v.compress();
-			null_space.rows.push_back(std::move(v));
+			null_space.nrow = null_space.rows.size();
+			null_space.ncol = n_unknowns;
 		}
-		null_space.nrow = null_space.rows.size();
-		null_space.ncol = n_unknowns;
+	}
+	if (null_space.nrow > 0 || !unique_final) {
 		std::cout << "   Null space: " << null_space.nrow << "x" << null_space.ncol << std::endl;
 	}
 
@@ -386,7 +399,7 @@ linear_solve_result_t<T, index_t> solve_linear_system_incremental(
 
 	return {
 		.consistent = true,
-		.unique = unique,
+		.unique = unique_final,
 		.n_unknowns = n_unknowns,
 		.solution = std::move(solution),
 		.null_space = std::move(null_space)

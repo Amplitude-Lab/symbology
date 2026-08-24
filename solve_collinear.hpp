@@ -414,9 +414,12 @@ sparse_tensor<T, index_t, SPARSE_CSR> apply_projection_axis0(
 			+ std::to_string(P.nrow) + " != T.dim(0)=" + std::to_string(T_coo.dim(0)));
 	}
 
-	// Contract P_coo.axis(1)=input with T_coo.axis(0)=input
-	// (axis 0 of P_coo is the prepended "1" row dimension, not the input)
-	auto result = tensor_contract(P_coo, T_coo, 1, 0, F, pool);
+	// Contract the INPUT axis of P_coo with axis 0 (input) of T_coo.
+	// P_coo is rank-2 (input, output) — the sparse_mat -> COO conversion
+	// does NOT prepend a "1" row dimension — so the input axis is axis 0.
+	// (Square/1x1 projections are ambiguous positionally but symmetric
+	// under this choice, so axis 0 is always safe here.)
+	auto result = tensor_contract(P_coo, T_coo, 0, 0, F, pool);
 
 	std::cout << "   Result: ";
 	for (size_t i = 0; i < result.rank(); i++) {
@@ -449,6 +452,24 @@ sparse_tensor<T, index_t, SPARSE_COO> apply_colprojdiv_slots(
 	const field_t& F, thread_pool* pool) {
 
 	auto result = std::move(tensor_coo);
+	// SparseRREF's tensor_contract dereferences A.index(permA[0]) even when
+	// A has zero nonzeros (out-of-bounds read, crashes on the all-zero RHS
+	// from --rhs 0). An all-zero tensor contracts to an all-zero tensor, so
+	// shortcut: keep the non-contracted axes, append the projected axes at
+	// the end — the exact dimension layout tensor_contract would produce.
+	if (result.nnz() == 0) {
+		std::vector<size_t> dims;
+		for (size_t a = 0; a < result.rank(); a++) {
+			if (a < first_slot_axis || a >= first_slot_axis + n_slots) {
+				dims.push_back(result.dim(a));
+			}
+		}
+		for (size_t s = 0; s < n_slots; s++) {
+			dims.push_back(proj_coo.dim(1));
+		}
+		result = sparse_tensor<T, index_t, SPARSE_COO>(dims);
+		return result;
+	}
 	for (size_t s = 0; s < n_slots; s++) {
 		result = tensor_contract(result, proj_coo, first_slot_axis, 0, F, pool);
 	}
