@@ -1128,7 +1128,29 @@ def _derived_matrix_sig(proj_dir: Path, rel: str) -> str:
         return "missing"
 
 
-def _seed_composed_map(seed_file, sym_file, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors):
+def _matrix_n_power(mat_rel, n, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors):
+    """Return the rel path of M^n (cached under output/.derived/pow_<sig>/),
+    or mat_rel unchanged when n == 1. Uses `tensor_ops power`."""
+    if n == 1:
+        return mat_rel
+    stem = Path(mat_rel).stem
+    pow_rel = f"output/.derived/pow_{sig}/{stem}_p{n}.wxf"
+    if pow_rel not in file_steps:
+        file_steps.add(pow_rel)
+        (proj_dir / f"output/.derived/pow_{sig}").mkdir(parents=True, exist_ok=True)
+        add_step(
+            f"Raise {stem} to power {n} (shared cache)",
+            "tensor_ops",
+            [tensor_ops_bin, "power", _abs(proj_dir, mat_rel), str(n), _abs(proj_dir, pow_rel)],
+            proj_dir,
+            [pow_rel],
+            True,
+            {"type": "matrix_power_derived", "matrix": stem, "n": n},
+        )
+    return pow_rel
+
+
+def _seed_composed_map(seed_file, sym_file, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors, n=1):
     """Compose E·S where E is the seed's embedding matrix ({stem}_proj.wxf, e.g. 7x42)
     and S the full letter symmetry matrix (42x42). The result (7x42) applies directly
     to an axis living in the short seed basis and lifts it to the full alphabet.
@@ -1150,7 +1172,9 @@ def _seed_composed_map(seed_file, sym_file, sig, add_step, proj_dir, tensor_ops_
             {"type": "squeeze", "tensor_file": proj_rel},
         )
     sym_stem = Path(sym_file).stem
-    comp_rel = f"output/.derived/composed_{sig}/{stem}_x_{sym_stem}.wxf"
+    sym_use = _matrix_n_power(sym_file, n, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors)
+    suffix = "" if n == 1 else f"_p{n}"
+    comp_rel = f"output/.derived/composed_{sig}/{stem}_x_{sym_stem}{suffix}.wxf"
     if comp_rel not in file_steps:
         if tensor_ops_bin is None:
             errors.append("The tensor_ops binary was not found; build it with `make tensor_ops`.")
@@ -1158,9 +1182,9 @@ def _seed_composed_map(seed_file, sym_file, sig, add_step, proj_dir, tensor_ops_
         file_steps.add(comp_rel)
         (proj_dir / f"output/.derived/composed_{sig}").mkdir(parents=True, exist_ok=True)
         add_step(
-            f"Compose seed map {stem}_proj · {sym_stem} (shared cache)",
+            f"Compose seed map {stem}_proj · {sym_stem}{suffix} (shared cache)",
             "tensor_ops",
-            [tensor_ops_bin, "matmul", _abs(proj_dir, proj_rel), _abs(proj_dir, sym_file),
+            [tensor_ops_bin, "matmul", _abs(proj_dir, proj_rel), _abs(proj_dir, sym_use),
              _abs(proj_dir, comp_rel)],
             proj_dir,
             [comp_rel],
@@ -1221,6 +1245,13 @@ def _emit_derived_projection(head, sub, sig, symmetry_name, sym_file, add_step, 
                 _link(link["file"], sdata / f"{base}_1.wxf")
             else:
                 _link(link["file"], sout / f"{base}_{w}.wxf")
+        # bootstrap --project reads BOTH weight-1 seeds at the seed level, even
+        # for a single-sided chain — stage the opposite side from data/ if absent.
+        for base in ("FEC", "LEC"):
+            if not (sdata / f"{base}_1.wxf").exists():
+                seed_rel = f"data/{base}_1.wxf"
+                if (proj_dir / seed_rel).exists():
+                    _link(seed_rel, sdata / f"{base}_1.wxf")
         if head_kind == "sew":
             _link(head["file"], sout / f"{target}.wxf")
     except OSError as e:
@@ -1278,6 +1309,19 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         return
 
     sig = _derived_matrix_sig(proj_dir, sym["file"])
+
+    raw_n = data.get("n")
+    if raw_n in (None, ""):
+        n = 1
+    else:
+        try:
+            n = int(raw_n)
+        except (TypeError, ValueError):
+            errors.append("Apply Symmetry: n must be a positive integer.")
+            return
+    if n < 1:
+        errors.append("Apply Symmetry: n must be a positive integer.")
+        return
 
     tensor_edge = None
     for e in incoming.get(nid, []):
@@ -1344,25 +1388,33 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         if seed_entry is None:
             return None
         return _seed_composed_map(seed_entry["file"], sym["file"], sig, add_step, proj_dir,
-                                  tensor_ops_bin, file_steps, errors)
+                                  tensor_ops_bin, file_steps, errors, n=n)
+
+    def _pow(mat_arg):
+        """Raise a derived square map to the n-th power (shared cache)."""
+        if mat_arg is None or mat_arg == "I" or n == 1:
+            return mat_arg
+        return _matrix_n_power(mat_arg, n, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors)
+
+    sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir, tensor_ops_bin, file_steps, errors)
 
     if head["kind"] == "sew":
         # SEW dims (sew_basis, FEC_F_basis, LEC_L_basis): a weight-1 side has the
         # raw seed basis (e.g. 7 / 14) on that axis — lift it to the uniform full
         # alphabet dimension via the composed E·S map instead of a bootstrap map.
-        m1_arg = maps.get("first_w") if fw > 1 else _seed_axis_map((sub.get("first") or [None])[0])
-        m2_arg = maps.get("last_w") if lw > 1 else _seed_axis_map((sub.get("last") or [None])[0])
+        m1_arg = _pow(maps.get("first_w")) if fw > 1 else _seed_axis_map((sub.get("first") or [None])[0])
+        m2_arg = _pow(maps.get("last_w")) if lw > 1 else _seed_axis_map((sub.get("last") or [None])[0])
     elif head["kind"].startswith("fec"):
         # FEC_w dims (basis_w, basis_{w-1}, 42): axis-2 uses the letter map S,
         # axis-1 uses the induced map on the weight-(w-1) basis ('I' at w=1,
         # where the axis is literally dimension 1).
-        m1_arg = "I" if fw == 1 else maps.get("first_w_prev")
-        m2_arg = sym["file"]
+        m1_arg = "I" if fw == 1 else _pow(maps.get("first_w_prev"))
+        m2_arg = sym_file_n
     else:
         # LEC_w dims (basis_w, 42, basis_{w-1}): axis-1 is the letter map S,
         # axis-2 uses the induced map ('I' at w=1, dimension-1 axis).
-        m1_arg = sym["file"]
-        m2_arg = "I" if lw == 1 else maps.get("last_w_prev")
+        m1_arg = sym_file_n
+        m2_arg = "I" if lw == 1 else _pow(maps.get("last_w_prev"))
     if not m1_arg or not m2_arg:
         errors.append("Apply Symmetry: could not derive the induced maps for the chain head.")
         return
@@ -1372,7 +1424,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         return
     rel = f"{_out()}{target}.wxf"
     add_step(
-        f"Apply symmetry {sym.get('name') or 'S'} to {tensor['name']} -> {target}",
+        f"Apply symmetry {sym.get('name') or 'S'}{'' if n == 1 else f' (S^{n})'} to {tensor['name']} -> {target}",
         "tensor_ops",
         [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]),
          ("I" if m1_arg == "I" else _abs(proj_dir, m1_arg)),
