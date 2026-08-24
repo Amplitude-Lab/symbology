@@ -1356,6 +1356,12 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
     if n < 1:
         errors.append("Apply Projection: n must be a positive integer.")
         return
+    if n > 1 and sym.get("meaning") == "collinear":
+        errors.append(
+            "Apply Projection: n > 1 is only valid for symmetry matrices; a collinear "
+            "projection (basis change) can only be applied once (n = 1)."
+        )
+        return
 
     tensor_edge = None
     for e in incoming.get(nid, []):
