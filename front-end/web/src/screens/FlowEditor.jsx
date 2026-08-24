@@ -602,7 +602,9 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
               projection pipeline (weight-1 special case + per-weight induced maps, degeneracy-safe
               kernel extraction) to derive the induced basis transformations for every chain weight,
               caches them as shared matrices under <code>output/.derived/</code> (reused across blocks/flows), and
-              applies the correct pair to the tensor&apos;s two trailing axes. For FEC the seed axis comes second and
+              applies the correct pair to the tensor&apos;s two trailing axes. When a trailing axis lives in a short
+              seed basis (dim &lt; alphabet), the flow first composes the seed&apos;s proj matrix with S
+              (E·S) to project that entry to the uniform full-alphabet dimension. For FEC the seed axis comes second and
               letters last; for LEC they are swapped; a SEW applies R&#7432; on axis 2 and R&#7460; on axis 3.
               Wiring trans1/trans2 instead gives the manual mode (plain ternary contraction).
             </p>

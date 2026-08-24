@@ -85,6 +85,16 @@ static int run_ternary(int argc, char* argv[], const field_t& F, thread_pool* po
 	if ((index_t)T.dim(1) != M1.nrow || (index_t)T.dim(2) != M2.nrow)
 		throw std::runtime_error("ternary: dimension mismatch — need T.dim(2) == M2.nrow and T.dim(1) == M1.nrow");
 
+	if (T.nnz() == 0) {
+		// Empty tensor (e.g. a zero-dimensional sewing basis): tensor_contract
+		// cannot handle nnz == 0, so emit the empty result directly.
+		sparse_tensor<scalar_t, index_t, SPARSE_COO> out({T.dim(0), (size_t)M1.ncol, (size_t)M2.ncol});
+		write_tensor(out, base / argv[5]);
+		std::cout << "ternary: dims " << out.dim(0) << " " << out.dim(1) << " " << out.dim(2)
+		          << ", nnz 0 (empty input) -> " << argv[5] << std::endl;
+		return 0;
+	}
+
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
 	auto step1 = tensor_contract(Tcoo, mat_to_tensor2(M2), 2, 0, F, pool);   // axes [a, b, c']
 	auto step2 = tensor_contract(step1, mat_to_tensor2(M1), 1, 0, F, pool);  // axes [a, c', b']
@@ -102,6 +112,33 @@ static int run_ternary(int argc, char* argv[], const field_t& F, thread_pool* po
 	write_tensor(out, base / argv[5]);
 	std::cout << "ternary: dims " << out.dim(0) << " " << out.dim(1) << " " << out.dim(2)
 	          << ", nnz " << out.nnz() << " -> " << argv[5] << std::endl;
+	return 0;
+}
+
+static int run_matmul(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 5) throw std::runtime_error("usage: tensor_ops matmul <A.wxf> <B.wxf> <out.wxf> ('I' = identity)");
+	auto read_mat = [&](const char* arg) -> sparse_mat<scalar_t, index_t> {
+		if (std::string(arg) == "I") throw std::runtime_error("matmul: 'I' must be the first argument to be meaningful");
+		return sparse_mat_read_wxf<scalar_t, index_t>(base / arg, F);
+	};
+	sparse_mat<scalar_t, index_t> A;
+	if (std::string(argv[2]) == "I") {
+		auto B = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[3], F);
+		A = sparse_mat<scalar_t, index_t>(B.nrow, B.nrow);
+		for (index_t i = 0; i < A.nrow; i++) A[i].push_back(i, (scalar_t)1);
+	} else {
+		A = read_mat(argv[2]);
+	}
+	auto B = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[3], F);
+	if (A.ncol != B.nrow)
+		throw std::runtime_error("matmul: dimension mismatch — need A.ncol == B.nrow (got "
+			+ std::to_string(A.ncol) + " vs " + std::to_string(B.nrow) + ")");
+	auto C = sparse_mat_mul(A, B, F, pool);
+	auto u8arr = sparse_mat_write_wxf(C);
+	std::ofstream ofs(base / argv[4], std::ios::binary);
+	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	std::cout << "matmul: " << A.nrow << "x" << A.ncol << " * " << B.nrow << "x" << B.ncol
+	          << " = " << C.nrow << "x" << C.ncol << ", nnz " << C.nnz() << " -> " << argv[4] << std::endl;
 	return 0;
 }
 
@@ -665,6 +702,7 @@ int main(int argc, char* argv[]) {
 		auto start = std::chrono::steady_clock::now();
 		int rc;
 		if (mode == "ternary") rc = run_ternary(argc, argv, F, pool, base);
+		else if (mode == "matmul") rc = run_matmul(argc, argv, F, pool, base);
 		else if (mode == "power") rc = run_power(argc, argv, F, pool, base);
 		else if (mode == "join") rc = run_join(argc, argv, F, pool, base);
 		else if (mode == "impose") rc = run_impose(argc, argv, F, opt, pool, base);

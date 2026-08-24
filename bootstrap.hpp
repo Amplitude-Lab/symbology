@@ -405,7 +405,12 @@ sparse_tensor<T, index_t, SPARSE_CSR> sew_first_last(
 	timer.stop();
 	std::cout << "** Post-process time: " << timer.milliseconds() << " ms" << std::endl;
 
-	sparse_tensor<T, index_t, SPARSE_COO> kernel_tensor(kernel, pool);
+	// A weight-1 side can yield an empty kernel (zero sewing basis); the
+	// sparse_tensor constructor degenerates on 0 rows, so build the empty
+	// tensor explicitly.
+	sparse_tensor<T, index_t, SPARSE_COO> kernel_tensor(
+		kernel.nrow > 0 ? sparse_tensor<T, index_t, SPARSE_COO>(kernel, pool)
+		                : sparse_tensor<T, index_t, SPARSE_COO>({kernel.nrow, FEC_size, LEC_size}));
 	kernel_tensor.reshape({kernel.nrow, FEC_size, LEC_size});
 
 	std::cout << "--- kernel ---" << std::endl;
