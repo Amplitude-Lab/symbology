@@ -24,6 +24,7 @@
 #include "projection.hpp"
 #include "tensor_expand.hpp"
 #include "linear_solve.hpp"
+#include "incremental_solve.hpp"
 
 #include <set>
 #include <map>
@@ -486,7 +487,8 @@ void run_collinear_solver(
 	const std::filesystem::path& output_dir,
 	const field_t& F, rref_option_t& opt,
 	const std::string& sew_name = "",
-	const std::string& letter_projection = "identity") {
+	const std::string& letter_projection = "identity",
+	const std::string& solver = "sampled") {
 
 	thread_pool* pool = &(opt->pool);
 	auto collinear_dir = output_dir / "collinear";
@@ -726,8 +728,13 @@ void run_collinear_solver(
 	} else {
 		auto A_match_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(A_match), pool);
 		auto b_match_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(b_match), pool);
-		result = solve_linear_system<T, index_t>(
-			std::move(A_match_csr), std::move(b_match_csr), F, opt);
+		if (solver == "incremental") {
+			result = solve_linear_system_incremental<T, index_t>(
+				std::move(A_match_csr), std::move(b_match_csr), F, opt);
+		} else {
+			result = solve_linear_system<T, index_t>(
+				std::move(A_match_csr), std::move(b_match_csr), F, opt);
+		}
 	}
 
 	// Step 6b: Write solMHV_LL.wxf for SEW targets

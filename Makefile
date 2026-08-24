@@ -23,11 +23,11 @@ endif
 all: $(EXE)
 
 # executable file
-$(EXE): bootstrap.cpp bootstrap.hpp projection.hpp solve_symmetry.hpp solve_collinear.hpp linear_solve.hpp tensor_expand.hpp tensor_shuffle.h
+$(EXE): bootstrap.cpp bootstrap.hpp projection.hpp solve_symmetry.hpp solve_collinear.hpp linear_solve.hpp incremental_solve.hpp tensor_expand.hpp tensor_shuffle.h
 	$(CXX) bootstrap.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
 # compute_rhs executable (standalone RHS computation module)
-compute_rhs: compute_rhs.cpp compute_rhs.hpp tensor_shuffle.h bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp tensor_expand.hpp
+compute_rhs: compute_rhs.cpp compute_rhs.hpp tensor_shuffle.h bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp incremental_solve.hpp tensor_expand.hpp
 	$(CXX) compute_rhs.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
 # tensor_add executable (weighted sum of sparse tensors)
