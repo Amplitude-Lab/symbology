@@ -9,7 +9,14 @@ async function request(method, path, body) {
   const res = await fetch(BASE + path, opts)
   const text = await res.text()
   let data = null
-  try { data = text ? JSON.parse(text) : null } catch { data = text }
+  let parsed = false
+  try { data = text ? JSON.parse(text) : null; parsed = text ? true : false } catch { data = text }
+  if (!parsed && text) {
+    const err = new Error(`Unexpected non-JSON response from ${path} — the server may be outdated, try restarting it.`)
+    err.status = res.status
+    err.payload = text.slice(0, 200)
+    throw err
+  }
   if (!res.ok) {
     const detail = data && data.detail ? data.detail : res.statusText
     const err = new Error(typeof detail === 'string' ? detail : JSON.stringify(detail))
