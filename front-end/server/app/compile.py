@@ -999,8 +999,8 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
             True,
             {"type": "add_tensors", "tensor_file": rel},
         )
-    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims")}
-
+    letters_axes = all(t.get("letters_axes") for t in tensors) and any(t.get("letters_axes") for t in tensors)
+    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes}
 
 
 SAFE_TARGET_RE = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.\-]*$")
@@ -1209,7 +1209,7 @@ def _emit_derived_projection(head, sub, sig, symmetry_name, sym_file, add_step, 
     first = sub.get("first") or []
     last = sub.get("last") or []
     if not first and not last:
-        errors.append("Apply Symmetry: empty chain — auto mode needs Extend/Sew-built tensors.")
+        errors.append("Apply Projection: empty chain — auto mode needs Extend/Sew-built tensors.")
         return None
     fw = (first[-1].get("weight") if first else 1) or 1
     lw = (last[-1].get("weight") if last else 1) or 1
@@ -1258,7 +1258,7 @@ def _emit_derived_projection(head, sub, sig, symmetry_name, sym_file, add_step, 
         if head_kind == "sew":
             _link(head["file"], sout / f"{target}.wxf")
     except OSError as e:
-        errors.append(f"Apply Symmetry: cannot stage the derived-matrix scratch workspace: {e}")
+        errors.append(f"Apply Projection: cannot stage the derived-matrix scratch workspace: {e}")
         return None
 
     summary = f"{scratch}/output/{symmetry_name}/summary.txt"
@@ -1290,14 +1290,14 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
     data = node.get("data", {}) or {}
     tensor = _edge_input(provides, incoming, nid, "tensor")
     if tensor is None:
-        errors.append("An Apply Symmetry node is missing its tensor input.")
+        errors.append("An Apply Projection node is missing its tensor input.")
         return
     sym = _edge_input(provides, incoming, nid, "sym")
     m1 = _edge_input(provides, incoming, nid, "trans1")
     m2 = _edge_input(provides, incoming, nid, "trans2")
 
     if sym is not None and (m1 is not None or m2 is not None):
-        errors.append("Apply Symmetry: wire either the 'sym' input (auto-derived chain matrices) or trans1/trans2 (manual), not both.")
+        errors.append("Apply Projection: wire either the 'sym' input (auto-derived chain matrices) or trans1/trans2 (manual), not both.")
         return
 
     if sym is None:
@@ -1305,7 +1305,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         return
 
     if tensor.get("file") is None or sym.get("file") is None:
-        errors.append("Apply Symmetry: the tensor and sym inputs must be concrete tensor/matrix files.")
+        errors.append("Apply Projection: the tensor and sym inputs must be concrete tensor/matrix files.")
         return
     if bootstrap is None or tensor_ops_bin is None:
         errors.append("The bootstrap/tensor_ops binaries were not found; build them with `make bootstrap tensor_ops`.")
@@ -1320,10 +1320,10 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         try:
             n = int(raw_n)
         except (TypeError, ValueError):
-            errors.append("Apply Symmetry: n must be a positive integer.")
+            errors.append("Apply Projection: n must be a positive integer.")
             return
     if n < 1:
-        errors.append("Apply Symmetry: n must be a positive integer.")
+        errors.append("Apply Projection: n must be a positive integer.")
         return
 
     tensor_edge = None
@@ -1332,7 +1332,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
             tensor_edge = e
             break
     if tensor_edge is None:
-        errors.append("Apply Symmetry: the tensor input must be wired (auto mode needs the upstream chain in the graph).")
+        errors.append("Apply Projection: the tensor input must be wired (auto mode needs the upstream chain in the graph).")
         return
 
     if tensor.get("letters_axes"):
@@ -1344,7 +1344,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
                                      tensor_ops_bin, file_steps, errors)
         if sym_file_n is None:
             return
-        target = _require_target(data, "Apply Symmetry", errors, nid)
+        target = _require_target(data, "Apply Projection", errors, nid)
         if target is None:
             return
         rel = f"{_out()}{target}.wxf"
@@ -1365,7 +1365,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
 
     chain, err = _chain_upstream(provides, incoming, tensor_edge["source"], tensor_edge.get("sourceHandle") or "out", nodes, edges)
     if err:
-        errors.append(f"Apply Symmetry: {err}")
+        errors.append(f"Apply Projection: {err}")
         return
     if not chain:
         # Old-way compatibility fallback: for an arbitrary tensor, check the
@@ -1374,7 +1374,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         tpath = proj_dir / tensor["file"]
         if not tpath.exists():
             errors.append(
-                f"Apply Symmetry: tensor file '{tensor['file']}' not found; auto mode needs the "
+                f"Apply Projection: tensor file '{tensor['file']}' not found; auto mode needs the "
                 "tensor from a chain built in this graph, or an existing file whose trailing axes "
                 "match the symmetry matrix dimension."
             )
@@ -1396,7 +1396,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
                                          tensor_ops_bin, file_steps, errors)
             if sym_file_n is None:
                 return
-            target = _require_target(data, "Apply Symmetry", errors, nid)
+            target = _require_target(data, "Apply Projection", errors, nid)
             if target is None:
                 return
             rel = f"{_out()}{target}.wxf"
@@ -1416,7 +1416,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
             return
         got = f"{tdims[-2:]}" if len(tdims) >= 2 else "unknown"
         errors.append(
-            f"Apply Symmetry: no proper symmetry matrix found for the trailing axes of '{tensor['file']}' "
+            f"Apply Projection: no proper symmetry matrix found for the trailing axes of '{tensor['file']}' "
             f"(axes {got} vs symmetry matrix {sym_dims or 'unknown'}). Wire trans1/trans2 manually, or feed "
             "a tensor from a chain built in this graph."
         )
@@ -1446,7 +1446,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
     if symmetry_name is None:
         # Custom symmetry: bootstrap accepts data/<name>.wxf, name must be the stem.
         if not SAFE_TARGET_RE.match(stem or ""):
-            errors.append(f"Apply Symmetry: cannot use '{stem}' as a symmetry name (unsafe characters).")
+            errors.append(f"Apply Projection: cannot use '{stem}' as a symmetry name (unsafe characters).")
             return
         symmetry_name = stem
 
@@ -1495,10 +1495,10 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         m1_arg = sym_file_n
         m2_arg = "I" if lw == 1 else _pow(maps.get("last_w_prev"))
     if not m1_arg or not m2_arg:
-        errors.append("Apply Symmetry: could not derive the induced maps for the chain head.")
+        errors.append("Apply Projection: could not derive the induced maps for the chain head.")
         return
 
-    target = _require_target(data, "Apply Symmetry", errors, nid)
+    target = _require_target(data, "Apply Projection", errors, nid)
     if target is None:
         return
     rel = f"{_out()}{target}.wxf"
@@ -1688,7 +1688,10 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
         True,
         {"type": "tensor_join", "tensor_file": rel},
     )
-    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis)}
+    letters_axes = bool(a.get("letters_axes") or b.get("letters_axes")) and not (
+        a.get("letters_axes") and axis in (-1, -2, a.get("rank", 3), a.get("rank", 3) - 1)
+    )
+    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes}
 
 
 def _compile_tensor_dot(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):

@@ -131,7 +131,7 @@ export const NODE_DEFS = {
     outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
   },
   apply_symmetry: {
-    title: 'Apply Symmetry', color: '#fef3c7',
+    title: 'Apply Projection', color: '#fef3c7',
     inputs: [
       { id: 'tensor', kind: 'tensor', label: 'tensor' },
       { id: 'sym', kind: 'matrix', label: 'sym (auto chain)' },
@@ -208,7 +208,7 @@ export const PALETTE_SECTIONS = [
       { type: 'merge_conditions', label: 'Merge Conditions', sub: 'combine dlogmats' },
       { type: 'add_tensors', label: 'Add Tensors', sub: 'Σ wᵢ·Aᵢ' },
       { type: 'ternary_contract', label: 'Ternary Contract', sub: 'T·M1·M2 contraction' },
-      { type: 'apply_symmetry', label: 'Apply Symmetry', sub: 'auto-derive chain basis maps from sym' },
+      { type: 'apply_symmetry', label: 'Apply Projection', sub: 'auto-derive chain basis maps from sym' },
       { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n' },
       { type: 'tensor_join', label: 'Join Tensors', sub: 'join along an axis' },
       { type: 'tensor_dot', label: 'Tensor Dot', sub: 'contract one axis of A with one of B' },

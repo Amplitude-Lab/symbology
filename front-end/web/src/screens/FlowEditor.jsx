@@ -613,6 +613,8 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
                 For FEC the seed axis comes second and
                 letters last; for LEC they are swapped; a SEW applies R&#7432; on axis 2 and R&#7460; on axis 3.
                 Wiring trans1/trans2 instead gives the manual mode (plain ternary contraction).
+                Provenance is inherited: sums of tensors sharing the same trailing-axis meaning
+                (e.g. e12 + e13 built the same way) keep it, so the same matrices apply to the sum.
               </p>
             </>
           )}
