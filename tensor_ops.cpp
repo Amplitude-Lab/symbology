@@ -689,6 +689,15 @@ static int run_tdot(int argc, char* argv[], const field_t& F, thread_pool* pool,
 	return 0;
 }
 
+static int run_dims(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 3) throw std::runtime_error("usage: tensor_ops dims <tensor.wxf>");
+	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	std::cout << "rank " << T.rank();
+	for (size_t i = 0; i < T.rank(); i++) std::cout << " " << T.dim(i);
+	std::cout << " nnz " << T.nnz() << std::endl;
+	return 0;
+}
+
 int main(int argc, char* argv[]) {
 	try {
 		if (argc < 2) throw std::runtime_error("usage: tensor_ops <ternary|power|join|impose|icond|isolve|assemble|squeeze|project|symsolve> ...");
@@ -715,7 +724,8 @@ int main(int argc, char* argv[]) {
 		else if (mode == "symsolve") rc = run_symsolve(argc, argv, F, opt, pool, base);
 		else if (mode == "symderive") rc = run_symderive(argc, argv, F, opt, pool, base);
 	else if (mode == "transpose") rc = run_transpose(argc, argv, F, pool, base);
-	else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|symsolve|symderive|transpose)");
+	else if (mode == "dims") rc = run_dims(argc, argv, F, pool, base);
+	else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|symsolve|symderive|transpose|dims)");
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
 		std::cout << "** tensor_ops " << mode << " finished in " << ms << " ms **" << std::endl;
 		return rc;

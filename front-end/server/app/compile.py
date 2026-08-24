@@ -1368,9 +1368,57 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         errors.append(f"Apply Symmetry: {err}")
         return
     if not chain:
+        # Old-way compatibility fallback: for an arbitrary tensor, check the
+        # trailing-axis dimensions directly and apply S^n if they match the
+        # symmetry matrix dimension (uniform full-alphabet axes).
+        tpath = proj_dir / tensor["file"]
+        if not tpath.exists():
+            errors.append(
+                f"Apply Symmetry: tensor file '{tensor['file']}' not found; auto mode needs the "
+                "tensor from a chain built in this graph, or an existing file whose trailing axes "
+                "match the symmetry matrix dimension."
+            )
+            return
+        import subprocess as _sp
+        r = _sp.run([tensor_ops_bin, "dims", str(tpath)], capture_output=True, text=True)
+        m = re.search(r"rank (\d+)((?: \d+)+) nnz", r.stdout or "")
+        tdims = [int(x) for x in m.group(2).split()] if m else []
+        sym_dims = sym.get("dims") or []
+        if not sym_dims:
+            spath = proj_dir / sym["file"]
+            if spath.exists():
+                r2 = _sp.run([tensor_ops_bin, "dims", str(spath)], capture_output=True, text=True)
+                m2 = re.search(r"rank (\d+)((?: \d+)+) nnz", r2.stdout or "")
+                if m2:
+                    sym_dims = [int(x) for x in m2.group(2).split()][-2:]
+        if len(tdims) >= 3 and len(sym_dims) == 2 and tdims[-1] == sym_dims[1] and tdims[-2] == sym_dims[0]:
+            sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir,
+                                         tensor_ops_bin, file_steps, errors)
+            if sym_file_n is None:
+                return
+            target = _require_target(data, "Apply Symmetry", errors, nid)
+            if target is None:
+                return
+            rel = f"{_out()}{target}.wxf"
+            add_step(
+                f"Apply symmetry {sym.get('name') or 'S'}{'' if n == 1 else f' (S^{n})'} to {tensor['name']} -> {target} (dims-matched axes)",
+                "tensor_ops",
+                [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]),
+                 _abs(proj_dir, sym_file_n), _abs(proj_dir, sym_file_n), _abs(proj_dir, rel)],
+                proj_dir,
+                [rel],
+                True,
+                {"type": "apply_symmetry"},
+            )
+            d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
+            provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
+                                      "name": target, "dims": None, "letters_axes": True}
+            return
+        got = f"{tdims[-2:]}" if len(tdims) >= 2 else "unknown"
         errors.append(
-            "Apply Symmetry: auto mode needs the tensor to come from a chain built in this graph "
-            "(Extend/Sew from an alphabet seed). For a reused file or an arbitrary tensor, wire trans1/trans2 manually."
+            f"Apply Symmetry: no proper symmetry matrix found for the trailing axes of '{tensor['file']}' "
+            f"(axes {got} vs symmetry matrix {sym_dims or 'unknown'}). Wire trans1/trans2 manually, or feed "
+            "a tensor from a chain built in this graph."
         )
         return
 
