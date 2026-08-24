@@ -765,7 +765,7 @@ def _compile_solve_symmetry(node, incoming, provides, add_step, errors, tensor_o
         {"type": "solve_symmetry", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
-                              "name": target, "letters_axes": tensor.get("letters_axes"), "axis_meaning": tensor.get("axis_meaning")}
+                              "name": target, "letters_axes": tensor.get("letters_axes"), "axes_meaning": tensor.get("axes_meaning")}
 
 
 def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
@@ -1021,16 +1021,18 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
             True,
             {"type": "add_tensors", "tensor_file": rel},
         )
-    meanings = {t.get("axis_meaning") for t in tensors if t.get("letters_axes")}
     letters_axes = all(t.get("letters_axes") for t in tensors) and any(t.get("letters_axes") for t in tensors)
-    if letters_axes and "collinear" in meanings and meanings - {"collinear"}:
-        errors.append(
-            f"Add Tensors: operands mix collinear-basis and non-collinear letters axes — "
-            "their coefficients live in different bases and cannot be summed."
-        )
-        return
-    axis_meaning = meanings.pop() if len(meanings) == 1 else None
-    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes, "axis_meaning": axis_meaning if letters_axes else None}
+    axis_meaning = None
+    if letters_axes:
+        for i, label in ((0, "second"), (1, "third")):
+            ms = {t.get("axes_meaning", [None, None])[i] if t.get("axes_meaning") else t.get("axis_meaning") for t in tensors}
+            if "collinear" in ms and ms - {"collinear"}:
+                errors.append(
+                    f"Add Tensors: the {label} entries of the operands mix collinear-basis and "
+                    "non-collinear meanings — their coefficients live in different bases and cannot be summed."
+                )
+                return
+    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes, "axes_meaning": axis_meaning if letters_axes else None}
 
 
 SAFE_TARGET_RE = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.\-]*$")
@@ -1083,10 +1085,24 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
         True,
         {"type": "ternary_contract", "tensor_file": rel},
     )
-    letters_axes = tensor.get("letters_axes") or tensor.get("kind") in ("fec1", "lec1", "fec", "lec", "sew")
+    chain_kind = tensor.get("kind") in ("fec1", "lec1", "fec", "lec", "sew")
+    letters_axes = tensor.get("letters_axes") or chain_kind
+    # The two trailing entries are INDEPENDENT bases: each one's meaning follows
+    # the matrix that was applied to it (m1 on the second entry, m2 on the third).
+    # Chain-kind inputs get per-axis meanings from their structure (FEC: third
+    # entry is the alphabet, second is chain basis; LEC mirrored; SEW none).
+    if tensor.get("letters_axes") and tensor.get("axes_meaning"):
+        axes_meaning = [
+            m1.get("meaning") if m1.get("meaning") else tensor["axes_meaning"][0],
+            m2.get("meaning") if m2.get("meaning") else tensor["axes_meaning"][1],
+        ]
+    else:
+        # After a ternary contraction both trailing axes are whatever m1/m2
+        # project them to; only the matrices' own meanings are trustworthy.
+        axes_meaning = [m1.get("meaning"), m2.get("meaning")]
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
                               "name": target, "letters_axes": bool(letters_axes),
-                              "axis_meaning": tensor.get("axis_meaning")}
+                              "axes_meaning": axes_meaning}
 
 
 def _chain_upstream(provides, incoming, nid, handle, nodes, edges, depth=0):
@@ -1379,7 +1395,9 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         # as plain S^n on both axes. The meaning of the axes carries through
         # only if the matrix preserves it (symmetry reps do; a collinear
         # projection changes the meaning to the collinear limit).
-        t_meaning = tensor.get("axis_meaning")
+        tm = tensor.get("axes_meaning") or (
+            [tensor.get("axis_meaning"), tensor.get("axis_meaning")] if tensor.get("axis_meaning") else [None, None])
+        t_meaning = "collinear" if "collinear" in tm else None
         s_meaning = sym.get("meaning")
         if t_meaning == "collinear":
             # Axes are in the collinear limit basis. Only a matrix acting WITHIN
@@ -1411,7 +1429,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
         provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
                                   "name": target, "dims": None, "letters_axes": True,
-                                  "axis_meaning": s_meaning if s_meaning else t_meaning}
+                                  "axes_meaning": [s_meaning, s_meaning]}
         return
 
     chain, err = _chain_upstream(provides, incoming, tensor_edge["source"], tensor_edge.get("sourceHandle") or "out", nodes, edges)
@@ -1464,7 +1482,7 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
             d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
             provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
                                       "name": target, "dims": None, "letters_axes": True,
-                                      "axis_meaning": sym.get("meaning") or tensor.get("axis_meaning")}
+                                      "axes_meaning": [sym.get("meaning"), sym.get("meaning")]}
             return
         got = f"{tdims[-2:]}" if len(tdims) >= 2 else "unknown"
         errors.append(
@@ -1751,8 +1769,7 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
     # axes or neither; require agreement to keep the claim trustworthy.
     agree = bool(a.get("letters_axes")) == bool(b.get("letters_axes"))
     letters_axes = agree and bool(a.get("letters_axes")) and not trailing
-    axis_meaning = (a.get("axis_meaning") if a.get("axis_meaning") == b.get("axis_meaning") else None) if letters_axes else None
-    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes, "axis_meaning": axis_meaning}
+    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes}
 
 
 def _compile_tensor_dot(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
