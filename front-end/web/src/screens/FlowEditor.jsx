@@ -858,6 +858,11 @@ function FlowEditorInner() {
   const [groups, setGroups] = useState([])
   const [selCount, setSelCount] = useState(0)
   const [outCatalog, setOutCatalog] = useState(null)
+  const [calcResultKey, setCalcResultKey] = useState('')
+  const calcItems = (outCatalog || []).filter((g) => g.flow_id !== fid).flatMap((g) =>
+    g.outputs.map((o) => ({ o, key: g.flow_id + o.file, label: `${g.flow_name} · ${o.name}` }))
+  )
+  const calcSel = calcItems.find((it) => it.key === calcResultKey) || (calcItems.length ? calcItems[0] : null)
   const rf = useRef(null)
   const wrapper = useRef(null)
   const skipAutosave = useRef(true)
@@ -1464,16 +1469,26 @@ function FlowEditorInner() {
         </div>
         {(outCatalog || []).filter((g) => g.flow_id !== fid).length > 0 && (
           <div>
-            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Flow outputs</div>
-            {(outCatalog || []).filter((g) => g.flow_id !== fid).map((g) => g.outputs.map((o) => (
-              <div
-                key={g.flow_id + o.file} className="palette-item" draggable
-                onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', `reuse_output:${o.file}|${o.kind}|${o.name}`)}
-              >
-                {o.name}
-                <div className="sub">{g.flow_name} · {o.kind}</div>
-              </div>
-            )))}
+            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Calculated results</div>
+            <div
+              className="palette-item" draggable={Boolean(calcSel)}
+              title={calcSel ? `Drag to reuse ${calcSel.label}` : 'Select an output first'}
+              onDragStart={(e) => calcSel && e.dataTransfer.setData('application/symbology-node', `reuse_output:${calcSel.o.file}|${calcSel.o.kind}|${calcSel.o.name}`)}
+            >
+              Calculated Result
+              <div className="sub">{calcSel ? calcSel.label : 'pick an output below'}</div>
+            </div>
+            <select
+              value={calcResultKey}
+              onChange={(e) => setCalcResultKey(e.target.value)}
+              style={{ width: '100%', marginTop: 4, fontSize: 11 }}
+            >
+              {(outCatalog || []).filter((g) => g.flow_id !== fid).flatMap((g) =>
+                g.outputs.map((o) => ({ o, key: g.flow_id + o.file, label: `${g.flow_name} · ${o.name}` }))
+              ).map((it) => (
+                <option key={it.key} value={it.key}>{it.label}</option>
+              ))}
+            </select>
           </div>
         )}
         {customBlockPalette(project).length > 0 && (
