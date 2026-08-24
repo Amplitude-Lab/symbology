@@ -742,7 +742,8 @@ def _compile_solve_symmetry(node, incoming, provides, add_step, errors, tensor_o
         True,
         {"type": "solve_symmetry", "tensor_file": rel},
     )
-    provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"), "name": target}
+    provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
+                              "name": target, "letters_axes": tensor.get("letters_axes")}
 
 
 def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
@@ -1052,7 +1053,9 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
         True,
         {"type": "ternary_contract", "tensor_file": rel},
     )
-    provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"), "name": target}
+    letters_axes = tensor.get("letters_axes") or tensor.get("kind") in ("fec1", "lec1", "fec", "lec", "sew")
+    provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
+                              "name": target, "letters_axes": bool(letters_axes)}
 
 
 def _chain_upstream(provides, incoming, nid, handle, nodes, edges, depth=0):
@@ -1330,6 +1333,34 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
             break
     if tensor_edge is None:
         errors.append("Apply Symmetry: the tensor input must be wired (auto mode needs the upstream chain in the graph).")
+        return
+
+    if tensor.get("letters_axes"):
+        # The tensor's trailing axes were already projected to the uniform full
+        # alphabet basis (e.g. by a manual Ternary Contract with proj matrices,
+        # possibly via solve_symmetry / custom-block ports): the symmetry acts
+        # as plain S^n on both axes.
+        sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir,
+                                     tensor_ops_bin, file_steps, errors)
+        if sym_file_n is None:
+            return
+        target = _require_target(data, "Apply Symmetry", errors, nid)
+        if target is None:
+            return
+        rel = f"{_out()}{target}.wxf"
+        add_step(
+            f"Apply symmetry {sym.get('name') or 'S'}{'' if n == 1 else f' (S^{n})'} to {tensor['name']} -> {target} (uniform alphabet axes)",
+            "tensor_ops",
+            [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]),
+             _abs(proj_dir, sym_file_n), _abs(proj_dir, sym_file_n), _abs(proj_dir, rel)],
+            proj_dir,
+            [rel],
+            True,
+            {"type": "apply_symmetry"},
+        )
+        d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
+        provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
+                                  "name": target, "dims": None, "letters_axes": True}
         return
 
     chain, err = _chain_upstream(provides, incoming, tensor_edge["source"], tensor_edge.get("sourceHandle") or "out", nodes, edges)
