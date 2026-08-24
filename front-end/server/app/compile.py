@@ -407,6 +407,26 @@ def _has_incoming(incoming, nid, handle_prefix) -> bool:
     return False
 
 
+def _matrix_meaning(prop):
+    """How a matrix property acts on the meaning of a letters axis.
+
+    'preserve'  — the axis stays in the same alphabet basis (symmetry reps,
+                  letter_symmetry maps): provenance survives the application.
+    'collinear' — the axis moves to the collinear limit of the basis: the
+                  meaning changes, further collinear projections are invalid.
+    None        — unknown / custom matrix: no meaning claim.
+    """
+    action = prop.get("meaning_action")
+    if action in ("preserve", "collinear"):
+        return action
+    name = (prop.get("name") or "").lower() + " " + (prop.get("id") or "")
+    if "collinear" in name or "colmat" in name or "colproj" in name:
+        return "collinear"
+    if prop.get("type") in ("letter_symmetry",) or "repmat" in name or "invmap" in name:
+        return "preserve"
+    return None
+
+
 def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen_dir, proj_dir, tensor_ops_bin=None, file_steps=None):
     if file_steps is None:
         file_steps = set()
@@ -458,6 +478,7 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
             "weight": 1 if kind in ("fec1", "lec1") else None,
             "name": Path(rel).stem,
             "dims": (prop.get("summary") or {}).get("dims"),
+            "meaning": _matrix_meaning(prop),
         }
         provides[(nid, f"prop_{prop_id}")] = dict(base_info)
         if prop["type"] in ("first_entry", "last_entry"):
@@ -743,7 +764,7 @@ def _compile_solve_symmetry(node, incoming, provides, add_step, errors, tensor_o
         {"type": "solve_symmetry", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
-                              "name": target, "letters_axes": tensor.get("letters_axes")}
+                              "name": target, "letters_axes": tensor.get("letters_axes"), "axis_meaning": tensor.get("axis_meaning")}
 
 
 def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
@@ -999,8 +1020,10 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
             True,
             {"type": "add_tensors", "tensor_file": rel},
         )
+    meanings = {t.get("axis_meaning") for t in tensors if t.get("letters_axes")}
     letters_axes = all(t.get("letters_axes") for t in tensors) and any(t.get("letters_axes") for t in tensors)
-    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes}
+    axis_meaning = meanings.pop() if len(meanings) == 1 else None
+    provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes, "axis_meaning": axis_meaning if letters_axes else None}
 
 
 SAFE_TARGET_RE = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.\-]*$")
@@ -1055,7 +1078,8 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
     )
     letters_axes = tensor.get("letters_axes") or tensor.get("kind") in ("fec1", "lec1", "fec", "lec", "sew")
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"),
-                              "name": target, "letters_axes": bool(letters_axes)}
+                              "name": target, "letters_axes": bool(letters_axes),
+                              "axis_meaning": tensor.get("axis_meaning")}
 
 
 def _chain_upstream(provides, incoming, nid, handle, nodes, edges, depth=0):
@@ -1339,7 +1363,17 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         # The tensor's trailing axes were already projected to the uniform full
         # alphabet basis (e.g. by a manual Ternary Contract with proj matrices,
         # possibly via solve_symmetry / custom-block ports): the symmetry acts
-        # as plain S^n on both axes.
+        # as plain S^n on both axes. The meaning of the axes carries through
+        # only if the matrix preserves it (symmetry reps do; a collinear
+        # projection changes the meaning to the collinear limit).
+        t_meaning = tensor.get("axis_meaning")
+        s_meaning = sym.get("meaning")
+        if t_meaning == "collinear" and s_meaning == "collinear":
+            errors.append(
+                f"Apply Projection: the tensor's letters axes are already in the collinear basis "
+                f"('{tensor['name']}'); a further collinear projection is not valid on them."
+            )
+            return
         sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir,
                                      tensor_ops_bin, file_steps, errors)
         if sym_file_n is None:
@@ -1360,7 +1394,8 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         )
         d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
         provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
-                                  "name": target, "dims": None, "letters_axes": True}
+                                  "name": target, "dims": None, "letters_axes": True,
+                                  "axis_meaning": s_meaning if s_meaning else t_meaning}
         return
 
     chain, err = _chain_upstream(provides, incoming, tensor_edge["source"], tensor_edge.get("sourceHandle") or "out", nodes, edges)
@@ -1412,7 +1447,8 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
             )
             d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
             provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"),
-                                      "name": target, "dims": None, "letters_axes": True}
+                                      "name": target, "dims": None, "letters_axes": True,
+                                      "axis_meaning": sym.get("meaning") or tensor.get("axis_meaning")}
             return
         got = f"{tdims[-2:]}" if len(tdims) >= 2 else "unknown"
         errors.append(
@@ -1691,7 +1727,8 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
     letters_axes = bool(a.get("letters_axes") or b.get("letters_axes")) and not (
         a.get("letters_axes") and axis in (-1, -2, a.get("rank", 3), a.get("rank", 3) - 1)
     )
-    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes}
+    axis_meaning = (a.get("axis_meaning") if a.get("axis_meaning") == b.get("axis_meaning") else None) if letters_axes else None
+    provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes, "axis_meaning": axis_meaning}
 
 
 def _compile_tensor_dot(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
