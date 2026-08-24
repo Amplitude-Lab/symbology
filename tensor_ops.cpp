@@ -70,12 +70,18 @@ static sparse_tensor<scalar_t, index_t, SPARSE_COO> mat_to_tensor2(const sparse_
 }
 
 static int run_ternary(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
-	if (argc != 6) throw std::runtime_error("usage: tensor_ops ternary <tensor.wxf> <mat1.wxf> <mat2.wxf> <out.wxf>");
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops ternary <tensor.wxf> <mat1.wxf> <mat2.wxf> <out.wxf> ('I' = identity of the matching axis)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
 	if (T.rank() != 3)
 		throw std::runtime_error("ternary: the first argument must be a rank-3 tensor");
-	auto M1 = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[3], F);
-	auto M2 = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[4], F);
+	std::string m1_arg = argv[3];
+	sparse_mat<scalar_t, index_t> M1((index_t)T.dim(1), (index_t)T.dim(1));
+	if (m1_arg == "I") { for (index_t i = 0; i < M1.nrow; i++) M1[i].push_back(i, (scalar_t)1); }
+	else M1 = sparse_mat_read_wxf<scalar_t, index_t>(base / m1_arg, F);
+	std::string m2_arg = argv[4];
+	sparse_mat<scalar_t, index_t> M2;
+	if (m2_arg == "I") { M2 = sparse_mat<scalar_t, index_t>((index_t)T.dim(2), (index_t)T.dim(2)); for (index_t i = 0; i < M2.nrow; i++) M2[i].push_back(i, (scalar_t)1); }
+	else M2 = sparse_mat_read_wxf<scalar_t, index_t>(base / m2_arg, F);
 	if ((index_t)T.dim(1) != M1.nrow || (index_t)T.dim(2) != M2.nrow)
 		throw std::runtime_error("ternary: dimension mismatch — need T.dim(2) == M2.nrow and T.dim(1) == M1.nrow");
 
@@ -480,12 +486,17 @@ static sparse_mat<scalar_t, index_t> sym_impose_derive(
 }
 
 static int run_symsolve(int argc, char* argv[], const field_t& F, rref_option_t& opt, thread_pool* pool, const std::filesystem::path& base) {
-	if (argc != 6) throw std::runtime_error("usage: tensor_ops symsolve <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc)");
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops symsolve <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc, 'I' = identity of the matching axis)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
-	auto Sb = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[3], F);
+	std::string sb_arg = argv[3];
+	sparse_mat<scalar_t, index_t> Sb((index_t)T.dim(1), (index_t)T.dim(1));
+	if (sb_arg == "I") { for (index_t i = 0; i < Sb.nrow; i++) Sb[i].push_back(i, (scalar_t)1); }
+	else Sb = sparse_mat_read_wxf<scalar_t, index_t>(base / sb_arg, F);
 	std::string sc_arg = argv[4];
-	auto Sc = (sc_arg == "-") ? Sb
-		: sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
+	sparse_mat<scalar_t, index_t> Sc;
+	if (sc_arg == "-") Sc = Sb;
+	else if (sc_arg == "I") { Sc = sparse_mat<scalar_t, index_t>((index_t)T.dim(2), (index_t)T.dim(2)); for (index_t i = 0; i < Sc.nrow; i++) Sc[i].push_back(i, (scalar_t)1); }
+	else Sc = sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
 	auto Rt = sym_impose_derive(Tcoo, Sb, Sc, F, opt, pool);  // holds R^T
 
@@ -520,13 +531,35 @@ static int run_symsolve(int argc, char* argv[], const field_t& F, rref_option_t&
 // invariant-space projection. Used to recursively derive the symmetry
 // transformation of an extended solution space: from T (s_n, s_{n-1}, b) with
 // maps (s_{n-1}, s_{n-1}) on entry 2 and (b, b) on entry 3, obtain R (s_n, s_n).
+static int run_transpose(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 4) throw std::runtime_error("usage: tensor_ops transpose <mat.wxf> <out.wxf>");
+	auto M = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[2], F);
+	sparse_mat<scalar_t, index_t> Mt(M.ncol, M.nrow);
+	for (index_t i = 0; i < M.nrow; i++)
+		for (size_t j = 0; j < M[i].nnz(); j++)
+			Mt[M[i](j)].push_back(i, M[i][j]);
+	pool->detach_loop(0, Mt.nrow, [&](index_t r) { Mt[r].canonicalize(); });
+	pool->wait();
+	auto u8arr = sparse_mat_write_wxf(Mt);
+	std::ofstream ofs(base / argv[3], std::ios::binary);
+	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	std::cout << "transpose: (" << M.nrow << "x" << M.ncol << ") -> (" << Mt.nrow << "x" << Mt.ncol
+	          << "), nnz " << Mt.nnz() << " -> " << argv[3] << std::endl;
+	return 0;
+}
+
 static int run_symderive(int argc, char* argv[], const field_t& F, rref_option_t& opt, thread_pool* pool, const std::filesystem::path& base) {
-	if (argc != 6) throw std::runtime_error("usage: tensor_ops symderive <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc)");
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops symderive <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc, 'I' = identity of the matching axis)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
-	auto Sb = sparse_mat_read_wxf<scalar_t, index_t>(base / argv[3], F);
+	std::string sb_arg = argv[3];
+	sparse_mat<scalar_t, index_t> Sb((index_t)T.dim(1), (index_t)T.dim(1));
+	if (sb_arg == "I") { for (index_t i = 0; i < Sb.nrow; i++) Sb[i].push_back(i, (scalar_t)1); }
+	else Sb = sparse_mat_read_wxf<scalar_t, index_t>(base / sb_arg, F);
 	std::string sc_arg = argv[4];
-	auto Sc = (sc_arg == "-") ? Sb
-		: sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
+	sparse_mat<scalar_t, index_t> Sc;
+	if (sc_arg == "-") Sc = Sb;
+	else if (sc_arg == "I") { Sc = sparse_mat<scalar_t, index_t>((index_t)T.dim(2), (index_t)T.dim(2)); for (index_t i = 0; i < Sc.nrow; i++) Sc[i].push_back(i, (scalar_t)1); }
+	else Sc = sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
 	auto Rt = sym_impose_derive(Tcoo, Sb, Sc, F, opt, pool);
 	auto u8arr = sparse_mat_write_wxf(Rt);
@@ -643,7 +676,8 @@ int main(int argc, char* argv[]) {
 		else if (mode == "tdot") rc = run_tdot(argc, argv, F, pool, base);
 		else if (mode == "symsolve") rc = run_symsolve(argc, argv, F, opt, pool, base);
 		else if (mode == "symderive") rc = run_symderive(argc, argv, F, opt, pool, base);
-		else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|symsolve|symderive)");
+	else if (mode == "transpose") rc = run_transpose(argc, argv, F, pool, base);
+	else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|symsolve|symderive|transpose)");
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
 		std::cout << "** tensor_ops " << mode << " finished in " << ms << " ms **" << std::endl;
 		return rc;

@@ -595,6 +595,18 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
         <>
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. FEC_2_sym" />
+          {node.type === 'apply_symmetry' && (
+            <p className="muted" style={{ fontSize: 11 }}>
+              Auto mode: wire only the <b>sym</b> input with the letter-representation matrix S (e.g. cycrepmat).
+              The flow walks the chain upstream (Extend/Sew → weight-1 seed), runs the recursive
+              projection pipeline (weight-1 special case + per-weight induced maps, degeneracy-safe
+              kernel extraction) to derive the induced basis transformations for every chain weight,
+              caches them as shared matrices under <code>output/.derived/</code> (reused across blocks/flows), and
+              applies the correct pair to the tensor&apos;s two trailing axes. For FEC the seed axis comes second and
+              letters last; for LEC they are swapped; a SEW applies R&#7432; on axis 2 and R&#7460; on axis 3.
+              Wiring trans1/trans2 instead gives the manual mode (plain ternary contraction).
+            </p>
+          )}
           <p className="muted" style={{ fontSize: 11 }}>TernaryContract: contracts trans1 with the 2nd-to-last axis and trans2 with the last axis of the rank-3 input tensor (T&apos;[a,b&apos;,c&apos;] = Σ T·M1·M2), exact rational arithmetic via tensor_ops. The transformations can be any matrices — symmetry transformations included.</p>
         </>
       )}

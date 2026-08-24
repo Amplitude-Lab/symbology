@@ -41,6 +41,7 @@ EDGE_RULES = {
     ("apply_symmetry", "tensor"): R3_KINDS,
     ("apply_symmetry", "trans1"): {"matrix"},
     ("apply_symmetry", "trans2"): {"matrix"},
+    ("apply_symmetry", "sym"): {"matrix"},
     ("matrix_power", "matrix"): {"matrix"},
     ("tensor_join", "a"): TENSOR_KINDS,
     ("tensor_join", "b"): TENSOR_KINDS,
@@ -276,8 +277,10 @@ def _compile_graph(ctx, node_list, edges, seed):
             _compile_compute_rhs(node, incoming, provides, add_step, errors, compute_rhs_bin, proj_dir)
         elif ntype == "add_tensors":
             _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_bin, proj_dir)
-        elif ntype in ("ternary_contract", "apply_symmetry"):
+        elif ntype == "ternary_contract":
             _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "apply_symmetry":
+            _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstrap, tensor_ops_bin, proj_dir, nodes, edges, file_steps)
         elif ntype == "matrix_power":
             _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "tensor_join":
@@ -1050,6 +1053,273 @@ def _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor
         {"type": "ternary_contract", "tensor_file": rel},
     )
     provides[(nid, "out")] = {"kind": tensor["kind"], "file": rel, "weight": tensor.get("weight"), "name": target}
+
+
+def _chain_upstream(provides, incoming, nid, handle, nodes, edges, depth=0):
+    """Walk a chain tensor input (fec/lec/sew handle) upstream through extend/sew
+    nodes, collecting every chain tensor from the seed (weight 1) up to the given
+    one. Returns (chain, error): chain is a list of provides-like dicts
+    [{kind: 'fec1'|'lec1'|'fec'|'lec', file, weight}, ...] in weight order,
+    or [sew_info] with .first/.last sub-chains attached for kind 'sew'."""
+    if depth > 64:
+        return None, "chain walk hit the recursion limit (cycle?)"
+    info = provides.get((nid, handle))
+    if info is None:
+        for e in incoming.get(nid, []):
+            if (e.get("targetHandle") or "").startswith(handle):
+                s = (e.get("source"), e.get("sourceHandle"))
+                if s in provides:
+                    info = provides[s]
+                    break
+    if info is None:
+        return None, None
+    kind = info.get("kind")
+    if kind in ("fec1", "lec1"):
+        return [dict(info)], None
+    if kind in ("fec", "lec"):
+        node = nodes.get(nid)
+        upstream = None
+        for e in incoming.get(nid, []):
+            th = e.get("targetHandle") or ""
+            if th.startswith("fec") or th.startswith("lec") or th.startswith("seed"):
+                s = (e.get("source"), e.get("sourceHandle"))
+                if s in provides:
+                    upstream = _chain_upstream(provides, incoming, e["source"], e["sourceHandle"] or "out", nodes, edges, depth + 1)
+                    break
+        if upstream is None:
+            return None, None
+        sub, err = upstream
+        if err or sub is None:
+            return None, err
+        return sub + [dict(info)], None
+    if kind == "sew":
+        first = last = None
+        for e in incoming.get(nid, []):
+            th = e.get("targetHandle") or ""
+            if th not in ("fec", "lec"):
+                continue
+            s = (e.get("source"), e.get("sourceHandle"))
+            if s not in provides:
+                continue
+            sub, err = _chain_upstream(provides, incoming, e["source"], e["sourceHandle"], nodes, edges, depth + 1)
+            if err:
+                return None, err
+            if th == "fec":
+                first = sub
+            else:
+                last = sub
+        if first is None or last is None:
+            return None, None
+        entry = dict(info)
+        entry["first"], entry["last"] = first, last
+        return [entry], None
+    return None, None
+
+
+def _derived_matrix_sig(proj_dir: Path, rel: str) -> str:
+    p = proj_dir / rel
+    try:
+        h = hashlib.sha1()
+        h.update(rel.encode())
+        h.update(str(p.stat().st_size).encode())
+        h.update(str(int(p.stat().st_mtime)).encode())
+        return h.hexdigest()[:10]
+    except OSError:
+        return "missing"
+
+
+def _emit_derived_projection(head, sub, sig, symmetry_name, sym_file, add_step, proj_dir, bootstrap, file_steps, errors):
+    """Stage a hidden scratch workspace (output/.derived/proj_<sig>/) holding the
+    chain tensors and the symmetry rep matrix under their canonical names, then
+    emit one `bootstrap --project` step that derives the induced per-weight
+    transformation matrices (first_w*/last_w*, or SEW_FpL) exactly like the
+    original projection pipeline — including the weight-1 special case and
+    degeneracy handling. Returns the rel path of the map for the chain head,
+    or None on error. Files under .derived/ are shared across blocks: the
+    step is skipped when the .sig fingerprint already matches."""
+    first = sub.get("first") or []
+    last = sub.get("last") or []
+    if not first and not last:
+        errors.append("Apply Symmetry: empty chain — auto mode needs Extend/Sew-built tensors.")
+        return None
+    fw = (first[-1].get("weight") if first else 1) or 1
+    lw = (last[-1].get("weight") if last else 1) or 1
+    head_kind = head["kind"]
+    if head_kind == "sew":
+        target = f"SEW_{fw}p{lw}"
+    elif head_kind.startswith("fec"):
+        target = f"FEC_{fw}"
+    else:
+        target = f"LEC_{lw}"
+
+    scratch = f"output/.derived/proj_{sig}_{target}"
+    sdata = proj_dir / scratch / "data"
+    sout = proj_dir / scratch / "output"
+    def _link(src_rel: str, dst: Path):
+        src = proj_dir / src_rel
+        if dst.is_symlink() or dst.exists():
+            dst.unlink()
+        try:
+            dst.symlink_to(src.resolve())
+        except OSError:
+            import shutil
+            shutil.copy2(src, dst)
+    try:
+        sdata.mkdir(parents=True, exist_ok=True)
+        sout.mkdir(parents=True, exist_ok=True)
+        # Symmetry rep matrix under its expected data/<stem>.wxf name.
+        _link(sym_file, sdata / Path(sym_file).name)
+        # Chain tensors under their canonical names (FEC_w/LEC_w/SEW_FpL).
+        for link in first + last:
+            w = link.get("weight")
+            if w is None:
+                continue
+            base = "FEC" if link["kind"].startswith("fec") else "LEC"
+            if w == 1:
+                _link(link["file"], sdata / f"{base}_1.wxf")
+            else:
+                _link(link["file"], sout / f"{base}_{w}.wxf")
+        if head_kind == "sew":
+            _link(head["file"], sout / f"{target}.wxf")
+    except OSError as e:
+        errors.append(f"Apply Symmetry: cannot stage the derived-matrix scratch workspace: {e}")
+        return None
+
+    summary = f"{scratch}/output/{symmetry_name}/summary.txt"
+    if summary not in file_steps:
+        add_step(
+            f"Derive induced {symmetry_name} maps for {target} (shared cache)",
+            "bootstrap",
+            [bootstrap, "--project", "--symmetry", symmetry_name, "--target", target,
+             "--data-dir", _abs(proj_dir, f"{scratch}/data"),
+             "--output-dir", _abs(proj_dir, f"{scratch}/output")],
+            proj_dir,
+            [summary],
+            True,
+            {"type": "derived_projection", "symmetry": symmetry_name, "target": target},
+        )
+        file_steps.add(summary)
+    maps = {
+        "first_w": f"{scratch}/output/{symmetry_name}/first_w{fw}.wxf" if first else None,
+        "last_w": f"{scratch}/output/{symmetry_name}/last_w{lw}.wxf" if last else None,
+        "first_w_prev": f"{scratch}/output/{symmetry_name}/first_w{max(fw - 1, 1)}.wxf" if first else None,
+        "last_w_prev": f"{scratch}/output/{symmetry_name}/last_w{max(lw - 1, 1)}.wxf" if last else None,
+    }
+    return maps
+
+
+def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstrap, tensor_ops_bin, proj_dir, nodes, edges, file_steps):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    tensor = _edge_input(provides, incoming, nid, "tensor")
+    if tensor is None:
+        errors.append("An Apply Symmetry node is missing its tensor input.")
+        return
+    sym = _edge_input(provides, incoming, nid, "sym")
+    m1 = _edge_input(provides, incoming, nid, "trans1")
+    m2 = _edge_input(provides, incoming, nid, "trans2")
+
+    if sym is not None and (m1 is not None or m2 is not None):
+        errors.append("Apply Symmetry: wire either the 'sym' input (auto-derived chain matrices) or trans1/trans2 (manual), not both.")
+        return
+
+    if sym is None:
+        _compile_ternary_contract(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        return
+
+    if tensor.get("file") is None or sym.get("file") is None:
+        errors.append("Apply Symmetry: the tensor and sym inputs must be concrete tensor/matrix files.")
+        return
+    if bootstrap is None or tensor_ops_bin is None:
+        errors.append("The bootstrap/tensor_ops binaries were not found; build them with `make bootstrap tensor_ops`.")
+        return
+
+    sig = _derived_matrix_sig(proj_dir, sym["file"])
+
+    tensor_edge = None
+    for e in incoming.get(nid, []):
+        if (e.get("targetHandle") or "") == "tensor":
+            tensor_edge = e
+            break
+    if tensor_edge is None:
+        errors.append("Apply Symmetry: the tensor input must be wired (auto mode needs the upstream chain in the graph).")
+        return
+
+    chain, err = _chain_upstream(provides, incoming, tensor_edge["source"], tensor_edge.get("sourceHandle") or "out", nodes, edges)
+    if err:
+        errors.append(f"Apply Symmetry: {err}")
+        return
+    if not chain:
+        errors.append(
+            "Apply Symmetry: auto mode needs the tensor to come from a chain built in this graph "
+            "(Extend/Sew from an alphabet seed). For a reused file or an arbitrary tensor, wire trans1/trans2 manually."
+        )
+        return
+
+    head = chain[-1]
+    fw = head.get("weight") or 1
+    if head["kind"] == "sew":
+        fw = ((head.get("first") or [{}])[-1].get("weight") if head.get("first") else 1) or 1
+        lw = ((head.get("last") or [{}])[-1].get("weight") if head.get("last") else 1) or 1
+    else:
+        lw = 1
+    if head["kind"] in ("fec1", "fec", "lec1", "lec"):
+        sub = {"first": chain if head["kind"].startswith("fec") else [],
+               "last": chain if head["kind"].startswith("lec") else []}
+        if head["kind"].startswith("lec"):
+            head = dict(head)
+            head["kind"] = "lec"
+    else:  # sew: sub-chains attached by the walker
+        sub = {"first": head.get("first") or [], "last": head.get("last") or []}
+
+    # Name the symmetry from the rep-matrix file (cycrepmat -> cyclic etc.).
+    stem = Path(sym["file"]).stem
+    known = {"cycrepmat": "cyclic", "fliprepmat": "flip", "parityrepmat": "parity",
+             "colmat42": "collinear"}
+    symmetry_name = known.get(stem)
+    if symmetry_name is None:
+        # Custom symmetry: bootstrap accepts data/<name>.wxf, name must be the stem.
+        if not SAFE_TARGET_RE.match(stem or ""):
+            errors.append(f"Apply Symmetry: cannot use '{stem}' as a symmetry name (unsafe characters).")
+            return
+        symmetry_name = stem
+
+    maps = _emit_derived_projection(head, sub, sig, symmetry_name, sym["file"],
+                                    add_step, proj_dir, bootstrap, file_steps, errors)
+    if maps is None:
+        return
+    if head["kind"] == "sew":
+        m1_arg, m2_arg = maps.get("first_w"), maps.get("last_w")
+    elif head["kind"].startswith("fec"):
+        # FEC_w dims (basis_w, basis_{w-1}, 42): axis-2 uses the letter map S,
+        # axis-1 uses the induced map on the weight-(w-1) basis ('I' at w=1).
+        m1_arg = "I" if fw == 1 else maps.get("first_w_prev")
+        m2_arg = sym["file"]
+    else:
+        m1_arg = sym["file"]
+        m2_arg = "I" if lw == 1 else maps.get("last_w_prev")
+    if not m1_arg or not m2_arg:
+        errors.append("Apply Symmetry: could not derive the induced maps for the chain head.")
+        return
+
+    target = _require_target(data, "Apply Symmetry", errors, nid)
+    if target is None:
+        return
+    rel = f"{_out()}{target}.wxf"
+    add_step(
+        f"Apply symmetry {sym.get('name') or 'S'} to {tensor['name']} -> {target}",
+        "tensor_ops",
+        [tensor_ops_bin, "ternary", _abs(proj_dir, tensor["file"]),
+         ("I" if m1_arg == "I" else _abs(proj_dir, m1_arg)),
+         ("I" if m2_arg == "I" else _abs(proj_dir, m2_arg)),
+         _abs(proj_dir, rel)],
+        proj_dir,
+        [rel],
+        True,
+        {"type": "apply_symmetry"},
+    )
+    d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
+    provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"), "name": target, "dims": None}
 
 
 def _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):

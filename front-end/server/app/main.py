@@ -333,7 +333,10 @@ def api_list_tensors(pid: str, dir: str = "data") -> list:
     out = []
     if base.exists():
         for f in sorted(base.rglob("*.wxf")):
-            out.append({"file": f.relative_to(storage.project_dir(pid)).as_posix(), "size_bytes": f.stat().st_size})
+            rel = f.relative_to(storage.project_dir(pid))
+            if any(part.startswith(".") for part in rel.parts):
+                continue
+            out.append({"file": rel.as_posix(), "size_bytes": f.stat().st_size})
     return out
 
 
