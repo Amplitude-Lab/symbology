@@ -503,6 +503,7 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
                 "weight": None,
                 "name": Path(proj_rel).stem,
                 "dims": _squeeze_dims((prop.get("summary") or {}).get("dims")),
+                "meaning": "preserve",
             }
 
 
@@ -1022,6 +1023,12 @@ def _compile_add_tensors(node, incoming, provides, add_step, errors, tensor_add_
         )
     meanings = {t.get("axis_meaning") for t in tensors if t.get("letters_axes")}
     letters_axes = all(t.get("letters_axes") for t in tensors) and any(t.get("letters_axes") for t in tensors)
+    if letters_axes and "collinear" in meanings and meanings - {"collinear"}:
+        errors.append(
+            f"Add Tensors: operands mix collinear-basis and non-collinear letters axes — "
+            "their coefficients live in different bases and cannot be summed."
+        )
+        return
     axis_meaning = meanings.pop() if len(meanings) == 1 else None
     provides[(nid, "out")] = {"kind": t0["kind"], "file": rel_path(target), "weight": t0.get("weight"), "name": target, "dims": t0.get("dims"), "letters_axes": letters_axes, "axis_meaning": axis_meaning if letters_axes else None}
 
@@ -1368,10 +1375,13 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         # projection changes the meaning to the collinear limit).
         t_meaning = tensor.get("axis_meaning")
         s_meaning = sym.get("meaning")
-        if t_meaning == "collinear" and s_meaning == "collinear":
+        if t_meaning == "collinear":
+            # Axes are in the collinear limit basis. Only a matrix acting WITHIN
+            # that basis is admissible; a full-alphabet matrix (preserve rep,
+            # collinear projection of the alphabet, anything else) cannot act.
             errors.append(
-                f"Apply Projection: the tensor's letters axes are already in the collinear basis "
-                f"('{tensor['name']}'); a further collinear projection is not valid on them."
+                f"Apply Projection: the letters axes of '{tensor['name']}' are in the collinear "
+                "limit basis; a full-alphabet matrix cannot act on them (no proper matrix for these axes)."
             )
             return
         sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir,
@@ -1551,6 +1561,11 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
         {"type": "apply_symmetry"},
     )
     d_kind = tensor.get("kind") if tensor.get("kind") in TENSOR_KINDS else "tensor"
+    # No letters_axes tag: chain outputs have at most ONE alphabet axis (FEC/LEC
+    # heads; SEW heads have none) — the other trailing axis is a chain-basis
+    # axis, and the fast path applies S to BOTH trailing axes, so tagging here
+    # would be wrong. A subsequent Apply Projection correctly re-walks the
+    # chain or falls back to the dims check (which rejects the basis axis).
     provides[(nid, "out")] = {"kind": d_kind, "file": rel, "weight": tensor.get("weight"), "name": target, "dims": None}
 
 
@@ -1587,7 +1602,7 @@ def _compile_matrix_power(node, incoming, provides, add_step, errors, tensor_ops
         True,
         {"type": "matrix_power", "tensor_file": rel},
     )
-    provides[(nid, "out")] = {"kind": "matrix", "file": rel, "weight": None, "name": target, "dims": mat.get("dims")}
+    provides[(nid, "out")] = {"kind": "matrix", "file": rel, "weight": None, "name": target, "dims": mat.get("dims"), "meaning": mat.get("meaning")}
 
 
 def _compile_assemble(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir):
@@ -1724,9 +1739,12 @@ def _compile_tensor_join(node, incoming, provides, add_step, errors, tensor_ops_
         True,
         {"type": "tensor_join", "tensor_file": rel},
     )
-    letters_axes = bool(a.get("letters_axes") or b.get("letters_axes")) and not (
-        a.get("letters_axes") and axis in (-1, -2, a.get("rank", 3), a.get("rank", 3) - 1)
-    )
+    rank = len(a.get("dims") or b.get("dims") or [0, 0, 0])
+    trailing = axis in (-1, -2, rank, rank - 1)
+    # Non-join axes must have matching dims, so both operands carry letters
+    # axes or neither; require agreement to keep the claim trustworthy.
+    agree = bool(a.get("letters_axes")) == bool(b.get("letters_axes"))
+    letters_axes = agree and bool(a.get("letters_axes")) and not trailing
     axis_meaning = (a.get("axis_meaning") if a.get("axis_meaning") == b.get("axis_meaning") else None) if letters_axes else None
     provides[(nid, "out")] = {"kind": a["kind"], "file": rel, "weight": None, "name": target, "dims": _join_dims(a.get("dims"), b.get("dims"), axis), "letters_axes": letters_axes, "axis_meaning": axis_meaning}
 
