@@ -29,6 +29,11 @@ export function propLabel(prop) {
 export const NODE_DEFS = {
   cb_in: { title: 'Block Input', color: '#e8f4ea', inputs: [], outputs: [{ id: 'out', kind: 'any', label: '' }] },
   cb_out: { title: 'Block Output', color: '#fdeeea', inputs: [{ id: 'in', kind: 'any', label: '' }], outputs: [] },
+  reuse_output: {
+    title: 'Reuse Output', color: '#e8f0fe',
+    inputs: [],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'reused tensor' }],
+  },
   alphabet: { title: 'Alphabet', color: '#eef0fe', inputs: [] },
   merge_conditions: {
     title: 'Merge Conditions', color: '#f3e8ff',
@@ -260,6 +265,10 @@ export function alphabetOutSlots(alphabet, selectedProps) {
 export function sourceKindFor(node, handleId, project) {
   if (!node) return null
   if (node.type === 'cb_in') return 'any'
+  if (node.type === 'reuse_output') {
+    const k = node.data?.kind
+    return k || 'tensor'
+  }
   if (node.type === 'customblock') {
     const cb = customBlockDef(node, project)
     const out = cb?.outputs?.find((o) => o.id === handleId)

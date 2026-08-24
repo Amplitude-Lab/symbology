@@ -276,10 +276,31 @@ function CustomBlockNode({ id, data, selected }) {
   )
 }
 
+function ReuseOutputNode({ data, selected }) {
+  const def = NODE_DEFS.reuse_output
+  return (
+    <div className="node-card" style={{ borderColor: selected ? 'var(--accent)' : undefined, borderStyle: 'dashed' }}>
+      <div className="node-title" style={{ background: def.color }}>{def.title}</div>
+      <div className="node-body">
+        <div className="handle-row" style={{ position: 'relative', display: 'flex', justifyContent: 'flex-end' }}>
+          <span className={`kind-${data?.kind || 'tensor'}`}>
+            {data?.name || data?.file || 'select output in inspector →'}
+          </span>
+          <Handle
+            type="source" position={Position.Right} id="out"
+            style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, background: 'var(--accent)' }}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const nodeTypes = {
   alphabet: AlphabetNode,
   cb_in: CBIONode,
   cb_out: CBIONode,
+  reuse_output: ReuseOutputNode,
   customblock: CustomBlockNode,
   merge_conditions: (p) => <OpNode {...p} type="merge_conditions" />,
   extend: (p) => <OpNode {...p} type="extend" />,
@@ -304,7 +325,66 @@ const nodeTypes = {
   groupBox: GroupNode,
 }
 
-function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock }) {
+function ReuseOutputInspector({ node, set, onDelete, project, currentFlowId }) {
+  const [catalog, setCatalog] = useState(null)
+  const [err, setErr] = useState(null)
+  useEffect(() => {
+    let alive = true
+    setCatalog(null)
+    setErr(null)
+    api.flowOutputs(project.id)
+      .then((c) => { if (alive) setCatalog(c) })
+      .catch((e) => { if (alive) setErr(String(e.message || e)) })
+    return () => { alive = false }
+  }, [project.id, project.flows])
+  const d = node.data || {}
+  return (
+    <div>
+      <h3>Reuse Output</h3>
+      <p className="muted" style={{ fontSize: 11 }}>
+        Pick a calculated output of another flow in this project. The tensor file must already exist
+        (run that flow first); it is then usable here exactly like any other tensor source.
+      </p>
+      {err && <p className="error-text">{err}</p>}
+      {catalog === null && !err && <p className="muted">Loading outputs…</p>}
+      {catalog?.length === 0 && (
+        <p className="muted">No compiled flow with outputs yet. Compile or run another flow first.</p>
+      )}
+      {(catalog || []).filter((g) => g.flow_id !== currentFlowId).map((g) => (
+        <div key={g.flow_id} style={{ marginTop: 10 }}>
+          <div className="muted" style={{ fontSize: 11 }}>{g.flow_name}</div>
+          {g.outputs.map((o) => (
+            <label key={o.file} style={{ display: 'flex', alignItems: 'center', gap: 6, margin: '2px 0', cursor: 'pointer' }}>
+              <input
+                type="radio" name={`reuse_${node.id}`} style={{ width: 'auto' }}
+                checked={d.file === o.file}
+                onChange={() => set({ file: o.file, kind: o.kind, name: o.name })}
+              />
+              <span className={`kind-${o.kind}`}>{o.name}</span>
+              <span className="muted" style={{ fontSize: 10 }}>{o.kind}</span>
+            </label>
+          ))}
+        </div>
+      ))}
+      {d.file && (
+        <>
+          <label style={{ marginTop: 12 }}>Tensor kind override</label>
+          <select value={d.kind || 'tensor'} onChange={(e) => set({ kind: e.target.value })}>
+            {['tensor', 'matrix', 'dlogmat', 'fec', 'lec', 'fec1', 'lec1', 'sew', 'basis', 'solution', 'boundary'].map((k) => (
+              <option key={k} value={k}>{k}</option>
+            ))}
+          </select>
+          <p className="muted" style={{ fontSize: 11 }}>File: {d.file}</p>
+        </>
+      )}
+      <div style={{ marginTop: 16, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+        <button className="danger" onClick={() => onDelete(node.id)}>Delete this node</button>
+      </div>
+    </div>
+  )
+}
+
+function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) {
   const { project } = useProject()
   const edges = useEdges()
   if (!node) return (
@@ -370,6 +450,9 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock }) {
         <button className="danger" onClick={() => onDelete(node.id)}>Delete node</button>
       </div>
     )
+  }
+  if (node.type === 'reuse_output') {
+    return <ReuseOutputInspector node={node} set={set} onDelete={onDelete} project={project} currentFlowId={flowId} />
   }
   if (node.type === 'alphabet') {
     const alphabet = project?.alphabets.find((a) => a.id === d.alphabet_id)
@@ -753,6 +836,7 @@ function FlowEditorInner() {
   const [autoSave, setAutoSave] = useState(() => localStorage.getItem('symbology.autosave') !== '0')
   const [groups, setGroups] = useState([])
   const [selCount, setSelCount] = useState(0)
+  const [outCatalog, setOutCatalog] = useState(null)
   const rf = useRef(null)
   const wrapper = useRef(null)
   const skipAutosave = useRef(true)
@@ -761,6 +845,16 @@ function FlowEditorInner() {
 
   const flow = project?.flows.find((f) => f.id === fid)
   registerCustomBlocks(project)
+
+  useEffect(() => {
+    let alive = true
+    if (project?.id) {
+      api.flowOutputs(project.id)
+        .then((c) => { if (alive) setOutCatalog(c) })
+        .catch(() => { if (alive) setOutCatalog([]) })
+    }
+    return () => { alive = false }
+  }, [project?.id, project?.flows])
 
   useEffect(() => {
     if (flow) {
@@ -1021,6 +1115,11 @@ function FlowEditorInner() {
     if (raw.startsWith('customblock:')) {
       type = 'customblock'
       defaults = { block: raw.slice('customblock:'.length) }
+    }
+    if (raw.startsWith('reuse_output:')) {
+      const [file, kind, name] = raw.slice('reuse_output:'.length).split('|')
+      type = 'reuse_output'
+      defaults = { file, kind, name }
     }
     if (type === 'cb_in' || type === 'cb_out') defaults = { name: '', kind: 'tensor', order: Date.now() % 100000 }
     setNodes((ns) => {
@@ -1342,6 +1441,20 @@ function FlowEditorInner() {
             <div className="sub">named result of this flow</div>
           </div>
         </div>
+        {(outCatalog || []).filter((g) => g.flow_id !== fid).length > 0 && (
+          <div>
+            <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Flow outputs</div>
+            {(outCatalog || []).filter((g) => g.flow_id !== fid).map((g) => g.outputs.map((o) => (
+              <div
+                key={g.flow_id + o.file} className="palette-item" draggable
+                onDragStart={(e) => e.dataTransfer.setData('application/symbology-node', `reuse_output:${o.file}|${o.kind}|${o.name}`)}
+              >
+                {o.name}
+                <div className="sub">{g.flow_name} · {o.kind}</div>
+              </div>
+            )))}
+          </div>
+        )}
         {customBlockPalette(project).length > 0 && (
           <div>
             <div className="muted" style={{ fontSize: 10, margin: '10px 0 4px', textTransform: 'uppercase', letterSpacing: 0.5 }}>Custom blocks</div>
@@ -1421,6 +1534,7 @@ function FlowEditorInner() {
             onChange={updateNodeData}
             onDelete={deleteNode}
             onOpenBlock={(bid) => navigate(`/flows/${bid}`)}
+            flowId={fid}
             groupOps={{ groups, onExpand: (id) => expandGroup(id), onUngroup: (id) => expandGroup(id, true), onCollapse: collapseGroup, onRename: renameGroup }}
           />
         )}

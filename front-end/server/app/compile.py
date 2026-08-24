@@ -182,6 +182,7 @@ def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> d
         return {"ok": False, "errors": errors, "steps": []}
     shapes = {f"{nid}|{handle}": info.get("dims") for (nid, handle), info in provides.items() if info.get("dims")}
     flow_outputs = []
+    seen_files = set()
     for n in nodes.values():
         if n.get("type") == "cb_out":
             info = provides.get((n["id"], "in"))
@@ -192,6 +193,26 @@ def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> d
                     "kind": info.get("kind"),
                     "dims": info.get("dims"),
                 })
+                seen_files.add(info["file"])
+    if not flow_outputs:
+        out_handles = {}
+        for n in nodes.values():
+            ntype = n.get("type")
+            if ntype in ("cb_in", "cb_out", "alphabet", "reuse_output"):
+                continue
+            out_handles[n["id"]] = ntype
+        for (nid, handle), info in provides.items():
+            if nid not in out_handles or not info or not info.get("file"):
+                continue
+            if info["file"] in seen_files:
+                continue
+            seen_files.add(info["file"])
+            flow_outputs.append({
+                "name": Path(info["file"]).stem,
+                "file": info["file"],
+                "kind": info.get("kind"),
+                "dims": info.get("dims"),
+            })
     return {"ok": True, "errors": [], "shapes": shapes, "flow_outputs": flow_outputs,
             "steps": [{k: v for k, v in s.items() if k != "argv"} for s in steps], "_steps_full": steps}
 
@@ -271,6 +292,8 @@ def _compile_graph(ctx, node_list, edges, seed):
             _compile_solve_conditions(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "assemble":
             _compile_assemble(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
+        elif ntype == "reuse_output":
+            _compile_reuse_output(node, provides, errors, proj_dir)
         elif ntype == "customblock":
             _compile_custom_block(ctx, node, incoming)
         elif ntype == "cb_in":
@@ -457,6 +480,65 @@ def _compile_alphabet(proj, node, provides, add_step, errors, wolframscript, gen
                 "name": Path(proj_rel).stem,
                 "dims": _squeeze_dims((prop.get("summary") or {}).get("dims")),
             }
+
+
+def _compile_reuse_output(node, provides, errors, proj_dir):
+    nid = node["id"]
+    data = node.get("data", {}) or {}
+    rel = (data.get("file") or "").strip().lstrip("/")
+    kind = data.get("kind") or "tensor"
+    if not rel:
+        errors.append("A Reuse Output node has no output selected.")
+        return
+    if kind not in TENSOR_KINDS:
+        errors.append(f"Reused output '{rel}': unknown tensor kind '{kind}'.")
+        return
+    if ".." in Path(rel).parts:
+        errors.append(f"Reused output path '{rel}' must stay inside the project directory.")
+        return
+    if not (proj_dir / rel).exists():
+        errors.append(f"Reused output '{rel}' does not exist yet — run the flow that produces it first.")
+        return
+    provides[(nid, "out")] = {"kind": kind, "file": rel, "weight": _infer_weight(rel), "name": Path(rel).stem, "dims": None}
+
+
+def _infer_weight(rel: str):
+    stem = Path(rel).stem
+    m = re.match(r"^(?:FEC|LEC|first_w|last_w)(\d+)$", stem, re.IGNORECASE)
+    if m:
+        return int(m.group(1))
+    m = re.match(r"^SEW_\d+p(\d+)$", stem, re.IGNORECASE)
+    if m:
+        return int(m.group(1))
+    return None
+
+
+def flow_outputs_catalog(proj: dict) -> list[dict]:
+    """Enumerate the declared outputs of every non-custom-block flow, for the
+    'flow outputs' palette section. Uses compile-time info only; flows that do
+    not compile are skipped silently (they have no usable outputs anyway)."""
+    catalog = []
+    for f in proj.get("flows", []):
+        if f.get("custom_block"):
+            continue
+        try:
+            result = compile_flow(proj, f.get("graph") or {}, output_subdir=f.get("output_subdir"))
+        except Exception:
+            continue
+        if not result.get("ok"):
+            continue
+        outs = result.get("flow_outputs") or []
+        if not outs:
+            continue
+        catalog.append({
+            "flow_id": f["id"],
+            "flow_name": f.get("name") or "Untitled flow",
+            "outputs": [
+                {"name": o["name"], "file": o["file"], "kind": o.get("kind") or "tensor", "dims": o.get("dims")}
+                for o in outs
+            ],
+        })
+    return catalog
 
 
 def _compile_merge(node, incoming, provides, add_step, errors, wolframscript, gen_dir, proj_dir):

@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 
 from . import storage, templates
-from .compile import compile_flow
+from .compile import compile_flow, flow_outputs_catalog
 from .config import WEB_DIST, env_status, find_tensor_ops, find_wolframscript
 from .jobs import engine
 from .wolfram import property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
@@ -461,6 +461,12 @@ def api_delete_flow(pid: str, fid: str) -> dict:
         raise HTTPException(404, "flow not found")
     storage.save_project(proj)
     return {"ok": True}
+
+
+@app.get("/api/projects/{pid}/flow_outputs")
+def api_flow_outputs_catalog(pid: str) -> list:
+    proj = _get_project(pid)
+    return flow_outputs_catalog(proj)
 
 
 @app.post("/api/projects/{pid}/flows/{fid}/compile")

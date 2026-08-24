@@ -41,6 +41,7 @@ export const api = {
   updateFlow: (pid, fid, flow) => request('PUT', `/projects/${pid}/flows/${fid}`, flow),
   deleteFlow: (pid, fid) => request('DELETE', `/projects/${pid}/flows/${fid}`),
   compileFlow: (pid, fid) => request('POST', `/projects/${pid}/flows/${fid}/compile`, {}),
+  flowOutputs: (pid) => request('GET', `/projects/${pid}/flow_outputs`),
   runFlow: (pid, fid) => request('POST', `/projects/${pid}/flows/${fid}/runs`, {}),
   listRuns: (pid) => request('GET', `/projects/${pid}/runs`),
   getRun: (rid) => request('GET', `/runs/${rid}`),
