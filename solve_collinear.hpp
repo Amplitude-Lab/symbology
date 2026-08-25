@@ -509,7 +509,7 @@ void run_collinear_solver(
 	const field_t& F, rref_option_t& opt,
 	const std::string& sew_name = "",
 	const std::string& letter_projection = "identity",
-	const std::string& solver = "sampled") {
+	const std::string& solver = "incremental") {
 
 	thread_pool* pool = &(opt->pool);
 	auto collinear_dir = output_dir / "collinear";
