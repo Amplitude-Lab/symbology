@@ -127,7 +127,7 @@ Module[{n,mat},n=dims[[1,1]];mat=SparseRREF`SparseRREF[Flatten[RowRescale[SortSp
 SmartArrayReshape[Transpose[RowRescale[CanonSparseArray[mat]]],{n,n,_},"Verbose"->False]]]
 
 
-SetAttributes[SmartMonitor,HoldFirst];
+SetAttributes[SmartMonitor,HoldAll];
 SmartMonitor[expr_,indicator_,verbose_]:=If[$Notebooks&&TrueQ[verbose],Monitor[expr,indicator],expr]
 
 
@@ -139,7 +139,7 @@ sqrt/:sqrt[x_]^k_Integer/;OddQ[k]:=x^Quotient[k,2]sqrt[x]
 
 
 Options[GenSqrtD]={"Verbose"->True};
-GenSqrtD[alphabetExpr_?VectorQ,OptionsPattern[]]:=Module[{alpexpr,dlogexpr,vars,sqrtlist1,sqrtlist2,irrpolys,rules,print,p,id,i,j,time},time=AbsoluteTime[];vars=Variables[alphabetExpr];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Independent variables: ",vars];
+GenSqrtD[alphabetExpr_?VectorQ,OptionsPattern[]]:=Module[{alpexpr,dlogexpr,vars,sqrtlist1,sqrtlist2,irrpolys,rules,print,p,id,i,j,time},time=AbsoluteTime[];vars=Variables[alphabetExpr];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];print["Independent variables: ",vars];
 alpexpr=alphabetExpr/.Power[a_,k_]/;IntegerQ[k-1/2]:>Power[Factor[a],Floor[k]]sqrt[Factor[a]]//.{sqrt[a_*b_^k_Integer]:>sqrt[a*If[OddQ[k],b,1]] b^Quotient[k,2],sqrt[b_^k_Integer]:>If[OddQ[k],sqrt[b],1]* b^Quotient[k,2]};sqrtlist1=SortBy[Union@Cases[alpexpr,_sqrt,\[Infinity]],ByteCount];
 (* Z2 row reduce to get independent sqrt *)
 If[sqrtlist1=!={},SmartPrintTemporary[" Z2 row reducing the roots...",OptionValue["Verbose"]];irrpolys=SortBy[DeleteCases[Union@Flatten[sqrtlist1/.{sqrt[a_Times]:>List@@a}/.sqrt->List],_?NumberQ],ByteCount];
@@ -159,24 +159,49 @@ If[!AllTrue[Denominator/@Flatten[dlogexpr],RationalExpressionQ[#,vars]&],Print["
 print["Square roots: ",sqrtlist1/.sqrt->Sqrt];print["Symbolic sqrt-reduced dlog vector generated. Time elapsed: ",AbsoluteTime[]-time];{dlogexpr,vars,sqrtlist1}]
 
 
+(* For 2-form labels, idx denotes a flattened scalar index and idx2 denotes an index pair {i,j}. *)
 Options[GenIntRelMat]={"Samples"->Automatic,"Tries"->100,"Threads"->0,"Verbose"->True};
 GenIntRelMat[{dlogexpr_?MatrixQ,vars_?VectorQ,sqrtlist_?VectorQ},OptionsPattern[]]:=With[{n$samp=If[OptionValue["Samples"]===Automatic,10+Ceiling[Binomial[Length[dlogexpr],2]/Binomial[Length[vars],2]],OptionValue["Samples"]],
-den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[dlogexpr]]],genRand=(Thread[vars->RandomPrime[{2,3*Length[dlogexpr]},Length[vars]]]&),idx$dlogL=Subsets[Range[Length[dlogexpr]],{2}][[All,1]],idx$dlogR=Subsets[Range[Length[dlogexpr]],{2}][[All,2]],idx$dvars=Subsets[Range[Length[vars]],{2}]},
+den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[dlogexpr]]],genRand=(Thread[vars->RandomPrime[{2,3*Length[dlogexpr]},Length[vars]]]&),idx$dlogLs=Subsets[Range[Length[dlogexpr]],{2}][[All,1]],idx$dlogRs=Subsets[Range[Length[dlogexpr]],{2}][[All,2]],idx2$dvar2fs=Subsets[Range[Length[vars]],{2}]},
 (* Generate numeric dlog \wedge dlog coefficient vectors *)
-Module[{dlogsqexpr,mat,tocoeff,print,sq,cnt,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Numeric sampling points: ",n$samp];dlogsqexpr=dlogexpr/.Dispatch[Thread[sqrtlist->Array[sq,Length[sqrtlist]]]];tocoeff=If[sqrtlist==={},Identity,Flatten[CoefficientArrays[#,Array[sq,Length[sqrtlist]]]]&];
+Module[{dlogsqexpr,mat,tocoeff,print,sq,cnt,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];print["Numeric sampling points: ",n$samp];dlogsqexpr=dlogexpr/.Dispatch[Thread[sqrtlist->Array[sq,Length[sqrtlist]]]];tocoeff=If[sqrtlist==={},Identity,Flatten[CoefficientArrays[#,Array[sq,Length[sqrtlist]]]]&];
 mat=SmartMonitor[Table[With[{numrule=Dispatch[NestWhile[genRand,genRand[],(den$lcm/.#)===0&,1,OptionValue["Tries"]]]},If[(den$lcm/.numrule)===0,Print["Error: unable to avoid zero denominator within ",OptionValue["Tries"]," sampling tries"];Return[$Failed]];
-With[{dlogexprnum=dlogsqexpr/.numrule,radiclistnum=sqrtlist[[All,1]]/.numrule},tocoeff/@Transpose[Table[(ExpandNumerator/@(dlogexprnum[[idx$dlogL,idx$dvar[[1]]]]dlogexprnum[[idx$dlogR,idx$dvar[[2]]]]-dlogexprnum[[idx$dlogL,idx$dvar[[2]]]]dlogexprnum[[idx$dlogR,idx$dvar[[1]]]]))/.{sq[k_]^2:>radiclistnum[[k]]},{idx$dvar,idx$dvars}]]]],{cnt,n$samp}],ProgressIndicator[cnt,{1,n$samp}],OptionValue["Verbose"]];
+With[{dlogexprnum=dlogsqexpr/.numrule,radiclistnum=sqrtlist[[All,1]]/.numrule},tocoeff/@Transpose[Table[(ExpandNumerator/@(dlogexprnum[[idx$dlogLs,idx2$dvar2f[[1]]]]dlogexprnum[[idx$dlogRs,idx2$dvar2f[[2]]]]-dlogexprnum[[idx$dlogLs,idx2$dvar2f[[2]]]]dlogexprnum[[idx$dlogRs,idx2$dvar2f[[1]]]]))/.{sq[k_]^2:>radiclistnum[[k]]},{idx2$dvar2f,idx2$dvar2fs}]]]],{cnt,n$samp}],ProgressIndicator[cnt,{1,n$samp}],OptionValue["Verbose"]];
 With[{len=Max[Flatten[Map[Length,mat,{2}]]]},mat=CanonSparseArray[SparseArray[Flatten[Map[PadRight[#,len]&,mat,{2}],{{1,3},{2}}]]]];
 (* Row reduce numeric dlog \wedge dlog coefficient vectors *)
 SmartPrintTemporary[" Row reducing numeric system...",OptionValue["Verbose"]];mat=SparseRREF`SparseRREF[mat,"Method"->"Right","Threads"->OptionValue["Threads"]];If[mat===$Failed,Return[$Failed]];
 print["Raw integrability relations generated. Time elapsed: ",AbsoluteTime[]-time];mat]]
 
 
+Options[GenIntRelMatSD]=Options[GenIntRelMat];(* SD = sector decomposition. *)
+GenIntRelMatSD[{dlogexpr_?MatrixQ,vars_?VectorQ,sqrtlist_?VectorQ},OptionsPattern[]]:=With[{den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[dlogexpr]]],
+genRand=(Thread[vars->RandomPrime[{2,3Length[dlogexpr]},Length[vars]]]&),idx2$dlog2fs=Subsets[Range[Length[dlogexpr]],{2}],idx2$dvar2fs=Subsets[Range[Length[vars]],{2}],n$dlog2f=Binomial[Length[dlogexpr],2]},
+(* Extract rational dlog coefficients in each square-root sector. *)
+Module[{dlogsectors,sectors,dlog2f$sectors,components,mats,sectorIntRelMat,embedDlog2fs,sN,cN,sq,sqvars,cnt=0,print,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];If[idx2$dvar2fs==={},Return[SparseArray[{},{0,n$dlog2f}]]];sqvars=Array[sq,Length[sqrtlist]];
+dlogsectors=Map[expr|->If[sqrtlist==={},If[expr===0,<||>,<|0->expr|>],Association@Table[FromDigits[rule[[1]],2]->rule[[2]],{rule,Factor[CoefficientRules[expr,sqvars]]}]],dlogexpr/.Dispatch[Thread[sqrtlist->sqvars]],{2}];dlogsectors=Map[dloglett|->Merge[KeyUnion[dloglett,0&],Identity],dlogsectors];
+dlog2f$sectors=With[{chars$dlog2fs=Table[Union@@Outer[BitXor,Keys[dlogsectors[[idx2$dlog2f[[1]]]]],Keys[dlogsectors[[idx2$dlog2f[[2]]]]]],{idx2$dlog2f,idx2$dlog2fs}]},KeySort@Merge[MapIndexed[{chars,idx}|->AssociationThread[chars,idx[[1]]],chars$dlog2fs],Identity]];sectors=Keys[dlog2f$sectors];If[sectors==={},Return[SparseArray[{},{0,n$dlog2f}]]];
+components=ConnectedComponents[Graph[Flatten[KeyValueMap[{sector,idx$dlog2fs}|->Thread[UndirectedEdge[sN[sector],cN/@idx$dlog2fs]],dlog2f$sectors]]]];components=SortBy[Table[{Sort@Cases[vertices,sN[sector_]:>sector],Sort@Cases[vertices,cN[idx$dlog2f_]:>idx$dlog2f]},{vertices,components}],Min@*Last];
+print["Square-root sectors: ",Length[sectors],"; sector -- dlog 2-form components: ",Length[components]];
+embedDlog2fs=({mat,idx$dlog2fs}|->With[{selector=SparseArray[Thread[Transpose[{Range[Length[idx$dlog2fs]],idx$dlog2fs}]->1],{Length[idx$dlog2fs],n$dlog2f}]},SparseArray[CanonSparseArray[mat] . selector]]);
+(* Independently sample and row reduce each rational sector. *)
+sectorIntRelMat=(sector|->With[{idx$dlog2fs=dlog2f$sectors[sector],idx2$dlog2fs$sector=idx2$dlog2fs[[dlog2f$sectors[sector]]],n$samp=If[OptionValue["Samples"]===Automatic,10+Ceiling[Length[dlog2f$sectors[sector]]/Length[idx2$dvar2fs]],OptionValue["Samples"]]},
+Module[{charps$dlog2fs,overlaps,mat,cnt$sect},cnt++;charps$dlog2fs=Map[idx2$dlog2f|->Select[Tuples[Keys/@dlogsectors[[idx2$dlog2f]]],BitXor@@#===sector&],idx2$dlog2fs$sector];overlaps=Union[BitAnd@@@Flatten[charps$dlog2fs,1]];print["Sector ",sector,": ",Length[idx$dlog2fs]," dlog 2-forms; numeric sampling points: ",n$samp];
+mat=SmartMonitor[Table[With[{numrule=Dispatch[NestWhile[genRand,genRand[],(den$lcm/.#)===0&,1,OptionValue["Tries"]]]},If[(den$lcm/.numrule)===0,Print["Error: unable to avoid zero denominator within ",OptionValue["Tries"]," sampling tries"];Throw[$Failed]];
+With[{dlognum=dlogsectors/.numrule,radicnum=sqrtlist[[All,1]]/.numrule},With[{rootfactors=AssociationMap[mask|->Times@@Pick[radicnum,IntegerDigits[mask,2,Length[sqrtlist]],1],overlaps]},
+SparseArray[Transpose@MapThread[{idx2$dlog2f,charps}|->Sum[With[{dlogL=dlognum[[idx2$dlog2f[[1]]]][charp[[1]]],dlogR=dlognum[[idx2$dlog2f[[2]]]][charp[[2]]]},rootfactors[BitAnd@@charp](dlogL[[idx2$dvar2fs[[All,1]]]]dlogR[[idx2$dvar2fs[[All,2]]]]-dlogL[[idx2$dvar2fs[[All,2]]]]dlogR[[idx2$dvar2fs[[All,1]]]])],{charp,charps}],{idx2$dlog2fs$sector,charps$dlog2fs}]]]]],{cnt$sect,n$samp}],ProgressIndicator[cnt$sect,{1,n$samp}],OptionValue["Verbose"]];
+mat=RowRescale[CanonSparseArray[SparseArray[Join@@mat]]];SmartPrintTemporary[" Row reducing sector "<>ToString[sector]<>"...",OptionValue["Verbose"]];mat=SparseRREF`SparseRREF[mat,"Method"->"Right","Threads"->OptionValue["Threads"]];If[mat===$Failed,Throw[$Failed]];embedDlog2fs[mat,idx$dlog2fs]]]);
+(* Generate sectors inside each component, then row reduce sectors sharing dlog 2-form columns. *)
+mats=Catch[SmartMonitor[MapApply[{componentsectors,idx$dlog2fs}|->Module[{mat},mat=CanonSparseArray[SparseArray[Join@@(sectorIntRelMat/@componentsectors)]];
+If[Length[componentsectors]===1,mat,SmartPrintTemporary[" Row reducing sector -- dlog 2-form component...",OptionValue["Verbose"]];mat=SparseRREF`SparseRREF[mat[[All,idx$dlog2fs]],"Method"->"Right","Threads"->OptionValue["Threads"]];If[mat===$Failed,Throw[$Failed]];
+embedDlog2fs[mat,idx$dlog2fs]]],components],StringJoin[" Sector generating progress: ",ToString[cnt],"/",ToString[Length[sectors]]],OptionValue["Verbose"]]];If[mats===$Failed,Return[$Failed]];
+mats=CanonSparseArray[SparseArray[Join@@mats]];print["Raw integrability relations generated. Time elapsed: ",AbsoluteTime[]-time];mats]]
+
+
 Options[GenLettRelMat]={"Samples"->Automatic,"Tries"->100,"Threads"->0,"Verbose"->True};
 GenLettRelMat[{dlogexprold_?MatrixQ,dlogexprnew_?MatrixQ,vars_?VectorQ,sqrtlist_?VectorQ},OptionsPattern[]]:=With[{n=Length[dlogexprold],n$samp=If[OptionValue["Samples"]===Automatic,10+2Ceiling[Length[dlogexprold]/Length[vars]],OptionValue["Samples"]],
 den$lcm=Times@@Union@Flatten[ToList[Times]/@Factor[Denominator/@Flatten[Join[dlogexprold,dlogexprnew]]]],genRand=(Thread[vars->RandomPrime[{2,3 Max[1,Length[dlogexprold]]},Length[vars]]]&)},
 (* Generate numeric old/new dlog coefficient vectors *)
-Module[{dlogsqexpr,mat,tocoeff,print,sq,cnt,pivots,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,List];print["Numeric sampling points: ",n$samp];
+Module[{dlogsqexpr,mat,tocoeff,print,sq,cnt,pivots,time},time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];print["Numeric sampling points: ",n$samp];
 dlogsqexpr=Join[dlogexprold,dlogexprnew]/.Dispatch[Thread[sqrtlist->Array[sq,Length[sqrtlist]]]];tocoeff=If[sqrtlist==={},Identity,Flatten[CoefficientArrays[#,Array[sq,Length[sqrtlist]]]]&];
 mat=SmartMonitor[Table[With[{numrule=Dispatch[NestWhile[genRand,genRand[],(den$lcm/.#)===0&,1,OptionValue["Tries"]]]},If[(den$lcm/.numrule)===0,Print["Error: unable to avoid zero denominator within ",OptionValue["Tries"]," sampling tries"];Return[$Failed]];
 With[{dlogexprnum=dlogsqexpr/.numrule,radiclistnum=sqrtlist[[All,1]]/.numrule},tocoeff/@Table[ExpandNumerator[dlogexprnum[[idx$dlog,idx$dvar]]]/.{sq[i_]^2:>radiclistnum[[i]]},{idx$dlog,2n},{idx$dvar,Length[vars]}]]],{cnt,n$samp}],ProgressIndicator[cnt,{1,n$samp}],OptionValue["Verbose"]];
@@ -192,12 +217,12 @@ SmartPrintTemporary[" Inverting old dlog block...",OptionValue["Verbose"]];mat=S
 print["Letter relation matrix generated. Total time elapsed: ",AbsoluteTime[]-time];mat]]
 
 
-Options[GenDlogmatInt]=Options[GenIntRelMat];
+Options[GenDlogmatInt]=Append[Options[GenIntRelMat],"Method"->"Sector Decomposition"];
 GenDlogmatInt[alphabetExpr_?VectorQ,opts:OptionsPattern[]]:=Module[{n,result,upper,print,time},
-time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,List];n=Length[alphabetExpr];
+time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];n=Length[alphabetExpr];
 upper=SparseArray[Flatten@Table[{i,j,(i-1)(2n-i)/2+j-i}->1,{i,n},{j,i+1,n}],{n,n,Binomial[n,2]}];
 result=GenSqrtD[alphabetExpr,"Verbose"->OptionValue["Verbose"]];If[result===$Failed,Return[$Failed]];
-result=GenIntRelMat[result,opts];If[result===$Failed,Return[$Failed]];
+result=If[OptionValue["Method"]==="Sector Decomposition",GenIntRelMatSD[result,Sequence@@FilterRules[{opts},Options[GenIntRelMatSD]]],GenIntRelMat[result,Sequence@@FilterRules[{opts},Options[GenIntRelMat]]]];If[result===$Failed,Return[$Failed]];
 result=SparseArray[(upper-Transpose[upper,{2,1,3}]) . Transpose[CanonSparseArray[result]]];
 print["Integrability condition tensor (dlogmat) generated. Total time elapsed: ",AbsoluteTime[]-time];result]
 
@@ -211,7 +236,7 @@ GenDlogmatES[alphabet_?VectorQ,nonadjpairs_?MatrixQ]:=GenDlogmatCA[alphabet,Comp
 
 Options[GenLettTransMat]=Options[GenLettRelMat];
 GenLettTransMat[alphabetExpr_?VectorQ,kineMap_,opts:OptionsPattern[]]:=Module[{n,result,print,time},
-time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,List];n=Length[alphabetExpr];
+time=AbsoluteTime[];print=If[TrueQ[OptionValue["Verbose"]],Print,Null&];n=Length[alphabetExpr];
 result=GenSqrtD[Join[alphabetExpr,alphabetExpr/.kineMap],"Verbose"->OptionValue["Verbose"]];If[result===$Failed,Return[$Failed]];
 result=GenLettRelMat[{result[[1,;;n]],result[[1,n+1;;2n]],result[[2]],result[[3]]},opts];If[result===$Failed,Return[$Failed]];
 print["Letter transformation matrix generated. Total time elapsed: ",AbsoluteTime[]-time];result]

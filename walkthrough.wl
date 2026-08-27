@@ -212,3 +212,141 @@ MatrixPower[flipmatPentagon,2]==IdentityMatrix[31,SparseArray]
 
 (* Equivalently *)
 flipmatPentagon==GetAlphabetConditionTensor["Pentagon",{"Letter Transformation","Flip"}]
+
+
+(* ::Subsection:: *)
+(*Example: 4pt Form Factor integrability and letter transformations*)
+
+
+(* ::Subsubsection:: *)
+(*Declare 4pt form factor alphabet with square-root letters*)
+
+
+alphabetFF4pt=Table[W[i],{i,93}];
+alphabetExprFF4pt=BinaryDeserialize[ByteArray[CompressedData["
+1:eJwBxQs69CFib1JiAQAAALgLAAA4Qzp4nO2dzY7cNhaF4arq+CfeZJONgbxD
+VT9CL7KZRTDIdoBxgDRgwDMG0rHz8ok9lXHSJVHn3stL/VSp/O0aXZREkZff
+OZeUqPt/Pez+8ebh14fn379999Prt/9+vz/9eTj9eXu/e9j98Pb9w92Tzu/3
+m4ebH9/85+eHu0+P//2wl/89dAp0/ns6rTqqW5lbfVpVL1kD4wR/lnVqEP5+
+uN9+/j28vDgmvGdRj+A6qqDup8da6Iufmjaq5SHuJHEl/97s0CoKBmGhK5yK
+j2H/xtUcHFPRRje1/bt1u6Mz/szGvvnh3W8//9L5391GdYG4UH/wDqps3duw
+Rvt+eATjZVjlw7HKz0/x2f/1/fGG5I18tNFSnOH2eP4JGnrUXYftX4eeuKKD
+waJ67JCq2qkeRud99TcSTkU3+kZ0/7qtG7ZjvyeeeqCT9fNDuj/c1eUTBSxB
+DVrwNmggv4FvO6cykDMqgvz+/T+Q8tHfSJ+nzijSGDF0MJCVhBroFu+NwBtP
+vPudE3JsYEdkpLdVcMKIrO7e3uh/USVsuiODLquWhUPUclI3zKExu7C4XqSJ
+x9XClAjMRm5Wj5yKlhTB5QtDmxpkXEeodoG0B8NpvPIPg6t+bDbdfhDb9UN7
+iqE1SKp+L4LHk8KN3eaOxepkrl0DHIzjbtlOVOYs9EBbQzlM0DGh8YOfy07x
+g65b9uVkdkF0a6s1yBHgscAfBgO2Tmv2S6qWO8h6hZ0gAsMI7G+KMRRUsxtV
+G1n21NRRMtnplI9R2hgMtr8czeC/2xq7nZk3Mu+scPnW3E1tNG2MfnejyaBn
+VNumIX1rlP3ajKdAGw6JTpEeMBo00iFVu8JQT8o8xTmrYUa3bu+2d4kXCR/2
+/Uiwu6/a1M/GvIyyDGsQt44fFofqsNAlVVAcrNw8OKvhB7d/01wKqmLsXnKz
+G4om5bfBeRM+pWpcmlnrPqhrT8WDumYsQSwX1elDVKso9lPeoMGgRa5Mx0jj
+zJ02Um2akOjEetGwpKBR84PucqbUAjin5q3HVjMjSK+8xYZOVMWrEf4AEv/9
+k6KPVdX5V7FUW2dADxp4Rg0SZleOgKjicVltgT/qVuiWvakf8+Elqmx0XQ4f
+eq7apKF/gUjbuoEf6mAxpdvQjp2r7WJ4V18idZg1qNVhRjRIPIrmK82pCiKj
+3+tV1rBa/vgJHZodjeKgV4XKXiDNPFyVRHZ8W4qHjahxB2/Bl3Ys5aFST+9m
+qCgF0fgIVUGXtbDUSLNGQikIZrA0H83aCeVlhuVifoo7DuNEuJhgW5KHg4Pa
+Hm07HX4Bs/ebh2f/fP3rm3f/ff327snd5li73D1d6o14nVXUTM+Trayzqu7p
+Um9EdFb55Ee4ALnkqtuwH8LqnruOzniwpq/0vMHFNX3zbZy77qJLbq5NT9TJ
+j23xKXmn67o9r2OvRXvkne+7HXsdijTwoKFOrYWbmZqfu7r2iLIjZjgVt8JO
+musuz31rokOfpRcUwrUb3xAYbTZ2xUHFECsLrCzoMcXKgtuOrCw0ztvlZ92W
+nUkrhe6K6A/yQT7IB/kg30G+SAC+XkoCQgapAoeiXTwR2Th0N5/OJcdAcBAc
+BAfBmSvHQGAyAoOqoCqoCqqCqjiqItKYwX4Bo/caadOe8a8Oa3EiOUFGkBFk
+BBmZNDlBNtAKtAKtQCvQClcrRMrhTGyZ2ys0bV0kn0Bu05l4T4RWISI9QXKQ
+HCQHyVlm7QSJIZVBV9AVdAVdyemKSGWe5Tb6679QVr1cn+itcLorsUkyO6ro
+g9hRJQtVdlQ5M83ZUWWePOOq+A/0gT7QB/pA34G+SAJeVH2sKAZi/ea+1nO4
+4VSRmoIav7kuuQMygowgI8hIwyNUX7RsoBVoBVqBVqAVjlaIlCP5gaELmHcK
+h+xGXi2zcqFWqozv/SA5SA6Sg+QgOWZ6gsTkJAZdQVfQFXQFXXF0pTmVkeJi
+PYdbvw9K+MXkiWfEQimKp8xIZZAcJAfJQXImTmWQmF40oSvoCrqCrqArRirz
+rfm2nHEXFtRGEvZ3GUJaztTALbC65Jt1u/p4Xv4FtxEsDcFxttfTjEdAJsDf
+WpCWB9KykCnnR547jwnJmXjj54RjVQMhsjUTPjoKWAErYAWsM88KXD1YoSk0
+habQdH6aCts62CB0/Fag9Tvl6LDMPOhu7HrhakHqSRL8LoSG0BB6Ob8LkS0i
+g2EwDIbB8PwYFkb56RDLU004BEgdQUw8LPAEnsBzUXgeebNKWEJICAkhIeT8
+hLwIeznPXrTgE3yCT/B5dQZzwq1bYSSMhJEw8jwfQYig2LSwdFGfhYav8BW+
+wtdlPipwdTwFokAUiALR+SEqTKq323LnKaPtlNTdDFtgku854m3BMlgGy2vD
+crDp/ReIYdgLe2Ev7J2fvcISPx8xz6CHbASN+CF/F5/sLABoAS2gvWjQnnYW
+uF6wQlNoCk2h6fw0Fbb1Zd0UQhxWMZTDbWDHzTzIs04yNYE3hubQHJpfGM2P
+vIHebO0FskE2yF4HsoUBH6zh9VbrvMkFc54jfIkiWGtLbSTT7Q6cNFgGy2B5
+bVhWj1J82RiGvbAX9sLe+dlrW+IEgJd7bdiK2vBDYfX7NDifRcYdQ2gIDaEX
+JbTe7RYib8AwGAbDYHgZDAuj/DKN5WCmwlrbW/IDvbmpjAk+0IuphubQHJov
+SvPTwxvQexS9QTbIBtkge35kCwP+XbFqGOPlhMQUYIYX6DHlsVW2QZiEcJBn
+LZ8q9A+TchMKSxurDEWTrJIRYx7mQ0dSbRPeb/cw99Ztrvli3h2NqvFsmG2H
+IWzwa1jSIl1T0/sXMIAVXaACWG2XyByWQWmp5z5KpdEyqJYn0AdJIJO1vvKa
+h3n1ciAtDsMN4gZxg9WH4QZb3eBn2rwqTGAbK2KJHDH+PecVu5Y2gjRSwQWi
+5byWJEhoNZoJooQpZIXl0nyuGD4th65GHD3WbNfGoEtEl2dM/OwpAJIDPxEu
+sSc7y0wnabI4jDSZNLmgFWlyFtSkydVQLucuSZLrcU+SPJHFJUl20EqSTJJc
+RwWSZJLk9aGLJNkFZeHPxMcT6zdpOd/3uUtzis/EZ+Iz1wfrVflM/a3ZNeAS
+RsJIGAkj52fkRBZzyDwMJvAEnsDzmuHZaDDPDksICSEhJIScn5DL2MvqFxFH
+MBODCT7BJ/hcFJ/zGMwlcAkjYSSMhJHzM1JYzGfTb0w3fldmtsGHr/AVvq6N
+r0feXCtPgSgQBaJAdH6ICpP6jZPYGw9KB7edOFUEYIsfRlkx4WAPuKKkhHoY
+euEbgAoChlBEL3WpslEFK2ZJvFNFJa3hpPY9+epzoN09OaUQgSTsOx3VH5hh
+WFm9brwAgvaivWgv2jtzAoPWorWTa+3Q0qG0KC1Ki9J+qUprZ7nRduTdXcwj
+RBlNH23u0hlcxrq5L47WkJUTlUYrhvvPuJKnR2S4i48ua+lfZuyp81arpRn1
+mf1YxByvUVJlxrvy864dcVLvJu91GOp55XCkoMvoMrqMLs+vy6cMGB1Gh8+r
+w0OLiAqjwqgwKnztKizQ52yB243w6klT/WBORLXcbrqPLXhZ2+WmWBValFr9
+z8yiN+6lK7kaQ6/NDqUQ6Q/AeuNjwFR1XgVMc9vlRjxQhijBz9zWustul1vv
+BFUIVgC6cbNcX3n5UgxusAAjbhA3uEo3+Jk2r0za9DPdeu/XRptZt9HNE8Rf
+ADfGv+XSgrIxVy4FXXVzIabTa4KfqzGWVVgWfjsdI6uDn9fUpiu7blD6X4rp
+jh/SZOsw0mQLqaTJpMn+YaTJetmGJLke4STJJr5IkkmSuweRJJMkj0UXSbK8
+Gkny9YJyV57k/kX5WE2CjbrzEy86ZbZ9KJuoqAE7k+Feca+41/VB+Zhivxjz
+/RnnzT9zgqXzszlwJ2LsR3k8EAbCQBgIXwqEhz7YCJdTga55TeDa6LUI1/7x
+7IQGj+ExPL4eHtsTFD3u1k5FWNQNpyJcPbBWv3PclZOOgBkwA2bAfGlgvvv0
+P4d/p4ceSuAu
+"]]]
+
+
+DeclareAlphabet["FF4pt",alphabetFF4pt]
+
+
+SetAlphabetExpression["FF4pt",alphabetExprFF4pt]
+
+
+(* ::Subsubsection:: *)
+(*Get integrability condition tensor*)
+
+
+dlogmatFF4ptInt=GetIntegrabilityTensor["FF4pt"]
+
+
+(* Equivalently *)
+dlogmatFF4ptInt==GetAlphabetConditionTensor["FF4pt","Integrability"]
+
+
+(* ::Subsubsection:: *)
+(*Cyclic transformation*)
+
+
+cyclicMapFF4pt={u1->u2,u2->u3,u3->1+u2-v1-v2,v1->v2,v2->1+u3-u1-v2};
+
+
+SetLetterTransformation["FF4pt","Cyclic",cyclicMapFF4pt]
+
+
+cycmatFF4pt=GetLetterTransformationTensor["FF4pt","Cyclic"]
+
+
+MatrixPower[cycmatFF4pt,4]==IdentityMatrix[93,SparseArray]
+
+
+(* Equivalently *)
+cycmatFF4pt==GetAlphabetConditionTensor["FF4pt",{"Letter Transformation","Cyclic"}]
+
+
+(* ::Subsubsection:: *)
+(*Flip transformation*)
+
+
+flipMapFF4pt={u1->1+u2-v1-v2,u2->u3,u3->u2,v1->1+u3-u1-v2,v2->v2};
+
+
+SetLetterTransformation["FF4pt","Flip",flipMapFF4pt]
+
+
+flipmatFF4pt=GetLetterTransformationTensor["FF4pt","Flip"]
+
+
+MatrixPower[flipmatFF4pt,2]==IdentityMatrix[93,SparseArray]
+
+
+(* Equivalently *)
+flipmatFF4pt==GetAlphabetConditionTensor["FF4pt",{"Letter Transformation","Flip"}]
