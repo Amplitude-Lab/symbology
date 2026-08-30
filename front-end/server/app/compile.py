@@ -30,7 +30,8 @@ EDGE_RULES = {
     ("symderive", "tensor"): R3_KINDS,
     ("symderive", "matrix"): {"matrix"},
     ("symderive", "matrix2"): {"matrix"},
-    ("solve_collinear", "seed"): {"fec1", "fec", "sew"},
+    ("solve_collinear", "seed"): {"fec1", "fec", "sew", "basis", "solution", "boundary", "tensor"},
+    ("solve_collinear", "rhs"): {"boundary", "tensor", "basis", "solution"},
     ("projection_chain", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("symmetry_invariant", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("compute_rhs", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
@@ -803,36 +804,87 @@ def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bi
 
 def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstrap, proj_dir):
     data = node.get("data", {}) or {}
-    target = _derive_target(node, incoming, provides, data)
-    if not target:
-        errors.append("Solve Collinear node: provide a target (e.g. SEW_3p1).")
-        return
-    rhs = data.get("rhs", "")
-    if not rhs:
-        errors.append("Solve Collinear node: provide an RHS file (or '0').")
-        return
-    projection = data.get("projection", "finite")
-    if projection not in ("finite", "divergent"):
-        errors.append("Solve Collinear node: projection must be finite or divergent.")
-        return
-    letter_proj = data.get("letter_projection") or "identity"
+    nid = node["id"]
+    seed = _edge_input(provides, incoming, nid, "seed")
+    rhs_in = _edge_input(provides, incoming, nid, "rhs")
     if bootstrap is None:
         errors.append("The bootstrap binary was not found.")
         return
+
+    # Seed selection: a wired fec/sew output keeps the named-target contract
+    # (--target SEW_FpL / FEC_W); any other wired tensor switches to custom-seed
+    # mode (--target-basis <file> --projection none), no naming convention needed.
+    custom = False
+    if seed is not None:
+        if seed.get("kind") in ("fec1", "fec", "sew"):
+            target = data.get("target") or seed.get("name")
+        elif seed.get("file") is None:
+            errors.append("Solve Collinear: the wired seed must be a concrete tensor file.")
+            return
+        else:
+            custom = True
+            target = None
+    else:
+        target = data.get("target")
+
+    if not custom and not target:
+        errors.append("Solve Collinear node: provide a target (e.g. SEW_3p1) or wire a tensor into the seed port.")
+        return
+
+    # RHS: the wired rhs port wins over the text field; "0" means an all-zero RHS.
+    rhs = rhs_in["file"] if rhs_in is not None else (data.get("rhs") or "").strip()
+    if rhs_in is not None and rhs_in.get("file") is None:
+        errors.append("Solve Collinear: the wired rhs must be a concrete tensor file.")
+        return
+    if not rhs:
+        errors.append("Solve Collinear node: provide an RHS file (or '0'), or wire the rhs port.")
+        return
+    rhs_arg = "0" if rhs == "0" else _abs(proj_dir, rhs)
+
+    projection = data.get("projection") or "finite"
+    if custom:
+        projection = "none"  # custom seeds are used as-is; projection is meaningless
+    elif projection == "none":
+        errors.append("Solve Collinear: projection 'none' needs a custom seed — wire a tensor into the seed port.")
+        return
+    elif projection not in ("finite", "divergent"):
+        errors.append("Solve Collinear node: projection must be finite or divergent.")
+        return
+
+    solver = data.get("solver") or "incremental"
+    if solver not in ("incremental", "sampled"):
+        errors.append("Solve Collinear node: solver must be incremental or sampled.")
+        return
+
+    letter_proj = data.get("letter_projection") or "identity"
+
+    if custom:
+        seed_rel = seed["file"]
+        label = f"Solve collinear constraints on custom seed {seed.get('name') or seed_rel}"
+        target_flags = ["--target-basis", _abs(proj_dir, seed_rel), "--projection", "none"]
+    else:
+        label = f"Solve collinear constraints on {target}"
+        target_flags = ["--target", target, "--projection", projection]
+
     add_step(
-        f"Solve collinear constraints on {target}",
+        label,
         "bootstrap",
-        [bootstrap, "--solve-collinear", "--target", target,
-         "--rhs", _resolve_path_arg(proj_dir, rhs),
-         "--projection", projection,
+        [bootstrap, "--solve-collinear", *target_flags,
+         "--rhs", rhs_arg,
          "--letter-projection", _resolve_path_arg(proj_dir, letter_proj),
+         "--solver", solver,
          "--data-dir", _abs(proj_dir, "data"), "--output-dir", _abs(proj_dir, "output")],
         proj_dir,
         [],
         False,
-        {"type": "solve_collinear"},
+        {"type": "solve_collinear", "custom_seed": custom},
     )
-    provides[(node["id"], "solution")] = {"kind": "solution", "file": None, "weight": None, "name": target}
+    if custom:
+        # The solver writes output/collinear/sol_<seed stem>.wxf on success.
+        sol_rel = f"output/collinear/sol_{Path(seed['file']).stem}.wxf"
+        provides[(nid, "solution")] = {"kind": "solution", "file": sol_rel, "weight": seed.get("weight"), "name": Path(sol_rel).stem}
+    else:
+        provides[(nid, "solution")] = {"kind": "solution", "file": None, "weight": None, "name": target}
 
 
 TARGET_RE = re.compile(r"^(SEW_\d+p\d+|FEC_(\d+)|LEC_(\d+))$", re.IGNORECASE)
@@ -1460,7 +1512,13 @@ def _compile_apply_symmetry(node, incoming, provides, add_step, errors, bootstra
                 m2 = re.search(r"rank (\d+)((?: \d+)+) nnz", r2.stdout or "")
                 if m2:
                     sym_dims = [int(x) for x in m2.group(2).split()][-2:]
-        if len(tdims) >= 3 and len(sym_dims) == 2 and tdims[-1] == sym_dims[1] and tdims[-2] == sym_dims[0]:
+        if len(tdims) >= 3 and len(sym_dims) == 2 and tdims[-1] == sym_dims[0] and tdims[-2] == sym_dims[0]:
+            if n > 1 and sym_dims[0] != sym_dims[1]:
+                errors.append(
+                    f"Apply Projection: n > 1 needs a square matrix, but '{sym['file']}' is "
+                    f"{sym_dims[0]}x{sym_dims[1]} (a projection can only be applied once, n = 1)."
+                )
+                return
             sym_file_n = _matrix_n_power(sym["file"], n, sig, add_step, proj_dir,
                                          tensor_ops_bin, file_steps, errors)
             if sym_file_n is None:

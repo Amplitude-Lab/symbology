@@ -531,16 +531,26 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
       {node.type === 'solve_collinear' && (
         <>
           <label>Target</label>
-          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_3p1" />
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_3p1 (blank when seed is wired)" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Wire a tensor into the <b>seed</b> port to solve a custom seed (projection = none): the tensor is used
+            as-is (no seed-space projection, no expansion unless --basis). Leave blank for named SEW/FEC targets.
+          </p>
           <label>RHS file (or 0)</label>
-          <input value={d.rhs || ''} onChange={(e) => set({ rhs: e.target.value })} placeholder="output/2loop/boundary_2L.wxf" />
+          <input value={d.rhs || ''} onChange={(e) => set({ rhs: e.target.value })} placeholder="data/E1.wxf (or wire the rhs port)" />
           <label>Projection</label>
           <select value={d.projection || 'finite'} onChange={(e) => set({ projection: e.target.value })}>
             <option value="finite">finite</option>
             <option value="divergent">divergent</option>
+            <option value="none">none (custom seed)</option>
           </select>
           <label>Letter projection (file or identity)</label>
           <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
+          <label>Solver</label>
+          <select value={d.solver || 'incremental'} onChange={(e) => set({ solver: e.target.value })}>
+            <option value="incremental">incremental</option>
+            <option value="sampled">sampled</option>
+          </select>
         </>
       )}
       {node.type === 'projection_chain' && (

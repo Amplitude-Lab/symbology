@@ -40,9 +40,17 @@ method, skipped for `identity`).
 ## CLI entry point
 
 ```bash
-./bootstrap --solve-collinear --target <SEW_FpL> --rhs <rhs.wxf|0> \
+# Named target (SEW/FEC naming convention):
+./bootstrap --solve-collinear --target <SEW_FpL|FEC_W> --rhs <rhs.wxf|0> \
     --projection <finite|divergent> --letter-projection <file|identity> \
-    [--basis <basis.wxf> ...] [--data-dir <dir>] [--output-dir <dir>]
+    [--basis <basis.wxf> ...] [--solver <incremental|sampled>] \
+    [--data-dir <dir>] [--output-dir <dir>]
+
+# Custom seed (any tensor, no naming convention):
+./bootstrap --solve-collinear --target-basis <seed.wxf> --projection none \
+    --rhs <rhs.wxf|0> --letter-projection <file|identity> \
+    [--basis <basis.wxf> ...] [--solver <incremental|sampled>] \
+    [--data-dir <dir>] [--output-dir <dir>]
 ```
 
 ## Flags
@@ -50,11 +58,13 @@ method, skipped for `identity`).
 | Flag | Description |
 |------|-------------|
 | `--solve-collinear` | Run the collinear solver. |
-| `--target <SEW_FpL>` | Target SEW name (e.g. `SEW_3p1` for 2-loop, `SEW_5p1` for 3-loop). |
+| `--target <SEW_FpL\|FEC_W>` | Named target (e.g. `SEW_3p1` for 2-loop, `SEW_5p1` for 3-loop). The target basis is read from `output/collinear/<name>_basis.wxf` and the seed-space projection chain is computed/applied. Mutually exclusive with `--target-basis`. |
+| `--target-basis <seed.wxf>` | **Custom seed mode**: use the given tensor file as-is (e.g. a summed NMHV expression like `E0+E23+E34`). No seed-space projection, no naming convention. Requires `--projection none`. |
 | `--rhs <rhs.wxf>` or `--rhs 0` | RHS path. Required — exits with code 1 if missing. `--rhs 0` means an all-zero RHS constructed in-memory. |
-| `--projection <finite\|divergent>` | Which projection to apply. Required — no default. |
+| `--projection <finite\|divergent\|none>` | Which projection to apply. `finite`/`divergent` select the seed-space projection for named targets; `none` is the custom-seed mode (requires `--target-basis`). |
 | `--letter-projection <file\|identity>` | Letter-slot projection matrix. Required (no default — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space). Relative paths resolve against the executable directory. |
-| `--basis <basis.wxf>` | Expansion basis file (repeatable; highest weight first). If omitted, auto-detected as `first_w{N}_basis.wxf` for weights `target_weight-1` down to 2. |
+| `--basis <basis.wxf>` | Expansion basis file (repeatable; highest weight first). If omitted: auto-detected for named targets as `first_w{N}_basis.wxf` for weights `target_weight-1` down to 2; **no expansion** for custom seeds (use the tensor as-is — pass `--basis` explicitly to expand a compact custom seed). |
+| `--solver <incremental\|sampled>` | Linear solver backend. `incremental` (default): samples constraints batch-by-batch with substitution sweeps and completes rank via full RREF when underdetermined. `sampled`: the legacy full-system modular RREF. |
 | `--data-dir <dir>` | Data directory with seed files (default: `<exec_dir>/data`). Resolved against the executable directory. |
 | `--output-dir <dir>` | Output directory (default: `<exec_dir>/output`). Same resolution as `--data-dir`. |
 
@@ -158,6 +168,7 @@ method, skipped for `identity`).
 | `colprojfin_w1.wxf`, `colprojdiv_w1.wxf` | Copies of the `data/` seeds (skipped if present) |
 | `colprojfin_w{N}.wxf`, `colprojdiv_w{N}.wxf` (`N ≥ 2`) | FEC-level projections |
 | `colprojfin_<sew_name>.wxf`, `colprojdiv_<sew_name>.wxf` | SEW-level projections (e.g. `colprojdiv_SEW_5p1.wxf`) |
+| `sol_<seed_name>.wxf` | **Custom-seed mode only**: solution coefficient vector `(1 × n_unknowns)`, written only if the system is consistent. `<seed_name>` is the seed file's stem (e.g. `sol_cb198_79d057_E0E23E34tensor.wxf` for seed `cb198_79d057_E0E23E34tensor.wxf`). |
 
 Empty projections (0 rows) are not written.
 
@@ -178,8 +189,20 @@ Empty projections (0 rows) are not written.
 
 - **`--rhs` is required.** Missing `--rhs` → exit code 1 with a helpful
   message. `--rhs 0` means an empty (all-zero) RHS tensor.
-- **`--projection` is required** — there is no default. Pass either
-  `finite` or `divergent` explicitly.
+- **`--projection` is required** — there is no default. Pass `finite`,
+  `divergent` (named targets), or `none` (custom seed via
+  `--target-basis`) explicitly. `none` **requires** `--target-basis`;
+  `finite`/`divergent` **require** `--target`.
+- **Custom seed mode** (`--target-basis <seed.wxf> --projection none`):
+  the seed tensor is used as-is — no seed-space projection chain, no
+  `SEW_FpL`/`FEC_W` naming convention, no auto-detected expansion basis
+  (pass `--basis` explicitly to expand a compact seed). The solver still
+  applies `--letter-projection` to both the seed and the boundary, still
+  uses union matching, and on success writes
+  `output/collinear/sol_<seed stem>.wxf`. The seed may be any tensor of
+  matching shape — e.g. a summed expression computed upstream in a flow
+  (custom block output, tensor add, symmetry projection) and wired into
+  the Solve Collinear `seed` port.
 - **`--letter-projection` is required** — there is no default. Pass
   either a file path (e.g. `output/collinear/colprojdiv_w1.wxf`) or
   the literal `identity` to skip projection (solve in full letter
@@ -219,6 +242,12 @@ Empty projections (0 rows) are not written.
 # L=3: boundary = E1³/6 + E1·R2 (requires L=2 outputs to exist)
 ./bootstrap --solve-collinear --target SEW_5p1 --rhs output/3loop/boundary_3L.wxf \
     --projection divergent --letter-projection output/collinear/colprojdiv_w1.wxf
+
+# Custom seed (NMHV weight-2): solve c·(E0+E23+E34) = E1 for the divergent part.
+# No naming convention — the summed seed comes from a flow (E0 + cyc·E23 + cyc·E34).
+./bootstrap --solve-collinear --target-basis output/cb198_79d057_E0E23E34tensor.wxf \
+    --projection none --rhs data/E1.wxf \
+    --letter-projection data/colprojdiv.wxf --solver incremental
 ```
 
 For the full recursive workflow (computing the boundary too), use
@@ -243,6 +272,12 @@ For the full recursive workflow (computing the boundary too), use
 - **`identity` at L=3**: union matching reports 4037 intersection,
   7569 homogeneous, 1857 b-only → system is **inconsistent** (1857
   b-only positions).
+- **Custom seed (NMHV weight-2, `E0+E23+E34` summed in a flow)** with
+  `data/colprojdiv.wxf`: rank 1/5, unique leading coefficient
+  `c[0] = -1`, null space 4, all constraints verified. Only seed
+  component 0 has divergent support after letter projection — the
+  solution picks exactly that component. Output
+  `output/collinear/sol_cb198_79d057_E0E23E34tensor.wxf`.
 
 ## Pitfalls
 

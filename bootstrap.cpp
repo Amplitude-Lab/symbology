@@ -29,10 +29,13 @@ struct args_t {
 	std::string target;     // --project/--solve-*: e.g. SEW_5p1
 	// --solve-collinear:
 	std::filesystem::path rhs;
-	std::string projection_type;  // "finite" or "divergent"
+	std::string projection_type;  // "finite", "divergent" or "none"
 	std::vector<std::filesystem::path> basis_paths;  // expansion bases (highest weight first)
 	std::string letter_projection;  // "identity" or a file path (resolved against exec dir)
 	std::string solver = "incremental"; // --solve-collinear: "incremental" (default) or "sampled"
+	// --solve-collinear custom seed: use this tensor as the target basis directly
+	// (a path, or empty = derive from --target via the naming convention).
+	std::filesystem::path target_basis;
 	// --data-dir / --output-dir (for --project, --solve-symmetry, --solve-collinear).
 	// Empty means "use default" (resolved against the executable directory after parsing).
 	std::filesystem::path data_dir;
@@ -48,7 +51,7 @@ void print_usage(const char* program) {
 	std::cerr << "  " << program << " --sew -c <condition.wxf> -f <FEC.wxf> -l <LEC.wxf> -o <SEW.wxf>" << std::endl;
 	std::cerr << "  " << program << " --project --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
 	std::cerr << "  " << program << " --solve-symmetry --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>] (note: collinear projections are usually non-square and will be rejected by the solver; prefer --solve-collinear)" << std::endl;
-	std::cerr << "  " << program << " --solve-collinear --target <SEW_FpL|FEC_W> --rhs <rhs.wxf> --projection <finite|divergent> --letter-projection <file|identity> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
+	std::cerr << "  " << program << " --solve-collinear (--target <SEW_FpL|FEC_W> | --target-basis <seed.wxf> --projection none) --rhs <rhs.wxf|0> --projection <finite|divergent|none> --letter-projection <file|identity> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
 	std::cerr << std::endl;
 	std::cerr << "  --data-dir defaults to <exec_dir>/data; --output-dir defaults to <exec_dir>/output." << std::endl;
 	std::cerr << "  --extend / --sew ignore --data-dir / --output-dir (use explicit -c/-f/-l/-o paths)." << std::endl;
@@ -108,6 +111,9 @@ args_t parse_args(int argc, char* argv[]) {
 		}
 		else if (arg == "--solver") {
 			args.solver = take_value(i, argc, argv, arg);
+		}
+		else if (arg == "--target-basis") {
+			args.target_basis = take_value(i, argc, argv, arg);
 		}
 		else if (arg == "--basis") {
 			args.basis_paths.push_back(take_value(i, argc, argv, arg));
@@ -176,8 +182,24 @@ void validate_args(const args_t& args) {
 		return;
 	}
 	if (args.mode == bootstrap_mode_t::solve_collinear) {
-		if (args.target.empty()) {
+		const bool has_target_basis = !args.target_basis.empty();
+		if (args.target.empty() && !has_target_basis) {
 			throw std::runtime_error("--solve-collinear requires --target <SEW_FpL|FEC_W> (e.g. SEW_5p1).");
+		}
+		if (has_target_basis && !args.target.empty()) {
+			throw std::runtime_error("--solve-collinear: use either --target or --target-basis, not both.");
+		}
+		if (args.projection_type.empty()) {
+			throw std::runtime_error("--solve-collinear requires --projection <finite|divergent|none>.");
+		}
+		if (args.projection_type != "finite" && args.projection_type != "divergent" && args.projection_type != "none") {
+			throw std::runtime_error("--projection must be 'finite', 'divergent' or 'none', got: " + args.projection_type);
+		}
+		if (args.projection_type == "none" && !has_target_basis) {
+			throw std::runtime_error("--projection none requires --target-basis <file> (a custom seed tensor).");
+		}
+		if (has_target_basis && args.projection_type != "none") {
+			throw std::runtime_error("--target-basis requires --projection none (custom seeds are not projected in seed space).");
 		}
 		if (args.rhs.empty()) {
 			// Q7: exit cleanly (do not throw) when --rhs is missing.
@@ -186,12 +208,6 @@ void validate_args(const args_t& args) {
 			std::cerr << "   Use '--rhs 0' for an empty RHS (all-zero boundary)." << std::endl;
 			std::cerr << "   The RHS can be computed by the compute_rhs module, or provided directly." << std::endl;
 			std::exit(1);
-		}
-		if (args.projection_type.empty()) {
-			throw std::runtime_error("--solve-collinear requires --projection <finite|divergent>.");
-		}
-		if (args.projection_type != "finite" && args.projection_type != "divergent") {
-			throw std::runtime_error("--projection must be 'finite' or 'divergent', got: " + args.projection_type);
 		}
 		if (args.letter_projection.empty()) {
 			std::cerr << "Error: --solve-collinear requires --letter-projection <file|identity>." << std::endl;
@@ -204,7 +220,10 @@ void validate_args(const args_t& args) {
 			throw std::runtime_error("--solver must be 'sampled' or 'incremental', got: " + args.solver);
 		}
 		// Validate target name early via parse_target (throws on bad format).
-		parse_target(args.target);
+		// With --target-basis the target is a custom tensor file: no name to parse.
+		if (!has_target_basis) {
+			parse_target(args.target);
+		}
 		return;
 	}
 	if (args.condition.empty()) {
@@ -320,42 +339,74 @@ int main(int argc, char* argv[]) {
 			run_symmetry_solver<scalar_t, index_t>(
 				args.symmetry, args.target, data_dir, output_dir, F, opt);
 		}
-		else if (args.mode == bootstrap_mode_t::solve_collinear) {
-			// --solve-collinear: finite/divergent split + expansion + linear solve.
+	else if (args.mode == bootstrap_mode_t::solve_collinear) {
+		// --solve-collinear: finite/divergent split + expansion + linear solve.
+		// Two target modes:
+		//   --target <name>        — SEW/FEC naming convention (target basis read
+		//                            from output/collinear/, projection chain on axis 0).
+		//   --target-basis <file>  — custom seed tensor (e.g. a summed NMHV expression):
+		//                            used as-is, no seed-space projection (--projection none).
+		auto data_dir = args.data_dir.empty() ? (base / "data") : resolve_path(base, args.data_dir);
+		auto output_dir = args.output_dir.empty() ? (base / "output") : resolve_path(base, args.output_dir);
+		auto collinear_dir = output_dir / "collinear";
+
+		const bool custom_seed = !args.target_basis.empty();
+
+		// Determine target weight and target basis path
+		size_t target_weight;
+		std::filesystem::path target_basis_path;
+		std::string seed_name;  // for solution output naming
+		if (custom_seed) {
+			target_basis_path = resolve_path(base, args.target_basis);
+			if (!std::filesystem::exists(target_basis_path)) {
+				throw std::runtime_error("--solve-collinear: --target-basis file not found: " + target_basis_path.string());
+			}
+			seed_name = target_basis_path.stem().string();
+			// Weight is unknown for custom seeds: 0 disables both the projection
+			// chain (not needed for --projection none) and solMHV output (which
+			// needs a SEW name). The RHS rank determines the letter-slot count.
+			target_weight = 0;
+		}
+		else if (args.target == "0" || args.target.empty()) {
+			throw std::runtime_error("--solve-collinear: provide --target <SEW_FpL|FEC_W> or --target-basis <file>.");
+		}
+		else {
 			auto target = parse_target(args.target);
-
-			auto data_dir = args.data_dir.empty() ? (base / "data") : resolve_path(base, args.data_dir);
-			auto output_dir = args.output_dir.empty() ? (base / "output") : resolve_path(base, args.output_dir);
-			auto collinear_dir = output_dir / "collinear";
-
-			// Determine target weight and target basis path
-			size_t target_weight;
-			std::filesystem::path target_basis_path;
 			if (target.kind == target_kind_t::SEW) {
 				target_weight = target.fec_weight + target.lec_weight;
 				target_basis_path = collinear_dir / (target.name + "_basis.wxf");
+				seed_name = target.name;
 			} else if (target.kind == target_kind_t::FEC) {
 				target_weight = target.fec_weight;
 				target_basis_path = collinear_dir / ("first_w" + std::to_string(target.fec_weight) + "_basis.wxf");
+				seed_name = target.name;
 			} else {
 				throw std::runtime_error("--solve-collinear: LEC targets not yet supported");
 			}
+		}
 
-			// Auto-detect chain base paths (lowest weight first) for projection computation
-			auto chain_base_paths = detect_chain_base_paths(target, output_dir);
+			// Auto-detect chain base paths (lowest weight first) for projection computation.
+		// Custom seeds skip the projection chain entirely (--projection none).
+		std::vector<std::filesystem::path> chain_base_paths;
+		if (!custom_seed) {
+			auto target = parse_target(args.target);
+			chain_base_paths = detect_chain_base_paths(target, output_dir);
+		}
 
-			// Expansion bases (highest weight first): either provided by user,
-			// or auto-detected from the standard naming convention.
-			std::vector<std::filesystem::path> expansion_bases = args.basis_paths;
-			if (expansion_bases.empty()) {
-				// Auto-detect: weights (target_weight-1) down to 2.
-				// Use signed counter because size_t would wrap past 0.
-				for (long w = static_cast<long>(target_weight) - 1; w >= 2; w--) {
-					expansion_bases.push_back(collinear_dir / ("first_w" + std::to_string(w) + "_basis.wxf"));
-				}
+		// Expansion bases (highest weight first): either provided by user,
+		// or auto-detected from the standard naming convention.
+		// Custom seeds default to no expansion (the tensor is used as-is);
+		// pass --basis explicitly to expand a compact custom seed.
+		std::vector<std::filesystem::path> expansion_bases = args.basis_paths;
+		if (expansion_bases.empty() && !custom_seed) {
+			// Auto-detect: weights (target_weight-1) down to 2.
+			// Use signed counter because size_t would wrap past 0.
+			for (long w = static_cast<long>(target_weight) - 1; w >= 2; w--) {
+				expansion_bases.push_back(collinear_dir / ("first_w" + std::to_string(w) + "_basis.wxf"));
 			}
+		}
 
-			// Handle --rhs 0 (empty RHS) vs --rhs <file>
+		// Handle --rhs 0 (empty RHS) vs --rhs <file>
 		// Q7: "--rhs 0" means the RHS is an empty (all-zero) tensor. We pass the
 		// literal "0" as a sentinel; run_collinear_solver constructs an all-zero b
 		// in-memory with shape derived from A (product of A.dims[1..] = n_constraints).
@@ -368,25 +419,26 @@ int main(int argc, char* argv[]) {
 			rhs_path = resolve_path(base, args.rhs);
 		}
 
-			// Pass SEW target name for SEW-level projection naming
-			std::string sew_name;
-			if (target.kind == target_kind_t::SEW) {
-				sew_name = target.name;
-			}
-
-			// Resolve --letter-projection: "identity" means no projection; a path
-			// is resolved against the executable directory if relative.
-			std::string letter_projection = args.letter_projection;
-			if (letter_projection != "identity") {
-				letter_projection = resolve_path(base, letter_projection).string();
-			}
-
-			run_collinear_solver<scalar_t, index_t>(
-				target_basis_path, rhs_path, args.projection_type,
-				expansion_bases, chain_base_paths,
-				target_weight, data_dir, output_dir, F, opt, sew_name,
-			letter_projection, args.solver);
+		// SEW name is only meaningful for convention targets (drives the
+		// colprojdiv_SEW_* projection naming and solMHV output).
+		std::string sew_name;
+		if (!custom_seed && parse_target(args.target).kind == target_kind_t::SEW) {
+			sew_name = seed_name;
 		}
+
+		// Resolve --letter-projection: "identity" means no projection; a path
+		// is resolved against the executable directory if relative.
+		std::string letter_projection = args.letter_projection;
+		if (letter_projection != "identity") {
+			letter_projection = resolve_path(base, letter_projection).string();
+		}
+
+		run_collinear_solver<scalar_t, index_t>(
+			target_basis_path, rhs_path, args.projection_type,
+			expansion_bases, chain_base_paths,
+			target_weight, data_dir, output_dir, F, opt, sew_name,
+			letter_projection, args.solver, seed_name);
+	}
 		else {
 			std::filesystem::path condition_path = resolve_path(base, args.condition);
 			std::filesystem::path first_path = resolve_path(base, args.first);

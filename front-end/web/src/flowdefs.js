@@ -95,7 +95,10 @@ export const NODE_DEFS = {
   },
   solve_collinear: {
     title: 'Solve Collinear', color: '#e2e8f0',
-    inputs: [{ id: 'seed', kind: 'seed', label: 'seed' }],
+    inputs: [
+      { id: 'seed', kind: 'seed_or_tensor', label: 'seed (target or custom tensor)' },
+      { id: 'rhs', kind: 'boundary', label: 'rhs (boundary, opt)' },
+    ],
     outputs: [{ id: 'solution', kind: 'solution', label: 'solution' }],
   },
   projection_chain: {
@@ -239,6 +242,10 @@ const ACCEPTS = {
   fec: ['fec1', 'fec'],
   lec: ['lec1', 'lec'],
   seed: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew'],
+  // Solve Collinear seed: a named target (SEW/FEC chain head) OR any tensor
+  // produced by other flows (add_tensors / apply_symmetry / custom blocks).
+  seed_or_tensor: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'basis', 'solution', 'boundary', 'tensor'],
+  boundary: ['boundary', 'tensor', 'basis', 'solution'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
   matrix: ['matrix'],
   any: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],

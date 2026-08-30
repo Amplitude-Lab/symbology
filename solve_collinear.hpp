@@ -509,19 +509,27 @@ void run_collinear_solver(
 	const field_t& F, rref_option_t& opt,
 	const std::string& sew_name = "",
 	const std::string& letter_projection = "identity",
-	const std::string& solver = "incremental") {
+	const std::string& solver = "incremental",
+	const std::string& seed_name = "") {
 
 	thread_pool* pool = &(opt->pool);
 	auto collinear_dir = output_dir / "collinear";
+
+	// Custom-seed mode (--projection none): the target tensor is used as-is,
+	// no seed-space projection. seed_name names the solution output file.
+	const bool custom_seed = (projection_type == "none");
 
 	std::cout << "========================================" << std::endl;
 	std::cout << "Collinear solver" << std::endl;
 	std::cout << "   Target basis: " << target_path.string() << std::endl;
 	std::cout << "   RHS: " << rhs_path.string() << std::endl;
 	std::cout << "   Projection: " << projection_type
-	          << " (weight " << target_weight << ")" << std::endl;
+	          << (custom_seed ? " (custom seed: no seed-space projection)" : "")
+	          << std::endl;
 	std::cout << "   Expansion bases: " << basis_paths.size() << " files" << std::endl;
-	std::cout << "   Chain bases: " << chain_base_paths.size() << " files" << std::endl;
+	if (!custom_seed) {
+		std::cout << "   Chain bases: " << chain_base_paths.size() << " files" << std::endl;
+	}
 	std::cout << "========================================" << std::endl;
 
 	// Step 1: Ensure colprojfin/colprojdiv are computed for the target weight.
@@ -538,26 +546,30 @@ void run_collinear_solver(
 		proj_div = collinear_dir / ("colprojdiv_w" + std::to_string(target_weight) + ".wxf");
 	}
 
-	if (!std::filesystem::exists(proj_fin) || !std::filesystem::exists(proj_div)) {
+	if (!custom_seed && (!std::filesystem::exists(proj_fin) || !std::filesystem::exists(proj_div))) {
 		std::cout << "   Projections not found, computing chain..." << std::endl;
 		run_collinear_proj_chain<T, index_t>(chain_base_paths, data_dir, output_dir, F, opt, sew_name);
 	}
 
 	// Step 2: Load the selected projection
 	std::filesystem::path proj_path;
-	if (projection_type == "finite") {
+	sparse_mat<T, index_t> proj_mat;
+	bool have_projection = false;
+	if (custom_seed) {
+		// --projection none: no seed-space projection, proj_mat stays empty.
+	} else if (projection_type == "finite") {
 		proj_path = proj_fin;
 	} else if (projection_type == "divergent") {
 		proj_path = proj_div;
 	} else {
 		throw std::runtime_error("Unknown projection type: " + projection_type
-			+ " (expected 'finite' or 'divergent')");
+			+ " (expected 'finite', 'divergent' or 'none')");
 	}
 
 	// Handle empty projection: if the file doesn't exist, the projection is empty
 	// (no combinations of that type exist). For "finite": no finite combinations.
 	// For "divergent": no divergent combinations (all finite).
-	if (!std::filesystem::exists(proj_path)) {
+	if (!custom_seed && !std::filesystem::exists(proj_path)) {
 		std::cout << "========================================" << std::endl;
 		std::cout << "Empty " << projection_type << " projection (file not found)." << std::endl;
 		if (projection_type == "finite") {
@@ -572,21 +584,26 @@ void run_collinear_solver(
 		return;
 	}
 
-	auto proj_csr = projection_read_tensor<T, index_t>(proj_path, F, pool);
-	std::cout << "--- Projection matrix ---" << std::endl;
-	print_tensor_info(proj_csr);
+	if (!custom_seed) {
+		auto proj_csr = projection_read_tensor<T, index_t>(proj_path, F, pool);
+		std::cout << "--- Projection matrix ---" << std::endl;
+		print_tensor_info(proj_csr);
 
-	// Convert projection (rank-2 CSR tensor) directly to sparse_mat.
-	// Avoid CSR→COO conversion: the COO format prepends a row dimension,
-	// which breaks reshape and to_sparse_mat for rank-2 tensors.
-	auto proj_mat = proj_csr.to_sparse_mat();
-	proj_csr.clear();
+		// Convert projection (rank-2 CSR tensor) directly to sparse_mat.
+		// Avoid CSR→COO conversion: the COO format prepends a row dimension,
+		// which breaks reshape and to_sparse_mat for rank-2 tensors.
+		proj_mat = proj_csr.to_sparse_mat();
+		proj_csr.clear();
+		have_projection = true;
+	}
 
 	// Step 3: Load target basis and apply projection
 	auto target = projection_read_tensor<T, index_t>(target_path, F, pool);
 	std::cout << "--- Target basis ---" << std::endl;
 	print_tensor_info(target);
-	auto projected = apply_projection_axis0<T, index_t>(std::move(target), proj_mat, F, pool);
+	auto projected = have_projection
+		? apply_projection_axis0<T, index_t>(std::move(target), proj_mat, F, pool)
+		: std::move(target);  // custom seed: used as-is
 
 	// Step 4: Expand the projected tensor using the basis chain
 	auto expanded = expand_tensor<T, index_t>(std::move(projected), basis_paths, F, pool);
@@ -773,6 +790,21 @@ void run_collinear_solver(
 		sparse_tensor<T, index_t, SPARSE_CSR> sol_csr(sol_mat);
 		projection_write_tensor<T, index_t>(solMHV_path, std::move(sol_csr), pool);
 		std::cout << "   Wrote " << solMHV_path.string() << std::endl;
+	}
+
+	// Step 6c: Write sol_<seed_name>.wxf for custom seeds (--projection none).
+	// The 1 x n_unknowns coefficient vector expands the custom seed tensor to
+	// the RHS: c · seed = boundary.
+	if (custom_seed && !seed_name.empty() && result.consistent) {
+		auto sol_path = collinear_dir / ("sol_" + seed_name + ".wxf");
+		sparse_mat<T, index_t> sol_mat(1, result.n_unknowns);
+		for (size_t i = 0; i < result.solution.nnz(); i++) {
+			sol_mat[0].push_back(result.solution(i), result.solution[i]);
+		}
+		sol_mat[0].compress();
+		sparse_tensor<T, index_t, SPARSE_CSR> sol_csr(sol_mat);
+		projection_write_tensor<T, index_t>(sol_path, std::move(sol_csr), pool);
+		std::cout << "   Wrote " << sol_path.string() << std::endl;
 	}
 
 	// Step 7: Print result
