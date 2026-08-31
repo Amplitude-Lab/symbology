@@ -53,6 +53,17 @@ method, skipped for `identity`).
     [--data-dir <dir>] [--output-dir <dir>]
 ```
 
+Two letter-projection modes:
+
+- **Divergent projection** (`--letter-projection data/colprojdiv.wxf`): both
+  sides are projected to the 2-dim divergent letter subspace first. This is
+  the original MHV mode — a simplification that makes the calculation easier.
+- **`identity` (finite part included)**: no projection at all; the constraint
+  `c·A = boundary` is enforced in the full 11-dim letter space, so the finite
+  part is also constrained. Use this when the divergent-only conditions are
+  insufficient (e.g. rank 1/5 with null space 4). Both modes coexist;
+  existing commands are unchanged.
+
 ## Flags
 
 | Flag | Description |
@@ -278,6 +289,14 @@ For the full recursive workflow (computing the boundary too), use
   component 0 has divergent support after letter projection — the
   solution picks exactly that component. Output
   `output/collinear/sol_cb198_79d057_E0E23E34tensor.wxf`.
+- **Custom seed (NMHV weight-2) with `--letter-projection identity`**
+  (full 11-dim letter space, finite part included): union matching
+  reports 5 intersection, 4 homogeneous, **0 b-only — the system is
+  consistent**, unlike the MHV `identity` case. 121 constraints
+  (9 non-trivial), rank 3/5, particular solution
+  `c[0] = 1, c[1] = 1, c[2] = 2`, null space 2. The full-letter-space
+  conditions fix three of the five coefficients — strictly stronger
+  than the divergent-only mode (rank 1/5, null space 4).
 
 ## Pitfalls
 
