@@ -259,6 +259,13 @@ Empty projections (0 rows) are not written.
 ./bootstrap --solve-collinear --target-basis output/cb198_79d057_E0E23E34tensor.wxf \
     --projection none --rhs data/E1.wxf \
     --letter-projection data/colprojdiv.wxf --solver incremental
+
+# Same seed, full letter space (identity = no projection): E0+E23+E34 equals
+# the MHV symbol tensor in the collinear limit, so the finite part is also
+# constrained — an NMHV-specific property fixing THREE coefficients.
+./bootstrap --solve-collinear --target-basis output/cb198_79d057_E0E23E34tensor.wxf \
+    --projection none --rhs data/E1.wxf \
+    --letter-projection identity --solver incremental
 ```
 
 For the full recursive workflow (computing the boundary too), use
@@ -296,7 +303,12 @@ For the full recursive workflow (computing the boundary too), use
   (9 non-trivial), rank 3/5, particular solution
   `c[0] = 1, c[1] = 1, c[2] = 2`, null space 2. The full-letter-space
   conditions fix three of the five coefficients — strictly stronger
-  than the divergent-only mode (rank 1/5, null space 4).
+  than the divergent-only mode (rank 1/5, null space 4). This is the
+  expected NMHV property: `E0+E23+E34` equals the MHV symbol tensor in
+  the collinear limit, so the identity projection should (and does) fix
+  three free parameters. Verified both via CLI and via the
+  `NMHVw2collinear` flow (E1 wired from the Alphabet node into the
+  `rhs` port, `letter_projection = identity`) — identical results.
 
 ## Pitfalls
 

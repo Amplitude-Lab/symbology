@@ -244,8 +244,8 @@ const ACCEPTS = {
   seed: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew'],
   // Solve Collinear seed: a named target (SEW/FEC chain head) OR any tensor
   // produced by other flows (add_tensors / apply_symmetry / custom blocks).
-  seed_or_tensor: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'basis', 'solution', 'boundary', 'tensor'],
-  boundary: ['boundary', 'tensor', 'basis', 'solution'],
+  seed_or_tensor: ['seed', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'basis', 'solution', 'boundary', 'tensor', 'matrix'],
+  boundary: ['boundary', 'tensor', 'basis', 'solution', 'matrix'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
   matrix: ['matrix'],
   any: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
