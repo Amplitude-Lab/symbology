@@ -32,6 +32,7 @@ EDGE_RULES = {
     ("symderive", "matrix2"): {"matrix"},
     ("solve_collinear", "seed"): {"fec1", "fec", "sew", "basis", "solution", "boundary", "tensor", "matrix"},
     ("solve_collinear", "rhs"): {"boundary", "tensor", "basis", "solution", "matrix"},
+    ("solve_collinear", "cond"): {"matrix", "tensor"},
     ("projection_chain", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("symmetry_invariant", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
     ("compute_rhs", "seed"): {"fec1", "fec", "lec1", "lec", "sew"},
@@ -173,6 +174,10 @@ def compile_flow(proj: dict, graph: dict, output_subdir: str | None = None) -> d
             allowed = EDGE_RULES.get((ttype, th))
             if allowed is None and th.startswith("seed"):
                 allowed = EDGE_RULES.get((ttype, "seed"))
+            if allowed is None and th.startswith("in_seed_"):
+                allowed = EDGE_RULES.get((ttype, "seed"))
+            if allowed is None and th.startswith("in_rhs_"):
+                allowed = EDGE_RULES.get((ttype, "rhs"))
         if allowed is None:
             continue
         if kind not in allowed:
@@ -269,7 +274,7 @@ def _compile_graph(ctx, node_list, edges, seed):
         elif ntype == "symderive":
             _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bin, proj_dir)
         elif ntype == "solve_collinear":
-            _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
+            _compile_solve_collinear(node, incoming, outgoing, provides, add_step, errors, bootstrap, proj_dir)
         elif ntype == "projection_chain":
             _compile_projection_chain(node, incoming, provides, add_step, errors, bootstrap, proj_dir)
         elif ntype == "symmetry_invariant":
@@ -802,14 +807,41 @@ def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bi
     provides[(nid, "out")] = {"kind": "matrix", "file": rel, "name": target}
 
 
-def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstrap, proj_dir):
+def _compile_solve_collinear(node, incoming, outgoing, provides, add_step, errors, bootstrap, proj_dir):
     data = node.get("data", {}) or {}
     nid = node["id"]
     seed = _edge_input(provides, incoming, nid, "seed")
     rhs_in = _edge_input(provides, incoming, nid, "rhs")
+    cond_in = _edge_input(provides, incoming, nid, "cond")
     if bootstrap is None:
         errors.append("The bootstrap binary was not found.")
         return
+
+    # Extra pairs N >= 1 arrive on dynamic in_seed_N / in_rhs_N ports; the
+    # fixed seed/rhs ports carry pair 0. Wired extra pairs force multi-pair
+    # mode; so does a wired cond port (conditions re-ingest) or, for custom
+    # seeds, a request to export the combined conditions matrix.
+    pair_edges: dict[int, dict] = {}
+    for e in incoming.get(nid, []):
+        th = e.get("targetHandle") or ""
+        m = re.match(r"^in_seed_(\d+)$", th)
+        if not m:
+            continue
+        src = (e.get("source"), e.get("sourceHandle"))
+        if src in provides:
+            pair_edges.setdefault(int(m.group(1)), {})["seed"] = provides[src]
+    for e in incoming.get(nid, []):
+        th = e.get("targetHandle") or ""
+        m = re.match(r"^in_rhs_(\d+)$", th)
+        if not m:
+            continue
+        src = (e.get("source"), e.get("sourceHandle"))
+        if src in provides:
+            pair_edges.setdefault(int(m.group(1)), {})["rhs"] = provides[src]
+    wants_export = bool(data.get("export_conditions")) or any(
+        (e.get("source") == nid) and (e.get("sourceHandle") == "conditions")
+        for e in outgoing.get(nid, [])
+    )
 
     # Seed selection: a wired fec/sew output keeps the named-target contract
     # (--target SEW_FpL / FEC_W); any other wired tensor switches to custom-seed
@@ -827,10 +859,59 @@ def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstr
     else:
         target = data.get("target")
 
-    if not custom and not target:
+    # Multi-pair is triggered by wiring (extra pairs or cond). Cond-only
+    # (no seed at all) is allowed and re-solves ingested conditions; it needs
+    # --out-stem, which we derive from the cond stems when the user didn't set one.
+    multi = bool(pair_edges) or cond_in is not None
+    if multi:
+        if seed is not None and not custom:
+            errors.append(
+                "Solve Collinear: multi-pair mode needs concrete seed tensors — wire the pair-0 seed "
+                "to a tensor (custom seed), not a named FEC/SEW target."
+            )
+            return
+        if seed is None and pair_edges:
+            errors.append(
+                "Solve Collinear: multi-pair mode needs the pair-0 seed wired into the seed port "
+                "(all pairs are custom seeds)."
+            )
+            return
+        if seed is None and rhs_in is not None:
+            errors.append("Solve Collinear: cond-only mode has no pairs — the rhs port is unused.")
+            return
+        if seed is None and (data.get("target") or "").strip():
+            errors.append(
+                "Solve Collinear: cond-only mode ignores the Target field — clear it (or wire a "
+                "seed tensor for multi-pair mode)."
+            )
+            return
+    elif wants_export:
+        if not custom:
+            errors.append(
+                "Solve Collinear: exporting conditions needs a custom seed (wire a tensor into the "
+                "seed port) or multi-pair/cond wiring."
+            )
+            return
+        multi = True
+
+    if not multi and not custom and not target:
         errors.append("Solve Collinear node: provide a target (e.g. SEW_3p1) or wire a tensor into the seed port.")
         return
 
+    solver = data.get("solver") or "incremental"
+    if solver not in ("incremental", "sampled"):
+        errors.append("Solve Collinear node: solver must be incremental or sampled.")
+        return
+
+    if multi:
+        _compile_solve_collinear_pairs(
+            node, data, nid, seed, rhs_in, cond_in, pair_edges, wants_export,
+            provides, add_step, errors, bootstrap, proj_dir, solver,
+            incoming,
+        )
+        return
+
+    # ---- single-pair mode (unchanged command line) ----
     # RHS: the wired rhs port wins over the text field; "0" means an all-zero RHS.
     rhs = rhs_in["file"] if rhs_in is not None else (data.get("rhs") or "").strip()
     if rhs_in is not None and rhs_in.get("file") is None:
@@ -849,11 +930,6 @@ def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstr
         return
     elif projection not in ("finite", "divergent"):
         errors.append("Solve Collinear node: projection must be finite or divergent.")
-        return
-
-    solver = data.get("solver") or "incremental"
-    if solver not in ("incremental", "sampled"):
-        errors.append("Solve Collinear node: solver must be incremental or sampled.")
         return
 
     letter_proj = data.get("letter_projection") or "identity"
@@ -885,6 +961,98 @@ def _compile_solve_collinear(node, incoming, provides, add_step, errors, bootstr
         provides[(nid, "solution")] = {"kind": "solution", "file": sol_rel, "weight": seed.get("weight"), "name": Path(sol_rel).stem}
     else:
         provides[(nid, "solution")] = {"kind": "solution", "file": None, "weight": None, "name": target}
+
+
+def _compile_solve_collinear_pairs(
+    node, data, nid, seed, rhs_in, cond_in, pair_edges, wants_export,
+    provides, add_step, errors, bootstrap, proj_dir, solver, incoming,
+):
+    """Multi-pair mode: every pair contributes one --pair triple; optional
+    cond inputs append --pair-cond; the stacked system is solved once.
+    Cond-only (seed is None) re-solves ingested [M|r] conditions."""
+    pair_letters = [s.strip() for s in (data.get("pair_letters") or "").split(",") if s.strip()]
+
+    # Pair 0 comes from the fixed seed/rhs ports (seed is a concrete tensor
+    # file — the dispatcher already guaranteed custom mode here).
+    pairs = []
+    if seed is not None:
+        rhs0 = rhs_in["file"] if rhs_in is not None else (data.get("rhs") or "").strip()
+        if rhs_in is not None and rhs_in.get("file") is None:
+            errors.append("Solve Collinear: the wired rhs must be a concrete tensor file.")
+            return
+        if not rhs0:
+            rhs0 = "0"
+        letter0 = pair_letters[0] if pair_letters else (data.get("letter_projection") or "identity")
+        pairs.append((seed["file"], rhs0, letter0))
+
+    for idx in sorted(pair_edges):
+        entry = pair_edges[idx]
+        ps = entry.get("seed")
+        if ps is None or ps.get("file") is None:
+            errors.append(f"Solve Collinear: pair {idx + 1} needs a concrete seed tensor wired to in_seed_{idx}.")
+            return
+        pr = entry.get("rhs")
+        if pr is not None and pr.get("file") is None:
+            errors.append(f"Solve Collinear: the rhs wired to in_rhs_{idx} must be a concrete tensor file.")
+            return
+        pairs.append((ps["file"], pr["file"] if pr is not None else "0",
+                      pair_letters[idx] if idx < len(pair_letters) else "identity"))
+
+    cond_files = []
+    for e in incoming.get(nid, []):
+        if (e.get("targetHandle") or "") != "cond":
+            continue
+        src = (e.get("source"), e.get("sourceHandle"))
+        if src in provides:
+            info = provides[src]
+            if info.get("file") is None:
+                errors.append("Solve Collinear: the wired cond must be a concrete matrix file.")
+                return
+            cond_files.append(info["file"])
+    if not pairs and not cond_files:
+        errors.append("Solve Collinear node: multi-pair mode needs at least one pair or cond input.")
+        return
+
+    # Output stem: --out-stem wins; else single source stem; else stem1_xN
+    # (mirrors run_collinear_solver_pairs naming so provides matches the files
+    # the backend writes). Cond-only always passes --out-stem (the backend
+    # requires it when there are no --pair flags).
+    out_stem = (data.get("out_stem") or "").strip()
+    names = [Path(p[0]).stem for p in pairs] + [Path(c).stem for c in cond_files]
+    stem = out_stem or (names[0] if len(names) == 1 else f"{names[0]}_x{len(names)}")
+    need_stem_flag = bool(out_stem) or not pairs
+
+    argv = [bootstrap, "--solve-collinear"]
+    for seed_rel, rhs, letter in pairs:
+        argv += ["--pair", _abs(proj_dir, seed_rel),
+                 rhs if rhs == "0" else _abs(proj_dir, rhs),
+                 _resolve_path_arg(proj_dir, letter)]
+    for c in cond_files:
+        argv += ["--pair-cond", _abs(proj_dir, c)]
+    if wants_export:
+        argv += ["--export-conditions"]
+    if need_stem_flag:
+        argv += ["--out-stem", stem]
+    argv += ["--solver", solver,
+             "--data-dir", _abs(proj_dir, "data"), "--output-dir", _abs(proj_dir, "output")]
+
+    label = f"Solve non-homogeneous constraints on {len(pairs)} pair{'s' if len(pairs) != 1 else ''}"
+    if cond_files:
+        label += f" + {len(cond_files)} cond"
+    add_step(
+        label,
+        "bootstrap",
+        argv,
+        proj_dir,
+        [],
+        False,
+        {"type": "solve_collinear", "custom_seed": True, "multi_pair": True, "stem": stem},
+    )
+    sol_rel = f"output/collinear/sol_{stem}.wxf"
+    provides[(nid, "solution")] = {"kind": "solution", "file": sol_rel, "name": Path(sol_rel).stem}
+    if wants_export:
+        cond_rel = f"output/collinear/cond_{stem}.wxf"
+        provides[(nid, "conditions")] = {"kind": "matrix", "file": cond_rel, "name": Path(cond_rel).stem}
 
 
 TARGET_RE = re.compile(r"^(SEW_\d+p\d+|FEC_(\d+)|LEC_(\d+))$", re.IGNORECASE)

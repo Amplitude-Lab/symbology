@@ -828,4 +828,377 @@ void run_collinear_solver(
 	}
 }
 
+// ========== Multi-pair non-homogeneous constraint solver ==========
+//
+// Several {seed, rhs, letter_projection} pairs, each producing its own set of
+// non-homogeneous constraints c.A^(k) = b^(k) (after per-pair letter
+// projection), plus optional pre-computed condition matrices [M | r]. All
+// rows are stacked into ONE linear system and solved once:
+//
+//   row_j:  sum_i c[i] * M[j][i] = r[j]
+//
+// Each pair may use a DIFFERENT letter projection (e.g. pair 1 identity,
+// pair 2 the collinear divergent projection colprojdiv_w1.wxf). Rows from
+// different pairs are never merged: every (pair, letter-key) combination
+// gets its own global row index, so identical letter keys from different
+// pairs impose independent constraints.
+//
+// Seeds are custom tensors (used as-is on axis 0, like --target-basis /
+// --projection none), optionally expanded with a shared --basis chain.
+
+template <typename T, typename index_t>
+struct collinear_pair_t {
+	std::filesystem::path seed_path;               // custom seed tensor (axis 0 = unknowns)
+	std::filesystem::path rhs_path;                // file, or the sentinel "0" (all-zero)
+	std::string letter_projection;                 // "identity" or a resolved file path
+	std::string stem;                              // seed file stem (naming)
+};
+
+template <typename T, typename index_t>
+struct cond_row_t {
+	std::map<index_t, T> coeffs;                   // unknown index → coefficient
+	T rhs = T(0);
+};
+
+// Build constraint rows for one pair: load seed → expand → load/construct rhs
+// → per-pair letter projection → union matching (same semantics as the
+// single-pair solver: enforce c.A = b wherever either side is nonzero).
+template <typename T, typename index_t>
+void build_pair_rows(
+	const collinear_pair_t<T, index_t>& pair,
+	const std::vector<std::filesystem::path>& basis_paths,
+	std::vector<cond_row_t<T, index_t>>& rows_out,
+	size_t& n_unknowns_out,
+	size_t& n_b_only_out,
+	const field_t& F, rref_option_t& opt) {
+
+	thread_pool* pool = &(opt->pool);
+
+	std::cout << "---- Pair: " << pair.stem << " ----" << std::endl;
+
+	// Load seed tensor (custom: no seed-space projection on axis 0)
+	auto seed = projection_read_tensor<T, index_t>(pair.seed_path, F, pool);
+	std::cout << "--- Seed tensor ---" << std::endl;
+	print_tensor_info(seed);
+
+	// Expand with the shared basis chain (no-op when basis_paths is empty)
+	auto expanded = expand_tensor<T, index_t>(std::move(seed), basis_paths, F, pool);
+	std::cout << "   Expanded expression: rank=" << expanded.rank() << " dims=";
+	for (size_t i = 0; i < expanded.rank(); i++) {
+		std::cout << expanded.dim(i) << (i + 1 < expanded.rank() ? "x" : "");
+	}
+	std::cout << std::endl;
+	if (expanded.rank() < 1) {
+		throw std::runtime_error("build_pair_rows: expanded seed must have rank >= 1 (pair " + pair.stem + ")");
+	}
+	if (n_unknowns_out == 0) {
+		n_unknowns_out = expanded.dim(0);
+	} else if (expanded.dim(0) != n_unknowns_out) {
+		throw std::runtime_error("build_pair_rows: pair '" + pair.stem + "' has n_unknowns="
+			+ std::to_string(expanded.dim(0)) + ", expected " + std::to_string(n_unknowns_out)
+			+ " (all pairs must share the same unknown-count on axis 0)");
+	}
+
+	// Load RHS or construct the all-zero sentinel
+	sparse_tensor<T, index_t, SPARSE_CSR> rhs;
+	if (pair.rhs_path.string() == "0") {
+		std::vector<size_t> b_dims;
+		for (size_t i = 1; i < expanded.rank(); i++) {
+			b_dims.push_back(expanded.dim(i));
+		}
+		rhs = sparse_tensor<T, index_t, SPARSE_CSR>(b_dims);
+		std::cout << "--- RHS: empty (all-zero, dims=";
+		for (size_t i = 0; i < b_dims.size(); i++) {
+			std::cout << b_dims[i] << (i + 1 < b_dims.size() ? "x" : "");
+		}
+		std::cout << ") ---" << std::endl;
+	} else {
+		rhs = projection_read_tensor<T, index_t>(pair.rhs_path, F, pool);
+		std::cout << "--- RHS ---" << std::endl;
+		print_tensor_info(rhs);
+	}
+
+	sparse_tensor<T, index_t, SPARSE_COO> A_coo(std::move(expanded));
+	sparse_tensor<T, index_t, SPARSE_COO> b_coo(std::move(rhs));
+
+	// Per-pair letter projection (the projection that differs between pairs)
+	size_t n_letter_slots = b_coo.rank();
+	if (A_coo.rank() != n_letter_slots + 1) {
+		throw std::runtime_error("build_pair_rows: pair '" + pair.stem + "' — seed has "
+			+ std::to_string(A_coo.rank() - 1) + " letter slots but rhs has "
+			+ std::to_string(n_letter_slots));
+	}
+	if (pair.letter_projection != "identity") {
+		std::filesystem::path letter_proj_path(pair.letter_projection);
+		if (!std::filesystem::exists(letter_proj_path)) {
+			throw std::runtime_error("build_pair_rows: letter projection file not found: "
+				+ letter_proj_path.string());
+		}
+		auto letter_proj_csr = projection_read_tensor<T, index_t>(letter_proj_path, F, pool);
+		sparse_tensor<T, index_t, SPARSE_COO> letter_proj_coo(std::move(letter_proj_csr));
+		std::cout << "== Projecting A and boundary via letter projection ==" << std::endl;
+		std::cout << "   letter_projection: " << letter_proj_path.string()
+		          << " (rank=" << letter_proj_coo.rank() << " dims=";
+		for (size_t i = 0; i < letter_proj_coo.rank(); i++) {
+			std::cout << letter_proj_coo.dim(i) << (i + 1 < letter_proj_coo.rank() ? "x" : "");
+		}
+		std::cout << " nnz=" << letter_proj_coo.nnz() << ")" << std::endl;
+		std::cout << "   n_slots=" << n_letter_slots << std::endl;
+		A_coo = apply_colprojdiv_slots<T, index_t>(std::move(A_coo), letter_proj_coo, 1, n_letter_slots, F, pool);
+		b_coo = apply_colprojdiv_slots<T, index_t>(std::move(b_coo), letter_proj_coo, 0, n_letter_slots, F, pool);
+		std::cout << "   A_proj: rank=" << A_coo.rank() << " nnz=" << A_coo.nnz() << std::endl;
+		std::cout << "   b_proj: rank=" << b_coo.rank() << " nnz=" << b_coo.nnz() << std::endl;
+	} else {
+		std::cout << "== letter_projection identity: full letter space (no projection) ==" << std::endl;
+	}
+
+	// Union matching → rows (map-based: deterministic key order, sew axis preserved)
+	std::map<std::vector<index_t>, T> b_map;
+	for (auto i : b_coo.gen_perm()) {
+		b_map[b_coo.index_vector(i)] = b_coo.val(i);
+	}
+
+	std::map<std::vector<index_t>, std::map<index_t, T>> A_by_key;
+	for (auto i : A_coo.gen_perm()) {
+		auto full_idx = A_coo.index_vector(i);
+		std::vector<index_t> key(full_idx.begin() + 1, full_idx.end());
+		A_by_key[key][full_idx[0]] = A_coo.val(i);
+	}
+
+	size_t n_intersection = 0;
+	size_t n_homogeneous = 0;
+	for (const auto& [key, sew_map] : A_by_key) {
+		auto it = b_map.find(key);
+		T b_val = (it != b_map.end()) ? it->second : T(0);
+		if (it != b_map.end()) {
+			n_intersection++;
+		} else {
+			n_homogeneous++;
+		}
+		cond_row_t<T, index_t> row;
+		row.coeffs = sew_map;
+		row.rhs = b_val;
+		rows_out.push_back(std::move(row));
+	}
+	for (const auto& [key, b_val] : b_map) {
+		if (A_by_key.find(key) == A_by_key.end()) {
+			n_b_only_out++;
+		}
+	}
+
+	std::cout << "   Union matching:" << std::endl;
+	std::cout << "      Both nonzero (intersection): " << n_intersection << std::endl;
+	std::cout << "      A nonzero, b zero (homogeneous c·A=0): " << n_homogeneous << std::endl;
+	std::cout << "      A zero, b nonzero (INCONSISTENT): " << n_b_only_out << std::endl;
+}
+
+// Ingest a pre-computed condition matrix [M | r]: rank-2, dims (R, n+1),
+// last column = rhs. Rows are appended to the stacked system.
+template <typename T, typename index_t>
+void ingest_cond_file(
+	const std::filesystem::path& cond_path,
+	std::vector<cond_row_t<T, index_t>>& rows_out,
+	size_t& n_unknowns_out,
+	size_t& n_zero_rhs_only_out,
+	const field_t& F, rref_option_t& opt) {
+
+	thread_pool* pool = &(opt->pool);
+	std::cout << "---- Condition file: " << cond_path.filename().string() << " ----" << std::endl;
+
+	auto cond_csr = projection_read_tensor<T, index_t>(cond_path, F, pool);
+	if (cond_csr.rank() != 2) {
+		throw std::runtime_error("ingest_cond_file: " + cond_path.string()
+			+ " must be rank-2 [M | r] (got rank " + std::to_string(cond_csr.rank()) + ")");
+	}
+	if (cond_csr.dim(1) < 1) {
+		throw std::runtime_error("ingest_cond_file: " + cond_path.string() + " has 0 columns");
+	}
+	if (n_unknowns_out == 0) {
+		n_unknowns_out = cond_csr.dim(1) - 1;
+	} else if (cond_csr.dim(1) - 1 != n_unknowns_out) {
+		throw std::runtime_error("ingest_cond_file: " + cond_path.string() + " has n_unknowns="
+			+ std::to_string(cond_csr.dim(1) - 1) + ", expected " + std::to_string(n_unknowns_out));
+	}
+
+	auto mat = cond_csr.to_sparse_mat();
+	cond_csr.clear();
+	for (size_t r = 0; r < mat.nrow; r++) {
+		cond_row_t<T, index_t> row;
+		for (size_t j = 0; j < mat[r].nnz(); j++) {
+			index_t col = mat[r](j);
+			T val = mat[r][j];
+			if ((size_t)col < n_unknowns_out) {
+				row.coeffs[col] = val;
+			} else {
+				row.rhs = val;
+			}
+		}
+		if (row.coeffs.empty() && row.rhs != T(0)) {
+			n_zero_rhs_only_out++;  // 0 = nonzero → inconsistent
+			continue;
+		}
+		if (row.coeffs.empty() && row.rhs == T(0)) {
+			continue;  // trivial 0 = 0
+		}
+		rows_out.push_back(std::move(row));
+	}
+	std::cout << "   Ingested " << mat.nrow << " rows (" << mat.nrow << "x" << (n_unknowns_out + 1)
+	          << " [M | r])" << std::endl;
+	mat.clear();
+}
+
+template <typename T, typename index_t>
+void run_collinear_solver_pairs(
+	const std::vector<collinear_pair_t<T, index_t>>& pairs,
+	const std::vector<std::filesystem::path>& cond_paths,
+	bool export_conditions,
+	const std::vector<std::filesystem::path>& basis_paths,
+	const std::filesystem::path& output_dir,
+	const field_t& F, rref_option_t& opt,
+	const std::string& solver = "incremental",
+	const std::string& out_stem = "") {
+
+	thread_pool* pool = &(opt->pool);
+	auto collinear_dir = output_dir / "collinear";
+
+	std::cout << "========================================" << std::endl;
+	std::cout << "Non-homogeneous constraint solver (multi-pair)" << std::endl;
+	std::cout << "   Pairs: " << pairs.size() << std::endl;
+	std::cout << "   Condition files: " << cond_paths.size() << std::endl;
+	std::cout << "   Expansion bases: " << basis_paths.size() << " files" << std::endl;
+	std::cout << "   Export conditions: " << (export_conditions ? "yes" : "no") << std::endl;
+	std::cout << "   Solver: " << solver << std::endl;
+	std::cout << "========================================" << std::endl;
+
+	// Build rows from every pair (per-pair letter projection), then every cond file
+	std::vector<cond_row_t<T, index_t>> rows;
+	size_t n_unknowns = 0;
+	size_t n_b_only = 0;
+	for (const auto& pair : pairs) {
+		build_pair_rows<T, index_t>(pair, basis_paths, rows, n_unknowns, n_b_only, F, opt);
+	}
+	for (const auto& cond_path : cond_paths) {
+		if (!std::filesystem::exists(cond_path)) {
+			throw std::runtime_error("run_collinear_solver_pairs: condition file not found: " + cond_path.string());
+		}
+		ingest_cond_file<T, index_t>(cond_path, rows, n_unknowns, n_b_only, F, opt);
+	}
+
+	if (n_unknowns == 0) {
+		throw std::runtime_error("run_collinear_solver_pairs: could not determine n_unknowns (empty system?)");
+	}
+
+	size_t R = rows.size();
+	std::cout << "== Stacked system: " << R << " rows x " << n_unknowns << " unknowns ==" << std::endl;
+
+	// Output naming: --out-stem override; else single source → its stem;
+	// multiple → first stem + "_x<count>"
+	std::vector<std::string> names;
+	for (const auto& pair : pairs) names.push_back(pair.stem);
+	for (const auto& p : cond_paths) names.push_back(p.stem().string());
+	std::string stem = !out_stem.empty() ? out_stem
+		: (names.size() == 1) ? names[0]
+		: names[0] + "_x" + std::to_string(names.size());
+
+	// Export the combined conditions [M | r] (rank-2 CSR, rhs = last column)
+	if (export_conditions) {
+		auto cond_path = collinear_dir / ("cond_" + stem + ".wxf");
+		if (R == 0) {
+			std::cout << "   Conditions export skipped: 0 rows (nothing to write)." << std::endl;
+		} else {
+			sparse_mat<T, index_t> cond_mat(R, n_unknowns + 1);
+			for (size_t r = 0; r < R; r++) {
+				for (const auto& [i, v] : rows[r].coeffs) {
+					cond_mat[r].push_back(i, v);
+				}
+				if (rows[r].rhs != T(0)) {
+					cond_mat[r].push_back((index_t)n_unknowns, rows[r].rhs);
+				}
+				cond_mat[r].compress();
+			}
+			sparse_tensor<T, index_t, SPARSE_CSR> cond_csr(cond_mat);
+			projection_write_tensor<T, index_t>(cond_path, std::move(cond_csr), pool);
+			std::cout << "   Wrote " << cond_path.string() << std::endl;
+		}
+	}
+
+	// Solve the stacked system (or handle degenerate cases without the solver)
+	linear_solve_result_t<T, index_t> result;
+	if (n_b_only > 0) {
+		std::cout << "   System is INCONSISTENT: " << n_b_only
+		          << " positions where boundary != 0 but A = 0." << std::endl;
+		result.consistent = false;
+		result.unique = false;
+		result.n_unknowns = n_unknowns;
+	} else if (R == 0) {
+		std::cout << "   No constraints — trivially consistent (any c works)." << std::endl;
+		result.consistent = true;
+		result.unique = false;
+		result.n_unknowns = n_unknowns;
+		result.null_space = sparse_mat<T, index_t>(n_unknowns, n_unknowns);
+		for (size_t i = 0; i < n_unknowns; i++) {
+			result.null_space[i].push_back((index_t)i, (T)1);
+			result.null_space[i].compress();
+		}
+	} else {
+		sparse_tensor<T, index_t, SPARSE_COO> A_coo(std::vector<size_t>{n_unknowns, R});
+		sparse_tensor<T, index_t, SPARSE_COO> b_coo(std::vector<size_t>{R});
+		for (size_t r = 0; r < R; r++) {
+			for (const auto& [i, v] : rows[r].coeffs) {
+				std::vector<index_t> idx = {(index_t)i, (index_t)r};
+				A_coo.push_back(idx, v);
+			}
+			if (rows[r].rhs != T(0)) {
+				std::vector<index_t> idx = {(index_t)r};
+				b_coo.push_back(idx, rows[r].rhs);
+			}
+		}
+		A_coo.canonicalize();
+		b_coo.canonicalize();
+
+		auto A_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(A_coo), pool);
+		auto b_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(b_coo), pool);
+		if (solver == "incremental") {
+			result = solve_linear_system_incremental<T, index_t>(
+				std::move(A_csr), std::move(b_csr), F, opt);
+		} else {
+			result = solve_linear_system<T, index_t>(
+				std::move(A_csr), std::move(b_csr), F, opt);
+		}
+	}
+
+	// Write sol_<stem>.wxf (1 x n_unknowns)
+	if (result.consistent) {
+		auto sol_path = collinear_dir / ("sol_" + stem + ".wxf");
+		sparse_mat<T, index_t> sol_mat(1, result.n_unknowns);
+		for (size_t i = 0; i < result.solution.nnz(); i++) {
+			sol_mat[0].push_back(result.solution(i), result.solution[i]);
+		}
+		sol_mat[0].compress();
+		sparse_tensor<T, index_t, SPARSE_CSR> sol_csr(sol_mat);
+		projection_write_tensor<T, index_t>(sol_path, std::move(sol_csr), pool);
+		std::cout << "   Wrote " << sol_path.string() << std::endl;
+	}
+
+	// Print result
+	if (result.consistent) {
+		std::cout << "========================================" << std::endl;
+		std::cout << "Solution" << std::endl;
+		if (result.unique) {
+			std::cout << "   Unique solution:" << std::endl;
+		} else {
+			std::cout << "   Particular solution (system underdetermined):" << std::endl;
+			std::cout << "   Null space dimension: " << result.null_space.nrow << std::endl;
+		}
+		for (size_t i = 0; i < result.solution.nnz(); i++) {
+			std::cout << "      c[" << result.solution(i) << "] = " << result.solution[i] << std::endl;
+		}
+		std::cout << "========================================" << std::endl;
+	} else {
+		std::cout << "========================================" << std::endl;
+		std::cout << "No solution (system inconsistent)" << std::endl;
+		std::cout << "========================================" << std::endl;
+	}
+}
+
 #endif // SOLVE_COLLINEAR_HPP

@@ -98,8 +98,12 @@ export const NODE_DEFS = {
     inputs: [
       { id: 'seed', kind: 'seed_or_tensor', label: 'seed (target or custom tensor)' },
       { id: 'rhs', kind: 'boundary', label: 'rhs (boundary, opt)' },
+      { id: 'cond', kind: 'matrix', label: 'cond [M|r] (opt)' },
     ],
-    outputs: [{ id: 'solution', kind: 'solution', label: 'solution' }],
+    outputs: [
+      { id: 'solution', kind: 'solution', label: 'solution' },
+      { id: 'conditions', kind: 'matrix', label: 'conditions [M|r]' },
+    ],
   },
   projection_chain: {
     title: 'Projection Chain', color: '#e2e8f0',
@@ -229,7 +233,7 @@ export const PALETTE_SECTIONS = [
       { type: 'project', label: 'Project', sub: 'apply rep + contract map' },
       { type: 'solve_symmetry', label: 'Symmetry Solve', sub: 'invariant part of tensor' },
       { type: 'symderive', label: 'Symmetry Derive', sub: 'derive R (a,a) transformation' },
-      { type: 'solve_collinear', label: 'Solve Collinear', sub: 'collinear constraints' },
+      { type: 'solve_collinear', label: 'Solve Collinear', sub: 'non-homogeneous constraints' },
       { type: 'projection_chain', label: 'Projection Chain', sub: 'bootstrap --project (basis chain)' },
       { type: 'symmetry_invariant', label: 'Symmetry Invariant', sub: 'bootstrap --solve-symmetry' },
       { type: 'compute_rhs', label: 'Compute RHS', sub: 'collinear RHS / boundary' },
@@ -311,6 +315,12 @@ export function targetKindFor(node, handleId) {
   }
   const def = NODE_DEFS[node.type]
   if ((node.type === 'assemble' || node.type === 'add_tensors') && (handleId || '').startsWith('in_')) return 'tensor'
+  if (node.type === 'solve_collinear') {
+    // Dynamic extra pairs: in_seed_N / in_rhs_N (N >= 1). Pair 0 uses the
+    // fixed seed/rhs ports (backwards compatible).
+    if ((handleId || '').startsWith('in_seed_')) return 'seed_or_tensor'
+    if ((handleId || '').startsWith('in_rhs_')) return 'boundary'
+  }
   const inp = def.inputs.find((i) => i.id === handleId)
   return inp ? inp.kind : null
 }

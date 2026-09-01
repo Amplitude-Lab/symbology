@@ -51,7 +51,21 @@ method, skipped for `identity`).
     --rhs <rhs.wxf|0> --letter-projection <file|identity> \
     [--basis <basis.wxf> ...] [--solver <incremental|sampled>] \
     [--data-dir <dir>] [--output-dir <dir>]
+
+# Multi-pair mode: several {seed, rhs, letter projection} pairs, each with its
+# own letter projection, plus optional pre-computed [M|r] conditions — all rows
+# stacked into ONE linear solve:
+./bootstrap --solve-collinear \
+    (--pair <seed.wxf> <rhs.wxf|0> <letter-file|identity>)... \
+    [--pair-cond <cond.wxf>]... [--export-conditions] \
+    [--out-stem <name>] [--basis <basis.wxf> ...] \
+    [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]
 ```
+
+Multi-pair mode is mutually exclusive with the single-pair flags
+(`--target`/`--target-basis`/`--rhs`/`--projection`/`--letter-projection`) —
+each pair carries its own seed, rhs and letter projection. `--pair-cond`
+only (no `--pair`) requires `--out-stem` for the output naming.
 
 Two letter-projection modes:
 
@@ -72,8 +86,12 @@ Two letter-projection modes:
 | `--target <SEW_FpL\|FEC_W>` | Named target (e.g. `SEW_3p1` for 2-loop, `SEW_5p1` for 3-loop). The target basis is read from `output/collinear/<name>_basis.wxf` and the seed-space projection chain is computed/applied. Mutually exclusive with `--target-basis`. |
 | `--target-basis <seed.wxf>` | **Custom seed mode**: use the given tensor file as-is (e.g. a summed NMHV expression like `E0+E23+E34`). No seed-space projection, no naming convention. Requires `--projection none`. |
 | `--rhs <rhs.wxf>` or `--rhs 0` | RHS path. Required — exits with code 1 if missing. `--rhs 0` means an all-zero RHS constructed in-memory. |
-| `--projection <finite\|divergent\|none>` | Which projection to apply. `finite`/`divergent` select the seed-space projection for named targets; `none` is the custom-seed mode (requires `--target-basis`). |
-| `--letter-projection <file\|identity>` | Letter-slot projection matrix. Required (no default — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space). Relative paths resolve against the executable directory. |
+| `--projection <finite\|divergent\|none>` | Which projection to apply. `finite`/`divergent` select the seed-space projection for named targets; `none` is the custom-seed mode (requires `--target-basis`). Multi-pair mode does not use this flag — every `--pair` seed is used as-is (equivalent to `none`). |
+| `--letter-projection <file\|identity>` | Letter-slot projection matrix. Required (no default — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space). Relative paths resolve against the executable directory. Single-pair mode only — in multi-pair mode each `--pair` carries its own letter projection (entry of `--pair`'s third argument). |
+| `--pair <seed> <rhs\|0> <letter\|identity>` | **Multi-pair mode** (repeatable). One `{seed, rhs, letter projection}` triple per pair: the seed is a concrete tensor used as-is (custom-seed semantics — no seed-space projection, no naming convention), optionally expanded with a shared `--basis` chain. Each pair may use a **different** letter projection (e.g. pair 1 `identity`, pair 2 `colprojdiv_w1.wxf`). Unwired/absent rhs may be given as `0` (homogeneous constraints). Mutually exclusive with `--target`/`--target-basis`/`--rhs`/`--projection`/`--letter-projection`. |
+| `--pair-cond <cond.wxf>` | **Multi-pair mode** (repeatable). Rank-2 `[M \| r]` condition matrix (rhs = last column) to stack as additional rows — re-ingest `cond_<stem>.wxf` files written by `--export-conditions` (from this or another flow) to combine constraints across flows. `--pair-cond` only (no `--pair`) requires `--out-stem`. |
+| `--export-conditions` | **Multi-pair mode**. Write `output/collinear/cond_<stem>.wxf`: the combined non-homogeneous constraints as a rank-2 `[M \| r]` matrix (n_unknowns+1 columns, rhs = last column), one row per stacked constraint row. Re-ingest via `--pair-cond` or the flow `cond` port. |
+| `--out-stem <name>` | **Multi-pair mode**. Override the `sol_<stem>.wxf` / `cond_<stem>.wxf` naming. Auto: single pair/cond source → its stem; multiple → `stem1_xN`. **Required** when `--pair-cond` is given without any `--pair` (cond-only run: stack condition files and solve them directly). |
 | `--basis <basis.wxf>` | Expansion basis file (repeatable; highest weight first). If omitted: auto-detected for named targets as `first_w{N}_basis.wxf` for weights `target_weight-1` down to 2; **no expansion** for custom seeds (use the tensor as-is — pass `--basis` explicitly to expand a compact custom seed). |
 | `--solver <incremental\|sampled>` | Linear solver backend. `incremental` (default): samples constraints batch-by-batch with substitution sweeps and completes rank via full RREF when underdetermined. `sampled`: the legacy full-system modular RREF. |
 | `--data-dir <dir>` | Data directory with seed files (default: `<exec_dir>/data`). Resolved against the executable directory. |
@@ -163,6 +181,37 @@ Two letter-projection modes:
      zero, `R*` is divergent-free (no entries at letters `{0, 1}`), so
      the collinear constraint is satisfied and `R*` is purely finite.
 
+### Multi-pair mode (`--pair` / `--pair-cond` / `--export-conditions`)
+
+Several `{seed, rhs, letter projection}` pairs, each with its **own**
+letter projection (e.g. pair 1 `identity`, pair 2 the collinear divergent
+projection `colprojdiv_w1.wxf`), plus optional pre-computed `[M|r]`
+condition files. All rows are stacked into **one** linear system and
+solved together (`solve_linear_system_incremental`; `incremental_solve.hpp`
+is unchanged — the pairs only change row construction):
+
+- **Per pair** (`build_pair_rows`): load the seed as-is (custom-seed
+  semantics: no seed-space projection on axis 0 — named-target
+  `--projection finite|divergent` does not apply), optionally expand with
+  the shared `--basis` chain, load the rhs (or `0`), apply **that pair's**
+  letter projection to every letter slot of both sides
+  (`apply_colprojdiv_slots`, A first slot 1 / boundary first slot 0),
+  then union-match and flatten to rank-2 rows `(n_unknowns+1)` —
+  `[M_row | r]` with rhs in the last column.
+- **Per cond file** (`--pair-cond`): read the rank-2 `[M|r]` matrix
+  (rhs = last column) and stack its rows directly. Column count must
+  match `n_unknowns + 1`.
+- **Solve once**: all pair rows + all cond rows go into a single
+  `(n_unknowns, R)` A + `(R,)` b. Consistency, rank and the particular
+  solution are reported across the combined system.
+- **Export** (`--export-conditions`): write
+  `output/collinear/cond_<stem>.wxf` — exactly the stacked `[M|r]`
+  (n_unknowns+1 columns), re-ingestable later via `--pair-cond` (or the
+  flow `cond` port) to combine constraints from this and other flows.
+- **Naming** (`--out-stem`): `sol_<stem>.wxf` / `cond_<stem>.wxf`.
+  Auto: single source → its stem; multiple sources → `stem1_xN`.
+  Cond-only runs (no `--pair`) must pass `--out-stem` explicitly.
+
 ## Inputs
 
 - `data/colprojdiv.wxf`, `data/colprojfin.wxf` (weight-1 seeds).
@@ -180,6 +229,8 @@ Two letter-projection modes:
 | `colprojfin_w{N}.wxf`, `colprojdiv_w{N}.wxf` (`N ≥ 2`) | FEC-level projections |
 | `colprojfin_<sew_name>.wxf`, `colprojdiv_<sew_name>.wxf` | SEW-level projections (e.g. `colprojdiv_SEW_5p1.wxf`) |
 | `sol_<seed_name>.wxf` | **Custom-seed mode only**: solution coefficient vector `(1 × n_unknowns)`, written only if the system is consistent. `<seed_name>` is the seed file's stem (e.g. `sol_cb198_79d057_E0E23E34tensor.wxf` for seed `cb198_79d057_E0E23E34tensor.wxf`). |
+| `sol_<stem>.wxf` | **Multi-pair mode**: same solution vector, `<stem>` = `--out-stem` or auto-derived (single source stem / `stem1_xN` / cond stems when cond-only). |
+| `cond_<stem>.wxf` | **Multi-pair mode + `--export-conditions`**: the combined non-homogeneous constraints as a rank-2 `[M \| r]` matrix (rhs = last column). Re-ingest via `--pair-cond` or the flow `cond` port. |
 
 Empty projections (0 rows) are not written.
 
@@ -266,6 +317,17 @@ Empty projections (0 rows) are not written.
 ./bootstrap --solve-collinear --target-basis output/cb198_79d057_E0E23E34tensor.wxf \
     --projection none --rhs data/E1.wxf \
     --letter-projection identity --solver incremental
+
+# Multi-pair: the same two constraints solved together — pair 1 identity,
+# pair 2 the divergent projection; export the combined [M|r] conditions.
+./bootstrap --solve-collinear \
+    --pair output/cb198_79d057_E0E23E34tensor.wxf data/E1.wxf identity \
+    --pair output/cb198_79d057_E0E23E34tensor.wxf data/E1.wxf data/colprojdiv.wxf \
+    --export-conditions --out-stem nmhv2pairs --solver incremental
+
+# Cond-only: re-ingest exported conditions and solve them alone (requires --out-stem).
+./bootstrap --solve-collinear --pair-cond output/collinear/cond_nmhv2pairs.wxf \
+    --out-stem nmhv2cond --solver incremental
 ```
 
 For the full recursive workflow (computing the boundary too), use
@@ -309,6 +371,18 @@ For the full recursive workflow (computing the boundary too), use
   three free parameters. Verified both via CLI and via the
   `NMHVw2collinear` flow (E1 wired from the Alphabet node into the
   `rhs` port, `letter_projection = identity`) — identical results.
+- **Multi-pair (NMHV weight-2, identity + divergent)**: pair 1
+  (`E0+E23+E34`, `E1`, `identity`) and pair 2 (same seed/rhs,
+  `data/colprojdiv.wxf`) stacked: 11 rows × 5 unknowns, rank 3/5,
+  particular solution `c[0] = 1, c[1] = 1, c[2] = 2`, null space 2 —
+  the union of both modes' conditions, consistent, matching the identity
+  pair's fix of three coefficients. `--export-conditions` wrote
+  `cond_nmhv2pairs.wxf` (11 × 6 `[M|r]`).
+- **Cond round-trip**: re-ingesting `cond_nmhv2pairs.wxf` via
+  `--pair-cond` alone (`--out-stem nmhv2cond`) reproduces the same
+  solution `c = {1, 1, 2}`, rank 3/5 — the exported conditions carry
+  the full combined information, and combining them with fresh pairs
+  composes correctly.
 
 ## Pitfalls
 

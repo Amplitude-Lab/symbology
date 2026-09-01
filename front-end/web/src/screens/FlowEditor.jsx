@@ -91,6 +91,7 @@ function OpNode({ id, type, data, selected }) {
   const allEdges = useEdges()
   const updateNodeInternals = useUpdateNodeInternals()
   const dynamicInputs = type === 'add_tensors'
+  const dynamicPairs = type === 'solve_collinear'
   let inputs = def.inputs || []
   if (dynamicInputs) {
     let maxConnected = 1
@@ -104,7 +105,30 @@ function OpNode({ id, type, data, selected }) {
       id: `in_${i}`, kind: 'tensor', label: String.fromCharCode(65 + i),
     }))
   }
-  useEffect(() => { if (dynamicInputs) updateNodeInternals(id) }, [id, dynamicInputs, inputs.length, updateNodeInternals])
+  let pairCount = 0
+  let hasCondEdge = false
+  if (dynamicPairs) {
+    // Extra {seed, rhs} pairs beyond the fixed seed/rhs ports (pair 0).
+    // Each pair N >= 1 adds in_seed_N / in_rhs_N; one spare pair is always
+    // shown so the next pair can be wired without Inspector round-trips.
+    let maxPair = 0
+    for (const e of allEdges) {
+      if (e.target !== id) continue
+      const m = (e.targetHandle || '').match(/^in_(?:seed|rhs)_(\d+)$/)
+      if (m) maxPair = Math.max(maxPair, parseInt(m[1], 10))
+    }
+    hasCondEdge = allEdges.some((e) => e.target === id && (e.targetHandle || '') === 'cond')
+    pairCount = maxPair + 1
+    const nLetters = (data.pair_letters || '').split(',').map((s) => s.trim()).filter(Boolean).length
+    const nPairs = Math.max(maxPair, nLetters - 1) + 1
+    const extras = []
+    for (let p = 1; p <= nPairs; p++) {
+      extras.push({ id: `in_seed_${p}`, kind: 'seed_or_tensor', label: `seed ${p + 1}` })
+      extras.push({ id: `in_rhs_${p}`, kind: 'boundary', label: `rhs ${p + 1}` })
+    }
+    inputs = [...inputs, ...extras]
+  }
+  useEffect(() => { if (dynamicInputs || dynamicPairs) updateNodeInternals(id) }, [id, dynamicInputs, dynamicPairs, inputs.length, updateNodeInternals])
   const outputs = def.outputs || []
   const rows = Math.max(inputs.length, outputs.length)
   const cbWeights = (data.weights || '').split(',').map((s) => s.trim())
@@ -112,7 +136,9 @@ function OpNode({ id, type, data, selected }) {
     type === 'extend' ? (data.target_weight ? `→ weight ${data.target_weight}` : 'weight +1')
     : (type === 'project' || type === 'solve_symmetry' || type === 'symderive') ? `→ ${data.target || '…'}`
     : type === 'sew' ? `→ ${data.target || 'SEW_FpL'}`
-    : type === 'solve_collinear' ? `${data.target || '…'}`
+    : type === 'solve_collinear' ? (pairCount > 0 || hasCondEdge
+        ? `${pairCount || '—'} pair${pairCount === 1 ? '' : 's'}${hasCondEdge ? ' + cond' : ''} → ${data.out_stem || '…'}`
+        : `${data.target || '…'}`)
     : type === 'projection_chain' ? `${data.symmetry || '?'} · ${data.target || '…'}`
     : type === 'symmetry_invariant' ? `${data.symmetry || '?'} · ${data.target || '…'}`
     : type === 'compute_rhs' ? `${data.target || '…'}`
@@ -546,6 +572,34 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
           </select>
           <label>Letter projection (file or identity)</label>
           <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Applies to pair 0 (the seed/rhs ports). In multi-pair mode, entry 0 of “Pair letters” below
+            overrides this field.
+          </p>
+          <label>Pair letters (per pair, comma-separated)</label>
+          <input value={d.pair_letters || ''} onChange={(e) => set({ pair_letters: e.target.value })} placeholder="e.g. identity, output/collinear/colprojdiv_w1.wxf" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Each pair may use a different letter projection: entry 0 = pair 0 (seed/rhs ports above), entry N =
+            seed N / rhs N (extra ports appear as pairs are wired). Each entry is a letter-projection file or
+            “identity”. An unwired rhs N defaults to “0” (homogeneous constraints). Wiring any seed N port or the
+            cond port switches the node to multi-pair mode, where every seed is used as-is (custom seed, no
+            seed-space projection).
+          </p>
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
+            <input
+              type="checkbox" style={{ width: 'auto' }}
+              checked={!!d.export_conditions}
+              onChange={(e) => set({ export_conditions: e.target.checked })}
+            />
+            Export conditions [M|r]
+          </label>
+          <p className="muted" style={{ fontSize: 11 }}>
+            Writes the combined non-homogeneous constraints as a rank-2 [M | r] matrix (rhs = last column) next
+            to the solution, and enables the conditions output port. Re-ingest it later via the cond port to
+            combine constraints from different flows.
+          </p>
+          <label>Out stem (output naming)</label>
+          <input value={d.out_stem || ''} onChange={(e) => set({ out_stem: e.target.value })} placeholder="auto: seed stem / stem1_xN" />
           <label>Solver</label>
           <select value={d.solver || 'incremental'} onChange={(e) => set({ solver: e.target.value })}>
             <option value="incremental">incremental</option>
