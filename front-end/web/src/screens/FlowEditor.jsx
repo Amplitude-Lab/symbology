@@ -106,11 +106,13 @@ function OpNode({ id, type, data, selected }) {
     }))
   }
   let pairCount = 0
+  let multiPair = false
   let hasCondEdge = false
   if (dynamicPairs) {
-    // Extra {seed, rhs} pairs beyond the fixed seed/rhs ports (pair 0).
-    // Each pair N >= 1 adds in_seed_N / in_rhs_N; one spare pair is always
-    // shown so the next pair can be wired without Inspector round-trips.
+    // Pair 1 = the fixed seed/rhs ports. Each entry of the Inspector's
+    // pairs_config adds seed N / rhs N ports (N = index + 1); one spare pair
+    // is always shown beyond configured/wired pairs so the next pair can be
+    // wired without Inspector round-trips.
     let maxPair = 0
     for (const e of allEdges) {
       if (e.target !== id) continue
@@ -118,9 +120,10 @@ function OpNode({ id, type, data, selected }) {
       if (m) maxPair = Math.max(maxPair, parseInt(m[1], 10))
     }
     hasCondEdge = allEdges.some((e) => e.target === id && (e.targetHandle || '') === 'cond')
-    pairCount = maxPair + 1
-    const nLetters = (data.pair_letters || '').split(',').map((s) => s.trim()).filter(Boolean).length
-    const nPairs = Math.max(maxPair, nLetters - 1) + 1
+    const cfgLen = Array.isArray(data.pairs_config) ? data.pairs_config.length : 0
+    pairCount = Math.max(maxPair + 1, cfgLen + 1)
+    multiPair = maxPair > 0 || cfgLen > 0 || hasCondEdge
+    const nPairs = Math.max(maxPair, cfgLen) + 1
     const extras = []
     for (let p = 1; p <= nPairs; p++) {
       extras.push({ id: `in_seed_${p}`, kind: 'seed_or_tensor', label: `seed ${p + 1}` })
@@ -136,8 +139,8 @@ function OpNode({ id, type, data, selected }) {
     type === 'extend' ? (data.target_weight ? `→ weight ${data.target_weight}` : 'weight +1')
     : (type === 'project' || type === 'solve_symmetry' || type === 'symderive') ? `→ ${data.target || '…'}`
     : type === 'sew' ? `→ ${data.target || 'SEW_FpL'}`
-    : type === 'solve_collinear' ? (pairCount > 0 || hasCondEdge
-        ? `${pairCount || '—'} pair${pairCount === 1 ? '' : 's'}${hasCondEdge ? ' + cond' : ''} → ${data.out_stem || '…'}`
+    : type === 'solve_collinear' ? (multiPair
+        ? `${pairCount} pair${pairCount === 1 ? '' : 's'}${hasCondEdge ? ' + cond' : ''} → ${data.out_stem || '…'}`
         : `${data.target || '…'}`)
     : type === 'projection_chain' ? `${data.symmetry || '?'} · ${data.target || '…'}`
     : type === 'symmetry_invariant' ? `${data.symmetry || '?'} · ${data.target || '…'}`
@@ -570,20 +573,59 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
             <option value="divergent">divergent</option>
             <option value="none">none (custom seed)</option>
           </select>
-          <label>Letter projection (file or identity)</label>
-          <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
+          <label>Pairs — pair 1 = the seed / rhs ports; each added pair gets its own seed N / rhs N ports</label>
+          {(() => {
+            const PRESETS = [
+              ['identity', 'identity'],
+              ['data/colprojdiv.wxf', 'divergent'],
+              ['data/colprojfin.wxf', 'finite'],
+            ]
+            const modeOf = (v) => (PRESETS.some(([p]) => p === v) ? v : 'custom')
+            const cfg = Array.isArray(d.pairs_config) ? d.pairs_config : []
+            const rows = [(d.letter_projection || 'identity').trim(), ...cfg.map((x) => (x || '').trim())]
+            const setRow = (i, v) => {
+              if (i === 0) { set({ letter_projection: v }); return }
+              const next = [...cfg]
+              while (next.length < i) next.push('identity')
+              next[i - 1] = v
+              set({ pairs_config: next })
+            }
+            return (
+              <>
+                {rows.map((v, i) => {
+                  const mode = modeOf(v)
+                  return (
+                    <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 4 }}>
+                      <span className="muted" style={{ fontSize: 11, width: 20 }}>P{i + 1}</span>
+                      <select value={mode} onChange={(e) => setRow(i, e.target.value === 'custom' ? '' : e.target.value)}>
+                        {PRESETS.map(([p, label]) => <option key={p} value={p}>{label}</option>)}
+                        <option value="custom">custom file…</option>
+                      </select>
+                      {mode === 'custom' && (
+                        <input style={{ flex: 1 }} value={v} onChange={(e) => setRow(i, e.target.value)} placeholder="path/to/letterproj.wxf" />
+                      )}
+                      {i > 0 && (
+                        <button
+                          className="btn ghost" style={{ padding: '2px 7px' }}
+                          onClick={() => set({ pairs_config: cfg.filter((_, j) => j !== i - 1) })}
+                        >✕</button>
+                      )}
+                    </div>
+                  )
+                })}
+                <button
+                  className="btn ghost" style={{ width: '100%' }}
+                  onClick={() => set({ pairs_config: [...cfg, 'identity'] })}
+                >+ add pair</button>
+              </>
+            )
+          })()}
           <p className="muted" style={{ fontSize: 11 }}>
-            Applies to pair 0 (the seed/rhs ports). In multi-pair mode, entry 0 of “Pair letters” below
-            overrides this field.
-          </p>
-          <label>Pair letters (per pair, comma-separated)</label>
-          <input value={d.pair_letters || ''} onChange={(e) => set({ pair_letters: e.target.value })} placeholder="e.g. identity, output/collinear/colprojdiv_w1.wxf" />
-          <p className="muted" style={{ fontSize: 11 }}>
-            Each pair may use a different letter projection: entry 0 = pair 0 (seed/rhs ports above), entry N =
-            seed N / rhs N (extra ports appear as pairs are wired). Each entry is a letter-projection file or
-            “identity”. An unwired rhs N defaults to “0” (homogeneous constraints). Wiring any seed N port or the
-            cond port switches the node to multi-pair mode, where every seed is used as-is (custom seed, no
-            seed-space projection).
+            Each pair is one { '{seed, rhs}' } constraint set with its own letter projection: pair 1 uses the
+            seed / rhs ports, pair N the seed N / rhs N ports that appear here. divergent / finite map to
+            data/colprojdiv.wxf / data/colprojfin.wxf. Adding a pair switches the node to multi-pair mode:
+            all rows are stacked and solved together, every seed is used as-is (custom seed — the Projection
+            field above does not apply), and an unwired rhs N defaults to “0” (homogeneous constraints).
           </p>
           <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
             <input
