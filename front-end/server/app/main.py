@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
+import re
+import shutil
+import signal
 import subprocess
+import tempfile
 import uuid
 from pathlib import Path
 
@@ -11,9 +16,9 @@ from fastapi.responses import FileResponse, StreamingResponse
 
 from . import storage, templates
 from .compile import compile_flow, flow_outputs_catalog
-from .config import WEB_DIST, env_status, find_tensor_ops, find_wolframscript
+from .config import REPO_ROOT, WEB_DIST, env_status, find_tensor_ops, find_wolframscript
 from .jobs import engine
-from .wolfram import property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
+from .wolfram import alphabet_file_expr_loader, property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
 
 app = FastAPI(title="Symbology Front-End")
 
@@ -145,7 +150,147 @@ def api_delete_alphabet(pid: str, aid: str) -> dict:
     return {"ok": True}
 
 
-VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation", "precomputed_tensor", "letter_symmetry"}
+def _inspect_alphabet_file(file_abs: Path) -> dict:
+    """Sniff an alphabet.wl file for a known letter/roots dialect.
+
+    Returns {"letter_var", "roots_var"} on success; raises HTTPException(400)
+    when neither dialect is present.
+    """
+    try:
+        content = file_abs.read_text()
+    except (OSError, UnicodeDecodeError) as exc:
+        raise HTTPException(400, f"cannot read alphabet file: {exc}")
+    if "LetterRep" in content and "RootDef" in content:
+        return {"letter_var": "LetterRep", "roots_var": "RootDef"}
+    if "alphabetf" in content and "sqrtrep" in content:
+        return {"letter_var": "alphabetf", "roots_var": "sqrtrep"}
+    raise HTTPException(
+        400,
+        "could not detect an alphabet dialect: expected LetterRep/RootDef (pentagon style) "
+        "or alphabetf/sqrtrep (4pFF style) definitions in the file",
+    )
+
+
+@app.post("/api/projects/{pid}/import_alphabet")
+def api_import_alphabet(pid: str, body: dict = Body(...)) -> dict:
+    """Create an alphabet from an alphabet.wl file.
+
+    Expects {"source_path": "/abs/or/rel/path/alphabet.wl", "name": optional}.
+    Copies the file into the project as data/<name>_alphabet.wl, extracts
+    letters + variables by running a wolframscript one-liner, and installs an
+    expr_loader that replays the file in every generated property script, so
+    integrability/transformation properties compute from these expressions.
+    """
+    proj = _get_project(pid)
+    source = (body.get("source_path") or "").strip()
+    if not source:
+        raise HTTPException(400, "source_path is required")
+    src_path = Path(source).expanduser()
+    if not src_path.is_absolute():
+        src_path = (REPO_ROOT / src_path).resolve() if (REPO_ROOT / src_path).exists() else src_path.resolve()
+    if not src_path.is_file():
+        raise HTTPException(400, f"alphabet file '{source}' not found")
+    dialect_info = _inspect_alphabet_file(src_path)
+    name = (body.get("name") or "").strip() or src_path.stem
+    if any(a["name"] == name for a in proj.get("alphabets", [])):
+        raise HTTPException(400, f"an alphabet named '{name}' already exists in this project")
+
+    proj_dir = storage.project_dir(pid)
+    dest_dir = proj_dir / "data"
+    dest_dir.mkdir(exist_ok=True)
+    existing = {f.name for f in dest_dir.glob("*_alphabet.wl")}
+    stem = f"{storage._slugify(name)}_alphabet"
+    if stem + ".wl" in existing:
+        raise HTTPException(400, f"data/{stem}.wl already exists in this project — choose a different alphabet name")
+    dest_abs = dest_dir / f"{stem}.wl"
+    ws = find_wolframscript()
+    if ws is None:
+        raise HTTPException(500, "wolframscript not found on this machine")
+    loader = alphabet_file_expr_loader(dialect_info["letter_var"], dialect_info["roots_var"], str(dest_abs))
+
+    try:
+        shutil.copyfile(src_path, dest_abs)
+        letters, variables = _extract_alphabet_facts(ws, dest_abs, dialect_info)
+    except Exception:
+        dest_abs.unlink(missing_ok=True)
+        raise
+    alpha = {
+        "id": uuid.uuid4().hex[:8],
+        "name": name,
+        "letters": letters,
+        "variables": variables,
+        "expressions": [],
+        "expr_loader": loader,
+        "roots": {},
+        "properties": [],
+    }
+    proj["alphabets"].append(alpha)
+    storage.save_project(proj)
+    return alpha
+
+
+def _q_json(s: str) -> str:
+    return json.dumps(s)
+
+
+_LETTER_TOKEN_RE = re.compile(r"^[A-Za-z$][A-Za-z0-9$]*(\[[^\[\],]*\])?$")
+
+
+def _extract_alphabet_facts(ws: str, file_abs: Path, dialect_info: dict) -> tuple[list, list]:
+    """Run a wolframscript one-liner to pull letters/variables out of an alphabet file.
+
+    Prints two @@-tagged lines; runs with a 10-minute cap. On failure raises
+    HTTPException(400) with the tail of the wolframscript output.
+    """
+    lv, rv = dialect_info["letter_var"], dialect_info["roots_var"]
+    script = (
+        f'Get[{_q_json(str(file_abs))}];\n'
+        f'$rules = {lv};\n'
+        f'$roots = If[Head[{rv}] === List, {rv}, {{{rv}}}];\n'
+        f'$vars = Variables[Flatten[{{$rules[[All, 2]] /. $roots}}]];\n'
+        f'Print["@@LETTERS@@", StringRiffle[ToString[InputForm[#]] & /@ $rules[[All, 1]], "@@SEP@@"]];\n'
+        f'Print["@@VARS@@", StringRiffle[ToString[InputForm[#]] & /@ $vars, "@@SEP@@"]];\n'
+    )
+    tmp_dir = Path(tempfile.mkdtemp(prefix="symbology_import_"))
+    script_path = tmp_dir / "extract.wl"
+    script_path.write_text(script)
+    try:
+        proc = subprocess.Popen(
+            [ws, "-script", str(script_path)],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            start_new_session=True,
+        )
+        try:
+            out, err = proc.communicate(timeout=600)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            out, err = proc.communicate()
+            raise HTTPException(400, "extracting letters/variables from the alphabet file timed out")
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    def _parse_tagged(line: str, tag: str) -> list:
+        body = line[len(tag):].strip()
+        if not body:
+            return []
+        return [s.strip() for s in body.split("@@SEP@@") if s.strip()]
+
+    letters, variables = [], []
+    for line in (out or "").splitlines():
+        if line.startswith("@@LETTERS@@"):
+            letters = _parse_tagged(line, "@@LETTERS@@")
+        elif line.startswith("@@VARS@@"):
+            variables = _parse_tagged(line, "@@VARS@@")
+    bad_letters = [t for t in letters if not _LETTER_TOKEN_RE.match(t)]
+    if not letters or bad_letters:
+        raise HTTPException(400, f"could not extract letters from the alphabet file: {(out or '')[-400:]} {(err or '')[-400:]}")
+    return letters, variables
+
+
+VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_steinmann", "cluster_adjacency", "transformation", "precomputed_tensor", "letter_symmetry", "sparse_expression"}
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties")
@@ -203,6 +348,21 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
             params["defs_file"] = defs
         else:
             params.pop("defs_file", None)
+    if ptype == "sparse_expression":
+        if not pname:
+            raise HTTPException(400, "a symbol tensor property needs a name")
+        if not (params.get("expression") or "").strip():
+            raise HTTPException(400, "provide a Wolfram expression in the symbols S[...]")
+        raw_dim = params.get("dim", 0)
+        if raw_dim is None or (isinstance(raw_dim, str) and not raw_dim.strip()):
+            raw_dim = 0
+        try:
+            dim = int(raw_dim)
+        except (TypeError, ValueError):
+            raise HTTPException(400, "dim must be a non-negative integer (0 = size to the largest index)")
+        if dim < 0:
+            raise HTTPException(400, "dim must be a non-negative integer (0 = size to the largest index)")
+        params["dim"] = dim
     prop = {
         "id": uuid.uuid4().hex[:8],
         "type": ptype,

@@ -11,6 +11,7 @@ const PROP_LABEL = {
   transformation: 'Transformation',
   precomputed_tensor: 'Existing tensor file',
   letter_symmetry: 'Symmetry (letter rule)',
+  sparse_expression: 'Symbol Tensor',
 }
 
 function StatusDot({ status }) {
@@ -178,6 +179,8 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
   const [tensorFile, setTensorFile] = useState('')
   const [symRule, setSymRule] = useState('')
   const [symDefs, setSymDefs] = useState('')
+  const [sparseExpr, setSparseExpr] = useState('')
+  const [sparseDim, setSparseDim] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
@@ -202,6 +205,14 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
       if (!propName.trim() || !symRule.trim()) return setError('Provide a name and a replacement rule.')
       params = { rule: symRule.trim() }
       if (symDefs.trim()) params.defs_file = symDefs.trim()
+    } else if (type === 'sparse_expression') {
+      if (!propName.trim() || !sparseExpr.trim()) return setError('Provide a name and an expression in the symbols S[...].')
+      params = { expression: sparseExpr.trim() }
+      const d = sparseDim.trim()
+      if (d) {
+        if (!/^\d+$/.test(d)) return setError('Dimension must be a non-negative integer (0 = auto).')
+        params.dim = parseInt(d, 10)
+      }
     }
     const name = type === 'transformation' ? transName.trim() : propName.trim()
     setBusy(true); setError(null)
@@ -246,7 +257,7 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
             <textarea rows={4} value={transMap} onChange={(e) => setTransMap(e.target.value)} placeholder="{u1->u2, u2->u3, u3->1+u2-v1-v2, v1->v2, v2->1+u3-u1-v2}" />
           </>
         )}
-        {type && type !== 'transformation' && type !== 'precomputed_tensor' && type !== 'letter_symmetry' && (
+        {type && type !== 'transformation' && type !== 'precomputed_tensor' && type !== 'letter_symmetry' && type !== 'sparse_expression' && (
           <>
             <label>Property name (optional — needed if you add several {PROP_LABEL[type] || type} properties, e.g. for different physical objects)</label>
             <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. e12FirstEntry, mhvFirstEntry" />
@@ -278,8 +289,27 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
         )}
         {type === 'integrability' && (
           <p className="muted" style={{ fontSize: 12 }}>
-            The integrability condition (dlogmat) follows from the alphabet and its parameterization — no extra input needed.
+            The integrability condition (dlogmat) is derived from the alphabet and its parameterization (GenDlogmatInt) — no extra input needed.
+            {!alphabet.expressions?.length && !alphabet.expr_loader && ' Note: this alphabet has no letter expressions yet — add them (or import an alphabet.wl file) so there is something to differentiate.'}
           </p>
+        )}
+        {type === 'transformation' && (
+          <p className="muted" style={{ fontSize: 12 }}>
+            The projection matrix is derived from the kinematic map acting on the letter expressions (GenLettTransMat) — the alphabet needs a parameterization (expressions or an imported alphabet.wl file).
+          </p>
+        )}
+        {type === 'sparse_expression' && (
+          <>
+            <label>Name</label>
+            <input value={propName} onChange={(e) => setPropName(e.target.value)} placeholder="e.g. myStensor" />
+            <label>Expression in the symbols S[...] (Wolfram syntax)</label>
+            <textarea rows={4} value={sparseExpr} onChange={(e) => setSparseExpr(e.target.value)} placeholder={'2 S[m[3], m[3]] - 2 S[m[4], m[4]]'} />
+            <label>Dimension (optional — 0 or empty = size each axis to its largest index)</label>
+            <input value={sparseDim} onChange={(e) => setSparseDim(e.target.value)} placeholder="e.g. 11" style={{ maxWidth: 160 }} />
+            <p className="muted" style={{ fontSize: 11 }}>
+              The expression is expanded in the symbols S[i, j, …]; every term becomes a sparse-tensor entry S[i, j, …] → coefficient, exported as a .wxf matrix-kind property (rank = number of S indices). Wrapping heads like m[3] are stripped (m[3] → 3).
+            </p>
+          </>
         )}
         {error && <p className="error-text">{error}</p>}
         <div className="actions">
@@ -293,22 +323,34 @@ function AddPropertyModal({ alphabet, onClose, onAdded }) {
 
 function NewAlphabetModal({ onClose, onAdded }) {
   const { project } = useProject()
-  const [name, setName] = useState('')
+  const [mode, setMode] = useState('manual')
+  const [manualName, setManualName] = useState('')
+  const [fileName, setFileName] = useState('')
   const [letters, setLetters] = useState('')
   const [variables, setVariables] = useState('')
   const [expressions, setExpressions] = useState('')
+  const [sourcePath, setSourcePath] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState(null)
 
   const submit = async () => {
+    if (mode === 'file') {
+      if (!sourcePath.trim()) return setError('Provide the path of the alphabet.wl file to import.')
+      setBusy(true); setError(null)
+      try {
+        await api.importAlphabet(project.id, sourcePath.trim(), fileName.trim())
+        onAdded()
+      } catch (e) { setError(e.message); setBusy(false) }
+      return
+    }
     const ls = letters.split(',').map((s) => s.trim()).filter(Boolean)
-    if (!name.trim() || !ls.length) return setError('Name and a comma-separated letter list are required.')
+    if (!manualName.trim() || !ls.length) return setError('Name and a comma-separated letter list are required.')
     const exprs = expressions.split('\n').map((s) => s.trim()).filter(Boolean)
     if (exprs.length && exprs.length !== ls.length) return setError(`Got ${exprs.length} expressions for ${ls.length} letters. Provide one expression per line, or leave empty.`)
     setBusy(true); setError(null)
     try {
       await api.createAlphabet(project.id, {
-        name: name.trim(),
+        name: manualName.trim(),
         letters: ls,
         variables: variables.split(',').map((s) => s.trim()).filter(Boolean),
         expressions: exprs,
@@ -322,18 +364,36 @@ function NewAlphabetModal({ onClose, onAdded }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h3>New alphabet</h3>
-        <label>Name</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. myAlphabet" />
-        <label>Letters (comma-separated)</label>
-        <input value={letters} onChange={(e) => setLetters(e.target.value)} placeholder="W[1], W[2], W[3]" />
-        <label>Independent variables (comma-separated)</label>
-        <input value={variables} onChange={(e) => setVariables(e.target.value)} placeholder="u1, u2, v1" />
-        <label>Letter expressions (one per line, in letter order)</label>
-        <textarea rows={6} value={expressions} onChange={(e) => setExpressions(e.target.value)} placeholder={'u1\nu2\n1-u1-u2'} />
+        <div className="row" style={{ marginBottom: 10 }}>
+          <button className={`small shrink ${mode === 'manual' ? 'primary' : ''}`} onClick={() => { setMode('manual'); setError(null) }}>Manual</button>
+          <button className={`small shrink ${mode === 'file' ? 'primary' : ''}`} onClick={() => { setMode('file'); setError(null) }}>From alphabet.wl file</button>
+        </div>
+        {mode === 'file' ? (
+          <>
+            <label>Alphabet file path (on this machine)</label>
+            <input value={sourcePath} onChange={(e) => setSourcePath(e.target.value)} placeholder="/Users/you/path/to/alphabet.wl" className="mono" />
+            <label>Name (optional — defaults to the file name)</label>
+            <input value={fileName} onChange={(e) => setFileName(e.target.value)} placeholder="e.g. myPentagon" />
+            <p className="muted" style={{ fontSize: 11 }}>
+              The file is copied into this project and replayed whenever properties are computed. Supported dialects: LetterRep + RootDef (pentagon style) or alphabetf + sqrtrep (4pFF style) — detected automatically. Letters and variables are extracted for you, and the letter expressions become the parameterization used to derive the integrability dlogmat (GenDlogmatInt) or transformation matrices (GenLettTransMat) from more basic data instead of loading a precomputed .wxf.
+            </p>
+          </>
+        ) : (
+          <>
+            <label>Name</label>
+            <input value={manualName} onChange={(e) => setManualName(e.target.value)} placeholder="e.g. myAlphabet" />
+            <label>Letters (comma-separated)</label>
+            <input value={letters} onChange={(e) => setLetters(e.target.value)} placeholder="W[1], W[2], W[3]" />
+            <label>Independent variables (comma-separated)</label>
+            <input value={variables} onChange={(e) => setVariables(e.target.value)} placeholder="u1, u2, v1" />
+            <label>Letter expressions (one per line, in letter order)</label>
+            <textarea rows={6} value={expressions} onChange={(e) => setExpressions(e.target.value)} placeholder={'u1\nu2\n1-u1-u2'} />
+          </>
+        )}
         {error && <p className="error-text">{error}</p>}
         <div className="actions">
           <button onClick={onClose}>Cancel</button>
-          <button className="primary" disabled={busy} onClick={submit}>{busy ? 'Creating…' : 'Create'}</button>
+          <button className="primary" disabled={busy} onClick={submit}>{busy ? (mode === 'file' ? 'Importing…' : 'Creating…') : (mode === 'file' ? 'Import' : 'Create')}</button>
         </div>
       </div>
     </div>
@@ -344,6 +404,9 @@ function PropertyRow({ alphabet, prop, onChanged }) {
   const { project, refreshProject } = useProject()
   const toast = useToast()
   const [busy, setBusy] = useState(false)
+  const pollRef = useRef(null)
+
+  useEffect(() => () => { if (pollRef.current) clearInterval(pollRef.current) }, [])
 
   const compute = async () => {
     setBusy(true)
@@ -355,12 +418,14 @@ function PropertyRow({ alphabet, prop, onChanged }) {
           const run = await api.getRun(run_id)
           if (run.status !== 'queued' && run.status !== 'running') {
             clearInterval(poll)
+            pollRef.current = null
             setBusy(false)
             await refreshProject()
             toast(run.status === 'done' ? 'Property computed.' : `Computation ${run.status}.`)
           }
-        } catch { clearInterval(poll); setBusy(false) }
+        } catch { clearInterval(poll); pollRef.current = null; setBusy(false) }
       }, 2000)
+      pollRef.current = poll
     } catch (e) { setBusy(false); toast(e.message) }
   }
 
@@ -377,6 +442,11 @@ function PropertyRow({ alphabet, prop, onChanged }) {
       <td className="mono">
         {prop.type === 'transformation' && (prop.params?.map || '').length > 60 ? `${prop.params.map.slice(0, 60)}…` : prop.params?.map}
         {prop.type === 'letter_symmetry' && ((prop.params?.rule || '').length > 60 ? `${prop.params.rule.slice(0, 60)}…` : prop.params?.rule)}
+        {prop.type === 'sparse_expression' && (
+          <>
+            {prop.params?.dim ? `dim ${prop.params.dim} · ` : ''}{(prop.params?.expression || '').length > 60 ? `${prop.params.expression.slice(0, 60)}…` : prop.params?.expression}
+          </>
+        )}
         {prop.type === 'precomputed_tensor' && prop.params?.tensor_file}
         {(prop.type === 'first_entry' || prop.type === 'last_entry') && (prop.params?.letters || []).join(', ')}
         {prop.type === 'extended_steinmann' && (prop.params?.nonadjacent_pairs || []).length > 0 && `${prop.params.nonadjacent_pairs.length} pairs`}
@@ -404,6 +474,7 @@ function detailsEmpty(p) {
   if (p.type === 'cluster_adjacency') return !(params.adjacent_pairs || []).length
   if (p.type === 'transformation') return !(params.map || '').trim()
   if (p.type === 'letter_symmetry') return !(params.rule || '').trim()
+  if (p.type === 'sparse_expression') return !(params.expression || '').trim()
   return true
 }
 

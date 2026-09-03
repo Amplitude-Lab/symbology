@@ -18,11 +18,40 @@ PROP_KIND = {
     "transformation": "matrix",
     "precomputed_tensor": "matrix",
     "letter_symmetry": "matrix",
+    "sparse_expression": "matrix",
 }
 
 
 def _q(s: str) -> str:
     return json.dumps(s)
+
+
+EXP2SA_DEFS = """\
+ClearAll[aCollect];
+aCollect[exp_, name_] := Module[{nl},
+   If[exp === 0, Return[{}]];
+   nl = Cases[{exp // Expand}, _name, Infinity] // DeleteDuplicates;
+   Return[{nl, Normal[CoefficientArrays[exp, nl]][[2]] // Expand}];
+   ];
+ClearAll[Exp2SA];
+Options[Exp2SA] = {"dim" -> 0};
+Exp2SA[exp_, OptionsPattern[]] := Module[{tem, result},
+   tem = exp // aCollect[#, S] &;
+   tem[[1]] = Identity @@@ (List @@ #) & /@ tem[[1]];
+   result = SparseArray[Thread@Rule[tem[[1]], tem[[2]]]];
+   If[OptionValue["dim"] === 0, result,
+    SparseArray[result,
+     ConstantArray[OptionValue["dim"], Length[Dimensions[result]]]]]
+   ];
+"""
+
+
+def alphabet_file_expr_loader(letter_var: str, roots_var: str, file_abs: str) -> str:
+    """A Get[...] + alphaExpr loader for an alphabet file in a known dialect."""
+    return (
+        f'Get[{_q(file_abs)}];\n'
+        f'alphaExpr = {letter_var}[[All, 2]] /. {roots_var};'
+    )
 
 
 def _wl_string_list(items: list) -> str:
@@ -66,6 +95,9 @@ def property_tensor_relpath(alphabet: dict, prop: dict) -> str:
         return f"data/{_safe_name((prop.get('name') or 'tensor').strip())}.wxf"
     if ptype == "letter_symmetry":
         sname = _safe_name((prop.get("name") or "").strip() or prop.get("params", {}).get("name", "sym"))
+        return f"data/{sname}.wxf"
+    if ptype == "sparse_expression":
+        sname = _safe_name((prop.get("name") or "").strip() or "sparse")
         return f"data/{sname}.wxf"
     raise ValueError(f"unknown property type {ptype}")
 
@@ -141,6 +173,21 @@ def property_script(alphabet: dict, prop: dict, out_abs: str) -> str:
         parts.append('$tensor = SparseArray[CoefficientArrays[$letters /. $rule, $letters][[2]]];')
         n = len(alphabet["letters"])
         parts.append(f'If[Dimensions[$tensor] =!= {{{n}, {n}}}, Print["@@RESULT@@FAIL"]; Exit[1]];')
+    elif ptype == "sparse_expression":
+        expr = (params.get("expression") or "").strip()
+        dim = params.get("dim") or 0
+        parts.append("ClearAll[S];")
+        parts.append(EXP2SA_DEFS)
+        parts.append(f'$exp = Quiet[Check[ToExpression[{_q(expr)}], $Failed]];')
+        parts.append('If[$exp === $Failed, Print["could not parse the symbol tensor expression"]; Print["@@RESULT@@FAIL"]; Exit[1]];')
+        parts.append('If[FreeQ[$exp, _S], Print["no S[...] terms found in the expression"]; Print["@@RESULT@@FAIL"]; Exit[1]];')
+        parts.append('$sa = Exp2SA[$exp];')
+        parts.append('If[!ArrayQ[$sa] || Length[$sa["NonzeroPositions"]] === 0, Print["the expression has no nonzero S[...] terms"]; Print["@@RESULT@@FAIL"]; Exit[1]];')
+        if dim:
+            parts.append(f'If[Max[Flatten[$sa["NonzeroPositions"]]] > {dim}, Print["an index exceeds the dimension {dim}"]; Print["@@RESULT@@FAIL"]; Exit[1]];')
+            parts.append(f'$tensor = SparseArray[$sa, ConstantArray[{dim}, Length[Dimensions[$sa]]]];')
+        else:
+            parts.append('$tensor = $sa;')
     else:
         raise ValueError(f"unknown property type {ptype}")
 

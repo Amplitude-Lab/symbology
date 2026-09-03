@@ -35,6 +35,7 @@ export const api = {
   getProject: (pid) => request('GET', `/projects/${pid}`),
   deleteProject: (pid) => request('DELETE', `/projects/${pid}`),
   createAlphabet: (pid, a) => request('POST', `/projects/${pid}/alphabets`, a),
+  importAlphabet: (pid, sourcePath, name) => request('POST', `/projects/${pid}/import_alphabet`, { source_path: sourcePath, name }),
   updateAlphabet: (pid, aid, a) => request('PUT', `/projects/${pid}/alphabets/${aid}`, a),
   deleteAlphabet: (pid, aid) => request('DELETE', `/projects/${pid}/alphabets/${aid}`),
   addProperty: (pid, aid, p) => request('POST', `/projects/${pid}/alphabets/${aid}/properties`, p),
