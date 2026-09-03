@@ -3,6 +3,62 @@
 All notable changes to this repository are documented here. Dates use
 ISO 8601 (YYYY-MM-DD) and the local timezone is Asia/Shanghai.
 
+## [2026-09-03] divergent/finite letter-projection sentinels + NMHV weight-2 collinear walkthrough
+
+### Summary
+
+`--letter-projection` (and the third `--pair` argument) now accept the
+sentinels `divergent` and `finite` in addition to `identity` and
+legacy `.wxf` file paths. Unlike the file mode (per-slot contraction
+that reduces the letter dimensions), the sentinels are **support
+filters**: entries are kept or dropped whole, dims untouched.
+`divergent` keeps entries whose letter key contains at least one
+divergent letter (the nonzero rows of `data/colprojdiv.wxf`),
+`finite` keeps entries where every letter is finite; the two filters
+exactly partition the support. The filter applies to **both sides of
+every pair** — the expanded seed `A` (letter slots at axis 1) and the
+RHS `b` (letter slots at axis 0) — so the constraint `c·A = b` is
+enforced in the same subspace on both sides; this is what makes the
+`identity`-inconsistent b-only positions disappear under a projected
+solve.
+
+Verified end-to-end via the `NMHVw2collinear` flow (heptagonNMHV
+project, flow `b8f299fe`, run `2c7648e27513`): pair 1
+(`E0+E23+E34` ← `E1`, `identity`) + pair 2 (`E47−E67` ←
+`hep1LE47mE67`, `divergent`) stack to 19 rows × 5 unknowns, rank
+**5/5**, null space 0 → **unique solution** `c = {1, 1, 2, 0, 1}`
+(`output/collinear/sol_nmhvsolw2.wxf`). Neither pair is rank-5
+alone; pair 2's purely homogeneous divergent constraints
+(`c·(E47−E67)₍div₎ = 0`, 10 positions) fix the two coefficients the
+identity pair leaves free.
+
+### Added
+- **`solve_collinear.hpp`** — `letter_filter_t`,
+  `load_divergent_letters` (val≠0 guard, per-file static cache,
+  empty-set warning) and `apply_letter_filter` (one-pass direct scan);
+  `apply_letter_projection_ab` dispatches sentinels for both `A` and
+  `b`.
+- **`letter_filter_bench.cpp` + `make letter_filter_bench`** —
+  crafted-key semantics checks (ALL PASS, partition verified) and the
+  design-question benchmark: direct any-scan vs project-finite-then-
+  subtract at N=1M. Direct wins **8.6×–65×** across `n_div` 1→504
+  (subtract is dominated by `tensor_contract`, ~1.5 s vs 25–68 ms);
+  production uses the direct scan, the subtract variant lives only in
+  the harness.
+- **Front-end** — per-pair projection-mode editor (`identity` /
+  `divergent` / `finite` / custom file) with dynamic `in_seed_N` /
+  `in_rhs_N` ports from `data.pairs` rows; sentinels pass through
+  `compile.py` verbatim; legacy graph shapes normalized on load; E6
+  template migrated to the pairs format.
+
+### Modified
+- `bootstrap.cpp`, `compute_rhs.cpp/.hpp` — sentinel acceptance,
+  usage/help text, subprocess passthrough.
+- `skills/02`, `skills/04`, `front-end/API_CONTRACT.md` — document
+  the sentinels; skills/04 "Verified status" gains the full
+  two-pair NMHV walkthrough record (run id, filter counts per side,
+  rank/unique-solution numbers, and the physics reading).
+
 ## [2026-07-04] Union matching for collinear constraint (--letter-projection)
 
 ### Summary

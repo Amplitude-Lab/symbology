@@ -384,9 +384,9 @@ For the full recursive workflow (computing the boundary too), use
   expected NMHV property: `E0+E23+E34` equals the MHV symbol tensor in
   the collinear limit, so the identity projection should (and does) fix
   three free parameters. Verified both via CLI and via the
-  `NMHVw2collinear` flow (single-pair solve_collinear node, E1 wired
-  into the `rhs` port, per-pair `pairs` row with `projection =
-  "identity"`) — identical results.
+  `NMHVw2collinear` flow in its earlier single-pair form (identity
+  only) — identical results; the flow now runs the full two-pair
+  system recorded below.
 - **Multi-pair (NMHV weight-2, identity + divergent)**: pair 1
   (`E0+E23+E34`, `E1`, `identity`) and pair 2 (same seed/rhs,
   `data/colprojdiv.wxf`) stacked: 11 rows × 5 unknowns, rank 3/5,
@@ -399,6 +399,35 @@ For the full recursive workflow (computing the boundary too), use
   solution `c = {1, 1, 2}`, rank 3/5 — the exported conditions carry
   the full combined information, and combining them with fresh pairs
   composes correctly.
+- **`NMHVw2collinear` flow walkthrough (heptagonNMHV project, flow
+  `b8f299fe`, run `2c7648e27513`, 2026-09-03)** — the full two-pair
+  system, giving the **unique** NMHV weight-2 collinear solution:
+  - Pair 1: seed `E0+E23+E34` (custom block: cyc-rep of `E12pre1`
+    with S/S², colmat42 to each, sum with weights 1,1,1), RHS `E1`,
+    letter projection `identity` (full 11-dim letter space) — 5
+    intersection, 4 homogeneous, 0 b-only (consistent; the NMHV
+    seed covers the full-space boundary, unlike the MHV case).
+  - Pair 2: seed `E47−E67` (S³ of `E14pre1` − S⁵ of `E12pre1`, both
+    through colmat42), RHS `hep1LE47mE67`, letter projection
+    `divergent` (sentinel; divergent letters `{0, 1}` from
+    `data/colprojdiv.wxf`) — the support filter applies to **both**
+    sides of the pair: seed 21/24 entries kept, RHS 0/2 kept (both
+    RHS entries are finite-letter keys, so after the divergent
+    projection the pair-2 RHS is all-zero) → 10 homogeneous
+    constraints `c·(E47−E67)₍div₎ = 0`, 0 b-only.
+  - Stacked system 19 rows × 5 unknowns, incremental solver: rank
+    **5/5**, null space 0 → **unique solution**
+    `c = {1, 1, 2, 0, 1}` (`c[3] = 0` stored as an explicit zero,
+    `sol_nmhvsolw2.wxf` is 1×5 nnz=4).
+  - Physics check: neither pair is rank-5 alone — pair 1 (identity,
+    inhomogeneous) fixes three coefficients `c[0]=1, c[1]=1,
+    c[2]=2` (rank 3/5), pair 2 (divergent, homogeneous from a
+    different seed combination) kills the remaining null space,
+    fixing `c[3]=0, c[4]=1`. Complementary constraint families
+    intersecting trivially. The pair-2 RHS projecting to zero is
+    correct, not a bug: the `hep1L` one-loop symbol tensor has only
+    finite-letter support, so the equation `c·(E47−E67)₍div₎ = 0`
+    carries no inhomogeneous information in the divergent subspace.
 
 ## Pitfalls
 
