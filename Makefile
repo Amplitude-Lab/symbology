@@ -42,6 +42,11 @@ tensor_ops: tensor_ops.cpp
 inspect_tensors: inspect_tensors.cpp bootstrap.hpp projection.hpp tensor_shuffle.h
 	$(CXX) inspect_tensors.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
+# letter_filter_bench: semantics verification + benchmark for the
+# divergent/finite letter support filters (solve_collinear.hpp)
+letter_filter_bench: letter_filter_bench.cpp bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp incremental_solve.hpp tensor_expand.hpp tensor_shuffle.h
+	$(CXX) letter_filter_bench.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
+
 # clean target
 clean:
-	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors tensor_add tensor_ops
+	rm -f bootstrap bootstrap.exe compute_rhs inspect_tensors tensor_add tensor_ops letter_filter_bench

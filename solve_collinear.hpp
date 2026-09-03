@@ -476,6 +476,201 @@ sparse_tensor<T, index_t, SPARSE_COO> apply_colprojdiv_slots(
 	return result;
 }
 
+// ========== Letter-space support filters (sentinels: divergent / finite) ==========
+//
+// The per-slot contraction above can only express PRODUCT-form projections:
+// an entry survives iff EVERY letter slot lands in the projection's column
+// space. For "finite" (colprojfin: zero rows on divergent letters) this
+// coincides with "all letter indices finite" — the desired semantics.
+// But "any letter index divergent" is NOT product-form: a mixed key like
+// (0, 3, 7) has one divergent and two finite letters, and no per-slot matrix
+// can select it. We therefore implement the divergent selection as a direct
+// SUPPORT FILTER on the letter part of each key, leaving all dimensions
+// unchanged:
+//
+//   filter=any-divergent: keep entries whose letter key contains >= 1
+//                         divergent letter (exact complement of the finite
+//                         part: any-div ∪ all-fin = full support, disjoint)
+//   filter=all-finite:    keep entries where every letter index is finite
+//                         (identical support to the colprojfin contraction,
+//                         but keeps dims and letter labels — handy for
+//                         diagnostics and shared plumbing)
+//
+// The divergent-letter set is derived from data/colprojdiv.wxf: its nonzero
+// ROWS are the divergent letters (for E6: rows 0 and 1). Reading the file
+// per solver run keeps the filter problem-agnostic (no hardcoded letters).
+//
+// Note: this is exactly the "project finite, then subtract from the whole
+// nonzero support" construction, specialized: support(any-div) =
+// support(all) \ support(all-fin), which a direct key scan computes in one
+// pass without materializing the finite contraction first.
+
+enum class letter_filter_t { any_divergent, all_finite };
+
+// Read the divergent letter set from data/colprojdiv.wxf (nonzero rows).
+template <typename T, typename index_t>
+std::set<index_t> load_divergent_letters(
+	const std::filesystem::path& data_dir,
+	const field_t& F, thread_pool* pool) {
+
+	auto seed_div = data_dir / "colprojdiv.wxf";
+	if (!std::filesystem::exists(seed_div)) {
+		throw std::runtime_error("load_divergent_letters: divergent-letter seed file not found: "
+			+ seed_div.string() + " (data-dir must contain colprojdiv.wxf)");
+	}
+	// Multi-pair runs call this once per sentinel pair — cache the parsed set
+	// per file so only the first call reads and banners the file.
+	static std::map<std::string, std::set<index_t>> cache;
+	auto cache_key = std::filesystem::weakly_canonical(seed_div).string();
+	auto cached = cache.find(cache_key);
+	if (cached != cache.end()) {
+		std::cout << "   Divergent letters (cached from " << seed_div.filename().string()
+		          << "): {";
+		bool first = true;
+		for (auto l : cached->second) {
+			if (!first) std::cout << ", ";
+			std::cout << l;
+			first = false;
+		}
+		std::cout << "}" << std::endl;
+		return cached->second;
+	}
+	auto seed_csr = projection_read_tensor<T, index_t>(seed_div, F, pool);
+	std::set<index_t> div_letters;
+	// CSR tensors expose index_vector(i) (row index at position 0) but not
+	// gen_perm() — iterate by flat nonzero index. Guard on val != 0: the wxf
+	// reader does not canonicalize explicit zeros on read.
+	for (size_t i = 0; i < seed_csr.nnz(); i++) {
+		if (seed_csr.val(i) != T(0)) {
+			div_letters.insert(seed_csr.index_vector(i)[0]);
+		}
+	}
+	if (div_letters.empty()) {
+		std::cout << "   [WARNING] colprojdiv.wxf has no nonzero rows: the divergent-letter"
+			<< std::endl
+			<< "   set is empty. 'divergent' will keep NOTHING and 'finite' will keep"
+			<< std::endl
+			<< "   EVERYTHING — this is almost certainly a data mistake." << std::endl;
+	}
+	std::cout << "   Divergent letters (nonzero rows of " << seed_div.filename().string()
+	          << "): {";
+	bool first = true;
+	for (auto l : div_letters) {
+		if (!first) std::cout << ", ";
+		std::cout << l;
+		first = false;
+	}
+	std::cout << "}" << std::endl;
+	cache[cache_key] = div_letters;
+	return div_letters;
+}
+
+// Apply a letter-space support filter to `tensor_coo` (COO). `n_slots` letter
+// slots start at `first_slot_axis`. Dims, rank and the non-letter axes are
+// untouched; only the retained entries survive. Returns the filtered tensor.
+template <typename T, typename index_t>
+sparse_tensor<T, index_t, SPARSE_COO> apply_letter_filter(
+	sparse_tensor<T, index_t, SPARSE_COO>&& tensor_coo,
+	letter_filter_t filter,
+	size_t first_slot_axis,
+	size_t n_slots,
+	const std::set<index_t>& div_letters) {
+
+	sparse_tensor<T, index_t, SPARSE_COO> result(tensor_coo.dims());
+	size_t kept = 0, total = 0;
+	for (auto i : tensor_coo.gen_perm()) {
+		total++;
+		auto idx = tensor_coo.index_vector(i);
+		// any_divergent: keep requires PROOF of a divergent letter (init false).
+		// all_finite:   keep unless DISPROVEN by a divergent letter (init true).
+		bool keep = (filter == letter_filter_t::all_finite);
+		for (size_t a = first_slot_axis; a < first_slot_axis + n_slots; a++) {
+			if (div_letters.count((index_t)idx[a]) > 0) {
+				keep = (filter == letter_filter_t::any_divergent);
+				break;
+			}
+		}
+		if (keep) {
+			result.push_back(idx, tensor_coo.val(i));
+			kept++;
+		}
+	}
+	std::cout << "      letter filter: kept " << kept << " of " << total << " entries" << std::endl;
+	return result;
+}
+
+// Dispatch a letter-projection spec onto the (A, b) pair of one solver run:
+//   "identity"           — no-op (full letter space)
+//   "divergent"          — support filter, keep entries with >= 1 divergent letter
+//   "finite"             — support filter, keep entries with all letters finite
+//   <file path>          — legacy per-slot contraction with the matrix in the
+//                          file (product-form only; data/colprojdiv.wxf keeps
+//                          only all-divergent keys, data/colprojfin.wxf only
+//                          all-finite keys)
+// A_coo has its letter slots starting at axis 1 (leading unknown-count axis);
+// b_coo at axis 0.
+template <typename T, typename index_t>
+void apply_letter_projection_ab(
+	const std::string& letter_projection,
+	sparse_tensor<T, index_t, SPARSE_COO>& A_coo,
+	sparse_tensor<T, index_t, SPARSE_COO>& b_coo,
+	size_t n_letter_slots,
+	const std::filesystem::path& data_dir,
+	const field_t& F, rref_option_t& opt) {
+
+	thread_pool* pool = &(opt->pool);
+
+	if (letter_projection == "identity") {
+		std::cout << "== letter_projection identity: full letter space (no projection) ==" << std::endl;
+		return;
+	}
+	if (letter_projection == "divergent" || letter_projection == "finite") {
+		std::cout << "== Letter-space support filter: " << letter_projection
+		          << (letter_projection == "divergent"
+		              ? " (keep entries with ANY divergent letter)"
+		              : " (keep entries with ALL letters finite)")
+		          << " ==" << std::endl;
+		auto div_letters = load_divergent_letters<T, index_t>(data_dir, F, pool);
+		auto filt = (letter_projection == "divergent")
+			? letter_filter_t::any_divergent
+			: letter_filter_t::all_finite;
+		A_coo = apply_letter_filter<T, index_t>(std::move(A_coo), filt, 1, n_letter_slots, div_letters);
+		b_coo = apply_letter_filter<T, index_t>(std::move(b_coo), filt, 0, n_letter_slots, div_letters);
+		std::cout << "   A_filtered: rank=" << A_coo.rank() << " dims=";
+		for (size_t i = 0; i < A_coo.rank(); i++) std::cout << A_coo.dim(i) << (i + 1 < A_coo.rank() ? "x" : "");
+		std::cout << " nnz=" << A_coo.nnz() << std::endl;
+		std::cout << "   b_filtered: rank=" << b_coo.rank() << " dims=";
+		for (size_t i = 0; i < b_coo.rank(); i++) std::cout << b_coo.dim(i) << (i + 1 < b_coo.rank() ? "x" : "");
+		std::cout << " nnz=" << b_coo.nnz() << std::endl;
+		return;
+	}
+
+	// Legacy: file path → per-slot contraction
+	std::filesystem::path letter_proj_path(letter_projection);
+	if (!std::filesystem::exists(letter_proj_path)) {
+		throw std::runtime_error("apply_letter_projection_ab: letter projection file not found: "
+			+ letter_proj_path.string());
+	}
+	auto letter_proj_csr = projection_read_tensor<T, index_t>(letter_proj_path, F, pool);
+	sparse_tensor<T, index_t, SPARSE_COO> letter_proj_coo(std::move(letter_proj_csr));
+	std::cout << "== Projecting A and boundary via letter projection ==" << std::endl;
+	std::cout << "   letter_projection: " << letter_proj_path.string()
+	          << " (rank=" << letter_proj_coo.rank() << " dims=";
+	for (size_t i = 0; i < letter_proj_coo.rank(); i++) {
+		std::cout << letter_proj_coo.dim(i) << (i + 1 < letter_proj_coo.rank() ? "x" : "");
+	}
+	std::cout << " nnz=" << letter_proj_coo.nnz() << ")" << std::endl;
+	std::cout << "   n_slots=" << n_letter_slots << std::endl;
+	A_coo = apply_colprojdiv_slots<T, index_t>(std::move(A_coo), letter_proj_coo, 1, n_letter_slots, F, pool);
+	b_coo = apply_colprojdiv_slots<T, index_t>(std::move(b_coo), letter_proj_coo, 0, n_letter_slots, F, pool);
+	std::cout << "   A_proj: rank=" << A_coo.rank() << " dims=";
+	for (size_t i = 0; i < A_coo.rank(); i++) std::cout << A_coo.dim(i) << (i + 1 < A_coo.rank() ? "x" : "");
+	std::cout << " nnz=" << A_coo.nnz() << std::endl;
+	std::cout << "   b_proj: rank=" << b_coo.rank() << " dims=";
+	for (size_t i = 0; i < b_coo.rank(); i++) std::cout << b_coo.dim(i) << (i + 1 < b_coo.rank() ? "x" : "");
+	std::cout << " nnz=" << b_coo.nnz() << std::endl;
+}
+
 // ========== Full collinear solver ==========
 //
 // Orchestrates: compute projections → apply projection → expand → solve.
@@ -636,47 +831,19 @@ void run_collinear_solver(
 		print_tensor_info(rhs);
 	}
 
-	// Step 5b: Project A + boundary to divergent subspace via --letter-projection.
+	// Step 5b: Project A + boundary to the letter subspace via --letter-projection.
 	// The collinear constraint c.A = b is only enforced in the projected subspace.
-	// Each 11-dim letter slot is projected via the given projection matrix (e.g.
-	// colprojdiv_w1, shape (11, 2)). This is required at L>=3 because E1 has
-	// divergent-letter entries (E1[0,0]=-2, E1[1,1]=-2), so the boundary has
-	// divergent components and solving in the full 11-dim space fails.
-	// Special case: "identity" means no projection (solve in the full letter space).
+	// Accepts "identity" (full space), the support-filter sentinels "divergent" /
+	// "finite", or a projection matrix file contracted into each letter slot
+	// (e.g. colprojdiv_w1, shape (11, 2)). This is required at L>=3 because E1
+	// has divergent-letter entries (E1[0,0]=-2, E1[1,1]=-2), so the boundary
+	// has divergent components and solving in the full 11-dim space fails.
 	sparse_tensor<T, index_t, SPARSE_COO> A_coo(std::move(expanded));
 	sparse_tensor<T, index_t, SPARSE_COO> b_coo(std::move(rhs));
 
-	if (letter_projection != "identity") {
-		std::filesystem::path letter_proj_path(letter_projection);
-		if (!std::filesystem::exists(letter_proj_path)) {
-			throw std::runtime_error("run_collinear_solver: --letter-projection file not found: "
-				+ letter_proj_path.string());
-		}
-		auto letter_proj_csr = projection_read_tensor<T, index_t>(letter_proj_path, F, pool);
-		sparse_tensor<T, index_t, SPARSE_COO> letter_proj_coo(std::move(letter_proj_csr));
-		std::cout << "== Projecting A and boundary via --letter-projection ==" << std::endl;
-		std::cout << "   letter_projection: " << letter_proj_path.string()
-		          << " (rank=" << letter_proj_coo.rank() << " dims=";
-		for (size_t i = 0; i < letter_proj_coo.rank(); i++) {
-			std::cout << letter_proj_coo.dim(i) << (i + 1 < letter_proj_coo.rank() ? "x" : "");
-		}
-		std::cout << " nnz=" << letter_proj_coo.nnz() << ")" << std::endl;
-
-		size_t n_letter_slots = b_coo.rank();   // = 2L
-		size_t A_first_slot = 1;                // A has leading sew_dim axis
-		std::cout << "   n_slots=" << n_letter_slots << ", A_first_slot=" << A_first_slot << std::endl;
-		A_coo = apply_colprojdiv_slots<T, index_t>(std::move(A_coo), letter_proj_coo, A_first_slot, n_letter_slots, F, pool);
-		b_coo = apply_colprojdiv_slots<T, index_t>(std::move(b_coo), letter_proj_coo, 0, n_letter_slots, F, pool);
-
-		std::cout << "   A_proj: rank=" << A_coo.rank() << " dims=";
-		for (size_t i = 0; i < A_coo.rank(); i++) std::cout << A_coo.dim(i) << (i + 1 < A_coo.rank() ? "x" : "");
-		std::cout << " nnz=" << A_coo.nnz() << std::endl;
-		std::cout << "   b_proj: rank=" << b_coo.rank() << " dims=";
-		for (size_t i = 0; i < b_coo.rank(); i++) std::cout << b_coo.dim(i) << (i + 1 < b_coo.rank() ? "x" : "");
-		std::cout << " nnz=" << b_coo.nnz() << std::endl;
-	} else {
-		std::cout << "== --letter-projection identity: solving in full letter space (no projection) ==" << std::endl;
-	}
+	size_t n_letter_slots = b_coo.rank();   // = 2L
+	apply_letter_projection_ab<T, index_t>(
+		letter_projection, A_coo, b_coo, n_letter_slots, data_dir, F, opt);
 
 	// Step 5c: Match positions — UNION of supports.
 	// We enforce c·A = boundary at EVERY position where either A or boundary
@@ -850,7 +1017,7 @@ template <typename T, typename index_t>
 struct collinear_pair_t {
 	std::filesystem::path seed_path;               // custom seed tensor (axis 0 = unknowns)
 	std::filesystem::path rhs_path;                // file, or the sentinel "0" (all-zero)
-	std::string letter_projection;                 // "identity" or a resolved file path
+	std::string letter_projection;                 // "identity", "divergent", "finite" or a resolved file path
 	std::string stem;                              // seed file stem (naming)
 };
 
@@ -870,6 +1037,7 @@ void build_pair_rows(
 	std::vector<cond_row_t<T, index_t>>& rows_out,
 	size_t& n_unknowns_out,
 	size_t& n_b_only_out,
+	const std::filesystem::path& data_dir,
 	const field_t& F, rref_option_t& opt) {
 
 	thread_pool* pool = &(opt->pool);
@@ -921,36 +1089,17 @@ void build_pair_rows(
 	sparse_tensor<T, index_t, SPARSE_COO> A_coo(std::move(expanded));
 	sparse_tensor<T, index_t, SPARSE_COO> b_coo(std::move(rhs));
 
-	// Per-pair letter projection (the projection that differs between pairs)
+	// Per-pair letter projection (the projection that differs between pairs):
+	// "identity", a support-filter sentinel ("divergent"/"finite") or a
+	// projection matrix file (per-slot contraction).
 	size_t n_letter_slots = b_coo.rank();
 	if (A_coo.rank() != n_letter_slots + 1) {
 		throw std::runtime_error("build_pair_rows: pair '" + pair.stem + "' — seed has "
 			+ std::to_string(A_coo.rank() - 1) + " letter slots but rhs has "
 			+ std::to_string(n_letter_slots));
 	}
-	if (pair.letter_projection != "identity") {
-		std::filesystem::path letter_proj_path(pair.letter_projection);
-		if (!std::filesystem::exists(letter_proj_path)) {
-			throw std::runtime_error("build_pair_rows: letter projection file not found: "
-				+ letter_proj_path.string());
-		}
-		auto letter_proj_csr = projection_read_tensor<T, index_t>(letter_proj_path, F, pool);
-		sparse_tensor<T, index_t, SPARSE_COO> letter_proj_coo(std::move(letter_proj_csr));
-		std::cout << "== Projecting A and boundary via letter projection ==" << std::endl;
-		std::cout << "   letter_projection: " << letter_proj_path.string()
-		          << " (rank=" << letter_proj_coo.rank() << " dims=";
-		for (size_t i = 0; i < letter_proj_coo.rank(); i++) {
-			std::cout << letter_proj_coo.dim(i) << (i + 1 < letter_proj_coo.rank() ? "x" : "");
-		}
-		std::cout << " nnz=" << letter_proj_coo.nnz() << ")" << std::endl;
-		std::cout << "   n_slots=" << n_letter_slots << std::endl;
-		A_coo = apply_colprojdiv_slots<T, index_t>(std::move(A_coo), letter_proj_coo, 1, n_letter_slots, F, pool);
-		b_coo = apply_colprojdiv_slots<T, index_t>(std::move(b_coo), letter_proj_coo, 0, n_letter_slots, F, pool);
-		std::cout << "   A_proj: rank=" << A_coo.rank() << " nnz=" << A_coo.nnz() << std::endl;
-		std::cout << "   b_proj: rank=" << b_coo.rank() << " nnz=" << b_coo.nnz() << std::endl;
-	} else {
-		std::cout << "== letter_projection identity: full letter space (no projection) ==" << std::endl;
-	}
+	apply_letter_projection_ab<T, index_t>(
+		pair.letter_projection, A_coo, b_coo, n_letter_slots, data_dir, F, opt);
 
 	// Union matching → rows (map-based: deterministic key order, sew axis preserved)
 	std::map<std::vector<index_t>, T> b_map;
@@ -1053,6 +1202,7 @@ void run_collinear_solver_pairs(
 	const std::vector<std::filesystem::path>& cond_paths,
 	bool export_conditions,
 	const std::vector<std::filesystem::path>& basis_paths,
+	const std::filesystem::path& data_dir,
 	const std::filesystem::path& output_dir,
 	const field_t& F, rref_option_t& opt,
 	const std::string& solver = "incremental",
@@ -1075,7 +1225,7 @@ void run_collinear_solver_pairs(
 	size_t n_unknowns = 0;
 	size_t n_b_only = 0;
 	for (const auto& pair : pairs) {
-		build_pair_rows<T, index_t>(pair, basis_paths, rows, n_unknowns, n_b_only, F, opt);
+		build_pair_rows<T, index_t>(pair, basis_paths, rows, n_unknowns, n_b_only, data_dir, F, opt);
 	}
 	for (const auto& cond_path : cond_paths) {
 		if (!std::filesystem::exists(cond_path)) {

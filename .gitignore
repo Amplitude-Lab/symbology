@@ -41,6 +41,7 @@
 bootstrap
 compute_rhs
 inspect_tensors
+letter_filter_bench
 
 # Build directories
 build/

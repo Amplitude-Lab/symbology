@@ -59,10 +59,10 @@ void print_usage(const char* program) {
 	std::cerr << "  " << program << " --sew -c <condition.wxf> -f <FEC.wxf> -l <LEC.wxf> -o <SEW.wxf>" << std::endl;
 	std::cerr << "  " << program << " --project --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
 	std::cerr << "  " << program << " --solve-symmetry --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>] (note: collinear projections are usually non-square and will be rejected by the solver; prefer --solve-collinear)" << std::endl;
-	std::cerr << "  " << program << " --solve-collinear (--target <SEW_FpL|FEC_W> | --target-basis <seed.wxf> --projection none) --rhs <rhs.wxf|0> --projection <finite|divergent|none> --letter-projection <file|identity> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
-	std::cerr << "  " << program << " --solve-collinear (--pair <seed.wxf> <rhs.wxf|0> <letter|identity>)... [--pair-cond <cond.wxf>]... [--export-conditions] [--out-stem <name>] [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--output-dir <dir>] (multi-pair: each pair contributes its own non-homogeneous constraints; all rows are solved together)" << std::endl;
+	std::cerr << "  " << program << " --solve-collinear (--target <SEW_FpL|FEC_W> | --target-basis <seed.wxf> --projection none) --rhs <rhs.wxf|0> --projection <finite|divergent|none> --letter-projection <file|identity|divergent|finite> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
+	std::cerr << "  " << program << " --solve-collinear (--pair <seed.wxf> <rhs.wxf|0> <letter|identity|divergent|finite>)... [--pair-cond <cond.wxf>]... [--export-conditions] [--out-stem <name>] [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--output-dir <dir>] (multi-pair: each pair contributes its own non-homogeneous constraints; all rows are solved together)" << std::endl;
 	std::cerr << std::endl;
-	std::cerr << "  --data-dir defaults to <exec_dir>/data; --output-dir defaults to <exec_dir>/output." << std::endl;
+	std::cerr << "  --data-dir defaults to <exec_dir>/data; --output-dir defaults to <exec_dir>/output. --data-dir also locates colprojdiv.wxf for the divergent/finite letter filters." << std::endl;
 	std::cerr << "  --extend / --sew ignore --data-dir / --output-dir (use explicit -c/-f/-l/-o paths)." << std::endl;
 }
 
@@ -252,8 +252,10 @@ void validate_args(const args_t& args) {
 			std::exit(1);
 		}
 		if (args.letter_projection.empty()) {
-			std::cerr << "Error: --solve-collinear requires --letter-projection <file|identity>." << std::endl;
+			std::cerr << "Error: --solve-collinear requires --letter-projection <file|identity|divergent|finite>." << std::endl;
 			std::cerr << "   Use '--letter-projection identity' to skip projection (solve in full letter space)." << std::endl;
+			std::cerr << "   Use '--letter-projection divergent' / 'finite' for letter-space support filters:" << std::endl;
+			std::cerr << "       divergent = keep entries with ANY divergent letter, finite = all letters finite." << std::endl;
 			std::cerr << "   Use '--letter-projection <file>' to project each letter slot, e.g." << std::endl;
 			std::cerr << "       --letter-projection output/collinear/colprojdiv_w1.wxf" << std::endl;
 			std::exit(1);
@@ -417,8 +419,8 @@ int main(int argc, char* argv[]) {
 						throw std::runtime_error("--solve-collinear: --pair rhs file not found: " + pair.rhs_path.string());
 					}
 				}
-				if (p[2] == "identity") {
-					pair.letter_projection = "identity";
+				if (p[2] == "identity" || p[2] == "divergent" || p[2] == "finite") {
+					pair.letter_projection = p[2];
 				} else {
 					auto lp = resolve_path(base, p[2]);
 					if (!std::filesystem::exists(lp)) {
@@ -438,7 +440,7 @@ int main(int argc, char* argv[]) {
 			}
 			run_collinear_solver_pairs<scalar_t, index_t>(
 				pairs, cond_paths, args.export_conditions,
-				args.basis_paths, output_dir, F, opt,
+				args.basis_paths, data_dir, output_dir, F, opt,
 				args.solver, args.out_stem);
 		}
 		else {
@@ -516,10 +518,12 @@ int main(int argc, char* argv[]) {
 				sew_name = seed_name;
 			}
 
-			// Resolve --letter-projection: "identity" means no projection; a path
-			// is resolved against the executable directory if relative.
+			// Resolve --letter-projection: "identity"/"divergent"/"finite" are
+			// sentinels passed through as-is (support filters; see
+			// solve_collinear.hpp); a path is resolved against the executable
+			// directory if relative.
 			std::string letter_projection = args.letter_projection;
-			if (letter_projection != "identity") {
+			if (letter_projection != "identity" && letter_projection != "divergent" && letter_projection != "finite") {
 				letter_projection = resolve_path(base, letter_projection).string();
 			}
 

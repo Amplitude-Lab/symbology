@@ -210,8 +210,8 @@ def _e6_flows(pmap):
     nodes.append(_n("rhs3", "compute_rhs", 2150, 380, target="SEW_3p1", letter_projection="data/colprojdiv.wxf"))
     edges.append(_e("sew_3p1", "sew", "rhs3", "seed"))
     nodes.append(_n("sc3", "solve_collinear", 2500, 560, target="SEW_3p1",
-                    rhs="output/2loop/boundary_2L.wxf", projection="divergent",
-                    letter_projection="data/colprojdiv.wxf"))
+                    projection="divergent",
+                    pairs=[{"projection": "divergent", "rhs": "output/2loop/boundary_2L.wxf"}]))
     edges.append(_e("sew_3p1", "sew", "sc3", "seed"))
     flows.append(_flow("E6 · collinear bootstrap & 2-loop RHS", nodes, edges))
     return flows

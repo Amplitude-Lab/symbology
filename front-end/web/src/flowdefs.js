@@ -7,6 +7,7 @@ export const PROP_KIND = {
   transformation: 'matrix',
   precomputed_tensor: 'matrix',
   letter_symmetry: 'matrix',
+  sparse_expression: 'matrix',
 }
 
 export const PROP_LABEL = {
@@ -18,6 +19,7 @@ export const PROP_LABEL = {
   transformation: 'Transformation',
   precomputed_tensor: 'Tensor file',
   letter_symmetry: 'Symmetry (rule)',
+  sparse_expression: 'Symbol Tensor',
 }
 
 export function propLabel(prop) {
@@ -105,6 +107,12 @@ export const NODE_DEFS = {
       { id: 'conditions', kind: 'matrix', label: 'conditions [M|r]' },
     ],
   },
+  // solve_collinear port model: the node always shows the two pair-1 ports
+  // (seed / rhs). Each entry of data.pairs beyond the first adds one
+  // in_seed_N / in_rhs_N pair of ports (N = pair index). The cond port is
+  // opt-in via data.cond_enabled (a wired cond edge also keeps it visible).
+  // Legacy graphs stored rhs / letter_projection / pairs_config —
+  // normalizeCollinearData() upgrades them on load.
   projection_chain: {
     title: 'Projection Chain', color: '#e2e8f0',
     inputs: [{ id: 'seed', kind: 'seed', label: 'chain seed (opt)' }],
@@ -323,6 +331,39 @@ export function targetKindFor(node, handleId) {
   }
   const inp = def.inputs.find((i) => i.id === handleId)
   return inp ? inp.kind : null
+}
+
+// ---- solve_collinear pair normalization ----
+// Current shape: data.pairs = [{ projection, rhs }] with pair 1 at index 0
+// (the fixed seed/rhs ports); entries beyond index 0 drive the dynamic
+// in_seed_N / in_rhs_N ports. Legacy graphs instead stored data.rhs /
+// data.letter_projection (pair 1) plus data.pairs_config (flat string list
+// of letter projections for pairs 2+). This returns the canonical list,
+// trimmed to the wired/configured pair count, without mutating the input.
+
+export const PAIR_PRESETS = [
+  ['identity', 'identity'],
+  ['divergent', 'divergent (any letter)'],
+  ['finite', 'finite (all letters)'],
+]
+
+export function normalizeCollinearPairs(data) {
+  const proj = (v) => {
+    let s = String(v ?? 'identity').trim()
+    return s || 'identity'
+  }
+  if (Array.isArray(data?.pairs) && data.pairs.length) {
+    return data.pairs.map((p) => ({
+      projection: proj(p?.projection),
+      rhs: typeof p?.rhs === 'string' ? p.rhs.trim() : '',
+    }))
+  }
+  const rows = [{ projection: proj(data?.letter_projection), rhs: String(data?.rhs ?? '').trim() }]
+  for (const s of Array.isArray(data?.pairs_config) ? data.pairs_config : []) {
+    if (s && typeof s === 'object') rows.push({ projection: proj(s.projection), rhs: String(s.rhs ?? '').trim() })
+    else if (String(s ?? '').trim()) rows.push({ projection: proj(s), rhs: '' })
+  }
+  return rows
 }
 
 // ---- custom composite blocks ----

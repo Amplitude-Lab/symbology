@@ -56,7 +56,7 @@ method, skipped for `identity`).
 # own letter projection, plus optional pre-computed [M|r] conditions — all rows
 # stacked into ONE linear solve:
 ./bootstrap --solve-collinear \
-    (--pair <seed.wxf> <rhs.wxf|0> <letter-file|identity>)... \
+    (--pair <seed.wxf> <rhs.wxf|0> <letter>)... \
     [--pair-cond <cond.wxf>]... [--export-conditions] \
     [--out-stem <name>] [--basis <basis.wxf> ...] \
     [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]
@@ -78,6 +78,21 @@ Two letter-projection modes:
   insufficient (e.g. rank 1/5 with null space 4). Both modes coexist;
   existing commands are unchanged.
 
+Letter-projection values (the `--letter-projection` flag and the third
+`--pair` argument) accept sentinels or a file path:
+
+- `identity` — no projection; the solve runs in the full letter space.
+- `divergent` — support filter: keep the tensor entries whose letter key
+  contains **any** divergent letter (dimensions preserved). The backend
+  derives the divergent-letter set itself from
+  `<data-dir>/colprojdiv.wxf`; the front-end passes the string through.
+- `finite` — keep the entries where **all** letters are finite (the exact
+  complement of the `divergent` filter).
+- any other string — a path to a `.wxf` projection matrix contracted per
+  letter slot (LEGACY semantics: `data/colprojdiv.wxf` keeps only
+  all-divergent keys, `data/colprojfin.wxf` only all-finite keys; the
+  sentinels filter by support instead of contracting dimensions).
+
 ## Flags
 
 | Flag | Description |
@@ -87,8 +102,8 @@ Two letter-projection modes:
 | `--target-basis <seed.wxf>` | **Custom seed mode**: use the given tensor file as-is (e.g. a summed NMHV expression like `E0+E23+E34`). No seed-space projection, no naming convention. Requires `--projection none`. |
 | `--rhs <rhs.wxf>` or `--rhs 0` | RHS path. Required — exits with code 1 if missing. `--rhs 0` means an all-zero RHS constructed in-memory. |
 | `--projection <finite\|divergent\|none>` | Which projection to apply. `finite`/`divergent` select the seed-space projection for named targets; `none` is the custom-seed mode (requires `--target-basis`). Multi-pair mode does not use this flag — every `--pair` seed is used as-is (equivalent to `none`). |
-| `--letter-projection <file\|identity>` | Letter-slot projection matrix. Required (no default — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space). Relative paths resolve against the executable directory. Single-pair mode only — in multi-pair mode each `--pair` carries its own letter projection (entry of `--pair`'s third argument). |
-| `--pair <seed> <rhs\|0> <letter\|identity>` | **Multi-pair mode** (repeatable). One `{seed, rhs, letter projection}` triple per pair: the seed is a concrete tensor used as-is (custom-seed semantics — no seed-space projection, no naming convention), optionally expanded with a shared `--basis` chain. Each pair may use a **different** letter projection (e.g. pair 1 `identity`, pair 2 `colprojdiv_w1.wxf`). Unwired/absent rhs may be given as `0` (homogeneous constraints). Mutually exclusive with `--target`/`--target-basis`/`--rhs`/`--projection`/`--letter-projection`. |
+| `--letter-projection <file\|identity\|divergent\|finite>` | Letter-slot projection. Required (no default — user-selectable). `identity` = do nothing (solve in full letter space); `divergent` / `finite` = support filters (any-divergent / all-finite, dimensions preserved — see above); a path (e.g. `output/collinear/colprojdiv_w1.wxf`) is a projection matrix contracted into each letter slot. Relative paths resolve against the executable directory. Single-pair mode only — in multi-pair mode each `--pair` carries its own letter projection (third argument, same value grammar). |
+| `--pair <seed> <rhs\|0> <letter>` | **Multi-pair mode** (repeatable). One `{seed, rhs, letter projection}` triple per pair: the seed is a concrete tensor used as-is (custom-seed semantics — no seed-space projection, no naming convention), optionally expanded with a shared `--basis` chain. Each pair may use a **different** letter projection (e.g. pair 1 `identity`, pair 2 `divergent` or `colprojdiv_w1.wxf`); the third argument accepts the same sentinels (`identity` / `divergent` / `finite`) or a file path as `--letter-projection`. Unwired/absent rhs may be given as `0` (homogeneous constraints). Mutually exclusive with `--target`/`--target-basis`/`--rhs`/`--projection`/`--letter-projection`. |
 | `--pair-cond <cond.wxf>` | **Multi-pair mode** (repeatable). Rank-2 `[M \| r]` condition matrix (rhs = last column) to stack as additional rows — re-ingest `cond_<stem>.wxf` files written by `--export-conditions` (from this or another flow) to combine constraints across flows. `--pair-cond` only (no `--pair`) requires `--out-stem`. |
 | `--export-conditions` | **Multi-pair mode**. Write `output/collinear/cond_<stem>.wxf`: the combined non-homogeneous constraints as a rank-2 `[M \| r]` matrix (n_unknowns+1 columns, rhs = last column), one row per stacked constraint row. Re-ingest via `--pair-cond` or the flow `cond` port. |
 | `--out-stem <name>` | **Multi-pair mode**. Override the `sol_<stem>.wxf` / `cond_<stem>.wxf` naming. Auto: single pair/cond source → its stem; multiple → `stem1_xN`. **Required** when `--pair-cond` is given without any `--pair` (cond-only run: stack condition files and solve them directly). |
@@ -369,8 +384,9 @@ For the full recursive workflow (computing the boundary too), use
   expected NMHV property: `E0+E23+E34` equals the MHV symbol tensor in
   the collinear limit, so the identity projection should (and does) fix
   three free parameters. Verified both via CLI and via the
-  `NMHVw2collinear` flow (E1 wired from the Alphabet node into the
-  `rhs` port, `letter_projection = identity`) — identical results.
+  `NMHVw2collinear` flow (single-pair solve_collinear node, E1 wired
+  into the `rhs` port, per-pair `pairs` row with `projection =
+  "identity"`) — identical results.
 - **Multi-pair (NMHV weight-2, identity + divergent)**: pair 1
   (`E0+E23+E34`, `E1`, `identity`) and pair 2 (same seed/rhs,
   `data/colprojdiv.wxf`) stacked: 11 rows × 5 unknowns, rank 3/5,

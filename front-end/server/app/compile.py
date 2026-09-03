@@ -67,7 +67,7 @@ def _abs(proj_dir: Path, rel: str) -> str:
 
 
 def _resolve_path_arg(proj_dir: Path, value: str) -> str:
-    if value in ("0", "identity"):
+    if value in ("0", "identity", "divergent", "finite"):
         return value
     return _abs(proj_dir, value)
 
@@ -807,6 +807,36 @@ def _compile_symderive(node, incoming, provides, add_step, errors, tensor_ops_bi
     provides[(nid, "out")] = {"kind": "matrix", "file": rel, "name": target}
 
 
+def _collinear_pairs(data: dict) -> list[dict]:
+    """Per-pair config rows [{projection, rhs}]; row 0 is pair 1 (the fixed
+    seed/rhs ports). New graphs store data.pairs; legacy graphs stored
+    data.rhs / data.letter_projection (pair 1) plus data.pairs_config (a
+    flat list of letter projections for pairs 2+). The projection is a
+    CLI sentinel ('identity' / 'divergent' / 'finite') passed through
+    verbatim, or a .wxf file path (legacy per-slot contraction)."""
+    def _proj(v) -> str:
+        v = str(v or "identity").strip()
+        return v or "identity"
+
+    def _row(p) -> dict:
+        p = p if isinstance(p, dict) else {}
+        return {"projection": _proj(p.get("projection")), "rhs": str(p.get("rhs") or "").strip()}
+
+    raw = data.get("pairs")
+    if isinstance(raw, list) and raw:
+        return [_row(p) for p in raw]
+    rows = [{
+        "projection": _proj(data.get("letter_projection")),
+        "rhs": str(data.get("rhs") or "").strip(),
+    }]
+    for s in data.get("pairs_config") or []:
+        if isinstance(s, dict):
+            rows.append(_row(s))
+        elif str(s or "").strip():
+            rows.append({"projection": _proj(s), "rhs": ""})
+    return rows
+
+
 def _compile_solve_collinear(node, incoming, outgoing, provides, add_step, errors, bootstrap, proj_dir):
     data = node.get("data", {}) or {}
     nid = node["id"]
@@ -861,11 +891,11 @@ def _compile_solve_collinear(node, incoming, outgoing, provides, add_step, error
         target = data.get("target")
 
     # Multi-pair is triggered by wiring (extra pairs or cond) or by adding
-    # pairs in the Inspector's Pairs list. Cond-only (no seed at all) is
-    # allowed and re-solves ingested conditions; it needs --out-stem, which we
-    # derive from the cond stems when the user didn't set one.
-    cfg = data.get("pairs_config")
-    cfg_len = len([s for s in (cfg if isinstance(cfg, list) else []) if str(s).strip()])
+    # pairs in the Inspector's Pairs list (data.pairs rows beyond the first).
+    # Cond-only (no seed at all) is allowed and re-solves ingested
+    # conditions; it needs --out-stem, which we derive from the cond stems
+    # when the user didn't set one.
+    cfg_len = max(len(_collinear_pairs(data)) - 1, 0)
     multi = bool(pair_edges) or cond_in is not None or cfg_len > 0
     if multi:
         if cfg_len > 0 and seed is None and cond_in is None:
@@ -923,7 +953,8 @@ def _compile_solve_collinear(node, incoming, outgoing, provides, add_step, error
 
     # ---- single-pair mode (unchanged command line) ----
     # RHS: the wired rhs port wins over the text field; "0" means an all-zero RHS.
-    rhs = rhs_in["file"] if rhs_in is not None else (data.get("rhs") or "").strip()
+    pair_rows = _collinear_pairs(data)
+    rhs = rhs_in["file"] if rhs_in is not None else pair_rows[0]["rhs"]
     if rhs_in is not None and rhs_in.get("file") is None:
         errors.append("Solve Collinear: the wired rhs must be a concrete tensor file.")
         return
@@ -942,7 +973,7 @@ def _compile_solve_collinear(node, incoming, outgoing, provides, add_step, error
         errors.append("Solve Collinear node: projection must be finite or divergent.")
         return
 
-    letter_proj = data.get("letter_projection") or "identity"
+    letter_proj = pair_rows[0]["projection"]
 
     if custom:
         seed_rel = seed["file"]
@@ -980,24 +1011,22 @@ def _compile_solve_collinear_pairs(
     """Multi-pair mode: every pair contributes one --pair triple; optional
     cond inputs append --pair-cond; the stacked system is solved once.
     Cond-only (seed is None) re-solves ingested [M|r] conditions."""
-    # Per-pair letter projections from the Inspector's Pairs list:
-    # pairs_config[N-1] = pair N (pair 1 = fixed seed/rhs ports). Entries are
-    # preset names or file paths; pair 1 falls back to letter_projection.
-    cfg = data.get("pairs_config")
-    pair_letters = [str(s).strip() for s in (cfg if isinstance(cfg, list) else []) if str(s).strip()]
+    # Per-pair config rows from the Inspector's Pairs list: pairs[i] = pair
+    # i+1 (row 0 = the fixed seed/rhs ports). Each row carries its own letter
+    # projection and optional RHS file; the wired rhs port wins over the row.
+    pair_rows = _collinear_pairs(data)
 
     # Pair 0 comes from the fixed seed/rhs ports (seed is a concrete tensor
     # file — the dispatcher already guaranteed custom mode here).
     pairs = []
     if seed is not None:
-        rhs0 = rhs_in["file"] if rhs_in is not None else (data.get("rhs") or "").strip()
+        rhs0 = rhs_in["file"] if rhs_in is not None else pair_rows[0]["rhs"]
         if rhs_in is not None and rhs_in.get("file") is None:
             errors.append("Solve Collinear: the wired rhs must be a concrete tensor file.")
             return
         if not rhs0:
             rhs0 = "0"
-        letter0 = (data.get("letter_projection") or "identity").strip() or "identity"
-        pairs.append((seed["file"], rhs0, letter0))
+        pairs.append((seed["file"], rhs0, pair_rows[0]["projection"]))
 
     for idx in sorted(pair_edges):
         entry = pair_edges[idx]
@@ -1009,16 +1038,18 @@ def _compile_solve_collinear_pairs(
         if pr is not None and pr.get("file") is None:
             errors.append(f"Solve Collinear: the rhs wired to in_rhs_{idx} must be a concrete tensor file.")
             return
-        letter = pair_letters[idx - 1] if idx - 1 < len(pair_letters) else "identity"
-        pairs.append((ps["file"], pr["file"] if pr is not None else "0", letter))
+        # Edge idx = in_seed_idx = pair idx+1 = config row idx (row 0 = pair 1).
+        row = pair_rows[idx] if idx < len(pair_rows) else {"projection": "identity", "rhs": ""}
+        rhs_field = row["rhs"] or "0"
+        pairs.append((ps["file"], pr["file"] if pr is not None else rhs_field, row["projection"]))
 
     # A pair added in the Inspector's Pairs list must actually be wired —
     # silently dropping a configured constraint set would change the solve.
-    for k, letter in enumerate(pair_letters):
-        if (k + 1) not in pair_edges:
+    for k in range(1, len(pair_rows)):
+        if k not in pair_edges:
             errors.append(
-                f"Solve Collinear: pair {k + 2} is configured in the Pairs list (letter projection "
-                f"'{letter}') but its seed {k + 2} port is not wired — wire a tensor or remove the pair."
+                f"Solve Collinear: pair {k + 1} is configured in the Pairs list (letter projection "
+                f"'{pair_rows[k]['projection']}') but its seed {k + 1} port is not wired — wire a tensor or remove the pair."
             )
             return
 

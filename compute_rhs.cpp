@@ -29,20 +29,23 @@ struct rhs_args_t {
 	std::string target;
 	std::filesystem::path data_dir;
 	std::filesystem::path output_dir;
-	std::string letter_projection;  // "identity" or a file path
+	std::string letter_projection;  // "identity", "divergent", "finite" or a file path
 	bool help = false;
 };
 
 void print_usage(const char* program) {
 	std::cerr << "Usage:" << std::endl;
-	std::cerr << "  " << program << " --target <SEW_FpL> --letter-projection <file|identity>"
+	std::cerr << "  " << program << " --target <SEW_FpL> --letter-projection <file|identity|divergent|finite>"
 	          << " [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
 	std::cerr << std::endl;
 	std::cerr << "Options:" << std::endl;
 	std::cerr << "  --target <SEW_FpL>            Target SEW name (e.g. SEW_3p1 for 2-loop, SEW_5p1 for 3-loop)" << std::endl;
-	std::cerr << "  --letter-projection <file|identity>" << std::endl;
+	std::cerr << "  --letter-projection <file|identity|divergent|finite>" << std::endl;
 	std::cerr << "                               Letter-slot projection matrix (e.g. output/collinear/colprojdiv_w1.wxf)" << std::endl;
 	std::cerr << "                               Use 'identity' to skip projection (solve in full letter space)" << std::endl;
+	std::cerr << "                               Use 'divergent'/'finite' for letter support filters: keep entries with" << std::endl;
+	std::cerr << "                               any divergent letter / all letters finite (divergent letters = nonzero" << std::endl;
+	std::cerr << "                               rows of <data-dir>/colprojdiv.wxf)" << std::endl;
 	std::cerr << "  --data-dir <dir>             Data directory with seed files (default: <exec_dir>/data)" << std::endl;
 	std::cerr << "  --output-dir <dir>           Output directory (default: <exec_dir>/output)" << std::endl;
 	std::cerr << "  -h, --help                   Show this help message" << std::endl;
@@ -92,8 +95,10 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (args.letter_projection.empty()) {
-		std::cerr << "Error: --letter-projection <file|identity> is required." << std::endl;
+		std::cerr << "Error: --letter-projection <file|identity|divergent|finite> is required." << std::endl;
 		std::cerr << "   Use '--letter-projection identity' to skip projection (solve in full letter space)." << std::endl;
+		std::cerr << "   Use '--letter-projection divergent|finite' for letter support filters" << std::endl;
+		std::cerr << "       (any divergent letter / all letters finite)." << std::endl;
 		std::cerr << "   Use '--letter-projection <file>' to project each letter slot, e.g." << std::endl;
 		std::cerr << "       --letter-projection output/collinear/colprojdiv_w1.wxf" << std::endl;
 		return 1;
@@ -142,11 +147,13 @@ int main(int argc, char* argv[]) {
 		args.output_dir = base / args.output_dir;
 	}
 
-	// Resolve --letter-projection: "identity" passes through as-is; a relative
-	// path is resolved against the executable directory (matching --data-dir /
-	// --output-dir).
+	// Resolve --letter-projection: "identity"/"divergent"/"finite" are
+	// sentinels passed through as-is (letter-space support filters); a
+	// relative path is resolved against the executable directory (matching
+	// --data-dir / --output-dir).
 	std::string letter_projection = args.letter_projection;
-	if (letter_projection != "identity" && !std::filesystem::path(letter_projection).is_absolute()) {
+	if (letter_projection != "identity" && letter_projection != "divergent" && letter_projection != "finite"
+		&& !std::filesystem::path(letter_projection).is_absolute()) {
 		letter_projection = (base / letter_projection).string();
 	}
 

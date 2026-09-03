@@ -549,11 +549,12 @@ void compute_rhs_for_loop(
 	{
 		auto abs_data = std::filesystem::absolute(data_dir);
 		auto abs_output = std::filesystem::absolute(output_dir);
-		// Resolve letter_projection: "identity" passes through; a relative path
-		// must be made absolute because the bootstrap subprocess resolves relative
-		// paths against its own executable directory.
+		// Resolve letter_projection: sentinels ("identity"/"divergent"/"finite")
+		// pass through; a relative path must be made absolute because the
+		// bootstrap subprocess resolves relative paths against its own
+		// executable directory.
 		std::string letter_proj_arg = letter_projection;
-		if (letter_proj_arg != "identity") {
+		if (letter_proj_arg != "identity" && letter_proj_arg != "divergent" && letter_proj_arg != "finite") {
 			letter_proj_arg = std::filesystem::absolute(letter_proj_arg).string();
 		}
 		std::string cmd = "./bootstrap --solve-collinear"
@@ -651,6 +652,41 @@ void compute_rhs_for_loop(
 		std::cout << "   [SKIP] --letter-projection identity: no divergent subspace defined." << std::endl;
 		std::cout << "   R" << L << " nnz=" << R_L_verify_csr_id.nnz() << " (constraint enforced at "
 		          << "matching positions only)." << std::endl;
+	} else if (letter_projection == "divergent" || letter_projection == "finite") {
+		// Sentinel support filters: derive the divergent-letter set from
+		// data/colprojdiv.wxf and check R_L's support directly (any-semantics).
+		std::cout << "   [sentinel " << letter_projection << "] checking R* letter support directly" << std::endl;
+		auto div_letters = load_divergent_letters<T, index_t>(data_dir, F, pool);
+		auto R_L_verify_csr2 = projection_read_tensor<T, index_t>(R_L_path, F, pool);
+		sparse_tensor<T, index_t, SPARSE_COO> R_L_verify(std::move(R_L_verify_csr2));
+
+		std::set<size_t> letter_indices;
+		size_t r_rank = R_L_verify.rank();
+		for (size_t i = 0; i < R_L_verify.nnz(); i++) {
+			auto coords = R_L_verify.index(i);
+			for (size_t d = 0; d < r_rank; d++) {
+				letter_indices.insert(static_cast<size_t>(coords[d]));
+			}
+		}
+		std::cout << "   R_L nnz=" << R_L_verify.nnz()
+		          << ", distinct letter indices: " << letter_indices.size() << std::endl;
+		bool has_div = false;
+		for (auto l : letter_indices) {
+			if (div_letters.count((index_t)l) > 0) {
+				has_div = true;
+				break;
+			}
+		}
+		if (has_div) {
+			std::cout << "========================================" << std::endl;
+			std::cout << "FAILED: R* contains divergent letters." << std::endl;
+			std::cout << "   R_L's support contains a divergent letter — the" << std::endl;
+			std::cout << "   constraint was not fully matched in the selected subspace." << std::endl;
+			std::cout << "========================================" << std::endl;
+			throw std::runtime_error("compute_rhs: R* divergent-letter check failed at L="
+				+ std::to_string(L));
+		}
+		std::cout << "   [OK] R* is free of divergent letters — R_L = R*" << std::endl;
 	} else {
 		// Load letter-projection matrix for the indicator-vector projection
 		std::filesystem::path letter_proj_path(letter_projection);

@@ -11,6 +11,7 @@ import {
   NODE_DEFS, PALETTE_SECTIONS, PROP_KIND, propLabel,
   kindsCompatible, sourceKindFor, targetKindFor, alphabetOutSlots,
   registerCustomBlocks, customBlockPalette,
+  normalizeCollinearPairs, PAIR_PRESETS,
 } from '../flowdefs'
 
 const ROW0 = 29
@@ -109,10 +110,10 @@ function OpNode({ id, type, data, selected }) {
   let multiPair = false
   let hasCondEdge = false
   if (dynamicPairs) {
-    // Pair 1 = the fixed seed/rhs ports. Each entry of the Inspector's
-    // pairs_config adds seed N / rhs N ports (N = index + 1); one spare pair
-    // is always shown beyond configured/wired pairs so the next pair can be
-    // wired without Inspector round-trips.
+    // Pair 1 = the fixed seed/rhs ports; every entry of data.pairs beyond
+    // the first adds one in_seed_N / in_rhs_N port pair (N = pair index).
+    // maxPair from wired edges keeps ports alive if a saved graph wires a
+    // pair that the (possibly legacy) config no longer lists.
     let maxPair = 0
     for (const e of allEdges) {
       if (e.target !== id) continue
@@ -120,15 +121,19 @@ function OpNode({ id, type, data, selected }) {
       if (m) maxPair = Math.max(maxPair, parseInt(m[1], 10))
     }
     hasCondEdge = allEdges.some((e) => e.target === id && (e.targetHandle || '') === 'cond')
-    const cfgLen = Array.isArray(data.pairs_config) ? data.pairs_config.length : 0
+    const pairs = normalizeCollinearPairs(data)
+    const cfgLen = pairs.length - 1
     pairCount = Math.max(maxPair + 1, cfgLen + 1)
     multiPair = maxPair > 0 || cfgLen > 0 || hasCondEdge
-    const nPairs = Math.max(maxPair, cfgLen) + 1
+    const nPairs = Math.max(maxPair, cfgLen)
     const extras = []
     for (let p = 1; p <= nPairs; p++) {
       extras.push({ id: `in_seed_${p}`, kind: 'seed_or_tensor', label: `seed ${p + 1}` })
       extras.push({ id: `in_rhs_${p}`, kind: 'boundary', label: `rhs ${p + 1}` })
     }
+    // cond is opt-in: shown only when enabled in the Inspector or wired.
+    inputs = inputs.filter((i) => i.id !== 'cond')
+    if (data.cond_enabled || hasCondEdge) inputs = [...inputs, { id: 'cond', kind: 'matrix', label: 'cond [M|r] (opt)' }]
     inputs = [...inputs, ...extras]
   }
   useEffect(() => { if (dynamicInputs || dynamicPairs) updateNodeInternals(id) }, [id, dynamicInputs, dynamicPairs, inputs.length, updateNodeInternals])
@@ -562,70 +567,86 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
           <label>Target</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_3p1 (blank when seed is wired)" />
           <p className="muted" style={{ fontSize: 11 }}>
-            Wire a tensor into the <b>seed</b> port to solve a custom seed (projection = none): the tensor is used
+            Wire a tensor into the <b>seed</b> port to solve a custom seed (used as-is): the tensor is used
             as-is (no seed-space projection, no expansion unless --basis). Leave blank for named SEW/FEC targets.
+            In multi-pair mode every seed — pair 1's port included — must be a wired tensor.
           </p>
-          <label>RHS file (or 0)</label>
-          <input value={d.rhs || ''} onChange={(e) => set({ rhs: e.target.value })} placeholder="data/E1.wxf (or wire the rhs port)" />
-          <label>Projection</label>
+          <label>Seed projection (single-pair, named targets)</label>
           <select value={d.projection || 'finite'} onChange={(e) => set({ projection: e.target.value })}>
             <option value="finite">finite</option>
             <option value="divergent">divergent</option>
             <option value="none">none (custom seed)</option>
           </select>
-          <label>Pairs — pair 1 = the seed / rhs ports; each added pair gets its own seed N / rhs N ports</label>
+          <p className="muted" style={{ fontSize: 11 }}>
+            Seed-space projection for the single-pair named-target contract. Custom / multi-pair seeds are always
+            used as-is; the per-pair option below is the <b>letter</b> projection.
+          </p>
+          <label>Pairs — pair 1 = the seed / rhs ports; each added pair grows its own seed N / rhs N ports</label>
           {(() => {
-            const PRESETS = [
-              ['identity', 'identity'],
-              ['data/colprojdiv.wxf', 'divergent'],
-              ['data/colprojfin.wxf', 'finite'],
-            ]
-            const modeOf = (v) => (PRESETS.some(([p]) => p === v) ? v : 'custom')
-            const cfg = Array.isArray(d.pairs_config) ? d.pairs_config : []
-            const rows = [(d.letter_projection || 'identity').trim(), ...cfg.map((x) => (x || '').trim())]
-            const setRow = (i, v) => {
-              if (i === 0) { set({ letter_projection: v }); return }
-              const next = [...cfg]
-              while (next.length < i) next.push('identity')
-              next[i - 1] = v
-              set({ pairs_config: next })
+            const pairs = normalizeCollinearPairs(d)
+            const modeOf = (v) => (PAIR_PRESETS.some(([p]) => p === v) ? v : 'custom')
+            const setRow = (i, patch) => {
+              set({ pairs: pairs.map((p, j) => (j === i ? { ...p, ...patch } : p)) })
             }
             return (
               <>
-                {rows.map((v, i) => {
-                  const mode = modeOf(v)
+                {pairs.map((p, i) => {
+                  const mode = modeOf(p.projection)
                   return (
-                    <div key={i} style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 4 }}>
-                      <span className="muted" style={{ fontSize: 11, width: 20 }}>P{i + 1}</span>
-                      <select value={mode} onChange={(e) => setRow(i, e.target.value === 'custom' ? '' : e.target.value)}>
-                        {PRESETS.map(([p, label]) => <option key={p} value={p}>{label}</option>)}
-                        <option value="custom">custom file…</option>
-                      </select>
-                      {mode === 'custom' && (
-                        <input style={{ flex: 1 }} value={v} onChange={(e) => setRow(i, e.target.value)} placeholder="path/to/letterproj.wxf" />
-                      )}
-                      {i > 0 && (
-                        <button
-                          className="btn ghost" style={{ padding: '2px 7px' }}
-                          onClick={() => set({ pairs_config: cfg.filter((_, j) => j !== i - 1) })}
-                        >✕</button>
-                      )}
+                    <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', marginBottom: 6 }}>
+                      <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 4 }}>
+                        <span className="muted" style={{ fontSize: 11, width: 20 }}>P{i + 1}</span>
+                        <span className="muted" style={{ fontSize: 10 }}>proj</span>
+                        <select value={mode} onChange={(e) => setRow(i, { projection: e.target.value === 'custom' ? '' : e.target.value })}>
+                          {PAIR_PRESETS.map(([pv, label]) => <option key={pv} value={pv}>{label}</option>)}
+                          <option value="custom">custom file…</option>
+                        </select>
+                        {mode === 'custom' && (
+                          <input style={{ flex: 1 }} value={p.projection} onChange={(e) => setRow(i, { projection: e.target.value })} placeholder="letterproj.wxf" />
+                        )}
+                        {i > 0 && (
+                          <button
+                            className="btn ghost" style={{ padding: '2px 7px' }}
+                            onClick={() => set({ pairs: pairs.filter((_, j) => j !== i) })}
+                          >✕</button>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                        <span className="muted" style={{ fontSize: 11, width: 20 }} />
+                        <span className="muted" style={{ fontSize: 10 }}>rhs</span>
+                        <input style={{ flex: 1 }} value={p.rhs} onChange={(e) => setRow(i, { rhs: e.target.value })}
+                          placeholder={i === 0 ? 'data/E1.wxf or 0 (or wire rhs)' : 'rhs.wxf or 0 (or wire rhs N)'} />
+                      </div>
                     </div>
                   )
                 })}
                 <button
                   className="btn ghost" style={{ width: '100%' }}
-                  onClick={() => set({ pairs_config: [...cfg, 'identity'] })}
+                  onClick={() => set({ pairs: [...pairs, { projection: 'identity', rhs: '' }] })}
                 >+ add pair</button>
               </>
             )
           })()}
           <p className="muted" style={{ fontSize: 11 }}>
-            Each pair is one { '{seed, rhs}' } constraint set with its own letter projection: pair 1 uses the
-            seed / rhs ports, pair N the seed N / rhs N ports that appear here. divergent / finite map to
-            data/colprojdiv.wxf / data/colprojfin.wxf. Adding a pair switches the node to multi-pair mode:
-            all rows are stacked and solved together, every seed is used as-is (custom seed — the Projection
-            field above does not apply), and an unwired rhs N defaults to “0” (homogeneous constraints).
+            Each pair is one { '{seed, rhs}' } constraint set: its own letter projection — a sentinel
+            (identity / divergent = keep entries with any divergent letter / finite = keep all-finite
+            entries) or a custom .wxf file path (legacy per-slot contraction, e.g. data/colprojdiv.wxf)
+            — and its own RHS — a file path, “0” for homogeneous constraints,
+            or a wired rhs port (the wire wins over the field). Pair 1 uses the fixed seed / rhs ports; adding a pair
+            grows the seed N / rhs N ports and switches the node to multi-pair mode: all rows are stacked and solved
+            together, every seed is used as-is.
+          </p>
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
+            <input
+              type="checkbox" style={{ width: 'auto' }}
+              checked={!!d.cond_enabled}
+              onChange={(e) => set({ cond_enabled: e.target.checked })}
+            />
+            Conditions input (cond port)
+          </label>
+          <p className="muted" style={{ fontSize: 11 }}>
+            Shows a third input port for rank-2 [M|r] conditions matrices (e.g. the conditions output of another Solve
+            Collinear node); every wired cond file stacks extra rows into the same solve.
           </p>
           <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, color: 'var(--text)' }}>
             <input
@@ -1344,6 +1365,45 @@ function FlowEditorInner() {
       }
     }
     setNodes((ns) => ns.map((n) => (n.id === id ? { ...n, data: { ...n.data, ...patch } } : n)))
+    const node = nodes.find((n) => n.id === id)
+    if (node?.type === 'solve_collinear') {
+      // Pair rows shifted (a middle row removed): renumber in_seed_N /
+      // in_rhs_N edges to follow their config row; wires of removed rows
+      // are pruned so the ports really disappear. Only a shrinking array
+      // means a removal — edits/adds keep every wire.
+      if (Array.isArray(patch.pairs) && patch.pairs.length < normalizeCollinearPairs(node.data).length) {
+        const sig = (r) => `${String(r?.projection ?? '').trim()}||${String(r?.rhs ?? '').trim()}`
+        const oldRows = normalizeCollinearPairs(node.data).slice(1)
+        const newRows = patch.pairs.slice(1)
+        const mapping = new Map()
+        const removed = []
+        let cursor = 0
+        for (let o = 0; o < oldRows.length; o++) {
+          let matched = -1
+          for (let n = cursor; n < newRows.length; n++) {
+            if (sig(newRows[n]) === sig(oldRows[o])) { matched = n; break }
+          }
+          if (matched >= 0) { mapping.set(o + 1, matched + 1); cursor = matched + 1 }
+          else removed.push(o + 1)
+        }
+        if (removed.length || [...mapping.entries()].some(([o, n]) => o !== n)) {
+          setEdges((es) => es.map((e) => {
+            if (e.target !== id) return e
+            const m = (e.targetHandle || '').match(/^in_(seed|rhs)_(\d+)$/)
+            if (!m) return e
+            const oldN = parseInt(m[2], 10)
+            const newN = mapping.get(oldN)
+            if (newN === undefined) return null
+            return newN === oldN ? e : { ...e, targetHandle: `in_${m[1]}_${newN}` }
+          }).filter(Boolean))
+        }
+      }
+      // cond toggle-off drops the port: remove its wires too, otherwise the
+      // wired edge would keep the port alive and the toggle would look broken.
+      if (patch.cond_enabled === false) {
+        setEdges((es) => es.filter((e) => !(e.target === id && (e.targetHandle || '') === 'cond')))
+      }
+    }
     if ('selected_properties' in patch || 'alphabet_id' in patch) {
       const keep = new Set()
       for (const pid of patch.selected_properties || []) { keep.add(`prop_${pid}`); keep.add(`proj_${pid}`) }

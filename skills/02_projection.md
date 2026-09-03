@@ -94,6 +94,12 @@ seed listed above. Also reads previously-written `first_w{N-1}.wxf` /
 - **Seed aliasing**: the collinear chain copies `data/colprojdiv.wxf`
   and `data/colprojfin.wxf` to `output/collinear/colprojdiv_w1.wxf` and
   `output/collinear/colprojfin_w1.wxf` (skipped if already present).
+  The CLI also accepts the sentinels `divergent` / `finite` as
+  letter-projection values (`--letter-projection` / the third `--pair`
+  argument): they filter entries by support — any divergent letter /
+  all letters finite — instead of contracting each letter slot with the
+  matrix, while passing these file paths keeps the legacy per-slot
+  contraction semantics (dims reduced).
 
 ## Smoke test
 
