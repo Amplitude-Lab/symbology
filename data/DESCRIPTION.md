@@ -36,7 +36,7 @@ specific to `E6`; the file *roles* are universal.
 | `bootstrap --extend` / `--sew` | `dlogmat_E6.wxf`, `FEC_1.wxf`, `LEC_1.wxf` |
 | `bootstrap --project` (collinear) | `dlogmat_E6.wxf`, `FEC_1.wxf`, `LEC_1.wxf`, `colmat42.wxf`, `colprojdiv.wxf`, `colprojfin.wxf` |
 | `bootstrap --project` (symmetry) | `dlogmat_E6.wxf`, `FEC_1.wxf`, `LEC_1.wxf`, and the matching `cycrepmat`/`fliprepmat`/`parityrepmat` |
-| `bootstrap --solve-collinear` | `colprojdiv.wxf`, `colprojfin.wxf` (via the projection chain in `solve_collinear.hpp`); the last-step letter projection is **user-supplied via `--letter-projection`** (not read from `data/` — pass `identity` to do nothing, or a path such as `output/collinear/colprojdiv_w1.wxf`) |
+| `bootstrap --solve-collinear` | `colprojdiv.wxf`, `colprojfin.wxf` (via the projection chain in `solve_collinear.hpp`); the last-step letter projection is **user-supplied via `--letter-projection`** (not read from `data/` — pass `identity` to do nothing, a path such as `output/collinear/colprojdiv_w1.wxf`, or the sentinels `divergent` / `finite`, whose divergent-letter set is the nonzero rows of `colprojdiv.wxf` from `--data-dir`) |
 | `compute_rhs` | All of the above, plus `E1.wxf` (the one-loop seed) |
 
 ## Notes on dimensions

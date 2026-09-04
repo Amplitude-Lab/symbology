@@ -6,7 +6,7 @@
 // each loop order.
 //
 // Usage:
-//   ./compute_rhs --target <SEW_FpL> --letter-projection <file|identity>
+//   ./compute_rhs --target <SEW_FpL> --letter-projection <file|identity|divergent|finite>
 //                 [--data-dir <dir>] [--output-dir <dir>]
 //
 // Examples:

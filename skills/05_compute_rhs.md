@@ -36,7 +36,7 @@ where `E_L` is the expanded collinear projection of `hepMHV_LL`, and
 ## CLI entry point
 
 ```bash
-./compute_rhs --target <SEW_FpL> --letter-projection <file|identity> \
+./compute_rhs --target <SEW_FpL> --letter-projection <file|identity|divergent|finite> \
     [--data-dir <dir>] [--output-dir <dir>]
 ```
 
@@ -45,7 +45,7 @@ where `E_L` is the expanded collinear projection of `hepMHV_LL`, and
 | Flag | Description |
 |------|-------------|
 | `--target <SEW_FpL>` | Target SEW name (required). Loop order `L = (F+L)/2`. Supported `L = 2..5`. |
-| `--letter-projection <file\|identity>` | Letter-slot projection matrix (required — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space). Relative paths resolve against the executable directory. |
+| `--letter-projection <file\|identity\|divergent\|finite>` | Letter-slot projection (required — user-selectable). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the do-nothing value (solve in full letter space); the sentinels `divergent` / `finite` are letter-space support filters (keep entries with any divergent letter / all letters finite, derived from the nonzero rows of `colprojdiv.wxf` in `--data-dir`; applied to both the seed and the RHS; dimensions unchanged). Relative paths resolve against the executable directory. |
 | `--data-dir <dir>` | Data directory with seed files. Default: `<exec_dir>/data`. |
 | `--output-dir <dir>` | Output directory. Default: `<exec_dir>/output`. |
 | `-h` / `--help` | Print usage. |
@@ -63,7 +63,7 @@ where `E_L` is the expanded collinear projection of `hepMHV_LL`, and
    - Weighted sum via `tensor_add_weighted`.
 4. **Invoke `--solve-collinear`** as a subprocess:
    `./bootstrap --solve-collinear --target SEW_<name> --rhs <boundary_file>
-   --projection divergent --letter-projection <abs|identity>
+   --projection divergent --letter-projection <abs|identity|divergent|finite>
    --data-dir <abs> --output-dir <abs>`.
    This delegates the full collinear solve (projection chain + letter
    projection + matching + linear solve) to the collinear solver, which
@@ -76,11 +76,16 @@ where `E_L` is the expanded collinear projection of `hepMHV_LL`, and
 6. **Expand `hepMHV_LL` to `E_L`** (rank `2L`, dims `11^2L`) via
    `expand_hepmhv`.
 7. **Compute `R_L = E_L - boundary`** and save.
-8. **Verify `R_L` is divergent-free** via the indicator-vector method
-   (skipped if `--letter-projection identity`):
-   collect distinct letter indices, build an 11-dim indicator, project
-   with the `--letter-projection` matrix. If zero, `R_L = R*` is
-   divergent-free.
+8. **Verify `R_L` is divergent-free** — three branches matching the
+   `--letter-projection` value:
+   - `identity`: skipped (no projection to test against);
+   - `divergent` / `finite`: direct support check — collect the distinct
+     letter indices of `R_L`'s nonzeros and test membership against the
+     divergent-letter set from `colprojdiv.wxf` (`load_divergent_letters`,
+     same derivation as the solver's support filter);
+   - a file path: indicator-vector method — build an 11-dim indicator of
+     `R_L`'s letter indices, contract with the `--letter-projection`
+     matrix; zero means `R_L = R*` is divergent-free.
 
 ## Inputs
 
@@ -123,14 +128,16 @@ first run, and triggers writes to `output/collinear/` via `--project`.
   `<exec_dir>/output`. Relative paths resolve against the executable
   directory (same convention as `bootstrap`).
 - **`--letter-projection` is required** — there is no default. Pass
-  either a file path (e.g. `output/collinear/colprojdiv_w1.wxf`) or
-  the literal `identity` to skip projection (solve in full letter
-  space). `identity` is the **do-nothing** value. This makes
-  `--solve-collinear` reusable for any collinear-like projection: the
-  user selects the letter subspace instead of the code hardcoding
-  `colprojdiv_w1`. The value is threaded through to the
-  `--solve-collinear` subprocess as an absolute path (file case) or
-  verbatim (`identity` case).
+  either a file path (e.g. `output/collinear/colprojdiv_w1.wxf`), the
+  literal `identity` to skip projection (solve in full letter
+  space), or the sentinels `divergent` / `finite` (letter-space
+  support filters; divergent-letter set from the nonzero rows of
+  `colprojdiv.wxf` in `--data-dir`). `identity` is the
+  **do-nothing** value. This makes `--solve-collinear` reusable for
+  any collinear-like projection: the user selects the letter subspace
+  instead of the code hardcoding `colprojdiv_w1`. The value is
+  threaded through to the `--solve-collinear` subprocess as an
+  absolute path (file case) or verbatim (sentinel case).
 - **Subprocess invocation**: `compute_rhs` shells out to
   `./bootstrap --solve-collinear` to solve the collinear constraint at
   each loop order. It passes absolute `--data-dir` / `--output-dir` and

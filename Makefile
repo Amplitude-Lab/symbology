@@ -44,7 +44,7 @@ inspect_tensors: inspect_tensors.cpp bootstrap.hpp projection.hpp tensor_shuffle
 
 # letter_filter_bench: semantics verification + benchmark for the
 # divergent/finite letter support filters (solve_collinear.hpp)
-letter_filter_bench: letter_filter_bench.cpp bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp incremental_solve.hpp tensor_expand.hpp tensor_shuffle.h
+letter_filter_bench: letter_filter_bench.cpp bootstrap.hpp projection.hpp solve_collinear.hpp linear_solve.hpp incremental_solve.hpp tensor_expand.hpp
 	$(CXX) letter_filter_bench.cpp -o $@ $(CXXFLAGS) $(LDLIBS)
 
 # clean target

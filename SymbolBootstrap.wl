@@ -25,6 +25,8 @@ GetFirstEntryTensor::usage="GetFirstEntryTensor[name] returns the first-entry se
 GetLastEntryTensor::usage="GetLastEntryTensor[name] returns the last-entry seed tensor.";
 GetLetterTransformationTensor::usage="GetLetterTransformationTensor[name, transName] returns one named letter transformation matrix.";
 
+SA2Exp::usage="SA2Exp[sarray] converts a sparse tensor into an expression in S[i,j,...] with the nonzero values as coefficients. SA2Exp[sarray, head] uses head instead of S.";
+
 Begin["`Private`"]
 
 
@@ -295,6 +297,10 @@ verbose=GetVerboseOption[opts];
 tensors=GetAlphabetConditionTensor[name,#,"Verbose"->verbose]&/@conditionNames;If[MemberQ[tensors,$Failed],Return[$Failed]];
 CombineConditionTensor[Sequence@@tensors,"Verbose"->verbose]]
 GetAlphabetConditionTensor[name_String,conditionName_String,opts___Rule]:=(Print["Error: unknown alphabet condition tensor \"",conditionName,"\""];$Failed)
+
+
+SA2Exp[sarray_SparseArray]:=SA2Exp[sarray,Global`S]
+SA2Exp[sarray_SparseArray,head_Symbol]:=Total[sarray["NonzeroValues"]*Map[head@@#&,sarray["NonzeroPositions"]]]
 
 
 End[]

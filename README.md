@@ -1,4 +1,3 @@
-
 # Symbology
 
 Working prototype for symbol-space bootstrap experiments on the `E6` heptagon. The codebase covers the full bootstrap pipeline: recursive first-entry/last-entry growth and sewing (`bootstrap --extend` / `--sew`), universal projection matrices (`--project`), symmetry invariant-subspace solving (`--solve-symmetry`), collinear constraint solving (`--solve-collinear`), and recursive RHS (collinear boundary) computation (`compute_rhs`). All sparse rational linear algebra goes through [`SparseRREF`](https://github.com/munuxi/SparseRREF).
@@ -8,11 +7,17 @@ Working prototype for symbol-space bootstrap experiments on the `E6` heptagon. T
 The executable is a C++20 program. A local build needs:
 
 - a C++20 compiler with `<format>` and chrono time-zone support;
+
 - `make`;
+
 - FLINT and GMP;
+
 - TBB;
+
 - mimalloc;
+
 - Git, to fetch this repository and `SparseRREF`;
+
 - optional: Wolfram/Mathematica, useful for inspecting or round-tripping WXF `SparseArray` data.
 
 `SparseRREF` is not vendored as a submodule. Put a checkout of its current default branch at repository root, so the headers live under `SparseRREF/`.
@@ -83,7 +88,9 @@ Package names can vary slightly across distributions. The important libraries ar
 There are three executables, all built with `make`:
 
 - `bootstrap` — the main dispatcher (extension, sewing, projection, symmetry solving, collinear solving). Built from `bootstrap.cpp` plus the shared headers.
+
 - `compute_rhs` — standalone recursive RHS (collinear boundary) computation. Built from `compute_rhs.cpp`.
+
 - `inspect_tensors` — small diagnostic tool that prints tensor contents. Built from `inspect_tensors.cpp`.
 
 Each rule in the `Makefile` declares its own header dependencies, so `make` will only rebuild what has changed. The shared headers are: `bootstrap.hpp`, `projection.hpp`, `solve_symmetry.hpp`, `solve_collinear.hpp`, `linear_solve.hpp`, `tensor_expand.hpp`, `tensor_shuffle.h`.
@@ -117,8 +124,11 @@ The default (no tag) is `data/` + `output/`, which is backward compatible.
 ### Conventions
 
 - Inside `data_<PROJECT>/`, the seed files keep the same **roles** as in `data/` (see `data/DESCRIPTION.md`), but encode the symmetry group in the filename where it matters: `dlogmat_<group>.wxf` (e.g. `dlogmat_E7.wxf`), `FEC_1.wxf`, `LEC_1.wxf`, `colmat<N>.wxf` (where `<N>` is the FEC weight-1 dimension — `42` for `E6`), `colprojdiv.wxf`, `colprojfin.wxf`, `<group>repmat_*.wxf`, `E1.wxf`.
-- All executables accept `--data-dir <dir>` and `--output-dir <dir>`. Relative paths are resolved against the executable directory. The flags are threaded through every pipeline mode: `bootstrap --project` / `--solve-symmetry` / `--solve-collinear`, `compute_rhs`, and `inspect_tensors`. When `compute_rhs` shells out to `./bootstrap --extend` / `--sew` / `--project` (to generate missing prerequisites) and `./bootstrap --solve-collinear` (to solve the collinear constraint at each loop order), it passes the absolute `--data-dir` / `--output-dir` to the subprocess so the same project directories are used end to end. The `--letter-projection <file|identity>` flag is also threaded from `compute_rhs` to the `--solve-collinear` subprocess (file paths are made absolute first, since the subprocess resolves relative paths against its own executable directory).
+
+- All executables accept `--data-dir <dir>` and `--output-dir <dir>`. Relative paths are resolved against the executable directory. The flags are threaded through every pipeline mode: `bootstrap --project` / `--solve-symmetry` / `--solve-collinear`, `compute_rhs`, and `inspect_tensors`. When `compute_rhs` shells out to `./bootstrap --extend` / `--sew` / `--project` (to generate missing prerequisites) and `./bootstrap --solve-collinear` (to solve the collinear constraint at each loop order), it passes the absolute `--data-dir` / `--output-dir` to the subprocess so the same project directories are used end to end. The `--letter-projection <file|identity|divergent|finite>` flag is also threaded from `compute_rhs` to the `--solve-collinear` subprocess (file paths are made absolute first, since the subprocess resolves relative paths against its own executable directory; sentinels pass through verbatim).
+
 - The driver scripts (`run_workflow.sh`, `run_projection.sh`, `run_solve.sh`) honor a `PROJECT=<name>` environment variable: setting `PROJECT=E7` makes them use `data_E7/` + `output_E7/`. With `PROJECT` unset they default to `data/` + `output/` (backward compatible).
+
 - `run_workflow.sh` auto-detects the condition tensor as `dlogmat_*.wxf` inside the data directory, so it generalizes to other symmetry groups without editing the script.
 
 ## Minimal Smoke Test
@@ -142,7 +152,9 @@ For a longer but still local workflow, use:
 This runs:
 
 - `FEC_1 -> FEC_6`;
+
 - `LEC_1 -> LEC_4`;
+
 - `SEW_2p2`, `SEW_3p1`, `SEW_4p2`, `SEW_5p1`.
 
 The full workflow is available as:
@@ -219,21 +231,49 @@ Collinear constraint solver:
 Options:
 
 - `--extend`: grow either forward (`-f/--first`) or backward (`-l/--last`) data by one weight;
+
 - `--sew`: combine a forward tensor and a backward tensor into a sewing matrix;
+
 - `--induce`: reserved for future induced-transformation workflows;
+
 - `--project`: run the universal projection pipeline (requires `--symmetry`, `--target`);
+
 - `--solve-symmetry`: compute the invariant subspace of a target's projection (requires `--symmetry`, `--target`);
+
 - `--solve-collinear`: a general collinear-like constraint solver — finite/divergent split + expansion + linear solve (requires `--target`, `--rhs`, `--projection`, `--letter-projection`; `--basis` optional). The letter-space projection in the last step is **user-selectable** via `--letter-projection` (not hardcoded), so the same solver works for any collinear-like projection;
+
 - `--symmetry <collinear|cyclic|flip|parity>`: symmetry name for `--project` / `--solve-symmetry`;
+
 - `--target <SEW_FpL|FEC_W|LEC_W>`: target name (e.g. `SEW_5p1`, `FEC_3`, `LEC_2`);
+
 - `--rhs <rhs.wxf>` or `--rhs 0`: RHS path for `--solve-collinear`; `"0"` means an all-zero RHS constructed in-memory. Missing → exit code 1;
-- `--projection <finite|divergent>`: which projection to apply in `--solve-collinear` (required — no default);
-- `--letter-projection <file|identity>`: letter-slot projection matrix for `--solve-collinear` (required — no default). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; the literal `identity` is the **do-nothing** value (no projection applied). Under union matching, `c·A` must equal `boundary` exactly at every position where either is nonzero — `identity` enforces this in the full 11-dim space (typically inconsistent for `E6`), while a projection enforces it in the projected subspace (where supports coincide). Relative paths resolve against the executable directory;
+
+- `--projection <finite|divergent|none>`: which projection to apply in `--solve-collinear` (required — no default). `none` is used with `--target-basis` (custom-seed mode, no auto-projection of the seed);
+
+- `--letter-projection <file|identity|divergent|finite>`: letter-slot projection matrix for `--solve-collinear` (required — no default). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; the literal `identity` is the **do-nothing** value (no projection applied). The sentinels `divergent` / `finite` are **support filters**: `divergent` keeps entries whose letter key contains at least one divergent letter (the nonzero rows of `colprojdiv.wxf` in `--data-dir`), `finite` keeps entries where every letter is finite — they drop entries whole without changing dimensions, and apply to both sides of each pair. Under union matching, `c·A` must equal `boundary` exactly at every position where either is nonzero — `identity` enforces this in the full 11-dim space (typically inconsistent for `E6`), while a projection enforces it in the projected subspace (where supports coincide). Relative paths resolve against the executable directory;
+
+- `--pair <seed.wxf> <rhs.wxf|0> <letter|identity|divergent|finite>`: multi-pair mode (repeatable). Each pair contributes its own seed tensor + RHS + per-pair letter projection; all rows are solved together in one system. Mutually exclusive with `--target` / `--target-basis` / `--rhs` / `--projection` / `--letter-projection` (each pair carries its own — combining them is an error);
+
+- `--pair-cond <cond.wxf>`: extra constraint matrix re-ingested into a multi-pair solve (repeatable). Produced by `--export-conditions`; `[M | r]` rank-2 form, rhs = last column;
+
+- `--export-conditions`: multi-pair mode. Write `output/collinear/cond_<stem>.wxf`: the combined non-homogeneous constraints as a rank-2 `[M | r]` matrix (n_unknowns+1 columns, rhs = last column), one row per stacked constraint row;
+
+- `--out-stem <name>`: override `sol_`/`cond_` output naming for multi-pair mode (default: the first pair's seed stem if there is exactly one pair/condition, else `<first-stem>_x<N>`);
+
+- `--target-basis <seed.wxf>`: custom-seed mode for `--solve-collinear`. Use the given seed tensor directly (no `--target` auto-derivation, no automatic projection of the seed — pass `--projection none`); combined with `--rhs` and `--letter-projection` as usual;
+
+- `--solver <incremental|sampled>`: linear solver used by `--solve-collinear` (default `incremental`);
+
 - `--basis <basis.wxf>`: expansion basis file (repeatable; highest weight first). Auto-detected as `first_w{N}_basis.wxf` if omitted;
+
 - `--data-dir <dir>`: data directory with seed files (default: `<exec_dir>/data`). Used by `--project`, `--solve-symmetry`, `--solve-collinear`; ignored by `--extend` / `--sew` (which use explicit `-c`/`-f`/`-l`/`-o` paths);
+
 - `--output-dir <dir>`: output directory (default: `<exec_dir>/output`). Same scope as `--data-dir`;
+
 - `-c/--condition`: condition tensor, currently `data/dlogmat_E6.wxf`;
+
 - `-f/--first`, `-l/--last`, `-o/--output`: input/output file paths;
+
 - `-h/--help`: print usage.
 
 Thread count is chosen automatically by `SparseRREF`.
@@ -249,9 +289,13 @@ Thread count is chosen automatically by `SparseRREF`.
 Options:
 
 - `--target <SEW_FpL>`: target SEW name (required). Loop order `L = (F+L)/2`; supported `L = 2..5`;
-- `--letter-projection <file|identity>`: letter-slot projection matrix (required — no default). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the **do-nothing** value (no projection applied). Under union matching, `c·A` must equal `boundary` exactly — `identity` enforces this in the full space (typically inconsistent for `E6`), while a projection enforces it in the projected subspace. Relative paths resolve against the executable directory. Threaded through to the `--solve-collinear` subprocess;
+
+- `--letter-projection <file|identity|divergent|finite>`: letter-slot projection matrix (required — no default). A path (e.g. `output/collinear/colprojdiv_w1.wxf`) projects each 11-dim letter slot to a lower-dim subspace; `identity` is the **do-nothing** value (no projection applied). The sentinels `divergent` / `finite` are **support filters** (see `bootstrap` options above). Under union matching, `c·A` must equal `boundary` exactly — `identity` enforces this in the full space (typically inconsistent for `E6`), while a projection enforces it in the projected subspace. Relative paths resolve against the executable directory. Threaded through to the `--solve-collinear` subprocess;
+
 - `--data-dir <dir>`: data directory with seed files (default: `<exec_dir>/data`);
+
 - `--output-dir <dir>`: output directory (default: `<exec_dir>/output`);
+
 - `-h/--help`: print usage.
 
 ### Inspection (`./inspect_tensors`)
@@ -264,7 +308,9 @@ Options:
 Options:
 
 - `--output-dir <dir>`: output directory (default: `<exec_dir>/output`);
+
 - `--data-dir <dir>`: accepted for symmetry with the other tools (not used by `inspect_tensors`);
+
 - `-h/--help`: print usage.
 
 Reads `<output-dir>/oneloop/E1.wxf` and `<output-dir>/2loop/boundary_2L.wxf`.
@@ -274,23 +320,37 @@ Reads `<output-dir>/oneloop/E1.wxf` and `<output-dir>/2loop/boundary_2L.wxf`.
 Tracked seed data (see `data/DESCRIPTION.md` for a complete listing with dimensions):
 
 - `data/dlogmat_E6.wxf`: RREF-reduced `E6` adjacency/integrability condition tensor. It corresponds to `bootstrap_E6_archive/dlogmatE6RREF.wxf` and has dimensions `{42, 42, 1191}`.
+
 - `data/FEC_1.wxf`: forward expansion coefficient seed, copied from `bootstrap_E6_archive/FCC_1.wxf`; layout `{basis_w, basis_{w-1}, letter}`.
+
 - `data/LEC_1.wxf`: backward expansion coefficient seed, obtained from `bootstrap_E6_archive/LCC_1.wxf` by transposing to the new layout `{basis_w, letter, basis_{w-1}}`.
+
 - `data/colmat42.wxf`: collinear seed on the FEC weight-1 space (`42 × 2`).
+
 - `data/cycrepmat.wxf`, `data/fliprepmat.wxf`, `data/parityrepmat.wxf`: cyclic / flip / parity symmetry representation matrices on the FEC weight-1 space (`42 × 42`).
+
 - `data/colprojdiv.wxf`: weight-1 colprojdiv seed (`11 × 2`); projects each letter slot to its 2-dim divergent subspace.
+
 - `data/colprojfin.wxf`: weight-1 colprojfin seed (`11 × 9`); projects each letter slot to its 9-dim finite subspace.
+
 - `data/E1.wxf`: one-loop collinear seed tensor (`11 × 11`, 5 nnz); renamed from the archive's `coloneloop.wxf`. Used by `compute_rhs`.
 
 Generated files (under `output/`):
 
 - `output/FEC_w.wxf`: forward expansion coefficients;
+
 - `output/LEC_w.wxf`: backward expansion coefficients;
+
 - `output/SEW_fpl.wxf`: sewing matrices with layout `{sew_basis, FEC_f_basis, LEC_l_basis}`;
+
 - `output/collinear/`: collinear projection chain — `first_w{N}.wxf`, `last_w{N}.wxf`, `first_w{N}_basis.wxf`, `last_w{N}_basis.wxf`, `SEW_<name>_basis.wxf`, `colprojfin_w{N}.wxf`, `colprojdiv_w{N}.wxf`, `colprojfin_<sew_name>.wxf`, `colprojdiv_<sew_name>.wxf`, plus a `summary.txt`;
+
 - `output/cyclic/`, `output/flip/`, `output/parity/`: symmetry projections — `first_w{N}.wxf`, `last_w{N}.wxf`, `SEW_<name>.wxf`, `<target>_invariant.wxf`, plus a `summary.txt`;
+
 - `output/oneloop/E1.wxf`: copy of `data/E1.wxf` (written by `compute_rhs`);
+
 - `output/{L}loop/` (digit prefix — `2loop`, `3loop`, `4loop`, `5loop`): per-loop results from `compute_rhs` — `solMHV_LL.wxf`, `hepMHV_LL.wxf`, `E_LL.wxf`, `R_LL.wxf`, `boundary_LL.wxf`;
+
 - `logs/*.log`: stdout/stderr logs for each workflow step.
 
 `output/`, `output_*/`, `logs/`, the compiled `bootstrap` / `compute_rhs` / `inspect_tensors` executables, `temp/`, and `tmp/` are ignored by git.
@@ -308,7 +368,7 @@ Get[FileNameJoin[{<repo root>, "SymbolBootstrap.wl"}]];
 ### Workflow overview
 
 1. **Provide an alphabet definition** (`alphabet.wl`): a Wolfram Language file defining the letter expressions as functions of kinematic variables, plus any square-root substitutions. See `data_pentagon/alphabet.wl` (variables `LetterRep`, `RootDef`) and `data_4pformfactor/alphabet.wl` (variables `alphabetf`, `sqrtrep`) for templates.
-2. **Document the kinematics** (`Description.md`): record the variable definitions, letter classification, and any symmetry transformations (cyclic, flip, Galois) as kinematic substitution rules. See [data_pentagon/Description.md](data_pentagon/Description.md) and [data_4pformfactor/Description.md](data_4pformfactor/Description.md) for templates.
+2. **Document the kinematics** (`Description.md`): record the variable definitions, letter classification, and any symmetry transformations (cyclic, flip, Galois) as kinematic substitution rules. See [data\_pentagon/Description.md](data_pentagon/Description.md) and [data\_4pformfactor/Description.md](data_4pformfactor/Description.md) for templates.
 3. **Declare the alphabet** in Wolfram Language and **set its parametrized expressions** (letters as functions of kinematic variables, including any square roots).
 4. **Set conditions** as needed: cluster adjacency, extended Steinmann, first/last entry, letter transformations (using the kinematic rules from `Description.md`).
 5. **Request condition tensors** via the `Get*` functions. Results are cached per alphabet; re-setting a condition clears its cached tensor.
@@ -316,45 +376,57 @@ Get[FileNameJoin[{<repo root>, "SymbolBootstrap.wl"}]];
 
 ### Alphabet management
 
-| Function | Description |
-| --- | --- |
-| `DeclareAlphabet[name, alphabet]` | Register a new symbol alphabet (e.g. `{W[1], ..., W[n]}`). Fails if `name` is already declared. |
-| `ResetAlphabet[name, alphabet]` | Overwrite an existing alphabet and clear its conditions/results. |
-| `ClearAlphabet[name]` | Remove an alphabet and all its conditions/results. |
+| Function                                    | Description                                                                                                                                                                                                    |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DeclareAlphabet[name, alphabet]`           | Register a new symbol alphabet (e.g. `{W[1], ..., W[n]}`). Fails if `name` is already declared.                                                                                                                |
+| `ResetAlphabet[name, alphabet]`             | Overwrite an existing alphabet and clear its conditions/results.                                                                                                                                               |
+| `ClearAlphabet[name]`                       | Remove an alphabet and all its conditions/results.                                                                                                                                                             |
 | `SetAlphabetExpression[name, alphabetExpr]` | Set the parametrized letter expressions (a vector parallel to `alphabet`). Required for integrability and letter-transformation tensors. Re-setting clears the integrability and letter-transformation caches. |
 
 ### Condition setters
 
-| Function | Input | Description |
-| --- | --- | --- |
-| `SetClusterAdjacency[name, adjpairs]` | n×2 matrix of ordered adjacent pairs `{W[i], W[j]}` | Pairs of letters that **may** appear adjacent in symbol words. |
-| `SetExtendedSteinmann[name, nonadjpairs]` | n×2 matrix of ordered non-adjacent pairs | Pairs of letters that **may not** appear adjacent (Steinmann/extended-Steinmann relations). Internally converted to the complement adjacency set. |
-| `SetFirstEntry[name, firstentry]` | vector of letters | Letters allowed as the first entry of a symbol word. |
-| `SetLastEntry[name, lastentry]` | vector of letters | Letters allowed as the last entry of a symbol word. |
-| `SetLetterTransformation[name, transName, kineMap]` | name + kinematic substitution rule | Register one named transformation (e.g. `"Cyclic"`, `"Flip"`, `"Galois1a"`) as a rule on the kinematic variables. Multiple transformations can coexist on one alphabet. |
-| `SetAlphabetCondition[name, key, content]` | dispatch form of the above | Uniform setter; `key` is one of `"Expression"`, `"Cluster Adjacency"`, `"Extended Steinmann"`, `"First Entry"`, `"Last Entry"`, or `{"Letter Transformation", transName}`. |
+| Function                                            | Input                                               | Description                                                                                                                                                                |
+| --------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SetClusterAdjacency[name, adjpairs]`               | n×2 matrix of ordered adjacent pairs `{W[i], W[j]}` | Pairs of letters that **may** appear adjacent in symbol words.                                                                                                             |
+| `SetExtendedSteinmann[name, nonadjpairs]`           | n×2 matrix of ordered non-adjacent pairs            | Pairs of letters that **may not** appear adjacent (Steinmann/extended-Steinmann relations). Internally converted to the complement adjacency set.                          |
+| `SetFirstEntry[name, firstentry]`                   | vector of letters                                   | Letters allowed as the first entry of a symbol word.                                                                                                                       |
+| `SetLastEntry[name, lastentry]`                     | vector of letters                                   | Letters allowed as the last entry of a symbol word.                                                                                                                        |
+| `SetLetterTransformation[name, transName, kineMap]` | name + kinematic substitution rule                  | Register one named transformation (e.g. `"Cyclic"`, `"Flip"`, `"Galois1a"`) as a rule on the kinematic variables. Multiple transformations can coexist on one alphabet.    |
+| `SetAlphabetCondition[name, key, content]`          | dispatch form of the above                          | Uniform setter; `key` is one of `"Expression"`, `"Cluster Adjacency"`, `"Extended Steinmann"`, `"First Entry"`, `"Last Entry"`, or `{"Letter Transformation", transName}`. |
 
-### Tensor generators (Get*)
+### Tensor generators (Get\*)
 
 All `Get*` functions require the corresponding condition to have been set and return a `SparseArray` (CSR format). Results are cached on the alphabet.
 
-| Function | Returns | Shape | Notes |
-| --- | --- | --- | --- |
-| `GetIntegrabilityTensor[name, opts]` | Integrability tensor (dlog∧dlog=0) | `{n, n, r}` | Uses `GenSqrtD` (sqrt separation + Z2 reduction + denominator rationalization) then `GenIntRelMat` (numeric sampling + SparseRREF). Supports square-root alphabets. |
-| `GetClusterAdjacencyTensor[name]` | Cluster adjacency condition tensor | `{n, n, r}` | Built from the null space of the adjacency coefficient array. |
-| `GetExtendedSteinmannTensor[name]` | Extended Steinmann condition tensor | `{n, n, r}` | Complement of cluster adjacency: takes the non-adjacent pairs and internally calls the cluster-adjacency generator on the complement. |
-| `GetFirstEntryTensor[name]` | First-entry seed tensor | `{k, 1, n}` | One row per allowed first letter. |
-| `GetLastEntryTensor[name]` | Last-entry seed tensor | `{k, n, 1}` | One row per allowed last letter. |
-| `GetLetterTransformationTensor[name, transName, opts]` | Transformation matrix | `{n, n}` | Square matrix mapping old dlog vector to new dlog vector under the kinematic substitution. Uses `GenSqrtD` on the joined old+new alphabet, then `GenLettRelMat`. |
-| `GetAlphabetConditionTensor[name, key, opts]` | Dispatch form | — | Calls the matching `Get*` above. Also accepts a **list** of dlogmat-type conditions (`{"Integrability", "Extended Steinmann", ...}`) and returns their combined, row-reduced tensor via `CombineConditionTensor`. |
+| Function                                               | Returns                             | Shape       | Notes                                                                                                                                                                                                             |
+| ------------------------------------------------------ | ----------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GetIntegrabilityTensor[name, opts]`                   | Integrability tensor (dlog∧dlog=0)  | `{n, n, r}` | Uses `GenSqrtD` (sqrt separation + Z2 reduction + denominator rationalization) then `GenIntRelMat` (numeric sampling + SparseRREF). Supports square-root alphabets.                                               |
+| `GetClusterAdjacencyTensor[name]`                      | Cluster adjacency condition tensor  | `{n, n, r}` | Built from the null space of the adjacency coefficient array.                                                                                                                                                     |
+| `GetExtendedSteinmannTensor[name]`                     | Extended Steinmann condition tensor | `{n, n, r}` | Complement of cluster adjacency: takes the non-adjacent pairs and internally calls the cluster-adjacency generator on the complement.                                                                             |
+| `GetFirstEntryTensor[name]`                            | First-entry seed tensor             | `{k, 1, n}` | One row per allowed first letter.                                                                                                                                                                                 |
+| `GetLastEntryTensor[name]`                             | Last-entry seed tensor              | `{k, n, 1}` | One row per allowed last letter.                                                                                                                                                                                  |
+| `GetLetterTransformationTensor[name, transName, opts]` | Transformation matrix               | `{n, n}`    | Square matrix mapping old dlog vector to new dlog vector under the kinematic substitution. Uses `GenSqrtD` on the joined old+new alphabet, then `GenLettRelMat`.                                                  |
+| `GetAlphabetConditionTensor[name, key, opts]`          | Dispatch form                       | —           | Calls the matching `Get*` above. Also accepts a **list** of dlogmat-type conditions (`{"Integrability", "Extended Steinmann", ...}`) and returns their combined, row-reduced tensor via `CombineConditionTensor`. |
+
+### Tensor ↔ expression conversion
+
+| Function               | Input                    | Returns    | Description                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------------------- | ------------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SA2Exp[sarray]` | `SparseArray` (any rank) | expression | Converts a sparse tensor to `Σ v · S[i, j, ...]`, one `S[...]` per nonzero position `{i, j, ...}` with its value `v` as coefficient. All-zero tensors give `0`. The `S` head resolves to ``Global`S``, matching the `Exp2SA` convention used by the front-end's symbol-tensor property scripts; `Exp2SA[SA2Exp[t]]` reproduces all nonzeros of `t`, and `Exp2SA[e, "dim" -> d]` restores the exact dimensions when each axis's max index is not tight. |
+| `SA2Exp[sarray, head]` | + custom head symbol     | expression | Same with a different head (e.g. `W`), for displaying against a concrete alphabet.                                                                                                                                                                                                                                                                                                |
+
+`SA2Exp` is the inverse direction of the `Exp2SA` helper generated by the front-end server ([wolfram.py](front-end/server/app/wolfram.py)); typical use is turning a solved collinear combination `c . seed` back into a checkable expression in the symbol letters.
 
 ### Options
 
 The integrability and letter-transformation generators accept these options (inherited from `GenIntRelMat` / `GenLettRelMat`):
 
 - `"Samples" -> Automatic` (default): number of numeric sampling points. `Automatic` picks `10 + Ceiling[Binomial[n,2]/Binomial[v,2]]` for integrability and `10 + 2 Ceiling[n/v]` for letter transformations, where `n` is the letter count and `v` the variable count. Increase if reconstruction fails.
+
 - `"Tries" -> 100`: max attempts to find a sampling point that avoids zero denominators.
+
 - `"Threads" -> 0`: thread count for SparseRREF (0 = automatic).
+
 - `"Verbose" -> True`: print progress and timing.
 
 ### Square-root alphabets
@@ -399,7 +471,7 @@ cycmat = GetLetterTransformationTensor["4pFF", "Cyclic"];
 Export["data_4pformfactor/cycmat.wxf", cycmat];
 ```
 
-See [data_4pformfactor/Description.md](data_4pformfactor/Description.md) for the full variable definitions, letter classification, transformation rules, and verified letter replacement rules.
+See [data\_4pformfactor/Description.md](data_4pformfactor/Description.md) for the full variable definitions, letter classification, transformation rules, and verified letter replacement rules.
 
 ### Example: pentagon (`data_pentagon/`)
 
@@ -416,7 +488,9 @@ dlogmat = GetIntegrabilityTensor["Pentagon"];  (* {31, 31, 361}, nnz=1754 *)
 ## Skills and Changelog
 
 - `skills/` holds per-module reference documents (concise, model-agnostic) for AI agents and new contributors. Start at `skills/README.md`.
+
 - `CHANGELOG.md` records all notable changes (new files, modified files, new functionality) grouped by date.
+
 - `data/DESCRIPTION.md` describes every seed file under `data/`.
 
 ## Format Notes
@@ -434,7 +508,12 @@ After Mathematica roundtrip, all checked `FEC_2..FEC_6` CRC32 values match the a
 ## Troubleshooting
 
 - If `make` cannot find `SparseRREF/sparse_mat.h`, clone `SparseRREF` into the repository root.
+
 - If `git` fails on macOS with an `xcode-select` error, install the Apple command-line tools or use the conda-forge setup above.
+
 - If compilation fails on macOS with `no member named 'par' in namespace 'std::execution'` or `no member named 'zoned_time' in namespace 'std::chrono'`, you are hitting the libc++ limitation described in the macOS section above. A newer clang will **not** fix it — build with Homebrew GCC instead: `make CXX=g++-14`.
+
 - If the linker cannot find FLINT, GMP, TBB, or mimalloc, check that the matching include and library paths are visible to `make`.
+
 - If byte-level WXF CRC32 values differ from archived Mathematica exports, compare after a Mathematica roundtrip rather than comparing raw SparseRREF-native WXF bytes.
+
