@@ -8,11 +8,12 @@ pitch DX wide enough for arrowheads + kind-colored wires to be readable.
 Usage: python3 layout-flow.py <flow-name> [--dry-run]
 Python 3.9 compatible. Writes back position-only changes.
 """
+import os
 import json
 import re
 import sys
 
-ROOT = '/Users/windfolgen/GitRepos/symbology'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 PROJ = f'{ROOT}/front-end/projects/heptagon/project.json'
 DEFS = open(f'{ROOT}/front-end/web/src/flowdefs.js').read()
 

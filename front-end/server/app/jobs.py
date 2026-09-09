@@ -25,6 +25,24 @@ MAX_FINISHED_RUNS = 500
 
 _TERMINAL_STATUSES = ("done", "failed", "cancelled")
 
+# Process-group control is POSIX-only. On Windows the steps still run, but
+# cancellation/timeout fall back to killing the direct child only (no group).
+POSIX_SESSIONS = hasattr(os, "setsid") and hasattr(os, "killpg")
+
+
+def kill_process_tree(proc: subprocess.Popen) -> None:
+    """Kill a step process and (on POSIX) everything in its group."""
+    if POSIX_SESSIONS:
+        try:
+            os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            return
+        except (ProcessLookupError, PermissionError, OSError):
+            return
+    try:
+        proc.kill()
+    except OSError:
+        pass
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -385,7 +403,7 @@ class Engine:
                 stderr=subprocess.STDOUT,
                 text=True,
                 bufsize=1,
-                start_new_session=True,
+                start_new_session=POSIX_SESSIONS,
             )
         except Exception as exc:
             line = f"Error launching command: {exc}"
@@ -405,10 +423,7 @@ class Engine:
 
         def _kill_on_timeout():
             timed_out.set()
-            try:
-                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
-            except Exception:
-                pass
+            kill_process_tree(proc)
 
         killer = threading.Timer(timeout, _kill_on_timeout) if timeout > 0 else None
         if killer is not None:
@@ -459,17 +474,20 @@ class Engine:
         if not _set_status(run, "cancelled"):
             return False
         if run.proc is not None:
-            try:
-                os.killpg(os.getpgid(run.proc.pid), signal.SIGTERM)
-            except Exception:
-                pass
+            if POSIX_SESSIONS:
+                try:
+                    os.killpg(os.getpgid(run.proc.pid), signal.SIGTERM)
+                except Exception:
+                    pass
+            else:
+                try:
+                    run.proc.terminate()
+                except Exception:
+                    pass
             try:
                 run.proc.wait(timeout=5)
             except Exception:
-                try:
-                    os.killpg(os.getpgid(run.proc.pid), signal.SIGKILL)
-                except Exception:
-                    pass
+                kill_process_tree(run.proc)
         run.emit("status", {"status": "cancelled"})
         run.emit("end", {})
         self._persist(run)

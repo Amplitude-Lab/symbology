@@ -1,15 +1,25 @@
 import { renderToStaticMarkup } from 'react-dom/server'
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
+import path from 'node:path'
 import { registerCustomBlocks, NODE_DEFS, sourceKindFor, portsOf, portBaseY, ROW_STEP, NODE_W } from '../src/flowdefs'
 import { OpNode, Inspector, nodeTypes, routeEdges, KindEdge } from '../src/screens/FlowEditor'
 import { Position } from './stubs/reactflow.js'
-import heptagon from '/Users/windfolgen/GitRepos/symbology/front-end/projects/heptagon/project.json'
-import test4p from '/Users/windfolgen/GitRepos/symbology/front-end/projects/test4p/project.json'
 
+// Fixture projects live outside the bundle (gitignored); resolve them
+// relative to this script (or the web root when bundled by ssr-audit.sh)
+// and skip whatever is not present locally.
+const baseDir = import.meta.url && String(import.meta.url).startsWith('file:')
+  ? path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..')
+  : path.resolve(process.cwd(), '..')  // ssr-audit.sh runs from the web root; projects/ is one level up
+const readProject = (name) => {
+  const p = path.join(baseDir, 'projects', name, 'project.json')
+  return existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : null
+}
 const projects = [
-  ['heptagon', heptagon],
-  ['test4p', test4p],
-]
+  ['heptagon', readProject('heptagon')],
+  ['test4p', readProject('test4p')],
+].filter(([, p]) => p != null)
 
 const projectGlobal = globalThis
 

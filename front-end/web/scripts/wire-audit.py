@@ -33,7 +33,7 @@ import os
 import subprocess
 import sys
 
-ROOT = '/Users/windfolgen/GitRepos/symbology'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 PROJ = sys.argv[1] if len(sys.argv) > 1 else f'{ROOT}/front-end/projects/heptagon/project.json'
 FLOW_FILTER = sys.argv[2:] or None
 

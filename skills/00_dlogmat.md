@@ -17,7 +17,7 @@ clean, object-oriented API with caching. It auto-loads SparseRREF from the
 project root. See [walkthrough.wl](../walkthrough.wl) for a full E6 example.
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymbolBootstrap.wl"}]];
 
@@ -293,7 +293,7 @@ No special handling is required from the caller. Verified on the pentagon:
 See [walkthrough.wl](../walkthrough.wl) for the full E6 example. Summary:
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymbolBootstrap.wl"}]];
 
@@ -326,7 +326,7 @@ is stored as `LetterRep = {W[1] -> expr1, ..., W[31] -> expr31}` and
 `dlogmat_pentagon.wxf`:
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymbolBootstrap.wl"}]];
 

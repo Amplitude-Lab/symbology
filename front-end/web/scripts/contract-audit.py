@@ -1,6 +1,6 @@
-import json, re, sys
+import json, os, re, sys
 
-ROOT = '/Users/windfolgen/GitRepos/symbology'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 p = json.load(open(f'{ROOT}/front-end/projects/heptagon/project.json'))
 compile_src = open(f'{ROOT}/front-end/server/app/compile.py').read()
 ui_src = open(f'{ROOT}/front-end/web/src/screens/FlowEditor.jsx').read()

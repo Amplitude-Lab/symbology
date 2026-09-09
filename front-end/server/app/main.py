@@ -17,7 +17,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from . import storage, templates
 from .compile import compile_flow, export_flow_script, flow_outputs_catalog
 from .config import REPO_ROOT, WEB_DIST, env_status, find_tensor_ops, find_wolframscript
-from .jobs import engine
+from .jobs import POSIX_SESSIONS, engine, kill_process_tree
 from .wolfram import alphabet_file_expr_loader, property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
 
 app = FastAPI(title="Symbology Front-End")
@@ -261,15 +261,12 @@ def _extract_alphabet_facts(ws: str, file_abs: Path, dialect_info: dict) -> tupl
         proc = subprocess.Popen(
             [ws, "-script", str(script_path)],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            start_new_session=True,
+            start_new_session=POSIX_SESSIONS,
         )
         try:
             out, err = proc.communicate(timeout=600)
         except subprocess.TimeoutExpired:
-            try:
-                os.killpg(proc.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+            jobs.kill_process_tree(proc)
             out, err = proc.communicate()
             raise HTTPException(400, "extracting letters/variables from the alphabet file timed out")
     finally:

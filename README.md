@@ -189,6 +189,46 @@ Makefile picks `-march=native` on x86_64 automatically. Generated Wolfram
 scripts (if you do run property computations on a machine with Mathematica)
 resolve the package through `$SYMBOLOGY_ROOT` as well.
 
+## The visual front-end (web editor)
+
+The flow editor is a local web app: a FastAPI server that compiles graphs and
+drives the C++ binaries, plus a React client it serves. Fresh-machine setup:
+
+```bash
+# 1) build the C++ core first — the server launches these binaries:
+./scripts/setup-sparserref.sh && make
+
+# 2) Python server (Python 3.9+):
+cd front-end/server
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+python3 run.py                     # serves the app at http://127.0.0.1:8321
+
+# 3) web client (Node 18+):
+cd front-end/web
+npm install
+npm run build                      # builds dist/, served by the server at :8321
+# or for development with hot reload:
+npm run dev                        # http://localhost:5173 (API calls go to :8321)
+```
+
+Notes:
+
+- Projects (graphs, tensors, run history, exported scripts) live under
+  `front-end/projects/<name>/` — local data, gitignored; new projects can be
+  seeded from the built-in templates.
+- Wolfram-based alphabet properties need `wolframscript` on this machine;
+  everything else (drawing, compiling, running flows, exporting scripts)
+  does not.
+- Platforms: **macOS and Linux are fully supported** (the run engine uses
+  POSIX process groups for cancellation and timeouts). On Windows the editor
+  and server run, but executing flows inside the web UI — and the exported
+  bash scripts — need a POSIX environment such as WSL (the C++ core requires
+  GCC/libstdc++ in any case).
+- `make check` (regression baselines + registry sync) needs local project
+  data and therefore runs meaningfully on the machine where the heptagon
+  project lives; CI runs the machine-independent subset.
+
 ## Multi-Project Layout
 
 By default, every executable reads seed tensors from `data/` and writes outputs to `output/`. This is the `E6` problem that ships with the repository. For a different symmetry group or a different bootstrap project, use a per-project directory pair:

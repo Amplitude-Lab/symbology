@@ -143,7 +143,7 @@ Each Galois transformation is an involution: `M^2 == IdentityMatrix[93]`.
 ## Generation
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymbolBootstrap.wl"}]];
 Get[FileNameJoin[{$ProjectRoot, "data_4pformfactor", "alphabet.wl"}]];

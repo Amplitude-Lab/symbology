@@ -128,7 +128,7 @@ is required from the caller beyond substituting `eps5 -> Sqrt[Delta5]`
 ## dlogmat generation
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymbolBootstrap.wl"}]];
 Get[FileNameJoin[{$ProjectRoot, "data_pentagon", "alphabet.wl"}]];
@@ -157,7 +157,7 @@ The projection matrix `M` encodes the action: `Log[W[i]_new] = Sum_j M[[i,j]]*Lo
 For the cyclic case, `M` is a permutation matrix with one `+1` per row.
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymmetryProjection.wl"}]];
 Get[FileNameJoin[{$ProjectRoot, "data_pentagon", "alphabet.wl"}]];
@@ -201,7 +201,7 @@ The projection matrix `M` encodes the action:
 permutation matrix with one `+1` per row (an involution, so `M = M^T = M^-1`).
 
 ```mathematica
-$ProjectRoot = "/Users/windfolgen/GitRepos/symbology";
+$ProjectRoot = "/path/to/symbology";
 SetDirectory[$ProjectRoot];
 Get[FileNameJoin[{$ProjectRoot, "SymmetryProjection.wl"}]];
 Get[FileNameJoin[{$ProjectRoot, "data_pentagon", "alphabet.wl"}]];
