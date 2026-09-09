@@ -23,15 +23,11 @@ case "$mode" in
     ;;
 esac
 
-# Build with Homebrew GCC on macOS (libc++ cannot handle std::execution::par
-# and std::chrono::zoned_time used by the project).
-if [[ -x "/opt/homebrew/bin/g++-14" ]]; then
-  make CXX=/opt/homebrew/bin/g++-14 \
-    CXXFLAGS="-O3 -std=c++20 -I. -I/opt/homebrew/include" \
-    LDLIBS="-L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib -lflint -lgmp -lmimalloc -ltbb"
-else
-  make
-fi
+# Build. On macOS the Makefile auto-selects a Homebrew GCC (libc++ cannot
+# handle std::execution::par and std::chrono::zoned_time used by the project)
+# and adds the Homebrew include/lib/rpath flags itself, so a plain `make`
+# works from any machine; override with `make CXX=...` if needed.
+make
 
 BOOTSTRAP="./bootstrap"
 if [[ -x "./bootstrap.exe" ]]; then

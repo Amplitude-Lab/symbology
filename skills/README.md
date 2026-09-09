@@ -32,7 +32,7 @@ working on a module.
 - **Multi-project**: see `README.md` §"Multi-Project Layout" for the
   `data_<PROJECT>/` + `output_<PROJECT>/` convention.
 
-## Verified status (as of 2026-07-04)
+## Verified status (as of 2026-09-09)
 
 | Module | Target | Status |
 |--------|--------|--------|
@@ -40,8 +40,9 @@ working on a module.
 | Projection (collinear) | `SEW_5p1` | Verified (basis dims `2 × 546 × 11`, rank 7 expansion) |
 | Projection (symmetries) | `SEW_5p1` cyclic/flip/parity | Verified (all three are identity `diag(1,1)` for `E6`) |
 | Symmetry solving | `SEW_5p1` cyclic/flip/parity | Verified (invariant subspace == full space) |
-| Collinear solving | `SEW_3p1` (L=2) | Verified with `colprojdiv_w1`: unique solution `c[0] = 8`, 8 constraints, `R2` divergent-free. Union matching: 8 intersection, 0 b-only. |
-| Collinear solving | `SEW_5p1` (L=3) | Verified with `colprojdiv_w1`: unique solution `c[0] = -24, c[1] = 2`, 32 constraints, `R3` divergent-free. Union matching: 32 intersection, 0 b-only. |
+| Collinear solving | `SEW_3p1` (L=2) | Recorded 2026-07-04 with `colprojdiv_w1`: unique `c[0] = 8`, 8 constraints, `R2` divergent-free. Union matching: 8 intersection, 0 b-only. **Re-verified 2026-09-10** post-solver-fix via the single-pair + compute_rhs regression baselines (bit-identical). |
+| Collinear solving | `SEW_5p1` (L=3) | Recorded 2026-07-04 with `colprojdiv_w1`: unique `c[0] = -24, c[1] = 2`, 32 constraints, `R3` divergent-free. Union matching: 32 intersection, 0 b-only. **Re-verified 2026-09-10** post-solver-fix via the compute_rhs regression baseline (bit-identical, `boundary_3L dc117613`). |
+| Collinear solving | `NMHVw2collinear` (2-pair) | Verified 2026-09-09 after the solver fix: unique `c = {1,1,2,−1,1}`, matching Wolfram `LinearSolve` on the exported `cond` matrix; the 16 recorded commands re-run bit-identically as the `make regression` baseline (`audits/baseline-2026-09-09/`). |
 | Compute RHS | L=2, L=3 | Verified end-to-end with `colprojdiv_w1` (identity is inconsistent at all `L ≥ 2` for `E6`) |
 
 ## Pitfalls (cross-cutting)

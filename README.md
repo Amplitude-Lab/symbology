@@ -20,13 +20,31 @@ The executable is a C++20 program. A local build needs:
 
 - optional: Wolfram/Mathematica, useful for inspecting or round-tripping WXF `SparseArray` data.
 
-`SparseRREF` is not vendored as a submodule. Put a checkout of its current default branch at repository root, so the headers live under `SparseRREF/`.
+`SparseRREF` is not vendored as a submodule. Put a checkout at repository root, so the headers live under `SparseRREF/`. **Pin the tested commit and apply the bundled fixes** — `scripts/setup-sparserref.sh` does all of it (clone at the pinned commit, apply patches, verify):
 
 ```bash
-git clone https://github.com/ITPSYM/symbology.git
+git clone https://github.com/Amplitude-Lab/symbology.git
 cd symbology
-git clone https://github.com/munuxi/SparseRREF.git
+./scripts/setup-sparserref.sh
 ```
+
+(Manually: `git clone https://github.com/munuxi/SparseRREF.git`, `git checkout 5bbee55`, `git apply ../patches/sparserref-5bbee55-race-and-init-fix.patch`. Use `--check` to verify an existing checkout.)
+
+> **Required SparseRREF patches.** Upstream `sparse_mat_rref_forward/backward` (used by every
+> `--project` / sewing-nullspace computation) publish rewritten rows through plain
+> `int` flags with no memory ordering: consumer threads can observe the flag before the
+> row data, index a phantom pivot, and dereference null — an intermittent `SIGSEGV`
+> (\~10% of runs at weight ≥ 3 on multi-core machines; outputs are correct whenever a
+> run survives). `patches/sparserref-5bbee55-race-and-init-fix.patch` fixes this with
+> release/acquire atomics, exact-once flag consumption, and loud abort guards, and also
+> adds a placement-new fix for `rat_t` values in `sparse_type.h` (present upstream as
+> `9874061`). The patch is verified to reproduce the validated state byte-for-byte on
+> `5bbee55`. If you track a newer upstream `master` instead, apply
+> `patches/sparserref-race-fix.patch` (race fix only; the `sparse_type.h` part is
+> already upstream since `9874061`) — it applies cleanly on `b5b3d3c` (v0.4.0).
+> Without one of these patches the build works but **will crash intermittently**.
+> A detailed bug report (root cause, reproduction data, and fix rationale) suitable for
+> sharing upstream is in `patches/BUGREPORT-sparse-mat-rref-race.md`.
 
 ## Dependency Setup
 
@@ -47,26 +65,27 @@ xcode-select --install
 brew install flint gmp tbb mimalloc gcc
 ```
 
-Then build with `g++-14` (note: this bypasses the default `make` rule, which uses the system `g++`/`clang++`):
+Then build:
 
 ```bash
-make CXX=g++-14
+make
 ```
 
-If `g++-14` is not on `PATH`, point at it explicitly, for example:
+On macOS the Makefile handles two things automatically:
+
+1. **Selects Homebrew GCC.** It picks a `g++-<version>` found under `/opt/homebrew/bin` or `/usr/local/bin` (override with `make CXX=...`, e.g. `make CXX=/opt/homebrew/bin/g++-14`).
+2. **Adds the Homebrew include and library paths** (`-I$(brew --prefix)/include`, `-L$(brew --prefix)/lib`, plus an rpath) to the compile and link flags. Neither Apple Clang nor Homebrew GCC searches the Homebrew prefix by default, so without these flags the build fails with `flint/nmod.h: No such file or directory` (compile stage) or `ld: library 'flint' not found` (link stage).
+
+Because of (2), plain `make` works in **any** shell — no `CPATH`/`LIBRARY_PATH`/`CPPFLAGS`/`LDFLAGS` exports are needed. If your login profile already exports them (some Homebrew mirror setup scripts add `export CPATH="$(brew --prefix)/include:$CPATH"` and the matching `LIBRARY_PATH` to `~/.zprofile`), the build used to work only because of those exports; the Makefile now provides the same paths itself, so CI runners, IDE build tasks, and non-login shells behave identically.
+
+#### Non-standard Homebrew prefix
+
+If `brew` is not on `PATH` in the build environment, the Makefile falls back to `/opt/homebrew/bin/brew` and then `/usr/local/bin/brew`. For a truly custom prefix, pass the paths explicitly:
 
 ```bash
-make CXX=/opt/homebrew/bin/g++-14
-```
-
-#### If `g++-14` cannot find the libraries
-
-Pass the Homebrew include and library paths explicitly:
-
-```bash
-make CXX=g++-14 \
-  CXXFLAGS="-O3 -std=c++20 -I. -I/opt/homebrew/include" \
-  LDLIBS="-L/opt/homebrew/lib -Wl,-rpath,/opt/homebrew/lib -lflint -lgmp -lmimalloc -ltbb"
+make CXX=/opt/homebrew/bin/g++-14 \
+  CXXFLAGS="-O3 -std=c++20 -I. -I<prefix>/include" \
+  LDLIBS="-L<prefix>/lib -Wl,-rpath,<prefix>/lib -lflint -lgmp -lmimalloc -ltbb"
 ```
 
 #### Linux note
@@ -85,7 +104,7 @@ Package names can vary slightly across distributions. The important libraries ar
 
 ## Build
 
-There are three executables, all built with `make`:
+There are six executables, all built with `make`:
 
 - `bootstrap` — the main dispatcher (extension, sewing, projection, symmetry solving, collinear solving). Built from `bootstrap.cpp` plus the shared headers.
 
@@ -93,15 +112,21 @@ There are three executables, all built with `make`:
 
 - `inspect_tensors` — small diagnostic tool that prints tensor contents. Built from `inspect_tensors.cpp`.
 
-Each rule in the `Makefile` declares its own header dependencies, so `make` will only rebuild what has changed. The shared headers are: `bootstrap.hpp`, `projection.hpp`, `solve_symmetry.hpp`, `solve_collinear.hpp`, `linear_solve.hpp`, `tensor_expand.hpp`, `tensor_shuffle.h`.
+- `tensor_add` — weighted sum of sparse tensors. Built from `tensor_add.cpp`.
+
+- `tensor_ops` — the general tensor utility CLI the flow editor drives (ternary contraction, matrix power, join, squeeze, shuffle product, integrability conditioning, expansion, …). Built from `tensor_ops.cpp`.
+
+- `letter_filter_bench` — semantics verification + benchmark for the divergent/finite letter support filters. Built from `letter_filter_bench.cpp`.
+
+Each rule in the `Makefile` declares its own header dependencies, so `make` will only rebuild what has changed. The shared headers are: `bootstrap.hpp`, `projection.hpp`, `solve_symmetry.hpp`, `solve_collinear.hpp`, `linear_solve.hpp`, `incremental_solve.hpp`, `tensor_expand.hpp`, `tensor_shuffle.h`.
 
 Build from the repository root:
 
 ```bash
-make               # builds bootstrap only (default target)
-make compute_rhs   # builds the RHS computation module
-make inspect_tensors  # builds the diagnostic tool
-make all           # same as `make bootstrap`
+make                  # builds bootstrap only (default target)
+make compute_rhs tensor_add tensor_ops inspect_tensors   # the rest
+make all              # same as `make bootstrap`
+make regression       # re-run the recorded CRC32 baselines (gate for core changes)
 ```
 
 Clean the binaries with:
@@ -109,6 +134,60 @@ Clean the binaries with:
 ```bash
 make clean
 ```
+
+## Design locally, run on the cluster (standalone script export)
+
+A flow drawn in the web editor can be exported as a **single portable,
+self-checking bash script** and carried to any machine where the C++ core is
+built (a Linux x86_64 cluster, for example) — the front-end is not needed
+there. The script is the exact plan the local run engine would execute,
+wrapped in safety guards.
+
+> **How to export (in the web UI):**
+> 1. Open the flow in the **Flow Editor**.
+> 2. Click **Compile** in the toolbar.
+> 3. In the right-hand side panel, open the **Plan** tab — the compiled
+>    command list appears.
+> 4. Click **⇪ Export standalone script** (under "▶ Run this plan").
+>
+> The script is written to `front-end/projects/<project>/exported/<flow>.sh`,
+> and the panel prints the invocation to run it elsewhere.
+
+Then, on the target machine:
+
+```bash
+# one-time setup (clone the repo there, or copy it):
+./scripts/setup-sparserref.sh && make     # SparseRREF (pinned) + build the core
+
+# sync/copy the project dir, then run the exported script:
+SYMBOLOGY_ROOT=/path/to/symbology \
+PROJ_DIR=/path/to/synced/project-dir \
+bash /path/to/project-dir/exported/<flow>.sh
+```
+
+What the script does for you:
+
+- `set -euo pipefail` + loud failures with step context, log tail and disk state.
+- **Preflight**: binaries executable, seed inputs present with sizes, free disk
+  on the output directory, `wolframscript` probe.
+- **No Mathematica needed**: Wolfram steps (alphabet properties) are skipped
+  with loud warnings when their output tensors already exist in the project
+  dir — copy them from the laptop; otherwise the script fails explicitly
+  (`WOLFRAM_MODE=skip` forces skipping, `WOLFRAM_MODE=fail` forbids it).
+- Per-step banners and wall timings, everything tee'd to
+  `runs/exported-<timestamp>.log`; `STEP_TIMEOUT=<seconds>` arms a watchdog.
+- **Post-step verification**: every declared output must exist and be nonempty
+  (a zero-exit step that wrote nothing fails), with a CRC32 echo per output.
+- **Resume**: completed steps are skipped on re-run via `.sig.exported`
+  fingerprints (command + input size/mtime) — independent from the front-end's
+  own cache, so a mismatch costs a recompute and never a stale skip.
+- `--dry-run` prints the plan; `STEPS="3,5-9"` runs a subset.
+
+Cluster prerequisites: GCC ≥ 12 (libstdc++), FLINT, GMP, TBB and python3;
+mimalloc is optional (auto-detected; the math is identical without it). The
+Makefile picks `-march=native` on x86_64 automatically. Generated Wolfram
+scripts (if you do run property computations on a machine with Mathematica)
+resolve the package through `$SYMBOLOGY_ROOT` as well.
 
 ## Multi-Project Layout
 
@@ -256,7 +335,7 @@ Options:
 
 - `--pair-cond <cond.wxf>`: extra constraint matrix re-ingested into a multi-pair solve (repeatable). Produced by `--export-conditions`; `[M | r]` rank-2 form, rhs = last column;
 
-- `--export-conditions`: multi-pair mode. Write `output/collinear/cond_<stem>.wxf`: the combined non-homogeneous constraints as a rank-2 `[M | r]` matrix (n_unknowns+1 columns, rhs = last column), one row per stacked constraint row;
+- `--export-conditions`: multi-pair mode. Write `output/collinear/cond_<stem>.wxf`: the combined non-homogeneous constraints as a rank-2 `[M | r]` matrix (n\_unknowns+1 columns, rhs = last column), one row per stacked constraint row;
 
 - `--out-stem <name>`: override `sol_`/`cond_` output naming for multi-pair mode (default: the first pair's seed stem if there is exactly one pair/condition, else `<first-stem>_x<N>`);
 
@@ -410,10 +489,10 @@ All `Get*` functions require the corresponding condition to have been set and re
 
 ### Tensor ↔ expression conversion
 
-| Function               | Input                    | Returns    | Description                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------------------- | ------------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SA2Exp[sarray]` | `SparseArray` (any rank) | expression | Converts a sparse tensor to `Σ v · S[i, j, ...]`, one `S[...]` per nonzero position `{i, j, ...}` with its value `v` as coefficient. All-zero tensors give `0`. The `S` head resolves to ``Global`S``, matching the `Exp2SA` convention used by the front-end's symbol-tensor property scripts; `Exp2SA[SA2Exp[t]]` reproduces all nonzeros of `t`, and `Exp2SA[e, "dim" -> d]` restores the exact dimensions when each axis's max index is not tight. |
-| `SA2Exp[sarray, head]` | + custom head symbol     | expression | Same with a different head (e.g. `W`), for displaying against a concrete alphabet.                                                                                                                                                                                                                                                                                                |
+| Function               | Input                    | Returns    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------------- | ------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `SA2Exp[sarray]`       | `SparseArray` (any rank) | expression | Converts a sparse tensor to `Σ v · S[i, j, ...]`, one `S[...]` per nonzero position `{i, j, ...}` with its value `v` as coefficient. All-zero tensors give `0`. The `S` head resolves to ``Global`S``, matching the `Exp2SA` convention used by the front-end's symbol-tensor property scripts; `Exp2SA[SA2Exp[t]]` reproduces all nonzeros of `t`, and `Exp2SA[e, "dim" -> d]` restores the exact dimensions when each axis's max index is not tight. |
+| `SA2Exp[sarray, head]` | + custom head symbol     | expression | Same with a different head (e.g. `W`), for displaying against a concrete alphabet.                                                                                                                                                                                                                                                                                                                                                                     |
 
 `SA2Exp` is the inverse direction of the `Exp2SA` helper generated by the front-end server ([wolfram.py](front-end/server/app/wolfram.py)); typical use is turning a solved collinear combination `c . seed` back into a checkable expression in the symbol letters.
 
@@ -500,7 +579,7 @@ dlogmat = GetIntegrabilityTensor["Pentagon"];  (* {31, 31, 361}, nnz=1754 *)
 For forward files, the current workflow has been checked as follows:
 
 1. Generate `output/FEC_2.wxf` through `output/FEC_6.wxf`.
-2. Roundtrip each file with the top-level `wxf_roundtrip.wls`.
+2. Roundtrip each file through Mathematica (import the WXF `SparseArray`, re-export it) — the historical `wxf_roundtrip.wls` helper this step referred to is no longer in the tree.
 3. Compare CRC32 with `bootstrap_E6_archive/FCC_2_rref.wxf` through `FCC_6_rref.wxf`.
 
 After Mathematica roundtrip, all checked `FEC_2..FEC_6` CRC32 values match the archive. `LEC` files intentionally use a different axis order from the old `LCC` files.

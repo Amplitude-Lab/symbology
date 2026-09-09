@@ -1,0 +1,45 @@
+{
+ "description": "Regression baseline: single-pair --solve-collinear on SEW_3p1 (L=2), divergent projection + colprojdiv_w1 letter file. Covers the union-matching path (run_collinear_solver), which the multi-pair flow baseline does not exercise. Recorded 2026-09-09 during the flat sorted-index union-matching rewrite (differential-tested bit-identical against the pre-rewrite binary).",
+ "project": "heptagon-repo-root",
+ "repo_root_inputs": true,
+ "steps": [
+  {
+   "id": "solve-1",
+   "label": "Single-pair solve-collinear SEW_3p1 (union matching + incremental solver)",
+   "argv": [
+    "@ROOT@/bootstrap",
+    "--solve-collinear",
+    "--target",
+    "SEW_3p1",
+    "--rhs",
+    "@PROJ@/output/2loop/boundary_2L.wxf",
+    "--projection",
+    "divergent",
+    "--letter-projection",
+    "@PROJ@/output/collinear/colprojdiv_w1.wxf",
+    "--solver",
+    "incremental",
+    "--data-dir",
+    "@PROJ@/data",
+    "--output-dir",
+    "@PROJ@/output"
+   ]
+  }
+ ],
+ "seed_inputs": [
+  "data/",
+  "output/collinear/",
+  "output/2loop/boundary_2L.wxf"
+ ],
+ "solution_check": {
+  "step": "solve-1",
+  "must_contain": [
+   "c[0] = 8",
+   "Both nonzero (intersection): 8",
+   "A zero, b nonzero (INCONSISTENT): 0"
+  ]
+ },
+ "crc32": {
+  "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+ }
+}

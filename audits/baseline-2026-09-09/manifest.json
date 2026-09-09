@@ -1,0 +1,246 @@
+{
+ "description": "Regression baseline: NMHVw2collinear flow (heptagon), run record 2c7648e27513, re-run 2026-09-09 after the incremental-solver read-off fix. Expected solution c = {1,1,2,-1,1}.",
+ "project": "heptagon",
+ "run_record": "runs/2c7648e27513.json",
+ "steps": [
+  {
+   "id": "step-1",
+   "label": "Apply symmetry cycrepmat to E12pre1 -> cb198_79d057_E23tensor (dims-matched axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/E12pre1.wxf",
+    "@PROJ@/data/cycrepmat.wxf",
+    "@PROJ@/data/cycrepmat.wxf",
+    "@PROJ@/output/cb198_79d057_E23tensor.wxf"
+   ]
+  },
+  {
+   "id": "step-2",
+   "label": "Raise cycrepmat to power 2 (shared cache)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "power",
+    "@PROJ@/data/cycrepmat.wxf",
+    "2",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p2.wxf"
+   ]
+  },
+  {
+   "id": "step-3",
+   "label": "Apply symmetry cycrepmat (S^2) to E12pre1 -> cb198_79d057_E34tensor (dims-matched axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/E12pre1.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p2.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p2.wxf",
+    "@PROJ@/output/cb198_79d057_E34tensor.wxf"
+   ]
+  },
+  {
+   "id": "step-4",
+   "label": "Apply symmetry colmat42 to E0pre1 -> cb198_79d057_E0collinear (dims-matched axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/E0pre1.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/output/cb198_79d057_E0collinear.wxf"
+   ]
+  },
+  {
+   "id": "step-5",
+   "label": "Apply symmetry colmat42 to cb198_79d057_E23tensor -> cb198_79d057_E23collinear (uniform alphabet axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/cb198_79d057_E23tensor.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/output/cb198_79d057_E23collinear.wxf"
+   ]
+  },
+  {
+   "id": "step-6",
+   "label": "Apply symmetry colmat42 to cb198_79d057_E34tensor -> cb198_79d057_E34collinear (uniform alphabet axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/cb198_79d057_E34tensor.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/output/cb198_79d057_E34collinear.wxf"
+   ]
+  },
+  {
+   "id": "step-7",
+   "label": "Add cb198_79d057_E0collinear + 1*cb198_79d057_E23collinear -> cb198_79d057_E0E23E34tensor_p1",
+   "argv": [
+    "@ROOT@/tensor_add",
+    "@PROJ@/output/cb198_79d057_E0collinear.wxf",
+    "@PROJ@/output/cb198_79d057_E23collinear.wxf",
+    "1",
+    "1",
+    "@PROJ@/output/cb198_79d057_E0E23E34tensor_p1.wxf"
+   ]
+  },
+  {
+   "id": "step-8",
+   "label": "Add cb198_79d057_E0E23E34tensor_p1 + 1*cb198_79d057_E34collinear -> cb198_79d057_E0E23E34tensor",
+   "argv": [
+    "@ROOT@/tensor_add",
+    "@PROJ@/output/cb198_79d057_E0E23E34tensor_p1.wxf",
+    "@PROJ@/output/cb198_79d057_E34collinear.wxf",
+    "1",
+    "1",
+    "@PROJ@/output/cb198_79d057_E0E23E34tensor.wxf"
+   ]
+  },
+  {
+   "id": "step-9",
+   "label": "Raise cycrepmat to power 3 (shared cache)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "power",
+    "@PROJ@/data/cycrepmat.wxf",
+    "3",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p3.wxf"
+   ]
+  },
+  {
+   "id": "step-10",
+   "label": "Apply symmetry cycrepmat (S^3) to E14pre1 -> cb205_4b4327_E47tensor (dims-matched axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/E14pre1.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p3.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p3.wxf",
+    "@PROJ@/output/cb205_4b4327_E47tensor.wxf"
+   ]
+  },
+  {
+   "id": "step-11",
+   "label": "Raise cycrepmat to power 5 (shared cache)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "power",
+    "@PROJ@/data/cycrepmat.wxf",
+    "5",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p5.wxf"
+   ]
+  },
+  {
+   "id": "step-12",
+   "label": "Apply symmetry cycrepmat (S^5) to E12pre1 -> cb205_4b4327_E67tensor (dims-matched axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/E12pre1.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p5.wxf",
+    "@PROJ@/output/.derived/pow_c91ffc8479/cycrepmat_p5.wxf",
+    "@PROJ@/output/cb205_4b4327_E67tensor.wxf"
+   ]
+  },
+  {
+   "id": "step-13",
+   "label": "Apply symmetry colmat42 to cb205_4b4327_E47tensor -> cb205_4b4327_E47collinear (uniform alphabet axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/cb205_4b4327_E47tensor.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/output/cb205_4b4327_E47collinear.wxf"
+   ]
+  },
+  {
+   "id": "step-14",
+   "label": "Apply symmetry colmat42 to cb205_4b4327_E67tensor -> cb205_4b4327_E67collinear (uniform alphabet axes)",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "ternary",
+    "@PROJ@/output/cb205_4b4327_E67tensor.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/data/colmat42.wxf",
+    "@PROJ@/output/cb205_4b4327_E67collinear.wxf"
+   ]
+  },
+  {
+   "id": "step-15",
+   "label": "Add cb205_4b4327_E47collinear + -1*cb205_4b4327_E67collinear -> cb205_4b4327_E47-E67",
+   "argv": [
+    "@ROOT@/tensor_add",
+    "@PROJ@/output/cb205_4b4327_E47collinear.wxf",
+    "@PROJ@/output/cb205_4b4327_E67collinear.wxf",
+    "1",
+    "-1",
+    "@PROJ@/output/cb205_4b4327_E47-E67.wxf"
+   ]
+  },
+  {
+   "id": "step-16",
+   "label": "Solve non-homogeneous constraints on 2 pairs",
+   "argv": [
+    "@ROOT@/bootstrap",
+    "--solve-collinear",
+    "--pair",
+    "@PROJ@/output/cb198_79d057_E0E23E34tensor.wxf",
+    "@PROJ@/data/E1.wxf",
+    "identity",
+    "--pair",
+    "@PROJ@/output/cb205_4b4327_E47-E67.wxf",
+    "@PROJ@/data/hep1LE47mE67.wxf",
+    "divergent",
+    "--out-stem",
+    "nmhvsolw2",
+    "--solver",
+    "incremental",
+    "--data-dir",
+    "@PROJ@/data",
+    "--output-dir",
+    "@PROJ@/output"
+   ]
+  }
+ ],
+ "seed_inputs": [
+  "data/",
+  "output/E12pre1.wxf",
+  "output/E0pre1.wxf",
+  "output/E14pre1.wxf"
+ ],
+ "solution_check": {
+  "step": "step-16",
+  "must_contain": [
+   "c[0] = 1",
+   "c[1] = 1",
+   "c[2] = 2",
+   "c[3] = -1",
+   "c[4] = 1"
+  ]
+ },
+ "crc32": {
+  "output/.derived/pow_c91ffc8479/cycrepmat_p2.wxf": "fd55d204",
+  "output/.derived/pow_c91ffc8479/cycrepmat_p3.wxf": "5c940dec",
+  "output/.derived/pow_c91ffc8479/cycrepmat_p5.wxf": "05ea7fa4",
+  "output/cb198_79d057_E0E23E34tensor.wxf": "9318f373",
+  "output/cb198_79d057_E0E23E34tensor_p1.wxf": "635ae18e",
+  "output/cb198_79d057_E0collinear.wxf": "f0df18e4",
+  "output/cb198_79d057_E23collinear.wxf": "cc9ac61d",
+  "output/cb198_79d057_E23tensor.wxf": "cbc90aee",
+  "output/cb198_79d057_E34collinear.wxf": "845271ca",
+  "output/cb198_79d057_E34tensor.wxf": "be46c0b4",
+  "output/cb205_4b4327_E47-E67.wxf": "70518df4",
+  "output/cb205_4b4327_E47collinear.wxf": "b284083a",
+  "output/cb205_4b4327_E47tensor.wxf": "d03a380f",
+  "output/cb205_4b4327_E67collinear.wxf": "4206edf2",
+  "output/cb205_4b4327_E67tensor.wxf": "3956cda5",
+  "output/collinear/sol_nmhvsolw2.wxf": "6f59ed99"
+ },
+ "placeholders": {
+  "@ROOT@": "repository root (dir containing the Makefile)",
+  "@PROJ@": "the heptagon project directory (front-end/projects/heptagon)"
+ }
+}

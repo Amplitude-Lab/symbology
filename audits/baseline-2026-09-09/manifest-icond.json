@@ -1,0 +1,68 @@
+{
+ "description": "Regression baseline: integrability-condition chain (build_condition_matrix + join + solve_condition_kernel) from recorded NMHVw2 flow commands. Covers tensor_ops icond/join/isolve \u2014 the build_condition_matrix hot path deferred from the 2026-09-09 efficiency audit until coverage existed. Recorded 2026-09-10.",
+ "project": "heptagon",
+ "steps": [
+  {
+   "id": "icond-1",
+   "label": "icond E12pre x dlogmat_E6 -> E12cond",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "icond",
+    "@PROJ@/output/cb166_079dce_E12pre_cb166_079dce_E12pre.wxf",
+    "@PROJ@/data/dlogmat_E6.wxf",
+    "@PROJ@/output/E12cond.wxf"
+   ]
+  },
+  {
+   "id": "icond-2",
+   "label": "icond E14pre x dlogmat_E6 -> E14cond",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "icond",
+    "@PROJ@/output/cb167_8bb34a_E14pre_cb167_8bb34a_E14pre.wxf",
+    "@PROJ@/data/dlogmat_E6.wxf",
+    "@PROJ@/output/E14cond.wxf"
+   ]
+  },
+  {
+   "id": "join-1",
+   "label": "join E12cond + E14cond (axis -1) -> joinedcond",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "join",
+    "@PROJ@/output/E12cond.wxf",
+    "@PROJ@/output/E14cond.wxf",
+    "-1",
+    "@PROJ@/output/joinedcond.wxf"
+   ]
+  },
+  {
+   "id": "isolve-1",
+   "label": "isolve joinedcond (transposed) -> solw2pre",
+   "argv": [
+    "@ROOT@/tensor_ops",
+    "isolve",
+    "@PROJ@/output/joinedcond.wxf",
+    "1",
+    "@PROJ@/output/solw2pre.wxf"
+   ]
+  }
+ ],
+ "seed_inputs": [
+  "data/",
+  "output/cb166_079dce_E12pre_cb166_079dce_E12pre.wxf",
+  "output/cb167_8bb34a_E14pre_cb167_8bb34a_E14pre.wxf"
+ ],
+ "solution_check": {
+  "step": "isolve-1",
+  "must_contain": [
+   "solution basis"
+  ]
+ },
+ "crc32": {
+  "output/E12cond.wxf": "4397128a",
+  "output/E14cond.wxf": "f169eb58",
+  "output/joinedcond.wxf": "8f417e66",
+  "output/solw2pre.wxf": "f49ea866"
+ }
+}

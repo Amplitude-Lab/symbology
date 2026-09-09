@@ -65,7 +65,14 @@ void write_tensor_file(
 
 	auto u8arr = sparse_tensor_write_wxf(tensor_csr);
 	std::ofstream ofs(path, std::ios::binary);
+	if (!ofs) {
+		throw std::runtime_error("Cannot write file: " + path.string());
+	}
 	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	ofs.flush();
+	if (!ofs.good()) {
+		throw std::runtime_error("Failed writing file (disk full or I/O error?): " + path.string());
+	}
 	ofs.close();
 	std::cout << "   Wrote " << path.filename().string() << std::endl;
 }
@@ -158,14 +165,21 @@ sparse_tensor<T, index_t, SPARSE_CSR> expand_hepmhv(
 
 // ========== Compute the boundary (RHS) for loop order L ==========
 //
-// Hardcoded formulas:
-//   L=2: E1^2 / 2
-//   L=3: E1^3 / 6 + E1 * R2
-//   L=4: -E1^4 / 12 + E2^2 / 2 + E1 * R3
-//   L=5: E1^5 / 20 - E1*E2^2 / 2 + E2*R3 + E1*R4
+// The master-equation recursion (identical to the flow editor's Compute RHS
+// node; proven in the shuffle word algebra at every order L <= 6, and equal
+// to the historical closed forms at L = 2..4):
 //
-// Inputs: E[1..L-1] and R[2..L-1] as COO tensors.
-// Returns the boundary as a COO tensor (rank 2L, dims (11,...,11)).
+//   boundary_L = (1/L) * sum_{k=1}^{L-1} k * (R_k shuffle E_{L-k}),
+//   with R_1 := E_1.
+//
+// It replaced the hardcoded L=2..5 closed forms on 2026-09-10: the L=5 form
+// was KNOWN-WRONG (t-remainder; see skills/05_compute_rhs.md) and the closed
+// forms capped the loop order at 5. The recursion is any-L; the practical
+// cap remains L <= 5 only because the shuffle kernel throws above total
+// weight 11 (see tensor_shuffle.h).
+//
+// Inputs: E[1..L-1] and R[2..L-1] as COO tensors (R_1 is E_1).
+// Returns the boundary as a COO tensor (rank 2L letter slots).
 
 template <typename T, typename index_t>
 sparse_tensor<T, index_t, SPARSE_COO> compute_boundary(
@@ -174,102 +188,33 @@ sparse_tensor<T, index_t, SPARSE_COO> compute_boundary(
 	const std::map<size_t, sparse_tensor<T, index_t, SPARSE_COO>>& R_list,
 	const field_t& F, thread_pool* pool) {
 
-	std::cout << "== Computing boundary for L=" << L << " ==" << std::endl;
+	std::cout << "== Computing boundary for L=" << L << " (master-equation recursion) ==" << std::endl;
 
 	using coo_t = sparse_tensor<T, index_t, SPARSE_COO>;
 
-	if (L == 2) {
-		// boundary = E1^2 / 2
-		auto E1_sq = shuffle_power<T, index_t>(E_list.at(1), 2, F, pool);
-		std::cout << "   E1^2: nnz=" << E1_sq.nnz() << std::endl;
-		auto boundary = tensor_scalar_mul(E1_sq, T(1, 2), F);
-		std::cout << "   boundary = E1^2/2: nnz=" << boundary.nnz() << std::endl;
-		return boundary;
+	if (L < 2)
+		throw std::runtime_error("compute_boundary: L=" + std::to_string(L)
+			+ " < 2 — nothing to compute (E1 is the seed)");
+	if (E_list.find(1) == E_list.end())
+		throw std::runtime_error("compute_boundary: E1 missing from the E list");
+	const size_t n_letters = E_list.at(1).dim(0);
+
+	// rank-2L letter-slot result, all slots the alphabet size
+	std::vector<size_t> bdims(2 * L, n_letters);
+	coo_t boundary(bdims);
+
+	for (size_t k = 1; k <= L - 1; k++) {
+		const coo_t& Rk = (k == 1) ? E_list.at(1) : R_list.at(k);   // R_1 := E1
+		const coo_t& Em = E_list.at(L - k);
+		std::cout << "   term k=" << k << ": (" << k << "/" << L
+		          << ") * R_" << k << " shuffle E_" << (L - k) << std::flush;
+		auto term = tensor_shuffle_product_parallel(Rk, Em, F, nullptr);
+		std::cout << " nnz=" << term.nnz() << std::endl;
+		tensor_add_weighted(boundary, term, T(1), T((int)k, (int)L), F);
 	}
-
-	if (L == 3) {
-		// boundary = E1^3 / 6 + E1 * R2
-		auto E1 = E_list.at(1);
-		auto R2 = R_list.at(2);
-
-		std::cout << "   Computing E1^3..." << std::endl;
-		auto E1_cube = shuffle_power<T, index_t>(E1, 3, F, pool);
-		std::cout << "   E1^3: nnz=" << E1_cube.nnz() << std::endl;
-		auto term1 = tensor_scalar_mul(E1_cube, T(1, 6), F);
-		E1_cube.clear();
-
-		std::cout << "   Computing E1 * R2..." << std::endl;
-		auto E1_R2 = tensor_shuffle_product_parallel(E1, R2, F, nullptr);
-		std::cout << "   E1*R2: nnz=" << E1_R2.nnz() << std::endl;
-
-		auto boundary = term1;  // start with term1
-		tensor_add_weighted(boundary, E1_R2, T(1), T(1), F);  // boundary = term1 + E1*R2
-		std::cout << "   boundary = E1^3/6 + E1*R2: nnz=" << boundary.nnz() << std::endl;
-		return boundary;
-	}
-
-	if (L == 4) {
-		// boundary = -E1^4 / 12 + E2^2 / 2 + E1 * R3
-		auto E1 = E_list.at(1);
-		auto E2 = E_list.at(2);
-		auto R3 = R_list.at(3);
-
-		std::cout << "   Computing E1^4..." << std::endl;
-		auto E1_4 = shuffle_power<T, index_t>(E1, 4, F, pool);
-		auto term1 = tensor_scalar_mul(E1_4, T(-1, 12), F);
-		E1_4.clear();
-
-		std::cout << "   Computing E2^2..." << std::endl;
-		auto E2_sq = tensor_shuffle_product_parallel(E2, E2, F, nullptr);
-		auto term2 = tensor_scalar_mul(E2_sq, T(1, 2), F);
-		E2_sq.clear();
-
-		std::cout << "   Computing E1 * R3..." << std::endl;
-		auto E1_R3 = tensor_shuffle_product_parallel(E1, R3, F, nullptr);
-
-		// boundary = term1 + term2 + E1*R3
-		auto boundary = term1;
-		tensor_add_weighted(boundary, term2, T(1), T(1), F);
-		tensor_add_weighted(boundary, E1_R3, T(1), T(1), F);
-		std::cout << "   boundary = -E1^4/12 + E2^2/2 + E1*R3: nnz=" << boundary.nnz() << std::endl;
-		return boundary;
-	}
-
-	if (L == 5) {
-		// boundary = E1^5 / 20 - E1*E2^2 / 2 + E2*R3 + E1*R4
-		auto E1 = E_list.at(1);
-		auto E2 = E_list.at(2);
-		auto R3 = R_list.at(3);
-		auto R4 = R_list.at(4);
-
-		std::cout << "   Computing E1^5..." << std::endl;
-		auto E1_5 = shuffle_power<T, index_t>(E1, 5, F, pool);
-		auto term1 = tensor_scalar_mul(E1_5, T(1, 20), F);
-		E1_5.clear();
-
-		std::cout << "   Computing E1 * E2^2..." << std::endl;
-		auto E2_sq = tensor_shuffle_product_parallel(E2, E2, F, nullptr);
-		auto E1_E2_sq = tensor_shuffle_product_parallel(E1, E2_sq, F, nullptr);
-		E2_sq.clear();
-		auto term2 = tensor_scalar_mul(E1_E2_sq, T(-1, 2), F);
-		E1_E2_sq.clear();
-
-		std::cout << "   Computing E2 * R3..." << std::endl;
-		auto E2_R3 = tensor_shuffle_product_parallel(E2, R3, F, nullptr);
-
-		std::cout << "   Computing E1 * R4..." << std::endl;
-		auto E1_R4 = tensor_shuffle_product_parallel(E1, R4, F, nullptr);
-
-		// boundary = term1 + term2 + E2*R3 + E1*R4
-		auto boundary = term1;
-		tensor_add_weighted(boundary, term2, T(1), T(1), F);
-		tensor_add_weighted(boundary, E2_R3, T(1), T(1), F);
-		tensor_add_weighted(boundary, E1_R4, T(1), T(1), F);
-		std::cout << "   boundary = E1^5/20 - E1*E2^2/2 + E2*R3 + E1*R4: nnz=" << boundary.nnz() << std::endl;
-		return boundary;
-	}
-
-	throw std::runtime_error("compute_boundary: L=" + std::to_string(L) + " not supported (max 5)");
+	std::cout << "   boundary_L = (1/" << L << ") * sum_k k*(R_k shuffle E_{L-k}): nnz="
+	          << boundary.nnz() << std::endl;
+	return boundary;
 }
 
 // ========== Helper: locate the dlogmat seed in data_dir ==========
@@ -302,8 +247,28 @@ inline std::filesystem::path find_dlogmat(const std::filesystem::path& data_dir)
 // so that --project / --solve-symmetry / --solve-collinear auto-invocations inside
 // the subprocess read from / write to the same project directories as compute_rhs.
 // The paths must be absolute because the subprocess resolves relative paths
-// against its own executable directory (which is the cwd when invoked as
-// "./bootstrap").
+// against its own executable directory.
+//
+// The bootstrap binary itself is resolved as a SIBLING of the running
+// executable (set from main() via compute_rhs_exe_dir()), never the
+// cwd-relative "./bootstrap" — that only worked when the caller happened to
+// run from the repository root. All paths are single-quoted so directories
+// containing spaces survive the shell round-trip.
+
+inline std::filesystem::path& compute_rhs_exe_dir() {
+	static std::filesystem::path d = std::filesystem::current_path();
+	return d;
+}
+
+inline std::string bootstrap_exe_path() {
+	auto p = compute_rhs_exe_dir() / "bootstrap";
+	if (std::filesystem::exists(p)) return p.string();
+	return "bootstrap";  // not next to us: fall back to a PATH lookup
+}
+
+inline std::string shell_quote(const std::string& s) {
+	return "'" + std::string(s) + "'";
+}
 
 inline void run_bootstrap_cmd(
 	const std::string& cmd,
@@ -313,8 +278,8 @@ inline void run_bootstrap_cmd(
 	auto abs_data = std::filesystem::absolute(data_dir);
 	auto abs_output = std::filesystem::absolute(output_dir);
 	std::string full = cmd
-		+ " --data-dir " + abs_data.string()
-		+ " --output-dir " + abs_output.string();
+		+ " --data-dir " + shell_quote(abs_data.string())
+		+ " --output-dir " + shell_quote(abs_output.string());
 	std::cout << "   [bootstrap] " << full << std::endl;
 	int ret = std::system(full.c_str());
 	if (ret != 0) {
@@ -344,10 +309,10 @@ inline void ensure_fec_tensors(
 			continue;
 		}
 		std::cout << "   Generating FEC_" << w << " via bootstrap --extend..." << std::endl;
-		std::string cmd = "./bootstrap --extend"
-			+ std::string(" -c ") + std::filesystem::absolute(dlogmat).string()
-			+ std::string(" -f ") + std::filesystem::absolute(prev_fec).string()
-			+ std::string(" -o ") + std::filesystem::absolute(curr_fec).string();
+		std::string cmd = shell_quote(bootstrap_exe_path()) + " --extend"
+			+ std::string(" -c ") + shell_quote(std::filesystem::absolute(dlogmat).string())
+			+ std::string(" -f ") + shell_quote(std::filesystem::absolute(prev_fec).string())
+			+ std::string(" -o ") + shell_quote(std::filesystem::absolute(curr_fec).string());
 		run_bootstrap_cmd(cmd, data_dir, output_dir);
 		if (!std::filesystem::exists(curr_fec)) {
 			throw std::runtime_error("ensure_fec_tensors: bootstrap did not produce " + curr_fec.string());
@@ -392,11 +357,11 @@ inline void ensure_sew_basis(
 		if (!std::filesystem::exists(lec_path)) {
 			throw std::runtime_error("ensure_sew_basis: LEC file not found: " + lec_path.string());
 		}
-		std::string cmd = "./bootstrap --sew"
-			+ std::string(" -c ") + std::filesystem::absolute(dlogmat).string()
-			+ std::string(" -f ") + std::filesystem::absolute(fec_path).string()
-			+ std::string(" -l ") + std::filesystem::absolute(lec_path).string()
-			+ std::string(" -o ") + std::filesystem::absolute(sew_tensor_path).string();
+		std::string cmd = shell_quote(bootstrap_exe_path()) + " --sew"
+			+ std::string(" -c ") + shell_quote(std::filesystem::absolute(dlogmat).string())
+			+ std::string(" -f ") + shell_quote(std::filesystem::absolute(fec_path).string())
+			+ std::string(" -l ") + shell_quote(std::filesystem::absolute(lec_path).string())
+			+ std::string(" -o ") + shell_quote(std::filesystem::absolute(sew_tensor_path).string());
 		run_bootstrap_cmd(cmd, data_dir, output_dir);
 		if (!std::filesystem::exists(sew_tensor_path)) {
 			throw std::runtime_error("ensure_sew_basis: bootstrap --sew did not produce " + sew_tensor_path.string());
@@ -405,7 +370,7 @@ inline void ensure_sew_basis(
 
 	// Step 3: Run --project to generate collinear projections and bases
 	std::cout << "   Running bootstrap --project --symmetry collinear --target " << sew_name << "..." << std::endl;
-	std::string cmd = "./bootstrap --project --symmetry collinear --target " + sew_name;
+	std::string cmd = shell_quote(bootstrap_exe_path()) + " --project --symmetry collinear --target " + sew_name;
 	run_bootstrap_cmd(cmd, data_dir, output_dir);
 
 	if (!std::filesystem::exists(sew_basis_path)) {
@@ -524,8 +489,12 @@ void compute_rhs_for_loop(
 	// Step 1: Compute boundary_L
 	auto boundary = compute_boundary<T, index_t>(L, E_list, R_list, F, pool);
 	auto boundary_path = L_loop_dir / ("boundary_" + std::to_string(L) + "L.wxf");
+	sparse_tensor<T, index_t, SPARSE_CSR> boundary_kept;
 	{
 		auto boundary_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(boundary), pool);
+		// the file must exist for the solve subprocess; keep an in-memory copy
+		// so R_L below does not re-parse it from disk
+		boundary_kept = boundary_csr;
 		write_tensor_file<T, index_t>(boundary_path, std::move(boundary_csr));
 	}
 
@@ -555,15 +524,15 @@ void compute_rhs_for_loop(
 		// executable directory.
 		std::string letter_proj_arg = letter_projection;
 		if (letter_proj_arg != "identity" && letter_proj_arg != "divergent" && letter_proj_arg != "finite") {
-			letter_proj_arg = std::filesystem::absolute(letter_proj_arg).string();
+			letter_proj_arg = shell_quote(std::filesystem::absolute(letter_proj_arg).string());
 		}
-		std::string cmd = "./bootstrap --solve-collinear"
+		std::string cmd = shell_quote(bootstrap_exe_path()) + " --solve-collinear"
 			+ std::string(" --target ") + sew_name
-			+ std::string(" --rhs ") + std::filesystem::absolute(boundary_path).string()
+			+ std::string(" --rhs ") + shell_quote(std::filesystem::absolute(boundary_path).string())
 			+ std::string(" --projection divergent")
 			+ std::string(" --letter-projection ") + letter_proj_arg
-			+ std::string(" --data-dir ") + abs_data.string()
-			+ std::string(" --output-dir ") + abs_output.string();
+			+ std::string(" --data-dir ") + shell_quote(abs_data.string())
+			+ std::string(" --output-dir ") + shell_quote(abs_output.string());
 		std::cout << "   [bootstrap] " << cmd << std::endl;
 		int ret = std::system(cmd.c_str());
 		if (ret != 0) {
@@ -611,6 +580,7 @@ void compute_rhs_for_loop(
 		std::cout << hepMHV_csr_out.dim(i) << (i + 1 < hepMHV_csr_out.rank() ? "x" : "");
 	}
 	std::cout << " nnz=" << hepMHV_csr_out.nnz() << std::endl;
+	auto hepMHV_kept = hepMHV_csr_out;   // in-memory handoff to the expansion below
 	write_tensor_file<T, index_t>(hepMHV_path, std::move(hepMHV_csr_out));
 
 	// Expansion bases for E_L (highest weight first)
@@ -619,20 +589,21 @@ void compute_rhs_for_loop(
 		expansion_bases.push_back(collinear_dir / ("first_w" + std::to_string(w) + "_basis.wxf"));
 	}
 
-	// Step 11: Expand hepMHV → E_L
+	// Step 11: Expand hepMHV → E_L (in-memory handoff — no disk round-trip)
 	std::cout << "== Expanding hepMHV to E" << L << " ==" << std::endl;
-	auto hepMHV_csr2 = projection_read_tensor<T, index_t>(hepMHV_path, F, pool);
-	auto E_L = expand_hepmhv<T, index_t>(std::move(hepMHV_csr2), expansion_bases, F, pool);
+	auto E_L = expand_hepmhv<T, index_t>(std::move(hepMHV_kept), expansion_bases, F, pool);
+	auto E_L_kept = E_L;   // COO copy for R_L below
 	write_tensor_file<T, index_t>(E_L_path, std::move(E_L));
 
-	// Step 12: Compute R_L = E_L - boundary
+	// Step 12: Compute R_L = E_L - boundary (all in memory)
 	std::cout << "== Computing R" << L << " ==" << std::endl;
-	auto E_L_csr2 = projection_read_tensor<T, index_t>(E_L_path, F, pool);
-	auto boundary_csr2 = projection_read_tensor<T, index_t>(boundary_path, F, pool);
+	auto E_L_csr2 = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(E_L_kept), pool);
+	auto boundary_csr2 = std::move(boundary_kept);
 	sparse_tensor<T, index_t, SPARSE_COO> E_L_coo(std::move(E_L_csr2));
 	sparse_tensor<T, index_t, SPARSE_COO> boundary_coo(std::move(boundary_csr2));
 	tensor_add_weighted(E_L_coo, boundary_coo, T(1), T(-1), F);  // E_L = E_L - boundary
 	auto R_L_csr = sparse_tensor<T, index_t, SPARSE_CSR>(std::move(E_L_coo), pool);
+	auto R_L_kept = R_L_csr;   // in-memory handoff to the verification below
 	write_tensor_file<T, index_t>(R_L_path, std::move(R_L_csr));
 
 	// Step 13: Verify R* is free of divergent letters (indicator-vector method).
@@ -648,7 +619,7 @@ void compute_rhs_for_loop(
 	std::cout << "== Verifying R* is divergent-free (indicator-vector method) ==" << std::endl;
 
 	if (letter_projection == "identity") {
-		auto R_L_verify_csr_id = projection_read_tensor<T, index_t>(R_L_path, F, pool);
+		auto R_L_verify_csr_id = std::move(R_L_kept);
 		std::cout << "   [SKIP] --letter-projection identity: no divergent subspace defined." << std::endl;
 		std::cout << "   R" << L << " nnz=" << R_L_verify_csr_id.nnz() << " (constraint enforced at "
 		          << "matching positions only)." << std::endl;
@@ -657,8 +628,7 @@ void compute_rhs_for_loop(
 		// data/colprojdiv.wxf and check R_L's support directly (any-semantics).
 		std::cout << "   [sentinel " << letter_projection << "] checking R* letter support directly" << std::endl;
 		auto div_letters = load_divergent_letters<T, index_t>(data_dir, F, pool);
-		auto R_L_verify_csr2 = projection_read_tensor<T, index_t>(R_L_path, F, pool);
-		sparse_tensor<T, index_t, SPARSE_COO> R_L_verify(std::move(R_L_verify_csr2));
+		sparse_tensor<T, index_t, SPARSE_COO> R_L_verify(std::move(R_L_kept));
 
 		std::set<size_t> letter_indices;
 		size_t r_rank = R_L_verify.rank();
@@ -696,8 +666,7 @@ void compute_rhs_for_loop(
 		}
 		auto letter_proj_csr = projection_read_tensor<T, index_t>(letter_proj_path, F, pool);
 		sparse_tensor<T, index_t, SPARSE_COO> letter_proj_coo(std::move(letter_proj_csr));
-		auto R_L_verify_csr2 = projection_read_tensor<T, index_t>(R_L_path, F, pool);
-		sparse_tensor<T, index_t, SPARSE_COO> R_L_verify(std::move(R_L_verify_csr2));
+		sparse_tensor<T, index_t, SPARSE_COO> R_L_verify(std::move(R_L_kept));
 
 		// Collect distinct letter indices from R_L's nonzero entries
 		std::set<size_t> letter_indices;
@@ -721,8 +690,18 @@ void compute_rhs_for_loop(
 		}
 		std::cout << "}" << std::endl;
 
-		// Build indicator vector (rank-1 COO tensor, dim 11)
-		sparse_tensor<T, index_t, SPARSE_COO> indicator({11});
+		// Build the indicator over the FULL alphabet, sized from the projection
+		// matrix (rank-2: n_letters x m_div) — never a hardcoded 11, which
+		// silently wrote out-of-range indices for any other alphabet.
+		const size_t n_letters = letter_proj_coo.dim(0);
+		for (auto idx : letter_indices) {
+			if (idx >= n_letters)
+				throw std::runtime_error("compute_rhs: R_L contains letter index "
+					+ std::to_string(idx) + " outside the alphabet size "
+					+ std::to_string(n_letters) + " of " + letter_proj_path.string()
+					+ " — the RHS and the letter projection use different alphabets");
+		}
+		sparse_tensor<T, index_t, SPARSE_COO> indicator({n_letters});
 		indicator.resize(letter_indices.size());
 		size_t pos = 0;
 		for (auto idx : letter_indices) {
@@ -732,9 +711,9 @@ void compute_rhs_for_loop(
 		}
 		indicator.canonicalize();
 		indicator.sort_indices();
-		std::cout << "   Indicator vector (11-dim): nnz=" << indicator.nnz() << std::endl;
+		std::cout << "   Indicator vector (" << n_letters << "-dim): nnz=" << indicator.nnz() << std::endl;
 
-		// Project: indicator (11) · letter_proj (11, m_div) → (m_div,)
+		// Project: indicator (n_letters) · letter_proj (n_letters, m_div) → (m_div,)
 		auto div_check = tensor_contract(indicator, letter_proj_coo, 0, 0, F, pool);
 		std::cout << "   Projection to divergent subspace: rank=" << div_check.rank()
 		          << " dims=";

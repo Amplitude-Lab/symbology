@@ -246,7 +246,7 @@ void validate_args(const args_t& args) {
 		if (args.rhs.empty()) {
 			// Q7: exit cleanly (do not throw) when --rhs is missing.
 			std::cerr << "Error: --solve-collinear requires --rhs <rhs.wxf>." << std::endl;
-			std::cerr << "   The RHS is the collinear boundary expression (rank k, dims (11,...,11))." << std::endl;
+			std::cerr << "   The RHS is the collinear boundary expression (rank k, dims (n_letters,...,n_letters))." << std::endl;
 			std::cerr << "   Use '--rhs 0' for an empty RHS (all-zero boundary)." << std::endl;
 			std::cerr << "   The RHS can be computed by the compute_rhs module, or provided directly." << std::endl;
 			std::exit(1);
@@ -331,12 +331,18 @@ void write_tensor(
 		throw std::runtime_error("Cannot write file: " + path.string());
 	}
 	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	ofs.flush();
+	if (!ofs.good()) {
+		throw std::runtime_error("Failed writing file (disk full or I/O error?): " + path.string());
+	}
 	ofs.close();
+	// CRC from the in-memory buffer — no extra full pass over the file on disk.
+	uint32_t crc = crc32_update(0xFFFFFFFF, reinterpret_cast<const char*>(u8arr.data()), u8arr.size()) ^ 0xFFFFFFFF;
 	u8arr.clear();
 	u8arr.shrink_to_fit();
 	timer.stop();
 	std::cout << "** Write time: " << timer.milliseconds() << " ms" << std::endl;
-	print_crc32(path.string(), path);
+	std::cout << "CRC32 of " << path.string() << " : " << std::hex << crc << std::dec << std::endl;
 }
 
 int main(int argc, char* argv[]) {

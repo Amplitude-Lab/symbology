@@ -3,6 +3,145 @@
 All notable changes to this repository are documented here. Dates use
 ISO 8601 (YYYY-MM-DD) and the local timezone is Asia/Shanghai.
 
+## [2026-09-10] audit follow-ups: recursion port, parallel elimination, four-baseline gate, make check + CI
+
+### Summary
+
+All recommended follow-ups from the 2026-09-09 audit (its §6), each gated on
+bit-identical outputs (see `audits/2026-09-09-audit.md` §6 for per-item
+verification records).
+
+### Added
+- **Two regression baselines** — `manifest-icond.json` (icond×2 + join +
+  isolve chain) and `manifest-computerhs.json` (compute_rhs SEW_3p1 +
+  SEW_5p1); `make regression` now gates four baselines.
+- **`make check`** — aggregate local gate (regression + RHS_MODES sync) and
+  **`.github/workflows/check.yml`** — CI for the machine-independent subset
+  (C++ build against fresh SparseRREF clone + patches, sync check, web
+  bundle). FLINT ≥ 3 note: adjust the install step if the distro package is
+  older.
+- `front-end/web/scripts/ssr-audit-build.mjs` — esbuild `onResolve` plugin
+  replacing the CLI aliases that current esbuild rejects (relative alias
+  names); the SSR audit is green again (1072 renders OK).
+
+### Changed
+- **Inconsistent solves now exit nonzero**: `bootstrap --solve-collinear`
+  (single- and multi-pair) prints the full union-matching diagnostics and
+  then fails (rc=1) instead of returning rc=0 with no solution written.
+  Flow runs and exported scripts therefore stop at a genuinely inconsistent
+  solve.
+- **Post-step output verification accepts directory outputs** (fixed after
+  the NMHVw4flow retest caught it): the compiler legitimately declares
+  scratch roots (`output/.derived/proj_*`) as step outputs; the engine and
+  exported scripts now verify those as existing directories while still
+  requiring regular files to be nonempty.
+- **`compute_boundary` implements the master-equation recursion**
+  `boundary_L = (1/L)·Σ_{k=1}^{L-1} k·(R_k ⊗ E_{L-k})` (`R_1 := E1`),
+  replacing the hardcoded L=2..5 closed forms including the known-wrong
+  L=5 branch. Bit-identical to the closed forms at L=2 and L=3 (recorded in
+  the compute_rhs baseline; also re-verifies the skills L=3 values). The
+  L≤5 cap remains, now attributable solely to the shuffle kernel's
+  weight-11 limit.
+- **Parallel incremental elimination**: batch rows pre-reduce against the
+  frozen basis on the thread pool (threshold `kParallelRows = 64`), then
+  insert sequentially with re-reduction; substitution and final-verification
+  sweeps parallelized likewise. Exact-arithmetic confluence makes results
+  identical to the sequential algorithm — verified by the four baselines
+  (bit-identical) and the 56-case Wolfram-ground-truth fuzz suite.
+- Efficiency: `build_condition_matrix` per-row `std::map` accumulation →
+  flat append + sort + merge; `compute_rhs` write-then-immediately-reread →
+  in-memory handoff for hepMHV/E_L/boundary/R_L (files still written for
+  the subprocess and cache semantics). Both gate-verified bit-identical.
+
+### Retest (nontrivial)
+- **NMHVw4flow** (78 steps, 660-constraint × 11-unknown two-pair solve) run
+  end-to-end on the final binaries: unique solution
+  `c = {−12,3,1,1,−1,2,−3,−24,−12,−5,5}` (the corrected, Wolfram-verified
+  value), round-by-round solver trace identical to the 2026-09-09 sequential
+  reference (rank 4/11 → 11/11, sweep counts 627/169/101/39), and
+  `sol_nmhvsolw4.wxf` CRC `38701283` identical across the reference binary,
+  the engine run, and a relocated-sandbox run of the exported standalone
+  script (fresh run + resume with 74/78 steps cached).
+- **NMHVw6flow — final acceptance** (82 steps, 43366-constraint × 24-unknown
+  solve; first real-flow exercise of the parallel batch pre-reduce, batch
+  72 ≥ kParallelRows): engine run done (75 executed + 7 cross-flow cache
+  hits), 24-value solution identical to the 2026-09-09 reference, 8-round
+  trace identical to the row, `sol_nmhvsolw6.wxf` CRC `05873d54` matching
+  the reference's unpadded `5873d54`; elimination 2 ms vs 8 ms sequential.
+
+## [2026-09-09] four-principle repository audit: regression gate, robustness fixes, hot-path flattening, standalone script export
+
+### Summary
+
+Full audit against the four design principles (robustness, efficiency,
+universality, transplantability); findings and per-fix verification records
+in `audits/2026-09-09-audit.md`. Every calculation-core change is gated on
+bit-identical outputs via the new `make regression` (two CRC32 baselines:
+the 19-step `NMHVw2collinear` flow and a single-pair `SEW_3p1` solve —
+the union-matching rewrite was additionally differential-tested against the
+pre-rewrite binary, which caught a real key-offset bug the flow baseline
+alone could not).
+
+### Added
+- **`make regression`** (`scripts/regression_check.py` +
+  `audits/baseline-2026-09-09/`) — hermetic sandbox re-runs of recorded
+  baselines with CRC32 comparison and solution-marker checks. Run it after
+  any change to the calculation core.
+- **Standalone script export** — `export_flow_script` in `compile.py`,
+  `POST …/flows/{fid}/export_script`, and a Compile-panel button render a
+  flow's compiled steps as a portable, self-checking bash script
+  (`projects/<pid>/exported/<flow>.sh`): preflight checks, per-step banners +
+  timings + tee'd log, post-step output verification with CRC32 echoes,
+  fingerprint-based resume (`.sig.exported`), no-Mathematica mode for Wolfram
+  steps, `--dry-run`, `STEPS=` subsets, `$SYMBOLOGY_ROOT`/`$PROJ_DIR`
+  relativization. Verified end-to-end in a relocated sandbox (fresh + resume
+  runs reproduce the baseline CRC exactly).
+- **`scripts/setup-sparserref.sh`** — reproducible SparseRREF setup (pinned
+  `5bbee55` + patch application + `--check` verification).
+- **`make bench`** (`bench/crc_bench.cpp`) and
+  **`web/scripts/rhs-modes-sync.py`** (RHS_MODES registry drift check).
+- skills/04 universality-contract table (general solver vs project data) and
+  skills/05 normalization-difference-recursion recipe; README "design
+  locally, run on the cluster" section.
+
+### Fixed — robustness
+- All C++ tensor/matrix writes now check the stream after writing (missing
+  output dir / full disk previously produced rc=0 with no file — observed
+  live during the audit); run engine verifies declared outputs after every
+  step, and solve steps now declare their `sol_*.wxf` outputs.
+- Fingerprint cache includes the binary's stat — a rebuilt binary no longer
+  leaves pre-fix outputs blessed as fresh; the stale `sol_nmhvsolw2.wxf`
+  was regenerated through the engine (CRC `6f59ed99`).
+- SparseRREF patch set extended: `tensor_contract` mismatches and missing
+  input files throw instead of returning empty tensors/buffers; dead >1GB
+  mmap path removed. `compute_rhs` resolves `bootstrap` as a sibling of the
+  executable (shell-quoted), works from any cwd.
+- Server: hook/persistence exceptions surfaced (no more invisible
+  "computing" states), cancel/terminal-event race fixed, overlapping-output
+  runs refused with 409, event memory bounded, optional `JOBS_STEP_TIMEOUT`,
+  corrupted `project.json` reports cleanly; free-text path/flag fields
+  validated (no argument injection or `..` traversal); `startswith`
+  containment replaced with `is_relative_to`.
+- `compute_rhs` L=5 known-wrong boundary branch now warns loudly at startup.
+
+### Fixed — efficiency (all bit-identical-gated)
+- CRC32: chunked raw-memory update; write-side CRC computed from the
+  in-memory buffer (no extra disk pass).
+- Union matching (single- and multi-pair) flattened from `std::map`/`std::set`
+  of index-vectors to sorted flat arrays + binary search — matching the
+  codebase's own "no ordered containers in the hot path" rule.
+
+### Fixed — portability / universality / docs
+- Makefile: per-arch `-march=native` (x86_64) vs `-mcpu=native` (ARM);
+  mimalloc auto-optional. `tensor_ops` Mach-O untracked from git.
+  `run_workflow.sh` hardcode removed. Generated Wolfram scripts resolve the
+  package via `$SYMBOLOGY_ROOT`. README: six executables, working clone URL,
+  `wxf_roundtrip.wls` note, regression instructions.
+- `compute_rhs` divergent-letter indicator sized from the projection matrix
+  (was a hardcoded 11); CHANGELOG 2026-09-03 entry corrected in place
+  (see the correction note there); skills/README verified-status refreshed
+  with pre-fix annotations.
+
 ## [2026-09-03] divergent/finite letter-projection sentinels + NMHV weight-2 collinear walkthrough
 
 ### Summary
@@ -26,8 +165,16 @@ Verified end-to-end via the `NMHVw2collinear` flow (heptagonNMHV
 project, flow `b8f299fe`, run `2c7648e27513`): pair 1
 (`E0+E23+E34` ← `E1`, `identity`) + pair 2 (`E47−E67` ←
 `hep1LE47mE67`, `divergent`) stack to 19 rows × 5 unknowns, rank
-**5/5**, null space 0 → **unique solution** `c = {1, 1, 2, 0, 1}`
-(`output/collinear/sol_nmhvsolw2.wxf`). Neither pair is rank-5
+**5/5**, null space 0 → **unique solution** `c = {1, 1, 2, −1, 1}`
+(`output/collinear/sol_nmhvsolw2.wxf`). *(Correction 2026-09-09:
+this entry originally recorded `c = {1, 1, 2, 0, 1}` as printed by
+run `2c7648e27513`; the incremental solver had mis-extracted the
+solution from a not-fully-reduced RREF basis. After the solver fix,
+the same 16 commands reproduce `c[3] = −1`, matching Wolfram
+`LinearSolve` on the exported `cond` matrix — see the correction
+note in `skills/04_collinear_solving.md` and the bit-identical
+regression baseline in `audits/baseline-2026-09-09/`.)* Neither
+pair is rank-5
 alone; pair 2's purely homogeneous divergent constraints
 (`c·(E47−E67)₍div₎ = 0`, 10 positions) fix the two coefficients the
 identity pair leaves free.

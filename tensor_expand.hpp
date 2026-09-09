@@ -46,12 +46,18 @@ inline std::vector<size_t> expansion_perm(size_t r) {
 // tensor: starting rank-3 CSR tensor (a, b, c)
 // basis_paths: list of rank-3 CSR basis files, each (b_i, b_{i+1}, letter_dim)
 //   where b_i matches axis 1 of the current tensor
+// lenient: when true, a basis whose compressed side (axis 0) does not match
+//   the current axis 1 is SKIPPED instead of throwing. This makes an
+//   over-specified basis chain harmless: a seed that is already expanded
+//   (or only needs the lower-weight bases) simply ignores the extras. A
+//   genuinely wrong basis chain still fails the caller's rank check
+//   ("seed has N letter slots but rhs has M").
 // Returns the expanded CSR tensor.
 template <typename T, typename index_t>
 sparse_tensor<T, index_t, SPARSE_CSR> expand_tensor(
 	sparse_tensor<T, index_t, SPARSE_CSR>&& tensor_csr,
 	const std::vector<std::filesystem::path>& basis_paths,
-	const field_t& F, thread_pool* pool) {
+	const field_t& F, thread_pool* pool, bool lenient = false) {
 
 	sparse_tensor<T, index_t, SPARSE_COO> current(std::move(tensor_csr));
 
@@ -79,11 +85,22 @@ sparse_tensor<T, index_t, SPARSE_CSR> expand_tensor(
 		}
 		std::cout << " nnz=" << basis.nnz() << std::endl;
 
-		// Verify dimension compatibility
+		// Verify dimension compatibility. In lenient mode a basis whose
+		// compressed side does not match axis 1 is not needed for this tensor
+		// (already expanded there, or a lower/higher weight than required):
+		// skip it and let the caller's rank check surface a genuinely wrong
+		// basis chain.
 		if (current.dim(1) != basis.dim(0)) {
-			throw std::runtime_error("expand_tensor: dimension mismatch at step "
-				+ std::to_string(step + 1) + ": current.axis(1)=" + std::to_string(current.dim(1))
-				+ " != basis.axis(0)=" + std::to_string(basis.dim(0)));
+			if (!lenient) {
+				throw std::runtime_error("expand_tensor: dimension mismatch at step "
+					+ std::to_string(step + 1) + ": current.axis(1)=" + std::to_string(current.dim(1))
+					+ " != basis.axis(0)=" + std::to_string(basis.dim(0)));
+			}
+			std::cout << "      Skipping " << path.filename().string()
+			          << ": axis(1)=" << current.dim(1)
+			          << " does not match basis.axis(0)=" << basis.dim(0)
+			          << " (not needed for this tensor)" << std::endl;
+			continue;
 		}
 
 		size_t r = current.rank();

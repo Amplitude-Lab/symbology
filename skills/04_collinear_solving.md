@@ -479,18 +479,51 @@ For the full recursive workflow (computing the boundary too), use
 
   - Stacked system 19 rows × 5 unknowns, incremental solver: rank
     **5/5**, null space 0 → **unique solution**
-    `c = {1, 1, 2, 0, 1}` (`c[3] = 0` stored as an explicit zero,
-    `sol_nmhvsolw2.wxf` is 1×5 nnz=4).
+    `c = {1, 1, 2, −1, 1}` (`sol_nmhvsolw2.wxf` is 1×5, nnz=5).
+    **Correction (2026-09-09):** the originally recorded solution
+    `{1, 1, 2, 0, 1}` was wrong — the incremental solver silently
+    mis-extracted it from a not-fully-reduced RREF basis (basis rows
+    valid, read-off wrong; see the solver-bug note in
+    `incremental_solve.hpp`). The corrected solver's answer matches
+    Wolfram `LinearSolve` on the exported `cond` matrix exactly, and
+    `tP_2 = tE_2 − (tP_1 ⊗ E_1)` now has a vanishing divergent part,
+    the consistency the wrong `c[3] = 0` broke.
 
   - Physics check: neither pair is rank-5 alone — pair 1 (identity,
     inhomogeneous) fixes three coefficients `c[0]=1, c[1]=1,
     c[2]=2` (rank 3/5), pair 2 (divergent, homogeneous from a
     different seed combination) kills the remaining null space,
-    fixing `c[3]=0, c[4]=1`. Complementary constraint families
+    fixing `c[3]=−1, c[4]=1`. Complementary constraint families
     intersecting trivially. The pair-2 RHS projecting to zero is
     correct, not a bug: the `hep1L` one-loop symbol tensor has only
     finite-letter support, so the equation `c·(E47−E67)₍div₎ = 0`
     carries no inhomogeneous information in the divergent subspace.
+
+## What is E6-specific vs general (universality contract)
+
+The solver is a **general nonhomogeneous-constraint solver**. Whenever a
+new quantity produces constraints of the form `c · A = b` (coefficients
+times known tensors against a fixed right-hand side — collinear limits,
+soft limits, any normalization-difference boundary), it can be fed
+through `--solve-collinear` unchanged:
+
+| Piece | Status | Notes |
+|---|---|---|
+| `solve_linear_system_incremental` | fully general | any exact nonhomogeneous system; rows batched, arithmetic always exact |
+| Union matching | fully general | enforces `c·A = b` on the union of supports; b-only ⇒ loud inconsistency |
+| `--pair` / `--pair-cond` / `[M\|r]` round-trip | fully general | stack constraint families sharing the same unknown vector `c` |
+| `--target-basis … --projection none` | fully general | custom seed = any tensor whose axis 0 indexes `c` |
+| `--letter-projection` | general mechanism | the *mechanism* (file / `identity` / `divergent` / `finite`) is generic; which choice is consistent is problem-dependent |
+| Projection chain (`colprojdiv/colprojfin`) | **E6-specific data** | lives in `data/colproj*.wxf`, derived from that project's alphabet; other projects supply their own seeds |
+| Divergent-letter set | **project-specific data** | auto-derived from the nonzero rows of `data/colprojdiv.wxf`, never hardcoded |
+| Alphabet size, letter count | general | derived from file dims (the historical hardcoded 11-dim indicator in `compute_rhs` was fixed 2026-09-09) |
+
+Recipe for a new problem class: provide `A` (seed tensor, axis 0 = unknown
+index), `b` (RHS, same letter slots), and a letter-projection choice; pick
+`identity` first, and if union matching reports b-only positions, project
+both sides to the subspace where the supports coincide (that is what made
+`E6` solvable). Export the stacked `[M|r]` matrix (`--export-conditions`)
+to cross-check in Wolfram `LinearSolve`.
 
 ## Pitfalls
 

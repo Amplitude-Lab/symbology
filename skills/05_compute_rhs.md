@@ -21,17 +21,108 @@ a divergent projection (`colprojdiv_w1`) at every `L ≥ 2`, because
 `E1` has divergent-letter entries and `identity` is inconsistent under
 union matching.
 
-The boundary at loop `L` is computed from the lower-loop results:
+The boundary at loop `L` is computed from the lower-loop results by the
+master-equation recursion (**since 2026-09-10 the C++ implements this
+directly**, replacing the historical per-L closed forms; at `L = 2..3` the
+recursion reproduces the closed forms' outputs bit-identically — recorded as
+the `compute_rhs` regression baseline):
+
+```
+boundary_L = (1/L) · Σ_{k=1}^{L-1} k · (R_k ⊗ E_{L-k}),   R_1 := E_1
+```
+
+Historical closed forms (kept for reference; the `L = 5` one was
+**known-wrong** before the recursion replaced it — the Wolfram shuffle-word
+check pinned its missing terms to `-10·R1^5 - 4·R1^3·R2 - 2·R1·R2^2` shuffle
+combinations):
 
 ```
 L=2: boundary = E1^2 / 2
 L=3: boundary = E1^3 / 6 + E1 · R2
 L=4: boundary = -E1^4 / 12 + E2^2 / 2 + E1 · R3
-L=5: boundary = E1^5 / 20 - E1·E2^2 / 2 + E2·R3 + E1 · R4
+L=5: (retired — use the recursion)
 ```
+
+The loop order is capped at `L ≤ 5` by the shuffle kernel (it refuses total
+weight > 11, i.e. `2L` letter slots; see `tensor_shuffle.h`).
 
 where `E_L` is the expanded collinear projection of `hepMHV_LL`, and
 `R_L = E_L - boundary_L` is the remainder (which must be divergent-free).
+
+## Flow-editor node (compile-time macro)
+
+The visual flow editor exposes the same recursion as a single **Compute RHS**
+node (`compute_rhs` in `flowdefs.js`; compiled by
+`front-end/server/app/compile.py::_compile_compute_rhs`). At compile time it
+expands into the equivalent sequence of `tensor_ops shuf` / `tensor_add` steps
+(it does **not** call the `compute_rhs` binary).
+
+The node's Inspector has an **Object type to generate** select (stored in
+`data.mode`, default `mhv_boundary`). The choices come from the mirrored
+`RHS_MODES` registries in `web/src/flowdefs.js` and
+`server/app/compile.py` — each entry declares `label`, `requires` (seed ports
+that must be wired) and `forbids` (ports the mode does not use). To add a new
+object type: one `RHS_MODES` entry in each file + one generation branch in
+`_compile_compute_rhs` (+ optional Inspector help in `FlowEditor.jsx`). The
+node subtitle shows the chosen mode; the Inspector shows live warnings for
+missing/stray seed wires; compile rejects unknown modes and wrong wiring with
+mode-specific messages.
+
+- **`mhv_boundary` — MHV boundary (boundary_L)** (needs `e1`; forbids `p1`;
+  target weight `2L`, even, `L ≤ 5`):
+  `boundary_L = (1/L) · Σ_{k=1}^{L-1} k · (R_k ⊗ E_{L-k})` with `R_1 := E1`.
+  Master equations and any-order proof (Wolfram shuffle-word algebra,
+  verified at every order `L ≤ 6`): `1 + E = exp_⊗(Σ R_k)` gives the
+  log-derivative `E_L = (1/L)·Σ_m m·(R_m ⊗ E_{L-m})` (single sum, `E_0 = 1`);
+  subtracting `R_L` yields the boundary sum. **The C++ `compute_boundary`
+  implements this same recursion since 2026-09-10** (bit-identical to the
+  historical closed forms at `L = 2, 3` — recorded in the compute_rhs
+  regression baseline); the old closed-form branches, including the
+  known-wrong `L = 5` one, are retired.
+  **Divergent projection** (the hardcoded C++ logic, proven in the shuffle
+  word algebra at every order `L ≤ 6`): the collinear solve matches only the
+  *divergent* part of the boundary — the divergent letters are exactly those
+  of `E1`; every `R_k` (`k ≥ 2`) is finite (finite remainder `R*`;
+  `compute_rhs.hpp` Step 13 verifies `R_L` carries no divergent letter).
+  Shuffle products preserve letter support, so `P_fin` is multiplicative
+  and closes on the R's:
+  `P_fin(boundary_L) = (1/L)·Σ_{k=2}^{L-1} k·(R_k ⊗ F_{L-k})` with
+  `F_m := P_fin(E_m)`, `1 + F = exp_⊗(Σ_{k≥2} R_k)`. Finite parts of the
+  C++ branches are `0, 0, R2²/2, R2⊗R3` (`L = 2..5`) — even the
+  known-wrong L=5 branch has the correct finite part (its error is purely
+  divergent). The node emits the **exact** formula; the pure-R finite
+  content rides along inside the full `E_k` shuffles and the solve's letter
+  filter (`--letter-projection divergent`) drops it downstream — `F_k` is
+  never materialized. When only the divergent projection is needed, this
+  is the suppressed part.
+  The lower-loop `R_k` (`k ≥ 2`) and `E_k` tensors are **auto-loaded** from
+  `<project>/output/` (`R2.wxf`, `E2.wxf`, …) — they must exist at compile
+  time (same contract as `reuse_output`; the error names the missing file).
+- **`e47me67_te` — NMHV E47mE67 (tE_L)** (needs `e1` + `p1`,
+  `p1 = hep1LE47mE67`): master equation `tE = T ⊗ (1 + E)`, `T = Σ tP_k`.
+  Grading gives `tE_L = tP_L + Σ_{k=1}^{L-1} tP_k ⊗ E_{L-k}`; the t-remainder
+  `tP_L` is excluded exactly as `R_L` is from the MHV boundary, so the node
+  emits the **sum** `Σ_{k=1}^{L-1} tP_k ⊗ E_{L-k}` (proven against the graded
+  master product at every order `L ≤ 6`). `tP_1 = P1 := hep1LE47mE67`.
+  For `k ≥ 2` the t-remainder is **not** zero — the weight-4 solve gives
+  `tP_2` with 393 nonzeros (purely finite: its divergent part cancels
+  against the boundary, exactly as the collinear condition demands) — so a
+  missing `tP_k` must never be silently dropped. The remainder recursion
+  `tP_k = tE_k − Σ_{j<k} tP_j ⊗ E_{k-j}` is **hardcoded into the node**:
+  `tP_k` is taken from the cache `output/tP<k>.wxf` when present, otherwise
+  derived from `output/tE<k>.wxf` (the solved E47mE67 tensor of the
+  weight-`2k` flow — `sol` dotted with the E47−E67 seed through the
+  collinear basis chain) and written back to `output/tP<k>.wxf` for later
+  runs. When neither file exists the compile **fails loudly** — silently
+  defaulting `tP_2 = 0` once truncated the weight-6 RHS and its solve
+  came out inconsistent.
+
+Fractions are folded into the shuffle weight (exact `Fraction(k, L)`), so all
+`tensor_add` accumulations are plain `+1`. Shuffles are sequential-only (the
+verified variant). The node's `out` port provides the concrete tensor
+`output/<target>.wxf`, wireable into any downstream block. Ground truth:
+weight-4 MHV output is byte-identical (`cmp`) to the hand-built
+`boundary_2L.wxf` shuffle chain in the `heptagon` project.
 
 ## CLI entry point
 
@@ -138,18 +229,21 @@ first run, and triggers writes to `output/collinear/` via `--project`.
   instead of the code hardcoding `colprojdiv_w1`. The value is
   threaded through to the `--solve-collinear` subprocess as an
   absolute path (file case) or verbatim (sentinel case).
-- **Subprocess invocation**: `compute_rhs` shells out to
-  `./bootstrap --solve-collinear` to solve the collinear constraint at
-  each loop order. It passes absolute `--data-dir` / `--output-dir` and
-  `--letter-projection` to the subprocess. It also shells out to
-  `./bootstrap --extend`, `--sew`, `--project` to generate missing SEW
+- **Subprocess invocation**: `compute_rhs` resolves the `bootstrap` binary
+  as a sibling of its own executable (any cwd) and shells out to
+  `bootstrap --solve-collinear` to solve the collinear constraint at each
+  loop order. It passes absolute, shell-quoted `--data-dir` /
+  `--output-dir` and `--letter-projection` to the subprocess. It also shells
+  out to `bootstrap --extend`, `--sew`, `--project` to generate missing SEW
   basis files. `find_dlogmat(data_dir)` scans for `dlogmat_*.wxf`
   instead of hardcoding `dlogmat_E6.wxf`.
 - **Sequential shuffle product**: always pass `pool = nullptr` to
   `tensor_shuffle_product_parallel` for boundary computation. The
   parallel variant produces incorrect results.
-- **Boundary formulas are hardcoded** for `L = 2..5` in
-  `compute_boundary`. Adding `L = 6` requires extending this function.
+- **Boundary = master-equation recursion** (any-L formula, `R_1 := E1`) in
+  `compute_boundary` since 2026-09-10 — no per-L branches to extend. The
+  loop order is capped at `L ≤ 5` solely by the shuffle kernel's weight-11
+  limit (`tensor_shuffle.h`); raising it means widening that kernel.
 
 ## Smoke test
 
@@ -178,6 +272,29 @@ boundary has divergent-letter entries that A does not cover in the full
   (unique, all 32 constraints verified).
 - **`identity` (both L=2 and L=3)**: union matching is inconsistent
   (24 b-only at L=2; 1857 b-only at L=3) — no solution written.
+
+## Reusing this pattern (normalization-difference recursion)
+
+The reason this module exists is a **normalization difference between two
+BDS-like quantities**: the object `E_L` and the collinear boundary obey
+`1 + E = exp_⊗(Σ R_k)`, so the boundary that the collinear constraint must
+match is *not* `E_L` itself but a subtraction of lower-loop remainders. Any
+future quantity pair with the same shape — a "normalized" object whose
+logarithm mixes a recursion — is tackled the same way:
+
+1. **Derive the recursion once, in the shuffle word algebra**, and prove it
+   at low orders (`L ≤ 6` here). The master equations `1 + E = exp_⊗(Σ R_k)`
+   and `E_L = (1/L)·Σ_m m·(R_m ⊗ E_{L-m})` are the template.
+2. **Express the boundary as shuffle products of already-computed
+   tensors only** (`R_k ⊗ E_{L-k}`) — never new primitives. This keeps the
+   flow node a compile-time macro over `tensor_ops shuf` / `tensor_add`
+   steps, so it inherits the engine's caching, fingerprints and logging.
+3. **Cache the intermediate ladder** (`tP<k>` / `tE<k>`): each order's
+   remainder is reused by every higher order. The compiler fails loudly
+   when a ladder tensor it needs is missing — silently defaulting one to
+   zero once produced a wrong weight-6 RHS.
+4. **Feed the boundary to the general nonhomogeneous solver**
+   (skills/04) — nothing about the solve is boundary-specific.
 
 ## Pitfalls
 

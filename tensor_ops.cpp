@@ -1,5 +1,8 @@
 // tensor_ops — small tensor utilities built on SparseRREF:
-//   ternary  T.wxf M1.wxf M2.wxf out.wxf   T'[a,b',c'] = sum_{b,c} T[a,b,c] M1[b,b'] M2[c,c']
+//   ternary  T.wxf B1 B2 out.wxf          T'[a,...] = sum_{b,c} T[a,b,c] B1[b,...] B2[c,...]
+//                                          ('I' = identity of the matching axis; B1/B2 may be matrices
+//                                           or any rank>=2 tensor — its first axis is contracted with
+//                                           the tensor axis, the remaining axes are spliced in there)
 //   power    M.wxf n out.wxf               M^n (n >= 0, exact rational arithmetic)
 //   join     A.wxf B.wxf axis out.wxf      Join along 1-based axis (negative counts from the end)
 //   impose   T.wxf D.wxf trans out.wxf     contract S[s,i,a].D[a,i,c], SparseRREF-solve, output kernel
@@ -17,10 +20,12 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <limits>
 #include <stdexcept>
 #include "./SparseRREF/sparse_mat.h"
 #include "./SparseRREF/sparse_tensor.h"
 #include "./SparseRREF/wxf_support.h"
+#include "tensor_shuffle.h"
 
 using namespace SparseRREF;
 
@@ -30,10 +35,22 @@ using scalar_t = rat_t;
 const size_t n_of_threads = std::thread::hardware_concurrency() > 0 ?
     std::thread::hardware_concurrency() : 8;
 
-static void write_tensor(const sparse_tensor<scalar_t, index_t, SPARSE_COO>& T, const std::filesystem::path& path) {
-	auto u8arr = sparse_tensor_write_wxf(sparse_tensor<scalar_t, index_t, SPARSE_CSR>(T));
+// Write a full WXF byte buffer and fail loudly: a failed ofstream (missing
+// parent dir, full disk, permission) must never leave a silently truncated or
+// empty output that a later step would read as valid data.
+static void write_u8(const std::filesystem::path& path, const std::vector<uint8_t>& u8arr) {
 	std::ofstream ofs(path, std::ios::binary);
 	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	ofs.flush();
+	if (!ofs.good()) {
+		auto n = std::filesystem::weakly_canonical(path).string();
+		throw std::runtime_error("failed to write output file '" + n + "' (" + std::to_string(u8arr.size())
+			+ " bytes; check the parent directory exists and the disk is not full)");
+	}
+}
+
+static void write_tensor(const sparse_tensor<scalar_t, index_t, SPARSE_COO>& T, const std::filesystem::path& path) {
+	write_u8(path, sparse_tensor_write_wxf(sparse_tensor<scalar_t, index_t, SPARSE_CSR>(T)));
 }
 
 // sparse_mat_write_wxf / sparse_tensor_write_wxf cannot encode a matrix with 0 rows;
@@ -70,48 +87,81 @@ static sparse_tensor<scalar_t, index_t, SPARSE_COO> mat_to_tensor2(const sparse_
 }
 
 static int run_ternary(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
-	if (argc != 6) throw std::runtime_error("usage: tensor_ops ternary <tensor.wxf> <mat1.wxf> <mat2.wxf> <out.wxf> ('I' = identity of the matching axis)");
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops ternary <tensor.wxf> <op1.wxf|I> <op2.wxf|I> <out.wxf> "
+		"(operands: 'I' = identity of the matching axis, or a matrix / rank>=2 tensor .wxf)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
 	if (T.rank() != 3)
 		throw std::runtime_error("ternary: the first argument must be a rank-3 tensor");
-	std::string m1_arg = argv[3];
-	sparse_mat<scalar_t, index_t> M1((index_t)T.dim(1), (index_t)T.dim(1));
-	if (m1_arg == "I") { for (index_t i = 0; i < M1.nrow; i++) M1[i].push_back(i, (scalar_t)1); }
-	else M1 = sparse_mat_read_wxf<scalar_t, index_t>(base / m1_arg, F);
-	std::string m2_arg = argv[4];
-	sparse_mat<scalar_t, index_t> M2;
-	if (m2_arg == "I") { M2 = sparse_mat<scalar_t, index_t>((index_t)T.dim(2), (index_t)T.dim(2)); for (index_t i = 0; i < M2.nrow; i++) M2[i].push_back(i, (scalar_t)1); }
-	else M2 = sparse_mat_read_wxf<scalar_t, index_t>(base / m2_arg, F);
-	if ((index_t)T.dim(1) != M1.nrow || (index_t)T.dim(2) != M2.nrow)
-		throw std::runtime_error("ternary: dimension mismatch — need T.dim(2) == M2.nrow and T.dim(1) == M1.nrow");
+
+	// read one operand: 'I' -> identity tensor, else tensor first (rank >= 2),
+	// matrix fallback if the file is not tensor-readable. The fallback is
+	// announced on stdout and a failure of BOTH interpretations rethrows with
+	// both error messages — a corrupt file must never silently switch formats.
+	auto read_operand = [&](const std::string& arg, size_t axis_dim) {
+		if (arg == "I") {
+			sparse_tensor<scalar_t, index_t, SPARSE_COO> X(std::vector<size_t>{ axis_dim, axis_dim });
+			for (size_t i = 0; i < axis_dim; i++)
+				X.push_back(std::vector<index_t>{ (index_t)i, (index_t)i }, (scalar_t)1);
+			return X;
+		}
+		try {
+			auto Xcsr = sparse_tensor_read_wxf<scalar_t, index_t>(base / arg, F, pool);
+			sparse_tensor<scalar_t, index_t, SPARSE_COO> X(std::move(Xcsr));
+			if (X.rank() < 2)
+				throw std::runtime_error("ternary: operand '" + arg + "' must be rank >= 2 (got rank "
+					+ std::to_string(X.rank()) + ")");
+			return X;
+		} catch (const std::filesystem::filesystem_error&) {
+			throw;
+		} catch (const std::exception& tensor_err) {
+			try {
+				auto X = mat_to_tensor2(sparse_mat_read_wxf<scalar_t, index_t>(base / arg, F));
+				std::cout << "ternary: operand '" << arg << "' read as a plain matrix (tensor read failed: "
+				          << tensor_err.what() << ")" << std::endl;
+				return X;
+			} catch (const std::exception& mat_err) {
+				throw std::runtime_error("ternary: operand '" + arg + "' is neither a readable tensor nor a "
+					"matrix (tensor error: " + tensor_err.what() + "; matrix error: " + mat_err.what() + ")");
+			}
+		}
+	};
+	auto X1 = read_operand(argv[3], T.dim(1));
+	auto X2 = read_operand(argv[4], T.dim(2));
+	const size_t p = X1.rank(), q = X2.rank();
+	if (T.dim(1) != X1.dim(0) || T.dim(2) != X2.dim(0))
+		throw std::runtime_error("ternary: dimension mismatch — need T.dim(1) == op1 axis-1 dim and T.dim(2) == op2 axis-1 dim");
+
+	std::vector<size_t> out_dims = { T.dim(0) };
+	for (size_t k = 1; k < p; k++) out_dims.push_back(X1.dim(k));
+	for (size_t k = 1; k < q; k++) out_dims.push_back(X2.dim(k));
 
 	if (T.nnz() == 0) {
 		// Empty tensor (e.g. a zero-dimensional sewing basis): tensor_contract
 		// cannot handle nnz == 0, so emit the empty result directly.
-		sparse_tensor<scalar_t, index_t, SPARSE_COO> out({T.dim(0), (size_t)M1.ncol, (size_t)M2.ncol});
+		sparse_tensor<scalar_t, index_t, SPARSE_COO> out(out_dims);
 		write_tensor(out, base / argv[5]);
-		std::cout << "ternary: dims " << out.dim(0) << " " << out.dim(1) << " " << out.dim(2)
-		          << ", nnz 0 (empty input) -> " << argv[5] << std::endl;
+		std::cout << "ternary: dims";
+		for (auto d : out_dims) std::cout << " " << d;
+		std::cout << ", nnz 0 (empty input) -> " << argv[5] << std::endl;
 		return 0;
 	}
 
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
-	auto step1 = tensor_contract(Tcoo, mat_to_tensor2(M2), 2, 0, F, pool);   // axes [a, b, c']
-	auto step2 = tensor_contract(step1, mat_to_tensor2(M1), 1, 0, F, pool);  // axes [a, c', b']
+	auto step1 = tensor_contract(Tcoo, X2, 2, 0, F, pool);   // [a, b, X2tr...]
+	auto step2 = tensor_contract(step1, X1, 1, 0, F, pool);  // [a, X2tr..., X1tr...]
 
-	std::vector<size_t> dims = { step2.dim(0), step2.dim(2), step2.dim(1) }; // [a, b', c']
-	sparse_tensor<scalar_t, index_t, SPARSE_COO> out(dims);
-	out.reserve(step2.nnz());
-	for (size_t i = 0; i < step2.nnz(); i++) {
-		auto idx = step2.index_vector(i);
-		out.push_back(std::vector<index_t>{ idx[0], idx[2], idx[1] }, step2.val(i));
-	}
+	// permute [a, X2tr..., X1tr...] -> [a, X1tr..., X2tr...]
+	std::vector<size_t> perm{ 0 };
+	for (size_t k = q; k <= q + p - 2; k++) perm.push_back(k);
+	for (size_t k = 1; k <= q - 1; k++) perm.push_back(k);
+	auto out = step2.transpose(perm, pool);
 	out.canonicalize();
 	out.sort_indices();
 	out.reserve(out.nnz());
 	write_tensor(out, base / argv[5]);
-	std::cout << "ternary: dims " << out.dim(0) << " " << out.dim(1) << " " << out.dim(2)
-	          << ", nnz " << out.nnz() << " -> " << argv[5] << std::endl;
+	std::cout << "ternary: dims";
+	for (size_t r = 0; r < out.rank(); r++) std::cout << " " << out.dim(r);
+	std::cout << ", nnz " << out.nnz() << " -> " << argv[5] << std::endl;
 	return 0;
 }
 
@@ -134,9 +184,7 @@ static int run_matmul(int argc, char* argv[], const field_t& F, thread_pool* poo
 		throw std::runtime_error("matmul: dimension mismatch — need A.ncol == B.nrow (got "
 			+ std::to_string(A.ncol) + " vs " + std::to_string(B.nrow) + ")");
 	auto C = sparse_mat_mul(A, B, F, pool);
-	auto u8arr = sparse_mat_write_wxf(C);
-	std::ofstream ofs(base / argv[4], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[4], sparse_mat_write_wxf(C));
 	std::cout << "matmul: " << A.nrow << "x" << A.ncol << " * " << B.nrow << "x" << B.ncol
 	          << " = " << C.nrow << "x" << C.ncol << ", nnz " << C.nnz() << " -> " << argv[4] << std::endl;
 	return 0;
@@ -162,9 +210,7 @@ static int run_power(int argc, char* argv[], const field_t& F, thread_pool* pool
 		n >>= 1;
 		if (n) base_mat = sparse_mat_mul(base_mat, base_mat, F, pool);
 	}
-	auto u8arr = sparse_mat_write_wxf(result);
-	std::ofstream ofs(base / argv[4], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[4], sparse_mat_write_wxf(result));
 	std::cout << "power: " << M.nrow << "x" << M.ncol << " matrix to power " << argv[3]
 	          << ", nnz " << result.nnz() << " -> " << argv[4] << std::endl;
 	return 0;
@@ -183,27 +229,48 @@ static sparse_mat<scalar_t, index_t> build_condition_matrix(
 		throw std::runtime_error("need S[(a),b,i,a] (rank >= 2) and D[a,i,c] (rank 3) with S's last two dims == D's first two dims");
 	const index_t nlead = S.rank() - 2;         // leading axes before the contracted pair
 	const index_t nrow = nlead >= 1 ? (index_t)S.dim(0) : 1;
-	index_t ncol_inner = 1;                      // middle leading axes (between first and contracted pair)
-	for (index_t k = 1; k < nlead; k++) ncol_inner *= (index_t)S.dim(k);
+	// middle leading axes (between first and contracted pair), flattened with
+	// size_t — an index_t product overflows silently for large FEC dims
+	size_t ncol_inner = 1;
+	for (index_t k = 1; k < nlead; k++) ncol_inner *= S.dim(k);
 	const index_t dd = D.dim(2);
+	const size_t ncol = ncol_inner * (size_t)dd;
+	if (ncol > (size_t)std::numeric_limits<index_t>::max())
+		throw std::runtime_error("icond: flattened column count " + std::to_string(ncol)
+			+ " exceeds the 32-bit index limit — the condition matrix cannot be represented");
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Scoo(S), Dcoo(D);
 	auto X = tensor_contract(Scoo, Dcoo, S.rank() - 1, 0, F, pool);   // [(a), b..., i, b', c]
 	const index_t xi = nlead, xb = nlead + 1, xc = nlead + 2;
-	// trace over the (i, b') axes; flatten: col = (b * ncol_inner + ...) * dd + c
-	std::vector<std::map<index_t, scalar_t>> acc(nrow);
+	// trace over the (i, b') axes; flatten: col = (b * ncol_inner + ...) * dd + c.
+	// Flat per-row accumulation (append + one sort + one merge per row) — no
+	// std::map in the hot path, matching the solver's own discipline; the
+	// (row-major, ascending-column) layout of the previous map is preserved.
+	std::vector<std::vector<std::pair<index_t, scalar_t>>> acc((size_t)nrow);
 	for (size_t k = 0; k < X.nnz(); k++) {
-		auto idx = X.index_vector(k);
+		const index_t* idx = X.index(k);
 		if (idx[xi] != idx[xb]) continue;
 		index_t col = 0;
 		for (index_t a = 1; a < nlead; a++) col = col * (index_t)S.dim(a) + idx[a];
 		col = col * dd + idx[xc];
 		index_t row = nlead >= 1 ? idx[0] : 0;
-		acc[row][col] += X.val(k);
+		acc[(size_t)row].emplace_back(col, X.val(k));
 	}
-	sparse_mat<scalar_t, index_t> M(nrow, ncol_inner * dd);
+	sparse_mat<scalar_t, index_t> M(nrow, (index_t)ncol);
 	for (index_t s = 0; s < nrow; s++) {
-		for (auto& [c, v] : acc[s])
-			if (!(v == 0)) M[s].push_back(c, v);
+		auto& ents = acc[(size_t)s];
+		std::sort(ents.begin(), ents.end(),
+		          [](const auto& a, const auto& b) { return a.first < b.first; });
+		size_t w = 0;
+		for (size_t r = 0; r < ents.size(); r++) {
+			if (w > 0 && ents[r].first == ents[w - 1].first) {
+				ents[w - 1].second = scalar_add(ents[w - 1].second, ents[r].second, F);
+			} else {
+				ents[w++] = ents[r];
+			}
+		}
+		ents.resize(w);
+		for (const auto& [c, v] : ents)
+			if (!(v == scalar_t(0))) M[s].push_back(c, v);
 		M[s].compress();
 	}
 	return M;
@@ -215,9 +282,7 @@ static int run_icond(int argc, char* argv[], const field_t& F, thread_pool* pool
 	auto D = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[3], F, pool);
 	auto M = build_condition_matrix(S, D, F, pool);
 	std::cout << "icond: condition matrix " << M.nrow << " x " << M.ncol << ", nnz " << M.nnz() << std::endl;
-	auto u8arr = sparse_mat_write_wxf(M);
-	std::ofstream ofs(base / argv[4], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[4], sparse_mat_write_wxf(M));
 	return 0;
 }
 
@@ -241,8 +306,7 @@ static int run_isolve(int argc, char* argv[], const field_t& F, rref_option_t& o
 	std::vector<uint8_t> u8arr;
 	if (K.nrow == 0) u8arr = write_empty_sparse_mat_wxf(K.ncol);
 	else u8arr = sparse_mat_write_wxf(K);
-	std::ofstream ofs(base / argv[4], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[4], u8arr);
 	std::cout << "isolve: solution basis " << K.nrow << " x " << K.ncol << ", nnz " << K.nnz() << std::endl;
 	return 0;
 }
@@ -260,8 +324,7 @@ static int run_impose(int argc, char* argv[], const field_t& F, rref_option_t& o
 	std::vector<uint8_t> u8arr;
 	if (K.nrow == 0) u8arr = write_empty_sparse_mat_wxf(K.ncol);
 	else u8arr = sparse_mat_write_wxf(K);
-	std::ofstream ofs(base / argv[5], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[5], u8arr);
 	std::cout << "impose: solution basis " << K.nrow << " x " << K.ncol << ", nnz " << K.nnz()
 	          << " -> " << argv[5] << std::endl;
 	return 0;
@@ -378,16 +441,19 @@ static int run_assemble(int argc, char* argv[], const field_t& F, thread_pool* p
 	size_t rank = elems[0].rank();
 	if (rank < 1) throw std::runtime_error("assemble: elements must have rank >= 1");
 	std::vector<size_t> dims = elems[0].dims();
-	index_t total_rows = 0;
+	size_t total_rows = 0;
 	for (size_t i = 0; i < elems.size(); i++) {
 		if (elems[i].rank() != rank)
 			throw std::runtime_error("assemble: rank mismatch between element 1 and element " + std::to_string(i + 1));
 		for (size_t r = 1; r < rank; r++)
 			if (elems[i].dim(r) != dims[r])
 				throw std::runtime_error("assemble: trailing dimensions of element " + std::to_string(i + 1) + " do not match element 1");
-		total_rows += (index_t)elems[i].dim(0);
+		total_rows += elems[i].dim(0);
 	}
-	dims[0] = (size_t)total_rows;
+	if (total_rows > (size_t)std::numeric_limits<index_t>::max())
+		throw std::runtime_error("assemble: stacked first-axis dim " + std::to_string(total_rows)
+			+ " exceeds the 32-bit index limit — the assembled tensor cannot be represented");
+	dims[0] = total_rows;
 
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> out(dims);
 	index_t offset = 0;
@@ -577,9 +643,7 @@ static int run_transpose(int argc, char* argv[], const field_t& F, thread_pool* 
 			Mt[M[i](j)].push_back(i, M[i][j]);
 	pool->detach_loop(0, Mt.nrow, [&](index_t r) { Mt[r].canonicalize(); });
 	pool->wait();
-	auto u8arr = sparse_mat_write_wxf(Mt);
-	std::ofstream ofs(base / argv[3], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[3], sparse_mat_write_wxf(Mt));
 	std::cout << "transpose: (" << M.nrow << "x" << M.ncol << ") -> (" << Mt.nrow << "x" << Mt.ncol
 	          << "), nnz " << Mt.nnz() << " -> " << argv[3] << std::endl;
 	return 0;
@@ -599,9 +663,7 @@ static int run_symderive(int argc, char* argv[], const field_t& F, rref_option_t
 	else Sc = sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
 	auto Rt = sym_impose_derive(Tcoo, Sb, Sc, F, opt, pool);
-	auto u8arr = sparse_mat_write_wxf(Rt);
-	std::ofstream ofs(base / argv[5], std::ios::binary);
-	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	write_u8(base / argv[5], sparse_mat_write_wxf(Rt));
 	std::cout << "symderive: wrote R^T (" << Rt.nrow << "x" << Rt.ncol << "), nnz "
 	          << Rt.nnz() << " -> " << argv[5] << std::endl;
 	return 0;
@@ -634,9 +696,7 @@ static int run_squeeze(int argc, char* argv[], const field_t& F, thread_pool* po
 			M[idx[0]].push_back(idx[1], T.val(k));
 		}
 		for (index_t i = 0; i < M.nrow; i++) M[i].compress();
-		auto u8arr = sparse_mat_write_wxf(M);
-		std::ofstream ofs(base / argv[3], std::ios::binary);
-		ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+		write_u8(base / argv[3], sparse_mat_write_wxf(M));
 		std::cout << "squeeze: rank " << T.rank() << " -> matrix " << M.nrow << "x" << M.ncol
 		          << ", nnz " << M.nnz() << " -> " << argv[3] << std::endl;
 		return 0;
@@ -652,6 +712,95 @@ static int run_squeeze(int argc, char* argv[], const field_t& F, thread_pool* po
 	write_tensor(out, base / argv[3]);
 	std::cout << "squeeze: rank " << T.rank() << " -> rank " << dims.size() << ", nnz " << out.nnz()
 	          << " -> " << argv[3] << std::endl;
+	return 0;
+}
+
+// Shuffle product: A ⊗ B with all entries scaled by a rational weight.
+// Runs the SEQUENTIAL shuffle (pool = nullptr) — the parallel version has
+// been observed to produce incorrect results (see compute_rhs.hpp).
+// Usage: tensor_ops shuf <A.wxf> <B.wxf> <w_num/w_den> <out.wxf>
+static int run_shuf(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc != 6) throw std::runtime_error("usage: tensor_ops shuf <A.wxf> <B.wxf> <num/den (rational weight)> <out.wxf>");
+	(void)pool;
+	auto A = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	auto B = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[3], F, pool);
+	rat_t w(argv[4]);
+	sparse_tensor<scalar_t, index_t, SPARSE_COO> Acoo(A), Bcoo(B);
+	auto out = tensor_shuffle_product_parallel(Acoo, Bcoo, F, nullptr);
+	if (!(w == rat_t(1))) out = tensor_scalar_mul(out, w, F);
+	out.canonicalize();
+	out.sort_indices();
+	out.reserve(out.nnz());
+	write_tensor(out, base / argv[5]);
+	std::cout << "shuf: rank " << A.rank() << " ⊗ rank " << B.rank() << " -> rank " << out.rank()
+	          << ", nnz " << out.nnz() << ", weight " << argv[4] << " -> " << argv[5] << std::endl;
+	return 0;
+}
+
+// Expansion: contract the FEC axis (axis 2) of the hepMHV-style input with a
+// chain of rank-3 bases, exactly mirroring expand_hepmhv / expand_tensor in
+// the bootstrap: after each contraction the new FEC axis goes to position 1
+// and the new letter axis to position 2 (letters in ascending weight order).
+// Usage: tensor_ops expand <T.wxf> <out.wxf> <basis1.wxf> [basis2.wxf ...]
+//   (bases listed highest weight first, e.g. first_w3_basis first_w2_basis)
+static std::vector<size_t> expansion_perm(size_t r) {
+	std::vector<size_t> perm;
+	perm.push_back(0);
+	perm.push_back(r - 1);
+	perm.push_back(r);
+	for (size_t i = 1; i + 1 <= r - 1; i++) perm.push_back(i);
+	return perm;
+}
+
+static int run_expand(int argc, char* argv[], const field_t& F, thread_pool* pool, const std::filesystem::path& base) {
+	if (argc < 5) throw std::runtime_error("usage: tensor_ops expand <T.wxf> <out.wxf> <basis1.wxf> [basis2.wxf ...]");
+	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	std::vector<std::filesystem::path> basis_paths;
+	for (int i = 4; i < argc; i++) basis_paths.emplace_back(base / argv[i]);
+
+	sparse_tensor<scalar_t, index_t, SPARSE_COO> current(T);
+
+	// Normalize the input to the (1, FEC, letter) convention:
+	//   (FEC, letter)          -> prepend dummy (1, FEC, letter)
+	//   (1, FEC, letter)       -> as-is (already has the dummy solution axis)
+	if (current.rank() == 2) {
+		std::vector<size_t> new_dims = {1, current.dim(0), current.dim(1)};
+		current.reshape(new_dims);
+	} else if (current.rank() < 2 || current.dim(0) != 1) {
+		throw std::runtime_error("expand: input must be rank 2 (FEC, letter) or rank 3 with a "
+			"leading size-1 axis (1, FEC, letter) — the hepMHV / tdot convention");
+	}
+
+	for (size_t step = 0; step < basis_paths.size(); step++) {
+		auto basis_csr = sparse_tensor_read_wxf<scalar_t, index_t>(basis_paths[step], F, pool);
+		sparse_tensor<scalar_t, index_t, SPARSE_COO> basis(std::move(basis_csr));
+		if (basis.rank() != 3)
+			throw std::runtime_error("expand: basis " + basis_paths[step].filename().string()
+				+ " must be a rank-3 tensor (FEC, FEC', letter)");
+		if (current.dim(1) != basis.dim(0))
+			throw std::runtime_error("expand: dimension mismatch at basis " + std::to_string(step + 1)
+				+ " (" + basis_paths[step].filename().string() + "): current axis 2 has dim "
+				+ std::to_string(current.dim(1)) + " != basis axis 1 dim " + std::to_string(basis.dim(0)));
+		size_t r = current.rank();
+		auto contracted = tensor_contract(current, basis, 1, 0, F, pool);
+		current = contracted.transpose(expansion_perm(r));
+	}
+
+	// Remove the leading dummy axis: (1, 11, ..., 11) -> (11, ..., 11).
+	// Fires for both input conventions — a prepended dummy (rank-2 input) and
+	// a tdot-produced leading solution axis (rank-3 input (1, FEC, letter)).
+	if (current.rank() >= 2 && current.dim(0) == 1) {
+		std::vector<size_t> final_dims;
+		for (size_t i = 1; i < current.rank(); i++) final_dims.push_back(current.dim(i));
+		current.reshape(final_dims);
+	}
+
+	current.canonicalize();
+	current.sort_indices();
+	current.reserve(current.nnz());
+	write_tensor(current, base / argv[3]);
+	std::cout << "expand: rank " << T.rank() << " + " << basis_paths.size() << " bases -> rank "
+	          << current.rank() << ", nnz " << current.nnz() << " -> " << argv[3] << std::endl;
 	return 0;
 }
 
@@ -700,7 +849,7 @@ static int run_dims(int argc, char* argv[], const field_t& F, thread_pool* pool,
 
 int main(int argc, char* argv[]) {
 	try {
-		if (argc < 2) throw std::runtime_error("usage: tensor_ops <ternary|power|join|impose|icond|isolve|assemble|squeeze|project|symsolve> ...");
+		if (argc < 2) throw std::runtime_error("usage: tensor_ops <ternary|matmul|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|shuf|expand|symsolve|symderive|transpose|dims> ...");
 		field_t F(FIELD_QQ);
 		rref_option_t opt;
 		opt->pool.reset(n_of_threads);
@@ -721,11 +870,13 @@ int main(int argc, char* argv[]) {
 		else if (mode == "squeeze") rc = run_squeeze(argc, argv, F, pool, base);
 		else if (mode == "project") rc = run_project(argc, argv, F, pool, base);
 		else if (mode == "tdot") rc = run_tdot(argc, argv, F, pool, base);
+		else if (mode == "shuf") rc = run_shuf(argc, argv, F, pool, base);
+		else if (mode == "expand") rc = run_expand(argc, argv, F, pool, base);
 		else if (mode == "symsolve") rc = run_symsolve(argc, argv, F, opt, pool, base);
 		else if (mode == "symderive") rc = run_symderive(argc, argv, F, opt, pool, base);
 	else if (mode == "transpose") rc = run_transpose(argc, argv, F, pool, base);
 	else if (mode == "dims") rc = run_dims(argc, argv, F, pool, base);
-	else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|symsolve|symderive|transpose|dims)");
+		else throw std::runtime_error("unknown mode '" + mode + "' (expected ternary|matmul|power|join|impose|icond|isolve|assemble|squeeze|project|tdot|shuf|expand|symsolve|symderive|transpose|dims)");
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
 		std::cout << "** tensor_ops " << mode << " finished in " << ms << " ms **" << std::endl;
 		return rc;

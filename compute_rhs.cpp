@@ -121,8 +121,13 @@ int main(int argc, char* argv[]) {
 				+ " < 2 — nothing to compute (E1 is the seed)");
 		}
 		if (L > 5) {
+			// The boundary recursion itself is any-L since 2026-09-10; the cap
+			// comes from the shuffle kernel, which refuses total weight > 11
+			// (2L letter slots per product). See tensor_shuffle.h and
+			// skills/05_compute_rhs.md.
 			throw std::runtime_error("compute_rhs: loop order L=" + std::to_string(L)
-				+ " > 5 — boundary formulas only implemented up to L=5");
+				+ " > 5 — the shuffle kernel supports at most 11 letter slots "
+				"(2L); see tensor_shuffle.h");
 		}
 
 		// Resolve paths relative to the executable directory
@@ -130,6 +135,9 @@ int main(int argc, char* argv[]) {
 		if (base.empty()) {
 			base = std::filesystem::current_path();
 		}
+		// Subprocess (bootstrap) invocations resolve the binary as a sibling
+		// of this executable, so compute_rhs works from any cwd.
+		compute_rhs_exe_dir() = base;
 
 		// Resolve paths relative to the executable directory.
 	// Matches bootstrap.cpp/inspect_tensors.cpp: relative --data-dir/--output-dir

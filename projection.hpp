@@ -49,6 +49,10 @@ void projection_write_tensor(
 		throw std::runtime_error("Cannot write file: " + path.string());
 	}
 	ofs.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	ofs.flush();
+	if (!ofs.good()) {
+		throw std::runtime_error("Failed writing file (disk full or I/O error?): " + path.string());
+	}
 	ofs.close();
 	u8arr.clear();
 	u8arr.shrink_to_fit();
@@ -471,7 +475,11 @@ inline void write_summary(
 	const std::string& symmetry_name, const std::string& target_name,
 	const std::vector<file_record_t>& records) {
 	std::ofstream ofs(sym_dir / "summary.txt");
-	if (!ofs) return;
+	if (!ofs) {
+		std::cerr << "warning: cannot write " << (sym_dir / "summary.txt").string()
+		          << " — the projection summary will be missing" << std::endl;
+		return;
+	}
 	ofs << "# Projection summary" << std::endl;
 	ofs << "# symmetry: " << symmetry_name << std::endl;
 	ofs << "# target: " << target_name << std::endl;

@@ -26,6 +26,7 @@
 #include "linear_solve.hpp"
 #include "incremental_solve.hpp"
 
+#include <algorithm>
 #include <set>
 #include <map>
 
@@ -863,57 +864,87 @@ void run_collinear_solver(
 	//
 	// CRITICAL: preserve the sew axis in A_match — do not collapse into std::map
 	// (that overwrites duplicate sew entries and breaks multi-unknown systems).
-	std::map<std::vector<index_t>, T> b_map;
-	for (auto i : b_coo.gen_perm()) {
-		b_map[b_coo.index_vector(i)] = b_coo.val(i);
-	}
+	//
+	// Flat sorted-index implementation (no std::map/std::set in the hot path,
+	// same discipline as the solver): b is canonicalized so its index vectors
+	// are unique; sort its entry ids by key (axes 1..end) once, sort A's entry
+	// ids by key so duplicate-key entries are adjacent, then walk A once with
+	// a binary search per DISTINCT key.
+	const size_t klen = b_coo.rank();               // key length (axes 1..end of A)
+	auto akey = [&](size_t i) { return A_coo.index(i) + 1; };  // skip A's sew axis
+	auto bkey = [&](size_t j) { return b_coo.index(j); };      // b's full index IS the key
+
+	std::vector<size_t> b_order;
+	b_order.reserve(b_coo.nnz());
+	for (auto j : b_coo.gen_perm()) b_order.push_back(j);
+	std::sort(b_order.begin(), b_order.end(), [&](size_t x, size_t y) {
+		return std::lexicographical_compare(bkey(x), bkey(x) + klen, bkey(y), bkey(y) + klen);
+	});
+
+	std::vector<size_t> a_order;
+	a_order.reserve(A_coo.nnz());
+	for (auto i : A_coo.gen_perm()) a_order.push_back(i);
+	// key-major, sew-axis-minor: deterministic total order, and equal-key
+	// entries become adjacent for the distinct-key walk below.
+	std::sort(a_order.begin(), a_order.end(), [&](size_t x, size_t y) {
+		const index_t* kx = akey(x);
+		const index_t* ky = akey(y);
+		if (std::lexicographical_compare(kx, kx + klen, ky, ky + klen)) return true;
+		if (std::lexicographical_compare(ky, ky + klen, kx, kx + klen)) return false;
+		return A_coo.index(x)[0] < A_coo.index(y)[0];
+	});
 
 	sparse_tensor<T, index_t, SPARSE_COO> A_match(A_coo.dims());
 	sparse_tensor<T, index_t, SPARSE_COO> b_match(b_coo.dims());
-	std::set<std::vector<index_t>> A_keys;          // keys where A ≠ 0
-	std::set<std::vector<index_t>> emitted_keys;    // keys already emitted to b_match
+	A_match.reserve(A_coo.nnz());
+	b_match.reserve(b_coo.nnz());
 
-	// First pass: iterate A. Emit every A entry; pair with b[key] if present,
-	// else with 0 (homogeneous constraint c·A[key] = 0).
-	for (auto i : A_coo.gen_perm()) {
-		auto full_idx = A_coo.index_vector(i);
-		std::vector<index_t> key(full_idx.begin() + 1, full_idx.end());
-		A_keys.insert(key);
-
-		auto it = b_map.find(key);
-		T b_val = (it != b_map.end()) ? it->second : T(0);
-
-		A_match.push_back(full_idx, A_coo.val(i));
-		if (emitted_keys.insert(key).second) {
-			if (b_val != T(0)) {
-				b_match.push_back(key, b_val);
+	// Emit every A entry (duplicate sew entries preserved); pair each DISTINCT
+	// key with b[key] if present, else nothing (homogeneous c·A[key] = 0; the
+	// solver treats missing b entries as 0).
+	std::vector<bool> b_matched(b_coo.nnz(), false);
+	size_t n_intersection = 0;
+	size_t n_homogeneous = 0;
+	const index_t* prev_key = nullptr;
+	for (size_t i : a_order) {
+		A_match.push_back(A_coo.index_vector(i), A_coo.val(i));
+		const index_t* key = akey(i);
+		if (prev_key == nullptr || !std::equal(key, key + klen, prev_key)) {
+			prev_key = key;
+			auto it = std::lower_bound(b_order.begin(), b_order.end(), key,
+				[&](size_t j, const index_t* k) {
+					return std::lexicographical_compare(bkey(j), bkey(j) + klen, k, k + klen);
+				});
+			if (it != b_order.end() && std::equal(bkey(*it), bkey(*it) + klen, key)) {
+				n_intersection++;
+				size_t j = *it;
+				if (!b_matched[j]) {
+					b_matched[j] = true;
+					if (b_coo.val(j) != T(0)) {
+						std::vector<index_t> bkey_vec(bkey(j), bkey(j) + klen);
+						b_match.push_back(bkey_vec, b_coo.val(j));
+					}
+					// note: b entries with duplicate keys (if any survive
+					// projection) collapse to the first match here, while the
+					// pre-rewrite std::map kept the last insert; b is
+					// canonicalized after projection, so keys are unique.
+					// b_val == 0: don't store (canonicalize drops zeros anyway);
+					// the solver treats missing b entries as 0 → enforces c·A[key] = 0.
+				}
+			} else {
+				n_homogeneous++;
 			}
-			// b_val == 0: don't store (canonicalize drops zeros anyway);
-			// the solver treats missing b entries as 0 → enforces c·A[key] = 0.
 		}
 	}
 
-	// Second pass: detect b-only positions (A=0, b≠0).
+	// b-only positions (A=0, b≠0): every b entry no distinct A key claimed.
 	// These make the system trivially inconsistent.
 	size_t n_b_only = 0;
-	for (const auto& [key, b_val] : b_map) {
-		if (A_keys.find(key) == A_keys.end()) {
-			n_b_only++;
-		}
-	}
+	for (bool m : b_matched)
+		if (!m) n_b_only++;
 
 	A_match.canonicalize();
 	b_match.canonicalize();
-
-	size_t n_intersection = 0;
-	size_t n_homogeneous = 0;
-	for (const auto& key : A_keys) {
-		if (b_map.find(key) != b_map.end()) {
-			n_intersection++;
-		} else {
-			n_homogeneous++;
-		}
-	}
 
 	std::cout << "   Union matching:" << std::endl;
 	std::cout << "      Both nonzero (intersection): " << n_intersection << std::endl;
@@ -992,6 +1023,14 @@ void run_collinear_solver(
 		std::cout << "========================================" << std::endl;
 		std::cout << "No solution (system inconsistent)" << std::endl;
 		std::cout << "========================================" << std::endl;
+		// An inconsistent system is a FAILED solve, not a soft outcome: exit
+		// nonzero so flow engines and cluster scripts stop here instead of
+		// blessing a run whose solution file was never written. (All the
+		// union-matching diagnostics above have already been printed.)
+		throw std::runtime_error(
+			"solve-collinear: the constraint system is INCONSISTENT — under union "
+			"matching, " + std::to_string(n_b_only) + " position(s) have boundary != 0 "
+			"but A = 0, so no coefficient vector c exists (no solution written)");
 	}
 }
 
@@ -1049,8 +1088,12 @@ void build_pair_rows(
 	std::cout << "--- Seed tensor ---" << std::endl;
 	print_tensor_info(seed);
 
-	// Expand with the shared basis chain (no-op when basis_paths is empty)
-	auto expanded = expand_tensor<T, index_t>(std::move(seed), basis_paths, F, pool);
+	// Expand with the shared basis chain (no-op when basis_paths is empty).
+	// Lenient: the compiler may pass the whole contiguous first_w*_basis chain
+	// when ranks were not measurable at compile time; bases whose compressed
+	// side does not match the seed are skipped, and the rank check below
+	// still catches a genuinely insufficient chain.
+	auto expanded = expand_tensor<T, index_t>(std::move(seed), basis_paths, F, pool, /*lenient=*/true);
 	std::cout << "   Expanded expression: rank=" << expanded.rank() << " dims=";
 	for (size_t i = 0; i < expanded.rank(); i++) {
 		std::cout << expanded.dim(i) << (i + 1 < expanded.rank() ? "x" : "");
@@ -1101,37 +1144,75 @@ void build_pair_rows(
 	apply_letter_projection_ab<T, index_t>(
 		pair.letter_projection, A_coo, b_coo, n_letter_slots, data_dir, F, opt);
 
-	// Union matching → rows (map-based: deterministic key order, sew axis preserved)
-	std::map<std::vector<index_t>, T> b_map;
-	for (auto i : b_coo.gen_perm()) {
-		b_map[b_coo.index_vector(i)] = b_coo.val(i);
-	}
+	// Union matching → rows. Flat sorted-index implementation (no
+	// map-of-maps with vector keys in the hot path): sort b's entries by key
+	// once for binary search, sort A's entries key-major so each key's sew
+	// entries are adjacent, then one linear walk groups them into rows. The
+	// emitted row order (keys ascending) and the b-only print order match the
+	// previous std::map iteration order exactly; the sew axis is preserved
+	// (one coeff per (key, axis-0) entry, never collapsed).
+	const size_t klen = b_coo.rank();               // key length (axes 1..end of A)
+	auto akey = [&](size_t i) { return A_coo.index(i) + 1; };  // skip A's sew axis
+	auto bkey = [&](size_t j) { return b_coo.index(j); };      // b's full index IS the key
 
-	std::map<std::vector<index_t>, std::map<index_t, T>> A_by_key;
-	for (auto i : A_coo.gen_perm()) {
-		auto full_idx = A_coo.index_vector(i);
-		std::vector<index_t> key(full_idx.begin() + 1, full_idx.end());
-		A_by_key[key][full_idx[0]] = A_coo.val(i);
-	}
+	std::vector<size_t> b_order;
+	b_order.reserve(b_coo.nnz());
+	for (auto j : b_coo.gen_perm()) b_order.push_back(j);
+	std::sort(b_order.begin(), b_order.end(), [&](size_t x, size_t y) {
+		return std::lexicographical_compare(bkey(x), bkey(x) + klen, bkey(y), bkey(y) + klen);
+	});
 
+	std::vector<size_t> a_order;
+	a_order.reserve(A_coo.nnz());
+	for (auto i : A_coo.gen_perm()) a_order.push_back(i);
+	std::sort(a_order.begin(), a_order.end(), [&](size_t x, size_t y) {
+		const index_t* kx = akey(x);
+		const index_t* ky = akey(y);
+		if (std::lexicographical_compare(kx, kx + klen, ky, ky + klen)) return true;
+		if (std::lexicographical_compare(ky, ky + klen, kx, kx + klen)) return false;
+		return A_coo.index(x)[0] < A_coo.index(y)[0];
+	});
+
+	std::vector<bool> b_matched(b_coo.nnz(), false);
 	size_t n_intersection = 0;
 	size_t n_homogeneous = 0;
-	for (const auto& [key, sew_map] : A_by_key) {
-		auto it = b_map.find(key);
-		T b_val = (it != b_map.end()) ? it->second : T(0);
-		if (it != b_map.end()) {
-			n_intersection++;
-		} else {
-			n_homogeneous++;
+	size_t g = 0;
+	while (g < a_order.size()) {
+		const index_t* key = akey(a_order[g]);
+		size_t h = g;
+		while (h < a_order.size()
+		       && std::equal(akey(a_order[h]), akey(a_order[h]) + klen, key)) {
+			h++;
 		}
 		cond_row_t<T, index_t> row;
-		row.coeffs = sew_map;
-		row.rhs = b_val;
+		for (size_t t = g; t < h; t++) {
+			row.coeffs[A_coo.index(a_order[t])[0]] = A_coo.val(a_order[t]);
+		}
+		auto it = std::lower_bound(b_order.begin(), b_order.end(), key,
+			[&](size_t j, const index_t* k) {
+				return std::lexicographical_compare(bkey(j), bkey(j) + klen, k, k + klen);
+			});
+		if (it != b_order.end() && std::equal(bkey(*it), bkey(*it) + klen, key)) {
+			n_intersection++;
+			b_matched[*it] = true;
+			row.rhs = b_coo.val(*it);
+		} else {
+			n_homogeneous++;
+			row.rhs = T(0);
+		}
 		rows_out.push_back(std::move(row));
+		g = h;
 	}
-	for (const auto& [key, b_val] : b_map) {
-		if (A_by_key.find(key) == A_by_key.end()) {
-			n_b_only_out++;
+	for (size_t idx = 0; idx < b_order.size(); idx++) {
+		if (b_matched[b_order[idx]]) continue;
+		n_b_only_out++;
+		if (n_b_only_out <= 700) {
+			const index_t* key = bkey(b_order[idx]);
+			std::cout << "      b-only key " << n_b_only_out << ": [";
+			for (size_t d = 0; d < klen; d++) {
+				std::cout << key[d] << (d + 1 < klen ? "," : "");
+			}
+			std::cout << "] = " << b_coo.val(b_order[idx]) << std::endl;
 		}
 	}
 
@@ -1348,6 +1429,11 @@ void run_collinear_solver_pairs(
 		std::cout << "========================================" << std::endl;
 		std::cout << "No solution (system inconsistent)" << std::endl;
 		std::cout << "========================================" << std::endl;
+		// Failed solve → nonzero exit (see the single-pair note above).
+		throw std::runtime_error(
+			"solve-collinear (multi-pair): the stacked constraint system is "
+			"INCONSISTENT — " + std::to_string(n_b_only) + " position(s) have "
+			"rhs != 0 but A = 0, so no coefficient vector c exists (no solution written)");
 	}
 }
 

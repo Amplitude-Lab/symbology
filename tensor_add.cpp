@@ -100,7 +100,14 @@ int main(int argc, char* argv[]) {
     path = base / argv[5];
 	auto u8arr = sparse_tensor_write_wxf(sparse_tensor<scalar_t, index_t, SPARSE_CSR>(tensor_first));
 	std::ofstream ofs_transform(path, std::ios::binary);
+	if (!ofs_transform) {
+		throw std::runtime_error("Cannot write file: " + path.string());
+	}
 	ofs_transform.write(reinterpret_cast<const char*>(u8arr.data()), u8arr.size());
+	ofs_transform.flush();
+	if (!ofs_transform.good()) {
+		throw std::runtime_error("Failed writing file (disk full or I/O error?): " + path.string());
+	}
 	ofs_transform.close();
 	u8arr.clear();
 	u8arr.shrink_to_fit();

@@ -42,6 +42,8 @@ bootstrap
 compute_rhs
 inspect_tensors
 letter_filter_bench
+tensor_ops
+tensor_add
 
 # Build directories
 build/
@@ -74,6 +76,12 @@ SparseRREF/
 
 # TRAE local workspace (notes, summaries — must not be pushed)
 .trae/
+
+# ZCode agent session state
+.zcode/
+
+# Local convenience symlink to the front-end projects root
+projects
 
 # Local reference files (must not be pushed)
 .local/

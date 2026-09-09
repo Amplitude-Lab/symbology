@@ -145,13 +145,20 @@ linear_solve_result_t<T, index_t> solve_linear_system(
 		flat_pivots.insert(flat_pivots.end(), p.begin(), p.end());
 	}
 
-	// Check consistency: any pivot in the last column (b column)?
+	// Derive the pivot structure from the RECONSTRUCTED ROWS (leading
+	// entries), not from the reported pivot_t list: SparseRREF's RREF
+	// eliminates columns in a free order (sparse_mat_inverse reweights
+	// appended columns for exactly this reason), so a pivot reported in the
+	// b column does NOT imply inconsistency, and rows are not necessarily
+	// normalized to a +1 leading entry.
+	// A row is a genuine 0 = 1 witness only when its ONLY nonzero sits in
+	// the b column.
 	bool consistent = true;
-	for (auto& p : flat_pivots) {
-		if (p.c == (index_t)n_unknowns) {
+	for (size_t r = 0; r < aug.nrow && consistent; r++) {
+		if (aug[r].nnz() == 0)
+			continue;
+		if (aug[r](0) == (index_t)n_unknowns && aug[r].nnz() == 1)
 			consistent = false;
-			break;
-		}
 	}
 
 	if (!consistent) {
@@ -159,21 +166,33 @@ linear_solve_result_t<T, index_t> solve_linear_system(
 		return {.consistent = false, .unique = false};
 	}
 
-	// Extract particular solution (free variables = 0)
+	// Extract particular solution (free variables = 0) from the leading
+	// entries: pivot var = leading column, value = (b entry) / (leading
+	// coefficient). Rows that are not mutually reduced will be caught by
+	// the full verification below.
 	sparse_vec<T, index_t> solution;
 	solution.reserve(n_unknowns);
-	for (auto& p : flat_pivots) {
-		if (p.c < (index_t)n_unknowns) {
-			auto val_ptr = aug[p.r].find((index_t)n_unknowns);
-			if (val_ptr != nullptr && *val_ptr != (T)0) {
-				solution.push_back(p.c, *val_ptr);
-			}
-			// else: solution[p.c] = 0 (default, don't store)
+	size_t n_lead = 0;
+	std::vector<char> lead_seen(n_unknowns, 0);
+	for (size_t r = 0; r < aug.nrow; r++) {
+		if (aug[r].nnz() == 0)
+			continue;
+		index_t lead = aug[r](0);
+		if (lead >= (index_t)n_unknowns)
+			continue;  // already excluded by the consistency check
+		if (lead_seen[lead])
+			continue;  // duplicate leading column: keep the first
+		lead_seen[lead] = 1;
+		n_lead++;
+		auto val_ptr = aug[r].find((index_t)n_unknowns);
+		if (val_ptr != nullptr && *val_ptr != (T)0) {
+			solution.push_back(lead, *val_ptr / aug[r][0]);
 		}
+		// else: solution[lead] = 0 (default, don't store)
 	}
 	solution.compress();
 
-	bool unique = (flat_pivots.size() == n_unknowns);
+	bool unique = (n_lead == n_unknowns);
 
 	std::cout << "   Solution" << (unique ? " (unique):" : " (particular, system underdetermined):") << std::endl;
 	for (size_t i = 0; i < solution.nnz(); i++) {
@@ -217,10 +236,74 @@ linear_solve_result_t<T, index_t> solve_linear_system(
 	if (verified) {
 		std::cout << "   All constraints verified!" << std::endl;
 	} else {
-		std::cout << "   VERIFICATION FAILED at constraint " << fail_at << std::endl;
-		std::cout << "   (Sampled solution does not satisfy all constraints)" << std::endl;
-		// Could fall back to full system, but for now report failure
-		return {.consistent = false, .unique = false};
+		// A failed verification means the extraction above read off a wrong
+		// solution (the sampled rows are rank-deficient or not mutually
+		// reduced) — NOT that the system is inconsistent. Solve the full
+		// system exactly instead of reporting a false verdict.
+		std::cout << "   VERIFICATION FAILED at constraint " << fail_at
+		          << " — falling back to the exact full-system solve" << std::endl;
+		sparse_mat<T, index_t> full_aug(nontrivial_indices.size(), n_unknowns + 1);
+		for (size_t k = 0; k < nontrivial_indices.size(); k++) {
+			size_t i = nontrivial_indices[k];
+			full_aug[k] = M[i];
+			auto b_ptr = b_mat[0].find((index_t)i);
+			if (b_ptr != nullptr && *b_ptr != (T)0)
+				full_aug[k].push_back((index_t)n_unknowns, *b_ptr);
+			full_aug[k].compress();
+		}
+		auto full_pivots_nested = sparse_mat_rref_reconstruct(full_aug, opt);
+		(void)full_pivots_nested;
+		// Re-extract from the full reconstructed system, same leading-entry
+		// logic as above.
+		sparse_vec<T, index_t> full_solution;
+		full_solution.reserve(n_unknowns);
+		size_t full_n_lead = 0;
+		std::vector<char> full_seen(n_unknowns, 0);
+		for (size_t r = 0; r < full_aug.nrow; r++) {
+			if (full_aug[r].nnz() == 0)
+				continue;
+			if (full_aug[r](0) == (index_t)n_unknowns && full_aug[r].nnz() == 1) {
+				std::cout << "   System is INCONSISTENT — no solution (full solve)" << std::endl;
+				return {.consistent = false, .unique = false};
+			}
+			index_t lead = full_aug[r](0);
+			if (lead >= (index_t)n_unknowns || full_seen[lead])
+				continue;
+			full_seen[lead] = 1;
+			full_n_lead++;
+			auto val_ptr = full_aug[r].find((index_t)n_unknowns);
+			if (val_ptr != nullptr && *val_ptr != (T)0)
+				full_solution.push_back(lead, *val_ptr / full_aug[r][0]);
+		}
+		full_solution.compress();
+		solution = std::move(full_solution);
+		unique = (full_n_lead == n_unknowns);
+		// Verify the full-solve solution as well; a second failure at this
+		// point means the reconstructed rows are not mutually reduced and
+		// the sampled solver cannot produce a trustworthy answer.
+		bool verified2 = true;
+		for (size_t idx : nontrivial_indices) {
+			const auto& row = M[idx];
+			T residual = (T)0;
+			for (size_t j = 0; j < row.nnz(); j++) {
+				auto sol_ptr = solution.find(row(j));
+				if (sol_ptr != nullptr)
+					residual = residual + row[j] * (*sol_ptr);
+			}
+			auto b_ptr = b_mat[0].find((index_t)idx);
+			if (b_ptr != nullptr)
+				residual = residual - *b_ptr;
+			if (residual != (T)0) {
+				verified2 = false;
+				break;
+			}
+		}
+		if (!verified2) {
+			throw std::runtime_error(
+				"solve_linear_system (sampled): full-system fallback still fails verification — "
+				"the reconstructed RREF rows are not mutually reduced; use --solver incremental");
+		}
+		std::cout << "   Full-system solution verified." << std::endl;
 	}
 
 	// Compute null space if underdetermined

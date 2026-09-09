@@ -1,0 +1,62 @@
+{
+ "description": "Regression baseline: compute_rhs binary end-to-end at L=2 (SEW_3p1, colprojdiv_w1 letter file) \u2014 covers compute_boundary (hardcoded formulas pre-2026-09-10; master-equation recursion after), the solve subprocess chain, hepMHV/E/R production and the divergent-letter verification. Internal solve must match the single-pair baseline (solMHV_2L = 4dc0cf4e). Recorded 2026-09-10. Extended 2026-09-10: crhs-2 runs SEW_5p1 (L=2..3) \u2014 after the master-equation recursion port, all outputs reproduce the historical closed-form results bit-identically (boundary_3L dc117613 etc.), re-verifying the L=3 skills row.",
+ "project": "heptagon-repo-root",
+ "repo_root_inputs": true,
+ "steps": [
+  {
+   "id": "crhs-1",
+   "label": "compute_rhs --target SEW_3p1 (recursive boundary + solve + verify)",
+   "argv": [
+    "@ROOT@/compute_rhs",
+    "--target",
+    "SEW_3p1",
+    "--letter-projection",
+    "@PROJ@/output/collinear/colprojdiv_w1.wxf",
+    "--data-dir",
+    "@PROJ@/data",
+    "--output-dir",
+    "@PROJ@/output"
+   ]
+  },
+  {
+   "id": "crhs-2",
+   "label": "compute_rhs --target SEW_5p1 (recursive L=2..3; validates the master-equation recursion against the historical closed forms)",
+   "argv": [
+    "@ROOT@/compute_rhs",
+    "--target",
+    "SEW_5p1",
+    "--letter-projection",
+    "@PROJ@/output/collinear/colprojdiv_w1.wxf",
+    "--data-dir",
+    "@PROJ@/data",
+    "--output-dir",
+    "@PROJ@/output"
+   ]
+  }
+ ],
+ "seed_inputs": [
+  "data/",
+  "output/collinear/",
+  "output/oneloop/"
+ ],
+ "solution_check": {
+  "step": "crhs-2",
+  "must_contain": [
+   "c[0] = -24",
+   "c[1] = 2",
+   "INCONSISTENT): 0"
+  ]
+ },
+ "crc32": {
+  "output/2loop/E2.wxf": "b3ce6c41",
+  "output/2loop/R2.wxf": "8f56256b",
+  "output/2loop/boundary_2L.wxf": "453048cb",
+  "output/2loop/hepMHV_2L.wxf": "771ead2b",
+  "output/2loop/solMHV_2L.wxf": "4dc0cf4e",
+  "output/3loop/boundary_3L.wxf": "dc117613",
+  "output/3loop/hepMHV_3L.wxf": "312a3106",
+  "output/3loop/E3.wxf": "b081a89d",
+  "output/3loop/R3.wxf": "d79564b7",
+  "output/3loop/solMHV_3L.wxf": "fadd9cec"
+ }
+}

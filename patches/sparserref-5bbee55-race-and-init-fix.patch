@@ -1,0 +1,341 @@
+diff --git a/sparse_mat.h b/sparse_mat.h
+index 3d1d6e9..c8b7573 100644
+--- a/sparse_mat.h
++++ b/sparse_mat.h
+@@ -10,6 +10,10 @@
+ #ifndef SPARSE_MAT_H
+ #define SPARSE_MAT_H
+ 
++#include <atomic>
++#include <cstdlib>
++#include <utility>
++
+ #include "sparse_vec.h"
+ 
+ namespace SparseRREF {
+@@ -1256,7 +1260,16 @@ namespace SparseRREF {
+ 
+ 			pool.detach_loop(0, n_pivots.size(), [&](size_t i) {
+ 				auto [r, c] = n_pivots[i];
+-				T scalar = scalar_inv(*mat.find(r, c), F);
++				// The pivot must exist in mat: n_pivots was derived from mat/tranmat
++				// under the flags protocol below. A null find() means the transpose
++				// index went stale (phantom pivot) — fail loudly instead of UB.
++				const T* piv = mat.find(r, c);
++				if (piv == nullptr) [[unlikely]] {
++					std::cerr << "SparseRREF rref_forward: pivot (" << r << "," << c
++						<< ") missing in mat (stale transpose index?)" << std::endl;
++					std::abort();
++				}
++				T scalar = scalar_inv(*piv, F);
+ 				sparse_vec_rescale(mat[r], scalar, F);
+ 				mat[r].reserve(mat[r].nnz());
+ 				});
+@@ -1341,12 +1354,20 @@ namespace SparseRREF {
+ 				pool.wait();
+ 			}
+ 			else {
+-				std::vector<int> flags(leftrows.size(), 0);
++				// Schur workers publish "row rewritten" via flags[i]. The flag and
++				// the rewritten row data must become visible together, so flags is
++				// atomic: workers store with release AFTER schur_complete_func,
++				// consumers load with acquire BEFORE re-reading mat[row] into the
++				// transpose index. Second-wave tasks clear their own flag so every
++				// row is indexed exactly once.
++				std::vector<std::atomic<int>> flags(leftrows.size());
++				for (auto& f : flags)
++					f.store(0, std::memory_order_relaxed);
+ 				pool.detach_blocks<size_t>(0, leftrows.size(), [&](const size_t s, const size_t e) {
+ 					auto id = thread_id();
+ 					for (size_t i = s; i < e; i++) {
+ 						schur_complete_func(mat, leftrows[i], n_pivots, F, cachedensedmat.data() + id * mat.ncol, nonzero_c[id]);
+-						flags[i] = 1;
++						flags[i].store(1, std::memory_order_release);
+ 						if (opt->abort)
+ 							break;
+ 					}
+@@ -1377,24 +1398,25 @@ namespace SparseRREF {
+ 				while (localcount < leftrows.size()) {
+ 					// if the pool is free and too many rows left, use pool
+ 					if (localcount * 2 < leftrows.size() && pool.get_tasks_total() == 0) {
+-						std::vector<size_t> newleftrows;
++						std::vector<std::pair<size_t, size_t>> newleftrows;
+ 						for (size_t i = 0; i < leftrows.size(); i++) {
+-							if (flags[i])
+-								newleftrows.push_back(leftrows[i]);
++							if (flags[i].load(std::memory_order_acquire))
++								newleftrows.emplace_back(i, leftrows[i]);
+ 						}
+ 
+ 						pool.detach_loop(0, newleftrows.size(), [&](size_t i) {
+-							auto row = newleftrows[i];
++							auto [fi, row] = newleftrows[i];
+ 							auto id = thread_id();
+ 							for (size_t j = 0; j < mat[row].nnz(); j++) {
+ 								auto col = mat[row](j);
+ 								tranmat_vec[id][col].push_back(row, true);
+ 							}
++							flags[fi].store(0, std::memory_order_release);
+ 							localcount++;
+ 							}, (newleftrows.size() < 20 * nthreads ? 0 : newleftrows.size() / 10));
+ 
+ 						if (opt->verbose) {
+-							while (localcount < leftrows.size() && !(opt->abort)) {
++							while (localcount < newleftrows.size() && !(opt->abort)) {
+ 								print_info(rank, localcount, print_once, oldpr);
+ 								std::this_thread::sleep_for(std::chrono::microseconds(100));
+ 							}
+@@ -1404,12 +1426,12 @@ namespace SparseRREF {
+ 					}
+ 
+ 					for (size_t i = 0; i < leftrows.size() && localcount < leftrows.size(); i++) {
+-						if (flags[i]) {
++						if (flags[i].load(std::memory_order_acquire)) {
+ 							auto row = leftrows[i];
+ 							for (size_t j = 0; j < mat[row].nnz(); j++) {
+ 								tranmat_vec[0][mat[row](j)].push_back(row, true);
+ 							}
+-							flags[i] = 0;
++							flags[i].store(0, std::memory_order_release);
+ 							localcount++;
+ 
+ 							if (localcount * 2 < leftrows.size() && pool.get_tasks_total() == 0)
+@@ -1594,7 +1616,15 @@ namespace SparseRREF {
+ 
+ 			pool.detach_loop(0, n_pivots.size(), [&](size_t i) {
+ 				auto [r, c] = n_pivots[i];
+-				T scalar = scalar_inv(*mat.find(r, c), F);
++				// Same phantom-pivot guard as rref_forward: a null find() means
++				// the transpose index was stale; abort loudly rather than UB.
++				const T* piv = mat.find(r, c);
++				if (piv == nullptr) [[unlikely]] {
++					std::cerr << "SparseRREF rref_backward: pivot (" << r << "," << c
++						<< ") missing in mat (stale transpose index?)" << std::endl;
++					std::abort();
++				}
++				T scalar = scalar_inv(*piv, F);
+ 				sparse_vec_rescale(mat[r], scalar, F);
+ 				mat[r].reserve(mat[r].nnz());
+ 				});
+@@ -1679,12 +1709,18 @@ namespace SparseRREF {
+ 				pool.wait();
+ 			}
+ 			else {
+-				std::vector<int> flags(leftrows.size(), 0);
++				// Atomic flags + exact-once indexing, mirroring the rref_forward
++				// fix: release-store the flag after the Schur rewrite, acquire-load
++				// it before re-indexing the row, and let second-wave tasks clear
++				// their own flags.
++				std::vector<std::atomic<int>> flags(leftrows.size());
++				for (auto& f : flags)
++					f.store(0, std::memory_order_relaxed);
+ 				pool.detach_blocks<size_t>(0, leftrows.size(), [&](const size_t s, const size_t e) {
+ 					auto id = SparseRREF::thread_id();
+ 					for (size_t i = s; i < e; i++) {
+ 						schur_complete_func(mat, leftrows[i], n_pivots, F, cachedensedmat.data() + id * mat.ncol, nonzero_c[id]);
+-						flags[i] = 1;
++						flags[i].store(1, std::memory_order_release);
+ 						if (opt->abort)
+ 							break;
+ 					}
+@@ -1715,31 +1751,32 @@ namespace SparseRREF {
+ 				while (localcount < leftrows.size()) {
+ 					// if the pool is free and too many rows left, use pool
+ 					if (localcount * 2 < leftrows.size() && pool.get_tasks_total() == 0) {
+-						std::vector<index_t> newleftrows;
++						std::vector<std::pair<index_t, size_t>> newleftrows;
+ 						for (size_t i = 0; i < leftrows.size(); i++) {
+-							if (flags[i])
+-								newleftrows.push_back(leftrows[i]);
++							if (flags[i].load(std::memory_order_acquire))
++								newleftrows.emplace_back(i, leftrows[i]);
+ 						}
+ 
+ 						pool.detach_loop(0, newleftrows.size(), [&](size_t i) {
+-							auto row = newleftrows[i];
++							auto [fi, row] = newleftrows[i];
+ 							for (size_t j = 0; j < mat[row].nnz(); j++) {
+ 								auto col = mat[row](j);
+ 								auto id = thread_id();
+ 								tranmat_vec[id][col].push_back(row, true);
+ 							}
++							flags[fi].store(0, std::memory_order_release);
+ 							localcount++;
+ 							}, (newleftrows.size() < 20 * nthreads ? 0 : newleftrows.size() / 10));
+ 						pool.wait();
+ 					}
+ 
+ 					for (size_t i = 0; i < leftrows.size() && localcount < leftrows.size(); i++) {
+-						if (flags[i]) {
++						if (flags[i].load(std::memory_order_acquire)) {
+ 							auto row = leftrows[i];
+ 							for (size_t j = 0; j < mat[row].nnz(); j++) {
+ 								tranmat_vec[0][mat[row](j)].push_back(row, true);
+ 							}
+-							flags[i] = 0;
++							flags[i].store(0, std::memory_order_release);
+ 							localcount++;
+ 
+ 							if (localcount * 2 < leftrows.size() && pool.get_tasks_total() == 0)
+diff --git a/sparse_rref.h b/sparse_rref.h
+index dd850c5..d05b12f 100644
+--- a/sparse_rref.h
++++ b/sparse_rref.h
+@@ -22,6 +22,7 @@
+ #include <fstream>
+ #include <iomanip>
+ #include <iostream>
++#include <stdexcept>
+ #include <list>
+ #include <map>
+ #include <numeric>
+@@ -679,17 +680,18 @@ namespace SparseRREF {
+ 
+ 	inline std::vector<uint8_t> file_to_ustr(const std::filesystem::path filename) {
+ 		if (!std::filesystem::exists(filename)) {
+-			std::cerr << "Error: File does not exist!" << std::endl;
+-			return std::vector<uint8_t>();
++			// An empty buffer here used to be silently parsed as "no tokens",
++			// producing empty tensors downstream; fail loudly instead.
++			throw std::runtime_error("file_to_ustr: file does not exist: " + filename.string());
+ 		}
+ 		std::ifstream file(filename, std::ios::binary | std::ios::ate);
+ 		std::streamsize size = file.tellg();
+ 		file.seekg(0, std::ios::beg);
+ 
+ 		std::vector<uint8_t> buffer(size);
+-		if (!file.read((char*)buffer.data(), size)) {
+-			std::cerr << "Failed to read file!" << std::endl;
+-			return std::vector<uint8_t>();
++		if (size > 0 && !file.read((char*)buffer.data(), size)) {
++			throw std::runtime_error("file_to_ustr: failed to read " + filename.string()
++				+ " (" + std::to_string(size) + " bytes)");
+ 		}
+ 
+ 		return buffer;
+diff --git a/sparse_tensor.h b/sparse_tensor.h
+index 0a78df3..d390fa7 100644
+--- a/sparse_tensor.h
++++ b/sparse_tensor.h
+@@ -12,6 +12,8 @@
+ 
+ #include "sparse_type.h"
+ 
++#include <stdexcept>
++
+ namespace SparseRREF {
+ 	// we assume that A, B are sorted, then C is also sorted
+ 	template <typename index_type, typename T>
+@@ -233,8 +235,8 @@ namespace SparseRREF {
+ 		using index_p = index_type*;
+ 
+ 		if (i1.size() != i2.size()) {
+-			std::cerr << "Error: tensor_contract: The size of the two contract sets do not match." << std::endl;
+-			return sparse_tensor<T, index_type, SPARSE_COO>();
++			throw std::runtime_error("tensor_contract: the two contract axis sets have different sizes ("
++				+ std::to_string(i1.size()) + " vs " + std::to_string(i2.size()) + ")");
+ 		}
+ 
+ 		if (i1.size() == 0) {
+@@ -246,8 +248,12 @@ namespace SparseRREF {
+ 
+ 		for (size_t k = 0; k < i1.size(); k++) {
+ 			if (dimsA[i1[k]] != dimsB[i2[k]]) {
+-				std::cerr << "Error: tensor_contract: The dimensions of the two tensors do not match." << std::endl;
+-				return sparse_tensor<T, index_type, SPARSE_COO>();
++				// A dim mismatch must not return an empty tensor that callers
++				// would silently propagate as a valid zero result.
++				throw std::runtime_error("tensor_contract: dimension mismatch — A axis "
++					+ std::to_string(i1[k]) + " has dim " + std::to_string(dimsA[i1[k]])
++					+ " but B axis " + std::to_string(i2[k]) + " has dim "
++					+ std::to_string(dimsB[i2[k]]));
+ 			}
+ 		}
+ 
+diff --git a/sparse_type.h b/sparse_type.h
+index 0ff94f1..28ae917 100644
+--- a/sparse_type.h
++++ b/sparse_type.h
+@@ -1906,6 +1906,11 @@ namespace SparseRREF {
+ 			auto nz = nnz();
+ 			auto n_colptr = s_malloc<index_t>(nz * (rank - 1));
+ 			auto n_valptr = s_malloc<T>(nz);
++			// s_malloc does not run constructors: raw-assigned rat_t entries would
++			// read uninitialized memory inside operator= (fmpz_set). Construct them
++			// first so the parallel copy below assigns into live objects only.
++			for (size_t i = 0; i < nz; i++)
++				new (n_valptr + i) T();
+ 
+ 			for (size_t i = 0; i < dims[0]; i++) {
+ 				size_t rownnz = rowptr[i + 1] - rowptr[i];
+@@ -1927,6 +1932,9 @@ namespace SparseRREF {
+ 				pool->wait();
+ 			}
+ 			s_free(colptr);
++			// all alloc entries are live objects (see init/reserve); destroy them before free
++			for (size_t i = 0; i < alloc; i++)
++				valptr[i].~T();
+ 			s_free(valptr);
+ 			colptr = n_colptr;
+ 			valptr = n_valptr;
+diff --git a/wxf_support.h b/wxf_support.h
+index fb94e38..848f582 100644
+--- a/wxf_support.h
++++ b/wxf_support.h
+@@ -234,23 +234,15 @@ namespace SparseRREF {
+ 	template <typename T, typename index_t>
+ 	sparse_mat<T, index_t> sparse_mat_read_wxf(const std::filesystem::path file, const field_t& F) {
+ 		auto fz = std::filesystem::file_size(file);
++		(void)fz;
+ 
+ 		WXF_PARSER::Parser wxf_parser;
+ 
+-		// if > 1GB, use mmap
+-		if (fz > 1ULL << 30) {
+-			MMapFile mm;
+-			std::string cc_str = std::filesystem::canonical(file).string();
+-			bool status = mmap_file(cc_str.c_str(), mm);
+-
+-			if (!status) {
+-				// if mmap failed, read the file directly
+-				auto buffer = file_to_ustr(file);
+-				wxf_parser = WXF_PARSER::Parser(buffer);
+-			}
+-
+-			wxf_parser = WXF_PARSER::Parser(mm.view);
+-		}
++		// NOTE: an mmap fast path for files > 1GB used to live here but was
++		// dead code — the unconditional whole-file read below always
++		// overwrote the parser it built (and mm.view would dangle after
++		// unmapping). It was removed rather than fixed; whole-file reads are
++		// the actual behavior this code has always had.
+ 
+ 		auto buffer = file_to_ustr(file);
+ 		wxf_parser = WXF_PARSER::Parser(buffer);
+@@ -607,23 +599,12 @@ namespace SparseRREF {
+ 	template <typename T, typename index_t>
+ 	auto sparse_tensor_read_wxf(const std::filesystem::path file, const field_t& F, thread_pool* pool = nullptr, bool sort_ind = true) {
+ 		auto fz = std::filesystem::file_size(file);
++		(void)fz;
+ 
+ 		WXF_PARSER::Parser wxf_parser;
+ 
+-		// if > 1GB, use mmap
+-		if (fz > 1ULL << 30) {
+-			MMapFile mm;
+-			std::string cc_str = std::filesystem::canonical(file).string();
+-			bool status = mmap_file(cc_str.c_str(), mm);
+-
+-			if (!status) {
+-				// if mmap failed, read the file directly
+-				auto buffer = file_to_ustr(file);
+-				wxf_parser = WXF_PARSER::Parser(buffer);
+-			}
+-
+-			wxf_parser = WXF_PARSER::Parser(mm.view);
+-		}
++		// (see the note in sparse_mat_read_wxf above: the dead > 1GB mmap
++		// fast path was removed; whole-file read is the real behavior)
+ 
+ 		auto buffer = file_to_ustr(file);
+ 		wxf_parser = WXF_PARSER::Parser(buffer);

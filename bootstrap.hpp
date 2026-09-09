@@ -42,10 +42,7 @@ void print_tensor_info(const sparse_mat<T, index_t>& S) {
 	std::cout << "alloc: " << S.alloc() << std::endl;
 }
 
-inline uint32_t get_file_crc32(const std::filesystem::path& filename) {
-	std::ifstream file(filename, std::ios::binary);
-	if (!file) throw std::runtime_error("Cannot open file: " + filename.string());
-
+inline uint32_t crc32_update(uint32_t crc, const char* data, size_t n) {
 	constexpr auto crc_table = [] {
 		std::array<uint32_t, 256> table{};
 		for (uint32_t i = 0; i < 256; ++i) {
@@ -58,14 +55,28 @@ inline uint32_t get_file_crc32(const std::filesystem::path& filename) {
 		return table;
 	}();
 
-	return std::accumulate(
-		std::istreambuf_iterator<char>(file),
-		std::istreambuf_iterator<char>(),
-		uint32_t(0xFFFFFFFF),
-		[&](uint32_t crc, char c) {
-			return crc_table[(crc ^ c) & 0xFF] ^ (crc >> 8);
-		}
-	) ^ 0xFFFFFFFF;
+	for (size_t i = 0; i < n; i++) {
+		crc = crc_table[(crc ^ static_cast<uint8_t>(data[i])) & 0xFF] ^ (crc >> 8);
+	}
+	return crc;
+}
+
+inline uint32_t get_file_crc32(const std::filesystem::path& filename) {
+	std::ifstream file(filename, std::ios::binary);
+	if (!file) throw std::runtime_error("Cannot open file: " + filename.string());
+
+	// Chunked raw-memory update: the old istreambuf_iterator version cost a
+	// stream-buffer round-trip per byte, i.e. a full extra slow pass over
+	// every file written or read (print_crc32 is called on both sides).
+	std::vector<char> buf(1 << 20);
+	uint32_t crc = 0xFFFFFFFF;
+	while (file) {
+		file.read(buf.data(), static_cast<std::streamsize>(buf.size()));
+		std::streamsize got = file.gcount();
+		if (got <= 0) break;
+		crc = crc32_update(crc, buf.data(), static_cast<size_t>(got));
+	}
+	return crc ^ 0xFFFFFFFF;
 }
 
 inline void print_crc32(const std::string& label, const std::filesystem::path& path) {
