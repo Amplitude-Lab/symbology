@@ -74,7 +74,14 @@ def load_project(pid: str) -> dict | None:
         f = _project_file(pid)
         if not f.exists():
             return None
-        return json.loads(f.read_text())
+        try:
+            return json.loads(f.read_text())
+        except json.JSONDecodeError as exc:
+            # A raw 500 with a stack trace helps nobody; name the broken file.
+            raise ValueError(
+                f"project file is corrupted ({f}: {exc}) — restore it from a "
+                "backup or delete the project directory to start over"
+            ) from exc
 
 
 def save_project(proj: dict) -> None:

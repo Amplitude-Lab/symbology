@@ -51,6 +51,7 @@ export const api = {
   compileFlow: (pid, fid) => request('POST', `/projects/${pid}/flows/${fid}/compile`, {}),
   flowOutputs: (pid) => request('GET', `/projects/${pid}/flow_outputs`),
   runFlow: (pid, fid) => request('POST', `/projects/${pid}/flows/${fid}/runs`, {}),
+  exportFlowScript: (pid, fid) => request('POST', `/projects/${pid}/flows/${fid}/export_script`, {}),
   listRuns: (pid) => request('GET', `/projects/${pid}/runs`),
   getRun: (rid) => request('GET', `/runs/${rid}`),
   cancelRun: (rid) => request('POST', `/runs/${rid}/cancel`),

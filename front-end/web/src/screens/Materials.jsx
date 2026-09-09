@@ -564,6 +564,20 @@ export default function Materials() {
         <h1 style={{ margin: 0, flex: 1 }}>Materials — alphabet building blocks</h1>
         <button className="primary shrink" onClick={() => setShowNew(true)}>+ New alphabet</button>
       </div>
+      <p className="muted">
+        An alphabet defines the letters of a symbol-space problem; its properties (integrability,
+        first/last entry, Steinmann, cluster adjacency, transformations, symbol tensors, …) compile
+        into the constraint and seed tensors that flows consume through the Alphabet block.
+      </p>
+      <p className="muted" style={{ fontSize: 11 }}>
+        How to use: open an alphabet to add or compute properties. Each computed property writes a
+        tensor under this project&apos;s <code>data/</code> — the status dot next to it shows
+        pending / computing / ready / error. Wolfram-based properties are computed with
+        <code> wolframscript</code> on this machine; an <em>Existing tensor file</em> property simply
+        references an already-present <code>.wxf</code> instead of computing one. When the properties
+        you need are ready, drop an <strong>Alphabet</strong> block into a flow and check them off —
+        each checked property becomes a wired output the flow can build on.
+      </p>
       {!project.alphabets.length && (
         <div className="empty-state">
           <div className="big">No alphabets yet</div>

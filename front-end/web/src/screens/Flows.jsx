@@ -65,7 +65,16 @@ export default function Flows() {
       <h1>Flows</h1>
       <p className="muted">
         A flow is a visual program: wire alphabet building blocks into operations, compile it into the
-        exact command sequence, then run it.
+        exact command sequence, then run it. Open a flow to draw it on the canvas — the graph autosaves
+        as you work.
+      </p>
+      <p className="muted" style={{ fontSize: 11 }}>
+        How to run a flow: in the editor click <strong>Compile</strong>, then open the <strong>Plan</strong> tab
+        on the right — it shows the exact command list the flow compiles to. From there you can
+        <strong> ▶ Run this plan</strong> on this machine, or <strong>⇪ Export standalone script</strong> to
+        write the same plan as a portable, self-checking bash script (<code>exported/&lt;flow&gt;.sh</code> inside
+        this project). Copy that script together with the project directory to any machine where the C++ core
+        is built and run it there — no front-end needed. See README → “Design locally, run on the cluster”.
       </p>
       <div className="card" style={{ marginBottom: 16 }}>
         <div className="row">

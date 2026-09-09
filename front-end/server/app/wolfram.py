@@ -102,9 +102,22 @@ def property_tensor_relpath(alphabet: dict, prop: dict) -> str:
     raise ValueError(f"unknown property type {ptype}")
 
 
+def _symb_root_snippet() -> str:
+    # The package path is relocatable: SYMBOLOGY_ROOT (if set) overrides the
+    # baked-in absolute path, so generated scripts can travel to another
+    # machine / checkout without rewriting. Lookup on the full environment
+    # association avoids GetEnvironment's rule/None return-shape pitfalls.
+    return (
+        '$symbEnv = Lookup[GetEnvironment[], "SYMBOLOGY_ROOT", Null];\n'
+        '$symbRoot = If[StringQ[$symbEnv] && $symbEnv =!= "", $symbEnv, '
+        f'{_q(REPO_ROOT.as_posix())}];\n'
+        f'Get[FileNameJoin[{{$symbRoot, {_q("SymbolBootstrap.wl")}}}]];'
+    )
+
+
 def _preamble(alphabet: dict) -> str:
     lines = [
-        f'Get[{_q(PACKAGE_PATH)}];',
+        _symb_root_snippet(),
         f'$alphaName = {_q(alphabet["name"])};',
         f'$letters = ToExpression[{_wl_string_list(alphabet["letters"])}];',
         'SymbolBootstrap`ResetAlphabet[$alphaName, $letters];',
@@ -197,7 +210,7 @@ def property_script(alphabet: dict, prop: dict, out_abs: str) -> str:
 
 def merge_script(input_abs_paths: list, out_abs: str) -> str:
     files = "{" + ",".join(_q(p) for p in input_abs_paths) + "}"
-    return f'''Get[{_q(PACKAGE_PATH)}];
+    return f'''{_symb_root_snippet()}
 $inputs = Import /@ {files};
 If[MemberQ[$inputs, $Failed], Print["@@RESULT@@FAIL"]; Exit[1]];
 $tensor = SymbolBootstrap`Private`CombineConditionTensor[Sequence @@ $inputs];

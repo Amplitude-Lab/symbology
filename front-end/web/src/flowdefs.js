@@ -116,6 +116,9 @@ export const NODE_DEFS = {
   projection_chain: {
     title: 'Projection Chain', color: '#e2e8f0',
     inputs: [{ id: 'seed', kind: 'seed', label: 'chain seed (opt)' }],
+    // Collinear runs additionally expose one dynamic output per expansion
+    // basis the same --project run materializes (basis_w{w} / basis_last_w{w})
+    // — see projectionChainBasisOutputs(); OpNode renders them from data.target.
     outputs: [{ id: 'out', kind: 'basis', label: 'basis / projection' }],
   },
   symmetry_invariant: {
@@ -125,8 +128,11 @@ export const NODE_DEFS = {
   },
   compute_rhs: {
     title: 'Compute RHS', color: '#e2e8f0',
-    inputs: [{ id: 'seed', kind: 'seed', label: 'seed' }],
-    outputs: [{ id: 'boundary', kind: 'boundary', label: 'boundary' }],
+    inputs: [
+      { id: 'e1', kind: 'tensor', label: 'E1 seed' },
+      { id: 'p1', kind: 'tensor', label: 'P1 seed (per-mode)' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'rhs tensor' }],
   },
   add_tensors: {
     title: 'Add Tensors', color: '#dcfce7',
@@ -140,8 +146,8 @@ export const NODE_DEFS = {
     title: 'Ternary Contract', color: '#fef3c7',
     inputs: [
       { id: 'tensor', kind: 'tensor', label: 'tensor' },
-      { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
-      { id: 'trans2', kind: 'matrix', label: 'trans2 (last axis)' },
+      { id: 'trans1', kind: 'matrix_or_tensor', label: 'trans1 (2nd axis)' },
+      { id: 'trans2', kind: 'matrix_or_tensor', label: 'trans2 (last axis)' },
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
   },
@@ -150,8 +156,8 @@ export const NODE_DEFS = {
     inputs: [
       { id: 'tensor', kind: 'tensor', label: 'tensor' },
       { id: 'sym', kind: 'matrix', label: 'sym (auto chain)' },
-      { id: 'trans1', kind: 'matrix', label: 'trans1 (2nd axis)' },
-      { id: 'trans2', kind: 'matrix', label: 'trans2 (last axis)' },
+      { id: 'trans1', kind: 'matrix_or_tensor', label: 'trans1 (2nd axis)' },
+      { id: 'trans2', kind: 'matrix_or_tensor', label: 'trans2 (last axis)' },
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'transformed' }],
   },
@@ -175,6 +181,27 @@ export const NODE_DEFS = {
       { id: 'b', kind: 'tensor', label: 'B' },
     ],
     outputs: [{ id: 'out', kind: 'tensor', label: 'dot' }],
+  },
+  shuffle_product: {
+    title: 'Shuffle Product', color: '#dcfce7',
+    inputs: [
+      { id: 'a', kind: 'tensor', label: 'A' },
+      { id: 'b', kind: 'tensor', label: 'B' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'w·(A ⊗ B)' }],
+  },
+  squeeze_tensor: {
+    title: 'Squeeze Tensor', color: '#dcfce7',
+    inputs: [{ id: 'in', kind: 'tensor', label: 'T' }],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'squeezed' }],
+  },
+  expand_tensor: {
+    title: 'Expand Tensor', color: '#dcfce7',
+    inputs: [
+      { id: 'in_0', kind: 'tensor', label: 'T (FEC,letter)' },
+      { id: 'in_1', kind: 'tensor', label: 'basis 1' },
+    ],
+    outputs: [{ id: 'out', kind: 'tensor', label: 'expanded' }],
   },
   impose_integrability: {
     title: 'Solve Integrability', color: '#ede9fe',
@@ -210,6 +237,146 @@ export const NODE_DEFS = {
   },
 }
 
+// ---- geometry (shared single source of truth) ----
+// port-row geometry constants and the TRUE rendered port lists for every
+// node type (dynamic in_N slots, collinear pairs, chain basis outputs,
+// alphabet proj slots, custom-block port lists). FlowEditor renders and
+// routes wires from these; scripts/ports-dump.mjs + wire-audit.py and the
+// SSR audit consume them directly, so the audits can never silently
+// diverge from the renderer again (the alphabet def.outputs crash class).
+
+export const NODE_W = 190
+export const ROW0 = 29
+export const ROW_STEP = 15
+export const SUB_EXTRA = 15
+
+export const SUBTITLE_TYPES = new Set([
+  'extend', 'project', 'solve_symmetry', 'symderive', 'sew', 'solve_collinear',
+  'projection_chain', 'symmetry_invariant', 'compute_rhs', 'add_tensors',
+  'ternary_contract', 'apply_symmetry', 'matrix_power', 'tensor_join',
+  'tensor_dot', 'squeeze_tensor', 'shuffle_product', 'expand_tensor',
+  'impose_integrability', 'integrability_condition', 'solve_conditions',
+])
+
+// Compute RHS object types. Mirrored in server/app/compile.py::RHS_MODES —
+// keep the two registries in sync. Adding a new object type = one entry here
+// (palette/Inspector select + subtitle) + one entry there (the generation
+// rule) + optional Inspector help text in FlowEditor.jsx.
+export const RHS_MODES = {
+  mhv_boundary: {
+    label: 'MHV boundary (boundary_L)',
+    short: 'MHV',
+    requires: ['e1'], forbids: ['p1'],
+    targetPlaceholder: 'boundary_2L',
+  },
+  e47me67_te: {
+    label: 'NMHV E47mE67 (tE_L)',
+    short: 'E47mE67',
+    requires: ['e1', 'p1'], forbids: [],
+    targetPlaceholder: 'tE2',
+  },
+}
+
+// TRUE rendered port lists per node — the single source of truth mirroring
+// what OpNode / AlphabetNode / CustomBlockNode / AssembleNode / CBIONode
+// actually draw (dynamic in_N slots, collinear pairs, chain basis outputs,
+// alphabet proj slots, custom-block port lists). estHeight and wire routing
+// both derive from it; never read NODE_DEFS[t].outputs directly for geometry
+// (alphabet has no outputs key; dynamic types exceed the static lists).
+export function portsOf(node, project, allEdges) {
+  const t = node.type
+  const d = node.data || {}
+  if (t === 'alphabet') {
+    const alphabet = project?.alphabets?.find((a) => a.id === d.alphabet_id)
+    const slots = alphabetOutSlots(alphabet, d.selected_properties || [])
+    return { inputs: [], outputs: slots.map((s) => ({ id: s.handle })) }
+  }
+  if (t === 'customblock') {
+    const def = NODE_DEFS[`cb_${d.block}`]
+    return { inputs: def?.inputs || [], outputs: def?.outputs || [] }
+  }
+  if (t === 'assemble') {
+    let maxConnected = -1
+    for (const e of allEdges) {
+      if (e.target === node.id && (e.targetHandle || '').startsWith('in_')) {
+        const idx = parseInt((e.targetHandle || '').slice(3).split('@')[0], 10)
+        if (!Number.isNaN(idx)) maxConnected = Math.max(maxConnected, idx)
+      }
+    }
+    const def = NODE_DEFS.assemble
+    const slots = Math.max(def.inputs.length, maxConnected + 2)
+    return {
+      inputs: Array.from({ length: slots }, (_, i) => ({ id: `in_${i}` })),
+      outputs: (d.outputs || []).map((o, i) => ({ id: `out_${i}` })),
+    }
+  }
+  if (t === 'cb_in') return { inputs: [], outputs: [{ id: 'out' }] }
+  if (t === 'cb_out') return { inputs: [{ id: 'in' }], outputs: [] }
+  if (t === 'reuse_output') return { inputs: [], outputs: [{ id: 'out' }] }
+  if (t === 'groupBox') return { inputs: [], outputs: [] }
+  const def = NODE_DEFS[t]
+  if (!def) return { inputs: [], outputs: [] }
+  let inputs = def.inputs || []
+  let outputs = def.outputs || []
+  if (t === 'add_tensors' || t === 'expand_tensor') {
+    let maxConnected = 1
+    for (const e of allEdges) {
+      if (e.target === node.id && (e.targetHandle || '').startsWith('in_')) {
+        const idx = parseInt((e.targetHandle || '').slice(3).split('@')[0], 10)
+        if (!Number.isNaN(idx)) maxConnected = Math.max(maxConnected, idx)
+      }
+    }
+    inputs = Array.from({ length: Math.max(inputs.length, maxConnected + 2) }, (_, i) => ({ id: `in_${i}` }))
+  }
+  if (t === 'solve_collinear') {
+    let maxPair = 0
+    let hasCondEdge = false
+    for (const e of allEdges) {
+      if (e.target !== node.id) continue
+      const m = (e.targetHandle || '').match(/^in_(?:seed|rhs)_(\d+)$/)
+      if (m) maxPair = Math.max(maxPair, parseInt(m[1], 10))
+      if ((e.targetHandle || '') === 'cond') hasCondEdge = true
+    }
+    const nPairs = Math.max(maxPair, normalizeCollinearPairs(d).length - 1)
+    inputs = inputs.filter((i) => i.id !== 'cond')
+    if (d.cond_enabled || hasCondEdge) inputs = [...inputs, { id: 'cond' }]
+    const extras = []
+    for (let p = 1; p <= nPairs; p++) extras.push({ id: `in_seed_${p}` }, { id: `in_rhs_${p}` })
+    inputs = [...inputs, ...extras]
+  }
+  if (t === 'projection_chain') {
+    const basis = projectionChainBasisOutputs(d)
+    for (const e of allEdges) {
+      if (e.source === node.id && /^(basis_w\d+|basis_last_w\d+)$/.test(e.sourceHandle || '')) {
+        if (!basis.some((b) => b.id === e.sourceHandle)) basis.push({ id: e.sourceHandle })
+      }
+    }
+    outputs = [...outputs, ...basis]
+  }
+  return { inputs, outputs }
+}
+
+// Y of port row 0 inside a node card (matches the Handle top styles).
+export function portBaseY(n) {
+  if (n.type === 'alphabet') return 31
+  if (n.type === 'customblock' || n.type === 'cb_in' || n.type === 'cb_out' || n.type === 'reuse_output') return ROW0
+  if (n.type === 'assemble') return ROW0 + SUB_EXTRA
+  return ROW0 + (SUBTITLE_TYPES.has(n.type) ? SUB_EXTRA : 0)
+}
+
+// Estimated rendered node height (mirror of scripts/layout-flow.py's model;
+// used only for wire detour routing — small errors are absorbed by margins).
+export function estHeight(n, project, allEdges) {
+  if (n.type === 'groupBox' || n.type === 'cb_in' || n.type === 'cb_out' || n.type === 'reuse_output') return 60
+  if (n.type === 'alphabet') {
+    const { outputs } = portsOf(n, project, allEdges)
+    return 62 + (Math.max(outputs.length, 1) - 1) * 15
+  }
+  const { inputs, outputs } = portsOf(n, project, allEdges)
+  const sub = (SUBTITLE_TYPES.has(n.type) || n.type === 'assemble') ? SUB_EXTRA : 0
+  return 98 + (Math.max(inputs.length, outputs.length, 1) - 1) * 15 + sub
+}
+
 export const PALETTE_SECTIONS = [
   {
     title: 'Building blocks',
@@ -227,6 +394,9 @@ export const PALETTE_SECTIONS = [
       { type: 'matrix_power', label: 'Matrix Power', sub: 'M^n' },
       { type: 'tensor_join', label: 'Join Tensors', sub: 'join along an axis' },
       { type: 'tensor_dot', label: 'Tensor Dot', sub: 'contract one axis of A with one of B' },
+      { type: 'squeeze_tensor', label: 'Squeeze Tensor', sub: 'drop all size-1 axes' },
+      { type: 'shuffle_product', label: 'Shuffle Product', sub: 'w·(A ⊗ B) word shuffle' },
+      { type: 'expand_tensor', label: 'Expand Tensor', sub: 'contract FEC axis with basis chain' },
       { type: 'impose_integrability', label: 'Solve Integrability', sub: 'contract with dlog & solve' },
       { type: 'integrability_condition', label: 'Integrability Condition', sub: 'contract with dlog → conditions' },
       { type: 'solve_conditions', label: 'Solve Conditions', sub: 'kernel of condition matrix' },
@@ -244,7 +414,7 @@ export const PALETTE_SECTIONS = [
       { type: 'solve_collinear', label: 'Solve Collinear', sub: 'non-homogeneous constraints' },
       { type: 'projection_chain', label: 'Projection Chain', sub: 'bootstrap --project (basis chain)' },
       { type: 'symmetry_invariant', label: 'Symmetry Invariant', sub: 'bootstrap --solve-symmetry' },
-      { type: 'compute_rhs', label: 'Compute RHS', sub: 'collinear RHS / boundary' },
+      { type: 'compute_rhs', label: 'Compute RHS', sub: 'one block: boundary_L / tE_L (shuffle recursion)' },
     ],
   },
 ]
@@ -260,6 +430,8 @@ const ACCEPTS = {
   boundary: ['boundary', 'tensor', 'basis', 'solution', 'matrix'],
   tensor: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
   matrix: ['matrix'],
+  matrix_or_tensor: ['matrix', 'tensor', 'basis', 'solution', 'boundary', 'fec1', 'fec', 'lec1', 'lec', 'sew'],
+  xtrans: ['matrix', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'basis', 'solution', 'boundary', 'tensor'],
   any: ['dlogmat', 'fec1', 'fec', 'lec1', 'lec', 'sew', 'matrix', 'basis', 'solution', 'boundary', 'tensor'],
 }
 
@@ -278,6 +450,32 @@ export function alphabetOutSlots(alphabet, selectedProps) {
     if (p.type === 'first_entry' || p.type === 'last_entry') {
       rows.push({ key: `${p.id}_proj`, handle: `proj_${p.id}`, propId: p.id, proj: true, kind: 'matrix' })
     }
+  }
+  return rows
+}
+
+// ---- projection_chain dynamic basis outputs ----
+// A collinear `bootstrap --project` run materializes one expansion basis per
+// chain weight next to the target basis (first_w{w}_basis / last_w{w}_basis).
+// The compile server exposes each as an extra output handle (basis_w{w} /
+// basis_last_w{w}); this mirrors that contract for the UI so OpNode can
+// render the ports and sourceKindFor can type-check wires. Must stay in sync
+// with _compile_projection_chain in server/app/compile.py.
+
+export function projectionChainBasisOutputs(data) {
+  const rows = []
+  if ((data?.symmetry || 'collinear') !== 'collinear') return rows
+  const t = String(data?.target || '').trim()
+  const m = t.match(/^(SEW|FEC|LEC)_(\d+)(?:p(\d+))?$/i)
+  if (!m) return rows
+  const kind = m[1].toUpperCase()
+  const fw = kind === 'LEC' ? 1 : parseInt(m[2], 10)
+  const lw = kind === 'FEC' ? 1 : kind === 'LEC' ? parseInt(m[2], 10) : parseInt(m[3], 10)
+  if (kind === 'LEC') {
+    for (let w = 2; w <= lw; w++) rows.push({ id: `basis_w${w}`, kind: 'basis', label: `w${w} basis (last chain)` })
+  } else {
+    for (let w = 2; w <= fw; w++) rows.push({ id: `basis_w${w}`, kind: 'basis', label: `w${w} basis` })
+    for (let w = 2; w <= lw; w++) rows.push({ id: `basis_last_w${w}`, kind: 'basis', label: `w${w} basis (last chain)` })
   }
   return rows
 }
@@ -308,6 +506,9 @@ export function sourceKindFor(node, handleId, project) {
   if (node.type === 'assemble' && /^out_\d+$/.test(handleId || '')) {
     return 'tensor'
   }
+  if (node.type === 'projection_chain' && /^(basis_w\d+|basis_last_w\d+)$/.test(handleId || '')) {
+    return 'basis'
+  }
   const def = NODE_DEFS[node.type]
   const out = def?.outputs?.find((o) => o.id === handleId)
   return out ? out.kind : null
@@ -322,7 +523,7 @@ export function targetKindFor(node, handleId) {
     return inp ? inp.kind : null
   }
   const def = NODE_DEFS[node.type]
-  if ((node.type === 'assemble' || node.type === 'add_tensors') && (handleId || '').startsWith('in_')) return 'tensor'
+  if ((node.type === 'assemble' || node.type === 'add_tensors' || node.type === 'expand_tensor') && (handleId || '').startsWith('in_')) return 'tensor'
   if (node.type === 'solve_collinear') {
     // Dynamic extra pairs: in_seed_N / in_rhs_N (N >= 1). Pair 0 uses the
     // fixed seed/rhs ports (backwards compatible).

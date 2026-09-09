@@ -159,6 +159,8 @@ tr:hover td { background: #fafbfc; }
 .kind-fec1, .kind-fec { color: var(--fec); }
 .kind-lec1, .kind-lec { color: var(--lec); }
 .kind-matrix { color: var(--matrix); }
+.kind-matrix_or_tensor { color: var(--matrix); }
+.kind-xtrans { color: var(--matrix); }
 .kind-tensor { color: #64748b; }
 .dim-badge {
   font-size: 8px; color: var(--muted); font-family: ui-monospace, Menlo, monospace;

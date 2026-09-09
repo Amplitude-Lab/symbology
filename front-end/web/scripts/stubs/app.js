@@ -1,0 +1,5 @@
+export const useProject = () => ({ project: globalThis.__PROJECT })
+export const useToast = () => ({ toast: () => {} })
+export const useNavigate = () => ({})
+export const useParams = () => ({})
+export const api = new Proxy({}, { get: () => async () => ({}) })

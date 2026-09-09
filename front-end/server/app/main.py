@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 
 from . import storage, templates
-from .compile import compile_flow, flow_outputs_catalog
+from .compile import compile_flow, export_flow_script, flow_outputs_catalog
 from .config import REPO_ROOT, WEB_DIST, env_status, find_tensor_ops, find_wolframscript
 from .jobs import engine
 from .wolfram import alphabet_file_expr_loader, property_display_name, property_script, property_tensor_relpath, read_result_file, summary_script
@@ -48,7 +48,10 @@ def api_client_log(body: dict = Body(...)) -> dict:
 
 
 def _get_project(pid: str) -> dict:
-    proj = storage.load_project(pid)
+    try:
+        proj = storage.load_project(pid)
+    except ValueError as exc:
+        raise HTTPException(500, str(exc))
     if proj is None:
         raise HTTPException(404, f"project '{pid}' not found")
     return proj
@@ -328,7 +331,7 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
         if not rel or ".." in rel.split("/"):
             raise HTTPException(400, "provide a valid relative tensor file path (e.g. data/cycrepmat.wxf)")
         target = (storage.project_dir(pid) / rel).resolve()
-        if not str(target).startswith(str(storage.project_dir(pid).resolve())):
+        if not target.is_relative_to(storage.project_dir(pid).resolve()):
             raise HTTPException(400, "tensor file must live inside the project")
         if not target.exists():
             raise HTTPException(400, f"tensor file '{rel}' does not exist in this project")
@@ -343,7 +346,7 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
             if ".." in defs.split("/"):
                 raise HTTPException(400, "invalid definitions file path")
             target = (storage.project_dir(pid) / defs).resolve()
-            if not str(target).startswith(str(storage.project_dir(pid).resolve())) or not target.exists():
+            if not target.is_relative_to(storage.project_dir(pid).resolve()) or not target.exists():
                 raise HTTPException(400, f"definitions file '{defs}' does not exist in this project")
             params["defs_file"] = defs
         else:
@@ -480,7 +483,10 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
                 pr2["error"] = "wolframscript exited with an error; see run log"
                 storage.save_project(p2)
 
-    run = engine.create_run(pid, None, step["label"], [step], on_step_done=on_step_done, on_done=on_done)
+    try:
+        run = engine.create_run(pid, None, step["label"], [step], on_step_done=on_step_done, on_done=on_done)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc))
     return {"run_id": run.run_id}
 
 
@@ -503,7 +509,7 @@ def api_list_tensors(pid: str, dir: str = "data") -> list:
 def summarize_tensor_file(pid: str, rel_file: str) -> dict:
     proj_dir = storage.project_dir(pid)
     target = (proj_dir / rel_file).resolve()
-    if not str(target).startswith(str(proj_dir.resolve())) or not target.exists():
+    if not target.is_relative_to(proj_dir.resolve()) or not target.exists():
         raise HTTPException(404, "tensor file not found")
     cache_dir = proj_dir / ".summary_cache"
     cache_dir.mkdir(exist_ok=True)
@@ -526,7 +532,10 @@ def summarize_tensor_file(pid: str, rel_file: str) -> dict:
     if result_path.exists():
         result_path.unlink()
     script_path.write_text(summary_script(str(target), str(result_path)))
-    proc = subprocess.run([ws, "-script", str(script_path)], capture_output=True, text=True, timeout=600)
+    try:
+        proc = subprocess.run([ws, "-script", str(script_path)], capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        raise HTTPException(500, "wolframscript timed out summarizing the tensor (600 s)")
     result = None
     if result_path.exists():
         try:
@@ -655,8 +664,26 @@ def api_run_flow(pid: str, fid: str) -> dict:
     steps = result["_steps_full"]
     if not steps:
         raise HTTPException(400, "flow produced no steps")
-    run = engine.create_run(pid, fid, f"Flow: {flow['name']}", steps, on_step_done=_flow_step_done(pid))
+    try:
+        run = engine.create_run(pid, fid, f"Flow: {flow['name']}", steps, on_step_done=_flow_step_done(pid))
+    except ValueError as exc:
+        raise HTTPException(409, str(exc))
     return {"run_id": run.run_id}
+
+
+@app.post("/api/projects/{pid}/flows/{fid}/export_script")
+def api_export_flow_script(pid: str, fid: str) -> dict:
+    """Compile the flow and render it as a portable, self-checking bash script
+    (design on the laptop, run on the cluster — see README)."""
+    proj = _get_project(pid)
+    flow = storage.find_flow(proj, fid)
+    if flow is None:
+        raise HTTPException(404, "flow not found")
+    result = export_flow_script(proj, flow.get("graph") or {}, flow.get("name") or fid,
+                                output_subdir=flow.get("output_subdir"))
+    if not result["ok"]:
+        raise HTTPException(400, {"message": "flow does not compile", "errors": result["errors"]})
+    return result
 
 
 def _flow_step_done(pid: str):
@@ -678,18 +705,58 @@ def _flow_step_done(pid: str):
     return hook
 
 
+def _disk_runs(pid: str) -> list:
+    """Run records persisted at <project>/runs/<run_id>.json.
+
+    The engine only keeps runs created during the current server process
+    (uvicorn reload/restart wipes it), so the list/detail endpoints merge
+    these records back in — without them the Runs page would be blank after
+    every restart.
+    """
+    rdir = storage.project_dir(pid) / "runs"
+    if not rdir.exists():
+        return []
+    out = []
+    for f in sorted(rdir.glob("*.json")):
+        try:
+            out.append(json.loads(f.read_text()))
+        except Exception:
+            continue
+    return out
+
+
+def _find_disk_run(run_id: str) -> dict | None:
+    if not re.fullmatch(r"[0-9a-f]{6,}", run_id or ""):
+        return None
+    for proj_dir in sorted(storage.PROJECTS_DIR.glob("*/runs")) if storage.PROJECTS_DIR.exists() else []:
+        f = proj_dir / f"{run_id}.json"
+        if f.is_file():
+            try:
+                return json.loads(f.read_text())
+            except Exception:
+                return None
+    return None
+
+
 @app.get("/api/projects/{pid}/runs")
 def api_list_runs(pid: str) -> list:
     _get_project(pid)
-    return [r.snapshot() for r in engine.list_for_project(pid)]
+    merged = {r.get("run_id"): r for r in _disk_runs(pid) if r.get("run_id")}
+    # live engine state wins over the persisted record of the same run
+    for r in engine.list_for_project(pid):
+        merged[r.run_id] = r.snapshot()
+    return sorted(merged.values(), key=lambda r: r.get("created_at") or "", reverse=True)
 
 
 @app.get("/api/runs/{run_id}")
 def api_get_run(run_id: str) -> dict:
     run = engine.get(run_id)
-    if run is None:
-        raise HTTPException(404, "run not found")
-    return run.snapshot()
+    if run is not None:
+        return run.snapshot()
+    rec = _find_disk_run(run_id)
+    if rec is not None:
+        return rec
+    raise HTTPException(404, "run not found")
 
 
 @app.post("/api/runs/{run_id}/cancel")
@@ -703,7 +770,21 @@ def api_cancel_run(run_id: str) -> dict:
 def api_run_events(run_id: str):
     run = engine.get(run_id)
     if run is None:
-        raise HTTPException(404, "run not found")
+        # Historical run (server restarted since): replay the persisted log
+        # so the run detail page still shows what happened.
+        rec = _find_disk_run(run_id)
+        if rec is None:
+            raise HTTPException(404, "run not found")
+        log_file = storage.project_dir(rec["project_id"]) / "runs" / f"{run_id}.log"
+
+        def replay():
+            if log_file.is_file():
+                for line in log_file.read_text(errors="replace").splitlines():
+                    yield f"event: log\ndata: {json.dumps({'step_id': None, 'stream': 'stdout', 'line': line})}\n\n"
+            yield f"event: status\ndata: {json.dumps({'status': rec.get('status')})}\n\n"
+            yield "event: end\ndata: {}\n\n"
+
+        return StreamingResponse(replay(), media_type="text/event-stream")
 
     def gen():
         idx = 0

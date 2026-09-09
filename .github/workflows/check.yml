@@ -1,0 +1,48 @@
+name: check
+
+# Local development's aggregate gate is `make check` (regression baselines +
+# registry sync). This workflow runs the machine-independent subset on every
+# push/PR: build the C++ core against a fresh SparseRREF clone + patch, and
+# run the checks that do not need local project data (the CRC32 baselines
+# read front-end/projects/, which is gitignored and machine-local — run
+# `make check` on your machine for those).
+#
+# NOTE: the code needs FLINT >= 3 (developed against 3.2). If the distro's
+# libflint-dev is too old, the build step fails loudly — adjust the install
+# step (e.g. a PPA or a source build) rather than weakening the code.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ libflint-dev libgmp-dev libtbb-dev python3
+      - name: Set up SparseRREF (pinned commit + patches)
+        run: ./scripts/setup-sparserref.sh
+      - name: Build
+        run: |
+          make bootstrap compute_rhs tensor_add tensor_ops
+      - name: RHS_MODES registry sync
+        run: python3 front-end/web/scripts/rhs-modes-sync.py
+      - name: Standalone-script generator smoke (bash syntax of a self-test)
+        run: bash -n scripts/setup-sparserref.sh
+
+  web:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build the web bundle
+        working-directory: front-end/web
+        run: |
+          npm ci || npm install
+          npx vite build

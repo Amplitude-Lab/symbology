@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactFlow, {
-  Background, ConnectionMode, Controls, Handle, Position, ReactFlowProvider,
-  addEdge, useEdges, useEdgesState, useNodesState, useUpdateNodeInternals,
+  Background, BaseEdge, ConnectionMode, Controls, Handle, MarkerType, Position, ReactFlowProvider,
+  addEdge, getBezierPath, useEdges, useEdgesState, useNodesState, useUpdateNodeInternals,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { api } from '../api'
@@ -11,12 +11,93 @@ import {
   NODE_DEFS, PALETTE_SECTIONS, PROP_KIND, propLabel,
   kindsCompatible, sourceKindFor, targetKindFor, alphabetOutSlots,
   registerCustomBlocks, customBlockPalette,
-  normalizeCollinearPairs, PAIR_PRESETS,
+  normalizeCollinearPairs, PAIR_PRESETS, projectionChainBasisOutputs,
+  portsOf, portBaseY, estHeight, SUBTITLE_TYPES, NODE_W,
+  ROW0, ROW_STEP, SUB_EXTRA, RHS_MODES,
 } from '../flowdefs'
 
-const ROW0 = 29
-const ROW_STEP = 15
-const SUB_EXTRA = 15
+// Wire colors follow the port-kind palette (styles.css --dlogmat/--fec/…)
+// so a wire is visually the continuation of the port label it comes from.
+// Output ports render their dot in the same color (see OpNode/…): a wire
+// and the dot it leaves/enters never disagree.
+const KIND_COLORS = {
+  dlogmat: '#7c3aed', fec: '#0d9488', lec: '#ea580c', fec1: '#0d9488', lec1: '#ea580c',
+  matrix: '#92400e', tensor: '#475569', basis: '#4f46e5', seed: '#0d9488',
+  xtrans: '#92400e',
+  matrix_or_tensor: '#92400e',
+  seed_or_tensor: '#475569', solution: '#059669', boundary: '#d97706', any: '#64748b',
+  sew: '#7c3aed',
+}
+
+function kindColor(kind) {
+  return KIND_COLORS[kind] || '#64748b'
+}
+
+// Output-handle dot tint (input dots stay default gray: they accept several
+// kinds, so no single color would be truthful).
+function outDotStyle(kind) {
+  return { background: kindColor(kind) }
+}
+
+// Direct port-to-port wiring ("follow the line"): a wire is ONE straight
+// segment from the output port to the input port wherever possible — the
+// simplest, most traceable shape. Wires that would run on top of a neighbor
+// get a gentle quadratic bow (kappa, assigned in routeEdges) that keeps the
+// ports pinned and the take-off/arrival directions unchanged; wires whose
+// direct path would cut through node boxes route around the diagram through
+// an external lane, re-entering their port horizontally. All knobs are
+// derived at render time; project.json stores positions/semantics only.
+function KindEdge({ id, sourceX, sourceY, targetX, targetY,
+  sourcePosition, targetPosition, style = {}, markerEnd, data: edata }) {
+  if (!edata || edata.fallback) {
+    const fy = sourceY + ((edata && edata.spread) || 0)
+    const [d] = getBezierPath({ sourceX, sourceY: fy, sourcePosition, targetX, targetY, targetPosition })
+    return <BaseEdge id={id} path={d} style={style} markerEnd={markerEnd} />
+  }
+  const y0 = sourceY + (edata.spread || 0)
+  if (typeof edata.detourY === 'number') {
+    const ox = typeof edata.outboundX === 'number' ? edata.outboundX : sourceX + 30
+    const inX = typeof edata.inboundX === 'number' ? edata.inboundX : targetX - 30
+    const ly = edata.detourY
+    // Port tangents stay horizontal (arrowheads land like on a straight
+    // wire); the vertical transition happens along the lane leg. Every join
+    // is G1 by construction: the rise cubic ENDS with control point
+    // (ox-k0, ly) — tangent (k0,0) = the lane's run direction — and the
+    // descent cubic STARTS with (inX+k1, ly). Generous corner radii
+    // (k = 10..24 by leg length) keep the elbows round, and the descent
+    // finishes its turn `lead` px BEFORE the port: one straight horizontal
+    // glide carries the arrowhead in.
+    const k0 = Math.max(10, Math.min(24, 0.6 * Math.abs(ox - sourceX)))
+    const k1 = Math.max(10, Math.min(24, 0.6 * Math.abs(targetX - inX)))
+    const lead = Math.max(8, Math.min(16, 0.4 * (targetX - inX)))
+    const d = [
+      `M ${sourceX} ${y0}`,
+      `C ${sourceX + k0} ${y0} ${ox - k0} ${ly} ${ox} ${ly}`,
+      `L ${inX} ${ly}`,
+      `C ${inX + k1} ${ly} ${targetX - k1 - lead} ${targetY} ${targetX - lead} ${targetY}`,
+      `L ${targetX} ${targetY}`,
+    ].join(' ')
+    return <BaseEdge id={id} path={d} style={style} markerEnd={markerEnd} />
+  }
+  if (edata.kappa) {
+    // Bow perpendicular to the chord so it separates neighbors whatever
+    // the wire's direction (vertical hops included); the apex rises
+    // 0.75*b off the chord (b = 4 + 1.75|kappa|), capped by a quarter of
+    // the chord LENGTH so short hops stay subtle.
+    const rx = targetX - sourceX
+    const ry = targetY - y0
+    const len = Math.hypot(rx, ry) || 1
+    const b = (4 + 1.75 * Math.abs(edata.kappa)) * Math.sign(edata.kappa)
+    const bb = Math.max(-len / 4, Math.min(len / 4, b))
+    const cx = (sourceX + targetX) / 2 + 1.5 * bb * (ry / len)
+    const cy = (y0 + targetY) / 2 + 1.5 * bb * (-rx / len)
+    const d = `M ${sourceX} ${y0} Q ${cx} ${cy} ${targetX} ${targetY}`
+    return <BaseEdge id={id} path={d} style={style} markerEnd={markerEnd} />
+  }
+  return <BaseEdge id={id} path={`M ${sourceX} ${y0} L ${targetX} ${targetY}`} style={style} markerEnd={markerEnd} />
+}
+
+const edgeTypes = { kind: KindEdge }
 
 const DimsContext = React.createContext(() => null)
 
@@ -77,7 +158,7 @@ function AlphabetNode({ id, data, selected }) {
             <StatusDot status={r.status} />
             <Handle
               type="source" position={Position.Right} id={r.handle}
-              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, background: 'var(--accent)' }}
+              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, ...outDotStyle(r.kind) }}
             />
           </div>
         ))}
@@ -91,7 +172,7 @@ function OpNode({ id, type, data, selected }) {
   const handleDims = useHandleDims()
   const allEdges = useEdges()
   const updateNodeInternals = useUpdateNodeInternals()
-  const dynamicInputs = type === 'add_tensors'
+  const dynamicInputs = type === 'add_tensors' || type === 'expand_tensor'
   const dynamicPairs = type === 'solve_collinear'
   let inputs = def.inputs || []
   if (dynamicInputs) {
@@ -102,8 +183,11 @@ function OpNode({ id, type, data, selected }) {
         if (!Number.isNaN(idx)) maxConnected = Math.max(maxConnected, idx)
       }
     }
+    const labels = type === 'expand_tensor'
+      ? (i) => (i === 0 ? 'T (FEC,letter)' : `basis ${i}`)
+      : (i) => String.fromCharCode(65 + i)
     inputs = Array.from({ length: Math.max(inputs.length, maxConnected + 2) }, (_, i) => ({
-      id: `in_${i}`, kind: 'tensor', label: String.fromCharCode(65 + i),
+      id: `in_${i}`, kind: 'tensor', label: labels(i),
     }))
   }
   let pairCount = 0
@@ -136,10 +220,25 @@ function OpNode({ id, type, data, selected }) {
     if (data.cond_enabled || hasCondEdge) inputs = [...inputs, { id: 'cond', kind: 'matrix', label: 'cond [M|r] (opt)' }]
     inputs = [...inputs, ...extras]
   }
-  useEffect(() => { if (dynamicInputs || dynamicPairs) updateNodeInternals(id) }, [id, dynamicInputs, dynamicPairs, inputs.length, updateNodeInternals])
-  const outputs = def.outputs || []
+  const dynamicChainOutputs = type === 'projection_chain'
+  let outputs = def.outputs || []
+  if (dynamicChainOutputs) {
+    // Collinear targets: one extra output port per expansion basis the same
+    // --project run materializes (contract shared with compile.py).
+    const basis = projectionChainBasisOutputs(data)
+    // Keep ports alive for saved graphs that wire a basis handle even when
+    // data.target is empty (the server derives the target from the seed).
+    for (const e of allEdges) {
+      if (e.source === id && /^(basis_w\d+|basis_last_w\d+)$/.test(e.sourceHandle || '')) {
+        if (!basis.some((b) => b.id === e.sourceHandle)) basis.push({ id: e.sourceHandle, kind: 'basis', label: e.sourceHandle })
+      }
+    }
+    outputs = [...outputs, ...basis]
+  }
+  useEffect(() => { if (dynamicInputs || dynamicPairs || dynamicChainOutputs) updateNodeInternals(id) }, [id, dynamicInputs, dynamicPairs, dynamicChainOutputs, inputs.length, outputs.length, updateNodeInternals])
   const rows = Math.max(inputs.length, outputs.length)
   const cbWeights = (data.weights || '').split(',').map((s) => s.trim())
+  const rhsMode = (RHS_MODES[data.mode] || RHS_MODES.mhv_boundary).short
   const subtitle =
     type === 'extend' ? (data.target_weight ? `→ weight ${data.target_weight}` : 'weight +1')
     : (type === 'project' || type === 'solve_symmetry' || type === 'symderive') ? `→ ${data.target || '…'}`
@@ -149,12 +248,15 @@ function OpNode({ id, type, data, selected }) {
         : `${data.target || '…'}`)
     : type === 'projection_chain' ? `${data.symmetry || '?'} · ${data.target || '…'}`
     : type === 'symmetry_invariant' ? `${data.symmetry || '?'} · ${data.target || '…'}`
-    : type === 'compute_rhs' ? `${data.target || '…'}`
+    : type === 'compute_rhs' ? `${rhsMode} w${data.weight || '?'} → ${data.target || '…'}`
     : type === 'add_tensors' ? `${inputs.map((_, i) => `${cbWeights[i] || '1'}·${String.fromCharCode(65 + i)}`).join(' + ')} → ${data.target || '…'}`
     : (type === 'ternary_contract' || type === 'apply_symmetry') ? `→ ${data.target || '…'}`
     : type === 'matrix_power' ? `M^${data.n || '?'} → ${data.target || '…'}`
     : type === 'tensor_join' ? `axis ${data.axis || '?'} → ${data.target || '…'}`
     : type === 'tensor_dot' ? `A[${data.axis_a ?? '?'}]·B[${data.axis_b ?? '?'}] → ${data.target || '…'}`
+    : type === 'squeeze_tensor' ? `${handleDims(id, 'in') || '?'} → ${data.target || '…'}`
+    : type === 'shuffle_product' ? `${data.weight || '1'}·A⊗B → ${data.target || '…'}`
+    : type === 'expand_tensor' ? `${inputs.length - 1 || '?'} basis${(inputs.length - 1) === 1 ? '' : 'es'} → ${data.target || '…'}`
     : type === 'impose_integrability' ? `${data.transpose === false ? 'relations among conditions' : 'solve coefficients'} → ${data.target || '…'}`
     : type === 'integrability_condition' ? `M[(a), b·d] = Σ S·dlog → ${data.target || '…'}`
     : type === 'solve_conditions' ? `${data.transpose === false ? 'relations among conditions' : 'solve coefficients'} → ${data.target || '…'}`
@@ -185,7 +287,7 @@ function OpNode({ id, type, data, selected }) {
         {outputs.map((out, i) => (
           <Handle
             key={out.id} type="source" position={Position.Right} id={out.id}
-            style={{ top: (subtitle ? ROW0 + SUB_EXTRA : ROW0) + i * ROW_STEP, background: 'var(--accent)' }}
+            style={{ top: (subtitle ? ROW0 + SUB_EXTRA : ROW0) + i * ROW_STEP, ...outDotStyle(out.kind) }}
           />
         ))}
       </div>
@@ -237,10 +339,8 @@ function AssembleNode({ id, data, selected }) {
           />
         ))}
         {outputs.map((o, oi) => (
-          <Handle
-            key={`out_${oi}`} type="source" position={Position.Right} id={`out_${oi}`}
-            style={{ top: ROW0 + SUB_EXTRA + oi * ROW_STEP, background: 'var(--accent)' }}
-          />
+          <Handle key={`out_${oi}`} type="source" position={Position.Right} id={`out_${oi}`}
+            style={{ top: ROW0 + SUB_EXTRA + oi * ROW_STEP, ...outDotStyle(o.kind || 'tensor') }} />
         ))}
       </div>
     </div>
@@ -261,7 +361,7 @@ function CBIONode({ id, data, selected, type }) {
           </span>
           {isIn ? (
             <Handle type="source" position={Position.Right} id="out"
-              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -18, background: 'var(--accent)' }} />
+              style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -18, ...outDotStyle(data?.kind || 'any') }} />
           ) : (
             <Handle type="target" position={Position.Left} id="in"
               style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: -18 }} />
@@ -303,7 +403,7 @@ function CustomBlockNode({ id, data, selected }) {
         ))}
         {def.outputs.map((out, i) => (
           <Handle key={out.id} type="source" position={Position.Right} id={out.id}
-            style={{ top: ROW0 + i * ROW_STEP, background: 'var(--accent)' }} />
+            style={{ top: ROW0 + i * ROW_STEP, ...outDotStyle(out.kind) }} />
         ))}
       </div>
     </div>
@@ -322,7 +422,7 @@ function ReuseOutputNode({ data, selected }) {
           </span>
           <Handle
             type="source" position={Position.Right} id="out"
-            style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, background: 'var(--accent)' }}
+            style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: -6, ...outDotStyle(data?.kind || 'tensor') }}
           />
         </div>
       </div>
@@ -352,6 +452,9 @@ const nodeTypes = {
   matrix_power: (p) => <OpNode {...p} type="matrix_power" />,
   tensor_join: (p) => <OpNode {...p} type="tensor_join" />,
   tensor_dot: (p) => <OpNode {...p} type="tensor_dot" />,
+  squeeze_tensor: (p) => <OpNode {...p} type="squeeze_tensor" />,
+  shuffle_product: (p) => <OpNode {...p} type="shuffle_product" />,
+  expand_tensor: (p) => <OpNode {...p} type="expand_tensor" />,
   impose_integrability: (p) => <OpNode {...p} type="impose_integrability" />,
   integrability_condition: (p) => <OpNode {...p} type="integrability_condition" />,
   solve_conditions: (p) => <OpNode {...p} type="solve_conditions" />,
@@ -539,7 +642,7 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
         <>
           <label>Target weight</label>
           <input type="number" min="2" value={d.target_weight || ''} onChange={(e) => set({ target_weight: e.target.value ? Number(e.target.value) : null })} />
-          <p className="muted" style={{ fontSize: 11 }}>Must equal input FEC/LEC weight + 1 (checked at compile time). Connect exactly one of FEC in / LEC in — LEC extends backward.</p>
+          <p className="muted" style={{ fontSize: 11 }}>Any weight above the input FEC/LEC weight — intermediate extends run automatically in the background (each +1 step is a cached step). Connect exactly one of FEC in / LEC in — LEC extends backward.</p>
         </>
       )}
       {node.type === 'sew' && (
@@ -682,7 +785,9 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
             Runs the full <code>bootstrap --project</code> pipeline for the chosen symmetry: builds the projection
             matrices from the seed chain tensor (or a previously produced SEW/FEC/LEC chain tensor already in output/)
             and applies them. Output goes to output/&lt;symmetry&gt;/ — collinear yields a basis
-            (&lt;T&gt;_basis.wxf), cyclic/flip/parity yield the projected tensor.
+            (&lt;T&gt;_basis.wxf), cyclic/flip/parity yield the projected tensor. Collinear targets also expose one
+            extra output per chain-weight expansion basis (first_w&#123;w&#125;_basis / last_w&#123;w&#125;_basis) written by the same
+            run — wire them into Expand Tensor inputs.
           </p>
         </>
       )}
@@ -702,12 +807,53 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
         </>
       )}
       {node.type === 'compute_rhs' && (
-        <>
-          <label>Target</label>
-          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="SEW_3p1" />
-          <label>Letter projection (file or identity)</label>
-          <input value={d.letter_projection || ''} onChange={(e) => set({ letter_projection: e.target.value })} placeholder="identity" />
-        </>
+        (() => {
+          const mode = RHS_MODES[d.mode] || RHS_MODES.mhv_boundary
+          const wired = (p) => edges.some((e) => e.target === node.id && e.targetHandle === p)
+          const missingWires = mode.requires.filter((p) => !wired(p))
+          const strayWires = mode.forbids.filter(wired)
+          return (
+            <>
+              <label>Object type to generate</label>
+              <select value={d.mode || 'mhv_boundary'} onChange={(e) => set({ mode: e.target.value })}>
+                {Object.entries(RHS_MODES).map(([k, m]) => (
+                  <option key={k} value={k}>{m.label}</option>
+                ))}
+              </select>
+              <label>Target weight (even integer; loop order = weight/2)</label>
+              <input value={d.weight || ''} onChange={(e) => set({ weight: e.target.value })} placeholder="4" />
+              <label>Target name (output tensor)</label>
+              <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder={mode.targetPlaceholder} />
+              {missingWires.length > 0 && (
+                <p style={{ fontSize: 11, color: 'var(--warn)' }}>
+                  This mode needs {missingWires.map((p) => <code key={p}>{p}</code>)} wired — compile will reject it until then.
+                </p>
+              )}
+              {strayWires.length > 0 && (
+                <p style={{ fontSize: 11, color: 'var(--warn)' }}>
+                  <code>{strayWires.join(', ')}</code> is not used by this mode — unwire it or switch mode.
+                </p>
+              )}
+              {d.mode === 'e47me67_te' ? (
+                <p className="muted" style={{ fontSize: 11 }}>
+                  NMHV E47mE67: tE_L boundary = Σ tP_k ⊗ E_(L−k) with tP_1 = P1 = hep1LE47mE67
+                  wired into <b>p1</b>; tP_k (k ≥ 2) loads from output/tP&lt;k&gt;.wxf or is derived
+                  from output/tE&lt;k&gt;.wxf via the hardcoded recursion tP_k = tE_k − Σ tP_j ⊗ E_(k−j)
+                  (missing both = compile error — never silently zero). Lower-loop E_k auto-load
+                  from output/. Output is a concrete tensor (output/&lt;target&gt;.wxf). Shuffles are
+                  sequential (the verified variant).
+                </p>
+              ) : (
+                <p className="muted" style={{ fontSize: 11 }}>
+                  MHV boundary: boundary_L = (1/L)·Σ k·(R_k ⊗ E_(L−k)), R_1 = E1; lower-loop
+                  R_k/E_k auto-load from output/. Output is a concrete tensor
+                  (output/&lt;target&gt;.wxf) wireable anywhere. Shuffles are sequential
+                  (the verified variant).
+                </p>
+              )}
+            </>
+          )
+        })()
       )}
       {node.type === 'add_tensors' && (
         <>
@@ -745,7 +891,7 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
               </p>
             </>
           )}
-          <p className="muted" style={{ fontSize: 11 }}>TernaryContract: contracts trans1 with the 2nd-to-last axis and trans2 with the last axis of the rank-3 input tensor (T&apos;[a,b&apos;,c&apos;] = Σ T·M1·M2), exact rational arithmetic via tensor_ops. The transformations can be any matrices — symmetry transformations included.</p>
+          <p className="muted" style={{ fontSize: 11 }}>TernaryContract: contracts trans1 with the second axis and trans2 with the last axis. A trans port left unlinked defaults to the identity (that entry does not transform). Besides matrices, a trans port accepts any tensor of rank 2 or more: its first axis is contracted with the tensor axis and its remaining axes are inserted at the contracted position (e.g. expansion with a chain basis).</p>
         </>
       )}
       {node.type === 'matrix_power' && (
@@ -775,6 +921,46 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
           <label>Target name (output file)</label>
           <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. contracted" />
           <p className="muted" style={{ fontSize: 11 }}>Contraction Σ A[...,i,...]·B[...,i,...]: the two chosen axes must have equal dimension. Result = A's remaining axes followed by B's remaining axes. Dotting the last axis of A with the first of a matrix is ordinary matrix–tensor multiplication.</p>
+        </>
+      )}
+      {node.type === 'squeeze_tensor' && (
+        <>
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. hepMHV_2L" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Drops every size-1 axis of the input tensor (e.g. the (1, 76, 11) Tensor Dot of solMHV with
+            the SEW basis becomes (76, 11), matching the ground-truth hepMHV files). The result must
+            keep at least 2 axes — vectors are stored as (1, n) matrices in WXF, so squeeze cannot
+            produce them.
+          </p>
+        </>
+      )}
+      {node.type === 'shuffle_product' && (
+        <>
+          <label>Weight (rational, applied to the product)</label>
+          <input value={d.weight || ''} onChange={(e) => set({ weight: e.target.value })} placeholder="1/2 (for E1 ⊗ E1 → boundary_2L)" />
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. boundary_2L" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Shuffle product of two word tensors (letters of A shuffle with letters of B): the result&apos;s
+            letter axes are A&apos;s axes followed by B&apos;s, every entry scaled by the rational weight.
+            This is the boundary term building block: E1 ⊗ E1 with weight 1/2 gives E1²/2,
+            E1 ⊗ R2 with weight 1 gives E1·R2, etc.
+          </p>
+        </>
+      )}
+      {node.type === 'expand_tensor' && (
+        <>
+          <label>Target name (output file)</label>
+          <input value={d.target || ''} onChange={(e) => set({ target: e.target.value })} placeholder="e.g. E2" />
+          <p className="muted" style={{ fontSize: 11 }}>
+            Expands a compressed (FEC, letter) or (1, FEC, letter) tensor back to the full 42-letter
+            alphabet: in_0 is the tensor (e.g. the Tensor Dot of solMHV with the SEW basis), in_1.. are
+            the rank-3 (FEC, FEC&apos;, letter) bases from Projection Chain nodes — highest weight first
+            (e.g. first_w3_basis then first_w2_basis for the 2-loop E2). Each basis input consumes the
+            current FEC axis and appends one letter axis; extra inputs can be added by wiring more
+            basis ports.
+          </p>
         </>
       )}
       {node.type === 'impose_integrability' && (
@@ -883,7 +1069,7 @@ function Inspector({ node, onChange, onDelete, groupOps, onOpenBlock, flowId }) 
   )
 }
 
-function CompilePanel({ result, onRun, running }) {
+function CompilePanel({ result, onRun, onExport, running, exporting, exportInfo }) {
   if (!result) return null
   return (
     <div>
@@ -923,6 +1109,29 @@ function CompilePanel({ result, onRun, running }) {
           <button className="primary" disabled={running} onClick={onRun} style={{ marginTop: 8, width: '100%' }}>
             {running ? 'Starting…' : '▶ Run this plan'}
           </button>
+          <button disabled={exporting} onClick={onExport} style={{ marginTop: 6, width: '100%' }}
+                  title="Compile this flow into a portable, self-checking bash script you can copy to a cluster (see README: design locally, run anywhere the C++ core is built)">
+            {exporting ? 'Exporting…' : '⇪ Export standalone script'}
+          </button>
+          <div className="muted" style={{ marginTop: 4, fontSize: 11 }}>
+            Export writes this plan as a portable, self-checking bash script (preflight checks, per-step
+            output verification, CRC32 echoes, resume) to <code>exported/&lt;flow&gt;.sh</code> inside the
+            project. Copy the repo + project dir to another machine, build with <code>make</code>, and run
+            it there — no front-end needed. See README → “Design locally, run on the cluster”.
+          </div>
+          {exportInfo && (
+            <div className="step-cmd" style={{ marginTop: 6 }}>
+              {exportInfo.error
+                ? <span className="error-text">{exportInfo.error}</span>
+                : <div>Written to <code>{exportInfo.path}</code> ({exportInfo.n_steps} steps,
+                  {exportInfo.n_wolfram_steps > 0
+                    ? ` ${exportInfo.n_wolfram_steps} Wolfram step${exportInfo.n_wolfram_steps > 1 ? 's' : ''} — needs Mathematica or pre-copied outputs`
+                    : ' no Wolfram steps'}).<br />
+                  Run anywhere the C++ core is built:
+                  <code> SYMBOLOGY_ROOT=&lt;repo&gt; PROJ_DIR=&lt;project&gt; bash {exportInfo.path}</code>
+                </div>}
+            </div>
+          )}
         </>
       )}
     </div>
@@ -970,6 +1179,488 @@ function groupBoxNode(g, extra = {}) {
   return { id: g.id, type: 'groupBox', position: g.position, data: { group_id: g.id, name: g.name, count: g.node_ids.length }, ...extra }
 }
 
+
+// Pure wire-routing pipeline over explicit inputs, extracted from the old
+// component-local visibleEdges so the SSR audit can execute the REAL
+// routing against every flow (component-only code was exactly how the
+// alphabet def.outputs crash passed every audit and shipped).
+export function routeEdges({ edges, nodes, project, groupOf, resolveSourceKind }) {
+    // Direct port-to-port routing ("follow the line"). Most wires are ONE
+    // straight segment between their two ports; the interesting cases get
+    // small explicit knobs, all derived here at render time:
+    //  - fan-out spread: wires leaving the same port take off a few px apart;
+    //  - obstacle detour: a wire whose direct path would cut through node
+    //    boxes routes around via a LOCAL external lane and re-enters its
+    //    port horizontally (port tangents stay clean);
+    //  - kappa bow: wires that would run on top of a neighbor (locally
+    //    parallel, <7px apart) bow apart symmetrically by bundle rank.
+    const boxes = nodes.map((n) => ({
+      x0: n.position.x, x1: n.position.x + NODE_W,
+      y0: n.position.y - 26, y1: n.position.y + estHeight(n, project, edges) + 26,
+    }))
+    // True handle y from the TRUE rendered port lists (portsOf) — dynamic
+    // types (alphabet, chain basis, collinear pairs, in_N slots) included;
+    // unknown handles fall back to row 0 instead of crashing.
+    const portY = (n, handle, side) => {
+      const { inputs, outputs } = portsOf(n, project, edges)
+      const list = side === 'out' ? outputs : inputs
+      const row = Math.max(0, list.findIndex((p) => p.id === handle))
+      return n.position.y + portBaseY(n) + row * ROW_STEP
+    }
+    const nodeById = new Map(nodes.map((n) => [n.id, n]))
+    const wires = []
+    for (const e of edges) {
+      const gs = groupOf.get(e.source)
+      const gt = groupOf.get(e.target)
+      if (gs || gt) continue
+      const sn = nodeById.get(e.source)
+      const tn = nodeById.get(e.target)
+      if (!sn || !tn) continue
+      wires.push({
+        e, sn, tn,
+        x0: sn.position.x + NODE_W, x1: tn.position.x,
+        y0: portY(sn, e.sourceHandle, 'out'), y1: portY(tn, e.targetHandle, 'in'),
+        spread: 0, kappa: 0, detourY: null, outboundX: 0, inboundX: 0, fallback: false,
+      })
+    }
+    // 1) Fan-out spread per source port (rank by target y, then target x, so
+    // sibling wires part ways immediately at the take-off and never re-cross).
+    const portGrp = new Map()
+    for (const w of wires) {
+      const k = `${w.e.source}|${w.e.sourceHandle || ''}`
+      if (!portGrp.has(k)) portGrp.set(k, [])
+      portGrp.get(k).push(w)
+    }
+    for (const group of portGrp.values()) {
+      if (group.length < 2) continue
+      group.sort((a, b) => (a.y1 - b.y1) || (a.x1 - b.x1))
+      group.forEach((w, i) => { w.spread = (i - (group.length - 1) / 2) * 7 })
+    }
+    for (const w of wires) w.y0 += w.spread
+    // 2) Obstacle classification. The direct path is the STRAIGHT chord
+    // (what renders unless bowed): a wire is blocked when the chord passes
+    // through a box lying strictly between the two ports. The source and
+    // target boxes are excluded BY CONSTRUCTION: the chord starts at the
+    // source's right edge (x0 = box.x1) and ends at the target's left edge
+    // (x1 = box.x0), and the strict test interval (x0+1, x1-1) never
+    // includes either. (Never replace this with a generic segment-rect
+    // intersection — that would flag every wire on its own two boxes.)
+    // Exact segment-vs-rect interior test (Liang-Barsky). The old 9-point
+    // sampler could step over thin corner slivers and miss real hits.
+    const segRect = (ax, ay, bx, by, b) => {
+      const dx = bx - ax
+      const dy = by - ay
+      let t0 = 0
+      let t1 = 1
+      const clip = (p, q) => {
+        if (p === 0) return q >= 0
+        const r = q / p
+        if (p < 0) {
+          if (r > t1) return false
+          if (r > t0) t0 = r
+        } else {
+          if (r < t0) return false
+          if (r < t1) t1 = r
+        }
+        return true
+      }
+      if (!clip(-dx, ax - b.x0)) return false
+      if (!clip(dx, b.x1 - ax)) return false
+      if (!clip(-dy, ay - b.y0)) return false
+      if (!clip(dy, b.y1 - ay)) return false
+      return t1 > t0
+    }
+    const detourSet = new Set()
+    for (const w of wires) {
+      // A wire doubling back more than 24px would under-run its own source
+      // box and re-emerge from its LEFT edge — always detour. Everything
+      // else gets the full chord-vs-box test: a dx>=90 shortcut would be
+      // unsound because jittered/stacked columns overlap horizontally and
+      // even short chords can cut a sibling box.
+      if (w.x1 - w.x0 < -24) { detourSet.add(w); continue }
+      for (const b of boxes) {
+        if (b.x1 <= w.x0 + 1 || b.x0 >= w.x1 - 1) continue
+        if (segRect(w.x0, w.y0, w.x1, w.y1, b)) { detourSet.add(w); break }
+      }
+    }
+    let directs = wires.filter((w) => !detourSet.has(w))
+    // Chord polylines + true segment-segment distance (parallel case via
+    // point-segment mins) — point-pair distance underestimates closeness of
+    // near-parallel neighbors between sample points.
+    const samples = (x0, y0, x1, y1) => {
+      const out = []
+      for (let i = 0; i <= 16; i++) {
+        const t = i / 16
+        out.push([x0 + (x1 - x0) * t, y0 + (y1 - y0) * t])
+      }
+      return out
+    }
+    const segSeg = (ax0, ay0, ax1, ay1, bx0, by0, bx1, by1) => {
+      const dx = ax1 - ax0, dy = ay1 - ay0
+      const ex = bx1 - bx0, ey = by1 - by0
+      const denom = dx * ey - dy * ex
+      const ptSeg = (px, py, qx0, qy0, qx1, qy1) => {
+        const l2 = (qx1 - qx0) ** 2 + (qy1 - qy0) ** 2
+        if (!l2) return Math.hypot(px - qx0, py - qy0)
+        let t = ((px - qx0) * (qx1 - qx0) + (py - qy0) * (qy1 - qy0)) / l2
+        t = Math.max(0, Math.min(1, t))
+        return Math.hypot(px - (qx0 + t * (qx1 - qx0)), py - (qy0 + t * (qy1 - qy0)))
+      }
+      if (Math.abs(denom) < 1e-9) {
+        return Math.min(ptSeg(ax0, ay0, bx0, by0, bx1, by1), ptSeg(ax1, ay1, bx0, by0, bx1, by1),
+          ptSeg(bx0, by0, ax0, ay0, ax1, ay1), ptSeg(bx1, by1, ax0, ay0, ax1, ay1))
+      }
+      const t0 = ((bx0 - ax0) * ey - (by0 - ay0) * ex) / denom
+      const t1 = ((bx0 - ax0) * dy - (by0 - ay0) * dx) / denom
+      if (t0 >= 0 && t0 <= 1 && t1 >= 0 && t1 <= 1) return 0
+      return Math.min(ptSeg(ax0, ay0, bx0, by0, bx1, by1), ptSeg(ax1, ay1, bx0, by0, bx1, by1),
+        ptSeg(bx0, by0, ax0, ay0, ax1, ay1), ptSeg(bx1, by1, ax0, ay0, ax1, ay1))
+    }
+    const chordAngle = (a, b) => {
+      const dax = a.x1 - a.x0, day = a.y1 - a.y0
+      const dbx = b.x1 - b.x0, dby = b.y1 - b.y0
+      const dot = dax * dbx + day * dby
+      const cos = dot / (Math.hypot(dax, day) * Math.hypot(dbx, dby) || 1)
+      return { dot, ang: Math.acos(Math.max(-1, Math.min(1, cos))) }
+    }
+    // 2b) Narrow-X promotion. Antiparallel wires crossing at a SHALLOW
+    // angle (<20°) closer than 2.5px tangle near-vertically at the port —
+    // bows cannot undo a crossing. Promote the longer-chord member to a
+    // detour (lane + horizontal descent) so it arrives cleanly from a lane.
+    // Steep crossings are readable X shapes and stay.
+    const narrowX = []
+    for (let i = 0; i < directs.length; i++) {
+      for (let j = i + 1; j < directs.length; j++) {
+        const a = directs[i]
+        const b = directs[j]
+        const pa = samples(a.x0, a.y0, a.x1, a.y1)
+        const pb = samples(b.x0, b.y0, b.x1, b.y1)
+        let best = Infinity
+        for (let m = 0; m <= 15; m++) {
+          for (let n2 = 0; n2 <= 15; n2++) {
+            const dd = segSeg(pa[m][0], pa[m][1], pa[m + 1][0], pa[m + 1][1],
+              pb[n2][0], pb[n2][1], pb[n2 + 1][0], pb[n2 + 1][1])
+            if (dd < best) best = dd
+          }
+        }
+        if (best >= 2.5) continue
+        const { dot, ang } = chordAngle(a, b)
+        const acute = dot < 0 ? Math.PI - ang : ang
+        if (acute >= 0.35) continue
+        // Bows cannot undo a crossing, and a crossing this shallow is an
+        // unreadable tangle: promote when the chords actually CROSS
+        // (proper intersection) or run antiparallel overlapping.
+        const cross = segSeg(a.x0, a.y0, a.x1, a.y1, b.x0, b.y0, b.x1, b.y1) === 0
+        if (cross || dot < 0) narrowX.push([a, b])
+      }
+    }
+    for (const [a, b] of narrowX) {
+      const promote = Math.hypot(a.x1 - a.x0, a.y1 - a.y0) >= Math.hypot(b.x1 - b.x0, b.y1 - b.y0) ? a : b
+      detourSet.add(promote)
+    }
+    if (narrowX.length) directs = directs.filter((w) => !detourSet.has(w))
+    // 3) Local external lanes for blocked wires. A lane sits only outside
+    // the boxes the horizontal run actually passes over (keeps lanes close
+    // to their wires and the fitView zoom unchanged); stacked lanes are
+    // 22px apart, and wires whose lane x-spans overlap never share a lane y.
+    const topLanes = []
+    const botLanes = []
+    for (const w of detourSet) {
+      // Scan margin mirrors the anchor geometry: the lane run extends up to
+      // maxAnchorOffset (79) beyond each end — left of inX, and for backward
+      // wires also past the target box to the outbound anchor. Forward
+      // detours (blocked chord, target right of source) run BETWEEN the
+      // boxes: ox (right of source) to inX (left of target) — span [x0, x1].
+      const lo = Math.min(w.x0, w.x1) - 80
+      const hi = w.x1 >= w.x0 ? w.x1 + 80 : Math.max(w.x0, w.x1 + NODE_W) + 80
+      let topY = 0
+      let botY = 0
+      for (const b of boxes) {
+        if (b.x1 <= lo || b.x0 >= hi) continue
+        if (!topY || b.y0 < topY) topY = b.y0
+        if (!botY || b.y1 > botY) botY = b.y1
+      }
+      const firstTop = (topY || 0) - 40
+      const firstBot = (botY || 0) + 40
+      const takeTop = w.y0 <= w.y1
+      const overlaps = (a) => Math.min(a.hi, hi) - Math.max(a.lo, lo) > 0
+      const lanes = takeTop ? topLanes : botLanes
+      let y = takeTop ? firstTop : firstBot
+      let stack = 1
+      while (lanes.some((a) => overlaps(a) && a.y === y)) {
+        y = takeTop ? firstTop - 22 * stack : firstBot + 22 * stack
+        stack += 1
+      }
+      lanes.push({ lo, hi, y })
+      w.detourY = y
+    }
+    // 3b) Anchor search: rise/drop legs must not cut through boxes. Try
+    // offsets 30, 37, … (7px steps fan the rises apart) and take the first
+    // pair whose legs clear the boxes. No pair clears → plain fallback
+    // bezier (rare, e.g. two nodes drawn almost on top of each other).
+    // A leg's DRAWN shape is a cubic whose control points can pull the
+    // curve inside a box the straight chord clears — sample the real curve
+    // (control points exactly as KindEdge builds them for each leg).
+    const cubicHits = (p0, c1, c2, p1) => {
+      const hx0 = Math.min(p0[0], c1[0], c2[0], p1[0])
+      const hx1 = Math.max(p0[0], c1[0], c2[0], p1[0])
+      for (const b of boxes) {
+        if (b.x1 <= hx0 || b.x0 >= hx1) continue
+        for (let i = 0; i <= 20; i++) {
+          const t = i / 20
+          const u = 1 - t
+          const px = u * u * u * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * p1[0]
+          const py = u * u * u * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * p1[1]
+          if (px > b.x0 && px < b.x1 && py > b.y0 - 2 && py < b.y1 + 2) return true
+        }
+      }
+      return false
+    }
+    const riseClear = (fromX, portYv, toX, laneY) => {
+      const k = Math.max(10, Math.min(24, 0.6 * Math.abs(toX - fromX)))
+      return !cubicHits([fromX, portYv], [fromX + k, portYv],
+        [toX - k, laneY], [toX, laneY])
+    }
+    const descClear = (toX, portYv, fromX, laneY) => {
+      // EXACT drawn shape: cubic from the lane down to the glide start
+      // (already horizontal), then a straight glide into the port.
+      const leg = toX - fromX
+      const k = Math.max(10, Math.min(24, 0.6 * Math.abs(leg)))
+      const lead = Math.max(8, Math.min(16, 0.4 * Math.abs(leg)))
+      if (cubicHits([fromX, laneY], [fromX + k, laneY],
+        [toX - k - lead, portYv], [toX - lead, portYv])) return false
+      for (const b of boxes) {
+        if (segRect(toX - lead, portYv, toX, portYv, b)) return false
+      }
+      return true
+    }
+    // Two detours leaving the SAME source port must not share a riser:
+    // siblings rotate the anchor ladder so their first choice differs.
+    const detourRank = new Map()
+    for (const w of detourSet) {
+      const k = `${w.e.source}|${w.e.sourceHandle || ''}`
+      const r = detourRank.get(k) || 0
+      detourRank.set(k, r + 1)
+      w.anchorShift = r
+    }
+    // Anchor ladder, FAR-FIRST: prefer o≈44 so the descent elbow and its
+    // horizontal lead-in clear the target block early; walk IN to 30 for
+    // tight corridors, then OUT to 79 for wide obstacles. Siblings start
+    // r steps into the rotation, keeping riser xs ≥7px apart.
+    const ANCHOR_OFFS = [44, 37, 30, 51, 58, 65, 72, 79]
+    for (const w of detourSet) {
+      let ok = false
+      for (let i = 0; i < 8 && !ok; i++) {
+        const o = ANCHOR_OFFS[(i + w.anchorShift) % 8]
+        // Outbound anchor bases: right of the source box, plus — for
+        // backward wires whose target box overlaps the source column —
+        // right of the target box, so the rise leg can clear it.
+        const bases = [w.x0]
+        if (w.x1 < w.x0 && w.x1 + NODE_W > w.x0) bases.push(w.x1 + NODE_W)
+        // Inbound anchor sits LEFT of the target port in BOTH directions —
+        // the arrowhead approaches from the left like every other input,
+        // and the descent leg stays outside the target box's x-span. For
+        // backward wires the lane run then passes over the boxes at lane-y
+        // (outside all boxes), leftward from ox to inX.
+        const inX = w.x1 - o
+        if (Math.abs(inX - w.x0) < 24) continue
+        for (const base of bases) {
+          const ox = base + o
+          if (riseClear(w.x0, w.y0, ox, w.detourY) && descClear(w.x1, w.y1, inX, w.detourY)) {
+            w.outboundX = ox
+            w.inboundX = inX
+            ok = true
+            break
+          }
+        }
+      }
+      if (!ok) { w.detourY = null; w.fallback = true }
+    }
+    // 4) Kappa bows for near-parallel overlapping direct wires (helpers
+    // samples/segSeg/chordAngle hoisted above the lane pass). Shared-port
+    // exclusion zones shrink the comparison window near the shared
+    // take-off/arrival (fan-out spread separates them there).
+    const tang = []
+    for (let i = 0; i < directs.length; i++) {
+      for (let j = i + 1; j < directs.length; j++) {
+        const a = directs[i]
+        const b = directs[j]
+        const sharedSrc = a.e.source === b.e.source && (a.e.sourceHandle || '') === (b.e.sourceHandle || '')
+        const sharedTgt = a.e.target === b.e.target && (a.e.targetHandle || '') === (b.e.targetHandle || '')
+        if (sharedSrc && sharedTgt) continue
+        const pa = samples(a.x0, a.y0, a.x1, a.y1)
+        const pb = samples(b.x0, b.y0, b.x1, b.y1)
+        let best = Infinity
+        for (let m = 0; m <= 15; m++) {
+          const jLo = sharedSrc ? 5 : 0
+          const jHi = sharedTgt ? 10 : 15
+          for (let n2 = jLo; n2 <= jHi; n2++) {
+            const dd = segSeg(pa[m][0], pa[m][1], pa[m + 1][0], pa[m + 1][1],
+              pb[n2][0], pb[n2][1], pb[n2 + 1][0], pb[n2 + 1][1])
+            if (dd < best) best = dd
+          }
+        }
+        if (best >= 7) continue
+        // SIGNED angle test: antiparallel wires (dot < 0) never bundle —
+        // they cross (shallow X pairs were detoured in 2b); near-parallel
+        // same-direction wires are the only bow candidates.
+        const { dot, ang } = chordAngle(a, b)
+        if (dot < 0 || ang >= 0.35) continue
+        tang.push([a, b])
+      }
+    }
+    if (tang.length) {
+      const adj = new Map()
+      for (const w of directs) adj.set(w, [])
+      for (const [a, b] of tang) { adj.get(a).push(b); adj.get(b).push(a) }
+      const seen = new Set()
+      for (const w of directs) {
+        if (seen.has(w) || !adj.get(w).length) continue
+        const bundle = []
+        const queue = [w]
+        seen.add(w)
+        while (queue.length) {
+          const cur = queue.shift()
+          bundle.push(cur)
+          for (const nb of adj.get(cur)) if (!seen.has(nb)) { seen.add(nb); queue.push(nb) }
+        }
+        bundle.sort((p, q) => ((p.y0 + p.y1) - (q.y0 + q.y1)) || (p.x0 - q.x0))
+        // A bow must never push a wire into a node box: shrink each member's
+        // effective bow until its DRAWN quad path clears all boxes (dropping
+        // to kappa 0 keeps the wire straight and safe).
+        const quadHitsBox = (w, kappa) => {
+          const rx = w.x1 - w.x0
+          const ry = w.y1 - w.y0
+          const len = Math.hypot(rx, ry) || 1
+          const b = (4 + 1.75 * Math.abs(kappa)) * Math.sign(kappa)
+          const bb = Math.max(-len / 4, Math.min(len / 4, b))
+          const cx = (w.x0 + w.x1) / 2 + 1.5 * bb * (ry / len)
+          const cy = (w.y0 + w.y1) / 2 + 1.5 * bb * (-rx / len)
+          for (const b2 of boxes) {
+            if (b2.x1 <= Math.min(w.x0, w.x1, cx) || b2.x0 >= Math.max(w.x0, w.x1, cx)) continue
+            for (let i = 0; i <= 24; i++) {
+              const t = i / 24
+              const u = 1 - t
+              const px = u * u * w.x0 + 2 * u * t * cx + t * t * w.x1
+              const py = u * u * w.y0 + 2 * u * t * cy + t * t * w.y1
+              if (px > b2.x0 && px < b2.x1 && py > b2.y0 && py < b2.y1) return true
+            }
+          }
+          return false
+        }
+        // A bow must also not swing into a NON-BUNDLE wire's corridor: a
+        // bowed chord can cross a neighbor the straight chord cleared
+        // (guards re-check the drawn shape against the neighbor's chord;
+        // bundle-mates are excluded — the fan itself separates them).
+        const mates = new Set(bundle)
+        const bowPts = (w, kappa) => {
+          const rx = w.x1 - w.x0
+          const ry = w.y1 - w.y0
+          const len = Math.hypot(rx, ry) || 1
+          const b = (4 + 1.75 * Math.abs(kappa)) * Math.sign(kappa)
+          const bb = Math.max(-len / 4, Math.min(len / 4, b))
+          const cx = (w.x0 + w.x1) / 2 + 1.5 * bb * (ry / len)
+          const cy = (w.y0 + w.y1) / 2 + 1.5 * bb * (-rx / len)
+          const pts = []
+          for (let i = 0; i <= 24; i++) {
+            const t = i / 24
+            const u = 1 - t
+            pts.push([u * u * w.x0 + 2 * u * t * cx + t * t * w.x1,
+              u * u * w.y0 + 2 * u * t * cy + t * t * w.y1])
+          }
+          return pts
+        }
+        const bowHitsWire = (w, kappa) => {
+          const pw = bowPts(w, kappa)
+          for (const d of directs) {
+            if (mates.has(d)) continue
+            const pd = samples(d.x0, d.y0, d.x1, d.y1)
+            const sharedSrc = w.e.source === d.e.source && (w.e.sourceHandle || '') === (d.e.sourceHandle || '')
+            const sharedTgt = w.e.target === d.e.target && (w.e.targetHandle || '') === (d.e.targetHandle || '')
+            for (let m = 0; m <= 23; m++) {
+              const jLo = sharedSrc ? 5 : 0
+              const jHi = sharedTgt ? 10 : 15
+              for (let n2 = jLo; n2 <= jHi; n2++) {
+                if (segSeg(pw[m][0], pw[m][1], pw[m + 1][0], pw[m + 1][1],
+                  pd[n2][0], pd[n2][1], pd[n2 + 1][0], pd[n2 + 1][1]) < 7) return true
+              }
+            }
+          }
+          return false
+        }
+        bundle.forEach((c, i) => {
+          // Rank 0 stays flat; every later member bows AWAY from its
+          // previous-rank neighbor, stacking on the opposite side of the
+          // corridor. Fixed perp sign (no normal flip) keeps the fan
+          // monotone — it never pushes a bow back onto rank i-1.
+          let kappa
+          if (i === 0) {
+            kappa = 0
+          } else {
+            // side = cross(u, prev->c start): which side of THIS chord the
+            // previous rank's start sits on. Bow to the opposite side.
+            const prev = bundle[i - 1]
+            const side = (c.x1 - c.x0) * (prev.y0 - c.y0) - (c.y1 - c.y0) * (prev.x0 - c.x0)
+            kappa = (side > 0 ? 4 : -4) * i
+          }
+          const shrink = (k) => (k >= 4 ? k - 4 : (k <= -4 ? k + 4 : 0))
+          while (kappa !== 0 && (quadHitsBox(c, kappa) || bowHitsWire(c, kappa))) {
+            kappa = shrink(kappa)
+          }
+          c.kappa = kappa
+        })
+      }
+    }
+    // 5) Emit. Styles/markers by kind as before; the geometry knobs ride
+    // in edge.data and are read only by KindEdge. Keyed by edge OBJECT —
+    // some hand-authored flows (heptagon MHVw4/MHVw6) have edges with no
+    // id, which would collapse to one shared undefined key and stamp every
+    // such wire with the LAST wire's routing knobs.
+    const wireByEdge = new Map(wires.map((w) => [w.e, w]))
+    const eidOf = new Map(edges.map((e, i) => [e, e.id || `e${i}`]))
+    const out = []
+    for (const e of edges) {
+      const gs = groupOf.get(e.source)
+      const gt = groupOf.get(e.target)
+      if (gs && gt && gs === gt) continue
+      const kind = (gt && !gs ? null : resolveSourceKind(e.source, e.sourceHandle)) || 'any'
+      const color = kindColor(kind)
+      const w = wireByEdge.get(e)
+      if (!gs && !gt && w) {
+        out.push({
+          ...e,
+          id: eidOf.get(e),
+          type: 'kind',
+          data: {
+            spread: w.spread,
+            kappa: w.kappa,
+            ...(w.detourY !== null ? {
+              detourY: w.detourY, outboundX: w.outboundX, inboundX: w.inboundX,
+            } : {}),
+            ...(w.fallback ? { fallback: true } : {}),
+          },
+          style: { stroke: color, strokeWidth: 1.6, ...e.style },
+          markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
+        })
+        continue
+      }
+      out.push({
+        ...e,
+        type: 'kind',
+        id: `px_${eidOf.get(e)}`,
+        source: gs || e.source,
+        sourceHandle: gs ? 'out' : e.sourceHandle,
+        target: gt || e.target,
+        targetHandle: gt ? 'in' : e.targetHandle,
+        selectable: false,
+        focusable: false,
+        style: { stroke: color, strokeWidth: 1.6, ...e.style, strokeDasharray: '6 3', opacity: 0.7 },
+        markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
+      })
+    }
+    return out
+}
+
 function FlowEditorInner() {
   const { fid } = useParams()
   const { project, refreshProject } = useProject()
@@ -981,6 +1672,8 @@ function FlowEditorInner() {
   const [compileResult, setCompileResult] = useState(null)
   const [sideTab, setSideTab] = useState('inspector')
   const [running, setRunning] = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [exportInfo, setExportInfo] = useState(null)
   const [flowName, setFlowName] = useState('')
   const [saveState, setSaveState] = useState('saved')
   const [autoSave, setAutoSave] = useState(() => localStorage.getItem('symbology.autosave') !== '0')
@@ -1016,7 +1709,9 @@ function FlowEditorInner() {
       skipAutosave.current = true
       setFlowName(flow.name)
       const gr0 = (flow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
-      let ns = flow.graph?.nodes || []
+      // default data: hand-authored or legacy graphs may omit it; OpNode/Inspector
+      // dereference node.data unconditionally.
+      let ns = (flow.graph?.nodes || []).map((n) => ({ ...n, data: n.data || {} }))
       const seenIds = new Set()
       const renamedIds = new Map()
       ns = ns.map((n) => {
@@ -1198,6 +1893,42 @@ function FlowEditorInner() {
         }
         break
       }
+      case 'squeeze_tensor': {
+        const t = inDimsList('in')
+        if (t && t.length >= 2) {
+          const out = t.filter((x) => x !== 1)
+          if (out.length >= 2) return out.join('×')
+        }
+        break
+      }
+      case 'shuffle_product': {
+        const a = inDimsList('a')
+        const b = inDimsList('b')
+        if (a && b) return [...a, ...b].join('×')
+        break
+      }
+      case 'expand_tensor': {
+        const bases = edges
+          .filter((ed) => ed.target === nodeId && /^in_\d+$/.test(ed.targetHandle || '') && ed.targetHandle !== 'in_0')
+          .map((ed) => ({
+            idx: parseInt((ed.targetHandle || '').slice(3), 10),
+            dims: (inputDimsFor(ed.source, ed.sourceHandle, depth + 1) || '').split('×').map((x) => parseInt(x, 10)),
+          }))
+          .filter((b) => b.dims.length > 0 && b.dims.every((x) => Number.isFinite(x)))
+          .sort((x, y) => x.idx - y.idx)
+        const t = inDimsList('in_0')
+        if (t && t.length >= 2 && bases.length) {
+          let fec = t[t.length - 2]
+          const letters = [t[t.length - 1]]
+          for (const b of bases) {
+            if (b.dims.length !== 3 || b.dims[0] !== fec) return null
+            letters.push(b.dims[2])
+            fec = b.dims[1]
+          }
+          return [fec, ...letters].join('×')
+        }
+        break
+      }
       case 'integrability_condition': {
         const t = inDimsList('tensor')
         const d = inDimsList('dlog')
@@ -1329,6 +2060,23 @@ function FlowEditorInner() {
     }
   }
 
+  const exportScript = async () => {
+    setExporting(true)
+    try {
+      // export recompiles server-side; make sure the latest graph is saved first
+      await save()
+      const info = await api.exportFlowScript(project.id, fid)
+      setExportInfo(info)
+      toast(`Standalone script written (${info.n_steps} steps)`)
+    } catch (e) {
+      const errs = e.payload?.detail?.errors
+      if (errs) { setCompileResult({ ok: false, errors: errs }); setSideTab('plan') }
+      setExportInfo({ error: errs ? 'flow does not compile — see errors panel' : (e.message || 'export failed') })
+    } finally {
+      setExporting(false)
+    }
+  }
+
   const updateNodeData = useCallback((id, patch) => {
     if ('selected_properties' in patch && !('alphabet_id' in patch)) {
       // Defer pruning so the uncheck-A / check-B sequence can migrate the
@@ -1418,27 +2166,9 @@ function FlowEditorInner() {
     return m
   }, [groups])
 
-  const visibleEdges = useMemo(() => {
-    const out = []
-    for (const e of edges) {
-      const gs = groupOf.get(e.source)
-      const gt = groupOf.get(e.target)
-      if (gs && gt && gs === gt) continue
-      if (!gs && !gt) { out.push(e); continue }
-      out.push({
-        ...e,
-        id: `px_${e.id}`,
-        source: gs || e.source,
-        sourceHandle: gs ? 'out' : e.sourceHandle,
-        target: gt || e.target,
-        targetHandle: gt ? 'in' : e.targetHandle,
-        selectable: false,
-        focusable: false,
-        style: { ...e.style, strokeDasharray: '6 3', opacity: 0.7 },
-      })
-    }
-    return out
-  }, [edges, groupOf])
+  const visibleEdges = useMemo(() => routeEdges({
+    edges, nodes, project, groupOf, resolveSourceKind,
+  }), [edges, nodes, project, groupOf, resolveSourceKind])
 
   const groupSelection = useCallback(() => {
     const members = nodes.filter((n) => n.selected && n.type !== 'groupBox' && !n.hidden)
@@ -1709,6 +2439,7 @@ function FlowEditorInner() {
           onConnect={onConnect}
           isValidConnection={isValidConnection}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           onInit={(inst) => { rf.current = inst }}
           onSelectionChange={(sel) => {
             setSelectedId(sel.nodes[0]?.id || null)
@@ -1744,14 +2475,18 @@ function FlowEditorInner() {
         )}
         {sideTab === 'plan' && (
           compileResult
-            ? <CompilePanel result={compileResult} onRun={run} running={running} />
-            : <p className="muted">Press “Compile” to turn the diagram into the exact command sequence. You can inspect every command before running it.</p>
+            ? <CompilePanel result={compileResult} onRun={run} onExport={exportScript} running={running} exporting={exporting} exportInfo={exportInfo} />
+            : <div>
+              <p className="muted">Press “Compile” to turn the diagram into the exact command sequence. You can inspect every command before running it.</p>
+              <p className="muted">After compiling you can <strong>▶ Run</strong> the plan here, or <strong>⇪ Export standalone script</strong> to get a portable bash script you can carry to another machine (see README → “Design locally, run on the cluster”).</p>
+            </div>
         )}
       </div>
     </div>
   )
 }
 
+export { OpNode, Inspector, nodeTypes, KindEdge }
 export default function FlowEditor() {
   return (
     <ReactFlowProvider>

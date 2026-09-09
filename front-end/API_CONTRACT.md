@@ -162,6 +162,8 @@ Compiled step:
 
 - `POST /api/projects/{pid}/flows/{fid}/compile` -> `{"ok": true, "errors": [], "steps": [Step]}`
 
+- `POST /api/projects/{pid}/flows/{fid}/export_script` -> `{"ok": true, "path": "projects/<pid>/exported/<flow>.sh", "n_steps": N, "n_wolfram_steps": M, "flow_outputs": [...]}` (compiles, then renders the plan as a portable, self-checking bash script for running the flow on another machine — see README "Design locally, run on the cluster"; 400 with compile errors when the flow does not compile)
+
 - `POST /api/projects/{pid}/flows/{fid}/runs` -> `{"run_id": "..."}` (compiles then executes)
 
 - `GET /api/projects/{pid}/runs` -> `[RunSummary]` newest first
