@@ -39,6 +39,13 @@ def run_export(payload):
         raise ValueError('Usage: exported-flow.sh [--dry-run]')
     dry_run = '--dry-run' in sys.argv
     replacements = [(payload['project'], str(root)), (payload['repo'], str(repo))]
+    # Compiled inputs are stored resolved, argv paths in the project's own
+    # spelling; on macOS these differ when the project sits behind a symlink
+    # (/var vs /private/var). Accept both forms of each source prefix.
+    for old, new in list(replacements):
+        resolved_old = str(Path(old).resolve())
+        if resolved_old != old:
+            replacements.append((resolved_old, new))
     replacements.sort(key=lambda pair: len(pair[0]), reverse=True)
 
     def relocate(value):

@@ -274,7 +274,7 @@ def test_sse_delivers_after_full_buffer(project,monkeypatch):
         for i in range(jobs.MAX_BUFFERED_EVENTS): r.emit('log',{'line':str(i)})
         monkeypatch.setattr(main.engine,'get',lambda _:r)
         stream=main.api_run_events(r.run_id).body_iterator
-        for i in range(jobs.MAX_BUFFERED_EVENTS): await anext(stream)
+        for i in range(jobs.MAX_BUFFERED_EVENTS): await stream.__anext__()  # anext() needs Python 3.10
         r.emit('log',{'line':'AFTER BUFFER'})
         r.status='done'; r.emit('status',{'status':'done'}); r.emit('end',{})
         tail=[]

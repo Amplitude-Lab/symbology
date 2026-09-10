@@ -136,16 +136,25 @@ def run_isolated(run, step, root, launch):
     before = fingerprint(step, root)
     with tempfile.TemporaryDirectory(prefix=f'.attempt-{run.run_id}-', dir=root / 'runs') as tmp:
         stage = Path(tmp)
-        def staged(p):
-            return stage / p.relative_to(root)
+        # input_files() reports resolved paths; on macOS the project root can
+        # sit behind a symlink (/var -> /private/var), so compare resolved
+        # forms for membership while keeping stage paths in the root's own
+        # spelling (argv relocation below is a plain string replace).
+        resolved_root = root.resolve()
+        def staged(rel):
+            return stage / rel
         originals = {}
         for p in input_files(step, root):
-            if not p.is_file() or not p.is_relative_to(root):
+            if not p.is_file():
                 continue
-            dest = staged(p)
+            try:
+                rel = p.resolve().relative_to(resolved_root)
+            except ValueError:
+                continue
+            dest = staged(rel)
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(p, dest)
-            originals[dest.relative_to(stage)] = digest(p)
+            originals[rel] = digest(p)
         for directory in ('data', 'output', 'wolfram_gen'):
             (stage / directory).mkdir(exist_ok=True)
         for o in outputs:

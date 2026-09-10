@@ -388,7 +388,10 @@ def export_flow_script(proj: dict, graph: dict, flow_name: str, output_subdir: s
     export_dir.mkdir(parents=True, exist_ok=True)
     script_path = export_dir / f"{safe_flow}.sh"
     # Preserve Bash-compatible line endings even when exported on Windows.
-    script_path.write_text(script, encoding="utf-8", newline="\n")
+    # open(newline=...) rather than Path.write_text(newline=...): the latter
+    # needs Python 3.10, and stock macOS python3 is still 3.9.
+    with open(script_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(script)
     script_path.chmod(0o755)
     return {"ok": True, "path": str(script_path), "n_steps": len(steps),
             "n_wolfram_steps": sum(s["kind"] == "wolfram" for s in steps),

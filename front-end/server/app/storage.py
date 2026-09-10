@@ -17,6 +17,15 @@ _lock = threading.RLock()
 _project_locks: dict[str, threading.RLock] = {}
 
 
+def _signature(fn):
+    # eval_str resolves string annotations eagerly; it needs Python 3.10 and
+    # stock macOS python3 is still 3.9. Plain binding only needs names.
+    try:
+        return inspect.signature(fn, eval_str=True)
+    except TypeError:
+        return inspect.signature(fn)
+
+
 def transaction_for(pid: str):
     """Serialize a complete read/modify/write operation in this server process."""
     with _lock:
@@ -26,13 +35,13 @@ def transaction_for(pid: str):
         def wrapped(*args, **kwargs):
             with lock:
                 return fn(*args, **kwargs)
-        wrapped.__signature__ = inspect.signature(fn, eval_str=True)
+        wrapped.__signature__ = _signature(fn)
         return wrapped
     return decorate
 
 
 def transaction(fn):
-    signature = inspect.signature(fn, eval_str=True)
+    signature = _signature(fn)
     @functools.wraps(fn)
     def wrapped(*args, **kwargs):
         pid = signature.bind(*args, **kwargs).arguments.get("pid", "__create__")
