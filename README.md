@@ -233,7 +233,8 @@ Notes:
   by the project owner. On Windows, use WSL for complete numerical workflows
   and exported Bash scripts. Native Windows editor/server checks (launcher,
   storage, API, Chromium editor tests) run in CI; numerical execution on
-  native Windows is not supported.
+  native Windows is not supported (see the
+  [Windows compatibility report](docs/audit-2026-09-09-windows.md)).
 - `make check` (regression baselines + registry sync) needs local project
   data and therefore runs meaningfully on the machine where the heptagon
   project lives; CI runs the machine-independent subset.
@@ -296,6 +297,9 @@ isolated publication, and do not run raw native commands concurrently against
 the same output directory.
 
 Run the portable correctness checks in [tests/README.md](tests/README.md).
+The reliability and correctness guarantees above were introduced and
+verified through the audited refinements documented in
+[docs/](docs/README.md).
 
 ## Multi-Project Layout
 

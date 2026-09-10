@@ -7,8 +7,9 @@ ISO 8601 (YYYY-MM-DD) and the local timezone is Asia/Shanghai.
 
 ### Summary
 
-All recommended follow-ups from the 2026-09-09 audit, each gated on
-bit-identical outputs via the four-baseline `make regression` gate.
+All recommended follow-ups from the 2026-09-09 audit (see the
+[archived reports](docs/README.md)), each gated on bit-identical outputs
+via the four-baseline `make regression` gate.
 
 ### Added
 - **Two regression baselines** — `manifest-icond.json` (icond×2 + join +
@@ -73,7 +74,9 @@ bit-identical outputs via the four-baseline `make regression` gate.
 ### Summary
 
 Full audit against the four design principles (robustness, efficiency,
-universality, transplantability). Every calculation-core change is gated on
+universality, transplantability) — archived in
+[docs/audit-2026-09-09-core.md](docs/audit-2026-09-09-core.md). Every
+calculation-core change is gated on
 bit-identical outputs via the new `make regression` (two CRC32 baselines:
 the 19-step `NMHVw2collinear` flow and a single-pair `SEW_3p1` solve —
 the union-matching rewrite was additionally differential-tested against the
