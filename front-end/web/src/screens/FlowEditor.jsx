@@ -1,3 +1,4 @@
+import { openFlowSave } from '../flowSave'
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ReactFlow, {
@@ -1689,6 +1690,9 @@ function FlowEditorInner() {
   const wrapper = useRef(null)
   const skipAutosave = useRef(true)
   const loadedSig = useRef('')
+  const saveSession = useRef(null)
+  const autosaveRef = useRef(autoSave)
+  autosaveRef.current = autoSave
   const stashTimer = useRef(null)
 
   const flow = project?.flows.find((f) => f.id === fid)
@@ -1706,12 +1710,17 @@ function FlowEditorInner() {
 
   useEffect(() => {
     if (flow) {
+      const session = openFlowSave(project.id, flow)
+      saveSession.current = session
+      const recovered = session.draft
+      const loadedFlow = recovered ? { ...flow, ...recovered } : flow
+      if (recovered && !session.isSaved()) toast('Recovered an unsaved draft from this tab. Save to retry; a conflicting server edit will be protected.')
       skipAutosave.current = true
-      setFlowName(flow.name)
-      const gr0 = (flow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
+      setFlowName(loadedFlow.name)
+      const gr0 = (loadedFlow.graph?.groups || []).map((g) => ({ collapsed: true, position: { x: 0, y: 0 }, ...g }))
       // default data: hand-authored or legacy graphs may omit it; OpNode/Inspector
       // dereference node.data unconditionally.
-      let ns = (flow.graph?.nodes || []).map((n) => ({ ...n, data: n.data || {} }))
+      let ns = (loadedFlow.graph?.nodes || []).map((n) => ({ ...n, data: n.data || {} }))
       const seenIds = new Set()
       const renamedIds = new Map()
       ns = ns.map((n) => {
@@ -1736,7 +1745,7 @@ function FlowEditorInner() {
         ns = ns.concat(groupBoxNode(g))
       }
       // migrate legacy assemble nodes: groups/coefs -> outputs list, out -> out_0
-      const legacyEdges = flow.graph?.edges || []
+      const legacyEdges = loadedFlow.graph?.edges || []
       const migNodes = new Set()
       ns = ns.map((n) => {
         if (n.type !== 'assemble' || (n.data?.outputs?.length)) return n
@@ -1770,17 +1779,17 @@ function FlowEditorInner() {
       setGroups(gr)
       setNodes(ns)
       setEdges(addMig)
-      bumpNodeSeqFromIds([...ns.map((n) => n.id), ...(flow.graph?.edges || []).map((e) => e.id)])
+      bumpNodeSeqFromIds([...ns.map((n) => n.id), ...(loadedFlow.graph?.edges || []).map((e) => e.id)])
       setCompileResult(null)
       loadedSig.current = JSON.stringify({
-        name: flow.name || '',
+        name: loadedFlow.name || '',
         nodes: ns.filter((n) => n.type !== 'groupBox').map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
         edges: addMig.map((e) => ({ id: e.id, source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle })),
         groups: gr.filter((g) => g.node_ids.some((id) => ns.some((n) => n.id === id && n.type !== 'groupBox'))),
       })
-      setSaveState('saved')
+      setSaveState(session.isSaved() ? 'saved' : 'unsaved')
     }
-  }, [flow?.id]) // eslint-disable-line
+  }, [project?.id, flow?.id]) // eslint-disable-line
 
   const serializeGraph = useCallback(() => ({
     nodes: nodes.filter((n) => n.type !== 'groupBox').map((n) => ({ id: n.id, type: n.type, position: n.position, data: n.data })),
@@ -1789,24 +1798,45 @@ function FlowEditorInner() {
   }), [nodes, edges, groups])
 
   useEffect(() => {
-    if (!flow) return undefined
+    const session = saveSession.current
+    return () => {
+      if (autosaveRef.current) session?.flush().catch((e) => toast('Draft preserved; save failed: ' + e.message))
+    }
+  }, [project?.id, fid]) // eslint-disable-line
+
+  useEffect(() => {
+    if (!flow || !saveSession.current) return undefined
     if (skipAutosave.current) { skipAutosave.current = false; return undefined }
-    if (JSON.stringify({ name: flowName, ...serializeGraph() }) === loadedSig.current) return undefined
-    if (!autoSave) { setSaveState('unsaved'); return undefined }
+    const graph = serializeGraph()
+    const session = saveSession.current
+    try { session.remember({ name: flowName, graph }) }
+    catch { toast('Browser draft storage is full or unavailable. Keep this page open until saved.') }
+    if (session.isSaved()) { setSaveState('saved'); return undefined }
     setSaveState('unsaved')
+    if (!autoSave) return undefined
+    let alive = true
     const t = setTimeout(async () => {
       setSaveState('saving')
       try {
-        const graph = serializeGraph()
-        await api.updateFlow(project.id, fid, { name: flowName, graph })
-        loadedSig.current = JSON.stringify({ name: flowName, ...graph })
-        setSaveState('saved')
-      } catch {
-        setSaveState('error')
+        await session.flush()
+        if (alive) setSaveState(session.isSaved() ? 'saved' : 'unsaved')
+      } catch (e) {
+        if (alive) { setSaveState('error'); toast('Draft preserved; save failed: ' + e.message) }
       }
     }, 800)
-    return () => clearTimeout(t)
+    return () => { alive = false; clearTimeout(t) }
   }, [nodes, edges, flowName, groups, autoSave, flow]) // eslint-disable-line
+
+  useEffect(() => {
+    const guard = (e) => {
+      if (saveSession.current && !saveSession.current.isSaved()) {
+        e.preventDefault()
+        e.returnValue = ''
+      }
+    }
+    window.addEventListener('beforeunload', guard)
+    return () => window.removeEventListener('beforeunload', guard)
+  }, [])
 
   const resolveSourceKind = useCallback((nodeId, handleId, depth = 0) => {
     const node = nodes.find((n) => n.id === nodeId)
@@ -2021,7 +2051,9 @@ function FlowEditorInner() {
     setSaveState('saving')
     try {
       const graph = serializeGraph()
-      await api.updateFlow(project.id, fid, { name: flowName, graph })
+      try { saveSession.current.remember({ name: flowName, graph }) }
+      catch { toast('Browser draft recovery is unavailable; saving to the server.') }
+      await saveSession.current.flush()
       loadedSig.current = JSON.stringify({ name: flowName, ...graph })
       await refreshProject()
       setSaveState('saved')
@@ -2050,6 +2082,7 @@ function FlowEditorInner() {
   const run = async () => {
     setRunning(true)
     try {
+      await save()
       const { run_id } = await api.runFlow(project.id, fid)
       navigate(`/runs/${run_id}`)
     } catch (e) {
@@ -2407,7 +2440,7 @@ function FlowEditorInner() {
       </div>
       <div className="flow-canvas" ref={wrapper} onDrop={onDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flow-toolbar">
-          <input style={{ width: 180 }} value={flowName} onChange={(e) => setFlowName(e.target.value)} />
+          <input aria-label="Flow name" style={{ width: 180 }} value={flowName} onChange={(e) => setFlowName(e.target.value)} />
           {flow.custom_block && (
             <span className="muted shrink" style={{ fontSize: 11, alignSelf: 'center' }} title="This flow is sealed as a reusable custom block (see Flows to unseal)">
               ⬢ custom block
@@ -2427,7 +2460,16 @@ function FlowEditorInner() {
             />
             auto save
           </label>
-          <button onClick={save}>Save</button>
+          <button onClick={() => save().catch((e) => toast('Draft preserved; save failed: ' + e.message))}>Save</button>
+          {saveState === 'error' && <>
+            <button onClick={() => saveSession.current.download()}>Download draft</button>
+            <button onClick={() => {
+              if (window.confirm('Discard this tab’s draft and load the currently saved flow? Download the draft first to keep a copy.')) {
+                saveSession.current.discard()
+                window.location.reload()
+              }
+            }}>Reload saved flow</button>
+          </>}
           <button onClick={compile}>Compile</button>
           <button className="primary" onClick={compile}>Run…</button>
         </div>

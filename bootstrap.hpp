@@ -13,10 +13,10 @@
 #include <type_traits>
 #include <vector>
 
-#define USE_MIMALLOC 1
 #include "SparseRREF/sparse_mat.h"
 #include "SparseRREF/sparse_tensor.h"
 #include "SparseRREF/wxf_support.h"
+#include "native_cache.hpp"
 
 using namespace SparseRREF;
 

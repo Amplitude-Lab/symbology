@@ -88,3 +88,17 @@ projects
 
 # macOS filesystem metadata
 .DS_Store
+
+# Public test environment and compiled probe
+.venv-tests/
+tests/numerical_probe
+
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+/tests/wxf_probe
+/tests/wxf_probe_sanitized
+
+/tests/cache_probe

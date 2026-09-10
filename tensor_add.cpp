@@ -10,6 +10,8 @@
 #include "./SparseRREF/sparse_tensor.h"
 #include "./SparseRREF/wxf_support.h"
 #include "tensor_shuffle.h"
+#include "numeric_parse.hpp"
+#include "native_cache.hpp"
 
 using namespace SparseRREF;
 
@@ -50,6 +52,8 @@ int main(int argc, char* argv[]) {
     // Parse rational weights from command line arguments
     rat_t weight1, weight2;
     try {
+        validate_rational(argv[3]);
+        validate_rational(argv[4]);
         weight1 = rat_t(argv[3]);
         weight2 = rat_t(argv[4]);
     } catch (const std::exception& e) {
@@ -70,7 +74,7 @@ int main(int argc, char* argv[]) {
 	opt->pool.reset(n_of_threads);  // number of threads
 	thread_pool* pool = &(opt->pool);
 
-    std::filesystem::path base = std::filesystem::path(argv[0]).parent_path();
+    std::filesystem::path base = native_cache::executable_path(argv[0]).parent_path();
 
     std::cout << "Reading file " << argv[1] << " and " << argv[2] << " ..." << std::endl;
     std::filesystem::path path = base / argv[1];

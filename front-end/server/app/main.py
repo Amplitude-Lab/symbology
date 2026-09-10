@@ -10,11 +10,12 @@ import tempfile
 import uuid
 from pathlib import Path
 
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Body, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 
 from . import storage, templates
+from .validation import graph_errors
 from .compile import compile_flow, export_flow_script, flow_outputs_catalog
 from .config import REPO_ROOT, WEB_DIST, env_status, find_tensor_ops, find_wolframscript
 from .jobs import POSIX_SESSIONS, engine, kill_process_tree
@@ -32,6 +33,18 @@ app.add_middleware(
 @app.on_event("startup")
 def _startup() -> None:
     storage.init_dirs()
+    for pid in storage.list_projects():
+        _disk_runs(pid["id"])
+
+
+@app.on_event("shutdown")
+def _shutdown() -> None:
+    for run in list(engine.runs.values()):
+        engine.cancel(run.run_id)
+        with run.cond:
+            proc = run.proc
+        if proc is not None:
+            kill_process_tree(proc)
 
 
 @app.post("/api/client-log")
@@ -80,7 +93,10 @@ def api_list_projects() -> list:
 
 
 @app.post("/api/projects")
+@storage.transaction
 def api_create_project(body: dict = Body(...)) -> dict:
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     name = (body.get("name") or "").strip()
     if not name:
         raise HTTPException(400, "project name is required")
@@ -100,6 +116,7 @@ def api_get_project(pid: str) -> dict:
 
 
 @app.delete("/api/projects/{pid}")
+@storage.transaction
 def api_delete_project(pid: str) -> dict:
     if not storage.delete_project(pid):
         raise HTTPException(404, "project not found")
@@ -107,7 +124,19 @@ def api_delete_project(pid: str) -> dict:
 
 
 @app.post("/api/projects/{pid}/alphabets")
+@storage.transaction
 def api_create_alphabet(pid: str, body: dict = Body(...)) -> dict:
+    for field in ("letters", "variables", "expressions"):
+        if field in body and (not isinstance(body[field], list) or any(not isinstance(v, str) for v in body[field])):
+            raise HTTPException(400, f"{field} must be a list of strings")
+    if "letters" in body and (not body["letters"] or len(set(body["letters"])) != len(body["letters"])):
+        raise HTTPException(400, "letters must be nonempty and unique")
+    if "roots" in body and not isinstance(body["roots"], dict):
+        raise HTTPException(400, "roots must be an object")
+    if "expr_loader" in body and body["expr_loader"] is not None and not isinstance(body["expr_loader"], str):
+        raise HTTPException(400, "expr_loader must be a string or null")
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     proj = _get_project(pid)
     letters = [s.strip() for s in (body.get("letters") or []) if str(s).strip()]
     if not body.get("name") or not letters:
@@ -132,17 +161,38 @@ def api_create_alphabet(pid: str, body: dict = Body(...)) -> dict:
 
 
 @app.put("/api/projects/{pid}/alphabets/{aid}")
+@storage.transaction
 def api_update_alphabet(pid: str, aid: str, body: dict = Body(...)) -> dict:
+    for field in ("letters", "variables", "expressions"):
+        if field in body and (not isinstance(body[field], list) or any(not isinstance(v, str) for v in body[field])):
+            raise HTTPException(400, f"{field} must be a list of strings")
+    if "letters" in body and (not body["letters"] or len(set(body["letters"])) != len(body["letters"])):
+        raise HTTPException(400, "letters must be nonempty and unique")
+    if "roots" in body and not isinstance(body["roots"], dict):
+        raise HTTPException(400, "roots must be an object")
+    if "expr_loader" in body and body["expr_loader"] is not None and not isinstance(body["expr_loader"], str):
+        raise HTTPException(400, "expr_loader must be a string or null")
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     proj = _get_project(pid)
     alpha = _get_alphabet(proj, aid)
+    previous = storage.alphabet_version(alpha)
     for key in ("name", "letters", "variables", "expressions", "expr_loader", "roots"):
         if key in body:
             alpha[key] = body[key]
+    if previous != storage.alphabet_version(alpha):
+        for prop in alpha.get("properties", []):
+            prop["status"] = "pending"
+            prop["summary"] = None
+            prop["error"] = "Alphabet definition changed; recompute or replace this property."
+            # Shipped/imported tensors cannot be assumed to describe the new alphabet.
+            prop["definition_stale"] = True
     storage.save_project(proj)
     return alpha
 
 
 @app.delete("/api/projects/{pid}/alphabets/{aid}")
+@storage.transaction
 def api_delete_alphabet(pid: str, aid: str) -> dict:
     proj = _get_project(pid)
     before = len(proj["alphabets"])
@@ -175,6 +225,7 @@ def _inspect_alphabet_file(file_abs: Path) -> dict:
 
 
 @app.post("/api/projects/{pid}/import_alphabet")
+@storage.transaction
 def api_import_alphabet(pid: str, body: dict = Body(...)) -> dict:
     """Create an alphabet from an alphabet.wl file.
 
@@ -294,6 +345,7 @@ VALID_PROP_TYPES = {"integrability", "first_entry", "last_entry", "extended_stei
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties")
+@storage.transaction
 def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
     proj = _get_project(pid)
     alpha = _get_alphabet(proj, aid)
@@ -380,6 +432,7 @@ def api_add_property(pid: str, aid: str, body: dict = Body(...)) -> dict:
 
 
 @app.delete("/api/projects/{pid}/alphabets/{aid}/properties/{prop_id}")
+@storage.transaction
 def api_delete_property(pid: str, aid: str, prop_id: str) -> dict:
     proj = _get_project(pid)
     alpha = _get_alphabet(proj, aid)
@@ -412,11 +465,12 @@ def _property_step(proj: dict, alpha: dict, prop: dict) -> dict:
         "cwd": str(proj_dir),
         "outputs": [rel],
         "skip_if_exists": False,
-        "meta": {"type": "property", "alphabet_id": alpha["id"], "property_id": prop["id"], "tensor_file": rel},
+        "meta": {"type": "property", "alphabet_id": alpha["id"], "property_id": prop["id"], "tensor_file": rel, "alphabet_version": storage.alphabet_version(alpha)},
     }
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties/{prop_id}/compute")
+@storage.transaction
 def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
     proj = _get_project(pid)
     alpha = _get_alphabet(proj, aid)
@@ -448,6 +502,7 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
     prop["error"] = None
     storage.save_project(proj)
 
+    @storage.transaction_for(pid)
     def on_step_done(run, st, result):
         if st.get("meta", {}).get("type") != "property":
             return
@@ -456,11 +511,13 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
             return
         a2 = storage.find_alphabet(p2, aid)
         pr2 = storage.find_property(a2, prop_id) if a2 else None
-        if pr2 is None:
+        if pr2 is None or storage.alphabet_version(a2) != st["meta"].get("alphabet_version"):
             return
         if result and result.get("ok"):
             data = read_result_file(str(storage.project_dir(pid) / st["meta"]["tensor_file"])) or {}
             pr2["status"] = "ready"
+            pr2.pop("definition_stale", None)
+            pr2["alphabet_version"] = storage.alphabet_version(a2)
             pr2["tensor_file"] = st["meta"]["tensor_file"]
             pr2["summary"] = {"dims": data.get("dims"), "nnz": data.get("nnz")}
         else:
@@ -468,8 +525,9 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
             pr2["error"] = "computation did not report success"
         storage.save_project(p2)
 
+    @storage.transaction_for(pid)
     def on_done(run):
-        if run.status == "failed":
+        if run.status in ("failed", "cancelled"):
             p2 = storage.load_project(pid)
             if p2 is None:
                 return
@@ -481,7 +539,7 @@ def api_compute_property(pid: str, aid: str, prop_id: str) -> dict:
                 storage.save_project(p2)
 
     try:
-        run = engine.create_run(pid, None, step["label"], [step], on_step_done=on_step_done, on_done=on_done)
+        run = engine.create_run(pid, None, step["label"], steps, on_step_done=on_step_done, on_done=on_done)
     except ValueError as exc:
         raise HTTPException(409, str(exc))
     return {"run_id": run.run_id}
@@ -553,6 +611,7 @@ def api_tensor_summary(pid: str, file: str) -> dict:
 
 
 @app.post("/api/projects/{pid}/alphabets/{aid}/properties/{prop_id}/summarize")
+@storage.transaction
 def api_summarize_property(pid: str, aid: str, prop_id: str) -> dict:
     proj = _get_project(pid)
     alpha = _get_alphabet(proj, aid)
@@ -568,7 +627,10 @@ def api_summarize_property(pid: str, aid: str, prop_id: str) -> dict:
 
 
 @app.post("/api/projects/{pid}/flows")
+@storage.transaction
 def api_create_flow(pid: str, body: dict = Body(...)) -> dict:
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     proj = _get_project(pid)
     flow = {
         "id": uuid.uuid4().hex[:8],
@@ -583,7 +645,10 @@ def api_create_flow(pid: str, body: dict = Body(...)) -> dict:
 
 
 @app.post("/api/projects/{pid}/flows/{fid}/duplicate")
+@storage.transaction
 def api_duplicate_flow(pid: str, fid: str, body: dict = Body(default={})) -> dict:
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     import copy as _copy
     proj = _get_project(pid)
     flow = storage.find_flow(proj, fid)
@@ -603,14 +668,24 @@ def api_duplicate_flow(pid: str, fid: str, body: dict = Body(default={})) -> dic
 
 
 @app.put("/api/projects/{pid}/flows/{fid}")
+@storage.transaction
 def api_update_flow(pid: str, fid: str, body: dict = Body(...)) -> dict:
+    if "name" in body and (not isinstance(body["name"], str) or not body["name"].strip()):
+        raise HTTPException(400, "name must be a nonempty string")
     proj = _get_project(pid)
     flow = storage.find_flow(proj, fid)
     if flow is None:
         raise HTTPException(404, "flow not found")
+    revision = flow.get("revision", 0)
+    if body.get("revision") != revision:
+        raise HTTPException(409, "This flow changed elsewhere. Your draft is preserved; reload before saving.")
+    flow["revision"] = revision + 1
     if "name" in body:
         flow["name"] = body["name"]
     if "graph" in body:
+        errors = graph_errors(body["graph"])
+        if errors:
+            raise HTTPException(400, {"message": "Invalid graph", "errors": errors})
         flow["graph"] = body["graph"]
     if "custom_block" in body:
         if body["custom_block"]:
@@ -622,6 +697,7 @@ def api_update_flow(pid: str, fid: str, body: dict = Body(...)) -> dict:
 
 
 @app.delete("/api/projects/{pid}/flows/{fid}")
+@storage.transaction
 def api_delete_flow(pid: str, fid: str) -> dict:
     proj = _get_project(pid)
     before = len(proj["flows"])
@@ -639,6 +715,7 @@ def api_flow_outputs_catalog(pid: str) -> list:
 
 
 @app.post("/api/projects/{pid}/flows/{fid}/compile")
+@storage.transaction
 def api_compile_flow(pid: str, fid: str) -> dict:
     proj = _get_project(pid)
     flow = storage.find_flow(proj, fid)
@@ -650,6 +727,7 @@ def api_compile_flow(pid: str, fid: str) -> dict:
 
 
 @app.post("/api/projects/{pid}/flows/{fid}/runs")
+@storage.transaction
 def api_run_flow(pid: str, fid: str) -> dict:
     proj = _get_project(pid)
     flow = storage.find_flow(proj, fid)
@@ -669,6 +747,7 @@ def api_run_flow(pid: str, fid: str) -> dict:
 
 
 @app.post("/api/projects/{pid}/flows/{fid}/export_script")
+@storage.transaction
 def api_export_flow_script(pid: str, fid: str) -> dict:
     """Compile the flow and render it as a portable, self-checking bash script
     (design on the laptop, run on the cluster — see README)."""
@@ -684,6 +763,7 @@ def api_export_flow_script(pid: str, fid: str) -> dict:
 
 
 def _flow_step_done(pid: str):
+    @storage.transaction_for(pid)
     def hook(run, st, result):
         meta = st.get("meta") or {}
         if meta.get("type") != "property" or not (result and result.get("ok")):
@@ -693,13 +773,30 @@ def _flow_step_done(pid: str):
             return
         a2 = storage.find_alphabet(p2, meta.get("alphabet_id", ""))
         pr2 = storage.find_property(a2, meta.get("property_id", "")) if a2 else None
-        if pr2 is not None:
+        if pr2 is not None and storage.alphabet_version(a2) == meta.get("alphabet_version"):
             data = read_result_file(str(storage.project_dir(pid) / meta["tensor_file"])) or {}
             pr2["status"] = "ready"
+            pr2.pop("definition_stale", None)
+            pr2["alphabet_version"] = storage.alphabet_version(a2)
             pr2["tensor_file"] = meta.get("tensor_file")
             pr2["summary"] = {"dims": data.get("dims"), "nnz": data.get("nnz")}
             storage.save_project(p2)
     return hook
+
+
+def _reconcile_run(path: Path) -> dict:
+    rec = json.loads(path.read_text())
+    if rec.get("status") in ("queued", "running") and engine.get(rec.get("run_id")) is None:
+        rec["status"] = "failed"
+        rec["error"] = "Server stopped before this run completed. Review its log and start a new run."
+        rec["current_step"] = None
+        for step in rec.get("steps", []):
+            if step.get("status") == "running":
+                step.update(status="failed", returncode=125)
+        tmp = path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(rec, indent=2))
+        tmp.replace(path)
+    return rec
 
 
 def _disk_runs(pid: str) -> list:
@@ -716,7 +813,7 @@ def _disk_runs(pid: str) -> list:
     out = []
     for f in sorted(rdir.glob("*.json")):
         try:
-            out.append(json.loads(f.read_text()))
+            out.append(_reconcile_run(f))
         except Exception:
             continue
     return out
@@ -729,7 +826,7 @@ def _find_disk_run(run_id: str) -> dict | None:
         f = proj_dir / f"{run_id}.json"
         if f.is_file():
             try:
-                return json.loads(f.read_text())
+                return _reconcile_run(f)
             except Exception:
                 return None
     return None
@@ -764,7 +861,7 @@ def api_cancel_run(run_id: str) -> dict:
 
 
 @app.get("/api/runs/{run_id}/events")
-def api_run_events(run_id: str):
+def api_run_events(run_id: str, request: Request = None):
     run = engine.get(run_id)
     if run is None:
         # Historical run (server restarted since): replay the persisted log
@@ -776,27 +873,36 @@ def api_run_events(run_id: str):
 
         def replay():
             if log_file.is_file():
-                for line in log_file.read_text(errors="replace").splitlines():
-                    yield f"event: log\ndata: {json.dumps({'step_id': None, 'stream': 'stdout', 'line': line})}\n\n"
+                with log_file.open(errors="replace") as log:
+                    for line in log:
+                        line = line.rstrip("\n")
+                        yield f"event: log\ndata: {json.dumps({'step_id': None, 'stream': 'stdout', 'line': line})}\n\n"
             yield f"event: status\ndata: {json.dumps({'status': rec.get('status')})}\n\n"
             yield "event: end\ndata: {}\n\n"
 
         return StreamingResponse(replay(), media_type="text/event-stream")
 
     def gen():
-        idx = 0
+        try:
+            idx = int(request.headers.get("last-event-id", "-1")) + 1 if request else 0
+        except ValueError:
+            idx = 0
         while True:
             with run.cond:
-                if idx >= len(run.events) and run.status in ("queued", "running"):
+                if idx >= run.next_event_id and run.status in ("queued", "running"):
                     run.cond.wait(timeout=15)
-                batch = run.events[idx:]
-                idx += len(batch)
-                done = run.status not in ("queued", "running") and idx >= len(run.events)
+                first = run.events[0]["id"] if run.events else run.next_event_id
+                gap = idx < first
+                batch = [ev for ev in run.events if ev["id"] >= idx]
+                idx = run.next_event_id
+                done = run.status not in ("queued", "running") and idx >= run.next_event_id
+            if gap:
+                yield 'event: gap\ndata: {"message":"Older events are in the saved run log."}\n\n'
             if not batch and not done:
                 yield ": keepalive\n\n"
                 continue
             for ev in batch:
-                yield f"event: {ev['event']}\ndata: {json.dumps(ev['data'])}\n\n"
+                yield f"id: {ev['id']}\nevent: {ev['event']}\ndata: {json.dumps(ev['data'])}\n\n"
             if done:
                 return
 

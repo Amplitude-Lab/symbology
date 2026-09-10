@@ -4,7 +4,10 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './styles.css'
 
+let lastReport = 0
 function reportClientError(kind, message, stack) {
+  if (Date.now() - lastReport < 2000) return
+  lastReport = Date.now()
   try {
     fetch('/api/client-log', {
       method: 'POST',
@@ -16,7 +19,7 @@ function reportClientError(kind, message, stack) {
         url: window.location.href,
         ua: navigator.userAgent,
       }),
-    })
+    }).catch(() => {})
   } catch { /* best effort */ }
 }
 

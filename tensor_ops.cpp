@@ -1,3 +1,5 @@
+#include "numeric_parse.hpp"
+#include "native_cache.hpp"
 // tensor_ops — small tensor utilities built on SparseRREF:
 //   ternary  T.wxf B1 B2 out.wxf          T'[a,...] = sum_{b,c} T[a,b,c] B1[b,...] B2[c,...]
 //                                          ('I' = identity of the matching axis; B1/B2 may be matrices
@@ -55,18 +57,18 @@ static void write_tensor(const sparse_tensor<scalar_t, index_t, SPARSE_COO>& T, 
 
 // sparse_mat_write_wxf / sparse_tensor_write_wxf cannot encode a matrix with 0 rows;
 // build the WXF for SparseArray[Automatic, {0, ncol}, 0, {1, {{0}, {}}, {}}] directly.
-static std::vector<uint8_t> write_empty_sparse_mat_wxf(index_t ncol) {
+static std::vector<uint8_t> write_empty_sparse_tensor_wxf(const std::vector<int64_t>& dims) {
 	using namespace WXF_PARSER;
 	std::string_view tpl = "SparseArray[Automatic,#dims,0,{1,{#rowptr,#colindex},#vals}]";
 	std::unordered_map<std::string, std::function<void(Encoder&)>> fm;
 	fm["#dims"] = [&](Encoder& enc) {
-		enc.push_packed_array({ 2 }, std::vector<int64_t>{ 0, (int64_t)ncol });
+		enc.push_packed_array({ dims.size() }, dims);
 	};
 	fm["#rowptr"] = [&](Encoder& enc) {
 		enc.push_packed_array({ 1 }, std::vector<int64_t>{ 0 });
 	};
 	fm["#colindex"] = [&](Encoder& enc) {
-		enc.push_array_info({ 0, 1 }, WXF_HEAD::array, 0);
+		enc.push_array_info({ 0, dims.size() - 1 }, WXF_HEAD::array, 0);
 		const char* empty_data = "";
 		enc.push_ustr(empty_data, 0);
 	};
@@ -75,6 +77,10 @@ static std::vector<uint8_t> write_empty_sparse_mat_wxf(index_t ncol) {
 	};
 	Encoder enc = fullform_to_wxf(tpl, fm, true);
 	return enc.buffer;
+}
+
+static std::vector<uint8_t> write_empty_sparse_mat_wxf(index_t ncol) {
+	return write_empty_sparse_tensor_wxf({0, ncol});
 }
 
 static sparse_tensor<scalar_t, index_t, SPARSE_COO> mat_to_tensor2(const sparse_mat<scalar_t, index_t>& M) {
@@ -196,7 +202,7 @@ static int run_power(int argc, char* argv[], const field_t& F, thread_pool* pool
 	if (M.nrow != M.ncol)
 		throw std::runtime_error("power: the matrix must be square");
 	long long n;
-	try { n = std::stoll(argv[3]); } catch (...) { throw std::runtime_error("power: n must be a non-negative integer"); }
+	try { n = strict_integer(argv[3]); } catch (...) { throw std::runtime_error("power: n must be a non-negative integer"); }
 	if (n < 0) throw std::runtime_error("power: negative powers (matrix inverse) are not supported");
 
 	sparse_mat<scalar_t, index_t> result(M.nrow, M.ncol);
@@ -337,7 +343,7 @@ static int run_join(int argc, char* argv[], const field_t& F, thread_pool* pool,
 	if (A.rank() != B.rank())
 		throw std::runtime_error("join: rank mismatch");
 	long long axis_in;
-	try { axis_in = std::stoll(argv[4]); } catch (...) { throw std::runtime_error("join: axis must be an integer"); }
+	try { axis_in = strict_integer(argv[4]); } catch (...) { throw std::runtime_error("join: axis must be an integer"); }
 	long long rank = (long long)A.rank();
 	long long ax = axis_in > 0 ? axis_in - 1 : rank + axis_in;  // 1-based; negative counts from the end
 	if (ax < 0 || ax >= rank)
@@ -401,7 +407,7 @@ static int run_assemble(int argc, char* argv[], const field_t& F, thread_pool* p
 		if (group_tokens.size() != elem_args.size())
 			throw std::runtime_error("assemble: --groups must give one group index per element");
 		for (auto& t : group_tokens) {
-			try { group_of.push_back(std::stoll(t)); } catch (...) { throw std::runtime_error("assemble: invalid group index '" + t + "'"); }
+			try { group_of.push_back(strict_integer(t)); } catch (...) { throw std::runtime_error("assemble: invalid group index '" + t + "'"); }
 			if (group_of.back() < 1) throw std::runtime_error("assemble: group indices are 1-based positive integers");
 		}
 	}
@@ -426,7 +432,7 @@ static int run_assemble(int argc, char* argv[], const field_t& F, thread_pool* p
 			digits = 0;
 			while (i < t.size() && std::isdigit((unsigned char)t[i])) { i++; digits++; }
 			ok = digits > 0;
-			if (ok) zero_denominator = std::stoll(t.substr(den_start)) == 0;
+			if (ok) zero_denominator = t.substr(den_start).find_first_not_of("0") == std::string::npos;
 		}
 		if (!ok || i != t.size() || zero_denominator)
 			throw std::runtime_error("assemble: invalid rational coefficient '" + t + "' (examples: 1, -2, 1/2)");
@@ -571,11 +577,21 @@ static sparse_mat<scalar_t, index_t> sym_impose_derive(
 			aug[n].push_back(a + TpT[n](j), TpT[n][j]);
 		aug[n].canonicalize();
 	}
-	auto pivots = sparse_mat_rref_reconstruct(aug, opt);
-	for (auto& pv : pivots) for (auto& p : pv)
-		if (p.c >= a)
+	// [T^T | T'^T] solves for the induced map. SparseRREF chooses sparse
+	// pivots in a free column order; an appended-column pivot is not a
+	// consistency witness. Restrict pivots to the unknowns, as its inverse
+	// routine does, and check the reduced residual rows instead.
+	auto old_weight = opt->col_weight;
+	opt->col_weight = [old_weight, a](int64_t c) { return c < a ? old_weight(c) : -1; };
+	std::vector<std::vector<pivot_t<index_t>>> pivots;
+	try { pivots = sparse_mat_rref_reconstruct(aug, opt); }
+	catch (...) { opt->col_weight = old_weight; throw; }
+	opt->col_weight = old_weight;
+	for (index_t r = 0; r < aug.nrow; ++r)
+		if (aug[r].nnz() && aug[r](0) >= a)
 			throw std::runtime_error("no transformation matrix R satisfies R.T = T' — "
 			                         "the symmetry does not act on the tensor's first axis space");
+
 	sparse_mat<scalar_t, index_t> Rt(a, a);
 	for (auto& pv : pivots) for (auto& p : pv) {
 		if (p.c >= a) continue;
@@ -591,6 +607,7 @@ static sparse_mat<scalar_t, index_t> sym_impose_derive(
 static int run_symsolve(int argc, char* argv[], const field_t& F, rref_option_t& opt, thread_pool* pool, const std::filesystem::path& base) {
 	if (argc != 6) throw std::runtime_error("usage: tensor_ops symsolve <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc, 'I' = identity of the matching axis)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	if (T.rank() != 3) throw std::runtime_error("symmetry operations require a rank-3 tensor");
 	std::string sb_arg = argv[3];
 	sparse_mat<scalar_t, index_t> Sb((index_t)T.dim(1), (index_t)T.dim(1));
 	if (sb_arg == "I") { for (index_t i = 0; i < Sb.nrow; i++) Sb[i].push_back(i, (scalar_t)1); }
@@ -600,6 +617,14 @@ static int run_symsolve(int argc, char* argv[], const field_t& F, rref_option_t&
 	if (sc_arg == "-") Sc = Sb;
 	else if (sc_arg == "I") { Sc = sparse_mat<scalar_t, index_t>((index_t)T.dim(2), (index_t)T.dim(2)); for (index_t i = 0; i < Sc.nrow; i++) Sc[i].push_back(i, (scalar_t)1); }
 	else Sc = sparse_mat_read_wxf<scalar_t, index_t>(base / sc_arg, F);
+	if (T.rank() != 3 || Sb.nrow != Sb.ncol || Sc.nrow != Sc.ncol ||
+	    Sb.nrow != (index_t)T.dim(1) || Sc.nrow != (index_t)T.dim(2))
+		throw std::runtime_error("symsolve: require a rank-3 tensor and square maps matching its letter axes");
+	auto write_empty = [&] {
+		write_u8(base / argv[5], write_empty_sparse_tensor_wxf({0, (int64_t)T.dim(1), (int64_t)T.dim(2)}));
+		std::cout << "symsolve: empty invariant space, dims 0 " << T.dim(1) << " " << T.dim(2) << std::endl;
+	};
+	if (T.dim(0) == 0) { write_empty(); return 0; }
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Tcoo(T);
 	auto Rt = sym_impose_derive(Tcoo, Sb, Sc, F, opt, pool);  // holds R^T
 
@@ -615,7 +640,7 @@ static int run_symsolve(int argc, char* argv[], const field_t& F, rref_option_t&
 	auto piv2 = sparse_mat_rref_reconstruct(RtI, opt);
 	auto Kcols = sparse_mat_rref_kernel(RtI, piv2, F, opt);
 	auto K = Kcols.transpose();  // e x a
-	if (K.nrow == 0) K = sparse_mat<scalar_t, index_t>(a, 0);
+	if (K.nrow == 0) { write_empty(); return 0; }
 	std::cout << "symsolve: derived R (" << a << "x" << a << "), invariant space " << K.nrow
 	          << " x " << K.ncol << ", nnz " << K.nnz() << std::endl;
 
@@ -652,6 +677,7 @@ static int run_transpose(int argc, char* argv[], const field_t& F, thread_pool* 
 static int run_symderive(int argc, char* argv[], const field_t& F, rref_option_t& opt, thread_pool* pool, const std::filesystem::path& base) {
 	if (argc != 6) throw std::runtime_error("usage: tensor_ops symderive <tensor.wxf> <Sb.wxf> <Sc.wxf> <out.wxf> ('-' reuses Sb for Sc, 'I' = identity of the matching axis)");
 	auto T = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
+	if (T.rank() != 3) throw std::runtime_error("symmetry operations require a rank-3 tensor");
 	std::string sb_arg = argv[3];
 	sparse_mat<scalar_t, index_t> Sb((index_t)T.dim(1), (index_t)T.dim(1));
 	if (sb_arg == "I") { for (index_t i = 0; i < Sb.nrow; i++) Sb[i].push_back(i, (scalar_t)1); }
@@ -724,6 +750,7 @@ static int run_shuf(int argc, char* argv[], const field_t& F, thread_pool* pool,
 	(void)pool;
 	auto A = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[2], F, pool);
 	auto B = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[3], F, pool);
+	validate_rational(argv[4]);
 	rat_t w(argv[4]);
 	sparse_tensor<scalar_t, index_t, SPARSE_COO> Acoo(A), Bcoo(B);
 	auto out = tensor_shuffle_product_parallel(Acoo, Bcoo, F, nullptr);
@@ -813,7 +840,7 @@ static int run_tdot(int argc, char* argv[], const field_t& F, thread_pool* pool,
 	auto B = sparse_tensor_read_wxf<scalar_t, index_t>(base / argv[3], F, pool);
 	auto axis_of = [](const std::string& s, long long rank, const char* who) -> long long {
 		long long v;
-		try { v = std::stoll(s); } catch (...) { throw std::runtime_error(std::string("tdot: axis of ") + who + " must be an integer"); }
+		try { v = strict_integer(s); } catch (...) { throw std::runtime_error(std::string("tdot: axis of ") + who + " must be an integer"); }
 		long long ax = v > 0 ? v - 1 : rank + v;
 		if (ax < 0 || ax >= rank)
 			throw std::runtime_error(std::string("tdot: axis of ") + who + " out of range for rank " + std::to_string(rank));
@@ -854,7 +881,7 @@ int main(int argc, char* argv[]) {
 		rref_option_t opt;
 		opt->pool.reset(n_of_threads);
 		thread_pool* pool = &(opt->pool);
-		std::filesystem::path base = std::filesystem::path(argv[0]).parent_path();
+		std::filesystem::path base = native_cache::executable_path(argv[0]).parent_path();
 
 		std::string mode = argv[1];
 		auto start = std::chrono::steady_clock::now();

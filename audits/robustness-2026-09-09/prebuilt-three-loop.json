@@ -1,0 +1,66 @@
+{
+  "rc": 0,
+  "precondition": "FEC_2 through FEC_5 explicitly built in order",
+  "outputs": [
+    {
+      "file": "output/2loop/E2.wxf",
+      "actual": "b3ce6c41",
+      "expected": "b3ce6c41",
+      "pass": true
+    },
+    {
+      "file": "output/2loop/R2.wxf",
+      "actual": "8f56256b",
+      "expected": "8f56256b",
+      "pass": true
+    },
+    {
+      "file": "output/2loop/boundary_2L.wxf",
+      "actual": "453048cb",
+      "expected": "453048cb",
+      "pass": true
+    },
+    {
+      "file": "output/2loop/hepMHV_2L.wxf",
+      "actual": "771ead2b",
+      "expected": "771ead2b",
+      "pass": true
+    },
+    {
+      "file": "output/2loop/solMHV_2L.wxf",
+      "actual": "4dc0cf4e",
+      "expected": "4dc0cf4e",
+      "pass": true
+    },
+    {
+      "file": "output/3loop/boundary_3L.wxf",
+      "actual": "dc117613",
+      "expected": "dc117613",
+      "pass": true
+    },
+    {
+      "file": "output/3loop/hepMHV_3L.wxf",
+      "actual": "312a3106",
+      "expected": "312a3106",
+      "pass": true
+    },
+    {
+      "file": "output/3loop/E3.wxf",
+      "actual": "b081a89d",
+      "expected": "b081a89d",
+      "pass": true
+    },
+    {
+      "file": "output/3loop/R3.wxf",
+      "actual": "d79564b7",
+      "expected": "d79564b7",
+      "pass": true
+    },
+    {
+      "file": "output/3loop/solMHV_3L.wxf",
+      "actual": "fadd9cec",
+      "expected": "fadd9cec",
+      "pass": true
+    }
+  ]
+}

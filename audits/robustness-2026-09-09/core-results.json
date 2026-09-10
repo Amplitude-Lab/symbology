@@ -1,0 +1,483 @@
+{
+  "work": "/tmp/symbology-cpp-audit.3hmza_cm",
+  "records": [
+    {
+      "name": "read bundled FEC_1.wxf",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0301,
+      "stdout": "rank 3 7 1 42 nnz 7\n** tensor_ops dims finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "read bundled dlogmat_pentagon.wxf",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0152,
+      "stdout": "rank 3 31 31 361 nnz 1754\n** tensor_ops dims finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "read bundled dlogmat_full_4pformfactor.wxf",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0344,
+      "stdout": "rank 3 93 93 3786 nnz 22104\n** tensor_ops dims finished in 28 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power 0",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0088,
+      "stdout": "power: 2x2 matrix to power 0, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/power0.wxf\n** tensor_ops power finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power exact values 0",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0057,
+      "stdout": "DIMS 2 2\nENTRY 0 0 = 1\nENTRY 1 1 = 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power 2",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0146,
+      "stdout": "power: 2x2 matrix to power 2, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/power2.wxf\n** tensor_ops power finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power exact values 2",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0081,
+      "stdout": "DIMS 2 2\nENTRY 0 0 = 1\nENTRY 1 1 = 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power 17",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0084,
+      "stdout": "power: 2x2 matrix to power 17, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/power17.wxf\n** tensor_ops power finished in 1 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "matrix power exact values 17",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0057,
+      "stdout": "DIMS 2 2\nENTRY 0 1 = 1\nENTRY 1 0 = 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject invalid power -1",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0133,
+      "stdout": "",
+      "stderr": "Error: power: negative powers (matrix inverse) are not supported\n"
+    },
+    {
+      "name": "reject invalid power 2junk",
+      "pass_": false,
+      "rc": 0,
+      "seconds": 0.0095,
+      "stdout": "power: 2x2 matrix to power 2junk, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/bad-power.wxf\n** tensor_ops power finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject invalid power 1.5",
+      "pass_": false,
+      "rc": 0,
+      "seconds": 0.0078,
+      "stdout": "power: 2x2 matrix to power 1.5, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/bad-power.wxf\n** tensor_ops power finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject invalid power 999999999999999999999999999",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0208,
+      "stdout": "",
+      "stderr": "Error: power: n must be a non-negative integer\n"
+    },
+    {
+      "name": "reject nonsquare power",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0101,
+      "stdout": "",
+      "stderr": "Error: power: the matrix must be square\n"
+    },
+    {
+      "name": "reject missing input",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0061,
+      "stdout": "",
+      "stderr": "Error: filesystem error: cannot get file size: No such file or directory [/tmp/symbology-cpp-audit.3hmza_cm/fixtures/missing.wxf]\n"
+    },
+    {
+      "name": "reject missing output directory",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0077,
+      "stdout": "",
+      "stderr": "Error: failed to write output file '/tmp/symbology-cpp-audit.3hmza_cm/out/missing/out.wxf' (115 bytes; check the parent directory exists and the disk is not full)\n"
+    },
+    {
+      "name": "reject full output device",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0092,
+      "stdout": "",
+      "stderr": "Error: failed to write output file '/dev/full' (115 bytes; check the parent directory exists and the disk is not full)\n"
+    },
+    {
+      "name": "ternary identity",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0115,
+      "stdout": "ternary: dims 2 2 2, nnz 2 -> /tmp/symbology-cpp-audit.3hmza_cm/out/ternary.wxf\n** tensor_ops ternary finished in 0 ms **\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject contraction dimension mismatch",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0127,
+      "stdout": "",
+      "stderr": "Error: tdot: dimension mismatch \u2014 A.dim(axis 1) = 2 != B.dim(axis 2) = 3\n"
+    },
+    {
+      "name": "reject invalid dot axis",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0106,
+      "stdout": "",
+      "stderr": "Error: tdot: axis of A out of range for rank 2\n"
+    },
+    {
+      "name": "reject unsupported rank-one squeeze",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.006,
+      "stdout": "",
+      "stderr": "Error: squeeze: removing the size-1 axes must leave at least rank 2\n"
+    },
+    {
+      "name": "zero from exact cancellation",
+      "pass_": true,
+      "rc": 0,
+      "seconds": 0.0094,
+      "stdout": "Weighted tensor addition: 1 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf + -1 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf will be stored in /tmp/symbology-cpp-audit.3hmza_cm/out/zero.wxf\nTask begin at: Wed Sep  9 11:05:05 2026\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf ...\ndims: 2 2 \nnnz: 2 alloc: 2\n\ndims: 2 2 \nnnz: 2 alloc: 2\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf finished\n\n** weighted tensor addition finished in: 0 ms **\ndims: 2 2 \nnnz: 0 alloc: 0\n\nWriting results to /tmp/symbology-cpp-audit.3hmza_cm/out/zero.wxf ...\n--- Writing finished in: 0 ms ---\nTask end at: Wed Sep  9 11:05:05 2026\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject zero denominator",
+      "pass_": false,
+      "rc": 0,
+      "seconds": 0.0063,
+      "stdout": "Weighted tensor addition: 1/0 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf + 1 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf will be stored in /tmp/symbology-cpp-audit.3hmza_cm/out/bad-fraction.wxf\nTask begin at: Wed Sep  9 11:05:05 2026\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf ...\ndims: 2 2 \nnnz: 2 alloc: 2\n\ndims: 2 2 \nnnz: 2 alloc: 2\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf finished\n\n** weighted tensor addition finished in: 0 ms **\ndims: 2 2 \nnnz: 2 alloc: 2\n\nWriting results to /tmp/symbology-cpp-audit.3hmza_cm/out/bad-fraction.wxf ...\n--- Writing finished in: 0 ms ---\nTask end at: Wed Sep  9 11:05:05 2026\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject malformed rational",
+      "pass_": false,
+      "rc": 0,
+      "seconds": 0.0092,
+      "stdout": "Weighted tensor addition: 0 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf + 1 * /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf will be stored in /tmp/symbology-cpp-audit.3hmza_cm/out/bad-fraction.wxf\nTask begin at: Wed Sep  9 11:05:05 2026\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf ...\ndims: 2 2 \nnnz: 2 alloc: 2\n\ndims: 2 2 \nnnz: 2 alloc: 2\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf and /tmp/symbology-cpp-audit.3hmza_cm/fixtures/swap.wxf finished\n\n** weighted tensor addition finished in: 0 ms **\ndims: 2 2 \nnnz: 2 alloc: 2\n\nWriting results to /tmp/symbology-cpp-audit.3hmza_cm/out/bad-fraction.wxf ...\n--- Writing finished in: 0 ms ---\nTask end at: Wed Sep  9 11:05:05 2026\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "reject malformed WXF 0",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0504,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 1",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0501,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "reject malformed WXF 2",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0556,
+      "stdout": "",
+      "stderr": "Error: sparse_tensor_read: not a SparseArray\n"
+    },
+    {
+      "name": "reject malformed WXF 3",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0511,
+      "stdout": "",
+      "stderr": "Error: sparse_tensor_read: wrong format in SparseArray\n"
+    },
+    {
+      "name": "reject malformed WXF 4",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0528,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 5",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0523,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 6",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0545,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 7",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0511,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 8",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0547,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 9",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0553,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 10",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0537,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 11",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0555,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 12",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0541,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 13",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0584,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 14",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0529,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 15",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0566,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "reject malformed WXF 16",
+      "pass_": false,
+      "rc": -11,
+      "seconds": 0.0604,
+      "stdout": "",
+      "stderr": "Invalid WXF file\n"
+    },
+    {
+      "name": "inconsistent solve returns nonzero",
+      "pass_": true,
+      "rc": 1,
+      "seconds": 0.0185,
+      "stdout": "threads: 20\nTask begin at: 2026-09-09 11:05:06.903120269 -0700\n========================================\nNon-homogeneous constraint solver (multi-pair)\n   Pairs: 0\n   Condition files: 1\n   Expansion bases: 0 files\n   Export conditions: yes\n   Solver: incremental\n========================================\n---- Condition file: inconsistent.wxf ----\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fixtures/inconsistent.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fixtures/inconsistent.wxf : e3ee27fe\n   Ingested 2 rows (2x3 [M | r])\n== Stacked system: 1 rows x 2 unknowns ==\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/cond_bad.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/cond_bad.wxf : c394a1e\n   Wrote /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/cond_bad.wxf\n   System is INCONSISTENT: 1 positions where boundary != 0 but A = 0.\n========================================\nNo solution (system inconsistent)\n========================================\n",
+      "stderr": "Error: solve-collinear (multi-pair): the stacked constraint system is INCONSISTENT \u2014 1 position(s) have rhs != 0 but A = 0, so no coefficient vector c exists (no solution written)\nUsage:\n  /home/ana/Documents/symbology/bootstrap --extend -c <condition.wxf> -f <FEC_in.wxf> -o <FEC_out.wxf>\n  /home/ana/Documents/symbology/bootstrap --extend -c <condition.wxf> -l <LEC_in.wxf> -o <LEC_out.wxf>\n  /home/ana/Documents/symbology/bootstrap --sew -c <condition.wxf> -f <FEC.wxf> -l <LEC.wxf> -o <SEW.wxf>\n  /home/ana/Documents/symbology/bootstrap --project --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>]\n  /home/ana/Documents/symbology/bootstrap --solve-symmetry --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>] (note: collinear projections are usually non-square and will be rejected by the solver; prefer --solve-collinear)\n  /home/ana/Documents/symbology/bootstrap --solve-collinear (--target <SEW_FpL|FEC_W> | --target-basis <seed.wxf> --projection none) --rhs <rhs.wxf|0> --projection <finite|divergent|none> --letter-projection <file|identity|divergent|finite> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]\n  /home/ana/Documents/symbology/bootstrap --solve-collinear (--pair <seed.wxf> <rhs.wxf|0> <letter|identity|divergent|finite>)... [--pair-cond <cond.wxf>]... [--export-conditions] [--out-stem <name>] [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--output-dir <dir>] (multi-pair: each pair contributes its own non-homogeneous constraints; all rows are solved together)\n\n  --data-dir defaults to <exec_dir>/data; --output-dir defaults to <exec_dir>/output. --data-dir also locates colprojdiv.wxf for the divergent/finite letter filters.\n  --extend / --sew ignore --data-dir / --output-dir (use explicit -c/-f/-l/-o paths).\n"
+    },
+    {
+      "name": "condition export preserves inconsistency",
+      "pass_": false,
+      "rc": 0,
+      "seconds": 0.0228,
+      "stdout": "threads: 20\nTask begin at: 2026-09-09 11:05:06.918415249 -0700\n========================================\nNon-homogeneous constraint solver (multi-pair)\n   Pairs: 0\n   Condition files: 1\n   Expansion bases: 0 files\n   Export conditions: no\n   Solver: incremental\n========================================\n---- Condition file: cond_bad.wxf ----\nReading file /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/cond_bad.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/cond_bad.wxf : c394a1e\n   Ingested 1 rows (1x3 [M | r])\n== Stacked system: 1 rows x 2 unknowns ==\n-- Incremental linear solve --\n   Unknowns: 2\n   Constraints: 1\n   Non-trivial constraints: 1\n   Round 1: rank = 1/2, substitution sweep over 0 constraints -> 0 need further reduction\n   Incremental elimination time: 0 ms\n   Underdetermined: completing rank / null space via full RREF...\n-- Col: 1/2  rank: 1  nnz:  1  density:       50%    \n-- Col: 1/2  rank: 1  nnz:  1  density:       50%    \n** Rank: 1 nnz: 1\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   Full-system rank: 1 / 2\n   Rank: 1 / 2\n   Solution (particular, system underdetermined):\n      c[0] = 2\n   Null space: 1x2\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/sol_roundtrip.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/sol_roundtrip.wxf : e73b56ae\n   Wrote /tmp/symbology-cpp-audit.3hmza_cm/out/collinear/sol_roundtrip.wxf\n========================================\nSolution\n   Particular solution (system underdetermined):\n   Null space dimension: 1\n      c[0] = 2\n========================================\nTask end at: 2026-09-09 11:05:06.922579857 -0700\nDone in 4 ms\n\n",
+      "stderr": ""
+    },
+    {
+      "name": "resume from two loops to three loops",
+      "pass_": false,
+      "rc": 1,
+      "seconds": 0.2286,
+      "stdout": "========================================\nCompute RHS (collinear boundary)\n   Target: SEW_5p1 (loop order L=3)\n   Data dir: /home/ana/Documents/symbology/data\n   Output dir: /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output\n   Letter projection: /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/colprojdiv_w1.wxf\n========================================\nthreads: 20\nTask begin at: 2026-09-09 11:05:07.197333197 -0700\n========================================\nCompute RHS for L=3 (SEW_5p1)\n========================================\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/oneloop/E1.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/oneloop/E1.wxf : eb3d1631\nE1: rank=2 dims=11x11 nnz=5\nL=2: E2 and R2 already exist, loading.\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/2loop/E2.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/2loop/E2.wxf : b3ce6c41\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/2loop/R2.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/2loop/R2.wxf : 8f56256b\n== Computing boundary for L=3 (master-equation recursion) ==\n   term k=1: (1/3) * R_1 shuffle E_2 nnz=6329\n   term k=2: (2/3) * R_2 shuffle E_1 nnz=6222\n   boundary_L = (1/3) * sum_k k*(R_k shuffle E_{L-k}): nnz=5894\n   Wrote boundary_3L.wxf\n== Ensuring SEW basis ==\n   SEW collinear basis not found, generating pipeline...\n   Generating FEC_4 via bootstrap --extend...\n   [bootstrap] '/home/ana/Documents/symbology/bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/data/FEC_1.wxf' -o '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output'\nthreads: 20\nTask begin at: 2026-09-09 11:05:07.210304882 -0700\nReading file /home/ana/Documents/symbology/data/dlogmat_E6.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/dlogmat_E6.wxf : a54c74be\nSymbol bootstrap: /home/ana/Documents/symbology/data/FEC_1.wxf -> /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf @ /home/ana/Documents/symbology/data/dlogmat_E6.wxf\nReading file /home/ana/Documents/symbology/data/FEC_1.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/FEC_1.wxf : 265cae6a\n--- FEC ---\nrank: 3\ndims: 7 1 42 \nnnz: 7\nalloc: 7\n--- dlogmat ---\nrank: 3\ndims: 42 42 1191 \nnnz: 5450\nalloc: 5450\n--- tmp ---\nrank: 2\ndims: 1191 294 \nnnz: 329\nalloc: 638\n--- FEC.dlogmat ---\nrank: 2\ndims: 1191 294 \nnnz: 329\nalloc: 329\n** FEC.dlogmat time: 0 ms\n-- Col: 217/294  rank: 217  nnz:  329  density: 0.0939587%    \n-- Col: 217/294  rank: 217  nnz:  329  density: 0.0939587%    \n** Rank: 266 nnz: 329\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n--- FEC.dlogmat RREF ---\nrank: 2\ndims: 1191 294 \nnnz: 329\nalloc: 329\n** RREF time: 1 ms\n-- Post-processing (cancel common divisor and sort) ...\n** Post-process time: 0 ms\n--- kernel ---\nrank: 3\ndims: 28 7 42 \nnnz: 91\nalloc: 91\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf : 49d4359a\nTask end at: 2026-09-09 11:05:07.223649069 -0700\nDone in 13 ms\n\n   Generating FEC_5 via bootstrap --extend...\n   [bootstrap] '/home/ana/Documents/symbology/bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf' -o '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output'\nthreads: 20\nTask begin at: 2026-09-09 11:05:07.230295309 -0700\nReading file /home/ana/Documents/symbology/data/dlogmat_E6.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/dlogmat_E6.wxf : a54c74be\nSymbol bootstrap: /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf -> /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf @ /home/ana/Documents/symbology/data/dlogmat_E6.wxf\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf : 49d4359a\n--- FEC ---\nrank: 3\ndims: 28 7 42 \nnnz: 91\nalloc: 91\n--- dlogmat ---\nrank: 3\ndims: 42 42 1191 \nnnz: 5450\nalloc: 5450\n--- tmp ---\nrank: 2\ndims: 8337 1176 \nnnz: 9266\nalloc: 9266\n--- FEC.dlogmat ---\nrank: 2\ndims: 8337 1176 \nnnz: 9266\nalloc: 9266\n** FEC.dlogmat time: 2 ms\n-- Col:  805/1176  rank:  805  nnz:  5608  density: 0.0571993%    \n-- Col:  833/1176  rank:  833  nnz:  5556  density: 0.0566689%    \n-- Col:  833/1176  rank:  833  nnz:  5556  density: 0.0566689%    \n-- Col: 1048/1176  rank: 1058  nnz:  4646  alloc:  8830  density: 0.0473873%  speed: 5.11281e+06 col/s    \n-- Col: 1075/1176  rank: 1079  nnz:  2848  alloc:  8367  density: 0.0290484%  speed:   240372 col/s    \n** Rank: 1079 nnz: 2515\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n--- FEC.dlogmat RREF ---\nrank: 2\ndims: 8337 1176 \nnnz: 2570\nalloc: 9718\n** RREF time: 5 ms\n-- Post-processing (cancel common divisor and sort) ...\n** Post-process time: 0 ms\n--- kernel ---\nrank: 3\ndims: 97 28 42 \nnnz: 1588\nalloc: 1588\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf : 75cdcc6e\nTask end at: 2026-09-09 11:05:07.249417675 -0700\nDone in 19 ms\n\n   Generating SEW tensor via bootstrap --sew...\n   [bootstrap] '/home/ana/Documents/symbology/bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/SEW_5p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output'\nthreads: 20\nTask begin at: 2026-09-09 11:05:07.261125514 -0700\nReading file /home/ana/Documents/symbology/data/dlogmat_E6.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/dlogmat_E6.wxf : a54c74be\nSymbol bootstrap: /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf + /home/ana/Documents/symbology/data/LEC_1.wxf -> /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/SEW_5p1.wxf @ /home/ana/Documents/symbology/data/dlogmat_E6.wxf\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_5.wxf : 75cdcc6e\nReading file /home/ana/Documents/symbology/data/LEC_1.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/LEC_1.wxf : 3d6aa59f\n--- FEC ---\nrank: 3\ndims: 97 28 42 \nnnz: 1588\nalloc: 1588\n--- LEC ---\nrank: 3\ndims: 14 42 1 \nnnz: 14\nalloc: 14\n--- dlogmat ---\nrank: 3\ndims: 42 42 1191 \nnnz: 5450\nalloc: 5450\n-- Computing FEC.dlogmat ...\n-- Converting to matrix ...\n--- FEC.dlogmat ---\nrank: 2\ndims: 33348 4074 \nnnz: 175793\nalloc: 175793\n** FEC.dlogmat time: 16 ms\n-- Computing FEC.dlogmat RREF ...\n-- Col: 2605/4074  rank: 2605  nnz:   76107  density: 0.0560188%    \n-- Col: 2651/4074  rank: 2651  nnz:   73810  density: 0.0543281%    \n-- Col: 2651/4074  rank: 2651  nnz:   73810  density: 0.0543281%    \n-- Col: 3453/4074  rank: 3453  nnz:  53246  alloc: 163825  density: 0.0391919%  speed:   236361 col/s    \n-- Col: 3678/4074  rank: 3678  nnz:  44427  alloc: 137556  density: 0.0327006%  speed:  71383.2 col/s    \n-- Col: 3751/4074  rank: 3751  nnz:  29602  alloc: 121502  density: 0.0217886%  speed:   105187 col/s    \n-- Col: 3766/4074  rank: 3766  nnz:  17036  alloc:  95360  density: 0.0125394%  speed:  41551.2 col/s    \n** Rank: 3766 nnz: 17036\n-- Row:  335/1115  nnz:  17045  density: 0.012546%  speed: 2.52434e+06 row/s    \n\n** Reconstruct success! Using mod ~ 2^61.                \n--- FEC.dlogmat RREF ---\nrank: 2\ndims: 33348 4074 \nnnz: 15544\nalloc: 177928\n** FEC.dlogmat RREF time: 58 ms\n-- Post-processing (cancel common divisor, clear zero and sort) ...\n--- FEC.dlogmat RREF simplified ---\nrank: 2\ndims: 3766 4074 \nnnz: 15544\nalloc: 15544\n** Post-process time: 0 ms\n-- Converting to tensor ...\n-- Computing FEC.dlogmat.LEC ...\n-- Converting to matrix ...\n--- FEC.dlogmat.LEC ---\nrank: 2\ndims: 3766 1358 \nnnz: 6933\nalloc: 6933\n** FEC.dlogmat.LEC time: 3 ms\n-- Computing FEC.dlogmat.LEC RREF ...\n-- Col:  745/1358  rank:  745  nnz:  6587  density: 0.128798%    \n-- Col:  777/1358  rank:  777  nnz:  6480  density: 0.126705%    \n-- Col:  779/1358  rank:  779  nnz:  6449  density: 0.126099%    \n-- Col:  780/1358  rank:  780  nnz:  6449  density: 0.126099%    \n-- Col:  780/1358  rank:  780  nnz:  6449  density: 0.126099%    \n-- Col: 1162/1358  rank: 1282  nnz:  5787  alloc:  6685  density: 0.113155%  speed: 4.80323e+06 col/s    \n-- Col: 1282/1358  rank: 1282  nnz:  5787  alloc:  6685  density: 0.113155%  speed:   747607 col/s    \n-- Col: 1284/1358  rank: 1311  nnz:  5371  alloc:  6465  density: 0.105021%  speed:    14265 col/s    \n-- Col: 1334/1358  rank: 1338  nnz:  4970  alloc:  6093  density: 0.0971799%  speed:   249515 col/s    \n-- Col: 1340/1358  rank: 1350  nnz:  4699  alloc:  5757  density: 0.0918809%  speed:  49421.9 col/s    \n-- Col: 1356/1358  rank: 1356  nnz:  4617  alloc:  5255  density: 0.0902776%  speed:   118634 col/s    \n-- Col: 1356/1358  rank: 1357  nnz:  4577  alloc:  4958  density: 0.0894954%  speed:  16346.2 col/s    \n** Rank: 1357 nnz: 4577\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n--- FEC.dlogmat.LEC RREF ---\nrank: 2\ndims: 3766 1358 \nnnz: 1630\nalloc: 6933\n** FEC.dlogmat.LEC RREF time: 7 ms\n-- Post-processing (cancel common divisor, clear zero and sort) ...\n** Post-process time: 0 ms\n--- kernel ---\nrank: 3\ndims: 1 97 14 \nnnz: 274\nalloc: 274\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/SEW_5p1.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/SEW_5p1.wxf : d863bb74\nTask end at: 2026-09-09 11:05:07.361451045 -0700\nDone in 100 ms\n\n   Running bootstrap --project --symmetry collinear --target SEW_5p1...\n   [bootstrap] '/home/ana/Documents/symbology/bootstrap' --project --symmetry collinear --target SEW_5p1 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output'\nthreads: 20\nTask begin at: 2026-09-09 11:05:07.374365489 -0700\n========================================\nProjection pipeline\n  Symmetry: collinear (is_collinear=1)\n  Target: SEW_5p1 (kind=SEW, FEC weight=5, LEC weight=1)\n  Data dir:   /home/ana/Documents/symbology/data\n  Output dir: /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output\n========================================\nReading file /home/ana/Documents/symbology/data/colmat42.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/colmat42.wxf : 832ccec9\n--- Seed map ---\nrank: 2\ndims: 42 11 \nnnz: 180\nalloc: 180\n\n=== Weight 1 (seed level) ===\nReading file /home/ana/Documents/symbology/data/FEC_1.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/FEC_1.wxf : 265cae6a\nReading file /home/ana/Documents/symbology/data/LEC_1.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/LEC_1.wxf : 3d6aa59f\n\n--- Computing first@w1 ---\nReading file /home/ana/Documents/symbology/data/colmat42.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/colmat42.wxf : 832ccec9\n-- Weight-1 projection --\n   Seed reshaped: 7x42\n   Map42: 42x11\n   Collinear w1 result: 7x11\n--- first@w1 result ---\nrank: 2\ndims: 7 11 \nnnz: 22\nalloc: 38\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w1.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w1.wxf : f7c90d78\n\n--- Computing last@w1 ---\n-- Weight-1 projection --\n   Seed reshaped: 14x42\n   Map42: 42x11\n   Collinear w1 result: 14x11\n--- last@w1 result ---\nrank: 2\ndims: 14 11 \nnnz: 60\nalloc: 78\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/last_w1.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/last_w1.wxf : 14828cab\n\n=== FEC weight 2 ===\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_2.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_2.wxf : 49d4359a\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w1.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w1.wxf : f7c90d78\nReading file /home/ana/Documents/symbology/data/colmat42.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/colmat42.wxf : 832ccec9\n-- Stage 1 projection --\n   T dims: 28x7x42\n-- Ternary contraction --\n   A dims: 28x7x42\n   B dims: 7x11\n   C dims: 42x11\n   Result dims: 28x11x11, nnz: 489 (3 ms)\n-- Col:   1/121  rank:   1  nnz:  475  density:  14.0201%    \n-- Col:   1/121  rank:   1  nnz:  475  density:  14.0201%    \n-- Col:  16/121  rank:  16  nnz:  302  alloc:  483  density:  8.91381%  speed:   101911 col/s    \n-- Col:  19/121  rank:  22  nnz:  294  alloc:  377  density:  8.67769%  speed:  83720.9 col/s    \n** Rank: 25 nnz: 294\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   RREF basis: 25x121 (degenerate from 28)\n   Basis tensor: 25x11x11\n   Joining [D | D1] and extracting kernel...\n-- Col:  0/53  rank:  0  nnz:  691  density:   10.775%    \n-- Col: 25/53  rank: 25  nnz:  150  alloc:  691  density:    2.339%  speed:   203252 col/s    \n** Rank: 25 nnz: 150\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   Kernel: 28x53 (2 ms)\n   Kernel before extraction: 28x53\n-- Col:  0/53  rank:  0  nnz:  153  density:    10.31%    \n** Rank: 28 nnz: 153\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   Transformation matrix: 28x25\n--- first@w2 ---\nrank: 2\ndims: 28 25 \nnnz: 125\nalloc: 125\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2.wxf : 30c8a6de\n--- first@w2 basis ---\nrank: 3\ndims: 25 11 11 \nnnz: 202\nalloc: 202\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2_basis.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2_basis.wxf : a3306f5d\n\n=== FEC weight 3 ===\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_3.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_3.wxf : 75cdcc6e\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w2.wxf : 30c8a6de\nReading file /home/ana/Documents/symbology/data/colmat42.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/colmat42.wxf : 832ccec9\n-- Stage 1 projection --\n   T dims: 97x28x42\n-- Ternary contraction --\n   A dims: 97x28x42\n   B dims: 28x25\n   C dims: 42x11\n   Result dims: 97x25x11, nnz: 4326 (1 ms)\n-- Col:   1/275  rank:   1  nnz:  4273  density:  16.0187%    \n-- Col:   1/275  rank:   1  nnz:  4273  density:  16.0187%    \n-- Col:  27/275  rank:  35  nnz:  3335  alloc:  4358  density:  12.5023%  speed:   185868 col/s    \n-- Col:  50/275  rank:  52  nnz:  2944  alloc:  4000  density:  11.0366%  speed:   116414 col/s    \n-- Col:  62/275  rank:  63  nnz:  2456  alloc:  3721  density:  9.20712%  speed:  78125.5 col/s    \n-- Col:  73/275  rank:  74  nnz:  2095  alloc:  3258  density:   7.8538%  speed:  26132.8 col/s    \n-- Col:  75/275  rank:  76  nnz:  2080  alloc:  2319  density:  7.79756%  speed:  1296.08 col/s    \n** Rank: 76 nnz: 2065\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   RREF basis: 76x275 (degenerate from 97)\n   Basis tensor: 76x25x11\n   Joining [D | D1] and extracting kernel...\n-- Col:   0/173  rank:   0  nnz:  5504  density:  11.5691%    \n-- Col:  53/173  rank:  76  nnz:  2176  alloc:  5504  density:  4.57383%  speed:   395707 col/s    \n** Rank: 76 nnz: 1266\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   Kernel: 97x173 (1 ms)\n   Kernel before extraction: 97x173\n-- Col:   0/173  rank:   0  nnz:  1283  density:  7.64555%    \n** Rank: 97 nnz: 1283\n\n\n** Reconstruct success! Using mod ~ 2^61.                \n   Transformation matrix: 97x76\n--- first@w3 ---\nrank: 2\ndims: 97 76 \nnnz: 1197\nalloc: 1197\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3.wxf : 50a03ca6\n--- first@w3 basis ---\nrank: 3\ndims: 76 25 11 \nnnz: 1178\nalloc: 1178\nWriting file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3_basis.wxf ...\n** Write time: 0 ms\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3_basis.wxf : ddfa4920\n\n=== FEC weight 4 ===\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/FEC_4.wxf : 49d4359a\nReading file /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3.wxf ...\nCRC32 of /tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output/collinear/first_w3.wxf : 50a03ca6\nReading file /home/ana/Documents/symbology/data/colmat42.wxf ...\nCRC32 of /home/ana/Documents/symbology/data/colmat42.wxf : 832ccec9\n-- Stage 1 projection --\n   T dims: 28x7x42\n-- Ternary contraction --\n   A dims: 28x7x42\n   B dims: 97x76\n   C dims: 42x11\n",
+      "stderr": "Error: tensor_contract: dimension mismatch \u2014 A axis 1 has dim 7 but B axis 0 has dim 97\nUsage:\n  /home/ana/Documents/symbology/bootstrap --extend -c <condition.wxf> -f <FEC_in.wxf> -o <FEC_out.wxf>\n  /home/ana/Documents/symbology/bootstrap --extend -c <condition.wxf> -l <LEC_in.wxf> -o <LEC_out.wxf>\n  /home/ana/Documents/symbology/bootstrap --sew -c <condition.wxf> -f <FEC.wxf> -l <LEC.wxf> -o <SEW.wxf>\n  /home/ana/Documents/symbology/bootstrap --project --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>]\n  /home/ana/Documents/symbology/bootstrap --solve-symmetry --symmetry <collinear|cyclic|flip|parity> --target <SEW_FpL|FEC_W|LEC_W> [--data-dir <dir>] [--output-dir <dir>] (note: collinear projections are usually non-square and will be rejected by the solver; prefer --solve-collinear)\n  /home/ana/Documents/symbology/bootstrap --solve-collinear (--target <SEW_FpL|FEC_W> | --target-basis <seed.wxf> --projection none) --rhs <rhs.wxf|0> --projection <finite|divergent|none> --letter-projection <file|identity|divergent|finite> [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--data-dir <dir>] [--output-dir <dir>]\n  /home/ana/Documents/symbology/bootstrap --solve-collinear (--pair <seed.wxf> <rhs.wxf|0> <letter|identity|divergent|finite>)... [--pair-cond <cond.wxf>]... [--export-conditions] [--out-stem <name>] [--basis <basis.wxf> ...] [--solver <incremental|sampled>] [--output-dir <dir>] (multi-pair: each pair contributes its own non-homogeneous constraints; all rows are solved together)\n\n  --data-dir defaults to <exec_dir>/data; --output-dir defaults to <exec_dir>/output. --data-dir also locates colprojdiv.wxf for the divergent/finite letter filters.\n  --extend / --sew ignore --data-dir / --output-dir (use explicit -c/-f/-l/-o paths).\nError: bootstrap command failed (code 256): '/home/ana/Documents/symbology/bootstrap' --project --symmetry collinear --target SEW_5p1 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/tmp/symbology-cpp-audit.3hmza_cm/fresh 0/output'\nUsage:\n  /home/ana/Documents/symbology/compute_rhs --target <SEW_FpL> --letter-projection <file|identity|divergent|finite> [--data-dir <dir>] [--output-dir <dir>]\n\nOptions:\n  --target <SEW_FpL>            Target SEW name (e.g. SEW_3p1 for 2-loop, SEW_5p1 for 3-loop)\n  --letter-projection <file|identity|divergent|finite>\n                               Letter-slot projection matrix (e.g. output/collinear/colprojdiv_w1.wxf)\n                               Use 'identity' to skip projection (solve in full letter space)\n                               Use 'divergent'/'finite' for letter support filters: keep entries with\n                               any divergent letter / all letters finite (divergent letters = nonzero\n                               rows of <data-dir>/colprojdiv.wxf)\n  --data-dir <dir>             Data directory with seed files (default: <exec_dir>/data)\n  --output-dir <dir>           Output directory (default: <exec_dir>/output)\n  -h, --help                   Show this help message\n"
+    },
+    {
+      "name": "10 fresh two-loop runs match all 5 baseline files",
+      "pass_": true,
+      "repeats": [
+        {
+          "repeat": 0,
+          "pass": true,
+          "seconds": 0.2561,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 1,
+          "pass": true,
+          "seconds": 0.2698,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 2,
+          "pass": true,
+          "seconds": 0.2675,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 3,
+          "pass": true,
+          "seconds": 0.2676,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 4,
+          "pass": true,
+          "seconds": 0.3029,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 5,
+          "pass": true,
+          "seconds": 0.3263,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 6,
+          "pass": true,
+          "seconds": 0.2828,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 7,
+          "pass": true,
+          "seconds": 0.2712,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 8,
+          "pass": true,
+          "seconds": 0.2171,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        },
+        {
+          "repeat": 9,
+          "pass": true,
+          "seconds": 0.2888,
+          "crc32": {
+            "output/2loop/E2.wxf": "b3ce6c41",
+            "output/2loop/R2.wxf": "8f56256b",
+            "output/2loop/boundary_2L.wxf": "453048cb",
+            "output/2loop/hepMHV_2L.wxf": "771ead2b",
+            "output/2loop/solMHV_2L.wxf": "4dc0cf4e"
+          }
+        }
+      ]
+    }
+  ]
+}

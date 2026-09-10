@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import shutil
 import uuid
+from pathlib import Path
 
 from . import storage
 from .config import REPO_ROOT
@@ -207,71 +208,49 @@ def _e6_flows(pmap):
     nodes, edges = _sew_chain_nodes("e6", pmap, fec_to=3, lec_to=1, sews=(("3p1", 3, 1, 1),))
     nodes.append(_n("pc_col3", "projection_chain", 1800, 200, symmetry="collinear", target="SEW_3p1"))
     edges.append(_e("sew_3p1", "sew", "pc_col3", "seed"))
-    nodes.append(_n("rhs3", "compute_rhs", 2150, 380, target="SEW_3p1", letter_projection="data/colprojdiv.wxf"))
-    edges.append(_e("sew_3p1", "sew", "rhs3", "seed"))
+    nodes[0]["data"]["selected_properties"].append(pmap["E1 (one-loop seed)"])
+    nodes.append(_n("rhs3", "compute_rhs", 2150, 380, target="boundary_2L", mode="mhv_boundary", weight=4))
+    edges.append(_e("alpha", f"prop_{pmap['E1 (one-loop seed)']}", "rhs3", "e1"))
     nodes.append(_n("sc3", "solve_collinear", 2500, 560, target="SEW_3p1",
                     projection="divergent",
-                    pairs=[{"projection": "divergent", "rhs": "output/2loop/boundary_2L.wxf"}]))
+                    pairs=[{"projection": "data/colprojdiv.wxf", "rhs": "output/boundary_2L.wxf"}]))
     edges.append(_e("sew_3p1", "sew", "sc3", "seed"))
+    edges.append(_e("rhs3", "out", "sc3", "rhs"))
     flows.append(_flow("E6 · collinear bootstrap & 2-loop RHS", nodes, edges))
     return flows
 
 
-def _pentagon_flows(pmap):
+def _weight_two_invariants(pmap, title, condition):
+    # First solve the original conditions on the unrestricted word space.
+    # Symmetry then acts on the two letter axes of the resulting symbols.
+    # Averaging the condition tensor itself would discard constraints.
     nodes = [
-        _n("alpha", "alphabet", 0, 400, alphabet_id=pmap["__alphabet_id__"],
-           selected_properties=[pmap["integrability"], pmap["Cyclic"], pmap["Flip"]]),
+        _n("alpha", "alphabet", 0, 300, alphabet_id=pmap["__alphabet_id__"],
+           selected_properties=[pmap[condition], pmap["Weight-2 word basis"], pmap["Cyclic"], pmap["Flip"]]),
+        _n("integrable", "impose_integrability", 320, 100, target="integrable_coefficients", transpose=True),
+        _n("symbols", "tensor_dot", 640, 100, target="integrable_symbols", axis_a=2, axis_b=1),
+        _n("cyclic", "solve_symmetry", 960, 100, target="cyclic_symbols"),
+        _n("flip", "solve_symmetry", 1280, 100, target="cyclic_flip_symbols"),
     ]
-    edges = []
-    for w, src in enumerate(("cyc2", "cyc3", "cyc4")):
-        nodes.append(_n(src, "matrix_power", 300, 60 + w * 140, n=w + 2, target=f"cyc{w + 2}"))
-        edges.append(_e("alpha", f"prop_{pmap['Cyclic']}", src, "matrix"))
-    terms = []
-    x = 620
-    i = 0
-    for cyc_src in ("alpha", "cyc2", "cyc3", "cyc4"):
-        nid = f"t_c{i + 1}"
-        nodes.append(_n(nid, "ternary_contract", x, 60 + i * 130, target=f"P5_cyc{i + 1}"))
-        edges.append(_e("alpha", f"prop_{pmap['integrability']}", nid, "tensor"))
-        cyc_handle = "prop_" + pmap["Cyclic"] if cyc_src == "alpha" else "out"
-        edges.append(_e(cyc_src, cyc_handle, nid, "trans1"))
-        edges.append(_e(cyc_src, cyc_handle, nid, "trans2"))
-        terms.append(nid)
-        i += 1
-    for k, cyc_src in enumerate(("alpha", "cyc2", "cyc3", "cyc4")):
-        nid = f"t_fc{k + 1}"
-        nodes.append(_n(nid, "ternary_contract", x, 60 + i * 130, target=f"P5_fc{k + 1}"))
-        edges.append(_e("alpha", f"prop_{pmap['integrability']}", nid, "tensor"))
-        edges.append(_e("alpha", f"prop_{pmap['Flip']}", nid, "trans1"))
-        cyc_handle = "prop_" + pmap["Cyclic"] if cyc_src == "alpha" else "out"
-        edges.append(_e(cyc_src, cyc_handle, nid, "trans2"))
-        terms.append(nid)
-        i += 1
-    nodes.append(_n("avg", "add_tensors", 1100, 500,
-                    weights=",".join(["1/10"] * 10), target="P5_dlogmat_inv"))
-    for k, nid in enumerate(terms):
-        edges.append(_e(nid, "out", "avg", f"in_{k}"))
-    return [_flow("Pentagon · D5-invariant integrability tensor", nodes, edges)]
+    edges = [
+        _e("alpha", f"prop_{pmap['Weight-2 word basis']}", "integrable", "tensor"),
+        _e("alpha", f"prop_{pmap[condition]}", "integrable", "dlogmat"),
+        _e("integrable", "out", "symbols", "a"),
+        _e("alpha", f"prop_{pmap['Weight-2 word basis']}", "symbols", "b"),
+        _e("symbols", "out", "cyclic", "tensor"),
+        _e("alpha", f"prop_{pmap['Cyclic']}", "cyclic", "matrix"),
+        _e("cyclic", "out", "flip", "tensor"),
+        _e("alpha", f"prop_{pmap['Flip']}", "flip", "matrix"),
+    ]
+    return [_flow(title, nodes, edges)]
+
+
+def _pentagon_flows(pmap):
+    return _weight_two_invariants(pmap, "Pentagon · D5-invariant weight-2 symbols", "integrability")
 
 
 def _4pff_flows(pmap):
-    nodes = [
-        _n("alpha", "alphabet", 0, 300, alphabet_id=pmap["__alphabet_id__"],
-           selected_properties=[pmap["integrability"], pmap["extended_steinmann"],
-                                 pmap["Cyclic"], pmap["Flip"]]),
-        _n("merge", "merge_conditions", 320, 300),
-        _n("ss_cyc", "solve_symmetry", 620, 200, target="S_cyc"),
-        _n("ss_flip", "solve_symmetry", 920, 200, target="S_cycflip"),
-    ]
-    edges = [
-        _e("alpha", f"prop_{pmap['integrability']}", "merge", "in_0"),
-        _e("alpha", f"prop_{pmap['extended_steinmann']}", "merge", "in_1"),
-        _e("merge", "out", "ss_cyc", "tensor"),
-        _e("alpha", f"prop_{pmap['Cyclic']}", "ss_cyc", "matrix"),
-        _e("ss_cyc", "out", "ss_flip", "tensor"),
-        _e("alpha", f"prop_{pmap['Flip']}", "ss_flip", "matrix"),
-    ]
-    return [_flow("4pFF · full conditions + cyclic & flip invariants", nodes, edges)]
+    return _weight_two_invariants(pmap, "4pFF · weight-2 symbols with full conditions & cyclic/flip invariance", "Full conditions")
 
 
 def _flows_for(template_id: str, pmap: dict) -> list:
@@ -292,6 +271,9 @@ def apply_template(proj: dict, template_id: str) -> None:
         src = src_dir / src_name
         if src.exists():
             shutil.copy2(src, data_dir / dst_name)
+    if template_id in ("pentagon", "4pformfactor"):
+        from .template_seeds import write_word_basis
+        write_word_basis(data_dir / "word_basis_2.wxf", t["n_letters"])
     alpha = dict(t["alphabet"])
     alpha["id"] = uuid.uuid4().hex[:8]
     loader = _expr_loader(template_id, data_dir)
@@ -299,7 +281,12 @@ def apply_template(proj: dict, template_id: str) -> None:
         alpha["expr_loader"] = loader
     props = []
     pmap = {"__alphabet_id__": alpha["id"]}
-    for p in t["properties"]:
+    properties = list(t["properties"])
+    if template_id in ("pentagon", "4pformfactor"):
+        properties.append(dict(type="precomputed_tensor", name="Weight-2 word basis", params={}, tensor_file="data/word_basis_2.wxf"))
+    if template_id == "4pformfactor":
+        properties.append(dict(type="integrability", name="Full conditions", params={}, tensor_file="data/dlogmat_full_4pformfactor.wxf"))
+    for p in properties:
         pid = uuid.uuid4().hex[:8]
         pmap[p.get("name") or p["params"].get("name") or p["type"]] = pid
         props.append({

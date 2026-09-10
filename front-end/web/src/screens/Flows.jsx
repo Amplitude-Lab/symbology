@@ -11,19 +11,21 @@ export default function Flows() {
 
   if (!project) return null
 
-  const create = async () => {
+  const handle = (action) => (...args) => Promise.resolve().then(() => action(...args)).catch((e) => toast(e.message))
+
+  const create = handle(async () => {
     const flow = await api.createFlow(project.id, name.trim() || 'Untitled flow')
     await refreshProject()
     navigate(`/flows/${flow.id}`)
-  }
+  })
 
-  const createBlock = async () => {
+  const createBlock = handle(async () => {
     const flow = await api.createFlow(project.id, name.trim() || 'New custom block', { custom_block: true })
     await refreshProject()
     navigate(`/flows/${flow.id}`)
-  }
+  })
 
-  const toggleBlock = async (f) => {
+  const toggleBlock = handle(async (f) => {
     if (!f.custom_block) {
       const nodes = f.graph?.nodes || []
       const edges = f.graph?.edges || []
@@ -43,22 +45,22 @@ export default function Flows() {
         return
       }
     }
-    await api.updateFlow(project.id, f.id, { custom_block: !f.custom_block })
+    await api.updateFlow(project.id, f.id, { custom_block: !f.custom_block, revision: f.revision ?? 0 })
     await refreshProject()
     toast(f.custom_block ? 'Converted back to a normal flow.' : 'Sealed as a custom block — it now appears in the flow editor palette.')
-  }
+  })
 
-  const duplicate = async (f) => {
+  const duplicate = handle(async (f) => {
     const dup = await api.duplicateFlow(project.id, f.id)
     await refreshProject()
     navigate(`/flows/${dup.id}`)
-  }
+  })
 
-  const remove = async (fid) => {
+  const remove = handle(async (fid) => {
     await api.deleteFlow(project.id, fid)
     await refreshProject()
     toast('Flow deleted.')
-  }
+  })
 
   return (
     <div className="page">

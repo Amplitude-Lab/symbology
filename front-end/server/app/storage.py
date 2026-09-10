@@ -4,12 +4,46 @@ import json
 import re
 import shutil
 import threading
+import functools
+import inspect
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 
 from .config import PROJECTS_DIR
 
 _lock = threading.RLock()
+_project_locks: dict[str, threading.RLock] = {}
+
+
+def transaction_for(pid: str):
+    """Serialize a complete read/modify/write operation in this server process."""
+    with _lock:
+        lock = _project_locks.setdefault(pid, threading.RLock())
+    def decorate(fn):
+        @functools.wraps(fn)
+        def wrapped(*args, **kwargs):
+            with lock:
+                return fn(*args, **kwargs)
+        wrapped.__signature__ = inspect.signature(fn, eval_str=True)
+        return wrapped
+    return decorate
+
+
+def transaction(fn):
+    signature = inspect.signature(fn, eval_str=True)
+    @functools.wraps(fn)
+    def wrapped(*args, **kwargs):
+        pid = signature.bind(*args, **kwargs).arguments.get("pid", "__create__")
+        return transaction_for(pid)(fn)(*args, **kwargs)
+    wrapped.__signature__ = signature
+    return wrapped
+
+
+def alphabet_version(alpha: dict) -> str:
+    fields = ("letters", "variables", "expressions", "expr_loader", "roots")
+    return hashlib.sha256(json.dumps({k: alpha.get(k) for k in fields},
+                                    sort_keys=True).encode()).hexdigest()
 
 _PID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 

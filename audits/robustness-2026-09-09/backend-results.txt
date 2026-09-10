@@ -1,0 +1,227 @@
+.F.FFF..FFFFF.F.FF.FF.FFFFFFFFF                                          [100%]
+=================================== FAILURES ===================================
+______________ test_project_invalid_types_have_json_4xx[payload0] ______________
+audits/robustness-2026-09-09/test_robustness.py:78: in test_project_invalid_types_have_json_4xx
+    assert 400 <= r.status_code < 500, (r.status_code, r.text)
+E   AssertionError: (500, 'Internal Server Error')
+E   assert 500 < 500
+E    +  where 500 = <Response [500 Internal Server Error]>.status_code
+______________ test_project_invalid_types_have_json_4xx[payload2] ______________
+audits/robustness-2026-09-09/test_robustness.py:78: in test_project_invalid_types_have_json_4xx
+    assert 400 <= r.status_code < 500, (r.status_code, r.text)
+E   AssertionError: (500, 'Internal Server Error')
+E   assert 500 < 500
+E    +  where 500 = <Response [500 Internal Server Error]>.status_code
+______________________ test_alphabet_invalid_letter_type _______________________
+audits/robustness-2026-09-09/test_robustness.py:84: in test_alphabet_invalid_letter_type
+    assert 400 <= r.status_code < 500, (r.status_code, r.text)
+E   AssertionError: (500, 'Internal Server Error')
+E   assert 500 < 500
+E    +  where 500 = <Response [500 Internal Server Error]>.status_code
+_______________________ test_bad_graph_rejected_on_save ________________________
+audits/robustness-2026-09-09/test_robustness.py:92: in test_bad_graph_rejected_on_save
+    assert 400 <= r.status_code < 500, ("save", r.status_code, "compile", cr.status_code, cr.text)
+E   AssertionError: ('save', 200, 'compile', 500, 'Internal Server Error')
+E   assert 400 <= 200
+E    +  where 200 = <Response [200 OK]>.status_code
+_______________________ test_duplicate_node_ids_rejected _______________________
+audits/robustness-2026-09-09/test_robustness.py:108: in test_duplicate_node_ids_rejected
+    assert not compiler.compile_flow(project, g)["ok"]
+E   assert not True
+_________________________ test_dangling_edge_rejected __________________________
+audits/robustness-2026-09-09/test_robustness.py:114: in test_dangling_edge_rejected
+    assert not compiler.compile_flow(project, g)["ok"]
+E   assert not True
+_____________________ test_duplicate_output_paths_rejected _____________________
+audits/robustness-2026-09-09/test_robustness.py:122: in test_duplicate_output_paths_rejected
+    assert not r['ok'],[s['outputs'] for s in r['steps']]
+E   AssertionError: [['output/square.wxf'], ['output/square.wxf']]
+E   assert not True
+_________________ test_same_input_port_cannot_have_two_sources _________________
+audits/robustness-2026-09-09/test_robustness.py:129: in test_same_input_port_cannot_have_two_sources
+    assert not compiler.compile_flow(project,g)['ok']
+E   assert not True
+_________________________ test_matrix_zero_power[0_0] __________________________
+audits/robustness-2026-09-09/test_robustness.py:135: in test_matrix_zero_power
+    assert r["ok"], r["errors"]
+E   AssertionError: ['Matrix Power: n must be a non-negative integer.']
+E   assert False
+_______________________ test_reuse_standard_weight_name ________________________
+audits/robustness-2026-09-09/test_robustness.py:152: in test_reuse_standard_weight_name
+    assert r['ok'],r['errors']
+E   AssertionError: ['Cannot determine the weight of the FEC input to an Extend node.']
+E   assert False
+________________ test_old_output_does_not_mask_failed_recompute ________________
+audits/robustness-2026-09-09/test_robustness.py:168: in test_old_output_does_not_mask_failed_recompute
+    assert r.status == 'failed', (r.status, s['returncode'], p.read_bytes())
+E   AssertionError: ('done', 0, b'old solution')
+E   assert 'done' == 'failed'
+E     
+E     - failed
+E     + done
+__________________ test_truncated_cached_output_is_not_reused __________________
+audits/robustness-2026-09-09/test_robustness.py:178: in test_truncated_cached_output_is_not_reused
+    assert not e._step_cached(r,s)
+E   AssertionError: assert not True
+E    +  where True = _step_cached(<app.jobs.Run object at 0x792ffa5e2600>, {'id': 'step-1', 'label': 'fixture', 'kind': 'fixture', 'argv': ['/tmp/symbology-audit-py/bin/python', '-c', 'pass'], ...})
+E    +    where _step_cached = <app.jobs.Engine object at 0x792ffa5e37d0>._step_cached
+________________ test_changed_directory_input_invalidates_cache ________________
+audits/robustness-2026-09-09/test_robustness.py:198: in test_changed_directory_input_invalidates_cache
+    assert before != e._step_fingerprint(r,s)
+E   AssertionError: assert '2577b5181a9a1f538643d399262e794b54930f172f2ba3737b9bd4ff289b18e7' != '2577b5181a9a1f538643d399262e794b54930f172f2ba3737b9bd4ff289b18e7'
+E    +  where '2577b5181a9a1f538643d399262e794b54930f172f2ba3737b9bd4ff289b18e7' = <function Engine._step_fingerprint at 0x792ffb42d940>(<app.jobs.Run object at 0x792ffa5e17c0>, {'id': 'step-1', 'label': 'fixture', 'kind': 'fixture', 'argv': ['/tmp/symbology-audit-py/bin/python', '-c', 'pass', '--data-dir', '/tmp/pytest-of-ana/pytest-6/test_changed_directory_input_i0/projects/audit/data'], ...})
+E    +    where <function Engine._step_fingerprint at 0x792ffb42d940> = <app.jobs.Engine object at 0x792ffa5e0fb0>._step_fingerprint
+________________ test_invalid_output_encoding_finishes_cleanly _________________
+audits/robustness-2026-09-09/test_robustness.py:203: in test_invalid_output_encoding_finishes_cleanly
+    jobs.Engine()._execute(r)
+front-end/server/app/jobs.py:320: in _execute
+    rc = self._run_step(run, step)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+front-end/server/app/jobs.py:435: in _run_step
+    for line in proc.stdout:
+                ^^^^^^^^^^^
+<frozen codecs>:322: in decode
+    ???
+E   UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+_________________ test_cancellation_during_launch_stops_output _________________
+audits/robustness-2026-09-09/test_robustness.py:233: in test_cancellation_during_launch_stops_output
+    assert not marker.exists(),{'status':run.status,'output':marker.read_text()}
+E   AssertionError: {'status': 'cancelled', 'output': 'still running'}
+E   assert not True
+E    +  where True = exists()
+E    +    where exists = PosixPath('/tmp/pytest-of-ana/pytest-6/test_cancellation_during_launc0/projects/audit/output/after-cancel.txt').exists
+_________________________ test_overlap_check_is_atomic _________________________
+audits/robustness-2026-09-09/test_robustness.py:252: in test_overlap_check_is_atomic
+    assert outcomes.count('rejected')==1,outcomes
+E   AssertionError: ['1bd3afa72b8f', '7301658370bd']
+E   assert 0 == 1
+E    +  where 0 = <built-in method count of list object at 0x792ff947b340>('rejected')
+E    +    where <built-in method count of list object at 0x792ff947b340> = ['1bd3afa72b8f', '7301658370bd'].count
+___________________ test_concurrent_project_edits_preserved ____________________
+audits/robustness-2026-09-09/test_robustness.py:266: in test_concurrent_project_edits_preserved
+    assert len(saved)==len(result)==2,([f['name'] for f in saved], [f['name'] for f in result])
+E   AssertionError: (['flow0'], ['flow0', 'flow1'])
+E   assert 1 == 2
+E    +  where 1 = len([{'id': 'c4fc982a', 'name': 'flow0', 'graph': {'nodes': [], 'edges': []}}])
+E    +  and   2 = len([{'id': 'c4fc982a', 'name': 'flow0', 'graph': {'nodes': [], 'edges': []}}, {'id': '174b32f9', 'name': 'flow1', 'graph': {'nodes': [], 'edges': []}}])
+_____________________ test_sse_delivers_after_full_buffer ______________________
+audits/robustness-2026-09-09/test_robustness.py:281: in test_sse_delivers_after_full_buffer
+    asyncio.run(check())
+../../.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+../../.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+audits/robustness-2026-09-09/test_robustness.py:280: in check
+    assert 'AFTER BUFFER' in ''.join(tail) and 'event: end' in ''.join(tail),tail
+E   AssertionError: []
+E   assert ('AFTER BUFFER' in '')
+E    +  where '' = <built-in method join of str object at 0x154dcc0>([])
+E    +    where <built-in method join of str object at 0x154dcc0> = ''.join
+_____________________ test_restarted_active_run_reconciled _____________________
+audits/robustness-2026-09-09/test_robustness.py:289: in test_restarted_active_run_reconciled
+    assert res.json()['status'] not in ['running','queued'],res.json()
+E   AssertionError: {'run_id': 'abcdef123456', 'project_id': 'audit', 'flow_id': None, 'label': 'audit', ...}
+E   assert 'running' not in ['running', 'queued']
+_____________________________ test_export_dry_run ______________________________
+audits/robustness-2026-09-09/test_robustness.py:296: in test_export_dry_run
+    assert r.returncode==0,r.stdout+r.stderr
+E   AssertionError: [export] SYMBOLOGY_ROOT = /home/ana/Documents/symbology
+E     [export] PROJ_DIR      = /tmp/pytest-of-ana/pytest-6/test_export_dry_run0/projects/audit
+E     [export] log file      = /tmp/pytest-of-ana/pytest-6/test_export_dry_run0/projects/audit/runs/exported-20260909-110740.log
+E     [export] binary ok: /tmp/pytest-of-ana/pytest-6/test_export_dry_run0/tensor_ops
+E     [export] input ok : /tmp/pytest-of-ana/pytest-6/test_export_dry_run0/projects/audit/data/M.wxf (5 bytes)
+E     [export] free space on PROJ_DIR: /dev/nvme0n1p5  1.7T  206G  1.5T  13% /
+E     /tmp/pytest-of-ana/pytest-6/test_export_dry_run0/projects/audit/exported/audit-export.sh: line 86: desc: unbound variable
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['bash', '/tmp/pytest-of-ana/pytest-6/test_export_dry_run0/projects/audit/exported/audit-export....ytest-of-ana/pytest-6/test_export_dry_run0/projects/audit/exported/audit-export.sh: line 86: desc: unbound variable\n').returncode
+_______________________ test_export_wolfram_bash_syntax ________________________
+audits/robustness-2026-09-09/test_robustness.py:307: in test_export_wolfram_bash_syntax
+    assert r.returncode==0,r.stderr
+E   AssertionError: /tmp/pytest-of-ana/pytest-6/test_export_wolfram_bash_synta0/projects/audit/exported/wolfram-audit.sh: line 71: syntax error in conditional expression: unexpected token `('
+E     /tmp/pytest-of-ana/pytest-6/test_export_wolfram_bash_synta0/projects/audit/exported/wolfram-audit.sh: line 71: syntax error near `(w'
+E     /tmp/pytest-of-ana/pytest-6/test_export_wolfram_bash_synta0/projects/audit/exported/wolfram-audit.sh: line 71: `[[ -x "$WOLFRAMSCRIPT" (wolfram steps) ]] || { note "MISSING BINARY: /bin/true"; fail; }'
+E     
+E   assert 2 == 0
+E    +  where 2 = CompletedProcess(args=['bash', '-n', '/tmp/pytest-of-ana/pytest-6/test_export_wolfram_bash_synta0/projects/audit/expor...fram-audit.sh: line 71: `[[ -x "$WOLFRAMSCRIPT" (wolfram steps) ]] || { note "MISSING BINARY: /bin/true"; fail; }\'\n').returncode
+_________________ test_export_binary_rebuild_invalidates_cache _________________
+audits/robustness-2026-09-09/test_robustness.py:318: in test_export_binary_rebuild_invalidates_cache
+    assert (storage.project_dir(project['id'])/'output/square.wxf').read_bytes()==b'v2',second.stdout
+E   AssertionError: [export] SYMBOLOGY_ROOT = /home/ana/Documents/symbology
+E     [export] PROJ_DIR      = /tmp/pytest-of-ana/pytest-6/test_export_binary_rebuild_inv0/projects/audit
+E     [export] log file      = /tmp/pytest-of-ana/pytest-6/test_export_binary_rebuild_inv0/projects/audit/runs/exported-20260909-110740.log
+E     [export] binary ok: /tmp/pytest-of-ana/pytest-6/test_export_binary_rebuild_inv0/tensor_ops
+E     [export] input ok : /tmp/pytest-of-ana/pytest-6/test_export_binary_rebuild_inv0/projects/audit/data/M.wxf (5 bytes)
+E     [export] free space on PROJ_DIR: /dev/nvme0n1p5  1.7T  206G  1.5T  13% /
+E     [export] [1/1] Matrix power M^2 -> square: CACHED (outputs + fingerprint match)
+E     [export] ALL STEPS COMPLETE — final outputs:
+E     [export]   output/square.wxf  crc32=6962ccb5
+E     [export] full log: /tmp/pytest-of-ana/pytest-6/test_export_binary_rebuild_inv0/projects/audit/runs/exported-20260909-110740.log
+E     
+E   assert b'v1' == b'v2'
+E     
+E     At index 1 diff: b'1' != b'2'
+E     Use -v to get more diff
+______________ test_changed_alphabet_invalidates_ready_properties ______________
+audits/robustness-2026-09-09/test_robustness.py:329: in test_changed_alphabet_invalidates_ready_properties
+    assert r.json()['properties'][0]['status']!='ready',r.json()
+E   AssertionError: {'id': '04a3ba99', 'name': 'A', 'letters': ['x', 'y'], 'variables': [], ...}
+E   assert 'ready' != 'ready'
+=============================== warnings summary ===============================
+front-end/server/app/main.py:32
+  /home/ana/Documents/symbology/front-end/server/app/main.py:32: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+../../../../tmp/symbology-audit-py/lib/python3.12/site-packages/fastapi/applications.py:4681
+  /tmp/symbology-audit-py/lib/python3.12/site-packages/fastapi/applications.py:4681: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+../../../../tmp/symbology-audit-py/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /tmp/symbology-audit-py/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../../../../tmp/symbology-audit-py/lib/python3.12/site-packages/starlette/testclient.py:53
+  /tmp/symbology-audit-py/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_project_invalid_types_have_json_4xx[payload0]
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_project_invalid_types_have_json_4xx[payload2]
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_alphabet_invalid_letter_type
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_bad_graph_rejected_on_save
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_duplicate_node_ids_rejected
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_dangling_edge_rejected
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_duplicate_output_paths_rejected
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_same_input_port_cannot_have_two_sources
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_matrix_zero_power[0_0]
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_reuse_standard_weight_name
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_old_output_does_not_mask_failed_recompute
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_truncated_cached_output_is_not_reused
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_changed_directory_input_invalidates_cache
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_invalid_output_encoding_finishes_cleanly
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_cancellation_during_launch_stops_output
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_overlap_check_is_atomic
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_concurrent_project_edits_preserved
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_sse_delivers_after_full_buffer
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_restarted_active_run_reconciled
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_export_dry_run
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_export_wolfram_bash_syntax
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_export_binary_rebuild_invalidates_cache
+FAILED audits/robustness-2026-09-09/test_robustness.py::test_changed_alphabet_invalidates_ready_properties
+23 failed, 8 passed, 4 warnings in 1.32s

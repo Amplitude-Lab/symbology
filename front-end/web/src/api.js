@@ -1,7 +1,7 @@
 const BASE = '/api'
 
 async function request(method, path, body) {
-  const opts = { method, headers: {} }
+  const opts = { method, headers: {}, signal: AbortSignal.timeout(120000) }
   if (body !== undefined) {
     opts.headers['Content-Type'] = 'application/json'
     opts.body = JSON.stringify(body)

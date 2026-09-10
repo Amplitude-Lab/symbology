@@ -257,11 +257,11 @@ void run_collinear_proj_chain(
 	auto w1_fin = collinear_dir / "colprojfin_w1.wxf";
 	auto w1_div = collinear_dir / "colprojdiv_w1.wxf";
 
-	if (!std::filesystem::exists(w1_fin)) {
-		std::filesystem::copy_file(seed_fin, w1_fin);
-	}
-	if (!std::filesystem::exists(w1_div)) {
-		std::filesystem::copy_file(seed_div, w1_div);
+	native_cache::receipt seeds(collinear_dir / "seeds.native-cache", "collinear seeds", {seed_fin, seed_div}, {w1_fin, w1_div});
+	if (!seeds.valid()) {
+		std::filesystem::copy_file(seed_fin, w1_fin, std::filesystem::copy_options::overwrite_existing);
+		std::filesystem::copy_file(seed_div, w1_div, std::filesystem::copy_options::overwrite_existing);
+		seeds.save();
 	}
 
 	std::cout << "== Collinear projection chain (weights 1.." << target_weight << ") ==" << std::endl;
@@ -289,7 +289,10 @@ void run_collinear_proj_chain(
 			div_N = collinear_dir / ("colprojdiv_w" + std::to_string(N) + ".wxf");
 		}
 
-		if (std::filesystem::exists(fin_N) && std::filesystem::exists(div_N)) {
+		auto div_prev = collinear_dir / ("colprojdiv_w" + std::to_string(N - 1) + ".wxf");
+		native_cache::receipt cache(std::filesystem::path(div_N.string()+".native-cache"), "collinear projection chain",
+			{base_paths[i], div_prev, seed_div}, {fin_N, div_N}, true);
+		if (cache.valid()) {
 			std::cout << "Weight " << N << (is_sew_level ? " (SEW)" : "") << ": already computed, skipping." << std::endl;
 			continue;
 		}
@@ -304,7 +307,7 @@ void run_collinear_proj_chain(
 		auto base_tensor = projection_read_tensor<T, index_t>(base_path, F, pool);
 
 		// Load colprojdiv(N-1)
-		auto div_prev = collinear_dir / ("colprojdiv_w" + std::to_string(N - 1) + ".wxf");
+
 		auto CM_first = projection_read_tensor<T, index_t>(div_prev, F, pool);
 
 		// Load colprojdiv (base seed, always the same)
@@ -326,6 +329,7 @@ void run_collinear_proj_chain(
 			sparse_tensor<T, index_t, SPARSE_CSR> fin_csr(fin_mat);
 			projection_write_tensor(fin_N, std::move(fin_csr), pool);
 		} else {
+			std::filesystem::remove(fin_N); // remove a stale nonempty result
 			std::cout << "   colprojfin is empty — skipping write (no finite combinations)." << std::endl;
 		}
 		if (result.colprojdiv.nrow > 0) {
@@ -333,8 +337,10 @@ void run_collinear_proj_chain(
 			sparse_tensor<T, index_t, SPARSE_CSR> div_csr(div_mat);
 			projection_write_tensor(div_N, std::move(div_csr), pool);
 		} else {
+			std::filesystem::remove(div_N);
 			std::cout << "   colprojdiv is empty — skipping write (all finite)." << std::endl;
 		}
+		cache.save();
 	}
 }
 
@@ -522,7 +528,7 @@ std::set<index_t> load_divergent_letters(
 	// Multi-pair runs call this once per sentinel pair — cache the parsed set
 	// per file so only the first call reads and banners the file.
 	static std::map<std::string, std::set<index_t>> cache;
-	auto cache_key = std::filesystem::weakly_canonical(seed_div).string();
+	auto cache_key = std::filesystem::weakly_canonical(seed_div).string() + native_cache::digest(seed_div);
 	auto cached = cache.find(cache_key);
 	if (cached != cache.end()) {
 		std::cout << "   Divergent letters (cached from " << seed_div.filename().string()
@@ -742,8 +748,8 @@ void run_collinear_solver(
 		proj_div = collinear_dir / ("colprojdiv_w" + std::to_string(target_weight) + ".wxf");
 	}
 
-	if (!custom_seed && (!std::filesystem::exists(proj_fin) || !std::filesystem::exists(proj_div))) {
-		std::cout << "   Projections not found, computing chain..." << std::endl;
+	if (!custom_seed) {
+		std::cout << "   Validating projection-chain dependencies..." << std::endl;
 		run_collinear_proj_chain<T, index_t>(chain_base_paths, data_dir, output_dir, F, opt, sew_name);
 	}
 
@@ -1205,6 +1211,11 @@ void build_pair_rows(
 	}
 	for (size_t idx = 0; idx < b_order.size(); idx++) {
 		if (b_matched[b_order[idx]]) continue;
+		// Preserve the contradiction in [M | r], not just the verdict. These
+		// rows must survive export/reimport even though solving is skipped.
+		cond_row_t<T, index_t> row;
+		row.rhs = b_coo.val(b_order[idx]);
+		rows_out.push_back(std::move(row));
 		n_b_only_out++;
 		if (n_b_only_out <= 700) {
 			const index_t* key = bkey(b_order[idx]);
@@ -1265,7 +1276,6 @@ void ingest_cond_file(
 		}
 		if (row.coeffs.empty() && row.rhs != T(0)) {
 			n_zero_rhs_only_out++;  // 0 = nonzero → inconsistent
-			continue;
 		}
 		if (row.coeffs.empty() && row.rhs == T(0)) {
 			continue;  // trivial 0 = 0

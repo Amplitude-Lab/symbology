@@ -1,0 +1,291 @@
+[
+  {
+    "name": "Pentagon \u00b7 D5-invariant integrability tensor",
+    "status": "failed",
+    "seconds": 0.054,
+    "steps": [
+      {
+        "id": "step-1",
+        "label": "Matrix power cycmat^2 -> cyc2",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 2 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-2",
+        "label": "Matrix power cycmat^3 -> cyc3",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 3 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-3",
+        "label": "Matrix power cycmat^4 -> cyc4",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 4 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-4",
+        "label": "Ternary contract dlogmat_pentagon -> P5_cyc1",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf",
+        "status": "failed",
+        "returncode": 1
+      },
+      {
+        "id": "step-5",
+        "label": "Ternary contract dlogmat_pentagon -> P5_fc1",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-6",
+        "label": "Ternary contract dlogmat_pentagon -> P5_cyc2",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-7",
+        "label": "Ternary contract dlogmat_pentagon -> P5_fc2",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-8",
+        "label": "Ternary contract dlogmat_pentagon -> P5_cyc3",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-9",
+        "label": "Ternary contract dlogmat_pentagon -> P5_fc3",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-10",
+        "label": "Ternary contract dlogmat_pentagon -> P5_cyc4",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-11",
+        "label": "Ternary contract dlogmat_pentagon -> P5_fc4",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-12",
+        "label": "Add P5_cyc1 + 1/10*P5_cyc2 -> P5_dlogmat_inv_p1",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf 1/10 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-13",
+        "label": "Add P5_dlogmat_inv_p1 + 1/10*P5_cyc3 -> P5_dlogmat_inv_p2",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-14",
+        "label": "Add P5_dlogmat_inv_p2 + 1/10*P5_cyc4 -> P5_dlogmat_inv_p3",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-15",
+        "label": "Add P5_dlogmat_inv_p3 + 1/10*P5_fc1 -> P5_dlogmat_inv_p4",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-16",
+        "label": "Add P5_dlogmat_inv_p4 + 1/10*P5_fc2 -> P5_dlogmat_inv_p5",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-17",
+        "label": "Add P5_dlogmat_inv_p5 + 1/10*P5_fc3 -> P5_dlogmat_inv_p6",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf",
+        "status": "pending",
+        "returncode": null
+      },
+      {
+        "id": "step-18",
+        "label": "Add P5_dlogmat_inv_p6 + 1/10*P5_fc4 -> P5_dlogmat_inv",
+        "kind": "tensor_add",
+        "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv.wxf",
+        "status": "pending",
+        "returncode": null
+      }
+    ],
+    "last_log": [
+      "power: 31x31 matrix to power 2, nnz 31 -> /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+      "** tensor_ops power finished in 0 ms **",
+      "power: 31x31 matrix to power 3, nnz 31 -> /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+      "** tensor_ops power finished in 2 ms **",
+      "power: 31x31 matrix to power 4, nnz 31 -> /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+      "** tensor_ops power finished in 3 ms **",
+      "Error: ternary: dimension mismatch \u2014 need T.dim(1) == op1 axis-1 dim and T.dim(2) == op2 axis-1 dim"
+    ]
+  },
+  {
+    "name": "E6 \u00b7 extend & sew chain (smoke)",
+    "status": "done",
+    "seconds": 5.265,
+    "steps": [
+      {
+        "id": "step-1",
+        "label": "Derive projection map FEC_1 -> FEC_1_proj (drop size-1 axis)",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1_proj.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-2",
+        "label": "Derive projection map LEC_1 -> LEC_1_proj (drop size-1 axis)",
+        "kind": "tensor_ops",
+        "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1_proj.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-3",
+        "label": "Extend FEC_1 -> FEC_2",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-4",
+        "label": "Extend LEC_1 -> LEC_2",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-5",
+        "label": "Extend FEC_2 -> FEC_3",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-6",
+        "label": "Extend LEC_2 -> LEC_3",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-7",
+        "label": "Sew FEC_2 + LEC_2 -> SEW_2p2",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_2p2.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-8",
+        "label": "Extend FEC_3 -> FEC_4",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-9",
+        "label": "Sew FEC_3 + LEC_1 -> SEW_3p1",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_3p1.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-10",
+        "label": "Extend LEC_3 -> LEC_4",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_4.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-11",
+        "label": "Extend FEC_4 -> FEC_5",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-12",
+        "label": "Sew FEC_4 + LEC_2 -> SEW_4p2",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_4p2.wxf",
+        "status": "done",
+        "returncode": 0
+      },
+      {
+        "id": "step-13",
+        "label": "Sew FEC_5 + LEC_1 -> SEW_5p1",
+        "kind": "bootstrap",
+        "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf",
+        "status": "done",
+        "returncode": 0
+      }
+    ],
+    "last_log": [
+      "nnz: 15446",
+      "alloc: 889860",
+      "** FEC.dlogmat.LEC RREF time: 197 ms",
+      "-- Post-processing (cancel common divisor, clear zero and sort) ...",
+      "** Post-process time: 0 ms",
+      "--- kernel ---",
+      "rank: 3",
+      "dims: 2 911 14 ",
+      "nnz: 2696",
+      "alloc: 2696",
+      "Writing file /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf ...",
+      "** Write time: 0 ms",
+      "CRC32 of /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf : 22556626",
+      "Task end at: 2026-09-09 11:06:21.860881746 -0700",
+      "Done in 2352 ms",
+      ""
+    ]
+  }
+]

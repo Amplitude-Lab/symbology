@@ -267,7 +267,9 @@ inline std::string bootstrap_exe_path() {
 }
 
 inline std::string shell_quote(const std::string& s) {
-	return "'" + std::string(s) + "'";
+	std::string out = "'";
+	for (char c : s) out += c == '\'' ? "'\\''" : std::string(1, c);
+	return out + "'";
 }
 
 inline void run_bootstrap_cmd(
@@ -305,7 +307,9 @@ inline void ensure_fec_tensors(
 
 	for (size_t w = 2; w <= F; w++) {
 		auto curr_fec = output_dir / ("FEC_" + std::to_string(w) + ".wxf");
-		if (std::filesystem::exists(curr_fec)) {
+		native_cache::receipt cache(curr_fec.string()+".native-cache", "FEC extend", {dlogmat, prev_fec, bootstrap_exe_path()}, {curr_fec});
+		if (cache.valid()) {
+			prev_fec = curr_fec;
 			continue;
 		}
 		std::cout << "   Generating FEC_" << w << " via bootstrap --extend..." << std::endl;
@@ -317,6 +321,7 @@ inline void ensure_fec_tensors(
 		if (!std::filesystem::exists(curr_fec)) {
 			throw std::runtime_error("ensure_fec_tensors: bootstrap did not produce " + curr_fec.string());
 		}
+		cache.save();
 		prev_fec = curr_fec;
 	}
 }
@@ -337,23 +342,17 @@ inline void ensure_sew_basis(
 	auto collinear_dir = output_dir / "collinear";
 	auto sew_basis_path = collinear_dir / (sew_name + "_basis.wxf");
 
-	if (std::filesystem::exists(sew_basis_path)) {
-		std::cout << "   SEW collinear basis already exists: " << sew_basis_path.filename().string() << std::endl;
-		return;
-	}
-
-	std::cout << "   SEW collinear basis not found, generating pipeline..." << std::endl;
-
-	// Step 1: Ensure FEC_{2..F} exist (via bootstrap --extend)
+	// Validate prerequisites even when a previous basis exists.
 	ensure_fec_tensors(F, data_dir, output_dir);
+	auto dlogmat = find_dlogmat(data_dir);
+	auto fec_path = F == 1 ? data_dir / "FEC_1.wxf" : output_dir / ("FEC_" + std::to_string(F) + ".wxf");
+	auto lec_path = data_dir / ("LEC_" + std::to_string(L) + ".wxf");
 
 	// Step 2: Ensure SEW tensor exists (via bootstrap --sew)
 	auto sew_tensor_path = output_dir / (sew_name + ".wxf");
-	if (!std::filesystem::exists(sew_tensor_path)) {
+	native_cache::receipt sew_cache(sew_tensor_path.string()+".native-cache", "SEW", {dlogmat, fec_path, lec_path, bootstrap_exe_path()}, {sew_tensor_path});
+	if (!sew_cache.valid()) {
 		std::cout << "   Generating SEW tensor via bootstrap --sew..." << std::endl;
-		auto dlogmat = find_dlogmat(data_dir);
-		auto fec_path = output_dir / ("FEC_" + std::to_string(F) + ".wxf");
-		auto lec_path = data_dir / ("LEC_" + std::to_string(L) + ".wxf");
 		if (!std::filesystem::exists(lec_path)) {
 			throw std::runtime_error("ensure_sew_basis: LEC file not found: " + lec_path.string());
 		}
@@ -366,7 +365,22 @@ inline void ensure_sew_basis(
 		if (!std::filesystem::exists(sew_tensor_path)) {
 			throw std::runtime_error("ensure_sew_basis: bootstrap --sew did not produce " + sew_tensor_path.string());
 		}
+		sew_cache.save();
 	}
+	std::vector<std::filesystem::path> project_inputs{sew_tensor_path, data_dir/"FEC_1.wxf", data_dir/"LEC_1.wxf", data_dir/"colmat42.wxf", bootstrap_exe_path()};
+	std::vector<std::filesystem::path> project_outputs{collinear_dir/"first_w1.wxf", collinear_dir/"last_w1.wxf", collinear_dir/(sew_name+".wxf"), sew_basis_path};
+	for (size_t w=2; w<=F; ++w) {
+		project_inputs.push_back(output_dir/("FEC_"+std::to_string(w)+".wxf"));
+		project_outputs.push_back(collinear_dir/("first_w"+std::to_string(w)+".wxf"));
+		project_outputs.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));
+	}
+	for (size_t w=2; w<=L; ++w) {
+		project_inputs.push_back(output_dir/("LEC_"+std::to_string(w)+".wxf"));
+		project_outputs.push_back(collinear_dir/("last_w"+std::to_string(w)+".wxf"));
+		project_outputs.push_back(collinear_dir/("last_w"+std::to_string(w)+"_basis.wxf"));
+	}
+	native_cache::receipt project_cache(sew_basis_path.string()+".native-cache", "SEW collinear basis", project_inputs, project_outputs);
+	if (project_cache.valid()) return;
 
 	// Step 3: Run --project to generate collinear projections and bases
 	std::cout << "   Running bootstrap --project --symmetry collinear --target " << sew_name << "..." << std::endl;
@@ -376,6 +390,7 @@ inline void ensure_sew_basis(
 	if (!std::filesystem::exists(sew_basis_path)) {
 		throw std::runtime_error("ensure_sew_basis: --project did not produce " + sew_basis_path.string());
 	}
+	project_cache.save();
 	std::cout << "   SEW collinear basis generated successfully." << std::endl;
 }
 
@@ -430,14 +445,7 @@ void compute_rhs_for_loop(
 	auto oneloop_dir = output_dir / "oneloop";
 	std::filesystem::create_directories(oneloop_dir);
 	auto E1_path = oneloop_dir / "E1.wxf";
-	if (!std::filesystem::exists(E1_path)) {
-		auto seed_E1 = data_dir / "E1.wxf";
-		if (!std::filesystem::exists(seed_E1)) {
-			throw std::runtime_error("compute_rhs: E1 seed not found: " + seed_E1.string());
-		}
-		std::filesystem::copy_file(seed_E1, E1_path);
-		std::cout << "Copied E1 seed from data/E1.wxf" << std::endl;
-	}
+	std::filesystem::copy_file(data_dir / "E1.wxf", E1_path, std::filesystem::copy_options::overwrite_existing);
 
 	// E and R storage (COO tensors, indexed by loop number)
 	std::map<size_t, sparse_tensor<T, index_t, SPARSE_COO>> E_list, R_list;
@@ -460,21 +468,11 @@ void compute_rhs_for_loop(
 		auto E_l_path = l_loop_dir / ("E" + std::to_string(l) + ".wxf");
 		auto R_l_path = l_loop_dir / ("R" + std::to_string(l) + ".wxf");
 
-		if (std::filesystem::exists(E_l_path) && std::filesystem::exists(R_l_path)) {
-			std::cout << "L=" << l << ": E" << l << " and R" << l << " already exist, loading." << std::endl;
-			auto E_csr = projection_read_tensor<T, index_t>(E_l_path, F, pool);
-			auto R_csr = projection_read_tensor<T, index_t>(R_l_path, F, pool);
-			E_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(E_csr));
-			R_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(R_csr));
-		} else {
-			std::cout << "L=" << l << ": computing recursively..." << std::endl;
-			compute_rhs_for_loop<T, index_t>(l, data_dir, output_dir, letter_projection, F, opt);
-			// Reload
-			auto E_csr = projection_read_tensor<T, index_t>(E_l_path, F, pool);
-			auto R_csr = projection_read_tensor<T, index_t>(R_l_path, F, pool);
-			E_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(E_csr));
-			R_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(R_csr));
-		}
+		compute_rhs_for_loop<T, index_t>(l, data_dir, output_dir, letter_projection, F, opt);
+		auto E_csr = projection_read_tensor<T, index_t>(E_l_path, F, pool);
+		auto R_csr = projection_read_tensor<T, index_t>(R_l_path, F, pool);
+		E_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(E_csr));
+		R_list[l] = sparse_tensor<T, index_t, SPARSE_COO>(std::move(R_csr));
 	}
 
 	// Now compute for loop L
@@ -514,6 +512,13 @@ void compute_rhs_for_loop(
 	auto R_L_path = L_loop_dir / ("R" + std::to_string(L) + ".wxf");
 	auto sew_basis_path = collinear_dir / (sew_name + "_basis.wxf");
 
+	run_collinear_proj_chain<T, index_t>(detect_chain_base_paths(parse_target(sew_name), output_dir), data_dir, output_dir, F, opt, sew_name);
+	std::vector<std::filesystem::path> solve_inputs{boundary_path, sew_basis_path, data_dir/"colprojdiv.wxf", data_dir/"colprojfin.wxf", bootstrap_exe_path()};
+	for (size_t w=2; w<target_weight; ++w) solve_inputs.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));
+	if (letter_projection != "identity" && letter_projection != "finite" && letter_projection != "divergent") solve_inputs.push_back(letter_projection);
+	native_cache::receipt solve_cache(E_L_path.string()+".native-cache", "RHS solve " + letter_projection,
+		solve_inputs, {solMHV_path, hepMHV_path, E_L_path, R_L_path});
+	if (solve_cache.valid()) { std::cout << "Verified cached loop " << L << std::endl; return; }
 	std::cout << "== Invoking --solve-collinear ==" << std::endl;
 	{
 		auto abs_data = std::filesystem::absolute(data_dir);
@@ -742,6 +747,7 @@ void compute_rhs_for_loop(
 	std::cout << "   solMHV_" << L << "L: " << (L_loop_dir / ("solMHV_" + std::to_string(L) + "L.wxf")).string() << std::endl;
 	std::cout << "   hepMHV_" << L << "L: " << (L_loop_dir / ("hepMHV_" + std::to_string(L) + "L.wxf")).string() << std::endl;
 	std::cout << "========================================" << std::endl;
+	solve_cache.save();
 }
 
 #endif // COMPUTE_RHS_HPP

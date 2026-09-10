@@ -1,0 +1,385 @@
+--- a/wxf_parser.h
++++ b/wxf_parser.h
+@@ -39,6 +39,8 @@
+ #pragma once
+ 
+ #include <complex>
++#include <climits>
++#include <stdexcept>
+ #include <cstdint>
+ #include <cstring>
+ #include <iostream>
+@@ -427,22 +429,25 @@
+ 			return *this;
+ 		}
+ 
++		template <typename T> T read_scalar(size_t offset = 0) const {
++			T value;
++			std::memcpy(&value, data + offset * sizeof(T), sizeof(T));
++			return value;
++		}
++
+ 		int64_t get_integer() const {
+-			if (type == WXF_HEAD::i8)
+-				return *(int8_t*)data;
+-			else if (type == WXF_HEAD::i16)
+-				return *(int16_t*)data;
+-			else if (type == WXF_HEAD::i32)
+-				return *(int32_t*)data;
+-			else if (type == WXF_HEAD::i64)
+-				return *(int64_t*)data;
+-			else
+-				return 0;
++			switch (type) {
++			case WXF_HEAD::i8: return read_scalar<int8_t>();
++			case WXF_HEAD::i16: return read_scalar<int16_t>();
++			case WXF_HEAD::i32: return read_scalar<int32_t>();
++			case WXF_HEAD::i64: return read_scalar<int64_t>();
++			default: throw std::runtime_error("WXF: expected integer");
++			}
+ 		}
+ 
+ 		double get_real() const {
+ 			if (type == WXF_HEAD::f64)
+-				return *(double*)data;
++				return read_scalar<double>();
+ 			else
+ 				return 0;
+ 		}
+@@ -607,99 +612,85 @@
+ 		Parser(Parser&&) noexcept = default;
+ 		Parser& operator=(Parser&&) noexcept = default;
+ 
++		// Checked WXF decoding: no token may refer outside the backing buffer.
++		[[noreturn]] void fail(const char* why) {
++			err = 1;
++			throw std::runtime_error(std::string("WXF at byte ") + std::to_string(pos) + ": " + why);
++		}
++		void require(size_t n) {
++			if (pos > size || n > size - pos) fail("truncated payload");
++		}
+ 		inline uint64_t read_varint() {
+-			const uint8_t* ptr = buffer + pos;
+-			const uint8_t* end = buffer + size;
+ 			uint64_t result = 0;
+-			uint8_t b;
+-
+-			if (ptr >= end) return 0;
+-
+-			b = *ptr++; result = uint64_t(b & 0x7F);         if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 7;   if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 14;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 21;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 28;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 35;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 42;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 49;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 56;  if (!(b & 0x80) || ptr >= end) goto done;
+-			b = *ptr++; result |= uint64_t(b & 0x7F) << 63;
+-		done:
+-			pos = ptr - buffer;
+-			return result;
++			for (unsigned shift = 0; shift < 70; shift += 7) {
++				require(1);
++				uint8_t b = buffer[pos++];
++				if (shift == 63 && b > 1) fail("varint overflow");
++				result |= uint64_t(b & 127) << shift;
++				if (!(b & 128)) return result;
++			}
++			fail("unterminated varint");
+ 		}
+ 
+ 		void parse() {
+-			// check the file head
++			tokens.clear();
+ 			if (pos == 0) {
+-				if (size < 2 || buffer[0] != 56 || buffer[1] != 58) {
+-					std::cerr << "Invalid WXF file" << std::endl;
+-					err = 1;
+-					return;
+-				}
++				if (size < 2 || buffer[0] != '8' || buffer[1] != ':')
++					fail("expected uncompressed WXF header 8:");
+ 				pos = 2;
+ 			}
+-
++			size_t pending = 1;
+ 			while (pos < size) {
+-				WXF_HEAD type = (WXF_HEAD)(buffer[pos]); pos++;
+-
+-				if (pos == size)
+-					break;
+-
++				if (!pending) fail("trailing expression or bytes");
++				--pending;
++				WXF_HEAD type = WXF_HEAD(buffer[pos++]);
++				size_t children = 0;
+ 				switch (type) {
+-				case WXF_HEAD::i8:
+-				case WXF_HEAD::i16:
+-				case WXF_HEAD::i32:
+-				case WXF_HEAD::i64:
+-				case WXF_HEAD::f64: {
+-					auto length = size_of_head_num_type(type);
+-					tokens.emplace_back(type, length, buffer + pos);
+-					pos += length;
+-					break;
+-				}
+-				case WXF_HEAD::symbol:
+-				case WXF_HEAD::bigint:
+-				case WXF_HEAD::bigreal:
+-				case WXF_HEAD::string:
+-				case WXF_HEAD::binary_string: {
+-					auto length = read_varint();
+-					tokens.emplace_back(type, length, buffer + pos);
+-					pos += length;
+-					break;
+-				}
+-				case WXF_HEAD::func:
+-				case WXF_HEAD::association: {
+-					auto length = read_varint();
+-					tokens.emplace_back(type, length, buffer + pos);
+-					break;
+-				}
+-				case WXF_HEAD::delay_rule:
+-				case WXF_HEAD::rule:
+-					tokens.emplace_back(type, size_t(2), buffer + pos);
+-					break;
+-				case WXF_HEAD::array:
+-				case WXF_HEAD::narray: {
+-					int num_type = read_varint();
+-					auto r = read_varint();
+-					std::vector<size_t> dims(r);
+-					size_t all_len = 1;
+-					for (size_t i = 0; i < r; i++) {
+-						dims[i] = read_varint();
+-						all_len *= dims[i];
++				case WXF_HEAD::i8: case WXF_HEAD::i16: case WXF_HEAD::i32:
++				case WXF_HEAD::i64: case WXF_HEAD::f64: {
++					auto n = size_of_head_num_type(type); require(n);
++					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++				}
++				case WXF_HEAD::symbol: case WXF_HEAD::bigint: case WXF_HEAD::bigreal:
++				case WXF_HEAD::string: case WXF_HEAD::binary_string: {
++					auto n = read_varint(); require(n);
++					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++				}
++				case WXF_HEAD::func: case WXF_HEAD::association: {
++					auto n = read_varint();
++					if (n > size - pos) fail("impossible expression length");
++					tokens.emplace_back(type, n, buffer + pos);
++					children = n + (type == WXF_HEAD::func ? 1 : 0); break;
++				}
++				case WXF_HEAD::delay_rule: case WXF_HEAD::rule:
++					tokens.emplace_back(type, size_t(2), buffer + pos); children = 2; break;
++				case WXF_HEAD::array: case WXF_HEAD::narray: {
++					require(1); unsigned num_type = buffer[pos++];
++					if (!(num_type <= 3 || (num_type >= 16 && num_type <= 19) ||
++					      num_type == 34 || num_type == 35 || num_type == 51 || num_type == 52))
++						fail("unsupported array element type");
++					auto rank = read_varint();
++					if (!rank || rank > size - pos || rank > size_t(INT_MAX - 2)) fail("invalid array rank");
++					std::vector<size_t> dims(rank); size_t count = 1;
++					for (auto& d : dims) {
++						d = read_varint();
++						if (d && count > SIZE_MAX / d) fail("array dimension overflow");
++						count *= d;
+ 					}
+-					tokens.emplace_back(type, dims, num_type, all_len, buffer + pos);
+-					pos += all_len * size_of_arr_num_type(num_type);
+-					break;
++					size_t width = size_of_arr_num_type(num_type);
++					if (count > (size - pos) / width) fail("truncated array payload");
++					tokens.emplace_back(type, dims, num_type, count, buffer + pos);
++					pos += count * width; break;
+ 				}
+-				default:
+-					std::cerr << "Unknown head type: " << (int)type << " pos: " << pos << std::endl;
+-					err = 2;
+-					break;
++				default: fail("unknown token type");
+ 				}
++				if (children > size - pos || pending > size - pos - children) fail("truncated expression");
++				pending += children;
+ 			}
++			if (pending || tokens.empty()) fail("incomplete expression");
+ 			err = 0;
+ 		}
++
+ 	};
+ 
+ 	struct expr_node {
+--- a/wxf_support.h
++++ b/wxf_support.h
+@@ -13,12 +13,110 @@
+ #include "sparse_type.h"
+ 
+ namespace SparseRREF {
++	// Validate the CSR SparseArray dialect before readers index fixed tokens or
++	// allocate tensor storage. Token payload bounds are checked by Parser.
++	namespace wxf_checked {
++		using WXF_PARSER::Token;
++		using H = WXF_PARSER::WXF_HEAD;
++		inline void need(bool ok, const char* why) {
++			if (!ok) throw std::runtime_error(std::string("WXF SparseArray: ") + why);
++		}
++		inline bool array(const Token& t) { return t.type == H::array || t.type == H::narray; }
++		inline bool integer(const Token& t) {
++			return t.type == H::i8 || t.type == H::i16 || t.type == H::i32 || t.type == H::i64;
++		}
++		inline void integer_array(const Token& t, size_t rank) {
++			need(array(t) && t.rank == int(rank), "invalid integer-array rank");
++			auto type = t.dimensions[0];
++			need(type <= 3 || (type >= 16 && type <= 19), "expected exact integer array");
++		}
++		inline uint64_t natural(const Token& t, size_t i) {
++			need(i < t.dimensions[1], "array index out of range");
++			uint64_t result = 0;
++#define WXF_NAT_CASE(tag, type) case tag: { auto v = t.read_scalar<type>(i); need(v >= 0, "negative dimension/index"); result = uint64_t(v); break; }
++			switch (t.dimensions[0]) {
++			WXF_NAT_CASE(0, int8_t); WXF_NAT_CASE(1, int16_t);
++			WXF_NAT_CASE(2, int32_t); WXF_NAT_CASE(3, int64_t);
++			WXF_NAT_CASE(16, uint8_t); WXF_NAT_CASE(17, uint16_t);
++			WXF_NAT_CASE(18, uint32_t); WXF_NAT_CASE(19, uint64_t);
++			default: need(false, "expected integer array");
++			}
++#undef WXF_NAT_CASE
++			return result;
++		}
++		inline bool exact_integer(const Token& t) {
++			if (integer(t)) return t.get_integer() != 0;
++			need(t.type == H::bigint, "expected exact integer or rational entry");
++			auto value = t.get_string_view();
++			size_t pos = !value.empty() && (value[0] == '-' || value[0] == '+') ? 1 : 0;
++			need(pos < value.size(), "invalid big integer");
++			bool nonzero = false;
++			for (; pos < value.size(); ++pos) {
++				need(value[pos] >= '0' && value[pos] <= '9', "invalid big integer");
++				nonzero |= value[pos] != '0';
++			}
++			return nonzero;
++		}
++		template <typename index_t>
++		void validate(const std::vector<Token>& t, bool matrix) {
++			need(t.size() >= 13, "incomplete SparseArray");
++			auto sym = [&](size_t i, const char* name) { return t[i].type == H::symbol && t[i].get_string_view() == name; };
++			auto fun = [&](size_t i, size_t n, const char* name) { return t[i].type == H::func && t[i].length == n && sym(i + 1, name); };
++			need(fun(0, 4, "SparseArray") && sym(2, "Automatic"), "expected SparseArray[Automatic,...]");
++			integer_array(t[3], 1);
++			size_t rank = t[3].dimensions[1];
++			need(rank >= 2 && (!matrix || rank == 2), "CSR input requires rank >= 2 (matrices require rank 2)");
++			std::vector<size_t> dims(rank);
++			size_t volume = 1;
++			for (size_t i = 0; i < rank; ++i) {
++				dims[i] = natural(t[3], i);
++				need(dims[i] <= size_t(std::numeric_limits<index_t>::max()), "dimension exceeds index type");
++				need(!dims[i] || volume <= SIZE_MAX / dims[i], "tensor dimension overflow");
++				volume *= dims[i];
++			}
++			need(integer(t[4]) && t[4].get_integer() == 0, "implicit value must be zero");
++			need(fun(5, 3, "List") && integer(t[7]) && t[7].get_integer() == 1 && fun(8, 2, "List"), "invalid CSR layout");
++			integer_array(t[10], 1);
++			need(t[10].dimensions[1] == dims[0] + 1, "row-pointer count differs from first dimension");
++			need(natural(t[10], 0) == 0, "first row pointer must be zero");
++			size_t nnz = natural(t[10], dims[0]);
++			integer_array(t[11], 2);
++			need(t[11].dim(0) == nnz && t[11].dim(1) == rank - 1, "column-index array shape mismatch");
++			for (size_t r = 0; r < dims[0]; ++r) {
++				size_t begin = natural(t[10], r), end = natural(t[10], r + 1);
++				need(begin <= end && end <= nnz, "invalid CSR row pointers");
++				for (size_t j = begin; j < end; ++j) {
++					for (size_t a = 1; a < rank; ++a) {
++						auto col = natural(t[11], j * (rank - 1) + a - 1);
++						need(col > 0 && col <= dims[a], "column index out of range");
++					}
++				}
++			}
++			if (array(t[12])) {
++				integer_array(t[12], 1);
++				need(t[12].dimensions[1] == nnz && t.size() == 13, "value count differs from nnz");
++			} else {
++				need(t.size() >= 14 && fun(12, nnz, "List"), "value list differs from nnz");
++				size_t pos = 14;
++				for (size_t j = 0; j < nnz; ++j) {
++					need(pos < t.size(), "missing value");
++					if (t[pos].type == H::func) {
++						need(pos + 3 < t.size() && fun(pos, 2, "Rational"), "invalid rational");
++						exact_integer(t[pos + 2]);
++						need(exact_integer(t[pos + 3]), "zero rational denominator");
++						pos += 4;
++					} else { exact_integer(t[pos]); ++pos; }
++				}
++				need(pos == t.size(), "extra values or tokens");
++			}
++		}
++	}
++
+ 	// TODO: reuse the code for sparse_mat_read_wxf and sparse_tensor_read_wxf
+ 
+ 	template <typename T, typename index_t>
+ 	sparse_mat<T, index_t> sparse_mat_read_wxf(const std::vector<WXF_PARSER::Token>& tokens, const field_t& F) {
+-		if (tokens.size() == 0)
+-			return sparse_mat<T, index_t>();
++		wxf_checked::validate<index_t>(tokens, true);
+ 
+ 		if (tokens[0].type != WXF_PARSER::WXF_HEAD::func ||
+ 			tokens[0].length != 4 ||
+@@ -32,8 +130,7 @@
+ 
+ #define GENERATE_COPY_ARR(TYPE, CTYPE, FUNC) \
+ 		case TYPE: { \
+-			auto sp = token.get_arr_span<CTYPE>(); \
+-			for (const auto& v : sp) out.push_back(FUNC(v)); \
++			for (size_t k = 0; k < token.dimensions[1]; ++k) { auto v = token.read_scalar<CTYPE>(k); out.push_back(FUNC(v)); } \
+ 			break; }
+ 
+ #define TMP_IDENTITY_FUNC(x) (x)
+@@ -105,10 +202,6 @@
+ 
+ 		// colindex is tokens[11]
+ 		std::vector<index_t> colindex;
+-		if (WXF_PARSER::size_of_arr_num_type(tokens[11].dimensions[0]) > sizeof(index_t)) {
+-			std::cerr << "Error: sparse_mat_read: the type of index is not enough for colindex" << std::endl;
+-			return sparse_mat<T, index_t>();
+-		}
+ 		copy_arr(tokens[11], colindex);
+ 
+ 		std::vector<char> buffer;
+@@ -387,8 +480,7 @@
+ 	sparse_tensor<T, index_t, SPARSE_CSR> sparse_tensor_read_wxf(const std::vector<WXF_PARSER::Token>& tokens, const field_t& F, thread_pool* pool = nullptr, bool sort_ind = true) {
+ 		using st = sparse_tensor<T, index_t, SPARSE_CSR>;
+ 
+-		if (tokens.size() == 0)
+-			return st();
++		wxf_checked::validate<index_t>(tokens, false);
+ 
+ 		if (tokens[0].type != WXF_PARSER::WXF_HEAD::func ||
+ 			tokens[0].length != 4 ||
+@@ -402,8 +494,7 @@
+ 
+ #define GENERATE_COPY_ARR(TYPE, CTYPE, FUNC) \
+ 		case TYPE: { \
+-			auto sp = token.get_arr_span<CTYPE>(); \
+-			for (const auto& v : sp) {*out = FUNC(v); out++;} \
++			for (size_t k = 0; k < token.dimensions[1]; ++k) { auto v = token.read_scalar<CTYPE>(k); {*out = FUNC(v); out++;} } \
+ 			break; }
+ 
+ #define TMP_IDENTITY_FUNC(x) (x)
+@@ -472,14 +563,12 @@
+ 		copy_arr(tokens[10], rowptr.data());
+ 		size_t nz = rowptr.back();
+ 
+-		st tensor(dims, nz);
++		// SparseRREF releases storage only when capacity is nonzero. Avoid
++		// malloc(0) allocations leaking when a valid empty tensor is read.
++		st tensor(dims, std::max<size_t>(nz, 1));
+ 		tensor.data.rowptr = std::move(rowptr);
+ 
+ 		// colindex is tokens[11]
+-		if (WXF_PARSER::size_of_arr_num_type(tokens[11].dimensions[0]) > sizeof(index_t)) {
+-			std::cerr << "Error: sparse_tensor_read: the type of index is not enough for colindex" << std::endl;
+-			return st();
+-		}
+ 		// mma is 1-based for colindex
+ 		copy_modify_arr(tokens[11], tensor.data.colptr, [](auto v) { return v - 1; });
+ 

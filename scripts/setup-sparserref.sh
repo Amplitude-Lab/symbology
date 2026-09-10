@@ -21,6 +21,15 @@ PINNED_COMMIT="5bbee55"
 REPO_URL="https://github.com/munuxi/SparseRREF"
 PATCH="patches/sparserref-5bbee55-race-and-init-fix.patch"
 NEWER_PATCH="patches/sparserref-race-fix.patch"
+WXF_PATCH="patches/sparserref-wxf-validation.patch"
+
+apply_wxf_patch() {
+  if git -C SparseRREF apply --reverse --check "../$WXF_PATCH" 2>/dev/null; then
+    return
+  fi
+  git -C SparseRREF apply --check "../$WXF_PATCH" || die "WXF patch does not match this checkout; preserve local edits and use the pinned SparseRREF version."
+  git -C SparseRREF apply "../$WXF_PATCH"
+}
 
 die() { echo "setup-sparserref: $*" >&2; exit 1; }
 
@@ -30,6 +39,8 @@ check_tree() {
   [[ "$n" == "2" ]] || die "SparseRREF/sparse_mat.h has $n (want 2) std::atomic<int> occurrences — the race fix is missing; intermittent SIGSEGV will follow. Re-run without --check to re-apply patches."
   grep -q "must not return an empty tensor" SparseRREF/sparse_tensor.h \
     || die "SparseRREF/sparse_tensor.h lacks the loud tensor_contract fix — patches out of date."
+  grep -q 'Checked WXF decoding' SparseRREF/wxf_parser.h || die "WXF bounds patch is missing"
+  grep -q 'wxf_checked::validate' SparseRREF/wxf_support.h || die "SparseArray validation patch is missing"
   echo "setup-sparserref: SparseRREF/ patches verified (race fix + loud-failure fixes present)."
 }
 
@@ -52,6 +63,7 @@ elif [[ -z "$(cd SparseRREF && git status --porcelain 2>/dev/null)" ]]; then
     || { echo "setup-sparserref: resetting SparseRREF to $PINNED_COMMIT"; git checkout -q "$PINNED_COMMIT"; } )
 else
   echo "setup-sparserref: SparseRREF/ already patched (dirty tree) — verifying"
+  apply_wxf_patch
   check_tree
   exit 0
 fi
@@ -62,5 +74,6 @@ git -C SparseRREF apply "../$PATCH" || {
   git -C SparseRREF apply "../$NEWER_PATCH" || die "could not apply either patch; SparseRREF upstream may have moved — regenerate patches/ and update PINNED_COMMIT"
 }
 
+apply_wxf_patch
 check_tree
 echo "setup-sparserref: done. Build with: make"

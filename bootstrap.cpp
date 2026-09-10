@@ -347,6 +347,7 @@ void write_tensor(
 
 int main(int argc, char* argv[]) {
 	try {
+		native_cache::set_executable(native_cache::executable_path(argv[0]));
 		field_t F(FIELD_QQ);
 
 		args_t args = parse_args(argc, argv);
@@ -359,7 +360,7 @@ int main(int argc, char* argv[]) {
 		opt->pool.reset();
 		thread_pool* pool = &(opt->pool);
 
-		std::filesystem::path base = std::filesystem::path(argv[0]).parent_path();
+		std::filesystem::path base = native_cache::executable_path(argv[0]).parent_path();
 		if (base.empty()) {
 			base = std::filesystem::current_path();
 		}

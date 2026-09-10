@@ -1,0 +1,47 @@
+read bundled FEC_1.wxf PASS 0
+read bundled dlogmat_pentagon.wxf PASS 0
+read bundled dlogmat_full_4pformfactor.wxf PASS 0
+matrix power 0 PASS 0
+matrix power exact values 0 PASS 0
+matrix power 2 PASS 0
+matrix power exact values 2 PASS 0
+matrix power 17 PASS 0
+matrix power exact values 17 PASS 0
+reject invalid power -1 PASS 1
+reject invalid power 2junk FAIL 0
+reject invalid power 1.5 FAIL 0
+reject invalid power 999999999999999999999999999 PASS 1
+reject nonsquare power PASS 1
+reject missing input PASS 1
+reject missing output directory PASS 1
+reject full output device PASS 1
+ternary identity PASS 0
+reject contraction dimension mismatch PASS 1
+reject invalid dot axis PASS 1
+reject unsupported rank-one squeeze PASS 1
+zero from exact cancellation PASS 0
+reject zero denominator FAIL 0
+reject malformed rational FAIL 0
+reject malformed WXF 0 FAIL -11
+reject malformed WXF 1 FAIL -11
+reject malformed WXF 2 FAIL -11
+reject malformed WXF 3 FAIL -11
+reject malformed WXF 4 FAIL -11
+reject malformed WXF 5 FAIL -11
+reject malformed WXF 6 FAIL -11
+reject malformed WXF 7 FAIL -11
+reject malformed WXF 8 FAIL -11
+reject malformed WXF 9 FAIL -11
+reject malformed WXF 10 FAIL -11
+reject malformed WXF 11 FAIL -11
+reject malformed WXF 12 FAIL -11
+reject malformed WXF 13 FAIL -11
+reject malformed WXF 14 FAIL -11
+reject malformed WXF 15 FAIL -11
+reject malformed WXF 16 FAIL -11
+inconsistent solve returns nonzero PASS 1
+condition export preserves inconsistency FAIL 0
+resume from two loops to three loops FAIL 1
+10 fresh two-loop runs match all 5 baseline files PASS None
+WORK /tmp/symbology-cpp-audit.3hmza_cm
+SUMMARY 22 passed 23 failed

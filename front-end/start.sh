@@ -9,14 +9,17 @@ PORT=8321
 echo "== Symbology Studio =="
 
 if ! command -v python3 >/dev/null 2>&1; then
-  echo "Error: python3 was not found. Please install Python 3.9+ first." >&2
+  echo "Error: python3 was not found. Please install Python 3.10+ first." >&2
   exit 1
 fi
 
-if [ ! -x "$REPO_ROOT/bootstrap" ]; then
-  echo "The bootstrap binary is missing; building it (requires a C++23 compiler)..."
-  (cd "$REPO_ROOT" && make bootstrap)
-fi
+for binary in bootstrap compute_rhs tensor_add tensor_ops; do
+  if [ ! -x "$REPO_ROOT/$binary" ]; then
+    echo "A required binary is missing; building the tools (requires GCC with C++20 and std::format)..."
+    (cd "$REPO_ROOT" && make)
+    break
+  fi
+done
 
 if [ ! -d server/.venv ]; then
   echo "Setting up the Python environment (one-time)..."
@@ -28,7 +31,7 @@ fi
 if [ ! -d web/dist ]; then
   if command -v npm >/dev/null 2>&1; then
     echo "Building the web interface (one-time)..."
-    (cd web && (npm install --no-audit --no-fund || npm install --no-audit --no-fund --strict-ssl=false || env -u http_proxy -u https_proxy -u HTTP_PROXY -u HTTPS_PROXY npm install --no-audit --no-fund --strict-ssl=false) && npm run build)
+    (cd web && npm ci --no-audit --no-fund && npm run build)
   else
     echo "Note: npm not found; skipping the prebuilt UI."
     echo "You can run the UI in dev mode later with: cd web && npm install && npm run dev"

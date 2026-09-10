@@ -1,0 +1,11 @@
+# Linux x86_64 toolchain used for the public correctness checks.
+name: symbology-ci
+channels:
+  - conda-forge
+dependencies:
+  - gxx_linux-64=14.4.0
+  - libflint=3.2.2
+  - gmp=6.3
+  - tbb-devel=2023.1.0
+  - mimalloc=3.4.1
+  - python=3.12

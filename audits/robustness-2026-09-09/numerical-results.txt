@@ -1,0 +1,91 @@
+PASS solver=incremental trial=0 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=1 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=2 unknowns=3 inconsistent=1 
+PASS solver=incremental trial=3 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=4 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=5 unknowns=1 inconsistent=1 
+PASS solver=incremental trial=6 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=7 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=8 unknowns=4 inconsistent=1 
+PASS solver=incremental trial=9 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=10 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=11 unknowns=2 inconsistent=1 
+PASS solver=incremental trial=12 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=13 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=14 unknowns=5 inconsistent=1 
+PASS solver=incremental trial=15 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=16 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=17 unknowns=3 inconsistent=1 
+PASS solver=incremental trial=18 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=19 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=20 unknowns=1 inconsistent=1 
+PASS solver=incremental trial=21 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=22 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=23 unknowns=4 inconsistent=1 
+PASS solver=incremental trial=24 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=25 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=26 unknowns=2 inconsistent=1 
+PASS solver=incremental trial=27 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=28 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=29 unknowns=5 inconsistent=1 
+PASS solver=incremental trial=30 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=31 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=32 unknowns=3 inconsistent=1 
+PASS solver=incremental trial=33 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=34 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=35 unknowns=1 inconsistent=1 
+PASS solver=incremental trial=36 unknowns=2 inconsistent=0 
+PASS solver=incremental trial=37 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=38 unknowns=4 inconsistent=1 
+PASS solver=incremental trial=39 unknowns=5 inconsistent=0 
+PASS solver=incremental trial=40 unknowns=1 inconsistent=0 
+PASS solver=incremental trial=41 unknowns=2 inconsistent=1 
+PASS solver=incremental trial=42 unknowns=3 inconsistent=0 
+PASS solver=incremental trial=43 unknowns=4 inconsistent=0 
+PASS solver=incremental trial=44 unknowns=5 inconsistent=1 
+PASS solver=sampled trial=0 unknowns=1 inconsistent=0 
+PASS solver=sampled trial=1 unknowns=2 inconsistent=0 
+FAIL solver=sampled trial=2 unknowns=3 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=3 unknowns=4 inconsistent=0 
+PASS solver=sampled trial=4 unknowns=5 inconsistent=0 
+FAIL solver=sampled trial=5 unknowns=1 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=6 unknowns=2 inconsistent=0 
+PASS solver=sampled trial=7 unknowns=3 inconsistent=0 
+FAIL solver=sampled trial=8 unknowns=4 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=9 unknowns=5 inconsistent=0 
+PASS solver=sampled trial=10 unknowns=1 inconsistent=0 
+FAIL solver=sampled trial=11 unknowns=2 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=12 unknowns=3 inconsistent=0 
+PASS solver=sampled trial=13 unknowns=4 inconsistent=0 
+FAIL solver=sampled trial=14 unknowns=5 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=15 unknowns=1 inconsistent=0 
+PASS solver=sampled trial=16 unknowns=2 inconsistent=0 
+FAIL solver=sampled trial=17 unknowns=3 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=18 unknowns=4 inconsistent=0 
+PASS solver=sampled trial=19 unknowns=5 inconsistent=0 
+FAIL solver=sampled trial=20 unknowns=1 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=21 unknowns=2 inconsistent=0 
+PASS solver=sampled trial=22 unknowns=3 inconsistent=0 
+FAIL solver=sampled trial=23 unknowns=4 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=24 unknowns=5 inconsistent=0 
+PASS solver=sampled trial=25 unknowns=1 inconsistent=0 
+FAIL solver=sampled trial=26 unknowns=2 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=27 unknowns=3 inconsistent=0 
+PASS solver=sampled trial=28 unknowns=4 inconsistent=0 
+FAIL solver=sampled trial=29 unknowns=5 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=30 unknowns=1 inconsistent=0 
+PASS solver=sampled trial=31 unknowns=2 inconsistent=0 
+FAIL solver=sampled trial=32 unknowns=3 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=33 unknowns=4 inconsistent=0 
+PASS solver=sampled trial=34 unknowns=5 inconsistent=0 
+FAIL solver=sampled trial=35 unknowns=1 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=36 unknowns=2 inconsistent=0 
+PASS solver=sampled trial=37 unknowns=3 inconsistent=0 
+FAIL solver=sampled trial=38 unknowns=4 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=39 unknowns=5 inconsistent=0 
+PASS solver=sampled trial=40 unknowns=1 inconsistent=0 
+FAIL solver=sampled trial=41 unknowns=2 inconsistent=1 nonzero exact residual
+PASS solver=sampled trial=42 unknowns=3 inconsistent=0 
+PASS solver=sampled trial=43 unknowns=4 inconsistent=0 
+FAIL solver=sampled trial=44 unknowns=5 inconsistent=1 nonzero exact residual
+SUMMARY 75 passed 15 failed

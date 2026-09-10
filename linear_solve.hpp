@@ -79,6 +79,15 @@ linear_solve_result_t<T, index_t> solve_linear_system(
 	b.clear();
 
 	// Collect non-trivial constraint indices (where M row has non-zero entries)
+	// A nonzero RHS with a zero coefficient row is already a proof of
+	// inconsistency. The collinear CLI checks this too, but direct callers
+	// must not silently lose these constraints during sampling/verification.
+	for (size_t j = 0; j < b_mat[0].nnz(); j++) {
+		if (b_mat[0][j] != T(0) && M[b_mat[0](j)].nnz() == 0) {
+			std::cout << "   System is INCONSISTENT: zero coefficient row with nonzero RHS" << std::endl;
+			return {.consistent = false, .unique = false, .n_unknowns = n_unknowns};
+		}
+	}
 	std::vector<size_t> nontrivial_indices;
 	for (size_t i = 0; i < M.nrow; i++) {
 		if (M[i].nnz() > 0) {

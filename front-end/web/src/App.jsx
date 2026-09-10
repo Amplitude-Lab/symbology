@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component {
           url: window.location.href,
           ua: navigator.userAgent,
         }),
-      })
+      }).catch(() => {})
     } catch { /* best effort */ }
   }
   render() {

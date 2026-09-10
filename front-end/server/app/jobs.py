@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import hashlib
+from collections import deque
 import json
 import os
 import signal
@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import storage
+from . import storage, execution
 from .wolfram import parse_result_marker
 
 # Safety bounds. The full step log always lands in runs/<run_id>.log; the
@@ -74,7 +74,10 @@ class Run:
         self.created_at = _now()
         self.steps = steps
         self.current_step = None
-        self.events = []
+        self.events = deque(maxlen=MAX_BUFFERED_EVENTS)
+        self.next_event_id = 0
+        self.cancel_requested = False
+        self.worker_active = True
         self.cond = threading.Condition()
         self.proc: subprocess.Popen | None = None
         self.on_step_done = None
@@ -82,9 +85,8 @@ class Run:
 
     def emit(self, event: str, data: dict) -> None:
         with self.cond:
-            self.events.append({"event": event, "data": data})
-            if len(self.events) > MAX_BUFFERED_EVENTS:
-                del self.events[: len(self.events) - MAX_BUFFERED_EVENTS]
+            self.events.append({"id": self.next_event_id, "event": event, "data": data})
+            self.next_event_id += 1
             self.cond.notify_all()
 
     def snapshot(self) -> dict:
@@ -125,23 +127,28 @@ class Engine:
             for step in steps:
                 new_outputs.update(step.get("outputs") or [])
             for other in self.runs.values():
-                if other.project_id != project_id or other.status in _TERMINAL_STATUSES:
+                if other.project_id != project_id or not other.worker_active:
                     continue
                 clash = new_outputs & {o for s in other.steps for o in (s.get("outputs") or [])}
-                if clash:
+                if clash or other.worker_active:
                     raise ValueError(
                         "another run is already writing "
-                        + ", ".join(sorted(clash)[:3])
+                        + (", ".join(sorted(clash)[:3]) or "this project (directory-based steps may share intermediate files)")
                         + f" (run {other.run_id}, status {other.status}) — cancel it or wait for it to finish"
                     )
-        run = Run(uuid.uuid4().hex[:12], project_id, flow_id, label, steps)
-        run.on_step_done = on_step_done
-        run.on_done = on_done
-        with self.lock:
+            run = Run(uuid.uuid4().hex[:12], project_id, flow_id, label, steps)
+            run.lease = execution.project_lease(storage.project_dir(project_id))
+            run.on_step_done = on_step_done
+            run.on_done = on_done
             self.runs[run.run_id] = run
         self._persist(run)
         t = threading.Thread(target=self._execute, args=(run,), daemon=True)
-        t.start()
+        try:
+            t.start()
+        except Exception:
+            run.worker_active = False
+            run.lease.close()
+            raise
         return run
 
     def get(self, run_id: str) -> Run | None:
@@ -162,7 +169,11 @@ class Engine:
 
     def _persist(self, run: Run) -> None:
         try:
-            self._meta_path(run).write_text(json.dumps(run.snapshot(), indent=2))
+            with run.cond:
+                path = self._meta_path(run)
+                tmp = path.with_suffix(".json.tmp")
+                tmp.write_text(json.dumps(run.snapshot(), indent=2))
+                os.replace(tmp, path)
         except Exception:
             # The in-memory state and runs/<id>.log still exist, but hiding
             # the failure entirely would let the persisted record silently
@@ -183,80 +194,20 @@ class Engine:
     # fingerprint and forces recomputation of the affected chain.
     @staticmethod
     def _step_fingerprint(run: Run, step: dict) -> str | None:
-        proj_dir = storage.project_dir(run.project_id)
-        outputs = set(step.get("outputs") or [])
-        cwd = step.get("cwd")
-        h = hashlib.sha256()
-        h.update(step.get("command", "").encode())
-        h.update("\x00".join(str(a) for a in (step.get("argv") or [])).encode())
-        # The binary itself is an input too: a rebuilt binary (e.g. after a
-        # bug fix) must invalidate cached outputs produced by the old one —
-        # otherwise a wrong result survives the very fix that corrects it.
-        argv = step.get("argv") or []
-        if argv:
-            try:
-                st = Path(argv[0]).stat()
-                h.update(f"__binary__:{st.st_size}:{st.st_mtime_ns};".encode())
-            except OSError:
-                h.update("__binary__:missing;".encode())
-        for arg in step.get("argv") or []:
-            p = Path(arg)
-            if not p.is_absolute():
-                if cwd is None:
-                    continue
-                p = Path(cwd) / p
-            try:
-                rp = p.resolve().relative_to(proj_dir.resolve())
-            except ValueError:
-                rp = None
-            rel = rp.as_posix() if rp is not None else str(p)
-            if rel in outputs or not p.exists() or p.is_dir():
-                continue
-            try:
-                st = p.stat()
-                h.update(f"{rel}:{st.st_size}:{st.st_mtime_ns}:{st.st_ino};".encode())
-            except OSError:
-                h.update(f"{rel}:?;".encode())
-        return h.hexdigest()
+        return execution.fingerprint(step, storage.project_dir(run.project_id))
+
+    def _run_with_outputs(self, run, step):
+        return execution.run_isolated(run, step, storage.project_dir(run.project_id), self._run_step)
 
     @staticmethod
     def _sig_path(run: Run, output: str) -> Path:
         return storage.project_dir(run.project_id) / f"{output}.sig"
 
     def _step_cached(self, run: Run, step: dict) -> bool:
-        outputs = step.get("outputs") or []
-        if not outputs:
-            return False
-        proj_dir = storage.project_dir(run.project_id)
-        for o in outputs:
-            if not (proj_dir / o).exists():
-                return False
-        fp = self._step_fingerprint(run, step)
-        if fp is None:
-            return False
-        for o in outputs:
-            sp = self._sig_path(run, o)
-            try:
-                if sp.read_text().strip() != fp:
-                    return False
-            except OSError:
-                return False
-        return True
+        return execution.step_cached(step, storage.project_dir(run.project_id))
 
     def _record_sigs(self, run: Run, step: dict, fp: str | None = None) -> None:
-        if fp is None:
-            fp = self._step_fingerprint(run, step)
-        if fp is None:
-            return
-        proj_dir = storage.project_dir(run.project_id)
-        for o in step.get("outputs") or []:
-            try:
-                sp = proj_dir / f"{o}.sig"
-                tmp = sp.with_suffix(sp.suffix + ".tmp")
-                tmp.write_text(fp)
-                os.replace(tmp, sp)
-            except OSError:
-                pass
+        execution.record_sigs(step, storage.project_dir(run.project_id), fp)
 
     def _clear_sigs(self, run: Run, step: dict) -> None:
         proj_dir = storage.project_dir(run.project_id)
@@ -290,8 +241,43 @@ class Engine:
                 pass
 
     def _execute(self, run: Run) -> None:
-        if run.status == "cancelled":
-            # cancel() already emitted the terminal status+end pair.
+        try:
+            self._execute_steps(run)
+        except Exception as exc:
+            line = f"Run failed: {type(exc).__name__}: {exc}"
+            run.emit("log", {"step_id": run.current_step, "stream": "stderr", "line": line})
+            self._append_log(run, line)
+            for step in run.steps:
+                if step.get("status") == "running":
+                    step.update(status="failed", returncode=125)
+                    self._clear_sigs(run, step)
+        finally:
+            with run.cond:
+                proc = run.proc
+            if proc is not None:
+                kill_process_tree(proc)
+                proc.wait()
+            with run.cond:
+                run.proc = None
+                run.current_step = None
+                if _set_status(run, "cancelled" if run.cancel_requested else "failed"):
+                    run.emit("status", {"status": run.status})
+                    run.emit("end", {})
+            self._persist(run)
+            self._evict_finished()
+            if run.on_done:
+                try:
+                    run.on_done(run)
+                except Exception:
+                    traceback.print_exc()
+            with self.lock:
+                if getattr(run, 'lease', None):
+                    run.lease.close()
+                run.worker_active = False
+
+    def _execute_steps(self, run: Run) -> None:
+        if run.cancel_requested:
+            # The wrapper acknowledges cancellation after cleanup.
             self._persist(run)
             return
         if _set_status(run, "running"):
@@ -299,7 +285,7 @@ class Engine:
         self._persist(run)
         failed = False
         for step in run.steps:
-            if run.status == "cancelled":
+            if run.cancel_requested:
                 break
             step_id = step["id"]
             run.current_step = step_id
@@ -317,7 +303,7 @@ class Engine:
             run.emit("step", {"step_id": step_id, "status": "running"})
             self._persist(run)
             pre_fp = self._step_fingerprint(run, step)
-            rc = self._run_step(run, step)
+            rc = self._run_with_outputs(run, step)
             if rc == 0:
                 # A zero exit code does not prove the step did its job: every
                 # declared output must exist (files nonempty), otherwise the
@@ -341,8 +327,10 @@ class Engine:
                 step["status"] = "done"
                 self._record_sigs(run, step, pre_fp)
                 self._record_meaning(run, step)
+                if run.on_step_done:
+                    run.on_step_done(run, step, step.get("result"))
                 run.emit("step", {"step_id": step_id, "status": "done"})
-            elif run.status == "cancelled":
+            elif run.cancel_requested:
                 step["status"] = "failed"
                 self._clear_sigs(run, step)
                 run.emit("step", {"step_id": step_id, "status": "failed"})
@@ -358,23 +346,12 @@ class Engine:
         run.current_step = None
         # Exactly one terminal transition wins (the other may have been the
         # cancel() thread), so the UI never sees conflicting final statuses.
-        if _set_status(run, "failed" if failed else "done"):
-            run.emit("status", {"status": run.status})
-            run.emit("end", {})
+        with run.cond:
+            if _set_status(run, "cancelled" if run.cancel_requested else "failed" if failed else "done"):
+                run.emit("status", {"status": run.status})
+                run.emit("end", {})
         self._persist(run)
         self._evict_finished()
-        if run.on_done:
-            try:
-                run.on_done(run)
-            except Exception:
-                # A hook failure must be visible: e.g. an alphabet property
-                # would otherwise stay 'computing' forever with no error.
-                line = f"run {run.run_id}: on_done hook raised:"
-                traceback.print_exc()
-                run.emit("log", {"step_id": None, "stream": "stderr",
-                                 "line": line + " (see server console for the traceback)"})
-                self._append_log(run, line)
-
     def _evict_finished(self) -> None:
         # Bound the engine dict; runs/*.json records on disk are unaffected.
         with self.lock:
@@ -402,6 +379,8 @@ class Engine:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 bufsize=1,
                 start_new_session=POSIX_SESSIONS,
             )
@@ -410,7 +389,10 @@ class Engine:
             run.emit("log", {"step_id": step["id"], "stream": "stderr", "line": line})
             self._append_log(run, line)
             return 127
-        run.proc = proc
+        with run.cond:
+            run.proc = proc
+            if run.cancel_requested:
+                kill_process_tree(proc)
         # Optional per-step wall-clock guard: without it a hung binary blocks
         # the run thread forever and nothing short of a manual cancel notices.
         # Disabled by default (exact runs can legitimately take hours/days);
@@ -444,53 +426,33 @@ class Engine:
         finally:
             if killer is not None:
                 killer.cancel()
-            run.proc = None
+            if proc.poll() is None:
+                kill_process_tree(proc)
+                proc.wait()
+            proc.stdout.close()
+            with run.cond:
+                run.proc = None
         if timed_out.is_set():
             line = (f"Step exceeded JOBS_STEP_TIMEOUT={timeout:g}s and was killed "
                     "(the run is marked failed; raise or unset JOBS_STEP_TIMEOUT for long steps)")
             run.emit("log", {"step_id": step["id"], "stream": "stderr", "line": line})
             self._append_log(run, line)
             return 124
-        if rc == 0 and run.on_step_done:
-            try:
-                run.on_step_done(run, step, result_payload)
-            except Exception:
-                # Surface hook failures instead of swallowing them (e.g. an
-                # alphabet property stuck at 'computing' with no error).
-                line = f"run {run.run_id} step {step['id']}: on_step_done hook raised:"
-                traceback.print_exc()
-                run.emit("log", {"step_id": step["id"], "stream": "stderr",
-                                 "line": line + " (see server console for the traceback)"})
-                self._append_log(run, line)
         return rc
 
     def cancel(self, run_id: str) -> bool:
         run = self.get(run_id)
-        if run is None or run.status in _TERMINAL_STATUSES:
+        if run is None:
             return False
-        # Win the terminal transition first: if the worker thread is between
-        # steps and about to declare done/failed, exactly one of us emits the
-        # terminal status+end pair.
-        if not _set_status(run, "cancelled"):
-            return False
-        if run.proc is not None:
-            if POSIX_SESSIONS:
-                try:
-                    os.killpg(os.getpgid(run.proc.pid), signal.SIGTERM)
-                except Exception:
-                    pass
-            else:
-                try:
-                    run.proc.terminate()
-                except Exception:
-                    pass
-            try:
-                run.proc.wait(timeout=5)
-            except Exception:
-                kill_process_tree(run.proc)
-        run.emit("status", {"status": "cancelled"})
-        run.emit("end", {})
-        self._persist(run)
+        with run.cond:
+            if run.status in _TERMINAL_STATUSES or run.cancel_requested:
+                return False
+            run.cancel_requested = True
+            proc = run.proc
+        if proc is not None:
+            kill_process_tree(proc)
+        # The worker acknowledges cancellation only after the process exits,
+        # output rollback completes, and its reservations can be released.
         return True
 
 

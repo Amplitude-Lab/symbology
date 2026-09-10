@@ -8,23 +8,54 @@ export default function RunDetail() {
   const toast = useToast()
   const [run, setRun] = useState(null)
   const [logs, setLogs] = useState([])
+  const [error, setError] = useState('')
+  const [connection, setConnection] = useState('connecting')
+  const [retry, setRetry] = useState(0)
   const logRef = useRef(null)
   const esRef = useRef(null)
 
   useEffect(() => {
     let alive = true
-    api.getRun(rid).then((r) => alive && setRun(r)).catch(() => {})
+    let refreshing = false
+    let refreshAgain = false
+    let pending = []
+    setRun(null)
+    setLogs([])
+    setError('')
+    setConnection('connecting')
     const es = new EventSource(api.runEventsUrl(rid))
     esRef.current = es
-    es.addEventListener('log', (e) => {
-      const d = JSON.parse(e.data)
-      setLogs((ls) => [...ls.slice(-4000), d.line])
-    })
-    es.addEventListener('step', () => { api.getRun(rid).then(setRun).catch(() => {}) })
-    es.addEventListener('status', () => { api.getRun(rid).then(setRun).catch(() => {}) })
-    es.addEventListener('end', () => { es.close() })
-    return () => { alive = false; es.close() }
-  }, [rid])
+    const refresh = async () => {
+      if (refreshing) { refreshAgain = true; return }
+      refreshing = true
+      try {
+        const r = await api.getRun(rid)
+        if (alive) { setRun(r); setError('') }
+      } catch (e) {
+        if (alive) { setError(e.message); if (e.status === 404) es.close() }
+      } finally {
+        refreshing = false
+        if (alive && refreshAgain) { refreshAgain = false; refresh() }
+      }
+    }
+    refresh()
+    const flush = () => {
+      if (alive && pending.length) {
+        const batch = pending
+        pending = []
+        setLogs((ls) => [...ls, ...batch].slice(-4000))
+      }
+    }
+    const timer = setInterval(flush, 100)
+    es.onopen = () => { if (alive) setConnection('connected') }
+    es.onerror = () => { if (alive) { setConnection('disconnected; reconnecting…'); refresh() } }
+    es.addEventListener('log', (e) => { pending.push(JSON.parse(e.data).line); if (pending.length > 4000) pending.shift() })
+    es.addEventListener('gap', () => { pending.push('[Older output is available in the saved run log.]') })
+    es.addEventListener('step', refresh)
+    es.addEventListener('status', refresh)
+    es.addEventListener('end', () => { es.close(); flush(); refresh(); if (alive) setConnection('finished') })
+    return () => { alive = false; clearInterval(timer); es.close() }
+  }, [rid, retry])
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
@@ -34,7 +65,7 @@ export default function RunDetail() {
     try { await api.cancelRun(rid); toast('Run cancelled.') } catch (e) { toast(e.message) }
   }
 
-  if (!run) return <div className="page"><p className="muted">Loading run…</p></div>
+  if (!run) return <div className="page"><p className={error ? 'error-text' : 'muted'}>{error || 'Loading run…'}</p>{error && <button onClick={() => setRetry((v) => v + 1)}>Retry</button>}</div>
   const active = run.status === 'queued' || run.status === 'running'
 
   return (
@@ -55,6 +86,8 @@ export default function RunDetail() {
           ))}
         </ul>
       </div>
+      {error && <p role="alert" className="error-text">{error}</p>}
+      <p className="muted">Log connection: {connection}</p>
       <h2>Log</h2>
       <div className="log-console" ref={logRef}>
         {logs.length ? logs.join('\n') : <span className="muted">waiting for output…</span>}

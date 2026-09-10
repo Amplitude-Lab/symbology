@@ -2,7 +2,7 @@
 
 Single source of truth for the Milestone-1 vertical slice.
 
-- Backend: Python 3.9-compatible FastAPI + uvicorn, in `front-end/server/`.
+- Backend: FastAPI (tested with Python 3.12) + uvicorn, in `front-end/server/`.
 
 - Frontend: React + Vite + React Flow, in `front-end/web/`, dev proxy to backend.
 
@@ -156,7 +156,7 @@ Compiled step:
 
 - `POST /api/projects/{pid}/flows` body `{"name": "..."}` -> Flow
 
-- `PUT /api/projects/{pid}/flows/{fid}` body `{"name": "...", "graph": {...}}` -> Flow
+- `PUT /api/projects/{pid}/flows/{fid}` body `{"revision": 0, "name": "...", "graph": {...}}` -> Flow with incremented `revision`; missing/stale revisions return 409. Legacy stored flows start at revision 0. Graph structure is validated before persistence.
 
 - `DELETE /api/projects/{pid}/flows/{fid}`
 
@@ -199,11 +199,15 @@ SSE events (`GET /api/runs/{run_id}/events`), `text/event-stream`; replay backlo
 
 - `event: end`  data: `{}`
 
+Live events include monotonic `id:` values. Reconnect with `Last-Event-ID`. If the cursor predates the 20,000-event buffer, `event: gap` reports that older output is in the saved disk log. Historical logs stream from disk.
+
 ## Execution semantics
 
-- Steps execute sequentially in topological order; a step with all `outputs` present and `skip_if_exists` is marked `skipped`.
+- Steps execute sequentially in topological order. The local and exported runners share an OS file lock allowing one active run per project. Cache hits require matching command/input/executable content fingerprints and nonempty output content digests. The compiler supplies file and conservative directory input manifests.
 
-- Subprocesses run in their own process group; cancel kills the whole group. Browser disconnect never affects a run.
+- Local and newly exported steps run in isolated attempt directories. Newly produced outputs are verified and published by atomic file replacement, with rollback on publication errors. Failed/cancelled attempts publish nothing. Multi-file publication is not crash-atomic. Exported scripts embed the local staging/cache implementation and a standard-library process runner. Re-export older scripts to update their embedded implementation.
+
+- On POSIX, subprocesses run in their own process group. Cancel requests kill the group; the worker marks the run cancelled after cleanup. Windows falls back to killing the direct child. Browser disconnect never affects a run. Use one server worker; unfinished disk records are marked failed after restart.
 
 - Logs persist to `projects/<pid>/runs/<run_id>.log`; run metadata to `<run_id>.json`.
 

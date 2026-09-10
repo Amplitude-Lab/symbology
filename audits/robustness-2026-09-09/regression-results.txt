@@ -1,0 +1,3 @@
+== regression: audits/baseline-2026-09-09/manifest-computerhs.json
+REGRESSION FAIL: seed input output/collinear/ missing from /home/ana/Documents/symbology
+make: *** [Makefile:106: regression] Error 1

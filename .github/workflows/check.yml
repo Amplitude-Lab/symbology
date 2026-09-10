@@ -1,15 +1,7 @@
 name: check
 
-# Local development's aggregate gate is `make check` (regression baselines +
-# registry sync). This workflow runs the machine-independent subset on every
-# push/PR: build the C++ core against a fresh SparseRREF clone + patch, and
-# run the checks that do not need local project data (the CRC32 baselines
-# read front-end/projects/, which is gitignored and machine-local — run
-# `make check` on your machine for those).
-#
-# NOTE: the code needs FLINT >= 3 (developed against 3.2). If the distro's
-# libflint-dev is too old, the build step fails loudly — adjust the install
-# step (e.g. a PPA or a source build) rather than weakening the code.
+# Public fixtures run without private project data. Linux uses the same
+# explicit FLINT 3 / GCC 14 environment used in the local audit.
 
 on:
   push:
@@ -18,21 +10,34 @@ on:
 jobs:
   core:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        mimalloc: [0, 1]
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y g++ libflint-dev libgmp-dev libtbb-dev python3
+      - uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-file: environment-linux.yml
+          cache-environment: true
       - name: Set up SparseRREF (pinned commit + patches)
         run: ./scripts/setup-sparserref.sh
-      - name: Build
+      - name: Build and public exact, cache, parser and template checks
+        shell: bash -el {0}
         run: |
-          make bootstrap compute_rhs tensor_add tensor_ops
-      - name: RHS_MODES registry sync
-        run: python3 front-end/web/scripts/rhs-modes-sync.py
-      - name: Standalone-script generator smoke (bash syntax of a self-test)
-        run: bash -n scripts/setup-sparserref.sh
+          allocator_lib=""
+          if [ "${{ matrix.mimalloc }}" = "1" ]; then allocator_lib="-lmimalloc"; fi
+          make -j2 check-public PORTABLE=1 MIMALLOC=${{ matrix.mimalloc }} \
+            CXX="$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-c++" \
+            CXXFLAGS="-O2 -std=c++20 -I. -I$CONDA_PREFIX/include" \
+            LDLIBS="-L$CONDA_PREFIX/lib -Wl,-rpath,$CONDA_PREFIX/lib -lflint -lgmp -ltbb $allocator_lib"
+      - name: WXF memory diagnostics
+        if: matrix.mimalloc == 0
+        shell: bash -el {0}
+        run: |
+          make check-wxf-sanitized MIMALLOC=0 \
+            CXX="$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-c++" \
+            CXXFLAGS="-std=c++20 -I. -I$CONDA_PREFIX/include" \
+            LDLIBS="-L$CONDA_PREFIX/lib -Wl,-rpath,$CONDA_PREFIX/lib -lflint -lgmp -ltbb"
 
   web:
     runs-on: ubuntu-24.04
@@ -44,5 +49,17 @@ jobs:
       - name: Build the web bundle
         working-directory: front-end/web
         run: |
-          npm ci || npm install
+          npm ci
           npx vite build
+
+  api:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies
+        run: python -m pip install -r tests/requirements.txt
+      - name: API and execution regressions
+        run: python -m pytest tests/test_robustness.py tests/test_export_runtime.py -q

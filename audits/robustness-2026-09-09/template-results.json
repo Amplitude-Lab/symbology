@@ -1,0 +1,1311 @@
+{
+  "projects_dir": "/tmp/symbology-template-audit.s3ept_58",
+  "results": [
+    {
+      "template": "4pformfactor",
+      "project": "template-4pformfactor",
+      "name": "4pFF \u00b7 full conditions + cyclic & flip invariants",
+      "ok": true,
+      "errors": [],
+      "steps": [
+        {
+          "id": "step-1",
+          "label": "Merge 2 condition tensors",
+          "kind": "wolfram",
+          "command": "/usr/bin/wolframscript -script /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/wolfram_gen/merge_merge.wl",
+          "argv": [
+            "/usr/bin/wolframscript",
+            "-script",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/wolfram_gen/merge_merge.wl"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor",
+          "outputs": [
+            "data/merged_merge.wxf"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "merge",
+            "tensor_file": "data/merged_merge.wxf"
+          }
+        },
+        {
+          "id": "step-2",
+          "label": "Symmetry solve merged_merge -> S_cyc",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops symsolve /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/merged_merge.wxf /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/cycmat.wxf - /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cyc.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "symsolve",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/merged_merge.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/cycmat.wxf",
+            "-",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cyc.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor",
+          "outputs": [
+            "output/S_cyc.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "solve_symmetry",
+            "tensor_file": "output/S_cyc.wxf"
+          }
+        },
+        {
+          "id": "step-3",
+          "label": "Symmetry solve S_cyc -> S_cycflip",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops symsolve /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cyc.wxf /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/flipmat.wxf - /tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cycflip.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "symsolve",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cyc.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/data/flipmat.wxf",
+            "-",
+            "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor/output/S_cycflip.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-4pformfactor",
+          "outputs": [
+            "output/S_cycflip.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "solve_symmetry",
+            "tensor_file": "output/S_cycflip.wxf"
+          }
+        }
+      ]
+    },
+    {
+      "template": "pentagon",
+      "project": "template-pentagon",
+      "name": "Pentagon \u00b7 D5-invariant integrability tensor",
+      "ok": true,
+      "errors": [],
+      "steps": [
+        {
+          "id": "step-1",
+          "label": "Matrix power cycmat^2 -> cyc2",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 2 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "power",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "2",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/cyc2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "matrix_power",
+            "tensor_file": "output/cyc2.wxf"
+          }
+        },
+        {
+          "id": "step-2",
+          "label": "Matrix power cycmat^3 -> cyc3",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 3 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "power",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "3",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/cyc3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "matrix_power",
+            "tensor_file": "output/cyc3.wxf"
+          }
+        },
+        {
+          "id": "step-3",
+          "label": "Matrix power cycmat^4 -> cyc4",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops power /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf 4 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "power",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "4",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/cyc4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "matrix_power",
+            "tensor_file": "output/cyc4.wxf"
+          }
+        },
+        {
+          "id": "step-4",
+          "label": "Ternary contract dlogmat_pentagon -> P5_cyc1",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_cyc1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_cyc1.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_cyc1.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-5",
+          "label": "Ternary contract dlogmat_pentagon -> P5_fc1",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/cycmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_fc1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_fc1.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_fc1.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-6",
+          "label": "Ternary contract dlogmat_pentagon -> P5_cyc2",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_cyc2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_cyc2.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_cyc2.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-7",
+          "label": "Ternary contract dlogmat_pentagon -> P5_fc2",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc2.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_fc2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_fc2.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_fc2.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-8",
+          "label": "Ternary contract dlogmat_pentagon -> P5_cyc3",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_cyc3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_cyc3.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_cyc3.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-9",
+          "label": "Ternary contract dlogmat_pentagon -> P5_fc3",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc3.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_fc3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_fc3.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_fc3.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-10",
+          "label": "Ternary contract dlogmat_pentagon -> P5_cyc4",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_cyc4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_cyc4.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_cyc4.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-11",
+          "label": "Ternary contract dlogmat_pentagon -> P5_fc4",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops ternary /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "ternary",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/dlogmat_pentagon.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/data/flipmat.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/cyc4.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_fc4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "ternary_contract",
+            "tensor_file": "output/P5_fc4.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_fc4.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false,
+              "axes_meaning": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "id": "step-12",
+          "label": "Add P5_cyc1 + 1/10*P5_cyc2 -> P5_dlogmat_inv_p1",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf 1/10 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc2.wxf",
+            "1/10",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p1.wxf"
+          }
+        },
+        {
+          "id": "step-13",
+          "label": "Add P5_dlogmat_inv_p1 + 1/10*P5_cyc3 -> P5_dlogmat_inv_p2",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc3.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p2.wxf"
+          }
+        },
+        {
+          "id": "step-14",
+          "label": "Add P5_dlogmat_inv_p2 + 1/10*P5_cyc4 -> P5_dlogmat_inv_p3",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p2.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_cyc4.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p3.wxf"
+          }
+        },
+        {
+          "id": "step-15",
+          "label": "Add P5_dlogmat_inv_p3 + 1/10*P5_fc1 -> P5_dlogmat_inv_p4",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p3.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc1.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p4.wxf"
+          }
+        },
+        {
+          "id": "step-16",
+          "label": "Add P5_dlogmat_inv_p4 + 1/10*P5_fc2 -> P5_dlogmat_inv_p5",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p4.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc2.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p5.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p5.wxf"
+          }
+        },
+        {
+          "id": "step-17",
+          "label": "Add P5_dlogmat_inv_p5 + 1/10*P5_fc3 -> P5_dlogmat_inv_p6",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p5.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc3.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv_p6.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv_p6.wxf"
+          }
+        },
+        {
+          "id": "step-18",
+          "label": "Add P5_dlogmat_inv_p6 + 1/10*P5_fc4 -> P5_dlogmat_inv",
+          "kind": "tensor_add",
+          "command": "/home/ana/Documents/symbology/tensor_add /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf 1 1/10 /tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_add",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv_p6.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_fc4.wxf",
+            "1",
+            "1/10",
+            "/tmp/symbology-template-audit.s3ept_58/template-pentagon/output/P5_dlogmat_inv.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-pentagon",
+          "outputs": [
+            "output/P5_dlogmat_inv.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "add_tensors",
+            "tensor_file": "output/P5_dlogmat_inv.wxf"
+          },
+          "tensor_meaning": {
+            "output/P5_dlogmat_inv.wxf": {
+              "kind": "dlogmat",
+              "letters_axes": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "template": "e6",
+      "project": "template-e6",
+      "name": "E6 \u00b7 extend & sew chain (smoke)",
+      "ok": true,
+      "errors": [],
+      "steps": [
+        {
+          "id": "step-1",
+          "label": "Derive projection map FEC_1 -> FEC_1_proj (drop size-1 axis)",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1_proj.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "squeeze",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1_proj.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "data/FEC_1_proj.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "squeeze",
+            "tensor_file": "data/FEC_1_proj.wxf"
+          }
+        },
+        {
+          "id": "step-2",
+          "label": "Derive projection map LEC_1 -> LEC_1_proj (drop size-1 axis)",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1_proj.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "squeeze",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1_proj.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "data/LEC_1_proj.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "squeeze",
+            "tensor_file": "data/LEC_1_proj.wxf"
+          }
+        },
+        {
+          "id": "step-3",
+          "label": "Extend FEC_1 -> FEC_2",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_2.wxf"
+          }
+        },
+        {
+          "id": "step-4",
+          "label": "Extend LEC_1 -> LEC_2",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/LEC_2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/LEC_2.wxf"
+          }
+        },
+        {
+          "id": "step-5",
+          "label": "Extend FEC_2 -> FEC_3",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_3.wxf"
+          }
+        },
+        {
+          "id": "step-6",
+          "label": "Extend LEC_2 -> LEC_3",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/LEC_3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/LEC_3.wxf"
+          }
+        },
+        {
+          "id": "step-7",
+          "label": "Sew FEC_2 + LEC_2 -> SEW_2p2",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_2p2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--sew",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_2p2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/SEW_2p2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "sew",
+            "tensor_file": "output/SEW_2p2.wxf"
+          }
+        },
+        {
+          "id": "step-8",
+          "label": "Extend FEC_3 -> FEC_4",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_4.wxf"
+          }
+        },
+        {
+          "id": "step-9",
+          "label": "Sew FEC_3 + LEC_1 -> SEW_3p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_3p1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--sew",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_3p1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/SEW_3p1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "sew",
+            "tensor_file": "output/SEW_3p1.wxf"
+          }
+        },
+        {
+          "id": "step-10",
+          "label": "Extend LEC_3 -> LEC_4",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_3.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/LEC_4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/LEC_4.wxf"
+          }
+        },
+        {
+          "id": "step-11",
+          "label": "Extend FEC_4 -> FEC_5",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_5.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_5.wxf"
+          }
+        },
+        {
+          "id": "step-12",
+          "label": "Sew FEC_4 + LEC_2 -> SEW_4p2",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_4p2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--sew",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/LEC_2.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_4p2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/SEW_4p2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "sew",
+            "tensor_file": "output/SEW_4p2.wxf"
+          }
+        },
+        {
+          "id": "step-13",
+          "label": "Sew FEC_5 + LEC_1 -> SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--sew",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/SEW_5p1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "sew",
+            "tensor_file": "output/SEW_5p1.wxf"
+          }
+        }
+      ]
+    },
+    {
+      "template": "e6",
+      "project": "template-e6",
+      "name": "E6 \u00b7 symmetry projection & invariants",
+      "ok": true,
+      "errors": [],
+      "steps": [
+        {
+          "id": "step-1",
+          "label": "Derive projection map FEC_1 -> FEC_1_proj (drop size-1 axis)",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1_proj.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "squeeze",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1_proj.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "data/FEC_1_proj.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "squeeze",
+            "tensor_file": "data/FEC_1_proj.wxf"
+          }
+        },
+        {
+          "id": "step-2",
+          "label": "Derive projection map LEC_1 -> LEC_1_proj (drop size-1 axis)",
+          "kind": "tensor_ops",
+          "command": "/home/ana/Documents/symbology/tensor_ops squeeze /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1_proj.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/tensor_ops",
+            "squeeze",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1_proj.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "data/LEC_1_proj.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "squeeze",
+            "tensor_file": "data/LEC_1_proj.wxf"
+          }
+        },
+        {
+          "id": "step-3",
+          "label": "Extend FEC_1 -> FEC_2",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/FEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_2.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_2.wxf"
+          }
+        },
+        {
+          "id": "step-4",
+          "label": "Extend FEC_2 -> FEC_3",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_2.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_3.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_3.wxf"
+          }
+        },
+        {
+          "id": "step-5",
+          "label": "Extend FEC_3 -> FEC_4",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_3.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_4.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_4.wxf"
+          }
+        },
+        {
+          "id": "step-6",
+          "label": "Extend FEC_4 -> FEC_5",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --extend -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--extend",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_4.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/FEC_5.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "extend",
+            "tensor_file": "output/FEC_5.wxf"
+          }
+        },
+        {
+          "id": "step-7",
+          "label": "Sew FEC_5 + LEC_1 -> SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --sew -c /tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf -f /tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf -l /tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf -o /tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--sew",
+            "-c",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/dlogmat_E6.wxf",
+            "-f",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/FEC_5.wxf",
+            "-l",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data/LEC_1.wxf",
+            "-o",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output/SEW_5p1.wxf"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/SEW_5p1.wxf"
+          ],
+          "skip_if_exists": true,
+          "meta": {
+            "type": "sew",
+            "tensor_file": "output/SEW_5p1.wxf"
+          }
+        },
+        {
+          "id": "step-8",
+          "label": "Projection chain (collinear) on SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --project --symmetry collinear --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--project",
+            "--symmetry",
+            "collinear",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/collinear/summary.txt"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "projection_chain",
+            "symmetry": "collinear",
+            "target": "SEW_5p1",
+            "sym_dir": "/tmp/symbology-template-audit.s3ept_58/template-e6/output/collinear"
+          }
+        },
+        {
+          "id": "step-9",
+          "label": "Projection chain (cyclic) on SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --project --symmetry cyclic --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--project",
+            "--symmetry",
+            "cyclic",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/cyclic/summary.txt"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "projection_chain",
+            "symmetry": "cyclic",
+            "target": "SEW_5p1",
+            "sym_dir": "/tmp/symbology-template-audit.s3ept_58/template-e6/output/cyclic"
+          }
+        },
+        {
+          "id": "step-10",
+          "label": "Projection chain (flip) on SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --project --symmetry flip --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--project",
+            "--symmetry",
+            "flip",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/flip/summary.txt"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "projection_chain",
+            "symmetry": "flip",
+            "target": "SEW_5p1",
+            "sym_dir": "/tmp/symbology-template-audit.s3ept_58/template-e6/output/flip"
+          }
+        },
+        {
+          "id": "step-11",
+          "label": "Projection chain (parity) on SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --project --symmetry parity --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--project",
+            "--symmetry",
+            "parity",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/parity/summary.txt"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "projection_chain",
+            "symmetry": "parity",
+            "target": "SEW_5p1",
+            "sym_dir": "/tmp/symbology-template-audit.s3ept_58/template-e6/output/parity"
+          }
+        },
+        {
+          "id": "step-12",
+          "label": "Symmetry invariant (cyclic) of SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --solve-symmetry --symmetry cyclic --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--solve-symmetry",
+            "--symmetry",
+            "cyclic",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/cyclic/SEW_5p1_invariant.wxf"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "symmetry_invariant",
+            "symmetry": "cyclic",
+            "target": "SEW_5p1",
+            "tensor_file": "output/cyclic/SEW_5p1_invariant.wxf"
+          }
+        },
+        {
+          "id": "step-13",
+          "label": "Symmetry invariant (flip) of SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --solve-symmetry --symmetry flip --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--solve-symmetry",
+            "--symmetry",
+            "flip",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/flip/SEW_5p1_invariant.wxf"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "symmetry_invariant",
+            "symmetry": "flip",
+            "target": "SEW_5p1",
+            "tensor_file": "output/flip/SEW_5p1_invariant.wxf"
+          }
+        },
+        {
+          "id": "step-14",
+          "label": "Symmetry invariant (parity) of SEW_5p1",
+          "kind": "bootstrap",
+          "command": "/home/ana/Documents/symbology/bootstrap --solve-symmetry --symmetry parity --target SEW_5p1 --data-dir /tmp/symbology-template-audit.s3ept_58/template-e6/data --output-dir /tmp/symbology-template-audit.s3ept_58/template-e6/output",
+          "argv": [
+            "/home/ana/Documents/symbology/bootstrap",
+            "--solve-symmetry",
+            "--symmetry",
+            "parity",
+            "--target",
+            "SEW_5p1",
+            "--data-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/data",
+            "--output-dir",
+            "/tmp/symbology-template-audit.s3ept_58/template-e6/output"
+          ],
+          "cwd": "/tmp/symbology-template-audit.s3ept_58/template-e6",
+          "outputs": [
+            "output/parity/SEW_5p1_invariant.wxf"
+          ],
+          "skip_if_exists": false,
+          "meta": {
+            "type": "symmetry_invariant",
+            "symmetry": "parity",
+            "target": "SEW_5p1",
+            "tensor_file": "output/parity/SEW_5p1_invariant.wxf"
+          }
+        }
+      ]
+    },
+    {
+      "template": "e6",
+      "project": "template-e6",
+      "name": "E6 \u00b7 collinear bootstrap & 2-loop RHS",
+      "ok": false,
+      "errors": [
+        "Compute RHS: choose a target weight (2, 4, 6, 8 or 10)."
+      ],
+      "steps": []
+    }
+  ]
+}

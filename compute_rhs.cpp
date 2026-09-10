@@ -87,6 +87,7 @@ rhs_args_t parse_args(int argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
 	try {
+		native_cache::set_executable(native_cache::executable_path(argv[0]));
 		rhs_args_t args = parse_args(argc, argv);
 
 		if (args.help || args.target.empty()) {
@@ -131,7 +132,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		// Resolve paths relative to the executable directory
-		std::filesystem::path base = std::filesystem::path(argv[0]).parent_path();
+		std::filesystem::path base = native_cache::executable_path(argv[0]).parent_path();
 		if (base.empty()) {
 			base = std::filesystem::current_path();
 		}

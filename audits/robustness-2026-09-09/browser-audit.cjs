@@ -1,0 +1,90 @@
+/* Real Chromium + real local API. Only failure/race probes intercept requests. */
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || '/home/ana/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs = require('node:fs');
+const path = require('node:path');
+const base = 'http://127.0.0.1:18321';
+const out = __dirname;
+const results=[];
+const record=(name,pass,evidence)=>{ const r={name,pass,evidence}; results.push(r); console.log(JSON.stringify(r)); };
+(async()=>{
+  const browser=await chromium.launch({executablePath:'/opt/google/chrome/chrome',headless:true,args:['--no-sandbox']});
+  const page=await browser.newPage({viewport:{width:1440,height:1000}});
+  page.setDefaultTimeout(8000);
+  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(base);
+  await page.getByRole('button',{name:'Create your first project'}).click();
+  await page.getByPlaceholder('e.g. 4p form factor study').fill('Browser audit');
+  await page.locator('.modal select').selectOption('4pformfactor');
+  await page.getByRole('button',{name:'Create',exact:true}).click();
+  await page.getByRole('heading',{name:'Materials — alphabet building blocks',exact:true}).waitFor();
+  const pid=await page.locator('.project-picker select').inputValue();
+  record('Create template project through webpage',true,{pid,renderErrors:errors.slice()});
+  await page.screenshot({path:path.join(out,'desktop-materials.png'),fullPage:true});
+  await page.getByRole('link',{name:'Flows',exact:true}).click();
+  await page.getByPlaceholder('New flow name…').fill('Browser flow');
+  await page.getByRole('button',{name:'+ New flow',exact:true}).click();
+  await page.getByRole('button',{name:'Compile',exact:true}).waitFor();
+  const fid=new URL(page.url()).pathname.split('/').pop();
+  record('Create flow and open editor',true,{fid,renderErrors:errors.slice()});
+  await page.screenshot({path:path.join(out,'desktop-editor.png'),fullPage:true});
+  await page.getByRole('button',{name:'Compile',exact:true}).click();
+  await page.getByText('The flow is empty. Add at least one node.',{exact:true}).waitFor();
+  record('Empty flow produces readable compile error',true,{});
+  const rename=page.locator('.flow-toolbar input').first();
+  console.log('inputs',await page.locator('input').evaluateAll(es=>es.map(e=>({value:e.value,placeholder:e.placeholder,type:e.type,class:e.className}))));
+  // Use the actual current name to identify the editor's name field.
+  const nameInput=page.locator('input').filter({visible:true});
+  const flowName=page.locator('input[value="Browser flow"]');
+  await flowName.fill('Lost navigation edit');
+  await page.getByRole('link',{name:'Flows',exact:true}).click();
+  await page.waitForTimeout(1000);
+  let proj=await (await page.request.get(`${base}/api/projects/${pid}`)).json();
+  let saved=proj.flows.find(f=>f.id===fid).name;
+  record('Navigation preserves a pending autosave',saved==='Lost navigation edit',{saved,expected:'Lost navigation edit'});
+  await page.goto(`${base}/flows/${fid}`);
+  await page.getByRole('button',{name:'Compile',exact:true}).waitFor();
+  let putCount=0;
+  const url=`**/api/projects/${pid}/flows/${fid}`;
+  await page.route(url,async route=>{
+    if(route.request().method()!=='PUT')return route.continue();
+    putCount++;
+    if(putCount===1)await new Promise(r=>setTimeout(r,2000));
+    await route.continue();
+  });
+  await page.locator(`input[value="${saved}"]`).fill('Older pending edit');
+  await page.waitForTimeout(1000);
+  await page.locator('input[value="Older pending edit"]').fill('Newest edit');
+  await page.waitForTimeout(2500);
+  proj=await (await page.request.get(`${base}/api/projects/${pid}`)).json();
+  saved=proj.flows.find(f=>f.id===fid).name;
+  record('Out-of-order autosave preserves newest edit',saved==='Newest edit',{saved,putCount,displayed:await page.locator('input[value="Newest edit"]').count()});
+  await page.unroute(url);
+  await page.goto(`${base}/runs/does-not-exist`);
+  await page.waitForTimeout(1800);
+  let text=await page.locator('body').innerText();
+  record('Unknown run provides an error and recovery',!text.includes('Loading run…'),{body:text.slice(-300)});
+  await page.goto(`${base}/materials`);
+  await page.getByRole('heading',{name:'Materials — alphabet building blocks',exact:true}).waitFor();
+  for(const width of [768,390]){
+    await page.setViewportSize({width,height:844});
+    const metrics=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth,body:document.body.scrollWidth}));
+    record(`Materials usable without horizontal overflow at ${width}px`,metrics.scroll<=width,metrics);
+    await page.screenshot({path:path.join(out,`materials-${width}.png`),fullPage:true});
+  }
+  // One rejected action should not recursively generate error-report requests.
+  await page.setViewportSize({width:1440,height:1000});
+  await page.goto(`${base}/flows`);
+  await page.getByPlaceholder('New flow name…').waitFor();
+  let reports=0;
+  await page.route('**/api/client-log',async route=>{
+    reports++;
+    if(reports<=20) await route.abort('failed');
+    else await route.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'});
+  });
+  await page.route(`**/api/projects/${pid}/flows`,route=>route.request().method()==='POST'?route.abort('failed'):route.continue());
+  await page.getByRole('button',{name:'+ New flow',exact:true}).click();
+  await page.waitForTimeout(1500);
+  record('Network failure does not recursively flood error reporting',reports<=1,{reports,pageErrors:errors.length,lastErrors:errors.slice(-3)});
+  await browser.close();
+  fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify(results,null,2));
+})().catch(e=>{console.error(e);fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify({results,error:String(e)},null,2));process.exit(1)});

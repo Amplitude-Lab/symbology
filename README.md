@@ -14,7 +14,7 @@ The executable is a C++20 program. A local build needs:
 
 - TBB;
 
-- mimalloc;
+- optional: mimalloc (`MIMALLOC=0` builds without it);
 
 - Git, to fetch this repository and `SparseRREF`;
 
@@ -90,7 +90,7 @@ make CXX=/opt/homebrew/bin/g++-14 \
 
 #### Linux note
 
-On Linux (the archive's original target) libstdc++ is the default and the plain `make` rule works once FLINT, GMP, TBB, and mimalloc are installed — none of the macOS libc++ issues arise.
+On Linux (the archive's original target) libstdc++ is the default and the plain `make` rule works once a suitable GCC, FLINT 3, GMP and TBB are installed — none of the macOS libc++ issues arise.
 
 ### Ubuntu/Debian
 
@@ -100,7 +100,7 @@ sudo apt-get install build-essential make git libflint-dev libgmp-dev libtbb-dev
 make
 ```
 
-Package names can vary slightly across distributions. The important libraries are FLINT, GMP, TBB, and mimalloc.
+Package names can vary slightly across distributions. The required libraries are FLINT 3, GMP and TBB; mimalloc is optional. Check distro versions before installing: an older FLINT package is insufficient.
 
 ## Build
 
@@ -123,9 +123,9 @@ Each rule in the `Makefile` declares its own header dependencies, so `make` will
 Build from the repository root:
 
 ```bash
-make                  # builds bootstrap only (default target)
-make compute_rhs tensor_add tensor_ops inspect_tensors   # the rest
-make all              # same as `make bootstrap`
+make                  # builds bootstrap, compute_rhs, tensor_add and tensor_ops
+make inspect_tensors  # optional diagnostic tool
+make PORTABLE=1 MIMALLOC=0  # omit host-specific CPU flags and mimalloc
 make regression       # re-run the recorded CRC32 baselines (gate for core changes)
 ```
 
@@ -157,7 +157,7 @@ Then, on the target machine:
 
 ```bash
 # one-time setup (clone the repo there, or copy it):
-./scripts/setup-sparserref.sh && make     # SparseRREF (pinned) + build the core
+./scripts/setup-sparserref.sh && make bootstrap compute_rhs tensor_add tensor_ops     # SparseRREF (pinned) + build the core
 
 # sync/copy the project dir, then run the exported script:
 SYMBOLOGY_ROOT=/path/to/symbology \
@@ -165,29 +165,37 @@ PROJ_DIR=/path/to/synced/project-dir \
 bash /path/to/project-dir/exported/<flow>.sh
 ```
 
-What the script does for you:
+The script embeds the same staging and cache implementation as the local
+runner, using Bash and Python 3.10+ without the frontend dependencies. It
+copies inputs into an isolated attempt, checks newly produced outputs and
+unchanged inputs, and publishes only successful results. Cache hits require
+matching SHA-256 input, executable and output contents. Local and exported
+runs share a per-project operating-system lock. Logs go to `runs/export-*.log`.
 
-- `set -euo pipefail` + loud failures with step context, log tail and disk state.
-- **Preflight**: binaries executable, seed inputs present with sizes, free disk
-  on the output directory, `wolframscript` probe.
-- **No Mathematica needed**: Wolfram steps (alphabet properties) are skipped
-  with loud warnings when their output tensors already exist in the project
-  dir — copy them from the laptop; otherwise the script fails explicitly
-  (`WOLFRAM_MODE=skip` forces skipping, `WOLFRAM_MODE=fail` forbids it).
-- Per-step banners and wall timings, everything tee'd to
-  `runs/exported-<timestamp>.log`; `STEP_TIMEOUT=<seconds>` arms a watchdog.
-- **Post-step verification**: every declared output must exist and be nonempty
-  (a zero-exit step that wrote nothing fails), with a CRC32 echo per output.
-- **Resume**: completed steps are skipped on re-run via `.sig.exported`
-  fingerprints (command + input size/mtime) — independent from the front-end's
-  own cache, so a mismatch costs a recompute and never a stale skip.
-- `--dry-run` prints the plan; `STEPS="3,5-9"` runs a subset.
+- `--dry-run` prints the plan; `STEPS="3,5-9"` selects steps.
+- `STEP_TIMEOUT=<seconds>` applies a timeout to each step, without requiring
+  the GNU `timeout` utility. On POSIX, cancellation kills its process group.
+- `SYMBOLOGY_ROOT` selects the built repository. `PROJ_DIR` defaults to the
+  parent of the script's `exported/` directory. Paths may contain spaces or
+  apostrophes. `PYTHON` and `WOLFRAMSCRIPT` override those executables.
+- Ready property tensors require no Wolfram steps. If a plan includes Wolfram
+  steps and Wolfram is unavailable, `WOLFRAM_MODE=auto` accepts only previously
+  verified outputs with unchanged export-time inputs and output digests.
+  `skip` explicitly permits precomputed export-time files with the same
+  content checks; missing, empty or changed files still fail. `fail` requires
+  Wolfram for those steps. Copy the complete computed project before exporting
+  or install Wolfram when these checks cannot establish a usable result.
 
-Cluster prerequisites: GCC ≥ 12 (libstdc++), FLINT, GMP, TBB and python3;
-mimalloc is optional (auto-detected; the math is identical without it). The
-Makefile picks `-march=native` on x86_64 automatically. Generated Wolfram
-scripts (if you do run property computations on a machine with Mathematica)
-resolve the package through `$SYMBOLOGY_ROOT` as well.
+Cluster prerequisites: a C++20 GCC/libstdc++ toolchain (tested with GCC 14),
+FLINT 3, GMP, TBB and Python 3.10+. Mimalloc is optional. Use `PORTABLE=1` for
+binaries intended for other CPUs of the same architecture. Build separately
+for different operating systems or architectures.
+
+The tested Linux x86_64 dependency versions are in
+[environment-linux.yml](environment-linux.yml). CI creates that environment
+using the documented [setup-micromamba action](https://github.com/mamba-org/setup-micromamba).
+An environment file pins the main package versions; it is not a complete
+transitive dependency lockfile.
 
 ## The visual front-end (web editor)
 
@@ -196,17 +204,17 @@ drives the C++ binaries, plus a React client it serves. Fresh-machine setup:
 
 ```bash
 # 1) build the C++ core first — the server launches these binaries:
-./scripts/setup-sparserref.sh && make
+./scripts/setup-sparserref.sh && make bootstrap compute_rhs tensor_add tensor_ops
 
-# 2) Python server (Python 3.9+):
+# 2) Python server (tested with Python 3.12):
 cd front-end/server
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-python3 run.py                     # serves the app at http://127.0.0.1:8321
+.venv/bin/python run.py            # serves the app at http://127.0.0.1:8321
 
-# 3) web client (Node 18+):
+# 3) web client (second terminal, starting at the repository root):
 cd front-end/web
-npm install
+npm ci
 npm run build                      # builds dist/, served by the server at :8321
 # or for development with hot reload:
 npm run dev                        # http://localhost:5173 (API calls go to :8321)
@@ -220,7 +228,7 @@ Notes:
 - Wolfram-based alphabet properties need `wolframscript` on this machine;
   everything else (drawing, compiling, running flows, exporting scripts)
   does not.
-- Platforms: **macOS and Linux are fully supported** (the run engine uses
+- Platforms: **macOS and Linux are the execution targets** (the current public regression results were verified on Linux) (the run engine uses
   POSIX process groups for cancellation and timeouts). On Windows the editor
   and server run, but executing flows inside the web UI — and the exported
   bash scripts — need a POSIX environment such as WSL (the C++ core requires
@@ -228,6 +236,46 @@ Notes:
 - `make check` (regression baselines + registry sync) needs local project
   data and therefore runs meaningfully on the machine where the heptagon
   project lives; CI runs the machine-independent subset.
+
+### Saving and local run guarantees
+
+Flow updates carry a revision; an outdated tab receives HTTP 409. Saves from
+one editor are serialized. Pending changes are kept in that tab's browser
+session storage and flushed on navigation when auto save is enabled. After a
+failed save, use **Download draft** to retain a copy or **Reload saved flow** to
+discard it explicitly. Keep the page open if browser storage is unavailable.
+
+Changing an alphabet definition marks dependent properties stale. Computable
+properties must be regenerated; precomputed properties must be replaced for
+the new definition. Renaming an alphabet does not invalidate its mathematics.
+
+The local server permits one active run per project and computes each step in
+an isolated attempt directory. Declared outputs must be newly produced and
+nonempty; inputs must stay unchanged during the step. Validated files replace
+saved outputs atomically per file, with rollback on publication errors. An
+abrupt machine/power failure during a multi-file publication is not a database
+transaction. Directory-driven and Wolfram steps conservatively copy their
+input directories, requiring extra temporary disk space and I/O. Explicit
+file-based tensor steps copy only their inputs.
+
+Cache records check SHA-256 input/executable and output contents. Old cache
+records are invalidated once. Cancellation is acknowledged after the child
+process exits and the attempt is discarded. Run logs have numbered events and
+reconnect cursors; older events remain in the disk log. After a restart,
+unfinished records are marked failed. A forced server/OS crash can leave
+external processes requiring manual inspection. Run one server worker per
+project store. Development reload is opt-in with `SYMBOLOGY_RELOAD=1`.
+
+Newly exported scripts use the same publication and cache protections.
+Previously exported scripts retain the implementation embedded at export time;
+export them again to obtain these corrections. The native directory-driven
+RHS and collinear projection routines also verify `.native-cache` dependency
+receipts. Legacy intermediates without receipts are recomputed once. Native
+CLI commands themselves still write directly; use local/exported runs for
+isolated publication, and do not run raw native commands concurrently against
+the same output directory.
+
+Run the portable correctness checks in [tests/README.md](tests/README.md).
 
 ## Multi-Project Layout
 
@@ -636,3 +684,28 @@ After Mathematica roundtrip, all checked `FEC_2..FEC_6` CRC32 values match the a
 
 - If byte-level WXF CRC32 values differ from archived Mathematica exports, compare after a Mathematica roundtrip rather than comparing raw SparseRREF-native WXF bytes.
 
+
+## Verified example and WXF contracts
+
+The pentagon template now builds **weight-two integrable symbols invariant
+under cyclic and flip transformations**. The 4p template imposes the shipped
+full integrability/extended-Steinmann conditions, then the same two symmetries.
+They begin with the exact unrestricted word basis `B[n*i+j,i,j]=1` (zero-based
+indices), solve the original conditions and transform the resulting symbols.
+They do not average the condition tensor. The public tests independently
+certify 76 pentagon and 689 4p invariant basis elements, including exact
+residuals and completeness. The E6 two-loop template wires E1 to the current
+RHS node and its output to the collinear solver. Existing user flows are not
+rewritten when template definitions change; create a fresh template project
+for the corrected examples.
+
+Native tensor I/O accepts uncompressed WXF `8:` CSR `SparseArray` expressions
+with rank at least two, implicit zero, exact integer/rational entries and
+indices representable in the configured index type (the CLI uses signed
+32-bit indices). Zero axes and 64-bit encoded indices whose values fit are
+accepted. Compression, approximate/complex entries and other WXF expression
+forms are rejected with readable errors. Lengths, shapes, row pointers,
+indices and rational denominators are validated before tensor construction.
+This is a checked subset of the [Wolfram WXF format](https://reference.wolfram.com/language/tutorial/WXFFormatDescription.html),
+not a general Mathematica-expression importer. Current native encoding targets
+little-endian machines. Run `make check-wxf-sanitized` for memory diagnostics.

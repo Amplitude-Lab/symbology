@@ -1,0 +1,26 @@
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    scripts/ssr-audit.mjs:12:16:
+      12 │ const baseDir = import.meta.url && String(import.meta.url).startsW...
+         ╵                 ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    scripts/ssr-audit.mjs:12:42:
+      12 │ ...r = import.meta.url && String(import.meta.url).startsWith('file:')
+         ╵                                  ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+
+    scripts/ssr-audit.mjs:13:38:
+      13 │ ...solve(path.dirname(new URL(import.meta.url).pathname), '..', '..')
+         ╵                               ~~~~~~~~~~~
+
+  You need to set the output format to "esm" for "import.meta" to work correctly.
+
+SSR audit: 0 renders OK, 0 problems
+wires: 0 (detours 0, kappa bows 0, fallbacks 0)

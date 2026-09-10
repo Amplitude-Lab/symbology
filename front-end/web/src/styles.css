@@ -188,3 +188,19 @@ tr:hover td { background: #fafbfc; }
   background: #1e2430; color: #fff; padding: 10px 18px; border-radius: 8px; z-index: 200;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3); font-size: 13px;
 }
+
+/* Keep navigation and material cards usable on narrow screens. Wide tensor
+   tables scroll inside their card instead of widening the entire page. */
+@media (max-width: 700px) {
+  .topbar { height: auto; flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
+  .topbar .brand, .topbar nav, .project-picker { width: 100%; }
+  .topbar nav { flex: 1 0 100%; flex-wrap: wrap; }
+  .topbar nav a { padding: 6px 9px; }
+  .project-picker select { flex: 1; width: auto; min-width: 0; }
+  .page { padding: 12px; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .card { min-width: 0; overflow-wrap: anywhere; }
+  .card table { display: block; max-width: 100%; overflow-x: auto; }
+  .row { flex-wrap: wrap; }
+  .row > * { min-width: 0; }
+}
