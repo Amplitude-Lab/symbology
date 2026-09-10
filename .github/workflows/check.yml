@@ -54,11 +54,17 @@ jobs:
 
   api:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        # 3.9 is the supported floor (stock macOS python3; Path.is_relative_to,
+        # shlex.join). Testing it here blocks new 3.10+-only calls at CI time —
+        # the pulled robustness code shipped three and only met 3.9 afterwards.
+        python-version: ['3.9', '3.12']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python-version }}
       - name: Install test dependencies
         run: python -m pip install -r tests/requirements.txt
       - name: API and execution regressions
