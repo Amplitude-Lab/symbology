@@ -3,7 +3,7 @@
 
 Usage:  python3 scripts/regression_check.py [manifest.json]
 
-The manifest (audits/baseline-*/manifest.json) records the exact argv of every
+The manifest (tests/baselines/*/manifest.json) records the exact argv of every
 step of a previously verified run, the seed inputs to copy, the expected CRC32
 of every produced output, and strings the solver output must contain (the
 known-correct solution vector). The script:
@@ -28,7 +28,7 @@ import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_MANIFEST = ROOT / "audits" / "baseline-2026-09-09" / "manifest.json"
+DEFAULT_MANIFEST = ROOT / "tests" / "baselines" / "2026-09-09" / "manifest.json"
 
 
 def die(msg):

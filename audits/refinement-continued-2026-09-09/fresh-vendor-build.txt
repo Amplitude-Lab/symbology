@@ -1,1 +1,0 @@
-Fresh pinned vendor patches apply and reverse-check; sanitized readers compiled

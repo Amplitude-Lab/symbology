@@ -1,5 +1,0 @@
-PASS symmetry edge cases: empty invariant space, empty input, and genuine failure of closure
-PASS pentagon: 76 independent invariant symbols; exact original-condition and cyclic/flip residuals zero; full space certified (885+76=961)
-PASS 4pformfactor: 689 independent invariant symbols; exact original-condition and cyclic/flip residuals zero; full space certified (7960+689=8649)
-PASS E6 two-loop example: all 8 steps succeed; boundary and solution match recorded exact reference
-PASS relocated standalone E6 flow: spaces/apostrophes, no Wolfram, exact boundary and solution

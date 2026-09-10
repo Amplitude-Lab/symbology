@@ -1,9 +1,8 @@
 # Portable regression checks
 
 These tests create disposable projects and small exact tensors. They do not
-read private `front-end/projects` data. The original dated audit under
-`audits/robustness-2026-09-09` is historical evidence; its original probes
-intentionally expose additional issues outside this refinement.
+read private `front-end/projects` data. Exact solver baselines live in
+`tests/baselines/2026-09-09/` (CRC32 manifests re-run by `make regression`).
 
 From the repository root, after installing the documented native dependencies:
 

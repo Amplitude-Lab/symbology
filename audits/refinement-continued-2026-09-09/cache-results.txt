@@ -1,3 +1,0 @@
-PASS 12 independent SHA256 checks
-PASS changed seeds/binary, corrupted cached tensor, stale empty projection, apostrophes/spaces; all 10 resumed outputs equal a fresh run
-Measured cold 7.190s, unchanged resume 0.466s (this machine, public 3-loop fixture)

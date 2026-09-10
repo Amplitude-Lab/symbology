@@ -48,7 +48,7 @@ with tempfile.TemporaryDirectory(prefix='symbology-regression ') as tmp:
     assert not (out/'bad.wxf').exists()
     call([ROOT/'tensor_add', f/'swap.wxf', f/'swap.wxf', '1/1000000000000000000000000000000', '-1/1000000000000000000000000000000', out/'zero.wxf'])
     print('PASS: strict numeric rejection and arbitrary-precision exact cancellation')
-    base = json.loads((ROOT/'audits/baseline-2026-09-09/manifest-computerhs.json').read_text())['crc32']
+    base = json.loads((ROOT/'tests/baselines/2026-09-09/manifest-computerhs.json').read_text())['crc32']
     # Resume from existing FEC_2/FEC_3 is the regression: do not prebuild FEC_4/5.
     for target in ('SEW_3p1', 'SEW_5p1'):
         call([ROOT/'compute_rhs', '--target', target, '--data-dir', ROOT/'data', '--output-dir', out,

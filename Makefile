@@ -102,11 +102,11 @@ letter_filter_bench: letter_filter_bench.cpp bootstrap.hpp projection.hpp solve_
 	$(CXX) letter_filter_bench.cpp -o $@ $(CPPFLAGS) $(CXXFLAGS) $(ALLOCATOR_FLAGS) $(LDLIBS)
 
 # regression gate: re-run every recorded baseline (see
-# audits/baseline-*/manifest*.json) in hermetic sandboxes and compare CRC32s
+# tests/baselines/*/manifest*.json) in hermetic sandboxes and compare CRC32s
 # of every output. Run this after ANY change to the calculation core —
 # outputs must stay bit-identical.
 regression:
-	@for m in audits/baseline-*/manifest*.json; do \
+	@for m in tests/baselines/*/manifest*.json; do \
 		echo "== regression: $$m"; \
 		python3 scripts/regression_check.py $$m || exit 1; \
 	done

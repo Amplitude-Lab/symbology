@@ -231,9 +231,9 @@ Notes:
 - Platforms: **macOS and Linux are the execution targets**. Public regression
   results were verified on Linux; macOS compatibility has also been checked
   by the project owner. On Windows, use WSL for complete numerical workflows
-  and exported Bash scripts. Native Windows editor/server checks are defined
-  in CI; see the [Windows audit](audits/windows-2026-09-09/REPORT.md) for what
-  has actually been tested.
+  and exported Bash scripts. Native Windows editor/server checks (launcher,
+  storage, API, Chromium editor tests) run in CI; numerical execution on
+  native Windows is not supported.
 - `make check` (regression baselines + registry sync) needs local project
   data and therefore runs meaningfully on the machine where the heptagon
   project lives; CI runs the machine-independent subset.

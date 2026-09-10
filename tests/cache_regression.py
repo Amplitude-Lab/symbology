@@ -54,7 +54,7 @@ with tempfile.TemporaryDirectory(prefix="symbology cache's ") as tmp:
     os.utime(data/'E1.wxf',ns=(original.st_atime_ns,original.st_mtime_ns))
     compute(out)
     fresh=work/'fresh';compute(fresh)
-    refs=json.loads((ROOT/'audits/baseline-2026-09-09/manifest-computerhs.json').read_text())['crc32']
+    refs=json.loads((ROOT/'tests/baselines/2026-09-09/manifest-computerhs.json').read_text())['crc32']
     for rel in refs:
         rel=Path(rel).relative_to('output')
         assert (out/rel).read_bytes()==(fresh/rel).read_bytes(),rel

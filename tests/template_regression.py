@@ -135,7 +135,7 @@ with tempfile.TemporaryDirectory(prefix='symbology-templates ') as tmp:
         assert run.status=='done',(root/'runs'/f'{run.run_id}.log').read_text()[-2000:]
         if tid!='e6':certify(root,tid)
         else:
-            ref=json.loads((ROOT/'audits/baseline-2026-09-09/manifest-computerhs.json').read_text())['crc32']
+            ref=json.loads((ROOT/'tests/baselines/2026-09-09/manifest-computerhs.json').read_text())['crc32']
             for actual,expected in [('output/boundary_2L.wxf','output/2loop/boundary_2L.wxf'),('output/2loop/solMHV_2L.wxf','output/2loop/solMHV_2L.wxf')]:
                 assert f'{zlib.crc32((root/actual).read_bytes()):08x}'==ref[expected]
             print('PASS E6 two-loop example: all 8 steps succeed; boundary and solution match recorded exact reference',flush=True)

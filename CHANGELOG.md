@@ -7,9 +7,8 @@ ISO 8601 (YYYY-MM-DD) and the local timezone is Asia/Shanghai.
 
 ### Summary
 
-All recommended follow-ups from the 2026-09-09 audit (its §6), each gated on
-bit-identical outputs (see `audits/2026-09-09-audit.md` §6 for per-item
-verification records).
+All recommended follow-ups from the 2026-09-09 audit, each gated on
+bit-identical outputs via the four-baseline `make regression` gate.
 
 ### Added
 - **Two regression baselines** — `manifest-icond.json` (icond×2 + join +
@@ -74,8 +73,7 @@ verification records).
 ### Summary
 
 Full audit against the four design principles (robustness, efficiency,
-universality, transplantability); findings and per-fix verification records
-in `audits/2026-09-09-audit.md`. Every calculation-core change is gated on
+universality, transplantability). Every calculation-core change is gated on
 bit-identical outputs via the new `make regression` (two CRC32 baselines:
 the 19-step `NMHVw2collinear` flow and a single-pair `SEW_3p1` solve —
 the union-matching rewrite was additionally differential-tested against the
@@ -84,7 +82,7 @@ alone could not).
 
 ### Added
 - **`make regression`** (`scripts/regression_check.py` +
-  `audits/baseline-2026-09-09/`) — hermetic sandbox re-runs of recorded
+  `tests/baselines/2026-09-09/`) — hermetic sandbox re-runs of recorded
   baselines with CRC32 comparison and solution-marker checks. Run it after
   any change to the calculation core.
 - **Standalone script export** — `export_flow_script` in `compile.py`,
@@ -173,7 +171,7 @@ solution from a not-fully-reduced RREF basis. After the solver fix,
 the same 16 commands reproduce `c[3] = −1`, matching Wolfram
 `LinearSolve` on the exported `cond` matrix — see the correction
 note in `skills/04_collinear_solving.md` and the bit-identical
-regression baseline in `audits/baseline-2026-09-09/`.)* Neither
+regression baseline in `tests/baselines/2026-09-09/`.)* Neither
 pair is rank-5
 alone; pair 2's purely homogeneous divergent constraints
 (`c·(E47−E67)₍div₎ = 0`, 10 positions) fix the two coefficients the

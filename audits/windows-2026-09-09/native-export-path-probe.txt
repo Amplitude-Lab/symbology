@@ -1,2 +1,0 @@
-Confirmed unsupported native-Windows-to-POSIX export relocation: Windows path prefixes remain in the dry-run command.
-Generate and execute exports through the documented Linux/WSL environment.
