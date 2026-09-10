@@ -102,3 +102,7 @@ __pycache__/
 /tests/wxf_probe_sanitized
 
 /tests/cache_probe
+
+# Local-only audit evidence (reports, result captures, screenshots, probes).
+# User-facing regression baselines live in tests/baselines/ and stay tracked.
+audits/
