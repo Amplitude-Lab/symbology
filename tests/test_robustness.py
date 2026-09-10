@@ -291,6 +291,7 @@ def test_restarted_active_run_reconciled(project,client):
     assert res.json()['status'] not in ['running','queued'],res.json()
 
 
+@pytest.mark.skipif(os.name == 'nt', reason='Bash export execution is supported through WSL on Windows')
 def test_export_dry_run(project,matrix_setup):
     result=compiler.export_flow_script(project,matrix_graph(),'audit-export')
     assert result['ok'],result
@@ -298,6 +299,7 @@ def test_export_dry_run(project,matrix_setup):
     assert r.returncode==0,r.stdout+r.stderr
 
 
+@pytest.mark.skipif(os.name == 'nt', reason='Bash export execution is supported through WSL on Windows')
 def test_export_wolfram_bash_syntax(project,monkeypatch):
     project['alphabets']=[dict(id='a',name='A',letters=['x','y'],variables=['x','y'],expressions=['x','y'],roots={},
         properties=[dict(id='p',type='integrability',params={},status='pending')])]
@@ -309,6 +311,7 @@ def test_export_wolfram_bash_syntax(project,monkeypatch):
     assert r.returncode==0,r.stderr
 
 
+@pytest.mark.skipif(os.name == 'nt', reason='Bash export execution is supported through WSL on Windows')
 def test_export_binary_rebuild_invalidates_cache(project,matrix_setup):
     result=compiler.export_flow_script(project,matrix_graph(),'audit-export')
     assert result['ok'],result

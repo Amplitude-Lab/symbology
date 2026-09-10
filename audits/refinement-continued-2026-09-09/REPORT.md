@@ -134,9 +134,11 @@ obtain the corrected example graphs.
 1. Measure high-weight workloads and replace conservative directory snapshots
    with precise, complete dependency lists. Current snapshots favor correctness
    and require additional temporary disk space and I/O.
-2. Run clean macOS and Windows builds and Firefox/WebKit browser checks.
-   The launcher fixes were inspected here, not executed on those platforms.
-   Full phone flow editing remains outside the tested Materials changes.
+2. Run Windows/WSL acceptance checks. The project owner subsequently confirmed
+   macOS compatibility, closing that platform follow-up. See the
+   [Windows audit](../windows-2026-09-09/REPORT.md) for prepared CI checks and
+   remaining gaps. Full phone flow editing and Firefox/WebKit remain outside
+   the recorded Chromium/Materials coverage.
 3. Run private NMHV/integrability baselines and regenerate the Wolfram-dependent
    datasets. The corrected public examples use their shipped exact tensors;
    this does not certify every symbolic property-generation workflow.

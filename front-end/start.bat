@@ -1,46 +1,71 @@
 @echo off
-setlocal
+setlocal EnableExtensions DisableDelayedExpansion
 cd /d "%~dp0"
-set FRONTEND_DIR=%CD%
-set REPO_ROOT=%CD%\..
+if errorlevel 1 exit /b 1
+set "PYTHONUTF8=1"
 
 echo == Symbology Studio ==
+echo For full calculations on Windows, use WSL as described in README.md.
 
 where python >nul 2>nul
 if errorlevel 1 (
-  echo Error: python was not found. Please install Python 3.10+ first. 1>&2
+  echo Error: Python was not found. Please install Python 3.10+ first. 1>&2
   exit /b 1
 )
 
-if not exist "%REPO_ROOT%\bootstrap.exe" (
-  echo The bootstrap binary is missing; please build it first with: make
+python -c "import sys; sys.exit(sys.version_info < (3, 10))"
+if errorlevel 1 (
+  echo Error: Python 3.10+ is required. 1>&2
+  exit /b 1
 )
 
-if not exist server\.venv (
-  echo Setting up the Python environment (one-time)...
-  python -m venv server\.venv
-  server\.venv\Scripts\pip install --quiet --upgrade pip
-  server\.venv\Scripts\pip install --quiet -r server\requirements.txt
+if not exist "server\.venv\Scripts\python.exe" (
+  echo Setting up the Python environment...
+  python -m venv "server\.venv"
+  if errorlevel 1 goto failed
 )
 
-if not exist web\dist (
-  where npm >nul 2>nul
-  if not errorlevel 1 (
-    echo Building the web interface (one-time)...
-    pushd web
-    call npm install --no-audit --no-fund
-    call npm run build
-    popd
-  ) else (
-    echo Note: npm not found; skipping the prebuilt UI.
-  )
+rem Retry dependencies after an interrupted installation, including an existing venv.
+"server\.venv\Scripts\python.exe" -m pip install --quiet -r "server\requirements.txt"
+if errorlevel 1 goto failed
+
+if not exist "web\dist\index.html" (
+  call :build_web
+  if errorlevel 1 goto failed
 )
 
-set URL=http://127.0.0.1:8321
+set "URL=http://127.0.0.1:8321"
 echo.
 echo Starting the server at %URL%
 echo Press Ctrl+C to stop.
-start "" "%URL%"
+if not defined SYMBOLOGY_NO_BROWSER start "" "%URL%"
 
 cd server
-.venv\Scripts\python run.py
+if errorlevel 1 goto failed
+".venv\Scripts\python.exe" run.py
+exit /b %errorlevel%
+
+:build_web
+where npm >nul 2>nul
+if errorlevel 1 (
+  echo Error: Node.js and npm are required to build the web interface. 1>&2
+  exit /b 1
+)
+echo Building the web interface...
+pushd web
+if errorlevel 1 exit /b 1
+call npm ci --no-audit --no-fund
+if errorlevel 1 goto web_failed
+call npm run build
+if errorlevel 1 goto web_failed
+if not exist "dist\index.html" goto web_failed
+popd
+exit /b 0
+
+:web_failed
+popd
+exit /b 1
+
+:failed
+echo Error: Setup failed. Resolve the error above and run start.bat again. 1>&2
+exit /b 1

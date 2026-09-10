@@ -14,7 +14,7 @@ make check-wxf-sanitized # optional local memory diagnostics
 
 python3 -m venv .venv-tests
 .venv-tests/bin/pip install -r tests/requirements.txt
-.venv-tests/bin/python -m pytest tests/test_robustness.py tests/test_export_runtime.py -q
+.venv-tests/bin/python -m pytest tests/test_robustness.py tests/test_export_runtime.py tests/test_windows_compatibility.py -q
 ```
 
 The native test checks both solver helpers on 90 exact rational systems,
@@ -43,6 +43,30 @@ installed Chrome instead of Playwright Chromium. `TEST_OUTPUT_DIR` defaults to
 The browser test covers pending/delayed saves, two-tab conflicts, draft
 recovery, connection errors, and 768-/390-pixel Materials views. Full phone flow editing and other
 browser engines remain separate acceptance targets.
+
+`python tests/run_browser.py` can instead start and stop a disposable server
+automatically. It selects a free local port and removes its temporary project
+store, including on browser-test failure. Set `PLAYWRIGHT_MODULE` as above.
+
+## Windows checks
+
+The `windows-editor` CI job builds the web bundle and runs native Python,
+`cmd.exe` launcher and Chromium editor checks on Windows Server 2022. It tests
+setup failure/recovery, paths with spaces and shell metacharacters, reserved
+device names, LF exports, process-level project locking and the portable API
+regressions. Define the same dependencies locally, then run in PowerShell:
+
+```powershell
+python -m pip install -r tests/requirements.txt
+python -m pytest tests/test_robustness.py tests/test_windows_compatibility.py -q
+```
+
+The six launcher cases skip on Linux/macOS because they require real Windows
+Python and `cmd.exe`. Three Bash-dependent API cases skip in native Windows;
+they remain enabled in Linux/WSL. The native Windows job does not certify the
+C++ toolchain or WSL integration. Run `make check-public`, the full Python
+suite and `python tests/run_browser.py` inside WSL to check those separately,
+then verify access from a Windows browser to the WSL-hosted server.
 
 `check-public` also verifies native cache invalidation after seed/output
 changes, SHA256 padding boundaries, malformed WXF inputs, and the corrected

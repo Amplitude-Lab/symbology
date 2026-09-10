@@ -1,4 +1,17 @@
-"""Validate persisted graph structure without requiring a complete program."""
+"""Portable file naming and validation of persisted graph structure."""
+
+_WINDOWS_DEVICES = {'CON', 'PRN', 'AUX', 'NUL'} | {
+    f'{prefix}{number}' for prefix in ('COM', 'LPT') for number in range(1, 10)
+}
+
+
+def portable_stem(name: str, prefix: str) -> str:
+    """Protect an already sanitized ASCII name from Windows device aliases."""
+    if name.split('.', 1)[0].upper() in _WINDOWS_DEVICES:
+        return f'{prefix}-{name}'
+    return name
+
+
 def graph_errors(graph):
     if not isinstance(graph, dict) or not isinstance(graph.get('nodes'), list) or not isinstance(graph.get('edges'), list):
         return ['Graph must contain nodes and edges lists.']

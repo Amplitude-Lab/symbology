@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .config import PROJECTS_DIR
+from .validation import portable_stem
 
 _lock = threading.RLock()
 _project_locks: dict[str, threading.RLock] = {}
@@ -58,7 +59,7 @@ def _now() -> str:
 
 def _slugify(name: str) -> str:
     slug = re.sub(r"[^a-zA-Z0-9_-]+", "-", name.strip()).strip("-").lower()
-    return slug or "project"
+    return portable_stem(slug or "project", "project")
 
 
 def project_dir(pid: str) -> Path:

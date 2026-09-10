@@ -9,7 +9,7 @@ from fractions import Fraction
 from pathlib import Path
 
 from . import storage, execution
-from .validation import graph_errors
+from .validation import graph_errors, portable_stem
 from .config import find_bootstrap, find_compute_rhs, find_tensor_add, find_tensor_ops, find_wolframscript
 from .wolfram import PROP_KIND, merge_script, property_display_name, property_script, property_tensor_relpath
 
@@ -375,18 +375,20 @@ def export_flow_script(proj: dict, graph: dict, flow_name: str, output_subdir: s
     # Embed the exact local staging/cache implementation and a stdlib runner.
     # JSON stays Python data; flow names and paths never become shell code.
     program = "import json, types\nexecution = types.ModuleType('execution')\n"
-    program += "exec(" + repr(Path(execution.__file__).read_text()) + ", execution.__dict__)\n"
-    program += (Path(__file__).parent / "export_runtime.py").read_text()
+    program += "exec(" + repr(Path(execution.__file__).read_text(encoding="utf-8")) + ", execution.__dict__)\n"
+    program += (Path(__file__).parent / "export_runtime.py").read_text(encoding="utf-8")
     program += "\ntry:\n    run_export(json.loads(" + repr(json.dumps(payload)) + "))\n"
     program += "except Exception as exc:\n    print(f'Export failed: {exc}', file=sys.stderr)\n    sys.exit(1)\n"
     script = '#!/usr/bin/env bash\n# Requires Bash and Python 3.10+. See README for export environment settings.\nset -eu\n'
     script += 'export SYMBOLOGY_EXPORT_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"\n'
     script += 'exec "${PYTHON:-python3}" - "$@" <<\'SYMBOLOGY_PY\'\n' + program + '\nSYMBOLOGY_PY\n'
     safe_flow = re.sub(r"[^A-Za-z0-9_.-]+", "_", flow_name).strip("_") or "flow"
+    safe_flow = portable_stem(safe_flow, "flow")
     export_dir = proj_dir / "exported"
     export_dir.mkdir(parents=True, exist_ok=True)
     script_path = export_dir / f"{safe_flow}.sh"
-    script_path.write_text(script)
+    # Preserve Bash-compatible line endings even when exported on Windows.
+    script_path.write_text(script, encoding="utf-8", newline="\n")
     script_path.chmod(0o755)
     return {"ok": True, "path": str(script_path), "n_steps": len(steps),
             "n_wolfram_steps": sum(s["kind"] == "wolfram" for s in steps),

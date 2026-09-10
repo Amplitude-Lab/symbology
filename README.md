@@ -228,14 +228,34 @@ Notes:
 - Wolfram-based alphabet properties need `wolframscript` on this machine;
   everything else (drawing, compiling, running flows, exporting scripts)
   does not.
-- Platforms: **macOS and Linux are the execution targets** (the current public regression results were verified on Linux) (the run engine uses
-  POSIX process groups for cancellation and timeouts). On Windows the editor
-  and server run, but executing flows inside the web UI — and the exported
-  bash scripts — need a POSIX environment such as WSL (the C++ core requires
-  GCC/libstdc++ in any case).
+- Platforms: **macOS and Linux are the execution targets**. Public regression
+  results were verified on Linux; macOS compatibility has also been checked
+  by the project owner. On Windows, use WSL for complete numerical workflows
+  and exported Bash scripts. Native Windows editor/server checks are defined
+  in CI; see the [Windows audit](audits/windows-2026-09-09/REPORT.md) for what
+  has actually been tested.
 - `make check` (regression baselines + registry sync) needs local project
   data and therefore runs meaningfully on the machine where the heptagon
   project lives; CI runs the machine-independent subset.
+
+### Windows setup
+
+For complete workflows, install [WSL](https://learn.microsoft.com/windows/wsl/install)
+and follow the Linux dependency, build and server instructions **inside WSL**.
+Keep the checkout and project files in the Linux home directory, such as
+`~/symbology`, and use a separate Python environment and `node_modules` from
+any native Windows checkout. Microsoft recommends the Linux filesystem for
+work done with Linux tools ([WSL filesystem guidance](https://learn.microsoft.com/windows/wsl/filesystems)).
+Start `front-end/start.sh` there and open `http://127.0.0.1:8321` in your
+Windows browser. Generate standalone scripts inside WSL as well.
+
+For the native Windows editor/server, install Python 3.10+ and Node.js, then
+run `front-end\start.bat`. It installs the server dependencies, builds a
+missing web bundle using the package lockfile, and stops if setup fails.
+Rerunning retries an interrupted setup. `SYMBOLOGY_NO_BROWSER=1` suppresses
+automatic browser opening for tests or unattended launches. The native
+launcher does not install or launch WSL, and native Windows numerical
+execution is not a supported substitute for the WSL workflow.
 
 ### Saving and local run guarantees
 
