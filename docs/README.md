@@ -16,4 +16,6 @@ The reports reference evidence files (result captures, screenshots, probe
 scripts) that are not part of the user-facing repository.
 
 For hands-on use of the web editor, see the separate
-[illustrated front-end guide](front-end-guide.md).
+[illustrated front-end guide](front-end-guide.md); for a release-notes
+style overview of the current build, see
+[releases/2026-09.md](releases/2026-09.md).

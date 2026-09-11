@@ -203,7 +203,9 @@ transitive dependency lockfile.
 > guide](docs/front-end-guide.md) walks through the whole loop with short
 > screen recordings: create a project from an example, compile and run a
 > flow, inspect result tensors, and export a standalone script for a
-> cluster.
+> cluster. For a release-notes style tour of what this build ships (with
+> the same demos and the list of notable fixes), see
+> [Symbology Studio — September 2026](docs/releases/2026-09.md).
 
 The flow editor is a local web app: a FastAPI server that compiles graphs and
 drives the C++ binaries, plus a React client it serves. Fresh-machine setup:
