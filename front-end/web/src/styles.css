@@ -49,6 +49,11 @@ label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 3px;
   text-decoration: none; color: var(--muted); padding: 6px 12px; border-radius: 6px; font-weight: 500;
 }
 .topbar nav a.active { color: var(--accent); background: var(--accent-soft); }
+.whatsnew {
+  text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500;
+  white-space: nowrap;
+}
+.whatsnew:hover { color: var(--accent); text-decoration: underline; }
 .project-picker { display: flex; align-items: center; gap: 8px; }
 .project-picker select { width: 220px; }
 

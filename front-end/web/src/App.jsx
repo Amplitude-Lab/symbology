@@ -148,6 +148,13 @@ export default function App() {
             <NavLink to="/runs">Runs</NavLink>
             <NavLink to="/results">Results</NavLink>
           </nav>
+          <a
+            className="whatsnew"
+            href="/docs/releases/2026-09.html"
+            target="_blank"
+            rel="noreferrer"
+            title="What's new in this build — release notes with demos"
+          >✨ What's new</a>
           <div className="project-picker">
             <select value={currentId} onChange={(e) => setCurrentId(e.target.value)}>
               <option value="">— select project —</option>

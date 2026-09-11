@@ -909,6 +909,17 @@ def api_run_events(run_id: str, request: Request = None):
     return StreamingResponse(gen(), media_type="text/event-stream")
 
 
+# Rendered documentation (release notes with demo GIFs, the illustrated
+# guide). Registered before the SPA catch-all so /docs/... wins over it.
+@app.get("/docs/{rel_path:path}")
+def docs_static(rel_path: str):
+    docs_root = (REPO_ROOT / "docs").resolve()
+    candidate = (docs_root / rel_path).resolve()
+    if candidate.exists() and candidate.is_file() and str(candidate).startswith(str(docs_root)):
+        return FileResponse(candidate)
+    raise HTTPException(404, "not found")
+
+
 if WEB_DIST.exists():
     @app.get("/{full_path:path}")
     def spa(full_path: str):

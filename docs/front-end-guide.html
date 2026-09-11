@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operating the front-end — an illustrated guide</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0 16px 96px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  color: #1f2328; background: #ffffff; line-height: 1.6; font-size: 16px;
+}
+main { max-width: 780px; margin: 0 auto; }
+h1 { font-size: 34px; line-height: 1.2; margin: 48px 0 8px; letter-spacing: -0.5px; }
+h1 + p strong:first-child { color: #0969da; }
+h2 {
+  font-size: 22px; margin: 44px 0 12px; padding-bottom: 8px;
+  border-bottom: 1px solid #d8dee4; letter-spacing: -0.2px;
+}
+h3 { font-size: 17px; margin: 28px 0 8px; }
+a { color: #0969da; text-decoration: none; }
+a:hover { text-decoration: underline; }
+blockquote {
+  margin: 16px 0; padding: 10px 16px; border-left: 4px solid #0969da;
+  background: #f6f8fa; border-radius: 0 6px 6px 0; color: #57606a;
+}
+blockquote a { color: #0969da; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 87%;
+       background: #f6f8fa; padding: 2px 5px; border-radius: 4px; }
+pre { background: #f6f8fa; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+img {
+  display: block; max-width: 100%; margin: 14px auto 22px;
+  border: 1px solid #d8dee4; border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(31,35,40,.08);
+}
+table { border-collapse: collapse; margin: 14px 0; width: 100%; }
+th, td { border: 1px solid #d8dee4; padding: 6px 12px; text-align: left; }
+th { background: #f6f8fa; }
+tr:nth-child(even) td { background: #fbfcfd; }
+ol li, ul li { margin: 6px 0; }
+hr { border: none; border-top: 1px solid #d8dee4; margin: 32px 0; }
+footer { max-width: 780px; margin: 48px auto 0; color: #57606a; font-size: 13px;
+         border-top: 1px solid #d8dee4; padding-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+<h1 id="operating-the-front-end-an-illustrated-guide">Operating the front-end — an illustrated guide</h1>
+<p>Symbology Studio is the browser interface for building and running symbol
+computations: you describe a flow as a graph of operations, the server
+compiles it into concrete <code>bootstrap</code> / <code>tensor_ops</code> / <code>tensor_add</code> /
+Wolfram steps, runs them with verification and caching, and you inspect the
+exact tensors that come out. This guide walks through the whole loop with
+short screen recordings. Setup instructions (build the C++ core, start the
+server) are in the <a href="https://github.com/Amplitude-Lab/symbology/blob/front-end-dev/README.md">main README</a>;
+everything below assumes the app is open at <code>http://127.0.0.1:8321</code>.</p>
+<blockquote>
+<p><strong>The five-minute tour:</strong> create a project from a built-in example →
+open its flow → <strong>Compile</strong> → <strong>▶ Run this plan</strong> → watch the steps go
+green → <strong>Results</strong> → <strong>Inspect</strong> a tensor → (later) <strong>⇪ Export
+standalone script</strong> to run the same flow on a cluster.</p>
+</blockquote>
+<h2 id="1-create-a-project-from-a-built-in-example">1. Create a project from a built-in example</h2>
+<p><img alt="Creating a project from the E6 template" src="gifs/create-project.gif" /></p>
+<p>Click <strong>Create your first project</strong> (or <strong>+ New</strong> in the top bar at any
+time), give the project a name, and pick a template from the dropdown:</p>
+<ul>
+<li><strong>4-Point Form Factor (93 letters)</strong> — ships with a ready-made alphabet
+  and precomputed condition tensors;</li>
+<li><strong>Pentagon</strong> / <strong>E6</strong> — the example bootstrap workflows (the recording
+  uses E6);</li>
+<li><em>Empty project</em> — start from scratch.</li>
+</ul>
+<p>After creation you land on <strong>Materials</strong>, the project's alphabet library:
+letters, computed properties (integrability, first/last entry, symmetry
+transformations), and the tensors shipped or computed for them. Properties
+show a <strong>Compute</strong> action while pending; everything else in the app reads
+from here.</p>
+<h2 id="2-compile-and-run-a-flow">2. Compile and run a flow</h2>
+<p><img alt="Compiling and running the E6 example flow" src="gifs/compile-and-run.gif" /></p>
+<p>Open <strong>Flows</strong> and click the example flow. The editor has three parts: a
+palette of node types on the left, the graph canvas in the middle, and an
+inspector for the selected node on the right. Connect nodes by dragging
+from an output port to a compatible input port.</p>
+<p>Then:</p>
+<ol>
+<li>Click <strong>Compile</strong> in the toolbar. The server validates the graph and
+   shows the concrete step list in the <strong>Plan</strong> panel on the right — each
+   step names the binary it will run and the outputs it will produce.</li>
+<li>Click <strong>▶ Run this plan</strong>. You are taken to the run page, where steps
+   turn green as they finish and the full log streams below. The log is
+   also saved to the project as <code>runs/&lt;run_id&gt;.log</code>.</li>
+<li>Done — every output the flow declares now exists in the project's
+   <code>output/</code> directory.</li>
+</ol>
+<p>A step is only skipped when its outputs <strong>and</strong> a stored fingerprint of
+every input match — editing anything upstream automatically re-computes
+the affected chain on the next run. One run may be active per project;
+concurrent attempts get a clear message instead of a race.</p>
+<h2 id="3-inspect-results">3. Inspect results</h2>
+<p><img alt="Inspecting a produced tensor" src="gifs/inspect-results.gif" /></p>
+<p>The <strong>Results</strong> page lists every tensor file in <code>output/</code> (and <code>data/</code>).
+Click <strong>Inspect</strong> on any file to load its dimensions, non-zero count, and
+a sample of entries. The summary calls Wolfram, so it can take a few
+seconds for large tensors. This is the quickest way to sanity-check a
+shape (e.g. the <code>28 × 7 × 42</code> FEC tensor above) before building on it.</p>
+<h2 id="4-export-a-standalone-script-for-a-cluster">4. Export a standalone script for a cluster</h2>
+<p><img alt="Exporting the flow as a standalone script" src="gifs/export-script.gif" /></p>
+<p>Design on your laptop, compute anywhere the C++ core builds: with the
+plan compiled, click <strong>⇪ Export standalone script</strong> in the Plan panel.
+The server writes <code>exported/&lt;flow&gt;.sh</code> into the project directory and
+shows the invocation to copy. On the target machine:</p>
+<pre><code class="language-bash">SYMBOLOGY_ROOT=/path/to/symbology \
+PROJ_DIR=/path/to/synced/project-dir \
+bash /path/to/project-dir/exported/&lt;flow&gt;.sh
+</code></pre>
+<p>The exported script embeds the same verification and caching as the
+local runner, needs Bash and Python but no front-end dependencies, and
+needs no Mathematica when the Wolfram-dependent tensors are already in
+the project. Details, environment variables (<code>STEPS</code>, <code>STEP_TIMEOUT</code>,
+<code>WOLFRAM_MODE</code>, …) and cluster prerequisites are in the
+<a href="https://github.com/Amplitude-Lab/symbology/blob/front-end-dev/README.md">README's export section</a>.</p>
+<h2 id="everyday-notes">Everyday notes</h2>
+<ul>
+<li><strong>Saving.</strong> The editor autosaves ~0.8 s after your last edit (toggle in
+  the toolbar); the indicator next to it shows <em>saved / unsaved / saving /
+  error</em>. On a save conflict (the flow changed elsewhere, e.g. another
+  tab) the server refuses the overwrite and offers <strong>Download draft</strong> /
+  <strong>Reload saved flow</strong> — your draft is never silently discarded.</li>
+<li><strong>Wolfram.</strong> Mathematica (<code>wolframscript</code>) is needed only for computing
+  alphabet properties and for the Results tensor summaries. Drawing,
+  compiling, running native steps, and exporting scripts work without it.</li>
+<li><strong>Run history.</strong> The <strong>Runs</strong> tab lists every run with its status;
+  finished runs survive server restarts. Cancellation is immediate and
+  kills the whole process group of the running step.</li>
+<li><strong>Where files live.</strong> A project is a directory under
+  <code>front-end/projects/&lt;id&gt;/</code> — <code>data/</code> (inputs and shipped tensors),
+  <code>output/</code> (results), <code>runs/</code> (logs and run records), <code>exported/</code>
+  (standalone scripts). You can copy or sync the whole directory to move
+  work between machines.</li>
+</ul>
+</main>
+<footer>Rendered from <code>front-end-guide.md</code> in the symbology repository — the
+Markdown file is the source of truth; regenerate the HTML with
+<code>scripts/render-release-html.py</code>.</footer>
+</body>
+</html>
