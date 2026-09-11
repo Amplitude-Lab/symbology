@@ -14,3 +14,6 @@ regression suites that keep those guarantees live in [`tests/`](../tests/).
 
 The reports reference evidence files (result captures, screenshots, probe
 scripts) that are not part of the user-facing repository.
+
+For hands-on use of the web editor, see the separate
+[illustrated front-end guide](front-end-guide.md).

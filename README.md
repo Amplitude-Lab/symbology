@@ -199,6 +199,12 @@ transitive dependency lockfile.
 
 ## The visual front-end (web editor)
 
+> **New to the editor?** [Operating the front-end — an illustrated
+> guide](docs/front-end-guide.md) walks through the whole loop with short
+> screen recordings: create a project from an example, compile and run a
+> flow, inspect result tensors, and export a standalone script for a
+> cluster.
+
 The flow editor is a local web app: a FastAPI server that compiles graphs and
 drives the C++ binaries, plus a React client it serves. Fresh-machine setup:
 
