@@ -11,6 +11,7 @@ jobs:
   core:
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         mimalloc: [0, 1]
     steps:
@@ -24,12 +25,27 @@ jobs:
       - name: Build and public exact, cache, parser and template checks
         shell: bash -el {0}
         run: |
+          set -o pipefail
           allocator_lib=""
           if [ "${{ matrix.mimalloc }}" = "1" ]; then allocator_lib="-lmimalloc"; fi
           make -j2 check-public check-symrep check-kernel check-nmhv check-staged check-early-sew PORTABLE=1 MIMALLOC=${{ matrix.mimalloc }} \
             CXX="$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-c++" \
             CXXFLAGS="-O2 -std=c++20 -I. -I$CONDA_PREFIX/include" \
-            LDLIBS="-L$CONDA_PREFIX/lib -Wl,-rpath,$CONDA_PREFIX/lib -lflint -lgmp -ltbb $allocator_lib"
+            LDLIBS="-L$CONDA_PREFIX/lib -Wl,-rpath,$CONDA_PREFIX/lib -lflint -lgmp -ltbb $allocator_lib" \
+            2>&1 | tee "$RUNNER_TEMP/core-check.log"
+      - name: Report C++ check failure details
+        if: failure()
+        shell: bash -el {0}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'core-check.log'
+          if path.exists():
+              message = path.read_text(errors='replace')[-8000:]
+              message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              print('::error title=C++ build/test output::' + message)
+          PY
       - name: Benchmark process budgets and cancellation
         shell: bash -el {0}
         run: python3 tests/process_budget_probe.py
