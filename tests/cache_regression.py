@@ -10,7 +10,9 @@ import tempfile
 import time
 
 ROOT=Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser();p.add_argument('--probe',type=Path,default=ROOT/'tests/cache_probe');args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--probe',type=Path,default=ROOT/'tests/cache_probe')
+p.add_argument('--projection-strategy',choices=('restricted','original'),default='restricted')
+args=p.parse_args()
 with tempfile.TemporaryDirectory(prefix="symbology cache's ") as tmp:
     work=Path(tmp);files=[]
     for n in (0,1,3,55,56,63,64,65,127,128,129,1000000):
@@ -22,7 +24,8 @@ with tempfile.TemporaryDirectory(prefix="symbology cache's ") as tmp:
     def compute(destination, executable=ROOT/'compute_rhs'):
         start=time.monotonic()
         r=subprocess.run([str(executable),'--target','SEW_5p1','--data-dir',str(data),
-                          '--output-dir',str(destination),'--letter-projection',str(destination/'collinear/colprojdiv_w1.wxf')],
+                          '--output-dir',str(destination),'--letter-projection',str(destination/'collinear/colprojdiv_w1.wxf'),
+                          '--projection-strategy',args.projection_strategy],
                          capture_output=True,text=True,timeout=120)
         assert r.returncode==0,r.stdout[-2000:]+r.stderr
         return time.monotonic()-start,r.stdout
@@ -41,10 +44,17 @@ with tempfile.TemporaryDirectory(prefix="symbology cache's ") as tmp:
     # A valid WXF file with wrong content must not be accepted just because it exists.
     expected=protected.read_bytes();protected.write_bytes((out/'FEC_3.wxf').read_bytes())
     compute(out);assert protected.read_bytes()==expected
-    # A formerly nonempty projection must disappear when recomputation is empty.
-    fin=out/'collinear/colprojfin_SEW_3p1.wxf';assert not fin.exists()
-    fin.write_bytes((data/'colprojfin.wxf').read_bytes())
-    compute(out);assert not fin.exists()
+    if args.projection_strategy == 'original':
+        # The full projection chain must remove a stale nonempty projection
+        # when recomputation is empty. Restricted projection skips this chain.
+        fin=out/'collinear/colprojfin_SEW_3p1.wxf';assert not fin.exists()
+        fin.write_bytes((data/'colprojfin.wxf').read_bytes())
+        compute(out);assert not fin.exists()
+    else:
+        # Exercise the output that the restricted projection actually owns.
+        projected=out/'collinear/SEW_3p1_basis.wxf';expected=projected.read_bytes()
+        projected.write_bytes((data/'FEC_1.wxf').read_bytes())
+        compute(out);assert projected.read_bytes()==expected
     # Change a hidden data-directory input without trusting its timestamp.
     original=(data/'E1.wxf').stat()
     changed=work/'changed.wxf'
@@ -59,5 +69,5 @@ with tempfile.TemporaryDirectory(prefix="symbology cache's ") as tmp:
         rel=Path(rel).relative_to('output')
         assert (out/rel).read_bytes()==(fresh/rel).read_bytes(),rel
     assert (out/'oneloop/E1.wxf').read_bytes()==changed.read_bytes()
-    print(f'PASS changed seeds/binary, corrupted cached tensor, stale empty projection, apostrophes/spaces; all {len(refs)} resumed outputs equal a fresh run')
+    print(f'PASS {args.projection_strategy}: changed seeds/binary, corrupted cached tensor/projection, apostrophes/spaces; all {len(refs)} resumed outputs equal a fresh run')
     print(f'Measured cold {cold:.3f}s, unchanged resume {warm:.3f}s (this machine, public 3-loop fixture)')

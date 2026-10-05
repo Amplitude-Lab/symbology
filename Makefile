@@ -222,6 +222,7 @@ tests/cache_probe: tests/cache_probe.cpp native_cache.hpp
 
 check-cache: all tests/cache_probe
 	python3 tests/cache_regression.py
+	python3 tests/cache_regression.py --projection-strategy original
 
 .PHONY: check-cache
 
