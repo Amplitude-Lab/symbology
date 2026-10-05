@@ -254,6 +254,11 @@ fresh processes and both time and peak RAM. Separate claims about reduced work
 or storage from timing differences under unrelated CPU load. The completed
 [five-loop audit](../audits/fiveloop-day-2026-10-04/REPORT.md) remains evidence
 for the pre-refactor implementation, not a timing measurement of this library.
+The later [clean five-loop reproduction](../benchmarks/heptagon-mhv-five-loop/VALIDATION.md)
+tests this library through all numerical stages, including prerequisites:
+8,280.83 s total and 31.48 GiB peak RSS, with a byte-identical final symbol.
+Its joint kernel took 6,743.00 s / 19.33 GiB and passed complete exact
+certification. These separate runs are not a controlled timing ablation.
 The [staged-library audit](../audits/staged-kernel-2026-10-04/REPORT.md) records
 the new timings, peak RSS, arbitrary-cut comparisons, four-loop physical
 verification, and the NMHV cases where staging loses to the existing solver.

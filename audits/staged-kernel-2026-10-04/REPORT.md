@@ -174,7 +174,11 @@ native suite reconstructs and passes the two-/three-loop reference outputs
 without those old directories; it does not substitute for the unavailable
 private-project baselines.
 
-This library has not been rerun through the complete five-loop pipeline.
+At the time of this audit, the library had not been rerun through the complete
+five-loop pipeline. The later [publication validation](../../benchmarks/heptagon-mhv-five-loop/VALIDATION.md)
+completed that cold reproduction in 8,280.83 s / 31.48 GiB, including all
+prerequisites, and recovered the same final symbol byte for byte. Its joint
+kernel took 6,743.00 s / 19.33 GiB and passed complete exact certification.
 The prior 2 h 10 min / 19.40 GiB five-loop result remains documented in the
 [separate audit](../fiveloop-day-2026-10-04/REPORT.md), and is not a measurement
 of this refactor. No claim is made that a particular cut or staging policy

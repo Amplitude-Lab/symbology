@@ -1,0 +1,19 @@
+SMALL_PROJECTION weight=8 suffix_words=8 nnz=50010
+SMALL_PROJECTION weight=7 suffix_words=16 nnz=43667
+SMALL_PROJECTION weight=6 suffix_words=32 nnz=34177
+SMALL_PROJECTION weight=5 suffix_words=64 nnz=23719
+SMALL_PROJECTION weight=4 suffix_words=128 nnz=16082
+SMALL_PROJECTION weight=3 suffix_words=256 nnz=8042
+SMALL_PROJECTION weight=2 suffix_words=512 nnz=4096
+SMALL_PROJECTION weight=1 suffix_words=1024 nnz=2048
+DISCOVERY alphabet=2 unique=0
+SMALL_PROJECTION weight=8 suffix_words=27 nnz=251818
+SMALL_PROJECTION weight=7 suffix_words=81 nnz=339679
+SMALL_PROJECTION weight=6 suffix_words=243 nnz=421730
+SMALL_PROJECTION weight=5 suffix_words=729 nnz=486165
+SMALL_PROJECTION weight=4 suffix_words=2187 nnz=479926
+SMALL_PROJECTION weight=3 suffix_words=6561 nnz=428994
+SMALL_PROJECTION weight=2 suffix_words=19683 nnz=130914
+SMALL_PROJECTION weight=1 suffix_words=59049 nnz=43302
+DISCOVERY alphabet=3 unique=1
+CANDIDATE saved; full collinear derivative verification is still required

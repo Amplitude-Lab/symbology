@@ -13,6 +13,12 @@ The accepted result is
 It requires the saved FEC1..8 and LEC1..2 bases and uses the **8+2** sewing
 cut. It is not a standalone expansion in all original-alphabet words.
 
+The small accepted tensor is now tracked in the
+[published reproduction benchmark](../../benchmarks/heptagon-mhv-five-loop/README.md).
+That package rebuilds every omitted prerequisite from tracked seeds and has
+passed a complete cold reproduction with the current shared kernel library;
+see its [validation record](../../benchmarks/heptagon-mhv-five-loop/VALIDATION.md).
+
 | Completed stage | Wall seconds | Sampled peak RSS |
 | --- | ---: | ---: |
 | Exact invariant kernel | 7,341.009 | 19.399 GiB |

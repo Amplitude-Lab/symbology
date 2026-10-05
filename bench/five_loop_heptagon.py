@@ -66,7 +66,8 @@ def check(run, phase, loop):
             require_hash("amplitude/hepMHV_5L_recursive.wxf", expected)
         else:
             require_hash("amplitude/E4_candidate.wxf", reference["lower_sha256"]["chain/4loop/E4.wxf"])
-    save(run / (phase + "-binding.json"), dict(phase=phase, loop=loop, state="pass", files=records))
+    # The process monitor owns <stage>.json; keep the coordinate receipt separate.
+    save(run / (phase + "-binding.reference.json"), dict(phase=phase, loop=loop, state="pass", files=records))
     print(f"PASS {phase} reference binding", flush=True)
 
 
@@ -150,7 +151,7 @@ def main():
     def binding(phase):
         stage(phase + "-binding", [sys.executable, binary / "five_loop_heptagon.py", "check",
                                   "--output", root, "--loops", loop, "--phase", phase],
-              [root / (phase + "-binding.json")], [f"PASS {phase} reference binding"])
+              [root / (phase + "-binding.reference.json")], [f"PASS {phase} reference binding"])
 
     binding("seeds")
     lower_outputs = [chain / f"{l}loop" / f"{name}{l}.wxf" for l in range(2, loop) for name in ("E", "R")]

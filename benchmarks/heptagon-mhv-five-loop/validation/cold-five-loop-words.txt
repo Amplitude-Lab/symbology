@@ -1,0 +1,5 @@
+loop=5 published_case=0 coefficient=-26880
+loop=5 published_case=1 coefficient=-26880
+loop=5 published_case=2 coefficient=26880
+loop=5 published_case=3 coefficient=-1680
+PASS four independent published original-alphabet word coefficients

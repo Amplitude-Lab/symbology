@@ -77,7 +77,7 @@ needs, and compares its full collinear E4 tensor with the recorded result.
 The runner snapshots executables, seeds and controller scripts into its output
 directory. `config.json` records every command. `manifest.json` records source,
 binary and input hashes. `status.json` shows progress, acceptance and resource
-usage; each stage has a log and measurement JSON. `final-binding.json` is
+usage; each stage has a log and measurement JSON. `final-binding.reference.json` is
 written only after the final reference comparisons pass. A directory or
 `candidate_*` file alone is not evidence of a successful run.
 
@@ -90,6 +90,14 @@ does not silently reuse partial or uncertified results. Compiler time is
 outside the numerical benchmark.
 
 ## Cost and interpretation
+
+The published driver passed a complete cold reproduction in **8,280.83 s
+(2 h 18 min 1 s)** with **31.48 GiB sampled peak process-tree RSS**. This includes
+rebuilding all forward bases, lower-loop amplitudes, generator actions and the
+boundary, then solving and checking the final symbol. The final solution
+matched the committed file byte for byte. The joint kernel alone took
+6,743.00 s and peaked at 19.33 GiB; FEC8 construction set the overall memory
+peak. See [VALIDATION.md](VALIDATION.md) for stage measurements and certificates.
 
 The original successful calculation took **7,796.38 s (2 h 9 min 56 s)** and
 **19.40 GiB sampled peak RSS** for the joint solve and physical verification,

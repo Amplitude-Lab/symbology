@@ -1,0 +1,476 @@
+{
+  "state": "complete",
+  "controller_pid": 1144406,
+  "started_unix_seconds": 1791173065.1387935,
+  "deadline_unix_seconds": 1791259465.109043,
+  "rss_limit_gib": 50,
+  "stages": [
+    {
+      "name": "seeds-binding",
+      "measurement": {
+        "command": [
+          "/usr/bin/python3",
+          "$RUN/bin/five_loop_heptagon.py",
+          "check",
+          "--output",
+          "$RUN",
+          "--loops",
+          "5",
+          "--phase",
+          "seeds"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 0.10200808895751834,
+        "peak_summed_rss_bytes": 614400,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 0.027724,
+        "cpu_system_seconds": 0.0041069999999999995,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/seeds-binding.json",
+          "bytes": 697,
+          "sha256": "b0b5166f9404b267fd59222c1e8f7305049a675e8571c53b3ca9d8f9d72a7ab5"
+        }
+      ]
+    },
+    {
+      "name": "lower-loops",
+      "measurement": {
+        "command": [
+          "$RUN/bin/compute_rhs",
+          "--target",
+          "SEW_7p1",
+          "--data-dir",
+          "$RUN/data",
+          "--output-dir",
+          "$RUN/chain",
+          "--letter-projection",
+          "$RUN/chain/collinear/colprojdiv_w1.wxf",
+          "--threads",
+          "8",
+          "--kernel-strategy",
+          "streamed",
+          "--sew-strategy",
+          "auto",
+          "--projection-strategy",
+          "restricted"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 76.66773781692609,
+        "peak_summed_rss_bytes": 5799272448,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 238.321564,
+        "cpu_system_seconds": 8.625528,
+        "max_processes": 3,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/chain/2loop/E2.wxf",
+          "bytes": 854,
+          "sha256": "713dd09afe71308331d80d97a73e5b0cc52417d40ebc16317ac2518e51a6d016"
+        },
+        {
+          "path": "$RUN/chain/2loop/R2.wxf",
+          "bytes": 752,
+          "sha256": "30b57162d896c5d29af724166651377fc1107ee287968e9fa3d545f8b3113bc2"
+        },
+        {
+          "path": "$RUN/chain/3loop/E3.wxf",
+          "bytes": 81457,
+          "sha256": "a58b9e88ebac989fdc73cef2a69e2899a51dbcd52465a76e297c0d33d18a3e97"
+        },
+        {
+          "path": "$RUN/chain/3loop/R3.wxf",
+          "bytes": 73445,
+          "sha256": "bfe600f3fc86cc8968975e20d8dd1045efe23dbe23763544cb10538ed293c91d"
+        },
+        {
+          "path": "$RUN/chain/4loop/E4.wxf",
+          "bytes": 8882893,
+          "sha256": "2fd9e43469ea16f5d975883b58e83499df0676c094823cb1e265acb8c6f36e6f"
+        },
+        {
+          "path": "$RUN/chain/4loop/R4.wxf",
+          "bytes": 7219643,
+          "sha256": "3d84892f84e40e9a2165245bae33758decf6df02c037009e9916876e1a72b879"
+        }
+      ]
+    },
+    {
+      "name": "forward-basis",
+      "measurement": {
+        "command": [
+          "$RUN/bin/bootstrap",
+          "--extend",
+          "-c",
+          "$RUN/data/dlogmat_E6.wxf",
+          "-f",
+          "$RUN/chain/FEC_7.wxf",
+          "-o",
+          "$RUN/chain/FEC_8.wxf",
+          "--threads",
+          "8",
+          "--kernel-strategy",
+          "streamed"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 593.257393410895,
+        "peak_summed_rss_bytes": 33800409088,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 3115.873192,
+        "cpu_system_seconds": 27.753799,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/chain/FEC_8.wxf",
+          "bytes": 1653307317,
+          "sha256": "13dabeb82f12b8ead93f5e31444405708f5c8144b59c365405838d6567cc3724"
+        }
+      ]
+    },
+    {
+      "name": "bases-binding",
+      "measurement": {
+        "command": [
+          "/usr/bin/python3",
+          "$RUN/bin/five_loop_heptagon.py",
+          "check",
+          "--output",
+          "$RUN",
+          "--loops",
+          "5",
+          "--phase",
+          "bases"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 0.9075017650611699,
+        "peak_summed_rss_bytes": 33173504,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 0.598026,
+        "cpu_system_seconds": 0.251011,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/bases-binding.json",
+          "bytes": 685,
+          "sha256": "b7c9a1cbdd71d78556ce7ba16edb78fdc75622e32cb5369f295b07fe690d977a"
+        }
+      ]
+    },
+    {
+      "name": "actions",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_sew_probe",
+          "actions",
+          "$RUN/data",
+          "$RUN/chain",
+          "8",
+          "$RUN/early/actions"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 70.90197134623304,
+        "peak_summed_rss_bytes": 13447487488,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 315.070339,
+        "cpu_system_seconds": 10.77571,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/early/actions/w8_cyc.wxf",
+          "bytes": 243873052,
+          "sha256": "668ad4eb7a154b64151425c46db29fafd9d8f5bae0ea1b51b15ef2eff0f88a06"
+        },
+        {
+          "path": "$RUN/early/actions/w8_flip.wxf",
+          "bytes": 299367586,
+          "sha256": "f5f2bb50ebad7e3993a961432a9b1f419dc6a747d7e160ad380d5b46fe917949"
+        },
+        {
+          "path": "$RUN/early/actions/w8_parity.wxf",
+          "bytes": 187869257,
+          "sha256": "fba2685645f4254aa924b112e1f3cb830bd9b11b507b4af7673b6d794b08aba7"
+        }
+      ]
+    },
+    {
+      "name": "boundary",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_mhv_bootstrap",
+          "boundary",
+          "$RUN/data",
+          "$RUN/chain",
+          "$RUN/early",
+          "$RUN/chain",
+          "$RUN/amplitude",
+          "5"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 339.5684420922771,
+        "peak_summed_rss_bytes": 15117352960,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 400.097991,
+        "cpu_system_seconds": 7.590346,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/amplitude/boundary_5L.wxf",
+          "bytes": 1265737523,
+          "sha256": "0f0a92297bfdeade9e87ab08867a034fd0237dd9592e514c0c2c74b50fa4881b"
+        }
+      ]
+    },
+    {
+      "name": "kernel",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_sew_probe",
+          "refine-hybrid",
+          "$RUN/data",
+          "$RUN/chain",
+          "8",
+          "$RUN/early"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 6743.00364028709,
+        "peak_summed_rss_bytes": 20753014784,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 29895.174377,
+        "cpu_system_seconds": 93.147383,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/early/EARLY_8p2.wxf",
+          "bytes": 4565763,
+          "sha256": "86d9731ff62aa6b39495fb3a6b3b53549442475e7551177cce0abbe4e47a32e0"
+        },
+        {
+          "path": "$RUN/early/LEC_2.wxf",
+          "bytes": 5971,
+          "sha256": "085161e8c6717f446560266f1bf0f9a603d5d926575afe3a946a014ac808851a"
+        }
+      ]
+    },
+    {
+      "name": "coefficients",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_mhv_bootstrap",
+          "coefficients",
+          "$RUN/data",
+          "$RUN/chain",
+          "$RUN/early",
+          "$RUN/chain",
+          "$RUN/amplitude",
+          "5"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 67.45577703602612,
+        "peak_summed_rss_bytes": 12932022272,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 95.805852,
+        "cpu_system_seconds": 16.398694,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/amplitude/candidate_coefficients.wxf",
+          "bytes": 173,
+          "sha256": "334b86b0d44840389188019291a525c3f0a2e78ad40bd5bb07eeff58452f2da6"
+        },
+        {
+          "path": "$RUN/amplitude/candidate_recursive.wxf",
+          "bytes": 6825548,
+          "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_mhv_bootstrap",
+          "verify",
+          "$RUN/data",
+          "$RUN/chain",
+          "$RUN/early",
+          "$RUN/chain",
+          "$RUN/amplitude",
+          "5"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 370.2597508258186,
+        "peak_summed_rss_bytes": 15400992768,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 1353.186291,
+        "cpu_system_seconds": 45.826711,
+        "max_processes": 3,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/amplitude/hepMHV_5L_recursive.wxf",
+          "bytes": 6825548,
+          "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+        },
+        {
+          "path": "$RUN/amplitude/E5_candidate.wxf",
+          "bytes": 986314808,
+          "sha256": "9f2ca40ef5c7a1c025fb753f46080832d56670753ca05d39066692a68dc06355"
+        }
+      ]
+    },
+    {
+      "name": "words",
+      "measurement": {
+        "command": [
+          "$RUN/bin/early_mhv_words",
+          "$RUN/data",
+          "$RUN/chain",
+          "$RUN/early/LEC_2.wxf",
+          "$RUN/amplitude/hepMHV_5L_recursive.wxf",
+          "5"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 15.277170959860086,
+        "peak_summed_rss_bytes": 12776423424,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 12.18096,
+        "cpu_system_seconds": 6.839636,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": []
+    },
+    {
+      "name": "final-binding",
+      "measurement": {
+        "command": [
+          "/usr/bin/python3",
+          "$RUN/bin/five_loop_heptagon.py",
+          "check",
+          "--output",
+          "$RUN",
+          "--loops",
+          "5",
+          "--phase",
+          "final"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 50.0,
+        "cancel_signal": 0,
+        "min_available_gib": 4.0,
+        "wall_seconds": 0.9080640217289329,
+        "peak_summed_rss_bytes": 33198080,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 0.597855,
+        "cpu_system_seconds": 0.253938,
+        "max_processes": 1,
+        "virtual_limit_gib": 50
+      },
+      "monitor_exit_code": 0,
+      "outputs": [
+        {
+          "path": "$RUN/final-binding.json",
+          "bytes": 685,
+          "sha256": "d0e12e083dc558ae1667195757a77437b7c45f09deef2af59bb1c7045f7a1c0d"
+        }
+      ]
+    }
+  ],
+  "updated_utc": "2026-10-05T06:22:25.965625+00:00",
+  "wall_seconds": 8280.82683703769,
+  "current_stage": null,
+  "current_log": "$RUN/final-binding.log",
+  "current_live": "$RUN/final-binding-live.json",
+  "peak_stage_rss_bytes": 33800409088
+}

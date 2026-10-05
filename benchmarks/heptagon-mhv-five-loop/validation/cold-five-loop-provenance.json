@@ -1,0 +1,228 @@
+{
+  "description": "Clean export of tracked Git files; dependency fetched and patched from scratch; no previous output trees or cached physics intermediates.",
+  "computational_source_commit": "b9ece6eed7995122d8995c7ec7d883760692fc30",
+  "tracked_source_files_verified_against_commit": 48,
+  "source_sha256": {
+    "symrep_io.hpp": "ebceb2ae7cec2246ef98aacb6489c7915b1b107ec83f6e15432f250fed0dc527",
+    "linear_solve.hpp": "18117823a1df457fab9d09ef41da7c78b46dacd8a76f3d02f9ede2e6124d92c5",
+    "partitioned_tensor_view.hpp": "79127be3744fa22d9d54ee776ce32e0f6ac5683dc6a4cb58cb832c6ad6d1e7c7",
+    "numeric_parse.hpp": "ec3c28ebe81304205cb91388c4734e436c32217e15df3dd38d231fcde1c97ddc",
+    "bootstrap.hpp": "8e6491b3448e23fa35e97ad2b0a17b5ba6d6f804105e1ea086183588b5dec834",
+    "restricted_projection.hpp": "e5334c5a1b0aa342a14321453da4f07d8d8821c4dd3fccc103978a2b3fa0548d",
+    "recursive_word_chart.hpp": "ae6d7edfa657637dbf0c0ddcdd739b9529bab6d5142da700f1d95dd59bba5e83",
+    "symrep.hpp": "fc8ba583c2ae0d555807a48378cc6bfb0bc2a1eff15b22d25114036610616a16",
+    "symrep_multiplicity.hpp": "2f89389529f665712b25bede496e8d56eb07f0a000e5f408a4c61b329d5481ad",
+    "certified_kernel.hpp": "8a82735567bb788b5e201326e39ba81013e9cfdfd46adda30b5a53ec606aad5d",
+    "column_restriction.hpp": "f79eec21049bbc6b494f85b667d11e7091723f499fc18be2feafd2bd2831b0b5",
+    "symrep_orbits.hpp": "c0a8c392b0ac38eed7d672fe8cbc9a562de829ae13dd4515aca0be144c563ff1",
+    "early_sew.hpp": "079c577d0b84c73cf4d926554ff1e2a8d47df1acd61ba4e43e7e47f25d26b40a",
+    "product_invariance.hpp": "5a3dbd24e0f4fe9a5b48897941f1205576000db821cdac1857a94e212dc2fe09",
+    "staged_matrix.hpp": "6b770a41102ebed7e84a8a0daabb9f589793335df99380fcab4963a0f598dcad",
+    "streaming_echelon.hpp": "57d60d033944551984789adaba71b65f72533b08cb3ac4379c19c2a476aabea4",
+    "tensor_expand.hpp": "3d4349aafbe15a24f8e56027c4d34cf3b9fbc61eaacdff9ae6eb1cfce2defcc9",
+    "symrep_carrier.hpp": "bcac208041fdc33a4d53a31cb9add70f7b5cca84bb56f3b7a51cb13502af0ee7",
+    "packed_shuffle.hpp": "d9785aea36122202b1c4348147e39712eb2697ce7f665b3e2f9d52d504e4487c",
+    "tensor_kernel.hpp": "728aa22147659d7f0a2d2b1a67e8746e652b5be394c03df70cb9c77b50457850",
+    "compute_rhs.hpp": "77fb6b9d22b6f2ed0644f3e61f5b310494b0b8678fe7acd03ef24373cdbdeb84",
+    "projection.hpp": "ff531745b7ef0f59c4c0fddd2f68d978c709fb5b1a0a6eb3eb4e8f755c33999e",
+    "solve_symmetry.hpp": "a847d0e13632a025467cc14e2887be19aa324b69839249301c8f6207baa96299",
+    "staged_kernel.hpp": "be7c7816ce9a908e8b47d24f73bfe5c297328bce5902b05a10779ca78f80ba69",
+    "solve_collinear.hpp": "38f826c513076d94bb051d8c81220ce193ce75476c9344fb8a34eb49a7fd1843",
+    "symrep_bootstrap.hpp": "0fab1526c1d5e1dc7c7cb642f40b87d7adb64f57bc15a9f3ad8b1bea49e1ba29",
+    "native_cache.hpp": "54131e4496d41976af273ae79843ea8dd845ad87d8e6365536869c7959529456",
+    "structured_kernel.hpp": "df97da3d1bea8566419a14f423cf790099d495caa3179813e474f00e953151a0",
+    "incremental_solve.hpp": "01098e232e4f040bda7bbcbf7d0cbd4aabbdc38f0c5aa3fc3f302d6110cc0c77",
+    "tensor_shuffle.h": "b821e1adfdaf907d7fa7cf57f694d1c0acb06c12a480fc5e2e7bb8bef268a835",
+    "SparseRREF/sparse_type.h": "4afe6e44eb2e4b4792f4acc8964eb0dd17d5ffa8fab439a685e5288899e35ce9",
+    "SparseRREF/wxf_parser.h": "eb876c8c34134e98a95b587ab751ea2dfb71a0824f51802d2abe33428350e60a",
+    "SparseRREF/sparse_rref.h": "ba0d4c0990a9b8f383481e6d9ea914e4b2c1b437f0e99cbb5265276ba9e5890e",
+    "SparseRREF/sparse_tensor.h": "d3b7a8b5245b13e9ee301e1a53ac75f45e04f032d70a1fc510fd7b39d3bcab4c",
+    "SparseRREF/wxf_support.h": "93a6d0b3adcebccef1ff246c66787f850e3f37840183219f2f48f200323c938e",
+    "SparseRREF/scalar.h": "c47e12bf07f57584c4f7dffd3b70b7049edd0990a08631cbd56de5e239e9784c",
+    "SparseRREF/sparse_vec.h": "102024c01d92f87bddb6fabb17efc49df8bdc7de38ddc17416cfac6a733f2598",
+    "SparseRREF/sparse_mat.h": "792c6cf0d7aad03b246ba50d8bb41028e04d5c50d10ed828bc9fb392d1c7fdeb",
+    "SparseRREF/argparse.hpp": "a7016adbe2bf16c2b5b60aa974158dbf652a0c4f4e328481d08970c866e18c78",
+    "SparseRREF/thread_pool.hpp": "38214cd5308ec016173ff2edd911f479f30fd91eaf143c0452275cc52bdcf58a",
+    "patches/sparserref-move-reconstruction.patch": "9dee26bf93997ba78ed2ad969f3bb9a5ba0c27c4344e9ea28c8f3d073dc302fd",
+    "patches/sparserref-scalar-move-cleanup.patch": "6755d00c0711048d02911f5a1aaac770af87673355a0d8885dddb1c1e96a9265",
+    "patches/sparserref-5bbee55-race-and-init-fix.patch": "0b9b7d817c9444de678476691f88271134355f497cef846a123da9075f21cca4",
+    "patches/sparserref-wxf-visitor.patch": "2a8318e68cf193125829bb2392a8f7416a189598da322c1fd4878c4b97d607f3",
+    "patches/sparserref-wxf-validation.patch": "89491ecb2d9be5a82861761559d0977b45932ec2638f999000d4e9f10d061f63",
+    "patches/sparserref-reconstruction-throughput.patch": "dae96eb9e2739d0b896ab3c586da276234275be0b4e4eac1f0e867ae43b1d352",
+    "patches/sparserref-tensor-capacity.patch": "16114742b9503c2c6b50ecfe08e11b9400fdf45d4de31a525f1f7d639d79e751",
+    "patches/sparserref-race-fix.patch": "40b23a79920576bd0fc713629ded64f0d7abbb2758b0a35251c81c1ddf7e2e9d",
+    "Makefile": "2da4c647af6e215bd6f51410ae6921a810a90e788bdbb834126903f457583645",
+    "bootstrap.cpp": "c2edce378de1ecfd397a312290932bc1a73c84402575faf48c7fd4c278aceaf6",
+    "compute_rhs.cpp": "4ed4f8460bf5f8edc926264e9f292e2230f20fad7dbcf7a6a817c4ecd20ff305",
+    "bench/early_sew_probe.cpp": "0a32087143b7198e9f665c597819c7d8a26a5879125017792253a03217aca926",
+    "bench/early_mhv_bootstrap.cpp": "704496658b8252926348b91be37d59b613c6108ec341c6e83c3db592e3e5d257",
+    "bench/early_mhv_words.cpp": "12c13b54a1796a654e219fd6a85bd5284329d8dd040d1cae8a467a3ca8fb7bd7",
+    "bench/five_loop_heptagon.py": "afda0ef0c693aaea84d2897d08738543a203492a388873b199f8e29e8cceb75c",
+    "bench/run_pipeline.py": "24cfdc1678d1ddcbaefb8e846e26a5ac1a15753b0db2ee9d343b2f2d9b8abe3b",
+    "bench/measure_process.py": "575e5173c1da2d391fea31688ab6662e5599902986052f7f2bf701fb74dbc82d",
+    "scripts/setup-sparserref.sh": "6b1e0396cdab40e6ba7bffc9b7cd713690ffde6d67c6b5e4c20cfbc7798717e8"
+  },
+  "frozen_sha256": {
+    "data/cycrepmat.wxf": "aaf106383019a6039e307e5d758cff98525ba08136b844cfe9e9dd9b1aa0f3ef",
+    "data/fliprepmat.wxf": "217cc6a9a1f05bed07e103e61a64a2e9d936a7279623d473fce82b84f9dbbd99",
+    "data/parityrepmat.wxf": "79df11e3642685dd93b746d23f24122d19b66edf160bbc39810fa61292fc737d",
+    "data/colprojdiv.wxf": "7be56cd7c97e169b2765f329c728f4cc56fdd73f2d2753dd89f6b09714d5fd88",
+    "data/colprojfin.wxf": "342f90c1d3ac1468c42d4f227ea3e68cbee7e7e092a5af9308ad06cdbba17912",
+    "data/FEC_1.wxf": "a73d7b2d9fd5bb069f6a25321e2b1b0bcdfd62d0b3dcf52fccbf9ce1d751d823",
+    "data/LEC_1.wxf": "e66b2dc12849c76ea8241691be0389778da60666d7ff2fd5a12caf4380fb50bf",
+    "data/colmat42.wxf": "1ced34e1a12c70e686e17f19c659fddd277917ae8ae0aa001700ab25f2b8dfab",
+    "data/dlogmat_E6.wxf": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+    "data/E1.wxf": "5b01d4f0ab8a7478b9783c94b45e56c5444c8bec3b1b12b72d84e773ff419c99",
+    "bin/early_mhv_words": "9457bd7f116384e00d156b88ae765a9dacd6e93f7e523559d01be778955ad820",
+    "bin/five_loop_heptagon.py": "afda0ef0c693aaea84d2897d08738543a203492a388873b199f8e29e8cceb75c",
+    "bin/measure_process.py": "575e5173c1da2d391fea31688ab6662e5599902986052f7f2bf701fb74dbc82d",
+    "bin/run_pipeline.py": "24cfdc1678d1ddcbaefb8e846e26a5ac1a15753b0db2ee9d343b2f2d9b8abe3b",
+    "bin/bootstrap": "273a4dda895831709e2ec43ac9596517beabe85d93f6964899e34d1ec2aa0dda",
+    "bin/early_mhv_bootstrap": "54af878791e60fc023ac2592239099c2eacebed7faeccd162d6f4d756117a8f8",
+    "bin/early_sew_probe": "f0050cb6ac0cf53cd5172e6a1bbbe69c5c255ab53b8bb5c8e3b623187d698fc8",
+    "bin/compute_rhs": "4e5bbee97b4966bd2f8bae40cbac66949564b03bdfa2254fde6fccbc9dfba146",
+    "reference/manifest.json": "f263f0aa620b10f7837aaca1ef9635f979d3df0e86c3801582256c2d2b52f9ff",
+    "reference/hepMHV_5L_recursive.wxf": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+  },
+  "cpu_model": "Intel(R) Core(TM) Ultra 7 265",
+  "threads": 8,
+  "final_binding": {
+    "phase": "final",
+    "loop": 5,
+    "state": "pass",
+    "files": [
+      {
+        "path": "data/FEC_1.wxf",
+        "sha256": "a73d7b2d9fd5bb069f6a25321e2b1b0bcdfd62d0b3dcf52fccbf9ce1d751d823",
+        "bytes": 97
+      },
+      {
+        "path": "data/LEC_1.wxf",
+        "sha256": "e66b2dc12849c76ea8241691be0389778da60666d7ff2fd5a12caf4380fb50bf",
+        "bytes": 269
+      },
+      {
+        "path": "data/dlogmat_E6.wxf",
+        "sha256": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+        "bytes": 27409
+      },
+      {
+        "path": "data/cycrepmat.wxf",
+        "sha256": "aaf106383019a6039e307e5d758cff98525ba08136b844cfe9e9dd9b1aa0f3ef",
+        "bytes": 194
+      },
+      {
+        "path": "data/fliprepmat.wxf",
+        "sha256": "217cc6a9a1f05bed07e103e61a64a2e9d936a7279623d473fce82b84f9dbbd99",
+        "bytes": 194
+      },
+      {
+        "path": "data/parityrepmat.wxf",
+        "sha256": "79df11e3642685dd93b746d23f24122d19b66edf160bbc39810fa61292fc737d",
+        "bytes": 194
+      },
+      {
+        "path": "data/colmat42.wxf",
+        "sha256": "1ced34e1a12c70e686e17f19c659fddd277917ae8ae0aa001700ab25f2b8dfab",
+        "bytes": 515
+      },
+      {
+        "path": "data/colprojdiv.wxf",
+        "sha256": "7be56cd7c97e169b2765f329c728f4cc56fdd73f2d2753dd89f6b09714d5fd88",
+        "bytes": 83
+      },
+      {
+        "path": "data/E1.wxf",
+        "sha256": "5b01d4f0ab8a7478b9783c94b45e56c5444c8bec3b1b12b72d84e773ff419c99",
+        "bytes": 89
+      },
+      {
+        "path": "data/colprojfin.wxf",
+        "sha256": "342f90c1d3ac1468c42d4f227ea3e68cbee7e7e092a5af9308ad06cdbba17912",
+        "bytes": 97
+      },
+      {
+        "path": "chain/FEC_2.wxf",
+        "sha256": "63fe8d9566e91df58407e358cb61223442fa7db58b3d66531175312483af51df",
+        "bytes": 689
+      },
+      {
+        "path": "chain/FEC_3.wxf",
+        "sha256": "e13916edf432a99711c7f97daad730f4ae3e79c03794ad4a82b7de8cbc0cca88",
+        "bytes": 6983
+      },
+      {
+        "path": "chain/FEC_4.wxf",
+        "sha256": "634fd8e48de3b4ae71715044222842e72f6bd84b5a5bc2215317d59774494a83",
+        "bytes": 49956
+      },
+      {
+        "path": "chain/FEC_5.wxf",
+        "sha256": "f2c3695c4633f060f0320422419fb817039173cd54ad0eeb6149e086118d5ba3",
+        "bytes": 813686
+      },
+      {
+        "path": "chain/FEC_6.wxf",
+        "sha256": "d0ce229c994a72d426746fd9cb9502eea608a47f0140f19e2dfb0c5e24dddab6",
+        "bytes": 9935600
+      },
+      {
+        "path": "chain/FEC_7.wxf",
+        "sha256": "999d950542b76b422e763372e83c6df392592e1add3c2c1ab6917476ce20b47a",
+        "bytes": 128997987
+      },
+      {
+        "path": "chain/FEC_8.wxf",
+        "sha256": "13dabeb82f12b8ead93f5e31444405708f5c8144b59c365405838d6567cc3724",
+        "bytes": 1653307317
+      },
+      {
+        "path": "chain/2loop/E2.wxf",
+        "sha256": "713dd09afe71308331d80d97a73e5b0cc52417d40ebc16317ac2518e51a6d016",
+        "bytes": 854
+      },
+      {
+        "path": "chain/2loop/R2.wxf",
+        "sha256": "30b57162d896c5d29af724166651377fc1107ee287968e9fa3d545f8b3113bc2",
+        "bytes": 752
+      },
+      {
+        "path": "chain/3loop/E3.wxf",
+        "sha256": "a58b9e88ebac989fdc73cef2a69e2899a51dbcd52465a76e297c0d33d18a3e97",
+        "bytes": 81457
+      },
+      {
+        "path": "chain/3loop/R3.wxf",
+        "sha256": "bfe600f3fc86cc8968975e20d8dd1045efe23dbe23763544cb10538ed293c91d",
+        "bytes": 73445
+      },
+      {
+        "path": "chain/4loop/E4.wxf",
+        "sha256": "2fd9e43469ea16f5d975883b58e83499df0676c094823cb1e265acb8c6f36e6f",
+        "bytes": 8882893
+      },
+      {
+        "path": "chain/4loop/R4.wxf",
+        "sha256": "3d84892f84e40e9a2165245bae33758decf6df02c037009e9916876e1a72b879",
+        "bytes": 7219643
+      },
+      {
+        "path": "early/LEC_2.wxf",
+        "sha256": "085161e8c6717f446560266f1bf0f9a603d5d926575afe3a946a014ac808851a",
+        "bytes": 5971
+      },
+      {
+        "path": "reference/hepMHV_5L_recursive.wxf",
+        "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691",
+        "bytes": 6825548
+      },
+      {
+        "path": "amplitude/hepMHV_5L_recursive.wxf",
+        "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691",
+        "bytes": 6825548
+      }
+    ]
+  },
+  "post_run_reference_checker_sha256": "91bb0220db879d759748f8c37adb12b94f89c53e5bebec51e9bed180d1d3f088",
+  "note": "Subsequent publication commits change documentation, CI diagnostics, cache tests and the coordinate-receipt filenames, not the numerical algorithms. The original run passed every reference check; its timing monitor overwrote the receipt files. All three reference checks were rerun after separating their filenames, and the resulting final receipt is retained here. Compiler time and post-run receipt regeneration are excluded from numerical timings."
+}

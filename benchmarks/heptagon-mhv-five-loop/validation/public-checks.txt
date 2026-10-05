@@ -1,0 +1,53 @@
+Local clean-export public checks: PASS
+Five-loop programs: documented -O3 build; additional test executables: -O2.
+GCC 14.4 / FLINT 3 / GMP / TBB; MIMALLOC=0.
+Targets: check-public check-symrep check-kernel check-nmhv check-staged check-early-sew
+The cache regression and Makefile test target were updated after the initial export.
+
+PASS 27 valid files, 354 invalid files, 1000 bounded mutations; no crash or sanitizer report
+PASS 12 independent SHA256 checks
+PASS restricted: changed seeds/binary, corrupted cached tensor/projection, apostrophes/spaces; all 10 resumed outputs equal a fresh run
+Measured cold 2.318s, unchanged resume 0.327s (this machine, public 3-loop fixture)
+PASS 12 independent SHA256 checks
+PASS original: changed seeds/binary, corrupted cached tensor/projection, apostrophes/spaces; all 10 resumed outputs equal a fresh run
+Measured cold 3.184s, unchanged resume 0.381s (this machine, public 3-loop fixture)
+PASS symmetry edge cases: empty invariant space, empty input, and genuine failure of closure
+PASS pentagon: 76 independent invariant symbols; exact original-condition and cyclic/flip residuals zero; full space certified (885+76=961)
+PASS 4pformfactor: 689 independent invariant symbols; exact original-condition and cyclic/flip residuals zero; full space certified (7960+689=8649)
+PASS E6 two-loop example: all 8 steps succeed; boundary and solution match recorded exact reference
+PASS relocated standalone E6 flow: spaces/apostrophes, no Wolfram, exact boundary and solution
+SUMMARY 90 passed 0 failed
+PASS: 6 condition export/reimport tests (both solvers; imported and pair contradictions)
+PASS: strict numeric rejection and arbitrary-precision exact cancellation
+PASS: all 10 two-/three-loop reference tensors match after resume
+PASS: default kernels reproduce all six legacy E/R/boundary physical tensors
+RHS_MODES registries in sync (2 object types: e47me67_te, mhv_boundary)
+PASS incremental WXF exact values, large rationals, empty tensors and corruption rejection
+PASS parallel CRT and signed integer reconstruction boundaries
+PASS direct row kernel versus SparseRREF extraction
+PASS selected tensor columns, private/general charts, both directions and zero-dimensional actions
+PASS C3 order=3 rational_irreps=2
+PASS D3 order=6 rational_irreps=3
+PASS C5 order=5 rational_irreps=2
+PASS D5 order=10 rational_irreps=3
+PASS C7 order=7 rational_irreps=2
+PASS D7 order=14 rational_irreps=3
+PASS D7xC2 order=28 rational_irreps=6
+PASS S4 order=24 rational_irreps=5
+PASS C2xC2 order=4 rational_irreps=4
+PASS Q8 order=8 rational_irreps=5
+PASS symrep CLI: kernels, FEC/LEC, continuation, vector terminal, empty spaces, factorized frames/export, recursive action exports, bundle integrity
+PASS 120 exact coordinate-restriction kernels, reordered/empty selections, short relations and staged paths
+PASS private-unit rank certificate, shared-column rejection, empty matrix and large-height reconstruction; primes=3 repivoted_primes=5
+PASS 12 partitioned tensor encodings, empty partitions/axes/rows, rationals and big integers
+PASS 303 exact generic kernel/composition/affine cases, inconsistency, bad primes and all five weight-six cuts
+PASS 160 independent exact rank/residual/kernel-rank cases, including unlucky primes, vanishing supports, prime denominators and multi-prime CRT
+PASS tensor capacity after cancellation, copy/assignment/growth, and large scalar moves
+PASS 102 rational factored extension/sewing operators against independent exact ranks and residuals
+PASS restricted projection against explicit rational five-factor sum
+PASS recursive word charts against explicit tensor actions (cycle, dense rational transform, identity)
+PASS NMHV default CLI, exact original/streamed/staged spaces, and independent published dimensions 5/11
+PASS native staged/auto product invariance against independent C3 equations; invalid action combinations rejected
+PASS 16 exact product-invariance intersections, nontrivial irrep pairing, and bounded equation subsets
+PASS extra-prime residual certificates, denominator-prime rejection and false-lift rejection
+PASS 64 independent rational weighted shuffle cases, cancellation, empty factors and key overflow

@@ -1,0 +1,753 @@
+   [bootstrap] '$RUN/bin/bootstrap' --project --symmetry collinear --target FEC_7 --data-dir '$RUN/data' --output-dir '$RUN/amplitude/projection' --sew-strategy 'auto' --kernel-strategy 'streamed' --threads 8
+threads: 8
+Task begin at: 2026-10-04 23:15:59.274430896 -0700
+========================================
+Projection pipeline
+  Symmetry: collinear (is_collinear=1)
+  Target: FEC_7 (kind=FEC, FEC weight=7, LEC weight=1)
+  Data dir:   $RUN/data
+  Output dir: $RUN/amplitude/projection
+========================================
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+--- Seed map ---
+rank: 2
+dims: 42 11
+nnz: 180
+alloc: 180
+
+=== Weight 1 (seed level) ===
+Reading file $RUN/data/FEC_1.wxf ...
+CRC32 of $RUN/data/FEC_1.wxf : 265cae6a
+Reading file $RUN/data/LEC_1.wxf ...
+CRC32 of $RUN/data/LEC_1.wxf : 3d6aa59f
+
+--- Computing first@w1 ---
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Weight-1 projection --
+   Seed reshaped: 7x42
+   Map42: 42x11
+   Collinear w1 result: 7x11
+--- first@w1 result ---
+rank: 2
+dims: 7 11
+nnz: 22
+alloc: 22
+Writing file $RUN/amplitude/projection/collinear/first_w1.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w1.wxf : f7c90d78
+
+--- Computing last@w1 ---
+-- Weight-1 projection --
+   Seed reshaped: 14x42
+   Map42: 42x11
+   Collinear w1 result: 14x11
+--- last@w1 result ---
+rank: 2
+dims: 14 11
+nnz: 60
+alloc: 60
+Writing file $RUN/amplitude/projection/collinear/last_w1.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/last_w1.wxf : 14828cab
+
+=== FEC weight 2 ===
+Reading file $RUN/amplitude/projection/FEC_2.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_2.wxf : bc0ccf4f
+Reading file $RUN/amplitude/projection/collinear/first_w1.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w1.wxf : f7c90d78
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 28x7x42
+-- Ternary contraction --
+   A dims: 28x7x42
+   B dims: 7x11
+   C dims: 42x11
+   Result dims: 28x11x11, nnz: 489 (0 ms)
+-- Col:   1/121  rank:   1  nnz:  475  density:  14.0201%
+-- Col:   1/121  rank:   1  nnz:  475  density:  14.0201%
+-- Col:  16/121  rank:  16  nnz:  302  alloc:  483  density:  8.91381%  speed:   285714 col/s
+-- Col:  16/121  rank:  22  nnz:  294  alloc:  377  density:  8.67769%  speed:        0 col/s
+** Rank: 25 nnz: 294
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   RREF basis: 25x121 (degenerate from 28)
+   Basis tensor: 25x11x11
+   Joining [D | D1] and extracting kernel...
+-- Col:  0/53  rank:  0  nnz:  691  density:   10.775%
+-- Col:  3/53  rank: 25  nnz:  586  alloc:  691  density:  9.13769%  speed:  49567.4 col/s
+** Rank: 25 nnz: 150
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Kernel: 28x53 (0 ms)
+   Kernel before extraction: 28x53
+-- Col:  0/53  rank:  0  nnz:  153  density:    10.31%
+** Rank: 28 nnz: 153
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Transformation matrix: 28x25
+--- first@w2 ---
+rank: 2
+dims: 28 25
+nnz: 125
+alloc: 125
+Writing file $RUN/amplitude/projection/collinear/first_w2.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w2.wxf : 8e1f120e
+--- first@w2 basis ---
+rank: 3
+dims: 25 11 11
+nnz: 202
+alloc: 202
+Writing file $RUN/amplitude/projection/collinear/first_w2_basis.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w2_basis.wxf : 6d561269
+
+=== FEC weight 3 ===
+Reading file $RUN/amplitude/projection/FEC_3.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_3.wxf : f76e3035
+Reading file $RUN/amplitude/projection/collinear/first_w2.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w2.wxf : 8e1f120e
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 97x28x42
+-- Ternary contraction --
+   A dims: 97x28x42
+   B dims: 28x25
+   C dims: 42x11
+   Result dims: 97x25x11, nnz: 4687 (2 ms)
+-- Col:   1/275  rank:   1  nnz:  4625  density:  17.3383%
+-- Col:   1/275  rank:   1  nnz:  4625  density:  17.3383%
+-- Col:   1/275  rank:  35  nnz:  3601  alloc:  4690  density:  13.4995%  speed:  9174.31 col/s
+-- Col:  51/275  rank:  51  nnz:  2957  alloc:  4272  density:  11.0853%  speed:   649351 col/s
+-- Col:  59/275  rank:  63  nnz:  2704  alloc:  3971  density:  10.1368%  speed:   139959 col/s
+-- Col:  65/275  rank:  74  nnz:  2380  alloc:  3506  density:  8.92221%  speed:   157819 col/s
+** Rank: 76 nnz: 2253
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   RREF basis: 76x275 (degenerate from 97)
+   Basis tensor: 76x25x11
+   Joining [D | D1] and extracting kernel...
+-- Col:   0/173  rank:   0  nnz:  5967  density:  12.5423%
+-- Col:   4/173  rank:  76  nnz:  5655  alloc:  5967  density:  11.8865%  speed:  50774.4 col/s
+** Rank: 76 nnz: 1326
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Kernel: 97x173 (1 ms)
+   Kernel before extraction: 97x173
+-- Col:   0/173  rank:   0  nnz:  1338  density:   7.9733%
+** Rank: 97 nnz: 1338
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Transformation matrix: 97x76
+--- first@w3 ---
+rank: 2
+dims: 97 76
+nnz: 1250
+alloc: 1250
+Writing file $RUN/amplitude/projection/collinear/first_w3.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w3.wxf : ed6717d
+--- first@w3 basis ---
+rank: 3
+dims: 76 25 11
+nnz: 1280
+alloc: 1280
+Writing file $RUN/amplitude/projection/collinear/first_w3_basis.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w3_basis.wxf : 37b6ef13
+
+=== FEC weight 4 ===
+Reading file $RUN/amplitude/projection/FEC_4.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_4.wxf : af392f21
+Reading file $RUN/amplitude/projection/collinear/first_w3.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w3.wxf : ed6717d
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 308x97x42
+-- Ternary contraction --
+   A dims: 308x97x42
+   B dims: 97x76
+   C dims: 42x11
+   Result dims: 308x76x11, nnz: 48495 (13 ms)
+-- Col:   1/836  rank:   1  nnz:  48275  density:  18.7484%
+-- Col:   1/836  rank:   1  nnz:  48275  density:  18.7484%
+-- Col:  10/836  rank:  54  nnz:  48058  alloc:  48604  density:  18.6642%  speed:  56877.7 col/s
+-- Col:  84/836  rank:  87  nnz:  42620  alloc:  49384  density:  16.5522%  speed:   200354 col/s
+-- Col: 113/836  rank: 113  nnz:  37916  alloc:  48454  density:  14.7253%  speed:  46875.5 col/s
+-- Col: 120/836  rank: 145  nnz:  37179  alloc:  47022  density:  14.4391%  speed:  7695.53 col/s
+-- Col: 169/836  rank: 172  nnz:  24017  alloc:  43633  density:  9.32742%  speed:    43996 col/s
+-- Col: 195/836  rank: 199  nnz:  19537  alloc:  39032  density:  7.58754%  speed:   159930 col/s
+-- Col: 206/836  rank: 210  nnz:  18418  alloc:  29486  density:  7.15295%  speed:  41326.1 col/s
+** Rank: 210 nnz: 18418
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   RREF basis: 210x836 (degenerate from 308)
+   Basis tensor: 210x76x11
+   Joining [D | D1] and extracting kernel...
+-- Col:   0/518  rank:   0  nnz:  62536  density:  14.4409%
+-- Col:   2/518  rank: 185  nnz:  36042  alloc:  62624  density:  8.32286%  speed:  1602.04 col/s
+-- Col: 185/518  rank: 185  nnz:  36042  alloc:  62624  density:  8.32286%  speed: 1.07876e+06 col/s
+-- Col: 185/518  rank: 209  nnz:  35419  alloc:  55148  density:    8.179%  speed:  611.074 col/s
+-- Col: 210/518  rank: 210  nnz:  11688  alloc:  46635  density:  2.69901%  speed:  95961.6 col/s
+** Rank: 210 nnz: 11688
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Kernel: 308x518 (10 ms)
+   Kernel before extraction: 308x518
+-- Col:   0/518  rank:   0  nnz:  11933  density:  7.47944%
+-- Col:  59/518  rank: 298  nnz:  11931  alloc:  11933  density:  7.47819%  speed:   352663 col/s
+-- Col: 298/518  rank: 298  nnz:  11931  alloc:  11933  density:  7.47819%  speed: 1.51847e+06 col/s
+** Rank: 308 nnz: 11931
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Transformation matrix: 308x210
+--- first@w4 ---
+rank: 2
+dims: 308 210
+nnz: 11714
+alloc: 11714
+Writing file $RUN/amplitude/projection/collinear/first_w4.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w4.wxf : 3d479759
+--- first@w4 basis ---
+rank: 3
+dims: 210 76 11
+nnz: 14041
+alloc: 14041
+Writing file $RUN/amplitude/projection/collinear/first_w4_basis.wxf ...
+** Write time: 0 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w4_basis.wxf : b6272417
+
+=== FEC weight 5 ===
+Reading file $RUN/amplitude/projection/FEC_5.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_5.wxf : 7265a012
+Reading file $RUN/amplitude/projection/collinear/first_w4.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w4.wxf : 3d479759
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 911x308x42
+-- Ternary contraction --
+   A dims: 911x308x42
+   B dims: 308x210
+   C dims: 42x11
+   Result dims: 911x210x11, nnz: 532970 (154 ms)
+-- Col:    1/2310  rank:    1  nnz:  532225  density:  25.2909%
+-- Col:    1/2310  rank:    1  nnz:  532225  density:  25.2909%
+-- Col:    5/2310  rank:   89  nnz:  532086  alloc:  533267  density:  25.2843%  speed:  7754.38 col/s
+-- Col:  139/2310  rank:  140  nnz:  484378  alloc:  542827  density:  23.0173%  speed:  31480.2 col/s
+-- Col:  183/2310  rank:  183  nnz:  460798  alloc:  541852  density:  21.8968%  speed:  13517.8 col/s
+-- Col:  197/2310  rank:  222  nnz:  444817  alloc:  539523  density:  21.1374%  speed:  6242.88 col/s
+-- Col:  266/2310  rank:  267  nnz:  411308  alloc:  534424  density:  19.5451%  speed:  15078.4 col/s
+-- Col:  290/2310  rank:  323  nnz:  368994  alloc:  522980  density:  17.5343%  speed:  12917.1 col/s
+-- Col:  335/2310  rank:  366  nnz:  334847  alloc:  507275  density:  15.9117%  speed:  20335.1 col/s
+-- Col:  383/2310  rank:  414  nnz:  297053  alloc:  492492  density:  14.1157%  speed:  21828.3 col/s
+-- Col:  417/2310  rank:  449  nnz:  275739  alloc:  478356  density:  13.1029%  speed:  25730.8 col/s
+-- Col:  457/2310  rank:  482  nnz:  243637  alloc:  464333  density:  11.5774%  speed:    37244 col/s
+-- Col:  510/2310  rank:  510  nnz:  189203  alloc:  436017  density:  8.99079%  speed:  54565.4 col/s
+-- Col:  523/2310  rank:  527  nnz:  174575  alloc:  400384  density:  8.29567%  speed:  41242.1 col/s
+-- Col:  535/2310  rank:  541  nnz:  157369  alloc:  358646  density:  7.47806%  speed:  96806.7 col/s
+-- Col:  546/2310  rank:  546  nnz:  154894  alloc:  323260  density:  7.36045%  speed:  30191.2 col/s
+** Rank: 546 nnz: 154894
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   RREF basis: 546x2310 (degenerate from 911)
+   Basis tensor: 546x210x11
+   Joining [D | D1] and extracting kernel...
+-- Col:    0/1457  rank:    0  nnz:  665650  density:  19.7776%
+-- Col:  298/1457  rank:  349  nnz:  577830  alloc:  690405  density:  17.1683%  speed:  39101.9 col/s
+-- Col:  468/1457  rank:  469  nnz:  458535  alloc:  649171  density:  13.6239%  speed:  28572.9 col/s
+-- Col:  469/1457  rank:  511  nnz:  455169  alloc:  605603  density:  13.5239%  speed:  1895.76 col/s
+-- Col:  520/1457  rank:  528  nnz:  335569  alloc:  583812  density:  9.97035%  speed:    12869 col/s
+-- Col:  541/1457  rank:  542  nnz:  247132  alloc:  547848  density:  7.34273%  speed:  7274.84 col/s
+-- Col:  542/1457  rank:  546  nnz:  235564  alloc:  452666  density:  6.99902%  speed:  3694.27 col/s
+** Rank: 546 nnz: 122577
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Kernel: 911x1457 (102 ms)
+   Kernel before extraction: 911x1457
+-- Col:    0/1457  rank:    0  nnz:  137719  density:  10.3757%
+-- Col:  647/1457  rank:  821  nnz:  137839  alloc:  137866  density:  10.3847%  speed:   756633 col/s
+-- Col:  821/1457  rank:  821  nnz:  137844  alloc:  137874  density:  10.3851%  speed: 6.66624e+06 col/s
+-- Col:  831/1457  rank:  850  nnz:  137067  alloc:  137873  density:  10.3265%  speed:  31330.7 col/s
+-- Col:  864/1457  rank:  869  nnz:  133382  alloc:  137047  density:  10.0489%  speed:  99680.2 col/s
+-- Col:  880/1457  rank:  889  nnz:  133084  alloc:  134960  density:  10.0265%  speed:   138171 col/s
+-- Col:  899/1457  rank:  902  nnz:  132499  alloc:  133156  density:  9.98239%  speed:   201021 col/s
+-- Col:  903/1457  rank:  907  nnz:  131963  alloc:  132669  density:  9.94201%  speed:  59983.9 col/s
+** Rank: 911 nnz: 131963
+
+
+** Reconstruct success! Using mod ~ 2^61.
+   Transformation matrix: 911x546
+--- first@w5 ---
+rank: 2
+dims: 911 546
+nnz: 116767
+alloc: 116767
+Writing file $RUN/amplitude/projection/collinear/first_w5.wxf ...
+** Write time: 1 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w5.wxf : 6c996a3e
+--- first@w5 basis ---
+rank: 3
+dims: 546 210 11
+nnz: 132680
+alloc: 132680
+Writing file $RUN/amplitude/projection/collinear/first_w5_basis.wxf ...
+** Write time: 2 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w5_basis.wxf : c6979768
+
+=== FEC weight 6 ===
+Reading file $RUN/amplitude/projection/FEC_6.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_6.wxf : 8e61c063
+Reading file $RUN/amplitude/projection/collinear/first_w5.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w5.wxf : 6c996a3e
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 2555x911x42
+-- Ternary contraction --
+   A dims: 2555x911x42
+   B dims: 911x546
+   C dims: 42x11
+   Result dims: 2555x546x11, nnz: 4835355 (2722 ms)
+-- Col:    1/6006  rank:    1  nnz:  4833137  density:  31.4958%
+-- Col:    1/6006  rank:    1  nnz:  4833137  density:  31.4958%
+-- Col:   90/6006  rank:   90  nnz:  4735448  alloc:  4875295  density:  30.8592%  speed:   2443.2 col/s
+-- Col:  167/6006  rank:  167  nnz:  4636802  alloc:  4896685  density:  30.2164%  speed:  3741.31 col/s
+-- Col:  230/6006  rank:  231  nnz:  4529961  alloc:  4907637  density:  29.5201%  speed:  3126.14 col/s
+-- Col:  257/6006  rank:  286  nnz:  4429990  alloc:  4905499  density:  28.8687%  speed:  2023.56 col/s
+-- Col:  339/6006  rank:  340  nnz:  4294992  alloc:  4899762  density:  27.9889%  speed:  4618.21 col/s
+-- Col:  402/6006  rank:  403  nnz:  4184549  alloc:  4892469  density:  27.2692%  speed:  3447.55 col/s
+-- Col:  475/6006  rank:  476  nnz:  4068624  alloc:  4871725  density:  26.5138%  speed:  3909.78 col/s
+-- Col:  543/6006  rank:  545  nnz:  3974770  alloc:  4857546  density:  25.9021%  speed:  3590.35 col/s
+-- Col:  602/6006  rank:  603  nnz:  3850787  alloc:  4833460  density:  25.0942%  speed:   4384.7 col/s
+-- Col:  657/6006  rank:  657  nnz:  3750935  alloc:  4806517  density:  24.4435%  speed:   2298.6 col/s
+-- Col:  718/6006  rank:  718  nnz:  3714676  alloc:  4769110  density:  24.2072%  speed:  3200.25 col/s
+-- Col:  778/6006  rank:  778  nnz:  3606351  alloc:  4735036  density:  23.5013%  speed:  3473.63 col/s
+-- Col:  829/6006  rank:  830  nnz:  3494282  alloc:  4693469  density:   22.771%  speed:  3473.75 col/s
+-- Col:  872/6006  rank:  873  nnz:  3453306  alloc:  4660933  density:   22.504%  speed:  2663.64 col/s
+-- Col:  932/6006  rank:  933  nnz:  3260183  alloc:  4617007  density:  21.2454%  speed:  3793.69 col/s
+-- Col:  981/6006  rank:  982  nnz:  3088592  alloc:  4563088  density:  20.1272%  speed:   4595.5 col/s
+-- Col: 1049/6006  rank: 1050  nnz:  2945761  alloc:  4456611  density:  19.1965%  speed:  5282.09 col/s
+-- Col: 1113/6006  rank: 1116  nnz:  2568660  alloc:  4355429  density:   16.739%  speed:  6834.43 col/s
+-- Col: 1164/6006  rank: 1164  nnz:  2375707  alloc:  4266760  density:  15.4816%  speed:  5853.66 col/s
+-- Col: 1204/6006  rank: 1205  nnz:  2279089  alloc:  3741499  density:   14.852%  speed:  5288.48 col/s
+-- Col: 1249/6006  rank: 1250  nnz:  2098665  alloc:  3651431  density:  13.6762%  speed:  5379.72 col/s
+-- Col: 1250/6006  rank: 1284  nnz:  1842942  alloc:  3562985  density:  12.0098%  speed:  215.313 col/s
+-- Col: 1303/6006  rank: 1308  nnz:  1677766  alloc:  3489720  density:  10.9334%  speed:  22259.5 col/s
+-- Col: 1333/6006  rank: 1334  nnz:  1276030  alloc:  3350689  density:  8.31543%  speed:  10618.7 col/s
+-- Col: 1346/6006  rank: 1350  nnz:  1203631  alloc:  3221979  density:  7.84363%  speed:  2520.88 col/s
+-- Col: 1350/6006  rank: 1357  nnz:  1164657  alloc:  3075542  density:  7.58965%  speed:  7276.32 col/s
+-- Col: 1361/6006  rank: 1361  nnz:  1131129  alloc:  2543576  density:  7.37116%  speed:  15013.5 col/s
+** Rank: 1361 nnz: 1131129
+-- Row:  222/1360  nnz:  1149190  density:  7.48886%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 0.852717 s
+
+-- Row:   32/1360  nnz:  1136048  density:  7.40322%  speed:      0 row/s
+** Reconstruct success! Using mod ~ 2^121.
+   RREF basis: 1361x6006 (degenerate from 2555)
+   Basis tensor: 1361x546x11
+   Joining [D | D1] and extracting kernel...
+-- Col:    0/3916  rank:    0  nnz:  6081384  density:  25.8568%
+-- Col:  588/3916  rank:  591  nnz:  6250117  alloc:  6780949  density:  26.5742%  speed:  13162.9 col/s
+-- Col:  742/3916  rank:  743  nnz:  6075165  alloc:  6669944  density:  25.8303%  speed:  5239.91 col/s
+-- Col:  841/3916  rank:  936  nnz:  5858071  alloc:  6570397  density:  24.9073%  speed:  4514.75 col/s
+-- Col:  936/3916  rank: 1039  nnz:  5724834  alloc:  6457478  density:  24.3408%  speed:  15229.2 col/s
+-- Col: 1038/3916  rank: 1039  nnz:  5224144  alloc:  6463163  density:   22.212%  speed:  4479.15 col/s
+-- Col: 1118/3916  rank: 1119  nnz:  4938936  alloc:  6359140  density:  20.9993%  speed:  2306.06 col/s
+-- Col: 1129/3916  rank: 1189  nnz:  4837678  alloc:  6272892  density:  20.5688%  speed:  1261.91 col/s
+-- Col: 1189/3916  rank: 1234  nnz:  4466561  alloc:  6152544  density:  18.9909%  speed:  26188.6 col/s
+-- Col: 1234/3916  rank: 1273  nnz:  3911030  alloc:  6070668  density:  16.6289%  speed:  13245.1 col/s
+-- Col: 1273/3916  rank: 1302  nnz:  3660067  alloc:  5855935  density:  15.5618%  speed:  5512.15 col/s
+-- Col: 1302/3916  rank: 1318  nnz:  3531657  alloc:  5822258  density:  15.0159%  speed:  10241.3 col/s
+-- Col: 1318/3916  rank: 1335  nnz:  3299820  alloc:  5805378  density:  14.0301%  speed:  2514.29 col/s
+-- Col: 1335/3916  rank: 1348  nnz:  3040379  alloc:  5713245  density:  12.9271%  speed:  7085.58 col/s
+-- Col: 1348/3916  rank: 1354  nnz:  2672595  alloc:  5438490  density:  11.3633%  speed:  2761.84 col/s
+-- Col: 1354/3916  rank: 1357  nnz:  2373288  alloc:  5408871  density:  10.0907%  speed:  1119.99 col/s
+-- Col: 1357/3916  rank: 1359  nnz:  2373288  alloc:  5396477  density:  10.0907%  speed:  1195.06 col/s
+-- Col: 1359/3916  rank: 1361  nnz:  2244847  alloc:  5383831  density:  9.54462%  speed:  3979.16 col/s
+** Rank: 1361 nnz: 1162360
+-- Row:    0/1361  nnz:  1162360  density:  4.94211%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 0.703899 s
+
+-- Row:   77/1361  nnz:  1229164  alloc: 1234055  speed: 56689.6 row/s
+-- Row:  157/1361  nnz:  1235611  alloc: 1247493  speed: 60280.5 row/s
+-- Row:  557/1361  nnz:  1277829  alloc: 1325871  speed: 89832.3 row/s
+-- Row:    0/1361  nnz:  1162360  density:  4.94211%  speed:      0 row/s
+** Reconstruct success! Using mod ~ 2^121.
+   Kernel: 2555x3916 (1537 ms)
+   Kernel before extraction: 2555x3916
+-- Col:    0/3916  rank:    0  nnz:  1314061  density:  13.1335%
+-- Col: 1735/3916  rank: 2186  nnz:  1312778  alloc:  1314801  density:  13.1207%  speed:   361769 col/s
+-- Col: 2186/3916  rank: 2186  nnz:  1312778  alloc:  1314801  density:  13.1207%  speed: 1.71191e+06 col/s
+-- Col: 2226/3916  rank: 2227  nnz:  1312626  alloc:  1315884  density:  13.1192%  speed:  18007.1 col/s
+-- Col: 2249/3916  rank: 2265  nnz:  1311937  alloc:  1317020  density:  13.1123%  speed:  15366.1 col/s
+-- Col: 2265/3916  rank: 2292  nnz:  1313458  alloc:  1316746  density:  13.1275%  speed:  9505.76 col/s
+-- Col: 2305/3916  rank: 2328  nnz:  1303086  alloc:  1319788  density:  13.0239%  speed:  18146.4 col/s
+-- Col: 2361/3916  rank: 2366  nnz:  1298645  alloc:  1317149  density:  12.9795%  speed:  23026.3 col/s
+-- Col: 2366/3916  rank: 2393  nnz:  1289438  alloc:  1314225  density:  12.8874%  speed:  2604.36 col/s
+-- Col: 2419/3916  rank: 2419  nnz:  1282476  alloc:  1303915  density:  12.8179%  speed:  35299.4 col/s
+-- Col: 2436/3916  rank: 2438  nnz:  1280614  alloc:  1298117  density:  12.7993%  speed:  15636.8 col/s
+-- Col: 2455/3916  rank: 2459  nnz:  1273414  alloc:  1290356  density:  12.7273%  speed:    16697 col/s
+-- Col: 2475/3916  rank: 2475  nnz:  1271596  alloc:  1283323  density:  12.7091%  speed:  21860.8 col/s
+-- Col: 2490/3916  rank: 2493  nnz:  1266519  alloc:  1277027  density:  12.6584%  speed:  20307.5 col/s
+-- Col: 2506/3916  rank: 2508  nnz:  1257917  alloc:  1272552  density:  12.5724%  speed:    31580 col/s
+-- Col: 2510/3916  rank: 2522  nnz:  1253510  alloc:  1266425  density:  12.5284%  speed:  14447.6 col/s
+-- Col: 2523/3916  rank: 2534  nnz:  1251165  alloc:  1259676  density:  12.5049%  speed:    47912 col/s
+-- Col: 2541/3916  rank: 2544  nnz:  1250528  alloc:  1254881  density:  12.4986%  speed:  42825.5 col/s
+-- Col: 2544/3916  rank: 2549  nnz:  1249567  alloc:  1252525  density:   12.489%  speed:    22679 col/s
+-- Col: 2550/3916  rank: 2552  nnz:  1248774  alloc:  1250854  density:   12.481%  speed:    62249 col/s
+** Rank: 2555 nnz: 1248774
+-- Row:    0/2555  nnz:  1248774  density:   12.481%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 0.197723 s
+
+-- Row:  598/2555  nnz:  1314116  alloc: 1314162  speed: 1.20371e+06 row/s
+-- Row: 1232/2555  nnz:  1314107  alloc: 1314397  speed: 1.64831e+06 row/s
+-- Row: 1836/2555  nnz:  1313725  alloc: 1314673  speed: 2.15039e+06 row/s
+-- Row:    6/2555  nnz:  1247945  density:  12.4727%  speed:      0 row/s
+** Reconstruct success! Using mod ~ 2^121.
+   Transformation matrix: 2555x1361
+--- first@w6 ---
+rank: 2
+dims: 2555 1361
+nnz: 1045757
+alloc: 1045757
+Writing file $RUN/amplitude/projection/collinear/first_w6.wxf ...
+** Write time: 11 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w6.wxf : d29ed63e
+--- first@w6 basis ---
+rank: 3
+dims: 1361 546 11
+nnz: 1246029
+alloc: 1246029
+Writing file $RUN/amplitude/projection/collinear/first_w6_basis.wxf ...
+** Write time: 47 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w6_basis.wxf : a661d1ab
+
+=== FEC weight 7 ===
+Reading file $RUN/amplitude/projection/FEC_7.wxf ...
+CRC32 of $RUN/amplitude/projection/FEC_7.wxf : 4d3c1b60
+Reading file $RUN/amplitude/projection/collinear/first_w6.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w6.wxf : d29ed63e
+Reading file $RUN/data/colmat42.wxf ...
+CRC32 of $RUN/data/colmat42.wxf : 832ccec9
+-- Stage 1 projection --
+   T dims: 6826x2555x42
+-- Ternary contraction --
+   A dims: 6826x2555x42
+   B dims: 2555x1361
+   C dims: 42x11
+   Result dims: 6826x1361x11, nnz: 40049915 (66773 ms)
+-- Col:     1/14971  rank:     1  nnz:  40043629  density:  39.1847%
+-- Col:     1/14971  rank:     1  nnz:  40043629  density:  39.1847%
+-- Col:    47/14971  rank:   117  nnz:  39704238  alloc:  40258643  density:  38.8526%  speed:  512.883 col/s
+-- Col:   154/14971  rank:   193  nnz:  39392866  alloc:  40324225  density:  38.5479%  speed:  1449.28 col/s
+-- Col:   272/14971  rank:   272  nnz:  39078352  alloc:  40397534  density:  38.2401%  speed:  468.216 col/s
+-- Col:   300/14971  rank:   329  nnz:  38810612  alloc:  40411582  density:  37.9781%  speed:  440.539 col/s
+-- Col:   390/14971  rank:   390  nnz:  38559354  alloc:  40431547  density:  37.7322%  speed:  640.626 col/s
+-- Col:   445/14971  rank:   445  nnz:  38076814  alloc:  40425943  density:  37.2601%  speed:  377.172 col/s
+-- Col:   509/14971  rank:   509  nnz:  37753567  alloc:  40416392  density:  36.9437%  speed:  494.369 col/s
+-- Col:   602/14971  rank:   602  nnz:  37325220  alloc:  40416227  density:  36.5246%  speed:  656.719 col/s
+-- Col:   683/14971  rank:   684  nnz:  37342714  alloc:  40431992  density:  36.5417%  speed:  572.564 col/s
+-- Col:   766/14971  rank:   766  nnz:  36869821  alloc:  40424092  density:   36.079%  speed:  595.163 col/s
+-- Col:   832/14971  rank:   832  nnz:  36388754  alloc:  40407376  density:  35.6082%  speed:  492.031 col/s
+-- Col:   928/14971  rank:   928  nnz:  35739910  alloc:  40375478  density:  34.9733%  speed:  657.908 col/s
+-- Col:   991/14971  rank:   991  nnz:  35438042  alloc:  40320843  density:  34.6779%  speed:  470.687 col/s
+-- Col:  1046/14971  rank:  1046  nnz:  35187360  alloc:  40263657  density:  34.4326%  speed:  456.568 col/s
+-- Col:  1108/14971  rank:  1108  nnz:  34922187  alloc:  40177012  density:  34.1731%  speed:  458.991 col/s
+-- Col:  1154/14971  rank:  1154  nnz:  34775395  alloc:  40127668  density:  34.0295%  speed:  355.062 col/s
+-- Col:  1201/14971  rank:  1201  nnz:  34559065  alloc:  40088236  density:  33.8178%  speed:  397.668 col/s
+-- Col:  1247/14971  rank:  1247  nnz:  34418348  alloc:  40060884  density:  33.6801%  speed:  468.479 col/s
+-- Col:  1288/14971  rank:  1289  nnz:  34146410  alloc:  39999693  density:   33.414%  speed:  450.662 col/s
+-- Col:  1342/14971  rank:  1342  nnz:  34109911  alloc:  39960843  density:  33.3782%  speed:  442.197 col/s
+-- Col:  1398/14971  rank:  1399  nnz:  33805163  alloc:  39902984  density:    33.08%  speed:  422.484 col/s
+-- Col:  1471/14971  rank:  1471  nnz:  33528047  alloc:  39818054  density:  32.8089%  speed:  537.505 col/s
+-- Col:  1518/14971  rank:  1518  nnz:  33394584  alloc:  39765888  density:  32.6783%  speed:  404.628 col/s
+-- Col:  1587/14971  rank:  1587  nnz:  33315097  alloc:  39707025  density:  32.6005%  speed:  546.202 col/s
+-- Col:  1668/14971  rank:  1668  nnz:  32875643  alloc:  39576124  density:  32.1705%  speed:  648.192 col/s
+-- Col:  1747/14971  rank:  1762  nnz:  32627188  alloc:  39489735  density:  31.9273%  speed:   1187.9 col/s
+-- Col:  1806/14971  rank:  1839  nnz:  32302630  alloc:  39352202  density:  31.6097%  speed:  1355.45 col/s
+-- Col:  1916/14971  rank:  1916  nnz:  31513777  alloc:  39214733  density:  30.8378%  speed:  976.409 col/s
+-- Col:  1945/14971  rank:  1983  nnz:  31462479  alloc:  39115720  density:  30.7876%  speed:  338.467 col/s
+-- Col:  2069/14971  rank:  2069  nnz:  31139581  alloc:  39026360  density:  30.4716%  speed:  663.987 col/s
+-- Col:  2135/14971  rank:  2135  nnz:  31084786  alloc:  38796080  density:   30.418%  speed:  433.213 col/s
+-- Col:  2200/14971  rank:  2200  nnz:  30853480  alloc:  38833543  density:  30.1917%  speed:   403.89 col/s
+-- Col:  2219/14971  rank:  2243  nnz:  30859990  alloc:  38653844  density:   30.198%  speed:  224.644 col/s
+-- Col:  2272/14971  rank:  2272  nnz:  30669985  alloc:  38566476  density:  30.0121%  speed:  616.542 col/s
+-- Col:  2294/14971  rank:  2350  nnz:  30409775  alloc:  38447955  density:  29.7575%  speed:  1001.28 col/s
+-- Col:  2386/14971  rank:  2400  nnz:  29648442  alloc:  38321688  density:  29.0125%  speed:  1793.91 col/s
+-- Col:  2437/14971  rank:  2437  nnz:  29159017  alloc:  38121856  density:  28.5335%  speed:  542.022 col/s
+-- Col:  2472/14971  rank:  2472  nnz:  28931536  alloc:  37979348  density:  28.3109%  speed:  498.462 col/s
+-- Col:  2495/14971  rank:  2495  nnz:  28762379  alloc:  37865270  density:  28.1454%  speed:  265.133 col/s
+-- Col:  2534/14971  rank:  2534  nnz:  28140180  alloc:  37722419  density:  27.5366%  speed:  377.432 col/s
+-- Col:  2572/14971  rank:  2572  nnz:  27825044  alloc:  37596792  density:  27.2282%  speed:   508.11 col/s
+-- Col:  2596/14971  rank:  2596  nnz:  27692963  alloc:  37523234  density:  27.0989%  speed:  287.013 col/s
+-- Col:  2620/14971  rank:  2620  nnz:  27462724  alloc:  37419798  density:  26.8736%  speed:  240.038 col/s
+-- Col:  2647/14971  rank:  2647  nnz:  26939349  alloc:  37242990  density:  26.3615%  speed:  298.702 col/s
+-- Col:  2670/14971  rank:  2675  nnz:  26755965  alloc:  36899496  density:   26.182%  speed:  475.588 col/s
+-- Col:  2691/14971  rank:  2707  nnz:  26446428  alloc:  36742812  density:  25.8791%  speed:  717.037 col/s
+-- Col:  2735/14971  rank:  2743  nnz:  25940864  alloc:  36526185  density:  25.3844%  speed:  1020.65 col/s
+-- Col:  2757/14971  rank:  2774  nnz:  25260533  alloc:  36224940  density:  24.7187%  speed:  375.312 col/s
+-- Col:  2778/14971  rank:  2799  nnz:  25033355  alloc:  35852318  density:  24.4964%  speed:  403.728 col/s
+-- Col:  2808/14971  rank:  2827  nnz:  24409852  alloc:  35652027  density:  23.8863%  speed:   361.79 col/s
+-- Col:  2836/14971  rank:  2853  nnz:  23825724  alloc:  35455986  density:  23.3147%  speed:  564.634 col/s
+-- Col:  2861/14971  rank:  2877  nnz:  23111398  alloc:  34990176  density:  22.6157%  speed:  472.985 col/s
+-- Col:  2884/14971  rank:  2897  nnz:  22907063  alloc:  34100656  density:  22.4157%  speed:  497.588 col/s
+-- Col:  2930/14971  rank:  2930  nnz:  22241955  alloc:  33956445  density:  21.7649%  speed:  564.633 col/s
+-- Col:  2941/14971  rank:  2955  nnz:  22042985  alloc:  33214833  density:  21.5702%  speed:  219.006 col/s
+-- Col:  2987/14971  rank:  2987  nnz:  21049846  alloc:  33083014  density:  20.5983%  speed:  600.234 col/s
+-- Col:  3000/14971  rank:  3016  nnz:  20605849  alloc:  32774676  density:  20.1638%  speed:  280.043 col/s
+-- Col:  3026/14971  rank:  3039  nnz:  19355642  alloc:  32572422  density:  18.9405%  speed:  948.648 col/s
+-- Col:  3071/14971  rank:  3071  nnz:  18898493  alloc:  31741403  density:  18.4931%  speed:  890.375 col/s
+-- Col:  3107/14971  rank:  3108  nnz:  18034330  alloc:  30974972  density:  17.6475%  speed:  964.153 col/s
+-- Col:  3131/14971  rank:  3131  nnz:  17842454  alloc:  30682876  density:  17.4597%  speed:  600.741 col/s
+-- Col:  3152/14971  rank:  3153  nnz:  17090820  alloc:  27562752  density:  16.7242%  speed:  634.031 col/s
+-- Col:  3173/14971  rank:  3176  nnz:  16562317  alloc:  25683543  density:  16.2071%  speed:  577.795 col/s
+-- Col:  3194/14971  rank:  3194  nnz:  15926597  alloc:  25049142  density:   15.585%  speed:  420.503 col/s
+-- Col:  3213/14971  rank:  3214  nnz:  15202884  alloc:  24014042  density:  14.8768%  speed:  475.039 col/s
+-- Col:  3221/14971  rank:  3230  nnz:  14524609  alloc:  23371165  density:  14.2131%  speed:  313.383 col/s
+-- Col:  3236/14971  rank:  3250  nnz:  13729175  alloc:  22851057  density:  13.4347%  speed:  656.949 col/s
+-- Col:  3252/14971  rank:  3261  nnz:  12621672  alloc:  22466367  density:  12.3509%  speed:   849.05 col/s
+-- Col:  3271/14971  rank:  3272  nnz:  11417249  alloc:  21919967  density:  11.1723%  speed:  991.473 col/s
+-- Col:  3273/14971  rank:  3279  nnz:  11192376  alloc:  21712765  density:  10.9523%  speed:  866.704 col/s
+** Rank: 3279 nnz: 9395709
+-- Row:    1/3278  nnz:  9395748  density:  9.19421%  speed:      0 row/s
+-- Row: 1111/3278  nnz:  13282041  density:  12.9971%  speed:      0 row/s
+-- Row: 2048/3278  nnz:  12075785  density:  11.8168%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 11.6072 s
+
+-- Row:    2/3278  nnz:  9395762  density:  9.19422%  speed:      0 row/s
+-- Row: 1024/3278  nnz:  13289566  density:  13.0045%  speed:      0 row/s
+-- Row: 2048/3278  nnz:  12075785  density:  11.8168%  speed:      0 row/s
+>> Reconstruct failed, now mod ~ 2^121, used time: 6.4178 s
+** Reconstruct success! Using mod ~ 2^181.
+   RREF basis: 3279x14971 (degenerate from 6826)
+   Basis tensor: 3279x1361x11
+   Joining [D | D1] and extracting kernel...
+-- Col:     0/10105  rank:     0  nnz:  51442965  density:  34.0047%
+-- Col:   881/10105  rank:   882  nnz:  53443698  alloc:  55856770  density:  35.3272%  speed:   2715.1 col/s
+-- Col:   883/10105  rank:  1256  nnz:  53425566  alloc:  54500114  density:  35.3152%  speed:   194.78 col/s
+-- Col:   983/10105  rank:  1256  nnz:  53400837  alloc:  55040244  density:  35.2989%  speed:  877.999 col/s
+-- Col:  1083/10105  rank:  1256  nnz:  53647273  alloc:  55698606  density:  35.4618%  speed:  1120.44 col/s
+-- Col:  1183/10105  rank:  1256  nnz:  53975913  alloc:  56341189  density:   35.679%  speed:   1368.8 col/s
+-- Col:  1335/10105  rank:  1479  nnz:  53957538  alloc:  56516513  density:  35.6669%  speed:  972.501 col/s
+-- Col:  1435/10105  rank:  1479  nnz:  54149454  alloc:  57053470  density:  35.7937%  speed:  831.918 col/s
+-- Col:  1618/10105  rank:  1618  nnz:  53554497  alloc:  57177685  density:  35.4005%  speed:  901.677 col/s
+-- Col:  1832/10105  rank:  1833  nnz:  54266394  alloc:  58276822  density:   35.871%  speed:  581.611 col/s
+-- Col:  1944/10105  rank:  1945  nnz:  54241212  alloc:  58476031  density:  35.8544%  speed:  500.708 col/s
+-- Col:  2027/10105  rank:  2064  nnz:  53199044  alloc:  58322119  density:  35.1655%  speed:  375.151 col/s
+-- Col:  2064/10105  rank:  2165  nnz:  53210570  alloc:  58121638  density:  35.1731%  speed:  3009.86 col/s
+-- Col:  2164/10105  rank:  2165  nnz:  52013187  alloc:  58304798  density:  34.3816%  speed:  400.965 col/s
+-- Col:  2267/10105  rank:  2268  nnz:  50541493  alloc:  57836454  density:  33.4088%  speed:  358.476 col/s
+-- Col:  2355/10105  rank:  2356  nnz:  49773974  alloc:  57535884  density:  32.9015%  speed:   317.44 col/s
+-- Col:  2415/10105  rank:  2416  nnz:  48590827  alloc:  57290839  density:  32.1194%  speed:  328.378 col/s
+-- Col:  2451/10105  rank:  2495  nnz:  47413876  alloc:  56951146  density:  31.3414%  speed:  168.629 col/s
+-- Col:  2513/10105  rank:  2561  nnz:  46702375  alloc:  56824884  density:  30.8711%  speed:   405.26 col/s
+-- Col:  2576/10105  rank:  2607  nnz:  46067198  alloc:  56522274  density:  30.4512%  speed:  475.933 col/s
+-- Col:  2624/10105  rank:  2654  nnz:  44564007  alloc:  56252156  density:  29.4576%  speed:  300.743 col/s
+-- Col:  2665/10105  rank:  2700  nnz:  43633845  alloc:  56023846  density:  28.8427%  speed:  254.132 col/s
+-- Col:  2726/10105  rank:  2755  nnz:  42543074  alloc:  55733425  density:  28.1217%  speed:  386.898 col/s
+-- Col:  2771/10105  rank:  2801  nnz:  42055173  alloc:  55533346  density:  27.7992%  speed:  454.527 col/s
+-- Col:  2811/10105  rank:  2843  nnz:  41352777  alloc:  55368123  density:  27.3349%  speed:  272.086 col/s
+-- Col:  2848/10105  rank:  2863  nnz:  39388480  alloc:  55292392  density:  26.0365%  speed:  556.865 col/s
+-- Col:  2891/10105  rank:  2892  nnz:  39004473  alloc:  55229029  density:  25.7826%  speed:  232.576 col/s
+-- Col:  2896/10105  rank:  2907  nnz:  38547230  alloc:  55144385  density:  25.4804%  speed:  65.2524 col/s
+-- Col:  2913/10105  rank:  2933  nnz:  36974874  alloc:  54934374  density:   24.441%  speed:  140.707 col/s
+-- Col:  2936/10105  rank:  2949  nnz:  34136148  alloc:  54597131  density:  22.5646%  speed:    193.5 col/s
+-- Col:  2954/10105  rank:  2966  nnz:  33514466  alloc:  54310388  density:  22.1536%  speed:  197.329 col/s
+-- Col:  2974/10105  rank:  2984  nnz:  33219306  alloc:  53189058  density:  21.9585%  speed:  170.632 col/s
+-- Col:  2985/10105  rank:  2996  nnz:  32688238  alloc:  52944577  density:  21.6075%  speed:  112.077 col/s
+-- Col:  2996/10105  rank:  3006  nnz:  32433292  alloc:  52280851  density:   21.439%  speed:  147.058 col/s
+-- Col:  3008/10105  rank:  3020  nnz:  32114610  alloc:  51921388  density:  21.2283%  speed:  101.088 col/s
+-- Col:  3022/10105  rank:  3033  nnz:  31819707  alloc:  51717106  density:  21.0334%  speed:  171.135 col/s
+-- Col:  3035/10105  rank:  3046  nnz:  31576274  alloc:  51626709  density:  20.8725%  speed:  104.502 col/s
+-- Col:  3046/10105  rank:  3063  nnz:  31575747  alloc:  51564179  density:  20.8721%  speed:  551.165 col/s
+-- Col:  3065/10105  rank:  3075  nnz:  30659972  alloc:  51350807  density:  20.2668%  speed:  179.497 col/s
+-- Col:  3077/10105  rank:  3084  nnz:  30430374  alloc:  50791321  density:   20.115%  speed:   201.24 col/s
+-- Col:  3088/10105  rank:  3098  nnz:  29827621  alloc:  50695100  density:  19.7166%  speed:  121.487 col/s
+-- Col:  3106/10105  rank:  3118  nnz:  29422286  alloc:  50646011  density:  19.4486%  speed:  164.548 col/s
+-- Col:  3119/10105  rank:  3128  nnz:  29266679  alloc:  50592433  density:  19.3458%  speed:  196.527 col/s
+-- Col:  3134/10105  rank:  3148  nnz:  28653389  alloc:  50546903  density:  18.9404%  speed:  134.391 col/s
+-- Col:  3150/10105  rank:  3160  nnz:  27494413  alloc:  50475981  density:  18.1743%  speed:  181.392 col/s
+-- Col:  3183/10105  rank:  3183  nnz:  26701000  alloc:  48460233  density:  17.6498%  speed:  193.959 col/s
+-- Col:  3195/10105  rank:  3196  nnz:  26432880  alloc:  48095077  density:  17.4726%  speed:  102.215 col/s
+-- Col:  3216/10105  rank:  3217  nnz:  25880992  alloc:  47914328  density:  17.1078%  speed:  150.822 col/s
+-- Col:  3221/10105  rank:  3231  nnz:  25130761  alloc:  47357742  density:  16.6119%  speed:  50.8465 col/s
+-- Col:  3231/10105  rank:  3240  nnz:  24996375  alloc:  46230292  density:   16.523%  speed:  134.085 col/s
+-- Col:  3242/10105  rank:  3251  nnz:  24743405  alloc:  46202220  density:  16.3558%  speed:  141.892 col/s
+-- Col:  3260/10105  rank:  3261  nnz:  24514212  alloc:  46092219  density:  16.2043%  speed:  145.009 col/s
+-- Col:  3263/10105  rank:  3268  nnz:  24355899  alloc:  46057048  density:  16.0997%  speed:  39.4938 col/s
+-- Col:  3268/10105  rank:  3274  nnz:  23688557  alloc:  46021905  density:  15.6585%  speed:  53.0542 col/s
+-- Col:  3274/10105  rank:  3278  nnz:  22878989  alloc:  45888524  density:  15.1234%  speed:   167.59 col/s
+-- Col:  3278/10105  rank:  3279  nnz:  22159299  alloc:  45803427  density:  14.6477%  speed:  57.6674 col/s
+** Rank: 3279 nnz: 10332697
+-- Row:    0/3279  nnz:  10333576  density:  6.83067%  speed:      0 row/s
+-- Row: 1024/3279  nnz:  11168551  density:  7.38261%  speed:      0 row/s
+-- Row: 2048/3279  nnz:  10643688  density:  7.03566%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 11.8012 s
+
+-- Row:   37/3279  nnz:  10363231  alloc: 10379073  speed: 37350.7 row/s
+-- Row:  155/3279  nnz:  10443048  alloc: 10485883  speed: 16063.7 row/s
+-- Row:  314/3279  nnz:  10553273  alloc: 10633052  speed: 12768.8 row/s
+-- Row:  381/3279  nnz:  10605346  alloc: 10696977  speed: 11073.7 row/s
+-- Row:  427/3279  nnz:  10638995  alloc: 10737679  speed: 7333.18 row/s
+-- Row:  465/3279  nnz:  10652548  alloc: 10766554  speed: 10908.1 row/s
+-- Row:  546/3279  nnz:  10698400  alloc: 10830536  speed: 18600.9 row/s
+-- Row:  583/3279  nnz:  10727366  alloc: 10864263  speed: 13707.8 row/s
+-- Row:  638/3279  nnz:  10764308  alloc: 10915340  speed: 16869.5 row/s
+-- Row:  693/3279  nnz:  10791346  alloc: 10965870  speed: 14503.7 row/s
+-- Row:  741/3279  nnz:  10830547  alloc: 11022155  speed: 12410.8 row/s
+-- Row:  779/3279  nnz:  10797121  alloc: 11037379  speed: 19778.6 row/s
+-- Row:  836/3279  nnz:  10907316  alloc: 11156805  speed: 12962.2 row/s
+-- Row:  878/3279  nnz:  10973596  alloc: 11227263  speed: 11653.9 row/s
+-- Row:   15/3279  nnz:  10352863  density:  6.84342%  speed:      0 row/s
+-- Row: 1024/3279  nnz:  11168551  density:  7.38261%  speed:      0 row/s
+-- Row: 2201/3279  nnz:  10638740  density:  7.03239%  speed:      0 row/s
+>> Reconstruct failed, now mod ~ 2^121, used time: 4.4359 s
+>> Reconstruct failed, now mod ~ 2^181, used time: 6.85446 s
+** Reconstruct success! Using mod ~ 2^241.
+   Kernel: 6826x10105 (33069 ms)
+   Kernel before extraction: 6826x10105
+-- Col:     3/10105  rank:     3  nnz:  10374038  density:  15.0399%
+-- Col:     3/10105  rank:     3  nnz:  10374038  density:  15.0399%
+-- Col:  5552/10105  rank:  5552  nnz:  10379349  alloc:  10379772  density:  15.0476%  speed:   194834 col/s
+-- Col:  5606/10105  rank:  5607  nnz:  10383949  alloc:  10393503  density:  15.0543%  speed:  5971.34 col/s
+-- Col:  5634/10105  rank:  5661  nnz:  10373369  alloc:  10394813  density:  15.0389%  speed:  8099.39 col/s
+-- Col:  5698/10105  rank:  5708  nnz:  10352089  alloc:  10395437  density:  15.0081%  speed:  12335.5 col/s
+-- Col:  5714/10105  rank:  5764  nnz:  10346884  alloc:  10385483  density:  15.0005%  speed:  8319.58 col/s
+-- Col:  5768/10105  rank:  5826  nnz:  10334002  alloc:  10376509  density:  14.9819%  speed:  21674.1 col/s
+-- Col:  5828/10105  rank:  5890  nnz:  10311417  alloc:  10367256  density:  14.9491%  speed:  51994.8 col/s
+-- Col:  5892/10105  rank:  5935  nnz:  10290265  alloc:  10356731  density:  14.9185%  speed:  48936.9 col/s
+-- Col:  5948/10105  rank:  5990  nnz:  10248444  alloc:  10351428  density:  14.8578%  speed:  17234.4 col/s
+-- Col:  6012/10105  rank:  6034  nnz:  10202883  alloc:  10338903  density:  14.7918%  speed:  11680.5 col/s
+-- Col:  6035/10105  rank:  6078  nnz:  10175465  alloc:  10307327  density:   14.752%  speed:  11087.7 col/s
+-- Col:  6104/10105  rank:  6123  nnz:  10135745  alloc:  10281345  density:  14.6944%  speed:  10519.4 col/s
+-- Col:  6133/10105  rank:  6163  nnz:  10120464  alloc:  10258727  density:  14.6723%  speed:  8259.88 col/s
+-- Col:  6175/10105  rank:  6195  nnz:  10102474  alloc:  10235693  density:  14.6462%  speed:    12658 col/s
+-- Col:  6195/10105  rank:  6238  nnz:  10095591  alloc:  10205562  density:  14.6362%  speed:  11535.6 col/s
+-- Col:  6238/10105  rank:  6270  nnz:  10062734  alloc:  10175851  density:  14.5886%  speed:    44387 col/s
+-- Col:  6270/10105  rank:  6311  nnz:  10050844  alloc:  10157557  density:  14.5714%  speed:  12707.6 col/s
+-- Col:  6313/10105  rank:  6336  nnz:   9969493  alloc:  10129315  density:  14.4534%  speed:  19251.4 col/s
+-- Col:  6336/10105  rank:  6368  nnz:   9962392  alloc:  10093062  density:  14.4431%  speed:  35471.9 col/s
+-- Col:  6368/10105  rank:  6405  nnz:   9953758  alloc:  10057781  density:  14.4306%  speed:  48159.7 col/s
+-- Col:  6405/10105  rank:  6440  nnz:   9922210  alloc:  10027542  density:  14.3849%  speed:  50627.9 col/s
+-- Col:  6440/10105  rank:  6461  nnz:   9912401  alloc:  10003122  density:  14.3706%  speed:  54514.3 col/s
+-- Col:  6461/10105  rank:  6491  nnz:   9909363  alloc:   9973742  density:  14.3662%  speed:  34968.7 col/s
+-- Col:  6491/10105  rank:  6518  nnz:   9891158  alloc:   9953827  density:  14.3398%  speed:  44767.7 col/s
+-- Col:  6518/10105  rank:  6551  nnz:   9862675  alloc:   9929586  density:  14.2986%  speed:  32778.9 col/s
+-- Col:  6551/10105  rank:  6569  nnz:   9837118  alloc:   9909830  density:  14.2615%  speed:  34814.5 col/s
+-- Col:  6569/10105  rank:  6601  nnz:   9833786  alloc:   9889149  density:  14.2567%  speed:  27798.4 col/s
+-- Col:  6601/10105  rank:  6628  nnz:   9819423  alloc:   9868505  density:  14.2358%  speed:  8501.59 col/s
+-- Col:  6628/10105  rank:  6661  nnz:   9791077  alloc:   9845553  density:  14.1948%  speed:  57324.8 col/s
+-- Col:  6662/10105  rank:  6687  nnz:   9772102  alloc:   9822378  density:  14.1672%  speed:  32652.9 col/s
+-- Col:  6687/10105  rank:  6711  nnz:   9753194  alloc:   9801086  density:  14.1398%  speed:  62873.2 col/s
+-- Col:  6711/10105  rank:  6730  nnz:   9756142  alloc:   9790000  density:  14.1441%  speed:  20026.4 col/s
+-- Col:  6730/10105  rank:  6752  nnz:   9752431  alloc:   9776729  density:  14.1387%  speed:  9770.08 col/s
+-- Col:  6754/10105  rank:  6769  nnz:   9740970  alloc:   9765310  density:  14.1221%  speed:  65994.6 col/s
+-- Col:  6769/10105  rank:  6784  nnz:   9718358  alloc:   9749190  density:  14.0893%  speed:  12270.4 col/s
+-- Col:  6788/10105  rank:  6800  nnz:   9703214  alloc:   9728809  density:  14.0674%  speed:  59226.1 col/s
+-- Col:  6810/10105  rank:  6811  nnz:   9692843  alloc:   9714738  density:  14.0523%  speed:  59348.6 col/s
+-- Col:  6811/10105  rank:  6821  nnz:   9691983  alloc:   9698686  density:  14.0511%  speed:  420.248 col/s
+** Rank: 6826 nnz: 9690758
+-- Row:    3/6823  nnz:  9691493  density:  14.0504%  speed: 2105.03 row/s
+-- Row: 1125/6823  nnz:  10245252  density:  14.8532%  speed:      0 row/s
+
+>> Reconstruct failed, now mod ~ 2^61, used time: 1.9802 s
+
+-- Row:  447/6826  nnz:  10374055  alloc: 10374055  speed: 904944 row/s
+-- Row:  948/6826  nnz:  10374086  alloc: 10374087  speed: 1.05028e+06 row/s
+-- Row: 1396/6826  nnz:  10374189  alloc: 10374189  speed: 1.07822e+06 row/s
+-- Row: 1845/6826  nnz:  10374407  alloc: 10374422  speed: 1.05344e+06 row/s
+-- Row: 2298/6826  nnz:  10374890  alloc: 10374898  speed: 1.16526e+06 row/s
+-- Row: 2747/6826  nnz:  10375443  alloc: 10375472  speed: 1.22388e+06 row/s
+-- Row: 3670/6826  nnz:  10376758  alloc: 10376819  speed: 1.19904e+06 row/s
+-- Row: 4471/6826  nnz:  10379349  alloc: 10379772  speed: 1.87483e+06 row/s
+-- Row:    3/6823  nnz:  9692017  density:  14.0511%  speed:      0 row/s
+-- Row: 1091/6823  nnz:  10286210  density:  14.9126%  speed: 1228.03 row/s
+>> Reconstruct failed, now mod ~ 2^121, used time: 2.85142 s
+** Reconstruct success! Using mod ~ 2^181.
+   Transformation matrix: 6826x3279
+--- first@w7 ---
+rank: 2
+dims: 6826 3279
+nnz: 8429985
+alloc: 8429985
+Writing file $RUN/amplitude/projection/collinear/first_w7.wxf ...
+** Write time: 118 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w7.wxf : 6236e418
+--- first@w7 basis ---
+rank: 3
+dims: 3279 1361 11
+nnz: 11393050
+alloc: 11393050
+Writing file $RUN/amplitude/projection/collinear/first_w7_basis.wxf ...
+** Write time: 670 ms
+CRC32 of $RUN/amplitude/projection/collinear/first_w7_basis.wxf : 841cfedc
+
+========================================
+Pipeline complete.
+Results in: $RUN/amplitude/projection/collinear
+Summary: $RUN/amplitude/projection/collinear/summary.txt
+========================================
+Task end at: 2026-10-04 23:18:31.208622051 -0700
+Done in 151934 ms
+
+RIGHT_PROJECTION_FRAME columns=121 rank=49
+-- Tensor expansion --
+   Starting tensor: rank=5 dims=1x3279x11x11x11 nnz=63757
+   Step 1/6: contracting with first_w7_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w7_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w7_basis.wxf : 841cfedc
+      Basis dims=3279x1361x11 nnz=11393050
+      Result: rank=6 dims=1x1361x11x11x11x11 nnz=288380
+   Step 2/6: contracting with first_w6_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w6_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w6_basis.wxf : a661d1ab
+      Basis dims=1361x546x11 nnz=1246029
+      Result: rank=7 dims=1x546x11x11x11x11x11 nnz=1165365
+   Step 3/6: contracting with first_w5_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w5_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w5_basis.wxf : c6979768
+      Basis dims=546x210x11 nnz=132680
+      Result: rank=8 dims=1x210x11x11x11x11x11x11 nnz=4529463
+   Step 4/6: contracting with first_w4_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w4_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w4_basis.wxf : b6272417
+      Basis dims=210x76x11 nnz=14041
+      Result: rank=9 dims=1x76x11x11x11x11x11x11x11 nnz=15274448
+   Step 5/6: contracting with first_w3_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w3_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w3_basis.wxf : 37b6ef13
+      Basis dims=76x25x11 nnz=1280
+      Result: rank=10 dims=1x25x11x11x11x11x11x11x11x11 nnz=44053390
+   Step 6/6: contracting with first_w2_basis.wxf
+Reading file $RUN/amplitude/projection/collinear/first_w2_basis.wxf ...
+CRC32 of $RUN/amplitude/projection/collinear/first_w2_basis.wxf : 6d561269
+      Basis dims=25x11x11 nnz=202
+      Result: rank=11 dims=1x11x11x11x11x11x11x11x11x11x11 nnz=88620356
+   Final: rank=11 nnz=88620356
+FULL_COLLINEAR_EXPRESSION nnz=88620356
+Using separately computed boundary "$RUN/amplitude/boundary_5L.wxf"
+PASS complete collinear divergent part; checked_words=55728602
+CERTIFIED unique 5-loop MHV symbol with full collinear divergent-part verification

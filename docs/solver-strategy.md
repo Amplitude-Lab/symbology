@@ -199,9 +199,12 @@ Preserve the following lessons when extending the solver:
 6. **Measure downstream effects and keep alternatives.** A smaller transient
    matrix can produce a denser recursive basis. Staging loses on some NMHV
    spaces, and raw versus reduced interface equations favor different cuts.
-   The subsequent adaptive library improves the four-loop control, but has
-   not been rerun through the complete five-loop pipeline. Do not extrapolate
-   its speedup to six loops.
+   The subsequent adaptive library improves the four-loop control and now
+   passes the complete [cold five-loop reproduction](../benchmarks/heptagon-mhv-five-loop/VALIDATION.md):
+   2 h 18 min including all prerequisites, with 31.48 GiB peak RSS and a
+   byte-identical final symbol. The joint kernel took 6,743 s / 19.33 GiB.
+   These separate measurements are not a controlled speedup comparison;
+   do not extrapolate them to six loops.
 
 For a six-loop preflight, compare at least `10+2`, `9+3` and `8+4`. The latter
 can reuse FEC8 but requires building and measuring a larger right basis and
