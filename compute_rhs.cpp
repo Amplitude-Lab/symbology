@@ -19,6 +19,7 @@
 #include "bootstrap.hpp"
 #include "projection.hpp"
 #include "compute_rhs.hpp"
+#include "numeric_parse.hpp"
 
 #include <cstdlib>
 
@@ -26,6 +27,10 @@ using index_t = int32_t;
 using scalar_t = rat_t;
 
 struct rhs_args_t {
+    std::string sew_strategy="auto";
+    std::string kernel_strategy="streamed";
+    std::string projection_strategy="restricted";
+    size_t threads=0;
 	std::string target;
 	std::filesystem::path data_dir;
 	std::filesystem::path output_dir;
@@ -34,6 +39,7 @@ struct rhs_args_t {
 };
 
 void print_usage(const char* program) {
+	std::cerr<<"  Optional: --kernel-strategy original|streamed|staged (default streamed); --sew-strategy auto|original|streamed|staged (default auto); --projection-strategy original|restricted (default restricted); --threads N"<<std::endl;
 	std::cerr << "Usage:" << std::endl;
 	std::cerr << "  " << program << " --target <SEW_FpL> --letter-projection <file|identity|divergent|finite>"
 	          << " [--data-dir <dir>] [--output-dir <dir>]" << std::endl;
@@ -66,6 +72,10 @@ rhs_args_t parse_args(int argc, char* argv[]) {
 		if (arg == "--target") {
 			args.target = take_value(i, argc, argv, arg);
 		}
+        else if(arg=="--sew-strategy") {args.sew_strategy=take_value(i,argc,argv,arg);if(args.sew_strategy!="auto"&&args.sew_strategy!="original"&&args.sew_strategy!="streamed"&&args.sew_strategy!="staged")throw std::runtime_error("Unknown sewing strategy");}
+        else if(arg=="--kernel-strategy") {args.kernel_strategy=take_value(i,argc,argv,arg);if(args.kernel_strategy!="original"&&args.kernel_strategy!="streamed"&&args.kernel_strategy!="staged")throw std::runtime_error("Unknown kernel strategy");}
+        else if(arg=="--projection-strategy") {args.projection_strategy=take_value(i,argc,argv,arg);if(args.projection_strategy!="original"&&args.projection_strategy!="restricted")throw std::runtime_error("Unknown projection strategy");}
+        else if(arg=="--threads") {auto n=strict_integer(take_value(i,argc,argv,arg));if(n<1||n>1024)throw std::runtime_error("--threads must be in 1..1024");args.threads=size_t(n);}
 		else if (arg == "--data-dir") {
 			args.data_dir = take_value(i, argc, argv, arg);
 		}
@@ -89,6 +99,8 @@ int main(int argc, char* argv[]) {
 	try {
 		native_cache::set_executable(native_cache::executable_path(argv[0]));
 		rhs_args_t args = parse_args(argc, argv);
+        compute_rhs_sew_strategy()=args.sew_strategy;compute_rhs_kernel_strategy()=args.kernel_strategy;compute_rhs_threads()=args.threads;
+        compute_rhs_projection_strategy()=args.projection_strategy;
 
 		if (args.help || args.target.empty()) {
 		print_usage(argv[0]);
@@ -179,7 +191,7 @@ int main(int argc, char* argv[]) {
 		rref_option_t opt;
 		opt->method = 0;
 		opt->verbose = true;
-		opt->pool.reset();
+		opt->pool.reset(args.threads);
 		thread_pool* pool = &(opt->pool);
 
 		std::cout << "threads: " << pool->get_thread_count() << std::endl;

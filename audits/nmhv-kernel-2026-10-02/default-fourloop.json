@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-f",
+    "{\"wall_s\":%e,\"peak_rss_kib\":%M}",
+    "-o",
+    "output_nmhv_kernel_20261002/default-fourloop.time",
+    "./compute_rhs",
+    "--target",
+    "SEW_7p1",
+    "--data-dir",
+    "data",
+    "--output-dir",
+    "output_nmhv_kernel_20261002/default-fourloop",
+    "--letter-projection",
+    "output_nmhv_kernel_20261002/default-fourloop/collinear/colprojdiv_w1.wxf",
+    "--threads",
+    "8"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "wall_seconds": 68.54162215767428,
+  "peak_summed_rss_bytes": 5830406144,
+  "sample_interval_seconds": 0.1,
+  "max_processes": 4,
+  "virtual_limit_gib": 28
+}

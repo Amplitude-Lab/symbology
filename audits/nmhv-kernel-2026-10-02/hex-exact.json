@@ -1,0 +1,17 @@
+{
+  "command": [
+    "output_nmhv_kernel_20261002/check",
+    "compare",
+    "backward",
+    "output_nmhv_kernel_20261002/v3-hexagon-streamed-0",
+    "output_nmhv_kernel_20261002/hex-reference",
+    "5"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "wall_seconds": 50.82508102618158,
+  "peak_summed_rss_bytes": 208449536,
+  "sample_interval_seconds": 0.1,
+  "max_processes": 1,
+  "virtual_limit_gib": 28
+}

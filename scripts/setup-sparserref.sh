@@ -22,8 +22,35 @@ REPO_URL="https://github.com/munuxi/SparseRREF"
 PATCH="patches/sparserref-5bbee55-race-and-init-fix.patch"
 NEWER_PATCH="patches/sparserref-race-fix.patch"
 WXF_PATCH="patches/sparserref-wxf-validation.patch"
+MOVE_PATCH="patches/sparserref-move-reconstruction.patch"
+RECONSTRUCT_PATCH="patches/sparserref-reconstruction-throughput.patch"
+VISITOR_PATCH="patches/sparserref-wxf-visitor.patch"
+SCALAR_MOVE_PATCH="patches/sparserref-scalar-move-cleanup.patch"
+TENSOR_CAPACITY_PATCH="patches/sparserref-tensor-capacity.patch"
+
+apply_performance_patches() {
+  local patch
+  for patch in "$RECONSTRUCT_PATCH" "$VISITOR_PATCH" "$SCALAR_MOVE_PATCH" "$TENSOR_CAPACITY_PATCH"; do
+    if git -C SparseRREF apply --reverse --check "../$patch" 2>/dev/null; then continue; fi
+    git -C SparseRREF apply --check "../$patch" || die "Performance patch $patch does not match this checkout; preserve local edits and use the pinned version."
+    git -C SparseRREF apply "../$patch"
+  done
+}
+
+apply_move_patch() {
+  if git -C SparseRREF apply --reverse --check "../$MOVE_PATCH" 2>/dev/null; then
+    return
+  fi
+  git -C SparseRREF apply --check "../$MOVE_PATCH" || die "Reconstruction ownership patch does not match this checkout; preserve local edits and use the pinned SparseRREF version."
+  git -C SparseRREF apply "../$MOVE_PATCH"
+}
 
 apply_wxf_patch() {
+  # The visitor refactors the already-validated parser, so the older patch's
+  # reverse context no longer matches after this later patch has been applied.
+  if git -C SparseRREF apply --reverse --check "../$VISITOR_PATCH" 2>/dev/null; then
+    return
+  fi
   if git -C SparseRREF apply --reverse --check "../$WXF_PATCH" 2>/dev/null; then
     return
   fi
@@ -41,7 +68,12 @@ check_tree() {
     || die "SparseRREF/sparse_tensor.h lacks the loud tensor_contract fix — patches out of date."
   grep -q 'Checked WXF decoding' SparseRREF/wxf_parser.h || die "WXF bounds patch is missing"
   grep -q 'wxf_checked::validate' SparseRREF/wxf_support.h || die "SparseArray validation patch is missing"
-  echo "setup-sparserref: SparseRREF/ patches verified (race fix + loud-failure fixes present)."
+  git -C SparseRREF apply --reverse --check "../$MOVE_PATCH" 2>/dev/null || die "Reconstruction ownership patch is missing; re-run without --check."
+  git -C SparseRREF apply --reverse --check "../$RECONSTRUCT_PATCH" 2>/dev/null || die "Reconstruction throughput patch is missing; re-run without --check."
+  git -C SparseRREF apply --reverse --check "../$VISITOR_PATCH" 2>/dev/null || die "WXF visitor patch is missing; re-run without --check."
+  git -C SparseRREF apply --reverse --check "../$SCALAR_MOVE_PATCH" 2>/dev/null || die "Scalar move cleanup patch is missing; re-run without --check."
+  git -C SparseRREF apply --reverse --check "../$TENSOR_CAPACITY_PATCH" 2>/dev/null || die "Tensor capacity patch is missing; re-run without --check."
+  echo "setup-sparserref: SparseRREF/ patches verified (race, validation, reconstruction and WXF visitor fixes present)."
 }
 
 [[ -f "$PATCH" ]] || die "patch file $PATCH not found — run from the repository root"
@@ -64,6 +96,8 @@ elif [[ -z "$(cd SparseRREF && git status --porcelain 2>/dev/null)" ]]; then
 else
   echo "setup-sparserref: SparseRREF/ already patched (dirty tree) — verifying"
   apply_wxf_patch
+  apply_move_patch
+  apply_performance_patches
   check_tree
   exit 0
 fi
@@ -75,5 +109,7 @@ git -C SparseRREF apply "../$PATCH" || {
 }
 
 apply_wxf_patch
+apply_move_patch
+apply_performance_patches
 check_tree
 echo "setup-sparserref: done. Build with: make"

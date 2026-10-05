@@ -1,0 +1,260 @@
+{
+  "completed_utc": "2026-10-04T09:38:28.492808+00:00",
+  "verified_utc": "2026-10-04T09:40:06.793964+00:00",
+  "scope": "Five-loop MHV heptagon symbol in the saved FEC8 x LEC2 recursive basis; no function-level constants",
+  "pipeline": {
+    "state": "complete",
+    "controller_pid": 1052842,
+    "started_unix_seconds": 1791098912.603815,
+    "deadline_unix_seconds": 1791185312.5791137,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "kernel",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/bin/early_sew_probe",
+            "refine-hybrid",
+            "/home/ana/Documents/symbology/data",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/chain",
+            "8",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "memory_pressure": false,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 7341.009295532014,
+          "peak_summed_rss_bytes": 20829122560,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 31933.476518,
+          "cpu_system_seconds": 86.939217,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 0,
+        "outputs": [
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early/EARLY_8p2.wxf",
+            "bytes": 4565763,
+            "sha256": "86d9731ff62aa6b39495fb3a6b3b53549442475e7551177cce0abbe4e47a32e0"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early/LEC_2.wxf",
+            "bytes": 5971,
+            "sha256": "085161e8c6717f446560266f1bf0f9a603d5d926575afe3a946a014ac808851a"
+          }
+        ]
+      },
+      {
+        "name": "coefficients",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/bin/early_mhv_bootstrap",
+            "coefficients",
+            "/home/ana/Documents/symbology/data",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/chain",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early",
+            "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5",
+            "5"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "memory_pressure": false,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 71.50495119206607,
+          "peak_summed_rss_bytes": 12933410816,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 105.107072,
+          "cpu_system_seconds": 17.025089,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 0,
+        "outputs": [
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5/candidate_coefficients.wxf",
+            "bytes": 173,
+            "sha256": "334b86b0d44840389188019291a525c3f0a2e78ad40bd5bb07eeff58452f2da6"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5/candidate_recursive.wxf",
+            "bytes": 6825548,
+            "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+          }
+        ]
+      },
+      {
+        "name": "verify",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/bin/early_mhv_bootstrap",
+            "verify",
+            "/home/ana/Documents/symbology/data",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/chain",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early",
+            "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5",
+            "5"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "memory_pressure": false,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 366.05675236321986,
+          "peak_summed_rss_bytes": 14835134464,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 1359.77557,
+          "cpu_system_seconds": 42.813969,
+          "max_processes": 3,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 0,
+        "outputs": [
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5/hepMHV_5L_recursive.wxf",
+            "bytes": 6825548,
+            "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5/E5_candidate.wxf",
+            "bytes": 986314808,
+            "sha256": "9f2ca40ef5c7a1c025fb753f46080832d56670753ca05d39066692a68dc06355"
+          }
+        ]
+      },
+      {
+        "name": "words",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/bin/early_mhv_words",
+            "/home/ana/Documents/symbology/data",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/chain",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/early/LEC_2.wxf",
+            "/home/ana/Documents/symbology/output_fiveloop_day_20261004/amplitude5/hepMHV_5L_recursive.wxf",
+            "5"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "memory_pressure": false,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 17.19224053621292,
+          "peak_summed_rss_bytes": 12776493056,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 12.850163,
+          "cpu_system_seconds": 7.077978,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 0,
+        "outputs": []
+      }
+    ],
+    "updated_utc": "2026-10-04T09:38:28.492808+00:00",
+    "wall_seconds": 7796.381779664196,
+    "current_stage": null,
+    "current_log": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/words.log",
+    "current_live": "/home/ana/Documents/symbology/output_fiveloop_day_20261004/words-live.json",
+    "peak_stage_rss_bytes": 20829122560
+  },
+  "checked_inputs_again_after_completion": 63,
+  "verified_outputs": [
+    {
+      "path": "output_fiveloop_day_20261004/early/EARLY_8p2.wxf",
+      "bytes": 4565763,
+      "sha256": "86d9731ff62aa6b39495fb3a6b3b53549442475e7551177cce0abbe4e47a32e0"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/early/LEC_2.wxf",
+      "bytes": 5971,
+      "sha256": "085161e8c6717f446560266f1bf0f9a603d5d926575afe3a946a014ac808851a"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/amplitude5/candidate_coefficients.wxf",
+      "bytes": 173,
+      "sha256": "334b86b0d44840389188019291a525c3f0a2e78ad40bd5bb07eeff58452f2da6"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/amplitude5/candidate_recursive.wxf",
+      "bytes": 6825548,
+      "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/amplitude5/hepMHV_5L_recursive.wxf",
+      "bytes": 6825548,
+      "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/amplitude5/E5_candidate.wxf",
+      "bytes": 986314808,
+      "sha256": "9f2ca40ef5c7a1c025fb753f46080832d56670753ca05d39066692a68dc06355"
+    }
+  ],
+  "run_files": [
+    {
+      "path": "output_fiveloop_day_20261004/config.json",
+      "bytes": 3589,
+      "sha256": "b531b9e8a931af66374e3da33cdb932b04ff116fd1907c5231f0d0102c79a6ab"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/manifest.json",
+      "bytes": 21878,
+      "sha256": "bbb56443199d406b10b118c7fb034e6f1dc56590ed75435ea2f39b95be4f8243"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/controller-launch.json",
+      "bytes": 272,
+      "sha256": "8a8b5fcf0fbe632997fdb76be3df7b6502326a79af09539fda320e262011e2b5"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/kernel.log",
+      "bytes": 9144,
+      "sha256": "6a57796f06936177c6b7b0cdcd8bf1f7e90958f10a609d3c646ded108a41ac8c"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/coefficients.log",
+      "bytes": 986,
+      "sha256": "5e58ddd3170759e8f9d27f8c4fdde85c71a1a616e25cfd4ff69e14b329d7570b"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/verify.log",
+      "bytes": 56457,
+      "sha256": "a24c2142ad384406346f7b1845cf2c61621419069a415f064aeb2e0d4ede2aaa"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/words.log",
+      "bytes": 238,
+      "sha256": "0d266042fdf4837ba4ff2b1288b583a910840a467e0cd405d5a91eb63e4ab493"
+    },
+    {
+      "path": "output_fiveloop_day_20261004/status.json",
+      "bytes": 6334,
+      "sha256": "990abcdb28c746ed9814e06cc8a301d8fafb066eaa90c521c8b060316447877f"
+    }
+  ],
+  "published_word_reference": "https://arxiv.org/html/2511.09669v2",
+  "published_word_coefficients": [
+    -26880,
+    -26880,
+    26880,
+    -1680
+  ],
+  "complete_collinear_nonzero_terms": 88620356,
+  "checked_divergent_words": 55728602,
+  "exact_invariant_kernel_dimension": 4,
+  "monitor_status": "PAUSED",
+  "owned_computation_stopped": true
+}

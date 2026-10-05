@@ -44,6 +44,11 @@ inspect_tensors
 letter_filter_bench
 tensor_ops
 tensor_add
+symrep
+/tests/symrep_probe
+/bench/hexagon_symrep_reference
+/bench/nmhv_kernel_check
+/bench/nmhv_kernel_benchmark
 
 # Build directories
 build/
@@ -102,3 +107,29 @@ __pycache__/
 /tests/wxf_probe_sanitized
 
 /tests/cache_probe
+/tests/structured_kernel_probe
+/tests/tensor_capacity_probe
+/tests/word_chart_probe
+/bench/kernel_strategy_benchmark
+/tests/tensor_kernel_probe
+/bench/heptagon_amplitude_check
+/bench/streaming_kernel_benchmark
+/tests/early_sew_probe
+/tests/early_sew_probe_pairs
+/bench/early_sew_probe
+/bench/early_sew_probe_zeros
+/bench/early_sew_probe_pairs
+/bench/early_sew_probe_hybrid
+/bench/early_sew_check
+/bench/early_mhv_bootstrap
+/bench/early_mhv_words
+
+/tests/packed_shuffle_probe
+
+/tests/staged_kernel_probe
+/bench/staged_kernel_benchmark
+/tests/column_restriction_probe
+/tests/partitioned_tensor_probe
+/tests/private_unit_pivot_probe
+/bench/split_character_extension
+/bench/combined_constraints_benchmark

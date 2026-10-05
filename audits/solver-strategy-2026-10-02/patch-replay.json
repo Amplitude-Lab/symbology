@@ -1,0 +1,22 @@
+{
+  "patches": [
+    "sparserref-5bbee55-race-and-init-fix.patch",
+    "sparserref-wxf-validation.patch",
+    "sparserref-move-reconstruction.patch",
+    "sparserref-reconstruction-throughput.patch",
+    "sparserref-wxf-visitor.patch",
+    "sparserref-scalar-move-cleanup.patch",
+    "sparserref-tensor-capacity.patch"
+  ],
+  "verified_changed_files": [
+    "scalar.h",
+    "sparse_mat.h",
+    "sparse_rref.h",
+    "sparse_tensor.h",
+    "sparse_type.h",
+    "sparse_vec.h",
+    "wxf_parser.h",
+    "wxf_support.h"
+  ],
+  "status": "PASS clean pinned-source patch replay matches working dependency"
+}

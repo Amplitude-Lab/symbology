@@ -1,0 +1,18 @@
+group_order=12 rational_irreps=6 group_setup_s=0.00488329
+weight=5 phase=reduced_assembly
+  irrep=0 rows=38 cols=21 nnz=127
+  irrep=1 rows=38 cols=29 nnz=145
+  irrep=2 rows=31 cols=12 nnz=180
+  irrep=3 rows=31 cols=16 nnz=207
+  irrep=4 rows=77 cols=50 nnz=429
+  irrep=5 rows=62 cols=28 nnz=627
+weight=5 phase=ordinary_comparison
+weight=5 dimension=51 symmetry_s=0.00895136 ordinary_kernel_s=0.0026553
+complete total_s=0.0215182 output="output_symrep_optimization_20261002/legacy-resume"
+group_order=12 rational_irreps=6 group_setup_s=0.00473665
+EXACT_REFERENCE_PASS weight=1 dimension=3
+EXACT_REFERENCE_PASS weight=2 dimension=6
+EXACT_REFERENCE_PASS weight=3 dimension=13
+EXACT_REFERENCE_PASS weight=4 dimension=26
+EXACT_REFERENCE_PASS weight=5 dimension=51
+complete total_s=0.00905548 output="output_symrep_optimization_20261002/legacy-resume-verified"

@@ -1,0 +1,67 @@
+{
+  "schema": "heptagon-mhv-five-loop-reference-v1",
+  "field": "QQ",
+  "cut": [
+    8,
+    2
+  ],
+  "group_generators": [
+    "cyclic",
+    "flip",
+    "parity"
+  ],
+  "solution": {
+    "path": "reference/hepMHV_5L_recursive.wxf",
+    "bytes": 6825548,
+    "sha256": "a06256013cbb03a7a1b67a18f930e02639cf2e777d48196ae36ba00355661691",
+    "dimensions": [
+      1,
+      17471,
+      118
+    ]
+  },
+  "seed_sha256": {
+    "data/FEC_1.wxf": "a73d7b2d9fd5bb069f6a25321e2b1b0bcdfd62d0b3dcf52fccbf9ce1d751d823",
+    "data/LEC_1.wxf": "e66b2dc12849c76ea8241691be0389778da60666d7ff2fd5a12caf4380fb50bf",
+    "data/dlogmat_E6.wxf": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+    "data/cycrepmat.wxf": "aaf106383019a6039e307e5d758cff98525ba08136b844cfe9e9dd9b1aa0f3ef",
+    "data/fliprepmat.wxf": "217cc6a9a1f05bed07e103e61a64a2e9d936a7279623d473fce82b84f9dbbd99",
+    "data/parityrepmat.wxf": "79df11e3642685dd93b746d23f24122d19b66edf160bbc39810fa61292fc737d",
+    "data/colmat42.wxf": "1ced34e1a12c70e686e17f19c659fddd277917ae8ae0aa001700ab25f2b8dfab",
+    "data/colprojdiv.wxf": "7be56cd7c97e169b2765f329c728f4cc56fdd73f2d2753dd89f6b09714d5fd88",
+    "data/E1.wxf": "5b01d4f0ab8a7478b9783c94b45e56c5444c8bec3b1b12b72d84e773ff419c99",
+    "data/colprojfin.wxf": "342f90c1d3ac1468c42d4f227ea3e68cbee7e7e092a5af9308ad06cdbba17912"
+  },
+  "basis_sha256": {
+    "chain/FEC_2.wxf": "63fe8d9566e91df58407e358cb61223442fa7db58b3d66531175312483af51df",
+    "chain/FEC_3.wxf": "e13916edf432a99711c7f97daad730f4ae3e79c03794ad4a82b7de8cbc0cca88",
+    "chain/FEC_4.wxf": "634fd8e48de3b4ae71715044222842e72f6bd84b5a5bc2215317d59774494a83",
+    "chain/FEC_5.wxf": "f2c3695c4633f060f0320422419fb817039173cd54ad0eeb6149e086118d5ba3",
+    "chain/FEC_6.wxf": "d0ce229c994a72d426746fd9cb9502eea608a47f0140f19e2dfb0c5e24dddab6",
+    "chain/FEC_7.wxf": "999d950542b76b422e763372e83c6df392592e1add3c2c1ab6917476ce20b47a",
+    "chain/FEC_8.wxf": "13dabeb82f12b8ead93f5e31444405708f5c8144b59c365405838d6567cc3724"
+  },
+  "lower_sha256": {
+    "chain/2loop/E2.wxf": "713dd09afe71308331d80d97a73e5b0cc52417d40ebc16317ac2518e51a6d016",
+    "chain/2loop/R2.wxf": "30b57162d896c5d29af724166651377fc1107ee287968e9fa3d545f8b3113bc2",
+    "chain/3loop/E3.wxf": "a58b9e88ebac989fdc73cef2a69e2899a51dbcd52465a76e297c0d33d18a3e97",
+    "chain/3loop/R3.wxf": "bfe600f3fc86cc8968975e20d8dd1045efe23dbe23763544cb10538ed293c91d",
+    "chain/4loop/E4.wxf": "2fd9e43469ea16f5d975883b58e83499df0676c094823cb1e265acb8c6f36e6f",
+    "chain/4loop/R4.wxf": "3d84892f84e40e9a2165245bae33758decf6df02c037009e9916876e1a72b879"
+  },
+  "lec2_sha256": "085161e8c6717f446560266f1bf0f9a603d5d926575afe3a946a014ac808851a",
+  "historical_run": {
+    "solve_and_verify_seconds": 7796.382,
+    "peak_rss_gib": 19.399,
+    "cached_prerequisites": true,
+    "divergent_words_checked": 55728602,
+    "published_coefficients": [
+      -26880,
+      -26880,
+      26880,
+      -1680
+    ],
+    "joint_kernel_dimension": 4
+  },
+  "meaning": "Recursive symbol in the exact FEC1..8 / LEC1..2 coordinates bound above. Regenerate the omitted bases before using the coefficients; function-level constants are not included."
+}

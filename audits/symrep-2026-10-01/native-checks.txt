@@ -1,0 +1,4 @@
+SUMMARY 90 passed 0 failed
+PASS: 6 condition export/reimport tests (both solvers; imported and pair contradictions)
+PASS: strict numeric rejection and arbitrary-precision exact cancellation
+PASS: all 10 two-/three-loop reference tensors match after resume

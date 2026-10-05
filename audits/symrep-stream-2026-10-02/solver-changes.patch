@@ -1,0 +1,185 @@
+--- before/symrep_bootstrap.hpp
++++ after/symrep_bootstrap.hpp
+@@ -263,7 +263,8 @@
+         require(compact.ncol==cb,"compact recurrence column count mismatch");have_state=true;
+     }
+     std::vector<Mat> assemble(const Tensor& seed,const Layout& older,const Layout& previous,
+-        const ProductCopies& source,const ProductCopies& target_channels) {
++        const ProductCopies& source,const ProductCopies& target_channels,
++        const std::function<void(size_t,Mat&&,double)>& consume={}) {
+         auto tick=std::chrono::steady_clock::now();auto elapsed=[&]{return std::chrono::duration<double>(std::chrono::steady_clock::now()-tick).count();};
+         std::vector<Entry> seed_entries;const auto& entries=have_state?state:seed_entries;
+         const size_t letters=p.alphabet.dimension(ms),old_dimension=older.dimension(ms);auto oo=older.offsets(ms),po=previous.offsets(ms);
+@@ -282,12 +283,24 @@
+         // Prebuild sequentially: route construction itself uses the worker pool.
+         recoupling_s=0;for(const auto& e:entries)routes(e.a,e.b,e.channel);template_s=elapsed();
+         std::cout<<"  condition_templates="<<templates_built<<" irrep_recouplings="<<small_routes.size()<<" recoupling_s="<<recoupling_s<<std::endl;
+-        std::vector<Mat> out;for(size_t s=0;s<ms.size();++s)out.emplace_back(target_channels[s].size()*local[s].nrow,source[s].size()*local[s].nrow);
+-        opt->pool.detach_loop(size_t(0),ms.size(),[&](size_t s){auto& matrix=out[s];size_t d=local[s].nrow;
++        std::vector<Mat> out(consume?0:ms.size());std::vector<size_t> order(ms.size());std::iota(order.begin(),order.end(),0);
++        // Stream a completed sector to the solver before assembling another.
++        // Independent sectors share this pool; the consumer uses its own local
++        // elimination workspace and must not submit work to this same pool.
++        if(consume)std::stable_sort(order.begin(),order.end(),[&](size_t a,size_t b){return
++            target_channels[a].size()*source[a].size()>target_channels[b].size()*source[b].size();});
++        std::vector<std::future<void>> jobs;
++        for(auto s:order)jobs.push_back(opt->pool.submit_task([&,s]{auto start=std::chrono::steady_clock::now();size_t d=local[s].nrow;
++            Mat matrix(target_channels[s].size()*d,source[s].size()*d);
+             for(const auto& e:entries){const auto& r=hom.at({e.a,e.b}).routes.at(e.channel)[s];auto& rm=rowmaps[s][e.a][e.old];auto& cm=colmaps[s][e.b][e.previous];
+                 for(const auto& x:r)matrix[rm[x.row/d]*d+x.row%d].push_back(index(cm[x.column/d]*d+x.column%d),e.value*x.value);}
+             for(auto& row:matrix.rows)normalize(row);
+-        });opt->pool.wait();return out;
++            if(consume)consume(s,std::move(matrix),std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count());
++            else out[s]=std::move(matrix);
++        }));
++        // Drain every task before unwinding references captured by the workers.
++        std::exception_ptr failure;for(auto& job:jobs)try{job.get();}catch(...){if(!failure)failure=std::current_exception();}
++        if(failure)std::rethrow_exception(failure);return out;
+     }
+ };
+ 
+--- before/symrep_multiplicity.hpp
++++ after/symrep_multiplicity.hpp
+@@ -42,7 +42,7 @@
+     certify_scalar_corners(g,ms);TensorAdapter adapter(g,ms,opt);RecurrenceTemplates recurrence(g,ms,p,adapter,opt);
+     auto seed=p.expansion;auto previous=p.seed,older=p.terminal;size_t first=2,letters=p.alphabet.dimension(ms);
+     std::ofstream stats(root/"timings.tsv");
+-    stats<<"weight\trows\tcolumns\tnnz\tdimension\tassembly_s\tadapt_s\tkernel_s\tordinary_kernel_s\tverification_s\tcorner_columns\ttemplate_s\tcompression_s\trref_s\tshorten_s\tlift_s\n";
++    stats<<"weight\trows\tcolumns\tnnz\tdimension\tassembly_s\tadapt_s\tkernel_s\tordinary_kernel_s\tverification_s\tcorner_columns\ttemplate_s\tcompression_s\trref_s\tshorten_s\tlift_s\tpipeline_s\tplanning_s\tassembly_work_s\trref_work_s\n";
+     if(resume.empty()){write(root/"w1.wxf",seed);save_layout(root/"w1_copies.tsv",previous,ms);}
+     else {bool factored=false,compact=false;auto last=chain_weight(resume,prepared,&factored,&compact);
+         require(!factored,"expand the factorized chain before continuing with the multiplicity backend");
+@@ -50,7 +50,7 @@
+         require(equal(flatten(read(resume/"w1.wxf")),flatten(p.expansion)),"saved seed differs from prepared seed");
+         for(const auto& e:fs::directory_iterator(resume))if(e.is_regular_file()&&e.path().filename().string().starts_with("w"))fs::copy_file(e.path(),root/e.path().filename());
+         std::ifstream oldstats(resume/"timings.tsv");require(bool(oldstats),"missing saved timings");std::string line;std::getline(oldstats,line);
+-        while(std::getline(oldstats,line)){if(line.empty())continue;auto fields=1+std::count(line.begin(),line.end(),'\t');stats<<line;for(size_t j=fields;j<16;++j)stats<<"\tnan";stats<<'\n';}
++        while(std::getline(oldstats,line)){if(line.empty())continue;auto fields=1+std::count(line.begin(),line.end(),'\t');stats<<line;for(size_t j=fields;j<20;++j)stats<<"\tnan";stats<<'\n';}
+         previous=load_layout(resume/(weight_name(last)+"_copies.tsv"),ms);
+         if(last>1)older=load_layout(resume/(weight_name(last-1)+"_copies.tsv"),ms);
+         if(compact&&last>1){ProductCopies channels;auto domain=p.backward?adapter.product(p.alphabet,older,&channels,false):adapter.product(older,p.alphabet,&channels,false);
+@@ -58,42 +58,47 @@
+         if(compare||!compact)seed=materialize_multiplicity(resume,last,p,ms,adapter,opt);
+         if(compare||!compact)require(seed.rank()==3&&seed.dim(0)==previous.dimension(ms)&&seed.dim(p.backward?1:2)==letters&&seed.dim(p.backward?2:1)==older.dimension(ms),"saved recurrence dimensions disagree with layouts");
+     }
++    std::vector<std::unique_ptr<rref_option>> sector_options;
++    if(!compare&&first<=maximum)for(size_t i=0;i<opt->pool.get_thread_count();++i){auto local=std::make_unique<rref_option>();
++        local->method=opt->method;local->col_weight=opt->col_weight;local->eliminate_one_nnz=opt->eliminate_one_nnz;
++        local->shrink_memory=opt->shrink_memory;local->is_back_sub=opt->is_back_sub;sector_options.push_back(std::move(local));}
+     for(size_t w=first;w<=maximum;++w){auto tick=std::chrono::steady_clock::now();ProductCopies source_channels,target_channels;
+         auto domain=p.backward?adapter.product(p.alphabet,previous,&source_channels,compare):adapter.product(previous,p.alphabet,&source_channels,compare);
+         auto target=p.backward?adapter.product(p.equations,older,&target_channels,compare):adapter.product(older,p.equations,&target_channels,compare);
+         double adapt_s=seconds(tick);tick=std::chrono::steady_clock::now();
+-        auto blocks=recurrence.assemble(seed,older,previous,source_channels,target_channels);double assembly_s=seconds(tick);
+-        Layout solution;solution.copies.resize(ms.size());std::vector<Mat> kernels(ms.size());size_t nnz=0,nr=0,nc=0;double rref_s=0,normalization_s=0;
+-        Mat target_chart;if(compare)target_chart=transpose(block_inverse(target.basis,opt));auto to=target.layout.offsets(ms),d=domain.layout.offsets(ms);
+-        for(size_t s=0;s<ms.size();++s){auto& block=blocks[s];nnz+=block.nnz();nc+=block.ncol;
++        Layout solution;solution.copies.resize(ms.size());std::vector<Mat> kernels(ms.size());
++        std::vector<size_t> block_nnz(ms.size());std::vector<double> assembly_work(ms.size()),rref_work(ms.size());
++        size_t nnz=0,nr=0,nc=std::accumulate(domain.layout.copies.begin(),domain.layout.copies.end(),size_t(0));
++        double assembly_s=0,rref_s=0,normalization_s=0,pipeline_s=0;
++        auto solve=[&](size_t s,Mat&& block,double assembly_time){
+             require(block.ncol==domain.layout.copies[s]&&block.nrow==target.layout.copies[s],"compact block/layout mismatch");
+-            std::cout<<"  irrep="<<s<<" rows="<<block.nrow<<" cols="<<block.ncol<<" nnz="<<block.nnz()<<std::endl;
+-            if(compare){Mat left(block.nrow,target_chart.ncol),right(block.ncol,domain.basis.ncol);
++            block_nnz[s]=block.nnz();assembly_work[s]=assembly_time;auto start=std::chrono::steady_clock::now();
++            kernels[s]=kernel(std::move(block),sector_options.at(SparseRREF::thread_id()).get());rref_work[s]=seconds(start);
++        };
++        if(!compare){recurrence.assemble(seed,older,previous,source_channels,target_channels,solve);pipeline_s=seconds(tick);
++            // Assembly and elimination overlap: report the joint wall time and
++            // summed per-sector work separately, rather than adding overlapping times.
++            assembly_s=rref_s=std::numeric_limits<double>::quiet_NaN();
++        }else{
++            auto blocks=recurrence.assemble(seed,older,previous,source_channels,target_channels);assembly_s=seconds(tick);
++            auto target_chart=transpose(block_inverse(target.basis,opt));auto to=target.layout.offsets(ms),d=domain.layout.offsets(ms);
++            for(size_t s=0;s<ms.size();++s){auto& block=blocks[s];block_nnz[s]=block.nnz();
++                require(block.ncol==domain.layout.copies[s]&&block.nrow==target.layout.copies[s],"compact block/layout mismatch");
++                Mat left(block.nrow,target_chart.ncol),right(block.ncol,domain.basis.ncol);
+                 for(size_t i=0;i<left.nrow;++i)left[i]=target_chart[to[s]+i*ms[s].dimension];
+                 for(size_t i=0;i<right.nrow;++i)right[i]=domain.basis[d[s]+i*ms[s].dimension];
+-                require(equal(block,assemble_reduced(seed,p.condition,p.backward,left,right,opt)),"compact contraction differs from component contraction");}
++                require(equal(block,assemble_reduced(seed,p.condition,p.backward,left,right,opt)),"compact contraction differs from component contraction");
++                auto start=std::chrono::steady_clock::now();kernels[s]=kernel(std::move(block),opt);rref_work[s]=seconds(start);
++            }
++            rref_s=std::accumulate(rref_work.begin(),rref_work.end(),0.0);pipeline_s=assembly_s+rref_s;
+         }
++        for(size_t s=0;s<ms.size();++s){nnz+=block_nnz[s];std::cout<<"  irrep="<<s<<" rows="<<target.layout.copies[s]<<" cols="<<domain.layout.copies[s]<<" nnz="<<block_nnz[s]<<std::endl;}
+         tick=std::chrono::steady_clock::now();
+-        // Independent sectors share the requested worker budget. Large block
+-        // first scheduling keeps the two largest sectors on different workers.
+-        size_t workers=std::min(opt->pool.get_thread_count(),ms.size());
+-        if(workers>1&&nnz>=20000){std::vector<size_t> order(ms.size());std::iota(order.begin(),order.end(),0);
+-            std::stable_sort(order.begin(),order.end(),[&](size_t a,size_t b){return blocks[a].nnz()>blocks[b].nnz();});
+-            std::atomic<size_t> next=0;std::vector<std::future<void>> jobs;
+-            for(size_t worker=0;worker<workers;++worker)jobs.push_back(std::async(std::launch::async,[&]{rref_option_t local;
+-                local->method=opt->method;local->col_weight=opt->col_weight;
+-                local->eliminate_one_nnz=opt->eliminate_one_nnz;local->shrink_memory=opt->shrink_memory;
+-                local->is_back_sub=opt->is_back_sub;
+-                for(size_t j=next.fetch_add(1);j<order.size();j=next.fetch_add(1)){size_t s=order[j];kernels[s]=kernel(std::move(blocks[s]),local);}
+-            }));
+-            for(auto& job:jobs)job.get();
+-        }else for(size_t s=0;s<ms.size();++s)kernels[s]=kernel(std::move(blocks[s]),opt);
+-        rref_s=seconds(tick);tick=std::chrono::steady_clock::now();
+         for(size_t s=0;s<ms.size();++s){for(auto& row:kernels[s].rows)primitive_integer(row);solution.copies[s]=kernels[s].nrow;nr+=kernels[s].nrow;}
+         normalization_s=seconds(tick);
+         Mat compact(nr,nc);size_t rb=0,cb=0;
+         for(size_t s=0;s<ms.size();++s){for(auto& row:kernels[s].rows){for(size_t j=0;j<row.nnz();++j)row(j)+=index(cb);compact[rb++]=std::move(row);}cb+=kernels[s].ncol;}
+-        recurrence.remember_compact(compact,solution,domain.layout,source_channels);
++        if(w<maximum)recurrence.remember_compact(compact,solution,domain.layout,source_channels);
+         double verification_s=0,ordinary_s=0;
+         if(compare){tick=std::chrono::steady_clock::now();auto lifted=lift_scalar_kernel(compact,solution,domain.layout,ms);auto coefficients=mul(lifted,domain.basis,&opt->pool);
+             auto lg=generators(g,ms,p.alphabet),pg=generators(g,ms,previous);std::vector<Mat> source;
+@@ -107,7 +112,8 @@
+         auto stem=weight_name(w);write(root/(stem+"_multiplicity.wxf"),compact);save_layout(root/(stem+"_copies.tsv"),solution,ms);
+         stats<<std::setprecision(9)<<w<<'\t'<<target.layout.dimension(ms)<<'\t'<<domain.layout.dimension(ms)<<'\t'<<nnz<<'\t'<<solution.dimension(ms)<<'\t'<<assembly_s<<'\t'<<adapt_s<<'\t'<<rref_s+normalization_s<<'\t'<<ordinary_s<<'\t'<<verification_s<<'\t';
+         for(size_t s=0;s<ms.size();++s){if(s)stats<<',';stats<<domain.layout.copies[s];}
+-        stats<<'\t'<<recurrence.template_s<<'\t'<<recurrence.compression_s<<'\t'<<rref_s<<'\t'<<normalization_s<<"\t0"<<std::endl;
++        stats<<'\t'<<recurrence.template_s<<'\t'<<recurrence.compression_s<<'\t'<<rref_s<<'\t'<<normalization_s<<"\t0\t"<<pipeline_s<<'\t'<<recurrence.compression_s+recurrence.template_s
++             <<'\t'<<std::accumulate(assembly_work.begin(),assembly_work.end(),0.0)<<'\t'<<std::accumulate(rref_work.begin(),rref_work.end(),0.0)<<std::endl;
+         std::cout<<"weight="<<w<<" dimension="<<solution.dimension(ms)<<" multiplicity_nnz="<<compact.nnz()<<std::endl;
+         older=previous;previous=std::move(solution);
+     }
+--- before/symrep_carrier.hpp
++++ after/symrep_carrier.hpp
+@@ -284,11 +284,21 @@
+         auto nr=a.nrow,nc=a.ncol,nnz=a.nnz();Mat check;if(compare)check=a;
+         start=std::chrono::steady_clock::now();auto next=kernel(std::move(a),opt);
+         opt->pool.detach_loop(size_t(0),next.nrow,[&](size_t i){vec_cancel_divisor(next[i]);});opt->pool.wait();next.sort_rows_by_nnz();double kernel_s=seconds(start);
++        const size_t dimension=next.nrow,carrier_nnz=next.nnz();bool saved_final=false;
++        auto carrier_path=root/(weight_name(w)+"_carrier.wxf");
+         std::vector<Mat> next_actions;std::vector<ModMat> next_mod;
+         CarrierFrameTimings phases;std::optional<OrbitFrame> orbits;Adapted frame;double action_s=0,frame_s=0;
+         if(compact){
+             for(size_t attempt=0;attempt<32;++attempt){start=std::chrono::steady_clock::now();bool selecting=false;
+-                try{next_mod=carrier_actions_mod(next,mod_actions,mod_letters,p.backward,fp,opt);action_s+=seconds(start);
++                try{
++                    // Only a bad-prime retry needs the final QQ carrier again.
++                    if(saved_final)next=flatten(read(carrier_path));
++                    next_mod=carrier_actions_mod(next,mod_actions,mod_letters,p.backward,fp,opt);action_s+=seconds(start);
++                    if(w==maximum&&!compare){
++                        if(!saved_final){auto t=tensor(next,p.backward?std::vector<size_t>{dimension,letters.ncol,seed_tensor.dim(0)}:std::vector<size_t>{dimension,seed_tensor.dim(0),letters.ncol},&opt->pool);
++                            write(carrier_path,t);saved_final=true;}
++                        next.clear();
++                    }
+                     start=std::chrono::steady_clock::now();selecting=true;orbits=select_fixed_orbits_mod(g,ms,next_mod,fp,opt,&phases);frame_s+=seconds(start);break;
+                 }catch(const BadCarrierPrime&){(selecting?frame_s:action_s)+=seconds(start);start=std::chrono::steady_clock::now();rebuild_modular(w-1);action_s+=seconds(start);}
+             }
+@@ -302,12 +312,13 @@
+             require(!mul(check,transpose(next),&opt->pool).nnz(),"carrier kernel residual is nonzero");
+             check_carrier_action(next,next_actions,actions,g,p.backward,opt);
+             require(kernel(frame.basis,opt).nrow==0,"singular carrier frame");verification_s=seconds(start);}
+-        auto t=tensor(next,p.backward?std::vector<size_t>{next.nrow,letters.ncol,seed_tensor.dim(0)}:std::vector<size_t>{next.nrow,seed_tensor.dim(0),letters.ncol},&opt->pool);
+-        write(root/(weight_name(w)+"_carrier.wxf"),t);save_layout(root/(weight_name(w)+"_copies.tsv"),frame.layout,ms);
++        if(!saved_final){auto t=tensor(next,p.backward?std::vector<size_t>{dimension,letters.ncol,seed_tensor.dim(0)}:std::vector<size_t>{dimension,seed_tensor.dim(0),letters.ncol},&opt->pool);
++            write(carrier_path,t);if(w<maximum)seed_tensor=std::move(t);}
++        save_layout(root/(weight_name(w)+"_copies.tsv"),frame.layout,ms);
+         if(orbits)save_orbits(root/(weight_name(w)+"_orbits.tsv"),*orbits);else write(root/(weight_name(w)+"_frame.wxf"),frame.basis);
+-        stats<<std::setprecision(9)<<w<<'\t'<<nr<<'\t'<<nc<<'\t'<<nnz<<'\t'<<next.nrow<<'\t'<<assembly_s<<'\t'<<kernel_s<<'\t'<<action_s<<'\t'<<frame_s<<'\t'<<verification_s<<'\t'<<next.nnz()<<'\t'<<(orbits?0:frame.basis.nnz())<<'\t'<<(orbits?std::accumulate(orbits->layout.copies.begin(),orbits->layout.copies.end(),size_t(0)):0)<<std::endl;
+-        std::cout<<"factorized weight="<<w<<" dimension="<<next.nrow<<" assembly_s="<<assembly_s<<" kernel_s="<<kernel_s<<" action_s="<<action_s<<" frame_s="<<frame_s<<" modular_s="<<phases.modular<<" selection_s="<<phases.selection<<" lift_s="<<phases.lift<<" check_s="<<phases.check<<std::endl;
+-        seed_tensor=std::move(t);actions=std::move(next_actions);if(compact)mod_actions=std::move(next_mod);
++        stats<<std::setprecision(9)<<w<<'\t'<<nr<<'\t'<<nc<<'\t'<<nnz<<'\t'<<dimension<<'\t'<<assembly_s<<'\t'<<kernel_s<<'\t'<<action_s<<'\t'<<frame_s<<'\t'<<verification_s<<'\t'<<carrier_nnz<<'\t'<<(orbits?0:frame.basis.nnz())<<'\t'<<(orbits?std::accumulate(orbits->layout.copies.begin(),orbits->layout.copies.end(),size_t(0)):0)<<std::endl;
++        std::cout<<"factorized weight="<<w<<" dimension="<<dimension<<" assembly_s="<<assembly_s<<" kernel_s="<<kernel_s<<" action_s="<<action_s<<" frame_s="<<frame_s<<" modular_s="<<phases.modular<<" selection_s="<<phases.selection<<" lift_s="<<phases.lift<<" check_s="<<phases.check<<std::endl;
++        actions=std::move(next_actions);if(compact)mod_actions=std::move(next_mod);
+     }
+     stats.close();require(bool(stats),"cannot write factorized recurrence timings");save_chain_meta(root,prepared,maximum,true);
+ }

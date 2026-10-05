@@ -1,0 +1,218 @@
+[
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 0,
+    "wall_s": 1.5107852700166404,
+    "peak_rss_kib": 349688
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 0,
+    "wall_s": 1.4858058509416878,
+    "peak_rss_kib": 335792
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 0,
+    "wall_s": 1.4976097457110882,
+    "peak_rss_kib": 334148
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 1,
+    "wall_s": 1.4748345161788166,
+    "peak_rss_kib": 298648
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 1,
+    "wall_s": 1.4905696869827807,
+    "peak_rss_kib": 337800
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 1,
+    "wall_s": 1.4550040918402374,
+    "peak_rss_kib": 341308
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 2,
+    "wall_s": 1.4510932378470898,
+    "peak_rss_kib": 338356
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 2,
+    "wall_s": 1.4704046659171581,
+    "peak_rss_kib": 333312
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 2,
+    "wall_s": 1.526381254196167,
+    "peak_rss_kib": 296332
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 0,
+    "wall_s": 0.17154591204598546,
+    "peak_rss_kib": 40384
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 0,
+    "wall_s": 0.19394795503467321,
+    "peak_rss_kib": 37552
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 0,
+    "wall_s": 0.18533597979694605,
+    "peak_rss_kib": 40904
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 1,
+    "wall_s": 0.202808968257159,
+    "peak_rss_kib": 39172
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 1,
+    "wall_s": 0.16544714802876115,
+    "peak_rss_kib": 41060
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 1,
+    "wall_s": 0.19558732910081744,
+    "peak_rss_kib": 40632
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "mimalloc",
+    "repeat": 2,
+    "wall_s": 0.18087186897173524,
+    "peak_rss_kib": 40832
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc",
+    "repeat": 2,
+    "wall_s": 0.17440768098458648,
+    "peak_rss_kib": 40200
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "glibc-arena2",
+    "repeat": 2,
+    "wall_s": 0.1800991059280932,
+    "peak_rss_kib": 37852
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc",
+    "repeat": 0,
+    "wall_s": 0.05115988804027438,
+    "peak_rss_kib": 16544
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc-arena2",
+    "repeat": 0,
+    "wall_s": 0.05338355991989374,
+    "peak_rss_kib": 15900
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "mimalloc",
+    "repeat": 0,
+    "wall_s": 0.05792156094685197,
+    "peak_rss_kib": 16640
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc-arena2",
+    "repeat": 1,
+    "wall_s": 0.05653834994882345,
+    "peak_rss_kib": 15408
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "mimalloc",
+    "repeat": 1,
+    "wall_s": 0.04735175520181656,
+    "peak_rss_kib": 16380
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc",
+    "repeat": 1,
+    "wall_s": 0.04478219570592046,
+    "peak_rss_kib": 16252
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "mimalloc",
+    "repeat": 2,
+    "wall_s": 0.06361565133556724,
+    "peak_rss_kib": 16640
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc",
+    "repeat": 2,
+    "wall_s": 0.05594320595264435,
+    "peak_rss_kib": 16172
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "glibc-arena2",
+    "repeat": 2,
+    "wall_s": 0.06339733675122261,
+    "peak_rss_kib": 16324
+  }
+]

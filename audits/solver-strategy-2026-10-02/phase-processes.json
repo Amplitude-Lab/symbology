@@ -1,0 +1,122 @@
+{
+  "amplitude-final": [
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/data/FEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_2.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 3
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_2.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_3.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 9
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_3.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/SEW_3p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 10
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target SEW_3p1 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 22
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --solve-collinear --require-unique --target SEW_3p1 --rhs '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/2loop/boundary_2L.wxf' --projection divergent --letter-projection '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/collinear/colprojdiv_w1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final'",
+      "milliseconds": 28
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_3.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_4.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 52
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_4.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_5.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 269
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_5.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/SEW_5p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 287
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target SEW_5p1 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 365
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --solve-collinear --require-unique --target SEW_5p1 --rhs '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/3loop/boundary_3L.wxf' --projection divergent --letter-projection '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/collinear/colprojdiv_w1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final'",
+      "milliseconds": 141
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_5.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_6.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 2411
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_6.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_7.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 25642
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/FEC_7.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/SEW_7p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 36499
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target SEW_7p1 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final' --sew-strategy 'streamed' --threads 8",
+      "milliseconds": 116094
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --solve-collinear --require-unique --target SEW_7p1 --rhs '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/4loop/boundary_4L.wxf' --projection divergent --letter-projection '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/collinear/colprojdiv_w1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final'",
+      "milliseconds": 10967
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --solve-collinear --require-unique --target SEW_7p1 --rhs '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/4loop/boundary_4L.wxf' --projection divergent --letter-projection '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final/collinear/colprojdiv_w1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-final'",
+      "milliseconds": 215422
+    }
+  ],
+  "amplitude-all-streamed": [
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/data/FEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_2.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 4
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_2.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_3.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 9
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_3.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/SEW_3p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 21
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target FEC_2 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 6
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_3.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_4.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 27
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_4.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_5.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 124
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_5.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/SEW_5p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 247
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target FEC_4 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 44
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_5.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_6.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 1165
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --extend -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_6.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_7.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 16756
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --sew -c '/home/ana/Documents/symbology/data/dlogmat_E6.wxf' -f '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/FEC_7.wxf' -l '/home/ana/Documents/symbology/data/LEC_1.wxf' -o '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/SEW_7p1.wxf' --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 32445
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target FEC_6 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 4821
+    },
+    {
+      "command": "[bootstrap] '/home/ana/Documents/symbology/./bootstrap' --project --symmetry collinear --target FEC_6 --data-dir '/home/ana/Documents/symbology/data' --output-dir '/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed' --sew-strategy 'streamed' --kernel-strategy 'streamed' --threads 8",
+      "milliseconds": 68437
+    }
+  ]
+}

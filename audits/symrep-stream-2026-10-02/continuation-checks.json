@@ -1,0 +1,30 @@
+[
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "maximum": 8,
+    "all_basis_bytes_identical": true,
+    "historical_timing_columns_valid": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "maximum": 6,
+    "all_basis_bytes_identical": true,
+    "historical_timing_columns_valid": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "maximum": 5,
+    "all_basis_bytes_identical": true,
+    "historical_timing_columns_valid": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "maximum": 4,
+    "all_basis_bytes_identical": true,
+    "historical_timing_columns_valid": true
+  }
+]

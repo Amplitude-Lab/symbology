@@ -1,0 +1,22 @@
+[
+  {
+    "case": "heptagon-fec-w4",
+    "action": "expand",
+    "wall_s": 0.5577878961339593
+  },
+  {
+    "case": "heptagon-fec-w4",
+    "action": "expanded-verify",
+    "wall_s": 0.44795037107542157
+  },
+  {
+    "case": "heptagon-lec-w3",
+    "action": "expand",
+    "wall_s": 1.1584370853379369
+  },
+  {
+    "case": "heptagon-lec-w3",
+    "action": "expanded-verify",
+    "wall_s": 0.9073074888437986
+  }
+]

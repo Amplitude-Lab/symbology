@@ -1,0 +1,128 @@
+[
+  {
+    "kind": "fec",
+    "method": "unchanged",
+    "repeat": 0,
+    "wall_s": 0.07062256569042802,
+    "peak_rss_kib": 18808
+  },
+  {
+    "kind": "fec",
+    "method": "sorted",
+    "repeat": 0,
+    "wall_s": 0.0803949711844325,
+    "peak_rss_kib": 18932
+  },
+  {
+    "kind": "fec",
+    "method": "ordered",
+    "repeat": 0,
+    "wall_s": 0.09520956827327609,
+    "peak_rss_kib": 18492
+  },
+  {
+    "kind": "fec",
+    "method": "sorted",
+    "repeat": 1,
+    "wall_s": 0.07138840621337295,
+    "peak_rss_kib": 19052
+  },
+  {
+    "kind": "fec",
+    "method": "ordered",
+    "repeat": 1,
+    "wall_s": 0.07413251604884863,
+    "peak_rss_kib": 18652
+  },
+  {
+    "kind": "fec",
+    "method": "unchanged",
+    "repeat": 1,
+    "wall_s": 0.06360423332080245,
+    "peak_rss_kib": 18492
+  },
+  {
+    "kind": "fec",
+    "method": "ordered",
+    "repeat": 2,
+    "wall_s": 0.07018078397959471,
+    "peak_rss_kib": 18464
+  },
+  {
+    "kind": "fec",
+    "method": "unchanged",
+    "repeat": 2,
+    "wall_s": 0.08107819873839617,
+    "peak_rss_kib": 18492
+  },
+  {
+    "kind": "fec",
+    "method": "sorted",
+    "repeat": 2,
+    "wall_s": 0.07689830102026463,
+    "peak_rss_kib": 18972
+  },
+  {
+    "kind": "lec",
+    "method": "unchanged",
+    "repeat": 0,
+    "wall_s": 0.25247864006087184,
+    "peak_rss_kib": 57552
+  },
+  {
+    "kind": "lec",
+    "method": "sorted",
+    "repeat": 0,
+    "wall_s": 0.2784273508004844,
+    "peak_rss_kib": 58928
+  },
+  {
+    "kind": "lec",
+    "method": "ordered",
+    "repeat": 0,
+    "wall_s": 0.2470670691691339,
+    "peak_rss_kib": 57840
+  },
+  {
+    "kind": "lec",
+    "method": "sorted",
+    "repeat": 1,
+    "wall_s": 0.2265275469981134,
+    "peak_rss_kib": 59668
+  },
+  {
+    "kind": "lec",
+    "method": "ordered",
+    "repeat": 1,
+    "wall_s": 0.2325872746296227,
+    "peak_rss_kib": 58080
+  },
+  {
+    "kind": "lec",
+    "method": "unchanged",
+    "repeat": 1,
+    "wall_s": 0.22803054191172123,
+    "peak_rss_kib": 57084
+  },
+  {
+    "kind": "lec",
+    "method": "ordered",
+    "repeat": 2,
+    "wall_s": 0.21746861608698964,
+    "peak_rss_kib": 58192
+  },
+  {
+    "kind": "lec",
+    "method": "unchanged",
+    "repeat": 2,
+    "wall_s": 0.24136075424030423,
+    "peak_rss_kib": 57136
+  },
+  {
+    "kind": "lec",
+    "method": "sorted",
+    "repeat": 2,
+    "wall_s": 0.24222116637974977,
+    "peak_rss_kib": 58672
+  }
+]

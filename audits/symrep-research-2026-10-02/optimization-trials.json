@@ -1,0 +1,326 @@
+[
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 0,
+    "wall_s": 0.37543464871123433,
+    "peak_rss_kib": 78940,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 0,
+    "wall_s": 0.35375861916691065,
+    "peak_rss_kib": 75464,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 0,
+    "wall_s": 0.34679299499839544,
+    "peak_rss_kib": 74488,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 1,
+    "wall_s": 0.34867513086646795,
+    "peak_rss_kib": 77960,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 1,
+    "wall_s": 0.33526228833943605,
+    "peak_rss_kib": 72116,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 1,
+    "wall_s": 0.3613677038811147,
+    "peak_rss_kib": 78024,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 2,
+    "wall_s": 0.3128949389792979,
+    "peak_rss_kib": 74028,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 2,
+    "wall_s": 0.3534151269122958,
+    "peak_rss_kib": 76608,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 2,
+    "wall_s": 0.3388969963416457,
+    "peak_rss_kib": 76380,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 0,
+    "wall_s": 1.5144372209906578,
+    "peak_rss_kib": 345744,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 0,
+    "wall_s": 1.4683787748217583,
+    "peak_rss_kib": 338124,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 0,
+    "wall_s": 1.3973740749061108,
+    "peak_rss_kib": 284300,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 1,
+    "wall_s": 1.4401650610379875,
+    "peak_rss_kib": 331968,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 1,
+    "wall_s": 1.3334710360504687,
+    "peak_rss_kib": 272680,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 1,
+    "wall_s": 1.4939170773141086,
+    "peak_rss_kib": 341892,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 2,
+    "wall_s": 1.3620240981690586,
+    "peak_rss_kib": 272920,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 2,
+    "wall_s": 1.4671152010560036,
+    "peak_rss_kib": 343476,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 2,
+    "wall_s": 1.4290459710173309,
+    "peak_rss_kib": 347708,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 0,
+    "wall_s": 0.06074274284765124,
+    "peak_rss_kib": 16408,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 0,
+    "wall_s": 0.05122700100764632,
+    "peak_rss_kib": 16180,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 0,
+    "wall_s": 0.05288003897294402,
+    "peak_rss_kib": 16332,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 1,
+    "wall_s": 0.058626442681998014,
+    "peak_rss_kib": 16332,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 1,
+    "wall_s": 0.0557176792062819,
+    "peak_rss_kib": 16092,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 1,
+    "wall_s": 0.049080382101237774,
+    "peak_rss_kib": 16344,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "prototype",
+    "repeat": 2,
+    "wall_s": 0.04239523829892278,
+    "peak_rss_kib": 16392,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "before",
+    "repeat": 2,
+    "wall_s": 0.05264020571485162,
+    "peak_rss_kib": 16312,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "fec",
+    "method": "reconstruction",
+    "repeat": 2,
+    "wall_s": 0.05181165225803852,
+    "peak_rss_kib": 16536,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 0,
+    "wall_s": 0.1780373346991837,
+    "peak_rss_kib": 40440,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 0,
+    "wall_s": 0.17407289193943143,
+    "peak_rss_kib": 40452,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 0,
+    "wall_s": 0.17102528037503362,
+    "peak_rss_kib": 33692,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 1,
+    "wall_s": 0.181889396160841,
+    "peak_rss_kib": 40256,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 1,
+    "wall_s": 0.15037176106125116,
+    "peak_rss_kib": 33772,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 1,
+    "wall_s": 0.1825445950962603,
+    "peak_rss_kib": 40696,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "prototype",
+    "repeat": 2,
+    "wall_s": 0.17090323008596897,
+    "peak_rss_kib": 33688,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "before",
+    "repeat": 2,
+    "wall_s": 0.19243896286934614,
+    "peak_rss_kib": 40356,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "reconstruction",
+    "repeat": 2,
+    "wall_s": 0.17582378908991814,
+    "peak_rss_kib": 40428,
+    "basis_equal": true
+  }
+]

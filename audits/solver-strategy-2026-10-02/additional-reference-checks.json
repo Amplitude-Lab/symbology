@@ -1,0 +1,56 @@
+[
+  {
+    "case": "heptagon-fec",
+    "solved_through": 5,
+    "reference_verified_through": 5,
+    "status": "PASS",
+    "checks": [
+      "EXACT_REFERENCE_PASS weight=1 dimension=7",
+      "EXACT_REFERENCE_PASS weight=2 dimension=28",
+      "EXACT_REFERENCE_PASS weight=3 dimension=97",
+      "EXACT_REFERENCE_PASS weight=4 dimension=308",
+      "EXACT_REFERENCE_PASS weight=5 dimension=911"
+    ]
+  },
+  {
+    "case": "heptagon-lec",
+    "solved_through": 4,
+    "reference_verified_through": 4,
+    "status": "PASS",
+    "checks": [
+      "EXACT_REFERENCE_PASS weight=1 dimension=14",
+      "EXACT_REFERENCE_PASS weight=2 dimension=118",
+      "EXACT_REFERENCE_PASS weight=3 dimension=734",
+      "EXACT_REFERENCE_PASS weight=4 dimension=3745"
+    ]
+  },
+  {
+    "case": "hexagon-fec",
+    "solved_through": 8,
+    "reference_verified_through": 8,
+    "status": "PASS",
+    "checks": [
+      "EXACT_REFERENCE_PASS weight=1 dimension=3",
+      "EXACT_REFERENCE_PASS weight=2 dimension=6",
+      "EXACT_REFERENCE_PASS weight=3 dimension=13",
+      "EXACT_REFERENCE_PASS weight=4 dimension=26",
+      "EXACT_REFERENCE_PASS weight=5 dimension=51",
+      "EXACT_REFERENCE_PASS weight=6 dimension=98",
+      "EXACT_REFERENCE_PASS weight=7 dimension=184",
+      "EXACT_REFERENCE_PASS weight=8 dimension=340"
+    ]
+  },
+  {
+    "case": "hexagon-lec",
+    "solved_through": 6,
+    "reference_verified_through": 5,
+    "status": "reference comparison timed out at 180 seconds at weight 6",
+    "checks": [
+      "EXACT_REFERENCE_PASS weight=1 dimension=6",
+      "EXACT_REFERENCE_PASS weight=2 dimension=25",
+      "EXACT_REFERENCE_PASS weight=3 dimension=83",
+      "EXACT_REFERENCE_PASS weight=4 dimension=249",
+      "EXACT_REFERENCE_PASS weight=5 dimension=696"
+    ]
+  }
+]

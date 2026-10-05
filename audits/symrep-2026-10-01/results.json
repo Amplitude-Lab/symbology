@@ -1,0 +1,1434 @@
+{
+  "schema": "symrep-benchmark-v1",
+  "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "logical_cpus": 20,
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 265"
+  },
+  "threads": 2,
+  "repeats": 3,
+  "source_base": "ac664bba85f887c6255b940556c9952f6ed02b67",
+  "source_sha256": {
+    "symrep.cpp": "30a700c9eaea6421c70684ae76f5874fca021130f7de41475022c8e9a2dc0c3a",
+    "symrep_io.hpp": "d9eb3257974e550d18ea40ff7bcd04a861a287aaeea6debdb952c5c9af5b60b5",
+    "symrep.hpp": "e20904596ac381ace65e8f842e7ee9a1e8484ef6d23e90a05e99994fe5f48572",
+    "symrep_bootstrap.hpp": "f63a9779a81543cbd19c882bd43ccbcd806abf780ab7865b2309526ee8ea5ef9"
+  },
+  "executable_sha256": "13a293e581926ba5811b9a7f99b14d334775d05d703a6f094ab7b3d6039bd1fb",
+  "notes": [
+    "Fresh output directories and sequential processes; OS file caches are not flushed.",
+    "QQ throughout. Symmetry times include automatic CG construction, assembly and kernel basis reduction.",
+    "Preparation and verification are reported separately. Process wall times include startup, WXF I/O and mandatory checks.",
+    "Ordinary uses the same executable, SparseRREF checkout, compiler and thread count, retaining the original input basis.",
+    "Archive is an independent specialized solver with its own bundled SparseRREF; its wall time is contextual, not an isolated decomposition comparison.",
+    "No --compare in timed symmetry runs; exact reference changes of basis verify every weight afterward."
+  ],
+  "cases": [
+    {
+      "name": "hexagon-fec",
+      "maximum_weight": 4,
+      "inputs": {
+        "dlogmat_ca_1term_pd3.wxf": "2d4a2554cb72286c3ab7571fe2f4e3bbe38ed23f4d29dd41c5f892c9a2e755fb",
+        "w1.wxf": "34e7888b76fce153f98dc212d4badb62db4b3ea434d08bacbe435adcb4f45dcd",
+        "cycrepmat.wxf": "32d782f55d741f3ba779dd92fab7674ae25d3167286f6731d0d9093ae11e92b5",
+        "fliprepmat.wxf": "9ad0a39cdf3628c4b0a0e12a7e32a0e1b4e6a63ee2e4078f62a8dd5024d3b575",
+        "parity.wxf": "d3cb9cd15d71009f9ccd78ccf06dbb399319f6a4bb63dbce3c8ffc37afbdf3e4"
+      },
+      "runs": [
+        {
+          "preparation": {
+            "label": "hexagon-fec-0-prepare",
+            "wall_s": 0.014690879732370377,
+            "peak_rss_kib": 12140
+          },
+          "ordinary": {
+            "label": "hexagon-fec-0-ordinary",
+            "wall_s": 0.008893108926713467,
+            "peak_rss_kib": 9904
+          },
+          "symmetry": {
+            "label": "hexagon-fec-0-adapted",
+            "wall_s": 0.023121158126741648,
+            "peak_rss_kib": 12888
+          },
+          "verification": {
+            "label": "hexagon-fec-0-verify",
+            "wall_s": 0.015068881213665009,
+            "peak_rss_kib": 12888
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 147.0,
+              "dimension": 6.0,
+              "assembly_s": 4.2366e-05,
+              "kernel_s": 0.001401135,
+              "verification_s": 1.6567e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 484.0,
+              "dimension": 13.0,
+              "assembly_s": 4.4679e-05,
+              "kernel_s": 0.000434921,
+              "verification_s": 3.1183e-05
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 917.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000102013,
+              "kernel_s": 0.000710988,
+              "verification_s": 6.0642e-05
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 38.0,
+              "dimension": 6.0,
+              "assembly_s": 0.000192082,
+              "adapt_s": 0.000399111,
+              "kernel_s": 0.000352793,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 3.167e-05,
+              "corner_columns": "2,4,1,2,6,3"
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 186.0,
+              "dimension": 13.0,
+              "assembly_s": 0.000255342,
+              "adapt_s": 0.006496016,
+              "kernel_s": 0.000547015,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 7.376e-05,
+              "corner_columns": "4,8,2,4,12,6"
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 486.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000411081,
+              "adapt_s": 0.000645854,
+              "kernel_s": 0.000949773,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000175582,
+              "corner_columns": "10,15,5,9,25,14"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "hexagon-fec-1-prepare",
+            "wall_s": 0.013747395016252995,
+            "peak_rss_kib": 12168
+          },
+          "ordinary": {
+            "label": "hexagon-fec-1-ordinary",
+            "wall_s": 0.008040193933993578,
+            "peak_rss_kib": 9764
+          },
+          "symmetry": {
+            "label": "hexagon-fec-1-adapted",
+            "wall_s": 0.018831904977560043,
+            "peak_rss_kib": 12472
+          },
+          "verification": {
+            "label": "hexagon-fec-1-verify",
+            "wall_s": 0.013896249234676361,
+            "peak_rss_kib": 12884
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 147.0,
+              "dimension": 6.0,
+              "assembly_s": 3.9456e-05,
+              "kernel_s": 0.000605158,
+              "verification_s": 1.732e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 484.0,
+              "dimension": 13.0,
+              "assembly_s": 4.868e-05,
+              "kernel_s": 0.000373399,
+              "verification_s": 2.6952e-05
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 917.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000114515,
+              "kernel_s": 0.000630529,
+              "verification_s": 5.7835e-05
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 38.0,
+              "dimension": 6.0,
+              "assembly_s": 0.000169413,
+              "adapt_s": 0.000458907,
+              "kernel_s": 0.001428407,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 3.532e-05,
+              "corner_columns": "2,4,1,2,6,3"
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 186.0,
+              "dimension": 13.0,
+              "assembly_s": 0.000275609,
+              "adapt_s": 0.000491611,
+              "kernel_s": 0.000606983,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 6.9806e-05,
+              "corner_columns": "4,8,2,4,12,6"
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 486.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000445657,
+              "adapt_s": 0.000742569,
+              "kernel_s": 0.002670125,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000182227,
+              "corner_columns": "10,15,5,9,25,14"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "hexagon-fec-2-prepare",
+            "wall_s": 0.012909275013953447,
+            "peak_rss_kib": 12264
+          },
+          "ordinary": {
+            "label": "hexagon-fec-2-ordinary",
+            "wall_s": 0.008678641635924578,
+            "peak_rss_kib": 9664
+          },
+          "symmetry": {
+            "label": "hexagon-fec-2-adapted",
+            "wall_s": 0.016044934280216694,
+            "peak_rss_kib": 12888
+          },
+          "verification": {
+            "label": "hexagon-fec-2-verify",
+            "wall_s": 0.014788963831961155,
+            "peak_rss_kib": 12640
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 147.0,
+              "dimension": 6.0,
+              "assembly_s": 4.013e-05,
+              "kernel_s": 0.00050444,
+              "verification_s": 1.7642e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 484.0,
+              "dimension": 13.0,
+              "assembly_s": 5.3591e-05,
+              "kernel_s": 0.000461657,
+              "verification_s": 8.1724e-05
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 917.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000132244,
+              "kernel_s": 0.000774445,
+              "verification_s": 6.7308e-05
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 32.0,
+              "columns": 27.0,
+              "nnz": 38.0,
+              "dimension": 6.0,
+              "assembly_s": 0.000173768,
+              "adapt_s": 0.000422845,
+              "kernel_s": 0.000357471,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 3.5336e-05,
+              "corner_columns": "2,4,1,2,6,3"
+            },
+            {
+              "weight": 3.0,
+              "rows": 96.0,
+              "columns": 54.0,
+              "nnz": 186.0,
+              "dimension": 13.0,
+              "assembly_s": 0.000291344,
+              "adapt_s": 0.000465276,
+              "kernel_s": 0.000500082,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 7.114e-05,
+              "corner_columns": "4,8,2,4,12,6"
+            },
+            {
+              "weight": 4.0,
+              "rows": 192.0,
+              "columns": 117.0,
+              "nnz": 486.0,
+              "dimension": 26.0,
+              "assembly_s": 0.000451432,
+              "adapt_s": 0.000668909,
+              "kernel_s": 0.000857139,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000227011,
+              "corner_columns": "10,15,5,9,25,14"
+            }
+          ]
+        }
+      ],
+      "median_wall_s": {
+        "preparation": 0.013747395016252995,
+        "ordinary": 0.008678641635924578,
+        "symmetry": 0.018831904977560043,
+        "verification": 0.014788963831961155
+      }
+    },
+    {
+      "name": "hexagon-lec",
+      "maximum_weight": 3,
+      "inputs": {
+        "dlogmat_full_ca_pd3.wxf": "5163290dcf7c3d7261e5772ebb8687f3a8bc911204765cd1f39606de62afcb98",
+        "w1.wxf": "c47c6c942f33d0d6b01e001941c41041f07c0b98765f98494fca101ac383c7e9",
+        "cycrepmat.wxf": "32d782f55d741f3ba779dd92fab7674ae25d3167286f6731d0d9093ae11e92b5",
+        "fliprepmat.wxf": "9ad0a39cdf3628c4b0a0e12a7e32a0e1b4e6a63ee2e4078f62a8dd5024d3b575",
+        "parity.wxf": "d3cb9cd15d71009f9ccd78ccf06dbb399319f6a4bb63dbce3c8ffc37afbdf3e4"
+      },
+      "runs": [
+        {
+          "preparation": {
+            "label": "hexagon-lec-0-prepare",
+            "wall_s": 0.014509923290461302,
+            "peak_rss_kib": 12224
+          },
+          "ordinary": {
+            "label": "hexagon-lec-0-ordinary",
+            "wall_s": 0.018067440018057823,
+            "peak_rss_kib": 10000
+          },
+          "symmetry": {
+            "label": "hexagon-lec-0-adapted",
+            "wall_s": 0.02062196796759963,
+            "peak_rss_kib": 13136
+          },
+          "verification": {
+            "label": "hexagon-lec-0-verify",
+            "wall_s": 0.022917919792234898,
+            "peak_rss_kib": 12824
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 278.0,
+              "dimension": 25.0,
+              "assembly_s": 8.0907e-05,
+              "kernel_s": 0.001188179,
+              "verification_s": 3.2374e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 3745.0,
+              "dimension": 83.0,
+              "assembly_s": 0.000472761,
+              "kernel_s": 0.005656186,
+              "verification_s": 0.002947587
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 89.0,
+              "dimension": 25.0,
+              "assembly_s": 0.000224911,
+              "adapt_s": 0.000728881,
+              "kernel_s": 0.000517525,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000152091,
+              "corner_columns": "3,6,3,6,9,9"
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 1100.0,
+              "dimension": 83.0,
+              "assembly_s": 0.001258903,
+              "adapt_s": 0.003053514,
+              "kernel_s": 0.001773702,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000535348,
+              "corner_columns": "16,24,14,21,40,35"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "hexagon-lec-1-prepare",
+            "wall_s": 0.01570680784061551,
+            "peak_rss_kib": 12048
+          },
+          "ordinary": {
+            "label": "hexagon-lec-1-ordinary",
+            "wall_s": 0.013027059845626354,
+            "peak_rss_kib": 10112
+          },
+          "symmetry": {
+            "label": "hexagon-lec-1-adapted",
+            "wall_s": 0.03076887596398592,
+            "peak_rss_kib": 13088
+          },
+          "verification": {
+            "label": "hexagon-lec-1-verify",
+            "wall_s": 0.015806768089532852,
+            "peak_rss_kib": 13004
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 278.0,
+              "dimension": 25.0,
+              "assembly_s": 9.541e-05,
+              "kernel_s": 0.000618922,
+              "verification_s": 5.6135e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 3745.0,
+              "dimension": 83.0,
+              "assembly_s": 0.000552723,
+              "kernel_s": 0.003997742,
+              "verification_s": 0.000469011
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 89.0,
+              "dimension": 25.0,
+              "assembly_s": 0.001032598,
+              "adapt_s": 0.002745014,
+              "kernel_s": 0.00066801,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 8.8159e-05,
+              "corner_columns": "3,6,3,6,9,9"
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 1100.0,
+              "dimension": 83.0,
+              "assembly_s": 0.000754296,
+              "adapt_s": 0.001167773,
+              "kernel_s": 0.00189346,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000561416,
+              "corner_columns": "16,24,14,21,40,35"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "hexagon-lec-2-prepare",
+            "wall_s": 0.013183089904487133,
+            "peak_rss_kib": 12232
+          },
+          "ordinary": {
+            "label": "hexagon-lec-2-ordinary",
+            "wall_s": 0.015251525212079287,
+            "peak_rss_kib": 9900
+          },
+          "symmetry": {
+            "label": "hexagon-lec-2-adapted",
+            "wall_s": 0.02622831193730235,
+            "peak_rss_kib": 13120
+          },
+          "verification": {
+            "label": "hexagon-lec-2-verify",
+            "wall_s": 0.01512211188673973,
+            "peak_rss_kib": 13192
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 278.0,
+              "dimension": 25.0,
+              "assembly_s": 8.2943e-05,
+              "kernel_s": 0.000756741,
+              "verification_s": 3.51e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 3745.0,
+              "dimension": 83.0,
+              "assembly_s": 0.001108063,
+              "kernel_s": 0.005370028,
+              "verification_s": 0.000283362
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 41.0,
+              "columns": 54.0,
+              "nnz": 89.0,
+              "dimension": 25.0,
+              "assembly_s": 0.000265861,
+              "adapt_s": 0.000829286,
+              "kernel_s": 0.001861205,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 9.0817e-05,
+              "corner_columns": "3,6,3,6,9,9"
+            },
+            {
+              "weight": 3.0,
+              "rows": 246.0,
+              "columns": 225.0,
+              "nnz": 1100.0,
+              "dimension": 83.0,
+              "assembly_s": 0.000644055,
+              "adapt_s": 0.005505486,
+              "kernel_s": 0.001805697,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000584505,
+              "corner_columns": "16,24,14,21,40,35"
+            }
+          ]
+        }
+      ],
+      "median_wall_s": {
+        "preparation": 0.014509923290461302,
+        "ordinary": 0.015251525212079287,
+        "symmetry": 0.02622831193730235,
+        "verification": 0.015806768089532852
+      }
+    },
+    {
+      "name": "heptagon-fec",
+      "maximum_weight": 4,
+      "inputs": {
+        "dlogmat_E6.wxf": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+        "FEC_1.wxf": "a73d7b2d9fd5bb069f6a25321e2b1b0bcdfd62d0b3dcf52fccbf9ce1d751d823",
+        "cycrepmat.wxf": "aaf106383019a6039e307e5d758cff98525ba08136b844cfe9e9dd9b1aa0f3ef",
+        "fliprepmat.wxf": "217cc6a9a1f05bed07e103e61a64a2e9d936a7279623d473fce82b84f9dbbd99",
+        "parityrepmat.wxf": "79df11e3642685dd93b746d23f24122d19b66edf160bbc39810fa61292fc737d"
+      },
+      "runs": [
+        {
+          "preparation": {
+            "label": "heptagon-fec-0-prepare",
+            "wall_s": 0.38537027360871434,
+            "peak_rss_kib": 56400
+          },
+          "ordinary": {
+            "label": "heptagon-fec-0-ordinary",
+            "wall_s": 0.07896681083366275,
+            "peak_rss_kib": 26528
+          },
+          "symmetry": {
+            "label": "heptagon-fec-0-adapted",
+            "wall_s": 92.42394338967279,
+            "peak_rss_kib": 252000
+          },
+          "verification": {
+            "label": "heptagon-fec-0-verify",
+            "wall_s": 0.271376505959779,
+            "peak_rss_kib": 54520
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 329.0,
+              "dimension": 28.0,
+              "assembly_s": 0.000243416,
+              "kernel_s": 0.000771614,
+              "verification_s": 0.000130036
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 9266.0,
+              "dimension": 97.0,
+              "assembly_s": 0.000999535,
+              "kernel_s": 0.004667903,
+              "verification_s": 0.000617279
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 176513.0,
+              "dimension": 308.0,
+              "assembly_s": 0.015909389,
+              "kernel_s": 0.030577723,
+              "verification_s": 0.008115639
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 2579.0,
+              "dimension": 28.0,
+              "assembly_s": 0.03118826,
+              "adapt_s": 0.01250003,
+              "kernel_s": 0.011536963,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000819113,
+              "corner_columns": "7,7,16,12,42,84"
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 124196.0,
+              "dimension": 97.0,
+              "assembly_s": 8.09406052,
+              "adapt_s": 0.033409542,
+              "kernel_s": 0.08217147,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.00962471,
+              "corner_columns": "28,28,64,48,168,336"
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 1602058.0,
+              "dimension": 308.0,
+              "assembly_s": 82.0254572,
+              "adapt_s": 0.139410178,
+              "kernel_s": 1.70947739,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.086833984,
+              "corner_columns": "103,103,198,178,618,1128"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "heptagon-fec-1-prepare",
+            "wall_s": 0.34450465021654963,
+            "peak_rss_kib": 56844
+          },
+          "ordinary": {
+            "label": "heptagon-fec-1-ordinary",
+            "wall_s": 0.07555459393188357,
+            "peak_rss_kib": 26568
+          },
+          "symmetry": {
+            "label": "heptagon-fec-1-adapted",
+            "wall_s": 92.09312375169247,
+            "peak_rss_kib": 252100
+          },
+          "verification": {
+            "label": "heptagon-fec-1-verify",
+            "wall_s": 0.2761995829641819,
+            "peak_rss_kib": 51192
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 329.0,
+              "dimension": 28.0,
+              "assembly_s": 0.000249879,
+              "kernel_s": 0.001051203,
+              "verification_s": 5.6164e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 9266.0,
+              "dimension": 97.0,
+              "assembly_s": 0.000958528,
+              "kernel_s": 0.005628221,
+              "verification_s": 0.000668605
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 176513.0,
+              "dimension": 308.0,
+              "assembly_s": 0.016303726,
+              "kernel_s": 0.029717392,
+              "verification_s": 0.004255254
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 2579.0,
+              "dimension": 28.0,
+              "assembly_s": 0.025484813,
+              "adapt_s": 0.00976398,
+              "kernel_s": 0.004905641,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000794872,
+              "corner_columns": "7,7,16,12,42,84"
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 124196.0,
+              "dimension": 97.0,
+              "assembly_s": 7.91644186,
+              "adapt_s": 0.027956123,
+              "kernel_s": 0.059513749,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.008834449,
+              "corner_columns": "28,28,64,48,168,336"
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 1602058.0,
+              "dimension": 308.0,
+              "assembly_s": 82.0272625,
+              "adapt_s": 0.130102285,
+              "kernel_s": 1.6112939,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.087162522,
+              "corner_columns": "103,103,198,178,618,1128"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "heptagon-fec-2-prepare",
+            "wall_s": 0.3380682277493179,
+            "peak_rss_kib": 56968
+          },
+          "ordinary": {
+            "label": "heptagon-fec-2-ordinary",
+            "wall_s": 0.07254379568621516,
+            "peak_rss_kib": 26388
+          },
+          "symmetry": {
+            "label": "heptagon-fec-2-adapted",
+            "wall_s": 90.84287189273164,
+            "peak_rss_kib": 246964
+          },
+          "verification": {
+            "label": "heptagon-fec-2-verify",
+            "wall_s": 0.2635415499098599,
+            "peak_rss_kib": 50964
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 329.0,
+              "dimension": 28.0,
+              "assembly_s": 0.000230652,
+              "kernel_s": 0.000482509,
+              "verification_s": 7.8677e-05
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 9266.0,
+              "dimension": 97.0,
+              "assembly_s": 0.001192486,
+              "kernel_s": 0.00377777,
+              "verification_s": 0.000625236
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 176513.0,
+              "dimension": 308.0,
+              "assembly_s": 0.015067435,
+              "kernel_s": 0.029631845,
+              "verification_s": 0.004571626
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 294.0,
+              "nnz": 2579.0,
+              "dimension": 28.0,
+              "assembly_s": 0.024698218,
+              "adapt_s": 0.011103182,
+              "kernel_s": 0.006040212,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.000749697,
+              "corner_columns": "7,7,16,12,42,84"
+            },
+            {
+              "weight": 3.0,
+              "rows": 8337.0,
+              "columns": 1176.0,
+              "nnz": 124196.0,
+              "dimension": 97.0,
+              "assembly_s": 7.79747212,
+              "adapt_s": 0.026267779,
+              "kernel_s": 0.063436764,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.008283478,
+              "corner_columns": "28,28,64,48,168,336"
+            },
+            {
+              "weight": 4.0,
+              "rows": 33348.0,
+              "columns": 4074.0,
+              "nnz": 1602058.0,
+              "dimension": 308.0,
+              "assembly_s": 80.8862785,
+              "adapt_s": 0.114354513,
+              "kernel_s": 1.65180843,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.085248848,
+              "corner_columns": "103,103,198,178,618,1128"
+            }
+          ]
+        }
+      ],
+      "median_wall_s": {
+        "preparation": 0.34450465021654963,
+        "ordinary": 0.07555459393188357,
+        "symmetry": 92.09312375169247,
+        "verification": 0.271376505959779
+      }
+    },
+    {
+      "name": "heptagon-lec",
+      "maximum_weight": 3,
+      "inputs": {
+        "dlogmat_E6.wxf": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+        "LEC_1.wxf": "e66b2dc12849c76ea8241691be0389778da60666d7ff2fd5a12caf4380fb50bf",
+        "cycrepmat.wxf": "aaf106383019a6039e307e5d758cff98525ba08136b844cfe9e9dd9b1aa0f3ef",
+        "fliprepmat.wxf": "217cc6a9a1f05bed07e103e61a64a2e9d936a7279623d473fce82b84f9dbbd99",
+        "parityrepmat.wxf": "79df11e3642685dd93b746d23f24122d19b66edf160bbc39810fa61292fc737d"
+      },
+      "runs": [
+        {
+          "preparation": {
+            "label": "heptagon-lec-0-prepare",
+            "wall_s": 0.3390201320871711,
+            "peak_rss_kib": 56828
+          },
+          "ordinary": {
+            "label": "heptagon-lec-0-ordinary",
+            "wall_s": 0.06338298413902521,
+            "peak_rss_kib": 22088
+          },
+          "symmetry": {
+            "label": "heptagon-lec-0-adapted",
+            "wall_s": 71.9872060790658,
+            "peak_rss_kib": 2174276
+          },
+          "verification": {
+            "label": "heptagon-lec-0-verify",
+            "wall_s": 1.7747569102793932,
+            "peak_rss_kib": 174396
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 1861.0,
+              "dimension": 118.0,
+              "assembly_s": 0.000599875,
+              "kernel_s": 0.001849258,
+              "verification_s": 0.000225085
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 102551.0,
+              "dimension": 734.0,
+              "assembly_s": 0.00978208,
+              "kernel_s": 0.024399402,
+              "verification_s": 0.004475401
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 9694.0,
+              "dimension": 118.0,
+              "assembly_s": 0.030158234,
+              "adapt_s": 0.018949847,
+              "kernel_s": 0.023600988,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.003996689,
+              "corner_columns": "19,23,23,19,126,126"
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 1364502.0,
+              "dimension": 734.0,
+              "assembly_s": 57.4652956,
+              "adapt_s": 0.058392545,
+              "kernel_s": 13.6072613,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.295158608,
+              "corner_columns": "170,178,196,164,1044,1080"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "heptagon-lec-1-prepare",
+            "wall_s": 0.33107704343274236,
+            "peak_rss_kib": 56672
+          },
+          "ordinary": {
+            "label": "heptagon-lec-1-ordinary",
+            "wall_s": 0.06443090969696641,
+            "peak_rss_kib": 21988
+          },
+          "symmetry": {
+            "label": "heptagon-lec-1-adapted",
+            "wall_s": 71.9102753563784,
+            "peak_rss_kib": 2174496
+          },
+          "verification": {
+            "label": "heptagon-lec-1-verify",
+            "wall_s": 1.7860000818036497,
+            "peak_rss_kib": 179268
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 1861.0,
+              "dimension": 118.0,
+              "assembly_s": 0.000422283,
+              "kernel_s": 0.001264748,
+              "verification_s": 0.000145125
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 102551.0,
+              "dimension": 734.0,
+              "assembly_s": 0.009527487,
+              "kernel_s": 0.025963561,
+              "verification_s": 0.004214241
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 9694.0,
+              "dimension": 118.0,
+              "assembly_s": 0.032991397,
+              "adapt_s": 0.018185799,
+              "kernel_s": 0.015862437,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.004065277,
+              "corner_columns": "19,23,23,19,126,126"
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 1364502.0,
+              "dimension": 734.0,
+              "assembly_s": 57.488733,
+              "adapt_s": 0.055545764,
+              "kernel_s": 13.4978697,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.297222113,
+              "corner_columns": "170,178,196,164,1044,1080"
+            }
+          ]
+        },
+        {
+          "preparation": {
+            "label": "heptagon-lec-2-prepare",
+            "wall_s": 0.33064475003629923,
+            "peak_rss_kib": 56568
+          },
+          "ordinary": {
+            "label": "heptagon-lec-2-ordinary",
+            "wall_s": 0.06409568293020129,
+            "peak_rss_kib": 22164
+          },
+          "symmetry": {
+            "label": "heptagon-lec-2-adapted",
+            "wall_s": 72.0038094962947,
+            "peak_rss_kib": 2174532
+          },
+          "verification": {
+            "label": "heptagon-lec-2-verify",
+            "wall_s": 1.7967397449538112,
+            "peak_rss_kib": 176244
+          },
+          "ordinary_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 1861.0,
+              "dimension": 118.0,
+              "assembly_s": 0.000924629,
+              "kernel_s": 0.001693881,
+              "verification_s": 0.000168757
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 102551.0,
+              "dimension": 734.0,
+              "assembly_s": 0.009785894,
+              "kernel_s": 0.023663471,
+              "verification_s": 0.004661849
+            }
+          ],
+          "symmetry_weights": [
+            {
+              "weight": 2.0,
+              "rows": 1191.0,
+              "columns": 588.0,
+              "nnz": 9694.0,
+              "dimension": 118.0,
+              "assembly_s": 0.029342987,
+              "adapt_s": 0.017976262,
+              "kernel_s": 0.01622815,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.004057768,
+              "corner_columns": "19,23,23,19,126,126"
+            },
+            {
+              "weight": 3.0,
+              "rows": 16674.0,
+              "columns": 4956.0,
+              "nnz": 1364502.0,
+              "dimension": 734.0,
+              "assembly_s": 57.5210809,
+              "adapt_s": 0.056967199,
+              "kernel_s": 13.5808826,
+              "ordinary_kernel_s": 0.0,
+              "verification_s": 0.29399872,
+              "corner_columns": "170,178,196,164,1044,1080"
+            }
+          ]
+        }
+      ],
+      "median_wall_s": {
+        "preparation": 0.33107704343274236,
+        "ordinary": 0.06409568293020129,
+        "symmetry": 71.9872060790658,
+        "verification": 1.7860000818036497
+      }
+    }
+  ],
+  "processes": [
+    {
+      "label": "archive-fec-0",
+      "wall_s": 0.01499276701360941,
+      "peak_rss_kib": 14700
+    },
+    {
+      "label": "archive-fec-1",
+      "wall_s": 0.010689546819776297,
+      "peak_rss_kib": 12748
+    },
+    {
+      "label": "archive-fec-2",
+      "wall_s": 0.011815359350293875,
+      "peak_rss_kib": 12844
+    },
+    {
+      "label": "archive-export-fec",
+      "wall_s": 0.006302457768470049,
+      "peak_rss_kib": 13652
+    },
+    {
+      "label": "archive-lec-0",
+      "wall_s": 0.026340831071138382,
+      "peak_rss_kib": 14920
+    },
+    {
+      "label": "archive-lec-1",
+      "wall_s": 0.023226539604365826,
+      "peak_rss_kib": 14744
+    },
+    {
+      "label": "archive-lec-2",
+      "wall_s": 0.025513613130897284,
+      "peak_rss_kib": 14804
+    },
+    {
+      "label": "archive-export-lec",
+      "wall_s": 0.008015369065105915,
+      "peak_rss_kib": 15816
+    },
+    {
+      "label": "hexagon-fec-0-prepare",
+      "wall_s": 0.014690879732370377,
+      "peak_rss_kib": 12140
+    },
+    {
+      "label": "hexagon-fec-0-ordinary",
+      "wall_s": 0.008893108926713467,
+      "peak_rss_kib": 9904
+    },
+    {
+      "label": "hexagon-fec-0-adapted",
+      "wall_s": 0.023121158126741648,
+      "peak_rss_kib": 12888
+    },
+    {
+      "label": "hexagon-fec-0-verify",
+      "wall_s": 0.015068881213665009,
+      "peak_rss_kib": 12888
+    },
+    {
+      "label": "hexagon-fec-0-archive-verify",
+      "wall_s": 0.014841199852526188,
+      "peak_rss_kib": 12520
+    },
+    {
+      "label": "hexagon-fec-1-prepare",
+      "wall_s": 0.013747395016252995,
+      "peak_rss_kib": 12168
+    },
+    {
+      "label": "hexagon-fec-1-ordinary",
+      "wall_s": 0.008040193933993578,
+      "peak_rss_kib": 9764
+    },
+    {
+      "label": "hexagon-fec-1-adapted",
+      "wall_s": 0.018831904977560043,
+      "peak_rss_kib": 12472
+    },
+    {
+      "label": "hexagon-fec-1-verify",
+      "wall_s": 0.013896249234676361,
+      "peak_rss_kib": 12884
+    },
+    {
+      "label": "hexagon-fec-1-archive-verify",
+      "wall_s": 0.013887031003832817,
+      "peak_rss_kib": 12776
+    },
+    {
+      "label": "hexagon-fec-2-prepare",
+      "wall_s": 0.012909275013953447,
+      "peak_rss_kib": 12264
+    },
+    {
+      "label": "hexagon-fec-2-ordinary",
+      "wall_s": 0.008678641635924578,
+      "peak_rss_kib": 9664
+    },
+    {
+      "label": "hexagon-fec-2-adapted",
+      "wall_s": 0.016044934280216694,
+      "peak_rss_kib": 12888
+    },
+    {
+      "label": "hexagon-fec-2-verify",
+      "wall_s": 0.014788963831961155,
+      "peak_rss_kib": 12640
+    },
+    {
+      "label": "hexagon-fec-2-archive-verify",
+      "wall_s": 0.021513476967811584,
+      "peak_rss_kib": 12688
+    },
+    {
+      "label": "hexagon-lec-0-prepare",
+      "wall_s": 0.014509923290461302,
+      "peak_rss_kib": 12224
+    },
+    {
+      "label": "hexagon-lec-0-ordinary",
+      "wall_s": 0.018067440018057823,
+      "peak_rss_kib": 10000
+    },
+    {
+      "label": "hexagon-lec-0-adapted",
+      "wall_s": 0.02062196796759963,
+      "peak_rss_kib": 13136
+    },
+    {
+      "label": "hexagon-lec-0-verify",
+      "wall_s": 0.022917919792234898,
+      "peak_rss_kib": 12824
+    },
+    {
+      "label": "hexagon-lec-0-archive-verify",
+      "wall_s": 0.020447683054953814,
+      "peak_rss_kib": 13124
+    },
+    {
+      "label": "hexagon-lec-1-prepare",
+      "wall_s": 0.01570680784061551,
+      "peak_rss_kib": 12048
+    },
+    {
+      "label": "hexagon-lec-1-ordinary",
+      "wall_s": 0.013027059845626354,
+      "peak_rss_kib": 10112
+    },
+    {
+      "label": "hexagon-lec-1-adapted",
+      "wall_s": 0.03076887596398592,
+      "peak_rss_kib": 13088
+    },
+    {
+      "label": "hexagon-lec-1-verify",
+      "wall_s": 0.015806768089532852,
+      "peak_rss_kib": 13004
+    },
+    {
+      "label": "hexagon-lec-1-archive-verify",
+      "wall_s": 0.01785433478653431,
+      "peak_rss_kib": 13120
+    },
+    {
+      "label": "hexagon-lec-2-prepare",
+      "wall_s": 0.013183089904487133,
+      "peak_rss_kib": 12232
+    },
+    {
+      "label": "hexagon-lec-2-ordinary",
+      "wall_s": 0.015251525212079287,
+      "peak_rss_kib": 9900
+    },
+    {
+      "label": "hexagon-lec-2-adapted",
+      "wall_s": 0.02622831193730235,
+      "peak_rss_kib": 13120
+    },
+    {
+      "label": "hexagon-lec-2-verify",
+      "wall_s": 0.01512211188673973,
+      "peak_rss_kib": 13192
+    },
+    {
+      "label": "hexagon-lec-2-archive-verify",
+      "wall_s": 0.016010473016649485,
+      "peak_rss_kib": 12816
+    },
+    {
+      "label": "heptagon-fec-0-prepare",
+      "wall_s": 0.38537027360871434,
+      "peak_rss_kib": 56400
+    },
+    {
+      "label": "heptagon-fec-0-ordinary",
+      "wall_s": 0.07896681083366275,
+      "peak_rss_kib": 26528
+    },
+    {
+      "label": "heptagon-fec-0-adapted",
+      "wall_s": 92.42394338967279,
+      "peak_rss_kib": 252000
+    },
+    {
+      "label": "heptagon-fec-0-verify",
+      "wall_s": 0.271376505959779,
+      "peak_rss_kib": 54520
+    },
+    {
+      "label": "heptagon-fec-1-prepare",
+      "wall_s": 0.34450465021654963,
+      "peak_rss_kib": 56844
+    },
+    {
+      "label": "heptagon-fec-1-ordinary",
+      "wall_s": 0.07555459393188357,
+      "peak_rss_kib": 26568
+    },
+    {
+      "label": "heptagon-fec-1-adapted",
+      "wall_s": 92.09312375169247,
+      "peak_rss_kib": 252100
+    },
+    {
+      "label": "heptagon-fec-1-verify",
+      "wall_s": 0.2761995829641819,
+      "peak_rss_kib": 51192
+    },
+    {
+      "label": "heptagon-fec-2-prepare",
+      "wall_s": 0.3380682277493179,
+      "peak_rss_kib": 56968
+    },
+    {
+      "label": "heptagon-fec-2-ordinary",
+      "wall_s": 0.07254379568621516,
+      "peak_rss_kib": 26388
+    },
+    {
+      "label": "heptagon-fec-2-adapted",
+      "wall_s": 90.84287189273164,
+      "peak_rss_kib": 246964
+    },
+    {
+      "label": "heptagon-fec-2-verify",
+      "wall_s": 0.2635415499098599,
+      "peak_rss_kib": 50964
+    },
+    {
+      "label": "heptagon-lec-0-prepare",
+      "wall_s": 0.3390201320871711,
+      "peak_rss_kib": 56828
+    },
+    {
+      "label": "heptagon-lec-0-ordinary",
+      "wall_s": 0.06338298413902521,
+      "peak_rss_kib": 22088
+    },
+    {
+      "label": "heptagon-lec-0-adapted",
+      "wall_s": 71.9872060790658,
+      "peak_rss_kib": 2174276
+    },
+    {
+      "label": "heptagon-lec-0-verify",
+      "wall_s": 1.7747569102793932,
+      "peak_rss_kib": 174396
+    },
+    {
+      "label": "heptagon-lec-1-prepare",
+      "wall_s": 0.33107704343274236,
+      "peak_rss_kib": 56672
+    },
+    {
+      "label": "heptagon-lec-1-ordinary",
+      "wall_s": 0.06443090969696641,
+      "peak_rss_kib": 21988
+    },
+    {
+      "label": "heptagon-lec-1-adapted",
+      "wall_s": 71.9102753563784,
+      "peak_rss_kib": 2174496
+    },
+    {
+      "label": "heptagon-lec-1-verify",
+      "wall_s": 1.7860000818036497,
+      "peak_rss_kib": 179268
+    },
+    {
+      "label": "heptagon-lec-2-prepare",
+      "wall_s": 0.33064475003629923,
+      "peak_rss_kib": 56568
+    },
+    {
+      "label": "heptagon-lec-2-ordinary",
+      "wall_s": 0.06409568293020129,
+      "peak_rss_kib": 22164
+    },
+    {
+      "label": "heptagon-lec-2-adapted",
+      "wall_s": 72.0038094962947,
+      "peak_rss_kib": 2174532
+    },
+    {
+      "label": "heptagon-lec-2-verify",
+      "wall_s": 1.7967397449538112,
+      "peak_rss_kib": 176244
+    }
+  ],
+  "build": {
+    "compiler": "GCC 14.4.0 (conda-forge)",
+    "flags": "-O2 -std=c++20; no -march=native; no mimalloc override",
+    "flint": "3.2.2",
+    "sparserref": "5bbee55 with existing repository race/init patches",
+    "reference_sparserref": "23ceb2e bundled with the hexagon archive"
+  },
+  "archive_sha256": "7f25b6f754f4b9bf4d297eba577bf14c6412700d427272289fcb4e4accb51a97",
+  "validation": {
+    "public_symrep": "passed (including quaternionic commutant coefficients and batched lattice reduction)",
+    "native_numerical": "90 passed, 0 failed",
+    "native_reference_tensors": "10 of 10 exact matches",
+    "native_heptagon_fec": "exact invertible basis changes at weights 1..4",
+    "native_heptagon_lec": "exact invertible basis changes at weights 1..3"
+  }
+}

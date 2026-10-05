@@ -1,0 +1,32 @@
+{
+  "branch": "symrep-solver-dev",
+  "base_commit": "ac664bba85f887c6255b940556c9952f6ed02b67",
+  "source_sha256": {
+    "structured_kernel.hpp": "15435b796ccd45e6bdc159c229971547e173fa7dac76b67c12d050aa00703246",
+    "certified_kernel.hpp": "89374443ada90985c4e30424f465ba54df14f5a1f4c642b78d1649e62e145937",
+    "tensor_kernel.hpp": "57fc3dfd8028c0242024f7a1a7776f652c20352d80f0a2c32e0c5ed658e9d3c0",
+    "recursive_word_chart.hpp": "ae6d7edfa657637dbf0c0ddcdd739b9529bab6d5142da700f1d95dd59bba5e83",
+    "restricted_projection.hpp": "549aedc2a8b48740d65dc561b61ec1029f77bb4acebfe340008e5d0238a9f59d",
+    "bootstrap.cpp": "740acddece44cddb6fa3b0c5c9f58a54619f5f957a6bc0647f1c9e08ab8365a5",
+    "compute_rhs.cpp": "5017fa5bd4ca846cacbd3e07545d951f7690f9f03c495b4eb3b74c2b8826db1a",
+    "compute_rhs.hpp": "69067e468438aa4e8197181d91dd89814e3b619379ad4813fcf86781f451ceb2",
+    "solve_collinear.hpp": "38f826c513076d94bb051d8c81220ce193ce75476c9344fb8a34eb49a7fd1843",
+    "symrep.cpp": "cd2ece1678911365343431ffcc303713ff5b495567af112fa927ed7918988ead",
+    "symrep_carrier.hpp": "7f848dbcff5799410213c200711b9ce015628018719e7eb104a3410fb69bd875",
+    "scripts/setup-sparserref.sh": "6b1e0396cdab40e6ba7bffc9b7cd713690ffde6d67c6b5e4c20cfbc7798717e8",
+    "patches/sparserref-scalar-move-cleanup.patch": "6755d00c0711048d02911f5a1aaac770af87673355a0d8885dddb1c1e96a9265",
+    "patches/sparserref-tensor-capacity.patch": "16114742b9503c2c6b50ecfe08e11b9400fdf45d4de31a525f1f7d639d79e751"
+  },
+  "binary_sha256": {
+    "bootstrap": "c55cffb5158be32cd4af8e5323ee738c690c8e1c35b610e2901576f4fc283776",
+    "compute_rhs": "42c4b66b69dd9377b06d01531359eb8fb6e44efecc6f951da0f529df21518ac1",
+    "symrep": "688f726b2fdd3996786afe443b00d00e0866b49ad42c4f935dbd781363dd6a78",
+    "output_solver_strategy_20261002/factored-reference": "3d33cb8693d28387251d4b68eba65f8e53a0088e381a36f1e6912a00d040bd4d",
+    "output_solver_strategy_20261002/baseline/native": "4ecb10f787edb90a59adc84e799ae8b9280bb2626fec05259d1051b9b82d7f8c",
+    "output_solver_strategy_20261002/native-upstream": "13376c9bafe9bd29ac8d42777ff9980572d8b4b0bc5d4d83d1ce4fbe30cb496d"
+  },
+  "compiler": "GCC 14.4.0",
+  "flint": "3.2.2",
+  "flags": "-O3 -march=native -mtune=native -flto -std=c++20, MIMALLOC=0",
+  "workers": 8
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "commuting-s3-1p5",
+    "kind": "toy",
+    "left_weight": 1,
+    "right_weight": 5,
+    "coordinates": "permutation"
+  },
+  {
+    "name": "commuting-s3-3p3-rational",
+    "kind": "toy",
+    "left_weight": 3,
+    "right_weight": 3,
+    "coordinates": "rational"
+  },
+  {
+    "name": "heptagon-2p2",
+    "kind": "bootstrap",
+    "left_weight": 2,
+    "right_weight": 2,
+    "condition": "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+    "first": "/home/ana/Documents/symbology/data/FEC_1.wxf",
+    "last": "/home/ana/Documents/symbology/data/LEC_1.wxf",
+    "generators": [
+      "/home/ana/Documents/symbology/data/cycrepmat.wxf",
+      "/home/ana/Documents/symbology/data/fliprepmat.wxf",
+      "/home/ana/Documents/symbology/data/parityrepmat.wxf"
+    ]
+  },
+  {
+    "name": "heptagon-4p2",
+    "kind": "bootstrap",
+    "left_weight": 4,
+    "right_weight": 2,
+    "condition": "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+    "first": "/home/ana/Documents/symbology/data/FEC_1.wxf",
+    "last": "/home/ana/Documents/symbology/data/LEC_1.wxf",
+    "generators": [
+      "/home/ana/Documents/symbology/data/cycrepmat.wxf",
+      "/home/ana/Documents/symbology/data/fliprepmat.wxf",
+      "/home/ana/Documents/symbology/data/parityrepmat.wxf"
+    ]
+  },
+  {
+    "name": "hexagon-package-4p2",
+    "kind": "bootstrap",
+    "left_weight": 4,
+    "right_weight": 2,
+    "condition": "/home/ana/Downloads/hexagon_irr_bootstrap_v2_20260928_inspected/hexagon_irr_bootstrap/data/dlogmat_full_ca_pd3.wxf",
+    "first": "/home/ana/Documents/symbology/output_symrep_bench_20261001/hexagon-reference-fec/w1.wxf",
+    "last": "/home/ana/Documents/symbology/output_symrep_bench_20261001/hexagon-reference-lec/w1.wxf",
+    "generators": [
+      "/home/ana/Downloads/hexagon_irr_bootstrap_v2_20260928_inspected/hexagon_irr_bootstrap/data/cycrepmat.wxf",
+      "/home/ana/Downloads/hexagon_irr_bootstrap_v2_20260928_inspected/hexagon_irr_bootstrap/data/fliprepmat.wxf"
+    ]
+  }
+]

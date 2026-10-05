@@ -1,0 +1,60 @@
+{
+  "branch": "symrep-solver-dev",
+  "base_commit": "ac664bba85f887c6255b940556c9952f6ed02b67",
+  "source_sha256": {
+    "symrep.cpp": "621e810d5fe827f44d35ba79eeac5765abec4690625dc20b8a2d19fa3e3624b2",
+    "symrep.hpp": "2d4d913eec1c714016ae1afa7f4e0c1046745fc52d1004abc11b3051888e2f5b",
+    "symrep_io.hpp": "d9eb3257974e550d18ea40ff7bcd04a861a287aaeea6debdb952c5c9af5b60b5",
+    "symrep_bootstrap.hpp": "d31d822633422492a68f99cc5adb85ae05d377df0dcc32748dfa1f0aadcc3224",
+    "symrep_carrier.hpp": "3f12c7e3b1e4cb55d3a9956813f258e0626d5644db3a97cb03d60c81fa8940c4",
+    "tests/symrep_probe.cpp": "30780e219f0d3d60b90c61def61c56fcb5bf8f567cd9892f248ae7a1332dccf6",
+    "tests/symrep_regression.py": "d5fcaaeea972d34fb142d5ac271aa34761300aec6efdc6cb77acd0d5b906d04e",
+    "bench/symrep_carrier.py": "2c9d62d3309fb560e406149ce9b84c16db861a2e43f48bcbd491bf60d50f73fd",
+    "bench/symrep_conditions.py": "47a52e5ab999a1987fcae405310585768bc4386a86e677290905d4a3687b83ff",
+    "docs/symrep.md": "e9ae7b1fa1e432d6c0e30d49d51f3c2522c1627f90ed76e7fce83782dac95845",
+    "Makefile": "4a5d13ca35dbe9fd75466a5e50e5d8459d970fd963cacd237963fe4352ca868c",
+    "README.md": "94019c6d81e790640698c43b90d2804d8f82040b0f05933826494e0a0fe5dfef",
+    "bench/native_symrep_reference.cpp": "b0aa5a47914531dfa382465437c330ef74525e27ffd220abce9fbc8526f66bbe"
+  },
+  "timed_source_sha256": {
+    "symrep_io.hpp": "d9eb3257974e550d18ea40ff7bcd04a861a287aaeea6debdb952c5c9af5b60b5",
+    "symrep_regression.py": "fc4957bed90cbd2c04bcf7097925a2e666c5de671c5c8f5f645359a31b96b8f5",
+    "native_symrep_reference.cpp": "b0aa5a47914531dfa382465437c330ef74525e27ffd220abce9fbc8526f66bbe",
+    "symrep.hpp": "2d4d913eec1c714016ae1afa7f4e0c1046745fc52d1004abc11b3051888e2f5b",
+    "symrep": "caebe2ea5550e67c4dcc47d9e22bb514cc4e39b822c071d058db57e70d94edcd",
+    "symrep_carrier.hpp": "3f12c7e3b1e4cb55d3a9956813f258e0626d5644db3a97cb03d60c81fa8940c4",
+    "symrep_probe.cpp": "30780e219f0d3d60b90c61def61c56fcb5bf8f567cd9892f248ae7a1332dccf6",
+    "symrep_bootstrap.hpp": "d31d822633422492a68f99cc5adb85ae05d377df0dcc32748dfa1f0aadcc3224",
+    "symrep.cpp": "621e810d5fe827f44d35ba79eeac5765abec4690625dc20b8a2d19fa3e3624b2",
+    "symrep_carrier.py": "8e3118c4f9f201ed023ae84d3681957af014aef40c5537c47073d017fb3fbb6b"
+  },
+  "timed_executables_sha256": {
+    "/home/ana/Documents/symbology/output_symrep_sparse_20261002/before/symrep": "d4cc59c9e18dd14ead4a22186386ef9aaad565033bb4cac2888f485cef0cc122",
+    "/home/ana/Documents/symbology/output_symrep_optimization_20261002/native_reference": "b0b13accdff2923b0029848c24650061aedfcf2dbffa19001a8c3926c991e411"
+  },
+  "current_solver_equals_timed_solver": true,
+  "all_solver_sources_equal_timed_snapshot": true,
+  "post_timing_changes": "Only documentation, the historical condition audit selecting multiplicity explicitly, a public C3 auto/weight-one continuation fixture, and full-comparison scheduling in the benchmark script. Solver sources and binary exactly match timed snapshot.",
+  "prepared_bundle_sha256": {
+    "hexagon-lec-prepared": "51eeda82655390008688e529697447f374cd0c2f3056a73d484a74479b65bef2",
+    "heptagon-lec-prepared": "362aa2693226282ab0b4d78638d6398de11073223c024742ca46073ee02de76f",
+    "hexagon-fec-prepared": "5624fbff5a5950abbb8c59ee7ede6a4e489b76cc6197ccd6c75bc2904d48d65c",
+    "heptagon-fec-prepared": "7cc442b5e02dc300d07d7f2697f9fa343b867120645a7b43f1472eef62231f11"
+  },
+  "archive_sha256": "7f25b6f754f4b9bf4d297eba577bf14c6412700d427272289fcb4e4accb51a97",
+  "compiler": "x86_64-conda-linux-gnu-c++ (conda-forge gcc 14.4.0-4) 14.4.0",
+  "compile_flags": "-O2 -std=c++20 -I. -I/tmp/symbology-audit-toolchain/env/include -UUSE_MIMALLOC",
+  "link_flags": "-L/tmp/symbology-audit-toolchain/env/lib -Wl,-rpath,/tmp/symbology-audit-toolchain/env/lib -lflint -lgmp -ltbb",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "checks": {
+    "cpp_probe": "PASS",
+    "public_cli": "PASS",
+    "exact_native_chains": 18,
+    "exact_archive_chains": 2,
+    "expanded_heptagon_chains": 2,
+    "full_heptagon_comparisons": [
+      "FEC through 5",
+      "LEC through 4"
+    ]
+  }
+}

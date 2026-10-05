@@ -1,0 +1,56 @@
+[
+  {
+    "loop": 2,
+    "file": "E2",
+    "equal": true,
+    "sha256": "713dd09afe71308331d80d97a73e5b0cc52417d40ebc16317ac2518e51a6d016"
+  },
+  {
+    "loop": 2,
+    "file": "R2",
+    "equal": true,
+    "sha256": "30b57162d896c5d29af724166651377fc1107ee287968e9fa3d545f8b3113bc2"
+  },
+  {
+    "loop": 2,
+    "file": "boundary_2L",
+    "equal": true,
+    "sha256": "4c49c5903e60749d35a4bb4bf48dfde9c8c224e6a4f1cd2433369ba27b582cfa"
+  },
+  {
+    "loop": 3,
+    "file": "E3",
+    "equal": true,
+    "sha256": "a58b9e88ebac989fdc73cef2a69e2899a51dbcd52465a76e297c0d33d18a3e97"
+  },
+  {
+    "loop": 3,
+    "file": "R3",
+    "equal": true,
+    "sha256": "bfe600f3fc86cc8968975e20d8dd1045efe23dbe23763544cb10538ed293c91d"
+  },
+  {
+    "loop": 3,
+    "file": "boundary_3L",
+    "equal": true,
+    "sha256": "b62811ce7f346314a5fe4e6a5b09e7370caed9514a444d3ab12db3b8cd50063b"
+  },
+  {
+    "loop": 4,
+    "file": "E4",
+    "equal": true,
+    "sha256": "2fd9e43469ea16f5d975883b58e83499df0676c094823cb1e265acb8c6f36e6f"
+  },
+  {
+    "loop": 4,
+    "file": "R4",
+    "equal": true,
+    "sha256": "3d84892f84e40e9a2165245bae33758decf6df02c037009e9916876e1a72b879"
+  },
+  {
+    "loop": 4,
+    "file": "boundary_4L",
+    "equal": true,
+    "sha256": "c1653c5a5609d14ef9fe3d2324a7d9776e88f434efa6d4cd0c0617b8c8c5391e"
+  }
+]

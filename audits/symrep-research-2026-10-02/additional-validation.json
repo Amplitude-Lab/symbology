@@ -1,0 +1,26 @@
+[
+  {
+    "case": "hexagon-fec-w8",
+    "archive_wxf_files": 35,
+    "all_five_match_prior": true
+  },
+  {
+    "case": "hexagon-lec-w6",
+    "archive_wxf_files": 66,
+    "all_five_match_prior": true
+  },
+  {
+    "case": "heptagon-fec",
+    "resumed_from": 4,
+    "through": 5,
+    "saved_basis_files": 18,
+    "all_bytes_equal": true
+  },
+  {
+    "case": "heptagon-lec",
+    "resumed_from": 3,
+    "through": 4,
+    "saved_basis_files": 15,
+    "all_bytes_equal": true
+  }
+]

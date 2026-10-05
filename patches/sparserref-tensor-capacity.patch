@@ -1,0 +1,27 @@
+--- a/sparse_type.h
++++ b/sparse_type.h
+@@ -802,7 +802,7 @@
+ 			rowptr = std::vector<size_t>(l[0] + 1, 0);
+ 			alloc = aoc;
+-			colptr = s_malloc<index_t>((rank - 1) * alloc);
+-			valptr = s_malloc<T>(alloc);
++			colptr = alloc ? s_malloc<index_t>((rank - 1) * alloc) : nullptr;
++			valptr = alloc ? s_malloc<T>(alloc) : nullptr;
+ 			for (size_t i = 0; i < alloc; i++)
+ 				new (valptr + i) T();
+ 		}
+@@ -2113,6 +2113,14 @@
+ 			data.rowptr = rowptr;
+ 			data.colptr = s_realloc<index_t>(data.colptr, nnz * (newrank - 1));
+ 			data.rank = newrank;
++			// colptr was shrunk to nnz, so the shared capacity must follow it.
++			// Otherwise copying this CSR reads alloc*(rank-1) indices past
++			// the allocation after a COO operation with substantial cancellation.
++			if (data.alloc != nnz) {
++				for (size_t i = nnz; i < data.alloc; ++i) data.valptr[i].~T();
++				data.valptr = s_realloc<T>(data.valptr, nnz);
++				data.alloc = nnz;
++			}
+ 		}
+ 
+ 		// constructor from COO

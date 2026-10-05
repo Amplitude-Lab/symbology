@@ -1,0 +1,32 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "-o",
+    "output_solver_strategy_20261002/amplitude-all-streamed.time",
+    "./compute_rhs",
+    "--target",
+    "SEW_7p1",
+    "--data-dir",
+    "/home/ana/Documents/symbology/data",
+    "--output-dir",
+    "/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed",
+    "--letter-projection",
+    "/home/ana/Documents/symbology/output_solver_strategy_20261002/amplitude-all-streamed/collinear/colprojdiv_w1.wxf",
+    "--kernel-strategy",
+    "streamed",
+    "--sew-strategy",
+    "streamed",
+    "--projection-strategy",
+    "restricted",
+    "--threads",
+    "8"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "wall_seconds": 68.53677728399634,
+  "peak_summed_rss_bytes": 5659533312,
+  "sample_interval_seconds": 0.1,
+  "max_processes": 4,
+  "virtual_limit_gib": 28
+}

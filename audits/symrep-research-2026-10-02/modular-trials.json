@@ -1,0 +1,50 @@
+[
+  {
+    "weight": 3,
+    "mode": "sparse",
+    "bits": 60,
+    "result": "RESULT mode=sparse bits=60 size=734 input_nnz=8058 rank=630 seconds=0.00826302"
+  },
+  {
+    "weight": 3,
+    "mode": "dense",
+    "bits": 60,
+    "result": "RESULT mode=dense bits=60 size=734 input_nnz=8058 rank=630 seconds=0.0599322"
+  },
+  {
+    "weight": 3,
+    "mode": "sparse",
+    "bits": 29,
+    "result": "RESULT mode=sparse bits=29 size=734 input_nnz=8058 rank=630 seconds=0.00847603"
+  },
+  {
+    "weight": 3,
+    "mode": "dense",
+    "bits": 29,
+    "result": "RESULT mode=dense bits=29 size=734 input_nnz=8058 rank=630 seconds=0.037749"
+  },
+  {
+    "weight": 4,
+    "mode": "orbit",
+    "bits": 60,
+    "result": "RESULT mode=orbit bits=60 seconds=0.391158 trace_s=0.0257056 selection_s=0.365058"
+  },
+  {
+    "weight": 4,
+    "mode": "orbit",
+    "bits": 29,
+    "result": "RESULT mode=orbit bits=29 seconds=0.362877 trace_s=0.0251554 selection_s=0.337334"
+  },
+  {
+    "weight": 4,
+    "mode": "orbit",
+    "bits": 60,
+    "result": "RESULT mode=orbit bits=60 seconds=0.340025 trace_s=0.0235362 selection_s=0.316106"
+  },
+  {
+    "weight": 4,
+    "mode": "orbit",
+    "bits": 29,
+    "result": "RESULT mode=orbit bits=29 seconds=0.333149 trace_s=0.0233357 selection_s=0.309423"
+  }
+]

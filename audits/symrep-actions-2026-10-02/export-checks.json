@@ -1,0 +1,32 @@
+[
+  {
+    "case": "heptagon-fec-w5",
+    "coordinates": "adapted",
+    "all_weights_byte_equal": true
+  },
+  {
+    "case": "heptagon-fec-w5",
+    "coordinates": "carrier",
+    "all_weights_byte_equal": true
+  },
+  {
+    "case": "heptagon-lec-w4",
+    "coordinates": "adapted",
+    "all_weights_byte_equal": true
+  },
+  {
+    "case": "heptagon-lec-w4",
+    "coordinates": "carrier",
+    "all_weights_byte_equal": true
+  },
+  {
+    "case": "hexagon-fec-w8",
+    "coordinates": "adapted",
+    "all_weights_byte_equal": true
+  },
+  {
+    "case": "hexagon-lec-w6",
+    "coordinates": "adapted",
+    "all_weights_byte_equal": true
+  }
+]

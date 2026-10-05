@@ -1,0 +1,331 @@
+--- a/symrep_io.hpp
++++ b/symrep_io.hpp
+@@ -26,7 +26,77 @@
+         normalize(m[i]);}
+     return m;
+ }
+-inline void write(const fs::path& path,const Tensor& t) {
++// A read-only view of a matrix with tensor-shaped columns. Its sequential
++// cursors avoid a second allocation of all rational values at final output.
++class MatrixTensorView {
++    const Mat& matrix;std::vector<size_t> dimensions,offsets;mutable size_t row=0;
++    mutable std::vector<I> coordinates;
++    void locate(size_t p)const{if(p>=offsets.back())require(false,"matrix tensor view index out of range");
++        if(p<offsets[row])row=0;while(p>=offsets[row+1])++row;}
++public:
++    MatrixTensorView(const Mat& m,std::vector<size_t> dims):matrix(m),dimensions(std::move(dims)),offsets(m.nrow+1){
++        require(dimensions.size()>=2&&dimensions[0]==m.nrow,"matrix tensor view shape mismatch");coordinates.resize(dimensions.size()-1);size_t n=1;
++        for(size_t j=1;j<dimensions.size();++j){require(!dimensions[j]||n<=SIZE_MAX/dimensions[j],"matrix tensor view shape overflow");n*=dimensions[j];}
++        require(n==m.ncol,"matrix tensor view column mismatch");
++        for(size_t i=0;i<m.nrow;++i)offsets[i+1]=offsets[i]+m[i].nnz();}
++    const auto& dims()const{return dimensions;}size_t dim(size_t i)const{return dimensions[i];}
++    size_t rank()const{return dimensions.size();}size_t nnz()const{return offsets.back();}
++    const size_t* rowptr()const{return offsets.data();}
++    const Q& val(size_t p)const{locate(p);return matrix[row][p-offsets[row]];}
++    const I* index(size_t p)const{locate(p);size_t column=matrix[row](p-offsets[row]);
++        for(size_t j=dimensions.size()-1;j>0;--j){coordinates[j-1]=static_cast<I>(column%dimensions[j]);column/=dimensions[j];}return coordinates.data();}
++};
++inline std::vector<uint8_t> encode_tensor_view(const Tensor& t){return sparse_tensor_write_wxf(t);}
++inline std::vector<uint8_t> encode_tensor_view(const MatrixTensorView& t){
++    using namespace WXF_PARSER;std::unordered_map<std::string,std::function<void(Encoder&)>> fields;
++    std::vector<int64_t> dims(t.dims().begin(),t.dims().end());size_t nnz=t.nnz(),rank=t.rank();
++    fields["#dims"]=[&](Encoder& e){e.push_packed_array({rank},dims);};
++    fields["#rowptr"]=[&](Encoder& e){e.push_array_info({t.dim(0)+1},WXF_HEAD::array,3);e.push_ustr(t.rowptr(),t.dim(0)+1);};
++    fields["#colindex"]=[&](Encoder& e){auto width=minimal_pos_signed_bits(1+*std::max_element(dims.begin()+1,dims.end()));
++        e.push_array_info({nnz,rank-1},WXF_HEAD::array,width);
++        auto append=[&]<class T>(){std::vector<T> entries(nnz*(rank-1));for(size_t i=0;i<nnz;++i){auto idx=t.index(i);
++            for(size_t j=0;j+1<rank;++j)entries[i*(rank-1)+j]=idx[j]+1;}e.push_ustr(entries.data(),entries.size());};
++        switch(width){case 0:append.template operator()<int8_t>();break;case 1:append.template operator()<int16_t>();break;
++            case 2:append.template operator()<int32_t>();break;case 3:append.template operator()<int64_t>();break;default:require(false,"tensor output dimension too large");}
++    };
++    fields["#vals"]=[&](Encoder& e){auto integer=[&](const int_t& x){if(x.fits_si())e.push_integer(x.to_si());else e.push_bigint(x.get_str());};
++        e.push_function("List",nnz);for(size_t i=0;i<nnz;++i){const auto& x=t.val(i);if(x.is_integer())integer(x.num());
++            else{e.push_function("Rational",2);integer(x.num());integer(x.den());}}};
++    return fullform_to_wxf("SparseArray[Automatic,#dims,0,{1,{#rowptr,#colindex},#vals}]",fields,true).buffer;
++}
++// Verify the exact serialized tensor without keeping a token object or a
++// second rational tensor for every nonzero. Parser retains all syntax checks.
++template<class TensorLike> inline void verify_written_tensor(const fs::path& path,const TensorLike& t) {
++    using namespace WXF_PARSER;using namespace SparseRREF::wxf_checked;
++    auto bytes=file_to_ustr(path);Parser parser(bytes);size_t position=0,value=0;int rational=0;int_t numerator;
++    auto check=[&](bool yes){if(!yes)require(false,"WXF roundtrip mismatch: "+path.string());};
++    auto integer_value=[&](const Token& token){exact_integer(token);
++        return integer(token)?int_t(token.get_integer()):int_t(std::string(token.get_string_view()).c_str());};
++    auto accept=[&](const Q& x){check(value<t.nnz()&&x==t.val(value));++value;};
++    parser.parse_each([&](Token&& token){size_t p=position++;
++        auto symbol=[&](const char* name){check(token.type==WXF_HEAD::symbol&&token.get_string_view()==name);};
++        auto function=[&](size_t n){check(token.type==WXF_HEAD::func&&token.length==n);};
++        switch(p){
++        case 0:function(4);return;case 1:symbol("SparseArray");return;case 2:symbol("Automatic");return;
++        case 3:integer_array(token,1);check(token.dimensions[1]==t.rank());for(size_t i=0;i<t.rank();++i)check(natural(token,i)==t.dim(i));return;
++        case 4:check(integer(token)&&token.get_integer()==0);return;
++        case 5:function(3);return;case 6:symbol("List");return;case 7:check(integer(token)&&token.get_integer()==1);return;
++        case 8:function(2);return;case 9:symbol("List");return;
++        case 10:integer_array(token,1);check(token.dimensions[1]==t.dim(0)+1);for(size_t i=0;i<=t.dim(0);++i)check(natural(token,i)==t.rowptr()[i]);return;
++        case 11:integer_array(token,2);check(token.dim(0)==t.nnz()&&token.dim(1)==t.rank()-1);
++            for(size_t i=0;i<t.nnz();++i)for(size_t j=0;j+1<t.rank();++j)check(natural(token,i*(t.rank()-1)+j)==size_t(t.index(i)[j])+1);return;
++        case 12:function(t.nnz());return;case 13:symbol("List");return;
++        default:break;
++        }
++        if(rational==1){symbol("Rational");rational=2;}
++        else if(rational==2){numerator=integer_value(token);rational=3;}
++        else if(rational==3){auto denominator=integer_value(token);check(denominator!=0);accept(Q(numerator,denominator));rational=0;}
++        else if(token.type==WXF_HEAD::func){function(2);rational=1;}
++        else accept(Q(integer_value(token)));
++    });
++    check(position>=14&&rational==0&&value==t.nnz());
++}
++template<class TensorLike> inline void write_tensor_view(const fs::path& path,const TensorLike& t) {
+     require(!fs::exists(path),"refusing to overwrite "+path.string());
+     std::vector<uint8_t> bytes;auto dims=t.dims();
+     if(!t.nnz()) {
+@@ -37,22 +107,15 @@
+         fields["#colindex"]=[&](Encoder& e){e.push_array_info({0,dims.size()-1},WXF_HEAD::array,0);e.push_ustr("",0);};
+         fields["#vals"]=[&](Encoder& e){e.push_function("List",0);};
+         bytes=fullform_to_wxf("SparseArray[Automatic,#dims,0,{1,{#rowptr,#colindex},#vals}]",fields,true).buffer;
+-    } else bytes=sparse_tensor_write_wxf(t);
++    } else bytes=encode_tensor_view(t);
+     std::ofstream out(path,std::ios::binary);out.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());out.close();
+     require(bool(out),"cannot write "+path.string());
+     // Release the encoded copy before readback. Compare CSR entries directly:
+     // flattening both tensors used to allocate two more complete rational matrices.
+     std::vector<uint8_t>().swap(bytes);
+-    auto check=sparse_tensor_read_wxf<Q,I>(path,QQ);
+-    bool same=check.dims()==dims&&check.nnz()==t.nnz();
+-    if(same)for(size_t r=0;r<=dims[0];++r)if(check.rowptr()[r]!=t.rowptr()[r]){same=false;break;}
+-    if(same)for(size_t i=0;i<t.nnz();++i){
+-        if(check.val(i)!=t.val(i)){same=false;break;}
+-        for(size_t j=0;j+1<dims.size();++j)if(check.index(i)[j]!=t.index(i)[j]){same=false;break;}
+-        if(!same)break;
+-    }
+-    require(same,"WXF roundtrip mismatch: "+path.string());
+-}
++    verify_written_tensor(path,t);
++}
++inline void write(const fs::path& path,const Tensor& t){write_tensor_view(path,t);}
+ inline void write(const fs::path& path,const Mat& m){write(path,tensor(m,{m.nrow,m.ncol}));}
+ inline Tensor read(const fs::path& p){return sparse_tensor_read_wxf<Q,I>(p,QQ);}
+ inline Mat read_matrix(const fs::path& p){auto t=read(p);require(t.rank()==2,"expected matrix: "+p.string());return flatten(t);}
+--- a/symrep_carrier.hpp
++++ b/symrep_carrier.hpp
+@@ -295,8 +295,8 @@
+                     if(saved_final)next=flatten(read(carrier_path));
+                     next_mod=carrier_actions_mod(next,mod_actions,mod_letters,p.backward,fp,opt);action_s+=seconds(start);
+                     if(w==maximum&&!compare){
+-                        if(!saved_final){auto t=tensor(next,p.backward?std::vector<size_t>{dimension,letters.ncol,seed_tensor.dim(0)}:std::vector<size_t>{dimension,seed_tensor.dim(0),letters.ncol},&opt->pool);
+-                            write(carrier_path,t);saved_final=true;}
++                        if(!saved_final){MatrixTensorView view(next,p.backward?std::vector<size_t>{dimension,letters.ncol,seed_tensor.dim(0)}:std::vector<size_t>{dimension,seed_tensor.dim(0),letters.ncol});
++                            write_tensor_view(carrier_path,view);saved_final=true;}
+                         next.clear();
+                     }
+                     start=std::chrono::steady_clock::now();selecting=true;orbits=select_fixed_orbits_mod(g,ms,next_mod,fp,opt,&phases);frame_s+=seconds(start);break;
+--- a/SparseRREF/sparse_mat.h
++++ b/SparseRREF/sparse_mat.h
+@@ -1886,7 +1886,20 @@
+ 			});
+ 		pool.wait();
+ 
+-		int_t m_height = sparse_mat_height(mat);
++		// Row heights are independent; keep one accumulator per pool worker.
++		int_t m_height = 1;
++		if (nthreads > 1 && mat.nnz() >= 65536) {
++			std::vector<int_t> heights(nthreads, 1);
++			pool.detach_loop(size_t(0), mat.nrow, [&](size_t i) {
++				auto h = sparse_vec_height(mat[i]);
++				auto& best = heights[SparseRREF::thread_id()];
++				if (h > best) best = std::move(h);
++			});
++			pool.wait();
++			for (const auto& h : heights) if (h > m_height) m_height = h;
++		} else {
++			m_height = sparse_mat_height(mat);
++		}
+ 
+ 		auto cs = clocknow();
+ 		auto pivots = sparse_mat_rref_forward(matul, F, opt);
+@@ -1902,6 +1915,19 @@
+ 				return pivots;
+ 		}
+ 
++		// Only the original pivot rows are needed for subsequent CRT solves.
++		// m_height was computed from every input row before releasing storage.
++		{
++			std::vector<index_t> rowset(mat.nrow, sv);
++			for (auto p : pivots)
++				for (auto [r, c] : p)
++					rowset[r] = c;
++			for (size_t i = 0; i < mat.nrow; i++)
++				if (rowset[i] == sv) {
++					mat[i].clear();
++				}
++		}
++
+ 		if (opt->is_back_sub)
+ 			triangular_solver_2(matul, pivots, F, opt);
+ 
+@@ -1912,20 +1938,35 @@
+ 
+ 		std::vector<size_t> leftrows;
+ 
+-		for (size_t i = 0; i < mat.nrow; i++) {
++		for (size_t i = 0; i < mat.nrow; ++i)
++			if (matul[i].nnz()) leftrows.push_back(i);
++		std::vector<int> reconstructed(nthreads, 1);
++		// The same N=D=floor(sqrt((p-1)/2)) bound as fmpq_reconstruct_fmpz.
++		// A signed integer within N is the unique admissible fraction. Other
++		// residues still use FLINT, and the original exact height test remains.
++		const ulong integer_bound = n_sqrt((prime - 1) / 2);
++		auto reconstruct_row = [&](size_t i, size_t worker) {
+ 			size_t nnz = matul[i].nnz();
+-			if (nnz == 0)
+-				continue;
+-			leftrows.push_back(i);
+ 			matq[i].reserve(nnz);
+ 			matq[i].resize(nnz);
+-			for (size_t j = 0; j < nnz; j++) {
++			for (size_t j = 0; j < nnz; ++j) {
+ 				matq[i](j) = matul[i](j);
+-				int_t mod1 = matul[i][j];
+-				if (isok)
+-					isok = rational_reconstruct(matq[i][j], mod1, mod);
+-			}
+-		}
++				ulong residue = matul[i][j];
++				if (residue <= integer_bound) matq[i][j] = residue;
++				else if (prime - residue <= integer_bound) matq[i][j] = -rat_t(prime - residue);
++				else if (reconstructed[worker])
++					reconstructed[worker] = rational_reconstruct(matq[i][j], int_t(residue), mod);
++			}
++		};
++		if (nthreads > 1 && matul.nnz() >= 65536) {
++			pool.detach_loop(size_t(0), leftrows.size(), [&](size_t k) {
++				reconstruct_row(leftrows[k], SparseRREF::thread_id());
++			});
++			pool.wait();
++		} else {
++			for (auto i : leftrows) reconstruct_row(i, 0);
++		}
++		for (auto good : reconstructed) isok = isok && good;
+ 
+ 		sparse_mat<int_t, index_t> matz(mat.nrow, mat.ncol);
+ 
+@@ -1958,17 +1999,6 @@
+ 		if (opt->abort)
+ 			return pivots;
+ 
+-		// set rows not in pivots to zero
+-		if (!isok) {
+-			std::vector<index_t> rowset(mat.nrow, sv);
+-			for (auto p : pivots)
+-				for (auto [r, c] : p)
+-					rowset[r] = c;
+-			for (size_t i = 0; i < mat.nrow; i++)
+-				if (rowset[i] == sv) {
+-					mat[i].clear();
+-				}
+-		}
+ 
+ 		while (!isok) {
+ 			isok = true;
+--- a/SparseRREF/sparse_vec.h
++++ b/SparseRREF/sparse_vec.h
+@@ -343,7 +343,8 @@
+ 	int_t sparse_vec_denominator_lcm(const sparse_vec<rat_t, index_t>& vec) {
+ 		int_t d = 1;
+ 		for (size_t i = 0; i < vec.nnz(); i++) {
+-			d = Flint::LCM(d, vec[i].den());
++			auto denominator = vec[i].den();
++			if (denominator != 1 && denominator != d) d = Flint::LCM(d, denominator);
+ 		}
+ 		return d;
+ 	}
+@@ -353,9 +354,12 @@
+ 		if (vec.nnz() == 0)
+ 			return 1;
+ 		int_t d = sparse_vec_denominator_lcm(vec);
+-		int_t h = (vec[0] * d).height();
+-		for (size_t i = 1; i < vec.nnz(); i++) {
+-			int_t hi = (vec[i] * d).height();
++		int_t h = 1;
++		for (size_t i = 0; i < vec.nnz(); i++) {
++			// d clears every denominator, so calculate the integer height
++			// directly without constructing and canonicalizing a rational.
++			int_t hi = vec[i].num().abs();
++			if (d != 1) { int_t factor = d; factor /= vec[i].den(); hi *= factor; }
+ 			if (hi > h)
+ 				h = hi;
+ 		}
+--- a/SparseRREF/wxf_parser.h
++++ b/SparseRREF/wxf_parser.h
+@@ -632,38 +632,39 @@
+ 			fail("unterminated varint");
+ 		}
+ 
+-		void parse() {
+-			tokens.clear();
++		// Tokens are valid during the callback; payloads refer to buffer.
++		// Consumers can validate large files without a per-entry token vector.
++		template<typename Consumer> void parse_each(Consumer&& consume) {
+ 			if (pos == 0) {
+ 				if (size < 2 || buffer[0] != '8' || buffer[1] != ':')
+ 					fail("expected uncompressed WXF header 8:");
+ 				pos = 2;
+ 			}
+-			size_t pending = 1;
++			size_t pending = 1, seen = 0;
+ 			while (pos < size) {
+ 				if (!pending) fail("trailing expression or bytes");
+-				--pending;
++				--pending; ++seen;
+ 				WXF_HEAD type = WXF_HEAD(buffer[pos++]);
+ 				size_t children = 0;
+ 				switch (type) {
+ 				case WXF_HEAD::i8: case WXF_HEAD::i16: case WXF_HEAD::i32:
+ 				case WXF_HEAD::i64: case WXF_HEAD::f64: {
+ 					auto n = size_of_head_num_type(type); require(n);
+-					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++					consume(Token(type, n, buffer + pos)); pos += n; break;
+ 				}
+ 				case WXF_HEAD::symbol: case WXF_HEAD::bigint: case WXF_HEAD::bigreal:
+ 				case WXF_HEAD::string: case WXF_HEAD::binary_string: {
+ 					auto n = read_varint(); require(n);
+-					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++					consume(Token(type, n, buffer + pos)); pos += n; break;
+ 				}
+ 				case WXF_HEAD::func: case WXF_HEAD::association: {
+ 					auto n = read_varint();
+ 					if (n > size - pos) fail("impossible expression length");
+-					tokens.emplace_back(type, n, buffer + pos);
++					consume(Token(type, n, buffer + pos));
+ 					children = n + (type == WXF_HEAD::func ? 1 : 0); break;
+ 				}
+ 				case WXF_HEAD::delay_rule: case WXF_HEAD::rule:
+-					tokens.emplace_back(type, size_t(2), buffer + pos); children = 2; break;
++					consume(Token(type, size_t(2), buffer + pos)); children = 2; break;
+ 				case WXF_HEAD::array: case WXF_HEAD::narray: {
+ 					require(1); unsigned num_type = buffer[pos++];
+ 					if (!(num_type <= 3 || (num_type >= 16 && num_type <= 19) ||
+@@ -679,7 +680,7 @@
+ 					}
+ 					size_t width = size_of_arr_num_type(num_type);
+ 					if (count > (size - pos) / width) fail("truncated array payload");
+-					tokens.emplace_back(type, dims, num_type, count, buffer + pos);
++					consume(Token(type, dims, num_type, count, buffer + pos));
+ 					pos += count * width; break;
+ 				}
+ 				default: fail("unknown token type");
+@@ -687,8 +688,13 @@
+ 				if (children > size - pos || pending > size - pos - children) fail("truncated expression");
+ 				pending += children;
+ 			}
+-			if (pending || tokens.empty()) fail("incomplete expression");
++			if (pending || !seen) fail("incomplete expression");
+ 			err = 0;
++		}
++
++		void parse() {
++			tokens.clear();
++			parse_each([&](Token&& token) { tokens.push_back(std::move(token)); });
+ 		}
+ 
+ 	};

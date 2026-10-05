@@ -1,0 +1,254 @@
+[
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 0,
+    "wall_s": 0.08492787927389145,
+    "peak_rss_kib": 21404
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 0,
+    "wall_s": 0.12583458004519343,
+    "peak_rss_kib": 21404
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 1,
+    "wall_s": 0.09651751909404993,
+    "peak_rss_kib": 21220
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 1,
+    "wall_s": 0.09126544324681163,
+    "peak_rss_kib": 21672
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 2,
+    "wall_s": 0.08364640409126878,
+    "peak_rss_kib": 21472
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 2,
+    "wall_s": 0.08121199626475573,
+    "peak_rss_kib": 21412
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 3,
+    "wall_s": 0.08607101812958717,
+    "peak_rss_kib": 21516
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 3,
+    "wall_s": 0.09496385976672173,
+    "peak_rss_kib": 21604
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 4,
+    "wall_s": 0.10937952483072877,
+    "peak_rss_kib": 21292
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 4,
+    "wall_s": 0.09888508589938283,
+    "peak_rss_kib": 21184
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 5,
+    "wall_s": 0.09540525870397687,
+    "peak_rss_kib": 21508
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 5,
+    "wall_s": 0.08922390080988407,
+    "peak_rss_kib": 21696
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 6,
+    "wall_s": 0.10260201524943113,
+    "peak_rss_kib": 21484
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 6,
+    "wall_s": 0.08843095880001783,
+    "peak_rss_kib": 21320
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 7,
+    "wall_s": 0.08014650084078312,
+    "peak_rss_kib": 21300
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 7,
+    "wall_s": 0.08542701601982117,
+    "peak_rss_kib": 21648
+  },
+  {
+    "polygon": "heptagon",
+    "method": "previous",
+    "repeat": 8,
+    "wall_s": 0.08909776574000716,
+    "peak_rss_kib": 20976
+  },
+  {
+    "polygon": "heptagon",
+    "method": "symmetry",
+    "repeat": 8,
+    "wall_s": 0.08044626703485847,
+    "peak_rss_kib": 21392
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 0,
+    "wall_s": 0.06827526958659291,
+    "peak_rss_kib": 16548
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 0,
+    "wall_s": 0.06342130806297064,
+    "peak_rss_kib": 16472
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 1,
+    "wall_s": 0.062386348843574524,
+    "peak_rss_kib": 16228
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 1,
+    "wall_s": 0.059475040063261986,
+    "peak_rss_kib": 16436
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 2,
+    "wall_s": 0.059888835065066814,
+    "peak_rss_kib": 16424
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 2,
+    "wall_s": 0.052190781105309725,
+    "peak_rss_kib": 16384
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 3,
+    "wall_s": 0.04531081626191735,
+    "peak_rss_kib": 16548
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 3,
+    "wall_s": 0.06860849494114518,
+    "peak_rss_kib": 16532
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 4,
+    "wall_s": 0.0635337051935494,
+    "peak_rss_kib": 16520
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 4,
+    "wall_s": 0.0684720128774643,
+    "peak_rss_kib": 16708
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 5,
+    "wall_s": 0.055601416155695915,
+    "peak_rss_kib": 16384
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 5,
+    "wall_s": 0.06459268275648355,
+    "peak_rss_kib": 16692
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 6,
+    "wall_s": 0.06507786037400365,
+    "peak_rss_kib": 16552
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 6,
+    "wall_s": 0.05259309569373727,
+    "peak_rss_kib": 16224
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 7,
+    "wall_s": 0.06574574206024408,
+    "peak_rss_kib": 16160
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 7,
+    "wall_s": 0.06317510595545173,
+    "peak_rss_kib": 16628
+  },
+  {
+    "polygon": "hexagon",
+    "method": "previous",
+    "repeat": 8,
+    "wall_s": 0.0490248198620975,
+    "peak_rss_kib": 16544
+  },
+  {
+    "polygon": "hexagon",
+    "method": "symmetry",
+    "repeat": 8,
+    "wall_s": 0.047179974149912596,
+    "peak_rss_kib": 16708
+  }
+]

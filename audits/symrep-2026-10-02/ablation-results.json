@@ -1,0 +1,47 @@
+[
+  {
+    "label": "ablation-fec8-0",
+    "wall_s": 0.24405632074922323,
+    "peak_rss_kib": 23768
+  },
+  {
+    "label": "ablation-fec8-1",
+    "wall_s": 0.2550330269150436,
+    "peak_rss_kib": 24792
+  },
+  {
+    "label": "ablation-fec8-2",
+    "wall_s": 0.25523734418675303,
+    "peak_rss_kib": 24808
+  },
+  {
+    "label": "ablation-lec5-0",
+    "wall_s": 0.2062660870142281,
+    "peak_rss_kib": 25932
+  },
+  {
+    "label": "ablation-lec5-1",
+    "wall_s": 0.22316397307440639,
+    "peak_rss_kib": 25576
+  },
+  {
+    "label": "ablation-lec5-2",
+    "wall_s": 0.20907319011166692,
+    "peak_rss_kib": 26048
+  },
+  {
+    "label": "ablation-lec6-0",
+    "wall_s": 4.140188787598163,
+    "peak_rss_kib": 324884
+  },
+  {
+    "label": "ablation-lec6-1",
+    "wall_s": 4.1224747989326715,
+    "peak_rss_kib": 324952
+  },
+  {
+    "label": "ablation-lec6-2",
+    "wall_s": 4.181942638009787,
+    "peak_rss_kib": 322080
+  }
+]

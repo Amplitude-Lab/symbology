@@ -1,0 +1,128 @@
+[
+  {
+    "case": "hexagon-fec",
+    "repeat": 0,
+    "method": "before",
+    "wall_s": 0.0787747330032289,
+    "peak_rss_kib": 18652
+  },
+  {
+    "case": "hexagon-fec",
+    "repeat": 0,
+    "method": "stream",
+    "wall_s": 0.05953872902318835,
+    "peak_rss_kib": 16092
+  },
+  {
+    "case": "hexagon-fec",
+    "repeat": 1,
+    "method": "stream",
+    "wall_s": 0.06748094502836466,
+    "peak_rss_kib": 16408
+  },
+  {
+    "case": "hexagon-fec",
+    "repeat": 1,
+    "method": "before",
+    "wall_s": 0.1017343569546938,
+    "peak_rss_kib": 18492
+  },
+  {
+    "case": "hexagon-fec",
+    "repeat": 2,
+    "method": "before",
+    "wall_s": 0.07457854505628347,
+    "peak_rss_kib": 19048
+  },
+  {
+    "case": "hexagon-fec",
+    "repeat": 2,
+    "method": "stream",
+    "wall_s": 0.05841999687254429,
+    "peak_rss_kib": 16412
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 0,
+    "method": "before",
+    "wall_s": 0.21476009488105774,
+    "peak_rss_kib": 58668
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 0,
+    "method": "stream",
+    "wall_s": 0.24456828786060214,
+    "peak_rss_kib": 40556
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 1,
+    "method": "stream",
+    "wall_s": 0.21599144535139203,
+    "peak_rss_kib": 40584
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 1,
+    "method": "before",
+    "wall_s": 0.24861275125294924,
+    "peak_rss_kib": 57524
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 2,
+    "method": "before",
+    "wall_s": 0.2738516191020608,
+    "peak_rss_kib": 58532
+  },
+  {
+    "case": "hexagon-lec",
+    "repeat": 2,
+    "method": "stream",
+    "wall_s": 0.20311791403219104,
+    "peak_rss_kib": 40756
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 0,
+    "method": "before",
+    "wall_s": 1.6422146642580628,
+    "peak_rss_kib": 390736
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 0,
+    "method": "stream",
+    "wall_s": 1.732461950276047,
+    "peak_rss_kib": 342652
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 1,
+    "method": "stream",
+    "wall_s": 1.6040364662185311,
+    "peak_rss_kib": 343884
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 1,
+    "method": "before",
+    "wall_s": 1.719073317013681,
+    "peak_rss_kib": 394452
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 2,
+    "method": "before",
+    "wall_s": 1.687608590349555,
+    "peak_rss_kib": 391588
+  },
+  {
+    "case": "heptagon-lec",
+    "repeat": 2,
+    "method": "stream",
+    "wall_s": 1.6366987428627908,
+    "peak_rss_kib": 347720
+  }
+]

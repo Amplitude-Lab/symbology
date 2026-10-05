@@ -1,0 +1,6335 @@
+{
+  "threads": 2,
+  "repeats": 5,
+  "cases": [
+    {
+      "name": "heptagon-fec-w4",
+      "maximum": 4,
+      "runs": [
+        {
+          "native": {
+            "label": "heptagon-fec-w4-native-0",
+            "wall_s": 0.07468249090015888,
+            "peak_rss_kib": 21240,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00236459"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00857227"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0538292"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w4-symmetry-0",
+            "wall_s": 0.09034739108756185,
+            "peak_rss_kib": 22116,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000485581",
+                "kernel_s": "0.000583636",
+                "action_s": "5.3924e-05",
+                "frame_s": "0.000902894",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.00128457",
+                "kernel_s": "0.002763761",
+                "action_s": "0.000176807",
+                "frame_s": "0.001804238",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.010199243",
+                "kernel_s": "0.026277724",
+                "action_s": "0.000900391",
+                "frame_s": "0.008691035",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-fec-w4-symmetry-1",
+            "wall_s": 0.08120279666036367,
+            "peak_rss_kib": 22156,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000309372",
+                "kernel_s": "0.000837716",
+                "action_s": "5.6792e-05",
+                "frame_s": "0.000864932",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.002545374",
+                "kernel_s": "0.002954288",
+                "action_s": "0.000149336",
+                "frame_s": "0.001724276",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.00814713",
+                "kernel_s": "0.023394067",
+                "action_s": "0.000748932",
+                "frame_s": "0.006109717",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-fec-w4-native-1",
+            "wall_s": 0.08479432109743357,
+            "peak_rss_kib": 21524,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00284947"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.0103805"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0600923"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-fec-w4-native-2",
+            "wall_s": 0.06959189381450415,
+            "peak_rss_kib": 21376,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00154546"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00541164"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0511119"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w4-symmetry-2",
+            "wall_s": 0.08521196572110057,
+            "peak_rss_kib": 22184,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000280287",
+                "kernel_s": "0.000231479",
+                "action_s": "5.1912e-05",
+                "frame_s": "0.000812302",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.000938026",
+                "kernel_s": "0.003067576",
+                "action_s": "0.000344026",
+                "frame_s": "0.001929705",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.008960636",
+                "kernel_s": "0.02550172",
+                "action_s": "0.000661792",
+                "frame_s": "0.006754342",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-fec-w4-symmetry-3",
+            "wall_s": 0.09041740791872144,
+            "peak_rss_kib": 22352,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000275774",
+                "kernel_s": "0.00023379",
+                "action_s": "5.4276e-05",
+                "frame_s": "0.000873872",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.00079067",
+                "kernel_s": "0.004919949",
+                "action_s": "0.000747743",
+                "frame_s": "0.002496118",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.010835408",
+                "kernel_s": "0.026123962",
+                "action_s": "0.000851711",
+                "frame_s": "0.006141463",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-fec-w4-native-3",
+            "wall_s": 0.0671954732388258,
+            "peak_rss_kib": 21224,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00253085"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.0053196"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0489791"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-fec-w4-native-4",
+            "wall_s": 0.0721627906896174,
+            "peak_rss_kib": 21512,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00200439"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00939706"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.049265"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w4-symmetry-4",
+            "wall_s": 0.08528031688183546,
+            "peak_rss_kib": 22172,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000325391",
+                "kernel_s": "0.000241104",
+                "action_s": "4.6495e-05",
+                "frame_s": "0.002727866",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.001122169",
+                "kernel_s": "0.003621653",
+                "action_s": "0.000153321",
+                "frame_s": "0.001565391",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.009183045",
+                "kernel_s": "0.022923712",
+                "action_s": "0.000817393",
+                "frame_s": "0.006956101",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              }
+            ]
+          }
+        }
+      ],
+      "prepared_sha256": "7cc442b5e02dc300d07d7f2697f9fa343b867120645a7b43f1472eef62231f11",
+      "median_wall_s": {
+        "native": 0.0721627906896174,
+        "symmetry": 0.08528031688183546
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true
+    },
+    {
+      "name": "heptagon-lec-w3",
+      "maximum": 3,
+      "runs": [
+        {
+          "native": {
+            "label": "heptagon-lec-w3-native-0",
+            "wall_s": 0.06441027019172907,
+            "peak_rss_kib": 19540,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00534314"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0426742"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w3-symmetry-0",
+            "wall_s": 0.08732482278719544,
+            "peak_rss_kib": 25420,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.0004205",
+                "kernel_s": "0.000962713",
+                "action_s": "0.000595432",
+                "frame_s": "0.001906245",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.004487113",
+                "kernel_s": "0.02305475",
+                "action_s": "0.003998977",
+                "frame_s": "0.011990767",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-lec-w3-symmetry-1",
+            "wall_s": 0.08498667180538177,
+            "peak_rss_kib": 25284,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000310629",
+                "kernel_s": "0.001290404",
+                "action_s": "0.000132825",
+                "frame_s": "0.001746968",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.004678517",
+                "kernel_s": "0.021968506",
+                "action_s": "0.002804808",
+                "frame_s": "0.015796506",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-lec-w3-native-1",
+            "wall_s": 0.06480416795238853,
+            "peak_rss_kib": 19716,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00418909"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0459266"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-lec-w3-native-2",
+            "wall_s": 0.06375968595966697,
+            "peak_rss_kib": 19488,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.0039718"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0450238"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w3-symmetry-2",
+            "wall_s": 0.08666016394272447,
+            "peak_rss_kib": 25260,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000301354",
+                "kernel_s": "0.000872834",
+                "action_s": "0.000180543",
+                "frame_s": "0.006255656",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.004604228",
+                "kernel_s": "0.023114632",
+                "action_s": "0.00172804",
+                "frame_s": "0.013014381",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-lec-w3-symmetry-3",
+            "wall_s": 0.09106606896966696,
+            "peak_rss_kib": 25260,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000365546",
+                "kernel_s": "0.000827022",
+                "action_s": "0.000145628",
+                "frame_s": "0.002778942",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.005485203",
+                "kernel_s": "0.027934653",
+                "action_s": "0.002145951",
+                "frame_s": "0.010933638",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-lec-w3-native-3",
+            "wall_s": 0.06344772828742862,
+            "peak_rss_kib": 19592,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00282445"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0464072"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-lec-w3-native-4",
+            "wall_s": 0.05556484591215849,
+            "peak_rss_kib": 19312,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00188034"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0401734"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w3-symmetry-4",
+            "wall_s": 0.08624989772215486,
+            "peak_rss_kib": 25160,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.00050724",
+                "kernel_s": "0.001052796",
+                "action_s": "0.000140557",
+                "frame_s": "0.001916295",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.004553326",
+                "kernel_s": "0.025131897",
+                "action_s": "0.001780796",
+                "frame_s": "0.013345191",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              }
+            ]
+          }
+        }
+      ],
+      "prepared_sha256": "362aa2693226282ab0b4d78638d6398de11073223c024742ca46073ee02de76f",
+      "median_wall_s": {
+        "native": 0.06375968595966697,
+        "symmetry": 0.08666016394272447
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true
+    },
+    {
+      "name": "heptagon-fec-w5",
+      "maximum": 5,
+      "runs": [
+        {
+          "native": {
+            "label": "heptagon-fec-w5-native-0",
+            "wall_s": 0.4308783649466932,
+            "peak_rss_kib": 111500,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00265199"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00554465"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0512892"
+              },
+              {
+                "weight": "5",
+                "dimension": "911",
+                "solve_s": "0.339164"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w5-symmetry-0",
+            "wall_s": 0.4045035010203719,
+            "peak_rss_kib": 87348,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000337261",
+                "kernel_s": "0.000236271",
+                "action_s": "4.3798e-05",
+                "frame_s": "0.003899321",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.000975286",
+                "kernel_s": "0.002866636",
+                "action_s": "0.000182342",
+                "frame_s": "0.001411511",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.011220676",
+                "kernel_s": "0.025270668",
+                "action_s": "0.000962603",
+                "frame_s": "0.00695623",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              },
+              {
+                "weight": "5",
+                "rows": "115527",
+                "columns": "12936",
+                "nnz": "1288944",
+                "dimension": "911",
+                "assembly_s": "0.065368351",
+                "kernel_s": "0.184220307",
+                "action_s": "0.00693916",
+                "frame_s": "0.030849467",
+                "verification_s": "0",
+                "carrier_nnz": "154737",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "261"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-fec-w5-symmetry-1",
+            "wall_s": 0.40712245693430305,
+            "peak_rss_kib": 85500,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000258174",
+                "kernel_s": "0.000246842",
+                "action_s": "4.8675e-05",
+                "frame_s": "0.00395554",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.000982332",
+                "kernel_s": "0.002082753",
+                "action_s": "0.000177031",
+                "frame_s": "0.001383913",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.011863848",
+                "kernel_s": "0.021633709",
+                "action_s": "0.000879339",
+                "frame_s": "0.007168011",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              },
+              {
+                "weight": "5",
+                "rows": "115527",
+                "columns": "12936",
+                "nnz": "1288944",
+                "dimension": "911",
+                "assembly_s": "0.07067624",
+                "kernel_s": "0.175819706",
+                "action_s": "0.007053715",
+                "frame_s": "0.038031569",
+                "verification_s": "0",
+                "carrier_nnz": "154737",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "261"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-fec-w5-native-1",
+            "wall_s": 0.45672975201159716,
+            "peak_rss_kib": 114940,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00100447"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.0053214"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0581811"
+              },
+              {
+                "weight": "5",
+                "dimension": "911",
+                "solve_s": "0.355837"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-fec-w5-native-2",
+            "wall_s": 0.4471985390409827,
+            "peak_rss_kib": 113916,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00230571"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00553173"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0544843"
+              },
+              {
+                "weight": "5",
+                "dimension": "911",
+                "solve_s": "0.350561"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w5-symmetry-2",
+            "wall_s": 0.39704215759411454,
+            "peak_rss_kib": 86068,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000267905",
+                "kernel_s": "0.000205486",
+                "action_s": "4.7416e-05",
+                "frame_s": "0.000784307",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.000742692",
+                "kernel_s": "0.002276465",
+                "action_s": "0.000158311",
+                "frame_s": "0.001590274",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.008683563",
+                "kernel_s": "0.023801444",
+                "action_s": "0.000886307",
+                "frame_s": "0.012935264",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              },
+              {
+                "weight": "5",
+                "rows": "115527",
+                "columns": "12936",
+                "nnz": "1288944",
+                "dimension": "911",
+                "assembly_s": "0.06206307",
+                "kernel_s": "0.187040807",
+                "action_s": "0.007449941",
+                "frame_s": "0.024710564",
+                "verification_s": "0",
+                "carrier_nnz": "154737",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "261"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-fec-w5-symmetry-3",
+            "wall_s": 0.40782892843708396,
+            "peak_rss_kib": 85704,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000342375",
+                "kernel_s": "0.00032989",
+                "action_s": "6.0507e-05",
+                "frame_s": "0.000945706",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.001329099",
+                "kernel_s": "0.00423645",
+                "action_s": "0.000425494",
+                "frame_s": "0.002815973",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.009167636",
+                "kernel_s": "0.024369541",
+                "action_s": "0.000995278",
+                "frame_s": "0.009858075",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              },
+              {
+                "weight": "5",
+                "rows": "115527",
+                "columns": "12936",
+                "nnz": "1288944",
+                "dimension": "911",
+                "assembly_s": "0.060064466",
+                "kernel_s": "0.184160218",
+                "action_s": "0.007878412",
+                "frame_s": "0.036099541",
+                "verification_s": "0",
+                "carrier_nnz": "154737",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "261"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-fec-w5-native-3",
+            "wall_s": 0.4559499928727746,
+            "peak_rss_kib": 114264,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.0022837"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00669036"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0498515"
+              },
+              {
+                "weight": "5",
+                "dimension": "911",
+                "solve_s": "0.366671"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-fec-w5-native-4",
+            "wall_s": 0.4446209683082998,
+            "peak_rss_kib": 113636,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "28",
+                "solve_s": "0.00343355"
+              },
+              {
+                "weight": "3",
+                "dimension": "97",
+                "solve_s": "0.00652587"
+              },
+              {
+                "weight": "4",
+                "dimension": "308",
+                "solve_s": "0.0495109"
+              },
+              {
+                "weight": "5",
+                "dimension": "911",
+                "solve_s": "0.354354"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-fec-w5-symmetry-4",
+            "wall_s": 0.39381981641054153,
+            "peak_rss_kib": 84628,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "294",
+                "nnz": "329",
+                "dimension": "28",
+                "assembly_s": "0.000354711",
+                "kernel_s": "0.000205076",
+                "action_s": "3.7477e-05",
+                "frame_s": "0.003653808",
+                "verification_s": "0",
+                "carrier_nnz": "91",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "8"
+              },
+              {
+                "weight": "3",
+                "rows": "8337",
+                "columns": "1176",
+                "nnz": "9266",
+                "dimension": "97",
+                "assembly_s": "0.001108288",
+                "kernel_s": "0.002144507",
+                "action_s": "0.000174431",
+                "frame_s": "0.002411821",
+                "verification_s": "0",
+                "carrier_nnz": "1585",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "27"
+              },
+              {
+                "weight": "4",
+                "rows": "33348",
+                "columns": "4074",
+                "nnz": "175553",
+                "dimension": "308",
+                "assembly_s": "0.011877717",
+                "kernel_s": "0.025570721",
+                "action_s": "0.000760316",
+                "frame_s": "0.007058726",
+                "verification_s": "0",
+                "carrier_nnz": "12571",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "88"
+              },
+              {
+                "weight": "5",
+                "rows": "115527",
+                "columns": "12936",
+                "nnz": "1288944",
+                "dimension": "911",
+                "assembly_s": "0.062224504",
+                "kernel_s": "0.178160524",
+                "action_s": "0.006935772",
+                "frame_s": "0.027144706",
+                "verification_s": "0",
+                "carrier_nnz": "154737",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "261"
+              }
+            ]
+          }
+        }
+      ],
+      "prepared_sha256": "7cc442b5e02dc300d07d7f2697f9fa343b867120645a7b43f1472eef62231f11",
+      "median_wall_s": {
+        "native": 0.4471985390409827,
+        "symmetry": 0.4045035010203719
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true,
+      "full_matrix_checks": true
+    },
+    {
+      "name": "heptagon-lec-w4",
+      "maximum": 4,
+      "runs": [
+        {
+          "native": {
+            "label": "heptagon-lec-w4-native-0",
+            "wall_s": 1.6463781739585102,
+            "peak_rss_kib": 402104,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00292123"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0424932"
+              },
+              {
+                "weight": "4",
+                "dimension": "3745",
+                "solve_s": "1.37187"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w4-symmetry-0",
+            "wall_s": 1.6767768859863281,
+            "peak_rss_kib": 446732,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000355683",
+                "kernel_s": "0.000752299",
+                "action_s": "0.000134108",
+                "frame_s": "0.00195076",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.005629289",
+                "kernel_s": "0.024554399",
+                "action_s": "0.002266784",
+                "frame_s": "0.015905771",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              },
+              {
+                "weight": "4",
+                "rows": "140538",
+                "columns": "30828",
+                "nnz": "3964499",
+                "dimension": "3745",
+                "assembly_s": "0.149220259",
+                "kernel_s": "0.72217527",
+                "action_s": "0.066667083",
+                "frame_s": "0.344334267",
+                "verification_s": "0",
+                "carrier_nnz": "1774777",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "1070"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-lec-w4-symmetry-1",
+            "wall_s": 1.6625737808644772,
+            "peak_rss_kib": 443352,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000346152",
+                "kernel_s": "0.000837894",
+                "action_s": "0.000140994",
+                "frame_s": "0.002018749",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.005050184",
+                "kernel_s": "0.024350726",
+                "action_s": "0.001774454",
+                "frame_s": "0.013635702",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              },
+              {
+                "weight": "4",
+                "rows": "140538",
+                "columns": "30828",
+                "nnz": "3964499",
+                "dimension": "3745",
+                "assembly_s": "0.149937146",
+                "kernel_s": "0.72572802",
+                "action_s": "0.067597489",
+                "frame_s": "0.327471308",
+                "verification_s": "0",
+                "carrier_nnz": "1774777",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "1070"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-lec-w4-native-1",
+            "wall_s": 1.6303315749391913,
+            "peak_rss_kib": 401152,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00226861"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0466757"
+              },
+              {
+                "weight": "4",
+                "dimension": "3745",
+                "solve_s": "1.35052"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-lec-w4-native-2",
+            "wall_s": 1.6243384471163154,
+            "peak_rss_kib": 402228,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00371446"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0427633"
+              },
+              {
+                "weight": "4",
+                "dimension": "3745",
+                "solve_s": "1.35389"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w4-symmetry-2",
+            "wall_s": 1.638428317848593,
+            "peak_rss_kib": 448372,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000512795",
+                "kernel_s": "0.00142586",
+                "action_s": "0.00019706",
+                "frame_s": "0.002424582",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.007167996",
+                "kernel_s": "0.023754535",
+                "action_s": "0.001831347",
+                "frame_s": "0.011821824",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              },
+              {
+                "weight": "4",
+                "rows": "140538",
+                "columns": "30828",
+                "nnz": "3964499",
+                "dimension": "3745",
+                "assembly_s": "0.152208456",
+                "kernel_s": "0.726947548",
+                "action_s": "0.066272722",
+                "frame_s": "0.297082383",
+                "verification_s": "0",
+                "carrier_nnz": "1774777",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "1070"
+              }
+            ]
+          }
+        },
+        {
+          "symmetry": {
+            "label": "heptagon-lec-w4-symmetry-3",
+            "wall_s": 1.6651922897435725,
+            "peak_rss_kib": 451112,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000915182",
+                "kernel_s": "0.001423732",
+                "action_s": "0.000155523",
+                "frame_s": "0.001994991",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.00490533",
+                "kernel_s": "0.025386197",
+                "action_s": "0.002053196",
+                "frame_s": "0.01365027",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              },
+              {
+                "weight": "4",
+                "rows": "140538",
+                "columns": "30828",
+                "nnz": "3964499",
+                "dimension": "3745",
+                "assembly_s": "0.151181393",
+                "kernel_s": "0.743023541",
+                "action_s": "0.067322322",
+                "frame_s": "0.314434064",
+                "verification_s": "0",
+                "carrier_nnz": "1774777",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "1070"
+              }
+            ]
+          },
+          "native": {
+            "label": "heptagon-lec-w4-native-3",
+            "wall_s": 1.67263523908332,
+            "peak_rss_kib": 402120,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00384179"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0467059"
+              },
+              {
+                "weight": "4",
+                "dimension": "3745",
+                "solve_s": "1.39769"
+              }
+            ]
+          }
+        },
+        {
+          "native": {
+            "label": "heptagon-lec-w4-native-4",
+            "wall_s": 1.6208544396795332,
+            "peak_rss_kib": 391952,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "118",
+                "solve_s": "0.00361935"
+              },
+              {
+                "weight": "3",
+                "dimension": "734",
+                "solve_s": "0.0413929"
+              },
+              {
+                "weight": "4",
+                "dimension": "3745",
+                "solve_s": "1.35368"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "heptagon-lec-w4-symmetry-4",
+            "wall_s": 1.7185294181108475,
+            "peak_rss_kib": 454764,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "1191",
+                "columns": "588",
+                "nnz": "1861",
+                "dimension": "118",
+                "assembly_s": "0.000318809",
+                "kernel_s": "0.000870953",
+                "action_s": "0.000147184",
+                "frame_s": "0.002059607",
+                "verification_s": "0",
+                "carrier_nnz": "1231",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "33"
+              },
+              {
+                "weight": "3",
+                "rows": "16674",
+                "columns": "4956",
+                "nnz": "102551",
+                "dimension": "734",
+                "assembly_s": "0.004890213",
+                "kernel_s": "0.022394883",
+                "action_s": "0.001817104",
+                "frame_s": "0.014081704",
+                "verification_s": "0",
+                "carrier_nnz": "43712",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "209"
+              },
+              {
+                "weight": "4",
+                "rows": "140538",
+                "columns": "30828",
+                "nnz": "3964499",
+                "dimension": "3745",
+                "assembly_s": "0.151098585",
+                "kernel_s": "0.738104527",
+                "action_s": "0.069711402",
+                "frame_s": "0.355770954",
+                "verification_s": "0",
+                "carrier_nnz": "1774777",
+                "stored_frame_nnz": "0",
+                "orbit_seeds": "1070"
+              }
+            ]
+          }
+        }
+      ],
+      "prepared_sha256": "362aa2693226282ab0b4d78638d6398de11073223c024742ca46073ee02de76f",
+      "median_wall_s": {
+        "native": 1.6303315749391913,
+        "symmetry": 1.6651922897435725
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true,
+      "full_matrix_checks": true
+    },
+    {
+      "name": "hexagon-fec-w8",
+      "maximum": 8,
+      "runs": [
+        {
+          "native": {
+            "label": "hexagon-fec-w8-native-0",
+            "wall_s": 0.1285841092467308,
+            "peak_rss_kib": 28772,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "6",
+                "solve_s": "0.000781242"
+              },
+              {
+                "weight": "3",
+                "dimension": "13",
+                "solve_s": "0.00066755"
+              },
+              {
+                "weight": "4",
+                "dimension": "26",
+                "solve_s": "0.00106603"
+              },
+              {
+                "weight": "5",
+                "dimension": "51",
+                "solve_s": "0.00244681"
+              },
+              {
+                "weight": "6",
+                "dimension": "98",
+                "solve_s": "0.00715191"
+              },
+              {
+                "weight": "7",
+                "dimension": "184",
+                "solve_s": "0.0179014"
+              },
+              {
+                "weight": "8",
+                "dimension": "340",
+                "solve_s": "0.0817993"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-fec-w8-symmetry-0",
+            "wall_s": 0.10997973196208477,
+            "peak_rss_kib": 23964,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "32",
+                "columns": "27",
+                "nnz": "38",
+                "dimension": "6",
+                "assembly_s": "0.001407961",
+                "adapt_s": "4.1864e-05",
+                "kernel_s": "0.00030447",
+                "ordinary_kernel_s": "0",
+                "verification_s": "2.3747e-05",
+                "corner_columns": "2,4,1,2,6,3",
+                "template_s": "0.000561372",
+                "compression_s": "0.000829944",
+                "rref_s": "0.00026426",
+                "shorten_s": "1.226e-06",
+                "lift_s": "6.277e-06"
+              },
+              {
+                "weight": "3",
+                "rows": "96",
+                "columns": "54",
+                "nnz": "186",
+                "dimension": "13",
+                "assembly_s": "0.000707671",
+                "adapt_s": "8.4392e-05",
+                "kernel_s": "0.000479987",
+                "ordinary_kernel_s": "0",
+                "verification_s": "5.6165e-05",
+                "corner_columns": "4,8,2,4,12,6",
+                "template_s": "0.000260599",
+                "compression_s": "0.000418592",
+                "rref_s": "0.000434971",
+                "shorten_s": "7.5e-07",
+                "lift_s": "1.2638e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "192",
+                "columns": "117",
+                "nnz": "486",
+                "dimension": "26",
+                "assembly_s": "0.000973108",
+                "adapt_s": "0.000139404",
+                "kernel_s": "0.00074321",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000141529",
+                "corner_columns": "10,15,5,9,25,14",
+                "template_s": "0.000808286",
+                "compression_s": "8.8008e-05",
+                "rref_s": "0.000651172",
+                "shorten_s": "6.78e-07",
+                "lift_s": "3.9237e-05"
+              },
+              {
+                "weight": "5",
+                "rows": "416",
+                "columns": "234",
+                "nnz": "1715",
+                "dimension": "51",
+                "assembly_s": "0.001049482",
+                "adapt_s": "0.000214687",
+                "kernel_s": "0.001411449",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000307599",
+                "corner_columns": "21,29,12,16,50,28",
+                "template_s": "0.00043088",
+                "compression_s": "0.000411984",
+                "rref_s": "0.001230551",
+                "shorten_s": "8.82e-07",
+                "lift_s": "9.2046e-05"
+              },
+              {
+                "weight": "6",
+                "rows": "832",
+                "columns": "459",
+                "nnz": "5730",
+                "dimension": "98",
+                "assembly_s": "0.002430504",
+                "adapt_s": "0.000335263",
+                "kernel_s": "0.00287228",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000787264",
+                "corner_columns": "42,54,24,33,96,57",
+                "template_s": "0.000365609",
+                "compression_s": "0.001398065",
+                "rref_s": "0.002424531",
+                "shorten_s": "7.97e-07",
+                "lift_s": "0.000262277"
+              },
+              {
+                "weight": "7",
+                "rows": "1632",
+                "columns": "882",
+                "nnz": "18486",
+                "dimension": "184",
+                "assembly_s": "0.001941065",
+                "adapt_s": "0.000708245",
+                "kernel_s": "0.015372021",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.00206297",
+                "corner_columns": "82,101,50,61,183,111",
+                "template_s": "0.000354762",
+                "compression_s": "0.00029306",
+                "rref_s": "0.014086592",
+                "shorten_s": "8.8e-07",
+                "lift_s": "0.000830825"
+              },
+              {
+                "weight": "8",
+                "rows": "3136",
+                "columns": "1656",
+                "nnz": "62857",
+                "dimension": "340",
+                "assembly_s": "0.006177959",
+                "adapt_s": "0.001101272",
+                "kernel_s": "0.022506269",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.006850857",
+                "corner_columns": "155,184,97,116,339,213",
+                "template_s": "0.000253234",
+                "compression_s": "0.00196504",
+                "rref_s": "0.017595159",
+                "shorten_s": "1.091e-06",
+                "lift_s": "0.003474382"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-fec-w8-archive-0",
+            "wall_s": 0.042389953043311834,
+            "peak_rss_kib": 18860
+          }
+        },
+        {
+          "symmetry": {
+            "label": "hexagon-fec-w8-symmetry-1",
+            "wall_s": 0.1174954161979258,
+            "peak_rss_kib": 24068,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "32",
+                "columns": "27",
+                "nnz": "38",
+                "dimension": "6",
+                "assembly_s": "0.006953621",
+                "adapt_s": "4.5174e-05",
+                "kernel_s": "0.001046506",
+                "ordinary_kernel_s": "0",
+                "verification_s": "2.6388e-05",
+                "corner_columns": "2,4,1,2,6,3",
+                "template_s": "0.003574807",
+                "compression_s": "0.003357954",
+                "rref_s": "0.001003426",
+                "shorten_s": "2.239e-06",
+                "lift_s": "6.944e-06"
+              },
+              {
+                "weight": "3",
+                "rows": "96",
+                "columns": "54",
+                "nnz": "186",
+                "dimension": "13",
+                "assembly_s": "0.000839121",
+                "adapt_s": "9.5292e-05",
+                "kernel_s": "0.00050868",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.6264e-05",
+                "corner_columns": "4,8,2,4,12,6",
+                "template_s": "0.000306376",
+                "compression_s": "0.000497394",
+                "rref_s": "0.000458593",
+                "shorten_s": "7.96e-07",
+                "lift_s": "1.3209e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "192",
+                "columns": "117",
+                "nnz": "486",
+                "dimension": "26",
+                "assembly_s": "0.001635468",
+                "adapt_s": "0.000157324",
+                "kernel_s": "0.000784666",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000144445",
+                "corner_columns": "10,15,5,9,25,14",
+                "template_s": "0.001470717",
+                "compression_s": "0.00010107",
+                "rref_s": "0.000691306",
+                "shorten_s": "6.78e-07",
+                "lift_s": "3.9392e-05"
+              },
+              {
+                "weight": "5",
+                "rows": "416",
+                "columns": "234",
+                "nnz": "1715",
+                "dimension": "51",
+                "assembly_s": "0.001041904",
+                "adapt_s": "0.000237545",
+                "kernel_s": "0.00221605",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000364748",
+                "corner_columns": "21,29,12,16,50,28",
+                "template_s": "0.000447288",
+                "compression_s": "0.000438071",
+                "rref_s": "0.001996401",
+                "shorten_s": "6.71e-07",
+                "lift_s": "0.000112373"
+              },
+              {
+                "weight": "6",
+                "rows": "832",
+                "columns": "459",
+                "nnz": "5730",
+                "dimension": "98",
+                "assembly_s": "0.002130732",
+                "adapt_s": "0.000406509",
+                "kernel_s": "0.00386035",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000863217",
+                "corner_columns": "42,54,24,33,96,57",
+                "template_s": "0.000366958",
+                "compression_s": "0.001288432",
+                "rref_s": "0.003265978",
+                "shorten_s": "1.616e-06",
+                "lift_s": "0.000345195"
+              },
+              {
+                "weight": "7",
+                "rows": "1632",
+                "columns": "882",
+                "nnz": "18486",
+                "dimension": "184",
+                "assembly_s": "0.005105675",
+                "adapt_s": "0.000722315",
+                "kernel_s": "0.006880815",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.002185973",
+                "corner_columns": "82,101,50,61,183,111",
+                "template_s": "0.001685893",
+                "compression_s": "0.001005049",
+                "rref_s": "0.005496373",
+                "shorten_s": "1.513e-06",
+                "lift_s": "0.000913469"
+              },
+              {
+                "weight": "8",
+                "rows": "3136",
+                "columns": "1656",
+                "nnz": "62857",
+                "dimension": "340",
+                "assembly_s": "0.009227454",
+                "adapt_s": "0.001198595",
+                "kernel_s": "0.025000151",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.006717829",
+                "corner_columns": "155,184,97,116,339,213",
+                "template_s": "0.001676649",
+                "compression_s": "0.00299825",
+                "rref_s": "0.019569482",
+                "shorten_s": "1.407e-06",
+                "lift_s": "0.003601"
+              }
+            ]
+          },
+          "native": {
+            "label": "hexagon-fec-w8-native-1",
+            "wall_s": 0.12182656675577164,
+            "peak_rss_kib": 29340,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "6",
+                "solve_s": "0.000468289"
+              },
+              {
+                "weight": "3",
+                "dimension": "13",
+                "solve_s": "0.000561128"
+              },
+              {
+                "weight": "4",
+                "dimension": "26",
+                "solve_s": "0.000850633"
+              },
+              {
+                "weight": "5",
+                "dimension": "51",
+                "solve_s": "0.00189478"
+              },
+              {
+                "weight": "6",
+                "dimension": "98",
+                "solve_s": "0.00560307"
+              },
+              {
+                "weight": "7",
+                "dimension": "184",
+                "solve_s": "0.0222975"
+              },
+              {
+                "weight": "8",
+                "dimension": "340",
+                "solve_s": "0.074514"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-fec-w8-archive-1",
+            "wall_s": 0.046759906224906445,
+            "peak_rss_kib": 18924
+          }
+        },
+        {
+          "native": {
+            "label": "hexagon-fec-w8-native-2",
+            "wall_s": 0.13140962785109878,
+            "peak_rss_kib": 29172,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "6",
+                "solve_s": "0.0010924"
+              },
+              {
+                "weight": "3",
+                "dimension": "13",
+                "solve_s": "0.000470636"
+              },
+              {
+                "weight": "4",
+                "dimension": "26",
+                "solve_s": "0.000832144"
+              },
+              {
+                "weight": "5",
+                "dimension": "51",
+                "solve_s": "0.00182362"
+              },
+              {
+                "weight": "6",
+                "dimension": "98",
+                "solve_s": "0.00647945"
+              },
+              {
+                "weight": "7",
+                "dimension": "184",
+                "solve_s": "0.0257643"
+              },
+              {
+                "weight": "8",
+                "dimension": "340",
+                "solve_s": "0.0787037"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-fec-w8-symmetry-2",
+            "wall_s": 0.10394106665626168,
+            "peak_rss_kib": 24004,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "32",
+                "columns": "27",
+                "nnz": "38",
+                "dimension": "6",
+                "assembly_s": "0.001455421",
+                "adapt_s": "4.317e-05",
+                "kernel_s": "0.000324747",
+                "ordinary_kernel_s": "0",
+                "verification_s": "2.5861e-05",
+                "corner_columns": "2,4,1,2,6,3",
+                "template_s": "0.000626103",
+                "compression_s": "0.000808824",
+                "rref_s": "0.000288778",
+                "shorten_s": "1.535e-06",
+                "lift_s": "6.299e-06"
+              },
+              {
+                "weight": "3",
+                "rows": "96",
+                "columns": "54",
+                "nnz": "186",
+                "dimension": "13",
+                "assembly_s": "0.000799996",
+                "adapt_s": "8.919e-05",
+                "kernel_s": "0.000495245",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.1467e-05",
+                "corner_columns": "4,8,2,4,12,6",
+                "template_s": "0.000298646",
+                "compression_s": "0.000467486",
+                "rref_s": "0.000450642",
+                "shorten_s": "6.19e-07",
+                "lift_s": "1.2689e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "192",
+                "columns": "117",
+                "nnz": "486",
+                "dimension": "26",
+                "assembly_s": "0.001032333",
+                "adapt_s": "0.00015216",
+                "kernel_s": "0.000792887",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000141647",
+                "corner_columns": "10,15,5,9,25,14",
+                "template_s": "0.000871328",
+                "compression_s": "0.000100915",
+                "rref_s": "0.000703092",
+                "shorten_s": "7.26e-07",
+                "lift_s": "3.9519e-05"
+              },
+              {
+                "weight": "5",
+                "rows": "416",
+                "columns": "234",
+                "nnz": "1715",
+                "dimension": "51",
+                "assembly_s": "0.001023402",
+                "adapt_s": "0.000226736",
+                "kernel_s": "0.001466309",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000335411",
+                "corner_columns": "21,29,12,16,50,28",
+                "template_s": "0.000446055",
+                "compression_s": "0.00043444",
+                "rref_s": "0.001268825",
+                "shorten_s": "7.45e-07",
+                "lift_s": "0.000102361"
+              },
+              {
+                "weight": "6",
+                "rows": "832",
+                "columns": "459",
+                "nnz": "5730",
+                "dimension": "98",
+                "assembly_s": "0.001565991",
+                "adapt_s": "0.000376198",
+                "kernel_s": "0.003628489",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000740771",
+                "corner_columns": "42,54,24,33,96,57",
+                "template_s": "0.000352916",
+                "compression_s": "0.000668855",
+                "rref_s": "0.003174591",
+                "shorten_s": "1.027e-06",
+                "lift_s": "0.000258861"
+              },
+              {
+                "weight": "7",
+                "rows": "1632",
+                "columns": "882",
+                "nnz": "18486",
+                "dimension": "184",
+                "assembly_s": "0.00257933",
+                "adapt_s": "0.000692222",
+                "kernel_s": "0.007389913",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.002461349",
+                "corner_columns": "82,101,50,61,183,111",
+                "template_s": "0.001006765",
+                "compression_s": "0.000378116",
+                "rref_s": "0.006111536",
+                "shorten_s": "9.33e-07",
+                "lift_s": "0.00087276"
+              },
+              {
+                "weight": "8",
+                "rows": "3136",
+                "columns": "1656",
+                "nnz": "62857",
+                "dimension": "340",
+                "assembly_s": "0.004702983",
+                "adapt_s": "0.001150236",
+                "kernel_s": "0.02230674",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.007300023",
+                "corner_columns": "155,184,97,116,339,213",
+                "template_s": "0.000223833",
+                "compression_s": "0.000628959",
+                "rref_s": "0.017480067",
+                "shorten_s": "1.615e-06",
+                "lift_s": "0.003509992"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-fec-w8-archive-2",
+            "wall_s": 0.04902330879122019,
+            "peak_rss_kib": 18892
+          }
+        },
+        {
+          "symmetry": {
+            "label": "hexagon-fec-w8-symmetry-3",
+            "wall_s": 0.10026086121797562,
+            "peak_rss_kib": 24164,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "32",
+                "columns": "27",
+                "nnz": "38",
+                "dimension": "6",
+                "assembly_s": "0.001032934",
+                "adapt_s": "4.291e-05",
+                "kernel_s": "0.000335619",
+                "ordinary_kernel_s": "0",
+                "verification_s": "2.6373e-05",
+                "corner_columns": "2,4,1,2,6,3",
+                "template_s": "0.000593625",
+                "compression_s": "0.000419883",
+                "rref_s": "0.000299435",
+                "shorten_s": "1.387e-06",
+                "lift_s": "6.082e-06"
+              },
+              {
+                "weight": "3",
+                "rows": "96",
+                "columns": "54",
+                "nnz": "186",
+                "dimension": "13",
+                "assembly_s": "0.001004903",
+                "adapt_s": "8.8378e-05",
+                "kernel_s": "0.000557301",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.0083e-05",
+                "corner_columns": "4,8,2,4,12,6",
+                "template_s": "0.000301726",
+                "compression_s": "0.000668203",
+                "rref_s": "0.000508995",
+                "shorten_s": "8.69e-07",
+                "lift_s": "1.2346e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "192",
+                "columns": "117",
+                "nnz": "486",
+                "dimension": "26",
+                "assembly_s": "0.001077141",
+                "adapt_s": "0.000152376",
+                "kernel_s": "0.000743442",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000139085",
+                "corner_columns": "10,15,5,9,25,14",
+                "template_s": "0.000913947",
+                "compression_s": "0.000105795",
+                "rref_s": "0.000655674",
+                "shorten_s": "7.51e-07",
+                "lift_s": "3.7282e-05"
+              },
+              {
+                "weight": "5",
+                "rows": "416",
+                "columns": "234",
+                "nnz": "1715",
+                "dimension": "51",
+                "assembly_s": "0.001007955",
+                "adapt_s": "0.000210144",
+                "kernel_s": "0.001368469",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000328884",
+                "corner_columns": "21,29,12,16,50,28",
+                "template_s": "0.000428919",
+                "compression_s": "0.000432443",
+                "rref_s": "0.001181332",
+                "shorten_s": "8.53e-07",
+                "lift_s": "9.831e-05"
+              },
+              {
+                "weight": "6",
+                "rows": "832",
+                "columns": "459",
+                "nnz": "5730",
+                "dimension": "98",
+                "assembly_s": "0.001697535",
+                "adapt_s": "0.000370247",
+                "kernel_s": "0.0031617",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.00080352",
+                "corner_columns": "42,54,24,33,96,57",
+                "template_s": "0.000409626",
+                "compression_s": "0.00083091",
+                "rref_s": "0.002673831",
+                "shorten_s": "1.041e-06",
+                "lift_s": "0.000291154"
+              },
+              {
+                "weight": "7",
+                "rows": "1632",
+                "columns": "882",
+                "nnz": "18486",
+                "dimension": "184",
+                "assembly_s": "0.003037323",
+                "adapt_s": "0.00069942",
+                "kernel_s": "0.006659183",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.002113756",
+                "corner_columns": "82,101,50,61,183,111",
+                "template_s": "0.000469392",
+                "compression_s": "0.001183601",
+                "rref_s": "0.005319343",
+                "shorten_s": "9.2e-07",
+                "lift_s": "0.000885919"
+              },
+              {
+                "weight": "8",
+                "rows": "3136",
+                "columns": "1656",
+                "nnz": "62857",
+                "dimension": "340",
+                "assembly_s": "0.007952532",
+                "adapt_s": "0.001159764",
+                "kernel_s": "0.021351377",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.006860912",
+                "corner_columns": "155,184,97,116,339,213",
+                "template_s": "0.000249371",
+                "compression_s": "0.003362883",
+                "rref_s": "0.016246224",
+                "shorten_s": "1.28e-06",
+                "lift_s": "0.003560654"
+              }
+            ]
+          },
+          "native": {
+            "label": "hexagon-fec-w8-native-3",
+            "wall_s": 0.12911417102441192,
+            "peak_rss_kib": 29700,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "6",
+                "solve_s": "0.00115781"
+              },
+              {
+                "weight": "3",
+                "dimension": "13",
+                "solve_s": "0.000508063"
+              },
+              {
+                "weight": "4",
+                "dimension": "26",
+                "solve_s": "0.000888734"
+              },
+              {
+                "weight": "5",
+                "dimension": "51",
+                "solve_s": "0.00188849"
+              },
+              {
+                "weight": "6",
+                "dimension": "98",
+                "solve_s": "0.00706583"
+              },
+              {
+                "weight": "7",
+                "dimension": "184",
+                "solve_s": "0.0208347"
+              },
+              {
+                "weight": "8",
+                "dimension": "340",
+                "solve_s": "0.0806845"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-fec-w8-archive-3",
+            "wall_s": 0.04508626600727439,
+            "peak_rss_kib": 19008
+          }
+        },
+        {
+          "native": {
+            "label": "hexagon-fec-w8-native-4",
+            "wall_s": 0.12972176494076848,
+            "peak_rss_kib": 29064,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "6",
+                "solve_s": "0.00217585"
+              },
+              {
+                "weight": "3",
+                "dimension": "13",
+                "solve_s": "0.00202126"
+              },
+              {
+                "weight": "4",
+                "dimension": "26",
+                "solve_s": "0.000821658"
+              },
+              {
+                "weight": "5",
+                "dimension": "51",
+                "solve_s": "0.00182378"
+              },
+              {
+                "weight": "6",
+                "dimension": "98",
+                "solve_s": "0.00515604"
+              },
+              {
+                "weight": "7",
+                "dimension": "184",
+                "solve_s": "0.0218794"
+              },
+              {
+                "weight": "8",
+                "dimension": "340",
+                "solve_s": "0.0778194"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-fec-w8-symmetry-4",
+            "wall_s": 0.10398364765569568,
+            "peak_rss_kib": 24444,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "32",
+                "columns": "27",
+                "nnz": "38",
+                "dimension": "6",
+                "assembly_s": "0.00112198",
+                "adapt_s": "4.3088e-05",
+                "kernel_s": "0.000394922",
+                "ordinary_kernel_s": "0",
+                "verification_s": "2.3549e-05",
+                "corner_columns": "2,4,1,2,6,3",
+                "template_s": "0.000671331",
+                "compression_s": "0.000425564",
+                "rref_s": "0.000358689",
+                "shorten_s": "1.275e-06",
+                "lift_s": "5.638e-06"
+              },
+              {
+                "weight": "3",
+                "rows": "96",
+                "columns": "54",
+                "nnz": "186",
+                "dimension": "13",
+                "assembly_s": "0.000843779",
+                "adapt_s": "8.5239e-05",
+                "kernel_s": "0.000577406",
+                "ordinary_kernel_s": "0",
+                "verification_s": "5.4395e-05",
+                "corner_columns": "4,8,2,4,12,6",
+                "template_s": "0.000296523",
+                "compression_s": "0.000497927",
+                "rref_s": "0.000533615",
+                "shorten_s": "5.98e-07",
+                "lift_s": "1.1029e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "192",
+                "columns": "117",
+                "nnz": "486",
+                "dimension": "26",
+                "assembly_s": "0.001207224",
+                "adapt_s": "0.000136293",
+                "kernel_s": "0.001005611",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000141674",
+                "corner_columns": "10,15,5,9,25,14",
+                "template_s": "0.001000573",
+                "compression_s": "0.000105041",
+                "rref_s": "0.000908245",
+                "shorten_s": "7.07e-07",
+                "lift_s": "3.9169e-05"
+              },
+              {
+                "weight": "5",
+                "rows": "416",
+                "columns": "234",
+                "nnz": "1715",
+                "dimension": "51",
+                "assembly_s": "0.001153008",
+                "adapt_s": "0.000215531",
+                "kernel_s": "0.001786684",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000368784",
+                "corner_columns": "21,29,12,16,50,28",
+                "template_s": "0.000424105",
+                "compression_s": "0.000448221",
+                "rref_s": "0.001573396",
+                "shorten_s": "7.8e-07",
+                "lift_s": "9.3082e-05"
+              },
+              {
+                "weight": "6",
+                "rows": "832",
+                "columns": "459",
+                "nnz": "5730",
+                "dimension": "98",
+                "assembly_s": "0.003115049",
+                "adapt_s": "0.000342828",
+                "kernel_s": "0.003004889",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.00077207",
+                "corner_columns": "42,54,24,33,96,57",
+                "template_s": "0.000956879",
+                "compression_s": "0.001660611",
+                "rref_s": "0.002541361",
+                "shorten_s": "8.76e-07",
+                "lift_s": "0.000261337"
+              },
+              {
+                "weight": "7",
+                "rows": "1632",
+                "columns": "882",
+                "nnz": "18486",
+                "dimension": "184",
+                "assembly_s": "0.002436399",
+                "adapt_s": "0.000717099",
+                "kernel_s": "0.006696918",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.002251355",
+                "corner_columns": "82,101,50,61,183,111",
+                "template_s": "0.00041304",
+                "compression_s": "0.000527845",
+                "rref_s": "0.005395985",
+                "shorten_s": "9.9e-07",
+                "lift_s": "0.000849996"
+              },
+              {
+                "weight": "8",
+                "rows": "3136",
+                "columns": "1656",
+                "nnz": "62857",
+                "dimension": "340",
+                "assembly_s": "0.00529374",
+                "adapt_s": "0.001250486",
+                "kernel_s": "0.022427758",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.007295545",
+                "corner_columns": "155,184,97,116,339,213",
+                "template_s": "0.000295126",
+                "compression_s": "0.00072069",
+                "rref_s": "0.017374028",
+                "shorten_s": "1.33e-06",
+                "lift_s": "0.003489701"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-fec-w8-archive-4",
+            "wall_s": 0.044931462965905666,
+            "peak_rss_kib": 19032
+          }
+        }
+      ],
+      "prepared_sha256": "5624fbff5a5950abbb8c59ee7ede6a4e489b76cc6197ccd6c75bc2904d48d65c",
+      "median_wall_s": {
+        "native": 0.12911417102441192,
+        "symmetry": 0.10398364765569568,
+        "archive": 0.04508626600727439
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true,
+      "archive_exact_all_weights": true
+    },
+    {
+      "name": "hexagon-lec-w6",
+      "maximum": 6,
+      "runs": [
+        {
+          "native": {
+            "label": "hexagon-lec-w6-native-0",
+            "wall_s": 2.950749098788947,
+            "peak_rss_kib": 378744,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "25",
+                "solve_s": "0.0011606"
+              },
+              {
+                "weight": "3",
+                "dimension": "83",
+                "solve_s": "0.00434586"
+              },
+              {
+                "weight": "4",
+                "dimension": "249",
+                "solve_s": "0.0179912"
+              },
+              {
+                "weight": "5",
+                "dimension": "696",
+                "solve_s": "0.157397"
+              },
+              {
+                "weight": "6",
+                "dimension": "1858",
+                "solve_s": "2.51934"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-lec-w6-symmetry-0",
+            "wall_s": 0.6156326029449701,
+            "peak_rss_kib": 122852,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "41",
+                "columns": "54",
+                "nnz": "89",
+                "dimension": "25",
+                "assembly_s": "0.006871584",
+                "adapt_s": "5.3463e-05",
+                "kernel_s": "0.000403317",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.5997e-05",
+                "corner_columns": "3,6,3,6,9,9",
+                "template_s": "0.001114566",
+                "compression_s": "0.005724379",
+                "rref_s": "0.000335827",
+                "shorten_s": "1.616e-06",
+                "lift_s": "1.928e-05"
+              },
+              {
+                "weight": "3",
+                "rows": "246",
+                "columns": "225",
+                "nnz": "1100",
+                "dimension": "83",
+                "assembly_s": "0.002973638",
+                "adapt_s": "0.00038022",
+                "kernel_s": "0.001854991",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000335548",
+                "corner_columns": "16,24,14,21,40,35",
+                "template_s": "0.001604358",
+                "compression_s": "0.001172347",
+                "rref_s": "0.001652132",
+                "shorten_s": "8.44e-07",
+                "lift_s": "9.9644e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "1025",
+                "columns": "747",
+                "nnz": "7387",
+                "dimension": "249",
+                "assembly_s": "0.006143869",
+                "adapt_s": "0.000490182",
+                "kernel_s": "0.004117778",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.001462137",
+                "corner_columns": "54,72,54,69,126,123",
+                "template_s": "0.000451825",
+                "compression_s": "0.004834887",
+                "rref_s": "0.00317335",
+                "shorten_s": "9.29e-07",
+                "lift_s": "0.000552672"
+              },
+              {
+                "weight": "5",
+                "rows": "3403",
+                "columns": "2241",
+                "nnz": "52519",
+                "dimension": "696",
+                "assembly_s": "0.004792089",
+                "adapt_s": "0.001278224",
+                "kernel_s": "0.025458335",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.009433514",
+                "corner_columns": "173,208,166,200,381,366",
+                "template_s": "3.5932e-05",
+                "compression_s": "0.000442807",
+                "rref_s": "0.018236971",
+                "shorten_s": "1.3e-06",
+                "lift_s": "0.004465274"
+              },
+              {
+                "weight": "6",
+                "rows": "10209",
+                "columns": "6264",
+                "nnz": "416268",
+                "dimension": "1858",
+                "assembly_s": "0.030776472",
+                "adapt_s": "0.003305701",
+                "kernel_s": "0.216031475",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.088367506",
+                "corner_columns": "490,562,485,551,1052,1036",
+                "template_s": "0.00015604",
+                "compression_s": "0.0014135",
+                "rref_s": "0.156025582",
+                "shorten_s": "4.882e-06",
+                "lift_s": "0.040015489"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-lec-w6-archive-0",
+            "wall_s": 0.21683768508955836,
+            "peak_rss_kib": 38336
+          }
+        },
+        {
+          "symmetry": {
+            "label": "hexagon-lec-w6-symmetry-1",
+            "wall_s": 0.6222704350948334,
+            "peak_rss_kib": 124620,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "41",
+                "columns": "54",
+                "nnz": "89",
+                "dimension": "25",
+                "assembly_s": "0.002157861",
+                "adapt_s": "5.2951e-05",
+                "kernel_s": "0.000481571",
+                "ordinary_kernel_s": "0",
+                "verification_s": "5.8844e-05",
+                "corner_columns": "3,6,3,6,9,9",
+                "template_s": "0.001433589",
+                "compression_s": "0.000683689",
+                "rref_s": "0.000417582",
+                "shorten_s": "1.373e-06",
+                "lift_s": "1.7484e-05"
+              },
+              {
+                "weight": "3",
+                "rows": "246",
+                "columns": "225",
+                "nnz": "1100",
+                "dimension": "83",
+                "assembly_s": "0.003200035",
+                "adapt_s": "0.000350109",
+                "kernel_s": "0.00123508",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000342958",
+                "corner_columns": "16,24,14,21,40,35",
+                "template_s": "0.001749358",
+                "compression_s": "0.001308515",
+                "rref_s": "0.001015526",
+                "shorten_s": "7.75e-07",
+                "lift_s": "0.000113589"
+              },
+              {
+                "weight": "4",
+                "rows": "1025",
+                "columns": "747",
+                "nnz": "7387",
+                "dimension": "249",
+                "assembly_s": "0.001974127",
+                "adapt_s": "0.000507792",
+                "kernel_s": "0.007774338",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.001709642",
+                "corner_columns": "54,72,54,69,126,123",
+                "template_s": "0.000453318",
+                "compression_s": "0.000834051",
+                "rref_s": "0.006795419",
+                "shorten_s": "8.43e-07",
+                "lift_s": "0.000580892"
+              },
+              {
+                "weight": "5",
+                "rows": "3403",
+                "columns": "2241",
+                "nnz": "52519",
+                "dimension": "696",
+                "assembly_s": "0.004357064",
+                "adapt_s": "0.001352615",
+                "kernel_s": "0.02252568",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.009538806",
+                "corner_columns": "173,208,166,200,381,366",
+                "template_s": "3.6519e-05",
+                "compression_s": "0.000450253",
+                "rref_s": "0.015753623",
+                "shorten_s": "1.209e-06",
+                "lift_s": "0.004318169"
+              },
+              {
+                "weight": "6",
+                "rows": "10209",
+                "columns": "6264",
+                "nnz": "416268",
+                "dimension": "1858",
+                "assembly_s": "0.034173606",
+                "adapt_s": "0.003297388",
+                "kernel_s": "0.220071684",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.08798737",
+                "corner_columns": "490,562,485,551,1052,1036",
+                "template_s": "0.000148145",
+                "compression_s": "0.001450042",
+                "rref_s": "0.156124821",
+                "shorten_s": "4.439e-06",
+                "lift_s": "0.040636177"
+              }
+            ]
+          },
+          "native": {
+            "label": "hexagon-lec-w6-native-1",
+            "wall_s": 2.954884867183864,
+            "peak_rss_kib": 378624,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "25",
+                "solve_s": "0.0012008"
+              },
+              {
+                "weight": "3",
+                "dimension": "83",
+                "solve_s": "0.00500053"
+              },
+              {
+                "weight": "4",
+                "dimension": "249",
+                "solve_s": "0.019975"
+              },
+              {
+                "weight": "5",
+                "dimension": "696",
+                "solve_s": "0.157736"
+              },
+              {
+                "weight": "6",
+                "dimension": "1858",
+                "solve_s": "2.51874"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-lec-w6-archive-1",
+            "wall_s": 0.2044354137033224,
+            "peak_rss_kib": 36264
+          }
+        },
+        {
+          "native": {
+            "label": "hexagon-lec-w6-native-2",
+            "wall_s": 2.9822855829261243,
+            "peak_rss_kib": 375932,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "25",
+                "solve_s": "0.0013024"
+              },
+              {
+                "weight": "3",
+                "dimension": "83",
+                "solve_s": "0.00298476"
+              },
+              {
+                "weight": "4",
+                "dimension": "249",
+                "solve_s": "0.0170619"
+              },
+              {
+                "weight": "5",
+                "dimension": "696",
+                "solve_s": "0.17212"
+              },
+              {
+                "weight": "6",
+                "dimension": "1858",
+                "solve_s": "2.53258"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-lec-w6-symmetry-2",
+            "wall_s": 0.627856750972569,
+            "peak_rss_kib": 123404,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "41",
+                "columns": "54",
+                "nnz": "89",
+                "dimension": "25",
+                "assembly_s": "0.001757896",
+                "adapt_s": "4.7162e-05",
+                "kernel_s": "0.000445007",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.7365e-05",
+                "corner_columns": "3,6,3,6,9,9",
+                "template_s": "0.001155737",
+                "compression_s": "0.000569711",
+                "rref_s": "0.000375411",
+                "shorten_s": "1.479e-06",
+                "lift_s": "2.0635e-05"
+              },
+              {
+                "weight": "3",
+                "rows": "246",
+                "columns": "225",
+                "nnz": "1100",
+                "dimension": "83",
+                "assembly_s": "0.002871467",
+                "adapt_s": "0.000364178",
+                "kernel_s": "0.00122589",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000354245",
+                "corner_columns": "16,24,14,21,40,35",
+                "template_s": "0.001591796",
+                "compression_s": "0.001157255",
+                "rref_s": "0.001026804",
+                "shorten_s": "7.97e-07",
+                "lift_s": "9.9229e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "1025",
+                "columns": "747",
+                "nnz": "7387",
+                "dimension": "249",
+                "assembly_s": "0.001926138",
+                "adapt_s": "0.000509687",
+                "kernel_s": "0.004164087",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.001573508",
+                "corner_columns": "54,72,54,69,126,123",
+                "template_s": "0.000433102",
+                "compression_s": "0.00059426",
+                "rref_s": "0.003150191",
+                "shorten_s": "9.92e-07",
+                "lift_s": "0.000592474"
+              },
+              {
+                "weight": "5",
+                "rows": "3403",
+                "columns": "2241",
+                "nnz": "52519",
+                "dimension": "696",
+                "assembly_s": "0.005287669",
+                "adapt_s": "0.001412279",
+                "kernel_s": "0.033227436",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.009817562",
+                "corner_columns": "173,208,166,200,381,366",
+                "template_s": "4.2705e-05",
+                "compression_s": "0.00048998",
+                "rref_s": "0.026479985",
+                "shorten_s": "1.52e-06",
+                "lift_s": "0.004380183"
+              },
+              {
+                "weight": "6",
+                "rows": "10209",
+                "columns": "6264",
+                "nnz": "416268",
+                "dimension": "1858",
+                "assembly_s": "0.031417278",
+                "adapt_s": "0.00382631",
+                "kernel_s": "0.223481473",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.087908901",
+                "corner_columns": "490,562,485,551,1052,1036",
+                "template_s": "0.000131711",
+                "compression_s": "0.001469453",
+                "rref_s": "0.161005731",
+                "shorten_s": "4.536e-06",
+                "lift_s": "0.042144305"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-lec-w6-archive-2",
+            "wall_s": 0.28056169813498855,
+            "peak_rss_kib": 38128
+          }
+        },
+        {
+          "symmetry": {
+            "label": "hexagon-lec-w6-symmetry-3",
+            "wall_s": 0.6272090179845691,
+            "peak_rss_kib": 124348,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "41",
+                "columns": "54",
+                "nnz": "89",
+                "dimension": "25",
+                "assembly_s": "0.002089081",
+                "adapt_s": "5.3644e-05",
+                "kernel_s": "0.000449838",
+                "ordinary_kernel_s": "0",
+                "verification_s": "6.0367e-05",
+                "corner_columns": "3,6,3,6,9,9",
+                "template_s": "0.001153033",
+                "compression_s": "0.000907248",
+                "rref_s": "0.000389963",
+                "shorten_s": "1.091e-06",
+                "lift_s": "1.7392e-05"
+              },
+              {
+                "weight": "3",
+                "rows": "246",
+                "columns": "225",
+                "nnz": "1100",
+                "dimension": "83",
+                "assembly_s": "0.002961511",
+                "adapt_s": "0.000342376",
+                "kernel_s": "0.001249557",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000341238",
+                "corner_columns": "16,24,14,21,40,35",
+                "template_s": "0.001634548",
+                "compression_s": "0.001173461",
+                "rref_s": "0.0010564",
+                "shorten_s": "8.71e-07",
+                "lift_s": "9.1376e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "1025",
+                "columns": "747",
+                "nnz": "7387",
+                "dimension": "249",
+                "assembly_s": "0.002197332",
+                "adapt_s": "0.000508216",
+                "kernel_s": "0.00455701",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.001449709",
+                "corner_columns": "54,72,54,69,126,123",
+                "template_s": "0.000416924",
+                "compression_s": "0.000661131",
+                "rref_s": "0.00358776",
+                "shorten_s": "8.19e-07",
+                "lift_s": "0.000564884"
+              },
+              {
+                "weight": "5",
+                "rows": "3403",
+                "columns": "2241",
+                "nnz": "52519",
+                "dimension": "696",
+                "assembly_s": "0.005468048",
+                "adapt_s": "0.001267802",
+                "kernel_s": "0.034726801",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.009591171",
+                "corner_columns": "173,208,166,200,381,366",
+                "template_s": "3.7599e-05",
+                "compression_s": "0.000491741",
+                "rref_s": "0.02774547",
+                "shorten_s": "1.289e-06",
+                "lift_s": "0.004448849"
+              },
+              {
+                "weight": "6",
+                "rows": "10209",
+                "columns": "6264",
+                "nnz": "416268",
+                "dimension": "1858",
+                "assembly_s": "0.030727397",
+                "adapt_s": "0.003321329",
+                "kernel_s": "0.224435962",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.088807409",
+                "corner_columns": "490,562,485,551,1052,1036",
+                "template_s": "0.000138236",
+                "compression_s": "0.001340774",
+                "rref_s": "0.159208556",
+                "shorten_s": "4.813e-06",
+                "lift_s": "0.040391213"
+              }
+            ]
+          },
+          "native": {
+            "label": "hexagon-lec-w6-native-3",
+            "wall_s": 2.9671450122259557,
+            "peak_rss_kib": 364516,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "25",
+                "solve_s": "0.00185338"
+              },
+              {
+                "weight": "3",
+                "dimension": "83",
+                "solve_s": "0.00261144"
+              },
+              {
+                "weight": "4",
+                "dimension": "249",
+                "solve_s": "0.0182142"
+              },
+              {
+                "weight": "5",
+                "dimension": "696",
+                "solve_s": "0.152236"
+              },
+              {
+                "weight": "6",
+                "dimension": "1858",
+                "solve_s": "2.54281"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-lec-w6-archive-3",
+            "wall_s": 0.21141146589070559,
+            "peak_rss_kib": 38184
+          }
+        },
+        {
+          "native": {
+            "label": "hexagon-lec-w6-native-4",
+            "wall_s": 3.0162116629071534,
+            "peak_rss_kib": 392808,
+            "phases": [
+              {
+                "weight": "2",
+                "dimension": "25",
+                "solve_s": "0.00326935"
+              },
+              {
+                "weight": "3",
+                "dimension": "83",
+                "solve_s": "0.00253901"
+              },
+              {
+                "weight": "4",
+                "dimension": "249",
+                "solve_s": "0.0215993"
+              },
+              {
+                "weight": "5",
+                "dimension": "696",
+                "solve_s": "0.150025"
+              },
+              {
+                "weight": "6",
+                "dimension": "1858",
+                "solve_s": "2.58739"
+              }
+            ]
+          },
+          "symmetry": {
+            "label": "hexagon-lec-w6-symmetry-4",
+            "wall_s": 0.6121970792300999,
+            "peak_rss_kib": 122732,
+            "phases": [
+              {
+                "weight": "2",
+                "rows": "41",
+                "columns": "54",
+                "nnz": "89",
+                "dimension": "25",
+                "assembly_s": "0.001946115",
+                "adapt_s": "4.843e-05",
+                "kernel_s": "0.000490183",
+                "ordinary_kernel_s": "0",
+                "verification_s": "5.7785e-05",
+                "corner_columns": "3,6,3,6,9,9",
+                "template_s": "0.001276357",
+                "compression_s": "0.00062821",
+                "rref_s": "0.00042204",
+                "shorten_s": "1.337e-06",
+                "lift_s": "1.6984e-05"
+              },
+              {
+                "weight": "3",
+                "rows": "246",
+                "columns": "225",
+                "nnz": "1100",
+                "dimension": "83",
+                "assembly_s": "0.003263609",
+                "adapt_s": "0.00033023",
+                "kernel_s": "0.001441545",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.000311467",
+                "corner_columns": "16,24,14,21,40,35",
+                "template_s": "0.001726088",
+                "compression_s": "0.001283183",
+                "rref_s": "0.001233415",
+                "shorten_s": "7.78e-07",
+                "lift_s": "9.2195e-05"
+              },
+              {
+                "weight": "4",
+                "rows": "1025",
+                "columns": "747",
+                "nnz": "7387",
+                "dimension": "249",
+                "assembly_s": "0.002556199",
+                "adapt_s": "0.00046828",
+                "kernel_s": "0.006133192",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.001425371",
+                "corner_columns": "54,72,54,69,126,123",
+                "template_s": "0.000467057",
+                "compression_s": "0.000696784",
+                "rref_s": "0.005172947",
+                "shorten_s": "1.055e-06",
+                "lift_s": "0.000561676"
+              },
+              {
+                "weight": "5",
+                "rows": "3403",
+                "columns": "2241",
+                "nnz": "52519",
+                "dimension": "696",
+                "assembly_s": "0.005355366",
+                "adapt_s": "0.001300532",
+                "kernel_s": "0.024372778",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.009337166",
+                "corner_columns": "173,208,166,200,381,366",
+                "template_s": "3.7793e-05",
+                "compression_s": "0.00045283",
+                "rref_s": "0.017491846",
+                "shorten_s": "1.949e-06",
+                "lift_s": "0.004447252"
+              },
+              {
+                "weight": "6",
+                "rows": "10209",
+                "columns": "6264",
+                "nnz": "416268",
+                "dimension": "1858",
+                "assembly_s": "0.030767966",
+                "adapt_s": "0.003168038",
+                "kernel_s": "0.215921485",
+                "ordinary_kernel_s": "0",
+                "verification_s": "0.092065843",
+                "corner_columns": "490,562,485,551,1052,1036",
+                "template_s": "0.000128501",
+                "compression_s": "0.001289339",
+                "rref_s": "0.152123405",
+                "shorten_s": "4.873e-06",
+                "lift_s": "0.041735751"
+              }
+            ]
+          },
+          "archive": {
+            "label": "hexagon-lec-w6-archive-4",
+            "wall_s": 0.20723079470917583,
+            "peak_rss_kib": 38248
+          }
+        }
+      ],
+      "prepared_sha256": "51eeda82655390008688e529697447f374cd0c2f3056a73d484a74479b65bef2",
+      "median_wall_s": {
+        "native": 2.9671450122259557,
+        "symmetry": 0.6222704350948334,
+        "archive": 0.21141146589070559
+      },
+      "native_exact_all_weights": true,
+      "repeated_bases_byte_identical": true,
+      "archive_exact_all_weights": true
+    }
+  ],
+  "processes": [
+    {
+      "label": "heptagon-fec-w4-native-0",
+      "wall_s": 0.07468249090015888,
+      "peak_rss_kib": 21240,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00236459"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00857227"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0538292"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-symmetry-0",
+      "wall_s": 0.09034739108756185,
+      "peak_rss_kib": 22116,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000485581",
+          "kernel_s": "0.000583636",
+          "action_s": "5.3924e-05",
+          "frame_s": "0.000902894",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.00128457",
+          "kernel_s": "0.002763761",
+          "action_s": "0.000176807",
+          "frame_s": "0.001804238",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.010199243",
+          "kernel_s": "0.026277724",
+          "action_s": "0.000900391",
+          "frame_s": "0.008691035",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-symmetry-1",
+      "wall_s": 0.08120279666036367,
+      "peak_rss_kib": 22156,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000309372",
+          "kernel_s": "0.000837716",
+          "action_s": "5.6792e-05",
+          "frame_s": "0.000864932",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.002545374",
+          "kernel_s": "0.002954288",
+          "action_s": "0.000149336",
+          "frame_s": "0.001724276",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.00814713",
+          "kernel_s": "0.023394067",
+          "action_s": "0.000748932",
+          "frame_s": "0.006109717",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-native-1",
+      "wall_s": 0.08479432109743357,
+      "peak_rss_kib": 21524,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00284947"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.0103805"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0600923"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-native-2",
+      "wall_s": 0.06959189381450415,
+      "peak_rss_kib": 21376,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00154546"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00541164"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0511119"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-symmetry-2",
+      "wall_s": 0.08521196572110057,
+      "peak_rss_kib": 22184,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000280287",
+          "kernel_s": "0.000231479",
+          "action_s": "5.1912e-05",
+          "frame_s": "0.000812302",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.000938026",
+          "kernel_s": "0.003067576",
+          "action_s": "0.000344026",
+          "frame_s": "0.001929705",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.008960636",
+          "kernel_s": "0.02550172",
+          "action_s": "0.000661792",
+          "frame_s": "0.006754342",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-symmetry-3",
+      "wall_s": 0.09041740791872144,
+      "peak_rss_kib": 22352,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000275774",
+          "kernel_s": "0.00023379",
+          "action_s": "5.4276e-05",
+          "frame_s": "0.000873872",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.00079067",
+          "kernel_s": "0.004919949",
+          "action_s": "0.000747743",
+          "frame_s": "0.002496118",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.010835408",
+          "kernel_s": "0.026123962",
+          "action_s": "0.000851711",
+          "frame_s": "0.006141463",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-native-3",
+      "wall_s": 0.0671954732388258,
+      "peak_rss_kib": 21224,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00253085"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.0053196"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0489791"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-native-4",
+      "wall_s": 0.0721627906896174,
+      "peak_rss_kib": 21512,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00200439"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00939706"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.049265"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-symmetry-4",
+      "wall_s": 0.08528031688183546,
+      "peak_rss_kib": 22172,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000325391",
+          "kernel_s": "0.000241104",
+          "action_s": "4.6495e-05",
+          "frame_s": "0.002727866",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.001122169",
+          "kernel_s": "0.003621653",
+          "action_s": "0.000153321",
+          "frame_s": "0.001565391",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.009183045",
+          "kernel_s": "0.022923712",
+          "action_s": "0.000817393",
+          "frame_s": "0.006956101",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w4-verify",
+      "wall_s": 0.07696545403450727,
+      "peak_rss_kib": 27300
+    },
+    {
+      "label": "heptagon-lec-w3-native-0",
+      "wall_s": 0.06441027019172907,
+      "peak_rss_kib": 19540,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00534314"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0426742"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-symmetry-0",
+      "wall_s": 0.08732482278719544,
+      "peak_rss_kib": 25420,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.0004205",
+          "kernel_s": "0.000962713",
+          "action_s": "0.000595432",
+          "frame_s": "0.001906245",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.004487113",
+          "kernel_s": "0.02305475",
+          "action_s": "0.003998977",
+          "frame_s": "0.011990767",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-symmetry-1",
+      "wall_s": 0.08498667180538177,
+      "peak_rss_kib": 25284,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000310629",
+          "kernel_s": "0.001290404",
+          "action_s": "0.000132825",
+          "frame_s": "0.001746968",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.004678517",
+          "kernel_s": "0.021968506",
+          "action_s": "0.002804808",
+          "frame_s": "0.015796506",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-native-1",
+      "wall_s": 0.06480416795238853,
+      "peak_rss_kib": 19716,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00418909"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0459266"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-native-2",
+      "wall_s": 0.06375968595966697,
+      "peak_rss_kib": 19488,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.0039718"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0450238"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-symmetry-2",
+      "wall_s": 0.08666016394272447,
+      "peak_rss_kib": 25260,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000301354",
+          "kernel_s": "0.000872834",
+          "action_s": "0.000180543",
+          "frame_s": "0.006255656",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.004604228",
+          "kernel_s": "0.023114632",
+          "action_s": "0.00172804",
+          "frame_s": "0.013014381",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-symmetry-3",
+      "wall_s": 0.09106606896966696,
+      "peak_rss_kib": 25260,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000365546",
+          "kernel_s": "0.000827022",
+          "action_s": "0.000145628",
+          "frame_s": "0.002778942",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.005485203",
+          "kernel_s": "0.027934653",
+          "action_s": "0.002145951",
+          "frame_s": "0.010933638",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-native-3",
+      "wall_s": 0.06344772828742862,
+      "peak_rss_kib": 19592,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00282445"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0464072"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-native-4",
+      "wall_s": 0.05556484591215849,
+      "peak_rss_kib": 19312,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00188034"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0401734"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-symmetry-4",
+      "wall_s": 0.08624989772215486,
+      "peak_rss_kib": 25160,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.00050724",
+          "kernel_s": "0.001052796",
+          "action_s": "0.000140557",
+          "frame_s": "0.001916295",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.004553326",
+          "kernel_s": "0.025131897",
+          "action_s": "0.001780796",
+          "frame_s": "0.013345191",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w3-verify",
+      "wall_s": 0.19693272793665528,
+      "peak_rss_kib": 33904
+    },
+    {
+      "label": "heptagon-fec-w5-native-0",
+      "wall_s": 0.4308783649466932,
+      "peak_rss_kib": 111500,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00265199"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00554465"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0512892"
+        },
+        {
+          "weight": "5",
+          "dimension": "911",
+          "solve_s": "0.339164"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-symmetry-0",
+      "wall_s": 0.4045035010203719,
+      "peak_rss_kib": 87348,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000337261",
+          "kernel_s": "0.000236271",
+          "action_s": "4.3798e-05",
+          "frame_s": "0.003899321",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.000975286",
+          "kernel_s": "0.002866636",
+          "action_s": "0.000182342",
+          "frame_s": "0.001411511",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.011220676",
+          "kernel_s": "0.025270668",
+          "action_s": "0.000962603",
+          "frame_s": "0.00695623",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        },
+        {
+          "weight": "5",
+          "rows": "115527",
+          "columns": "12936",
+          "nnz": "1288944",
+          "dimension": "911",
+          "assembly_s": "0.065368351",
+          "kernel_s": "0.184220307",
+          "action_s": "0.00693916",
+          "frame_s": "0.030849467",
+          "verification_s": "0",
+          "carrier_nnz": "154737",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "261"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-symmetry-1",
+      "wall_s": 0.40712245693430305,
+      "peak_rss_kib": 85500,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000258174",
+          "kernel_s": "0.000246842",
+          "action_s": "4.8675e-05",
+          "frame_s": "0.00395554",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.000982332",
+          "kernel_s": "0.002082753",
+          "action_s": "0.000177031",
+          "frame_s": "0.001383913",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.011863848",
+          "kernel_s": "0.021633709",
+          "action_s": "0.000879339",
+          "frame_s": "0.007168011",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        },
+        {
+          "weight": "5",
+          "rows": "115527",
+          "columns": "12936",
+          "nnz": "1288944",
+          "dimension": "911",
+          "assembly_s": "0.07067624",
+          "kernel_s": "0.175819706",
+          "action_s": "0.007053715",
+          "frame_s": "0.038031569",
+          "verification_s": "0",
+          "carrier_nnz": "154737",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "261"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-native-1",
+      "wall_s": 0.45672975201159716,
+      "peak_rss_kib": 114940,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00100447"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.0053214"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0581811"
+        },
+        {
+          "weight": "5",
+          "dimension": "911",
+          "solve_s": "0.355837"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-native-2",
+      "wall_s": 0.4471985390409827,
+      "peak_rss_kib": 113916,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00230571"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00553173"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0544843"
+        },
+        {
+          "weight": "5",
+          "dimension": "911",
+          "solve_s": "0.350561"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-symmetry-2",
+      "wall_s": 0.39704215759411454,
+      "peak_rss_kib": 86068,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000267905",
+          "kernel_s": "0.000205486",
+          "action_s": "4.7416e-05",
+          "frame_s": "0.000784307",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.000742692",
+          "kernel_s": "0.002276465",
+          "action_s": "0.000158311",
+          "frame_s": "0.001590274",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.008683563",
+          "kernel_s": "0.023801444",
+          "action_s": "0.000886307",
+          "frame_s": "0.012935264",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        },
+        {
+          "weight": "5",
+          "rows": "115527",
+          "columns": "12936",
+          "nnz": "1288944",
+          "dimension": "911",
+          "assembly_s": "0.06206307",
+          "kernel_s": "0.187040807",
+          "action_s": "0.007449941",
+          "frame_s": "0.024710564",
+          "verification_s": "0",
+          "carrier_nnz": "154737",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "261"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-symmetry-3",
+      "wall_s": 0.40782892843708396,
+      "peak_rss_kib": 85704,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000342375",
+          "kernel_s": "0.00032989",
+          "action_s": "6.0507e-05",
+          "frame_s": "0.000945706",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.001329099",
+          "kernel_s": "0.00423645",
+          "action_s": "0.000425494",
+          "frame_s": "0.002815973",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.009167636",
+          "kernel_s": "0.024369541",
+          "action_s": "0.000995278",
+          "frame_s": "0.009858075",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        },
+        {
+          "weight": "5",
+          "rows": "115527",
+          "columns": "12936",
+          "nnz": "1288944",
+          "dimension": "911",
+          "assembly_s": "0.060064466",
+          "kernel_s": "0.184160218",
+          "action_s": "0.007878412",
+          "frame_s": "0.036099541",
+          "verification_s": "0",
+          "carrier_nnz": "154737",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "261"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-native-3",
+      "wall_s": 0.4559499928727746,
+      "peak_rss_kib": 114264,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.0022837"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00669036"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0498515"
+        },
+        {
+          "weight": "5",
+          "dimension": "911",
+          "solve_s": "0.366671"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-native-4",
+      "wall_s": 0.4446209683082998,
+      "peak_rss_kib": 113636,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "28",
+          "solve_s": "0.00343355"
+        },
+        {
+          "weight": "3",
+          "dimension": "97",
+          "solve_s": "0.00652587"
+        },
+        {
+          "weight": "4",
+          "dimension": "308",
+          "solve_s": "0.0495109"
+        },
+        {
+          "weight": "5",
+          "dimension": "911",
+          "solve_s": "0.354354"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-symmetry-4",
+      "wall_s": 0.39381981641054153,
+      "peak_rss_kib": 84628,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "294",
+          "nnz": "329",
+          "dimension": "28",
+          "assembly_s": "0.000354711",
+          "kernel_s": "0.000205076",
+          "action_s": "3.7477e-05",
+          "frame_s": "0.003653808",
+          "verification_s": "0",
+          "carrier_nnz": "91",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "8"
+        },
+        {
+          "weight": "3",
+          "rows": "8337",
+          "columns": "1176",
+          "nnz": "9266",
+          "dimension": "97",
+          "assembly_s": "0.001108288",
+          "kernel_s": "0.002144507",
+          "action_s": "0.000174431",
+          "frame_s": "0.002411821",
+          "verification_s": "0",
+          "carrier_nnz": "1585",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "27"
+        },
+        {
+          "weight": "4",
+          "rows": "33348",
+          "columns": "4074",
+          "nnz": "175553",
+          "dimension": "308",
+          "assembly_s": "0.011877717",
+          "kernel_s": "0.025570721",
+          "action_s": "0.000760316",
+          "frame_s": "0.007058726",
+          "verification_s": "0",
+          "carrier_nnz": "12571",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "88"
+        },
+        {
+          "weight": "5",
+          "rows": "115527",
+          "columns": "12936",
+          "nnz": "1288944",
+          "dimension": "911",
+          "assembly_s": "0.062224504",
+          "kernel_s": "0.178160524",
+          "action_s": "0.006935772",
+          "frame_s": "0.027144706",
+          "verification_s": "0",
+          "carrier_nnz": "154737",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "261"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-fec-w5-verify",
+      "wall_s": 0.5293087009340525,
+      "peak_rss_kib": 56372
+    },
+    {
+      "label": "heptagon-fec-w5-full-comparison",
+      "wall_s": 1.0459722243249416,
+      "peak_rss_kib": 125728
+    },
+    {
+      "label": "heptagon-lec-w4-native-0",
+      "wall_s": 1.6463781739585102,
+      "peak_rss_kib": 402104,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00292123"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0424932"
+        },
+        {
+          "weight": "4",
+          "dimension": "3745",
+          "solve_s": "1.37187"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-symmetry-0",
+      "wall_s": 1.6767768859863281,
+      "peak_rss_kib": 446732,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000355683",
+          "kernel_s": "0.000752299",
+          "action_s": "0.000134108",
+          "frame_s": "0.00195076",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.005629289",
+          "kernel_s": "0.024554399",
+          "action_s": "0.002266784",
+          "frame_s": "0.015905771",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        },
+        {
+          "weight": "4",
+          "rows": "140538",
+          "columns": "30828",
+          "nnz": "3964499",
+          "dimension": "3745",
+          "assembly_s": "0.149220259",
+          "kernel_s": "0.72217527",
+          "action_s": "0.066667083",
+          "frame_s": "0.344334267",
+          "verification_s": "0",
+          "carrier_nnz": "1774777",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "1070"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-symmetry-1",
+      "wall_s": 1.6625737808644772,
+      "peak_rss_kib": 443352,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000346152",
+          "kernel_s": "0.000837894",
+          "action_s": "0.000140994",
+          "frame_s": "0.002018749",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.005050184",
+          "kernel_s": "0.024350726",
+          "action_s": "0.001774454",
+          "frame_s": "0.013635702",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        },
+        {
+          "weight": "4",
+          "rows": "140538",
+          "columns": "30828",
+          "nnz": "3964499",
+          "dimension": "3745",
+          "assembly_s": "0.149937146",
+          "kernel_s": "0.72572802",
+          "action_s": "0.067597489",
+          "frame_s": "0.327471308",
+          "verification_s": "0",
+          "carrier_nnz": "1774777",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "1070"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-native-1",
+      "wall_s": 1.6303315749391913,
+      "peak_rss_kib": 401152,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00226861"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0466757"
+        },
+        {
+          "weight": "4",
+          "dimension": "3745",
+          "solve_s": "1.35052"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-native-2",
+      "wall_s": 1.6243384471163154,
+      "peak_rss_kib": 402228,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00371446"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0427633"
+        },
+        {
+          "weight": "4",
+          "dimension": "3745",
+          "solve_s": "1.35389"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-symmetry-2",
+      "wall_s": 1.638428317848593,
+      "peak_rss_kib": 448372,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000512795",
+          "kernel_s": "0.00142586",
+          "action_s": "0.00019706",
+          "frame_s": "0.002424582",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.007167996",
+          "kernel_s": "0.023754535",
+          "action_s": "0.001831347",
+          "frame_s": "0.011821824",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        },
+        {
+          "weight": "4",
+          "rows": "140538",
+          "columns": "30828",
+          "nnz": "3964499",
+          "dimension": "3745",
+          "assembly_s": "0.152208456",
+          "kernel_s": "0.726947548",
+          "action_s": "0.066272722",
+          "frame_s": "0.297082383",
+          "verification_s": "0",
+          "carrier_nnz": "1774777",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "1070"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-symmetry-3",
+      "wall_s": 1.6651922897435725,
+      "peak_rss_kib": 451112,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000915182",
+          "kernel_s": "0.001423732",
+          "action_s": "0.000155523",
+          "frame_s": "0.001994991",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.00490533",
+          "kernel_s": "0.025386197",
+          "action_s": "0.002053196",
+          "frame_s": "0.01365027",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        },
+        {
+          "weight": "4",
+          "rows": "140538",
+          "columns": "30828",
+          "nnz": "3964499",
+          "dimension": "3745",
+          "assembly_s": "0.151181393",
+          "kernel_s": "0.743023541",
+          "action_s": "0.067322322",
+          "frame_s": "0.314434064",
+          "verification_s": "0",
+          "carrier_nnz": "1774777",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "1070"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-native-3",
+      "wall_s": 1.67263523908332,
+      "peak_rss_kib": 402120,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00384179"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0467059"
+        },
+        {
+          "weight": "4",
+          "dimension": "3745",
+          "solve_s": "1.39769"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-native-4",
+      "wall_s": 1.6208544396795332,
+      "peak_rss_kib": 391952,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "118",
+          "solve_s": "0.00361935"
+        },
+        {
+          "weight": "3",
+          "dimension": "734",
+          "solve_s": "0.0413929"
+        },
+        {
+          "weight": "4",
+          "dimension": "3745",
+          "solve_s": "1.35368"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-symmetry-4",
+      "wall_s": 1.7185294181108475,
+      "peak_rss_kib": 454764,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "1191",
+          "columns": "588",
+          "nnz": "1861",
+          "dimension": "118",
+          "assembly_s": "0.000318809",
+          "kernel_s": "0.000870953",
+          "action_s": "0.000147184",
+          "frame_s": "0.002059607",
+          "verification_s": "0",
+          "carrier_nnz": "1231",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "33"
+        },
+        {
+          "weight": "3",
+          "rows": "16674",
+          "columns": "4956",
+          "nnz": "102551",
+          "dimension": "734",
+          "assembly_s": "0.004890213",
+          "kernel_s": "0.022394883",
+          "action_s": "0.001817104",
+          "frame_s": "0.014081704",
+          "verification_s": "0",
+          "carrier_nnz": "43712",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "209"
+        },
+        {
+          "weight": "4",
+          "rows": "140538",
+          "columns": "30828",
+          "nnz": "3964499",
+          "dimension": "3745",
+          "assembly_s": "0.151098585",
+          "kernel_s": "0.738104527",
+          "action_s": "0.069711402",
+          "frame_s": "0.355770954",
+          "verification_s": "0",
+          "carrier_nnz": "1774777",
+          "stored_frame_nnz": "0",
+          "orbit_seeds": "1070"
+        }
+      ]
+    },
+    {
+      "label": "heptagon-lec-w4-verify",
+      "wall_s": 17.15107626002282,
+      "peak_rss_kib": 550156
+    },
+    {
+      "label": "heptagon-lec-w4-full-comparison",
+      "wall_s": 21.183241988997906,
+      "peak_rss_kib": 609308
+    },
+    {
+      "label": "hexagon-fec-w8-native-0",
+      "wall_s": 0.1285841092467308,
+      "peak_rss_kib": 28772,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "6",
+          "solve_s": "0.000781242"
+        },
+        {
+          "weight": "3",
+          "dimension": "13",
+          "solve_s": "0.00066755"
+        },
+        {
+          "weight": "4",
+          "dimension": "26",
+          "solve_s": "0.00106603"
+        },
+        {
+          "weight": "5",
+          "dimension": "51",
+          "solve_s": "0.00244681"
+        },
+        {
+          "weight": "6",
+          "dimension": "98",
+          "solve_s": "0.00715191"
+        },
+        {
+          "weight": "7",
+          "dimension": "184",
+          "solve_s": "0.0179014"
+        },
+        {
+          "weight": "8",
+          "dimension": "340",
+          "solve_s": "0.0817993"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-symmetry-0",
+      "wall_s": 0.10997973196208477,
+      "peak_rss_kib": 23964,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "32",
+          "columns": "27",
+          "nnz": "38",
+          "dimension": "6",
+          "assembly_s": "0.001407961",
+          "adapt_s": "4.1864e-05",
+          "kernel_s": "0.00030447",
+          "ordinary_kernel_s": "0",
+          "verification_s": "2.3747e-05",
+          "corner_columns": "2,4,1,2,6,3",
+          "template_s": "0.000561372",
+          "compression_s": "0.000829944",
+          "rref_s": "0.00026426",
+          "shorten_s": "1.226e-06",
+          "lift_s": "6.277e-06"
+        },
+        {
+          "weight": "3",
+          "rows": "96",
+          "columns": "54",
+          "nnz": "186",
+          "dimension": "13",
+          "assembly_s": "0.000707671",
+          "adapt_s": "8.4392e-05",
+          "kernel_s": "0.000479987",
+          "ordinary_kernel_s": "0",
+          "verification_s": "5.6165e-05",
+          "corner_columns": "4,8,2,4,12,6",
+          "template_s": "0.000260599",
+          "compression_s": "0.000418592",
+          "rref_s": "0.000434971",
+          "shorten_s": "7.5e-07",
+          "lift_s": "1.2638e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "192",
+          "columns": "117",
+          "nnz": "486",
+          "dimension": "26",
+          "assembly_s": "0.000973108",
+          "adapt_s": "0.000139404",
+          "kernel_s": "0.00074321",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000141529",
+          "corner_columns": "10,15,5,9,25,14",
+          "template_s": "0.000808286",
+          "compression_s": "8.8008e-05",
+          "rref_s": "0.000651172",
+          "shorten_s": "6.78e-07",
+          "lift_s": "3.9237e-05"
+        },
+        {
+          "weight": "5",
+          "rows": "416",
+          "columns": "234",
+          "nnz": "1715",
+          "dimension": "51",
+          "assembly_s": "0.001049482",
+          "adapt_s": "0.000214687",
+          "kernel_s": "0.001411449",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000307599",
+          "corner_columns": "21,29,12,16,50,28",
+          "template_s": "0.00043088",
+          "compression_s": "0.000411984",
+          "rref_s": "0.001230551",
+          "shorten_s": "8.82e-07",
+          "lift_s": "9.2046e-05"
+        },
+        {
+          "weight": "6",
+          "rows": "832",
+          "columns": "459",
+          "nnz": "5730",
+          "dimension": "98",
+          "assembly_s": "0.002430504",
+          "adapt_s": "0.000335263",
+          "kernel_s": "0.00287228",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000787264",
+          "corner_columns": "42,54,24,33,96,57",
+          "template_s": "0.000365609",
+          "compression_s": "0.001398065",
+          "rref_s": "0.002424531",
+          "shorten_s": "7.97e-07",
+          "lift_s": "0.000262277"
+        },
+        {
+          "weight": "7",
+          "rows": "1632",
+          "columns": "882",
+          "nnz": "18486",
+          "dimension": "184",
+          "assembly_s": "0.001941065",
+          "adapt_s": "0.000708245",
+          "kernel_s": "0.015372021",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.00206297",
+          "corner_columns": "82,101,50,61,183,111",
+          "template_s": "0.000354762",
+          "compression_s": "0.00029306",
+          "rref_s": "0.014086592",
+          "shorten_s": "8.8e-07",
+          "lift_s": "0.000830825"
+        },
+        {
+          "weight": "8",
+          "rows": "3136",
+          "columns": "1656",
+          "nnz": "62857",
+          "dimension": "340",
+          "assembly_s": "0.006177959",
+          "adapt_s": "0.001101272",
+          "kernel_s": "0.022506269",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.006850857",
+          "corner_columns": "155,184,97,116,339,213",
+          "template_s": "0.000253234",
+          "compression_s": "0.00196504",
+          "rref_s": "0.017595159",
+          "shorten_s": "1.091e-06",
+          "lift_s": "0.003474382"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-archive-0",
+      "wall_s": 0.042389953043311834,
+      "peak_rss_kib": 18860
+    },
+    {
+      "label": "hexagon-fec-w8-symmetry-1",
+      "wall_s": 0.1174954161979258,
+      "peak_rss_kib": 24068,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "32",
+          "columns": "27",
+          "nnz": "38",
+          "dimension": "6",
+          "assembly_s": "0.006953621",
+          "adapt_s": "4.5174e-05",
+          "kernel_s": "0.001046506",
+          "ordinary_kernel_s": "0",
+          "verification_s": "2.6388e-05",
+          "corner_columns": "2,4,1,2,6,3",
+          "template_s": "0.003574807",
+          "compression_s": "0.003357954",
+          "rref_s": "0.001003426",
+          "shorten_s": "2.239e-06",
+          "lift_s": "6.944e-06"
+        },
+        {
+          "weight": "3",
+          "rows": "96",
+          "columns": "54",
+          "nnz": "186",
+          "dimension": "13",
+          "assembly_s": "0.000839121",
+          "adapt_s": "9.5292e-05",
+          "kernel_s": "0.00050868",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.6264e-05",
+          "corner_columns": "4,8,2,4,12,6",
+          "template_s": "0.000306376",
+          "compression_s": "0.000497394",
+          "rref_s": "0.000458593",
+          "shorten_s": "7.96e-07",
+          "lift_s": "1.3209e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "192",
+          "columns": "117",
+          "nnz": "486",
+          "dimension": "26",
+          "assembly_s": "0.001635468",
+          "adapt_s": "0.000157324",
+          "kernel_s": "0.000784666",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000144445",
+          "corner_columns": "10,15,5,9,25,14",
+          "template_s": "0.001470717",
+          "compression_s": "0.00010107",
+          "rref_s": "0.000691306",
+          "shorten_s": "6.78e-07",
+          "lift_s": "3.9392e-05"
+        },
+        {
+          "weight": "5",
+          "rows": "416",
+          "columns": "234",
+          "nnz": "1715",
+          "dimension": "51",
+          "assembly_s": "0.001041904",
+          "adapt_s": "0.000237545",
+          "kernel_s": "0.00221605",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000364748",
+          "corner_columns": "21,29,12,16,50,28",
+          "template_s": "0.000447288",
+          "compression_s": "0.000438071",
+          "rref_s": "0.001996401",
+          "shorten_s": "6.71e-07",
+          "lift_s": "0.000112373"
+        },
+        {
+          "weight": "6",
+          "rows": "832",
+          "columns": "459",
+          "nnz": "5730",
+          "dimension": "98",
+          "assembly_s": "0.002130732",
+          "adapt_s": "0.000406509",
+          "kernel_s": "0.00386035",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000863217",
+          "corner_columns": "42,54,24,33,96,57",
+          "template_s": "0.000366958",
+          "compression_s": "0.001288432",
+          "rref_s": "0.003265978",
+          "shorten_s": "1.616e-06",
+          "lift_s": "0.000345195"
+        },
+        {
+          "weight": "7",
+          "rows": "1632",
+          "columns": "882",
+          "nnz": "18486",
+          "dimension": "184",
+          "assembly_s": "0.005105675",
+          "adapt_s": "0.000722315",
+          "kernel_s": "0.006880815",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.002185973",
+          "corner_columns": "82,101,50,61,183,111",
+          "template_s": "0.001685893",
+          "compression_s": "0.001005049",
+          "rref_s": "0.005496373",
+          "shorten_s": "1.513e-06",
+          "lift_s": "0.000913469"
+        },
+        {
+          "weight": "8",
+          "rows": "3136",
+          "columns": "1656",
+          "nnz": "62857",
+          "dimension": "340",
+          "assembly_s": "0.009227454",
+          "adapt_s": "0.001198595",
+          "kernel_s": "0.025000151",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.006717829",
+          "corner_columns": "155,184,97,116,339,213",
+          "template_s": "0.001676649",
+          "compression_s": "0.00299825",
+          "rref_s": "0.019569482",
+          "shorten_s": "1.407e-06",
+          "lift_s": "0.003601"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-native-1",
+      "wall_s": 0.12182656675577164,
+      "peak_rss_kib": 29340,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "6",
+          "solve_s": "0.000468289"
+        },
+        {
+          "weight": "3",
+          "dimension": "13",
+          "solve_s": "0.000561128"
+        },
+        {
+          "weight": "4",
+          "dimension": "26",
+          "solve_s": "0.000850633"
+        },
+        {
+          "weight": "5",
+          "dimension": "51",
+          "solve_s": "0.00189478"
+        },
+        {
+          "weight": "6",
+          "dimension": "98",
+          "solve_s": "0.00560307"
+        },
+        {
+          "weight": "7",
+          "dimension": "184",
+          "solve_s": "0.0222975"
+        },
+        {
+          "weight": "8",
+          "dimension": "340",
+          "solve_s": "0.074514"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-archive-1",
+      "wall_s": 0.046759906224906445,
+      "peak_rss_kib": 18924
+    },
+    {
+      "label": "hexagon-fec-w8-native-2",
+      "wall_s": 0.13140962785109878,
+      "peak_rss_kib": 29172,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "6",
+          "solve_s": "0.0010924"
+        },
+        {
+          "weight": "3",
+          "dimension": "13",
+          "solve_s": "0.000470636"
+        },
+        {
+          "weight": "4",
+          "dimension": "26",
+          "solve_s": "0.000832144"
+        },
+        {
+          "weight": "5",
+          "dimension": "51",
+          "solve_s": "0.00182362"
+        },
+        {
+          "weight": "6",
+          "dimension": "98",
+          "solve_s": "0.00647945"
+        },
+        {
+          "weight": "7",
+          "dimension": "184",
+          "solve_s": "0.0257643"
+        },
+        {
+          "weight": "8",
+          "dimension": "340",
+          "solve_s": "0.0787037"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-symmetry-2",
+      "wall_s": 0.10394106665626168,
+      "peak_rss_kib": 24004,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "32",
+          "columns": "27",
+          "nnz": "38",
+          "dimension": "6",
+          "assembly_s": "0.001455421",
+          "adapt_s": "4.317e-05",
+          "kernel_s": "0.000324747",
+          "ordinary_kernel_s": "0",
+          "verification_s": "2.5861e-05",
+          "corner_columns": "2,4,1,2,6,3",
+          "template_s": "0.000626103",
+          "compression_s": "0.000808824",
+          "rref_s": "0.000288778",
+          "shorten_s": "1.535e-06",
+          "lift_s": "6.299e-06"
+        },
+        {
+          "weight": "3",
+          "rows": "96",
+          "columns": "54",
+          "nnz": "186",
+          "dimension": "13",
+          "assembly_s": "0.000799996",
+          "adapt_s": "8.919e-05",
+          "kernel_s": "0.000495245",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.1467e-05",
+          "corner_columns": "4,8,2,4,12,6",
+          "template_s": "0.000298646",
+          "compression_s": "0.000467486",
+          "rref_s": "0.000450642",
+          "shorten_s": "6.19e-07",
+          "lift_s": "1.2689e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "192",
+          "columns": "117",
+          "nnz": "486",
+          "dimension": "26",
+          "assembly_s": "0.001032333",
+          "adapt_s": "0.00015216",
+          "kernel_s": "0.000792887",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000141647",
+          "corner_columns": "10,15,5,9,25,14",
+          "template_s": "0.000871328",
+          "compression_s": "0.000100915",
+          "rref_s": "0.000703092",
+          "shorten_s": "7.26e-07",
+          "lift_s": "3.9519e-05"
+        },
+        {
+          "weight": "5",
+          "rows": "416",
+          "columns": "234",
+          "nnz": "1715",
+          "dimension": "51",
+          "assembly_s": "0.001023402",
+          "adapt_s": "0.000226736",
+          "kernel_s": "0.001466309",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000335411",
+          "corner_columns": "21,29,12,16,50,28",
+          "template_s": "0.000446055",
+          "compression_s": "0.00043444",
+          "rref_s": "0.001268825",
+          "shorten_s": "7.45e-07",
+          "lift_s": "0.000102361"
+        },
+        {
+          "weight": "6",
+          "rows": "832",
+          "columns": "459",
+          "nnz": "5730",
+          "dimension": "98",
+          "assembly_s": "0.001565991",
+          "adapt_s": "0.000376198",
+          "kernel_s": "0.003628489",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000740771",
+          "corner_columns": "42,54,24,33,96,57",
+          "template_s": "0.000352916",
+          "compression_s": "0.000668855",
+          "rref_s": "0.003174591",
+          "shorten_s": "1.027e-06",
+          "lift_s": "0.000258861"
+        },
+        {
+          "weight": "7",
+          "rows": "1632",
+          "columns": "882",
+          "nnz": "18486",
+          "dimension": "184",
+          "assembly_s": "0.00257933",
+          "adapt_s": "0.000692222",
+          "kernel_s": "0.007389913",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.002461349",
+          "corner_columns": "82,101,50,61,183,111",
+          "template_s": "0.001006765",
+          "compression_s": "0.000378116",
+          "rref_s": "0.006111536",
+          "shorten_s": "9.33e-07",
+          "lift_s": "0.00087276"
+        },
+        {
+          "weight": "8",
+          "rows": "3136",
+          "columns": "1656",
+          "nnz": "62857",
+          "dimension": "340",
+          "assembly_s": "0.004702983",
+          "adapt_s": "0.001150236",
+          "kernel_s": "0.02230674",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.007300023",
+          "corner_columns": "155,184,97,116,339,213",
+          "template_s": "0.000223833",
+          "compression_s": "0.000628959",
+          "rref_s": "0.017480067",
+          "shorten_s": "1.615e-06",
+          "lift_s": "0.003509992"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-archive-2",
+      "wall_s": 0.04902330879122019,
+      "peak_rss_kib": 18892
+    },
+    {
+      "label": "hexagon-fec-w8-symmetry-3",
+      "wall_s": 0.10026086121797562,
+      "peak_rss_kib": 24164,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "32",
+          "columns": "27",
+          "nnz": "38",
+          "dimension": "6",
+          "assembly_s": "0.001032934",
+          "adapt_s": "4.291e-05",
+          "kernel_s": "0.000335619",
+          "ordinary_kernel_s": "0",
+          "verification_s": "2.6373e-05",
+          "corner_columns": "2,4,1,2,6,3",
+          "template_s": "0.000593625",
+          "compression_s": "0.000419883",
+          "rref_s": "0.000299435",
+          "shorten_s": "1.387e-06",
+          "lift_s": "6.082e-06"
+        },
+        {
+          "weight": "3",
+          "rows": "96",
+          "columns": "54",
+          "nnz": "186",
+          "dimension": "13",
+          "assembly_s": "0.001004903",
+          "adapt_s": "8.8378e-05",
+          "kernel_s": "0.000557301",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.0083e-05",
+          "corner_columns": "4,8,2,4,12,6",
+          "template_s": "0.000301726",
+          "compression_s": "0.000668203",
+          "rref_s": "0.000508995",
+          "shorten_s": "8.69e-07",
+          "lift_s": "1.2346e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "192",
+          "columns": "117",
+          "nnz": "486",
+          "dimension": "26",
+          "assembly_s": "0.001077141",
+          "adapt_s": "0.000152376",
+          "kernel_s": "0.000743442",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000139085",
+          "corner_columns": "10,15,5,9,25,14",
+          "template_s": "0.000913947",
+          "compression_s": "0.000105795",
+          "rref_s": "0.000655674",
+          "shorten_s": "7.51e-07",
+          "lift_s": "3.7282e-05"
+        },
+        {
+          "weight": "5",
+          "rows": "416",
+          "columns": "234",
+          "nnz": "1715",
+          "dimension": "51",
+          "assembly_s": "0.001007955",
+          "adapt_s": "0.000210144",
+          "kernel_s": "0.001368469",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000328884",
+          "corner_columns": "21,29,12,16,50,28",
+          "template_s": "0.000428919",
+          "compression_s": "0.000432443",
+          "rref_s": "0.001181332",
+          "shorten_s": "8.53e-07",
+          "lift_s": "9.831e-05"
+        },
+        {
+          "weight": "6",
+          "rows": "832",
+          "columns": "459",
+          "nnz": "5730",
+          "dimension": "98",
+          "assembly_s": "0.001697535",
+          "adapt_s": "0.000370247",
+          "kernel_s": "0.0031617",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.00080352",
+          "corner_columns": "42,54,24,33,96,57",
+          "template_s": "0.000409626",
+          "compression_s": "0.00083091",
+          "rref_s": "0.002673831",
+          "shorten_s": "1.041e-06",
+          "lift_s": "0.000291154"
+        },
+        {
+          "weight": "7",
+          "rows": "1632",
+          "columns": "882",
+          "nnz": "18486",
+          "dimension": "184",
+          "assembly_s": "0.003037323",
+          "adapt_s": "0.00069942",
+          "kernel_s": "0.006659183",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.002113756",
+          "corner_columns": "82,101,50,61,183,111",
+          "template_s": "0.000469392",
+          "compression_s": "0.001183601",
+          "rref_s": "0.005319343",
+          "shorten_s": "9.2e-07",
+          "lift_s": "0.000885919"
+        },
+        {
+          "weight": "8",
+          "rows": "3136",
+          "columns": "1656",
+          "nnz": "62857",
+          "dimension": "340",
+          "assembly_s": "0.007952532",
+          "adapt_s": "0.001159764",
+          "kernel_s": "0.021351377",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.006860912",
+          "corner_columns": "155,184,97,116,339,213",
+          "template_s": "0.000249371",
+          "compression_s": "0.003362883",
+          "rref_s": "0.016246224",
+          "shorten_s": "1.28e-06",
+          "lift_s": "0.003560654"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-native-3",
+      "wall_s": 0.12911417102441192,
+      "peak_rss_kib": 29700,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "6",
+          "solve_s": "0.00115781"
+        },
+        {
+          "weight": "3",
+          "dimension": "13",
+          "solve_s": "0.000508063"
+        },
+        {
+          "weight": "4",
+          "dimension": "26",
+          "solve_s": "0.000888734"
+        },
+        {
+          "weight": "5",
+          "dimension": "51",
+          "solve_s": "0.00188849"
+        },
+        {
+          "weight": "6",
+          "dimension": "98",
+          "solve_s": "0.00706583"
+        },
+        {
+          "weight": "7",
+          "dimension": "184",
+          "solve_s": "0.0208347"
+        },
+        {
+          "weight": "8",
+          "dimension": "340",
+          "solve_s": "0.0806845"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-archive-3",
+      "wall_s": 0.04508626600727439,
+      "peak_rss_kib": 19008
+    },
+    {
+      "label": "hexagon-fec-w8-native-4",
+      "wall_s": 0.12972176494076848,
+      "peak_rss_kib": 29064,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "6",
+          "solve_s": "0.00217585"
+        },
+        {
+          "weight": "3",
+          "dimension": "13",
+          "solve_s": "0.00202126"
+        },
+        {
+          "weight": "4",
+          "dimension": "26",
+          "solve_s": "0.000821658"
+        },
+        {
+          "weight": "5",
+          "dimension": "51",
+          "solve_s": "0.00182378"
+        },
+        {
+          "weight": "6",
+          "dimension": "98",
+          "solve_s": "0.00515604"
+        },
+        {
+          "weight": "7",
+          "dimension": "184",
+          "solve_s": "0.0218794"
+        },
+        {
+          "weight": "8",
+          "dimension": "340",
+          "solve_s": "0.0778194"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-symmetry-4",
+      "wall_s": 0.10398364765569568,
+      "peak_rss_kib": 24444,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "32",
+          "columns": "27",
+          "nnz": "38",
+          "dimension": "6",
+          "assembly_s": "0.00112198",
+          "adapt_s": "4.3088e-05",
+          "kernel_s": "0.000394922",
+          "ordinary_kernel_s": "0",
+          "verification_s": "2.3549e-05",
+          "corner_columns": "2,4,1,2,6,3",
+          "template_s": "0.000671331",
+          "compression_s": "0.000425564",
+          "rref_s": "0.000358689",
+          "shorten_s": "1.275e-06",
+          "lift_s": "5.638e-06"
+        },
+        {
+          "weight": "3",
+          "rows": "96",
+          "columns": "54",
+          "nnz": "186",
+          "dimension": "13",
+          "assembly_s": "0.000843779",
+          "adapt_s": "8.5239e-05",
+          "kernel_s": "0.000577406",
+          "ordinary_kernel_s": "0",
+          "verification_s": "5.4395e-05",
+          "corner_columns": "4,8,2,4,12,6",
+          "template_s": "0.000296523",
+          "compression_s": "0.000497927",
+          "rref_s": "0.000533615",
+          "shorten_s": "5.98e-07",
+          "lift_s": "1.1029e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "192",
+          "columns": "117",
+          "nnz": "486",
+          "dimension": "26",
+          "assembly_s": "0.001207224",
+          "adapt_s": "0.000136293",
+          "kernel_s": "0.001005611",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000141674",
+          "corner_columns": "10,15,5,9,25,14",
+          "template_s": "0.001000573",
+          "compression_s": "0.000105041",
+          "rref_s": "0.000908245",
+          "shorten_s": "7.07e-07",
+          "lift_s": "3.9169e-05"
+        },
+        {
+          "weight": "5",
+          "rows": "416",
+          "columns": "234",
+          "nnz": "1715",
+          "dimension": "51",
+          "assembly_s": "0.001153008",
+          "adapt_s": "0.000215531",
+          "kernel_s": "0.001786684",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000368784",
+          "corner_columns": "21,29,12,16,50,28",
+          "template_s": "0.000424105",
+          "compression_s": "0.000448221",
+          "rref_s": "0.001573396",
+          "shorten_s": "7.8e-07",
+          "lift_s": "9.3082e-05"
+        },
+        {
+          "weight": "6",
+          "rows": "832",
+          "columns": "459",
+          "nnz": "5730",
+          "dimension": "98",
+          "assembly_s": "0.003115049",
+          "adapt_s": "0.000342828",
+          "kernel_s": "0.003004889",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.00077207",
+          "corner_columns": "42,54,24,33,96,57",
+          "template_s": "0.000956879",
+          "compression_s": "0.001660611",
+          "rref_s": "0.002541361",
+          "shorten_s": "8.76e-07",
+          "lift_s": "0.000261337"
+        },
+        {
+          "weight": "7",
+          "rows": "1632",
+          "columns": "882",
+          "nnz": "18486",
+          "dimension": "184",
+          "assembly_s": "0.002436399",
+          "adapt_s": "0.000717099",
+          "kernel_s": "0.006696918",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.002251355",
+          "corner_columns": "82,101,50,61,183,111",
+          "template_s": "0.00041304",
+          "compression_s": "0.000527845",
+          "rref_s": "0.005395985",
+          "shorten_s": "9.9e-07",
+          "lift_s": "0.000849996"
+        },
+        {
+          "weight": "8",
+          "rows": "3136",
+          "columns": "1656",
+          "nnz": "62857",
+          "dimension": "340",
+          "assembly_s": "0.00529374",
+          "adapt_s": "0.001250486",
+          "kernel_s": "0.022427758",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.007295545",
+          "corner_columns": "155,184,97,116,339,213",
+          "template_s": "0.000295126",
+          "compression_s": "0.00072069",
+          "rref_s": "0.017374028",
+          "shorten_s": "1.33e-06",
+          "lift_s": "0.003489701"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-fec-w8-archive-4",
+      "wall_s": 0.044931462965905666,
+      "peak_rss_kib": 19032
+    },
+    {
+      "label": "hexagon-fec-w8-verify",
+      "wall_s": 0.14511406607925892,
+      "peak_rss_kib": 29652
+    },
+    {
+      "label": "hexagon-fec-w8-archive-export",
+      "wall_s": 0.018088852055370808,
+      "peak_rss_kib": 22164
+    },
+    {
+      "label": "hexagon-fec-w8-archive-verify",
+      "wall_s": 0.4573202948085964,
+      "peak_rss_kib": 30560
+    },
+    {
+      "label": "hexagon-lec-w6-native-0",
+      "wall_s": 2.950749098788947,
+      "peak_rss_kib": 378744,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "25",
+          "solve_s": "0.0011606"
+        },
+        {
+          "weight": "3",
+          "dimension": "83",
+          "solve_s": "0.00434586"
+        },
+        {
+          "weight": "4",
+          "dimension": "249",
+          "solve_s": "0.0179912"
+        },
+        {
+          "weight": "5",
+          "dimension": "696",
+          "solve_s": "0.157397"
+        },
+        {
+          "weight": "6",
+          "dimension": "1858",
+          "solve_s": "2.51934"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-symmetry-0",
+      "wall_s": 0.6156326029449701,
+      "peak_rss_kib": 122852,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "41",
+          "columns": "54",
+          "nnz": "89",
+          "dimension": "25",
+          "assembly_s": "0.006871584",
+          "adapt_s": "5.3463e-05",
+          "kernel_s": "0.000403317",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.5997e-05",
+          "corner_columns": "3,6,3,6,9,9",
+          "template_s": "0.001114566",
+          "compression_s": "0.005724379",
+          "rref_s": "0.000335827",
+          "shorten_s": "1.616e-06",
+          "lift_s": "1.928e-05"
+        },
+        {
+          "weight": "3",
+          "rows": "246",
+          "columns": "225",
+          "nnz": "1100",
+          "dimension": "83",
+          "assembly_s": "0.002973638",
+          "adapt_s": "0.00038022",
+          "kernel_s": "0.001854991",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000335548",
+          "corner_columns": "16,24,14,21,40,35",
+          "template_s": "0.001604358",
+          "compression_s": "0.001172347",
+          "rref_s": "0.001652132",
+          "shorten_s": "8.44e-07",
+          "lift_s": "9.9644e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "1025",
+          "columns": "747",
+          "nnz": "7387",
+          "dimension": "249",
+          "assembly_s": "0.006143869",
+          "adapt_s": "0.000490182",
+          "kernel_s": "0.004117778",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.001462137",
+          "corner_columns": "54,72,54,69,126,123",
+          "template_s": "0.000451825",
+          "compression_s": "0.004834887",
+          "rref_s": "0.00317335",
+          "shorten_s": "9.29e-07",
+          "lift_s": "0.000552672"
+        },
+        {
+          "weight": "5",
+          "rows": "3403",
+          "columns": "2241",
+          "nnz": "52519",
+          "dimension": "696",
+          "assembly_s": "0.004792089",
+          "adapt_s": "0.001278224",
+          "kernel_s": "0.025458335",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.009433514",
+          "corner_columns": "173,208,166,200,381,366",
+          "template_s": "3.5932e-05",
+          "compression_s": "0.000442807",
+          "rref_s": "0.018236971",
+          "shorten_s": "1.3e-06",
+          "lift_s": "0.004465274"
+        },
+        {
+          "weight": "6",
+          "rows": "10209",
+          "columns": "6264",
+          "nnz": "416268",
+          "dimension": "1858",
+          "assembly_s": "0.030776472",
+          "adapt_s": "0.003305701",
+          "kernel_s": "0.216031475",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.088367506",
+          "corner_columns": "490,562,485,551,1052,1036",
+          "template_s": "0.00015604",
+          "compression_s": "0.0014135",
+          "rref_s": "0.156025582",
+          "shorten_s": "4.882e-06",
+          "lift_s": "0.040015489"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-archive-0",
+      "wall_s": 0.21683768508955836,
+      "peak_rss_kib": 38336
+    },
+    {
+      "label": "hexagon-lec-w6-symmetry-1",
+      "wall_s": 0.6222704350948334,
+      "peak_rss_kib": 124620,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "41",
+          "columns": "54",
+          "nnz": "89",
+          "dimension": "25",
+          "assembly_s": "0.002157861",
+          "adapt_s": "5.2951e-05",
+          "kernel_s": "0.000481571",
+          "ordinary_kernel_s": "0",
+          "verification_s": "5.8844e-05",
+          "corner_columns": "3,6,3,6,9,9",
+          "template_s": "0.001433589",
+          "compression_s": "0.000683689",
+          "rref_s": "0.000417582",
+          "shorten_s": "1.373e-06",
+          "lift_s": "1.7484e-05"
+        },
+        {
+          "weight": "3",
+          "rows": "246",
+          "columns": "225",
+          "nnz": "1100",
+          "dimension": "83",
+          "assembly_s": "0.003200035",
+          "adapt_s": "0.000350109",
+          "kernel_s": "0.00123508",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000342958",
+          "corner_columns": "16,24,14,21,40,35",
+          "template_s": "0.001749358",
+          "compression_s": "0.001308515",
+          "rref_s": "0.001015526",
+          "shorten_s": "7.75e-07",
+          "lift_s": "0.000113589"
+        },
+        {
+          "weight": "4",
+          "rows": "1025",
+          "columns": "747",
+          "nnz": "7387",
+          "dimension": "249",
+          "assembly_s": "0.001974127",
+          "adapt_s": "0.000507792",
+          "kernel_s": "0.007774338",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.001709642",
+          "corner_columns": "54,72,54,69,126,123",
+          "template_s": "0.000453318",
+          "compression_s": "0.000834051",
+          "rref_s": "0.006795419",
+          "shorten_s": "8.43e-07",
+          "lift_s": "0.000580892"
+        },
+        {
+          "weight": "5",
+          "rows": "3403",
+          "columns": "2241",
+          "nnz": "52519",
+          "dimension": "696",
+          "assembly_s": "0.004357064",
+          "adapt_s": "0.001352615",
+          "kernel_s": "0.02252568",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.009538806",
+          "corner_columns": "173,208,166,200,381,366",
+          "template_s": "3.6519e-05",
+          "compression_s": "0.000450253",
+          "rref_s": "0.015753623",
+          "shorten_s": "1.209e-06",
+          "lift_s": "0.004318169"
+        },
+        {
+          "weight": "6",
+          "rows": "10209",
+          "columns": "6264",
+          "nnz": "416268",
+          "dimension": "1858",
+          "assembly_s": "0.034173606",
+          "adapt_s": "0.003297388",
+          "kernel_s": "0.220071684",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.08798737",
+          "corner_columns": "490,562,485,551,1052,1036",
+          "template_s": "0.000148145",
+          "compression_s": "0.001450042",
+          "rref_s": "0.156124821",
+          "shorten_s": "4.439e-06",
+          "lift_s": "0.040636177"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-native-1",
+      "wall_s": 2.954884867183864,
+      "peak_rss_kib": 378624,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "25",
+          "solve_s": "0.0012008"
+        },
+        {
+          "weight": "3",
+          "dimension": "83",
+          "solve_s": "0.00500053"
+        },
+        {
+          "weight": "4",
+          "dimension": "249",
+          "solve_s": "0.019975"
+        },
+        {
+          "weight": "5",
+          "dimension": "696",
+          "solve_s": "0.157736"
+        },
+        {
+          "weight": "6",
+          "dimension": "1858",
+          "solve_s": "2.51874"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-archive-1",
+      "wall_s": 0.2044354137033224,
+      "peak_rss_kib": 36264
+    },
+    {
+      "label": "hexagon-lec-w6-native-2",
+      "wall_s": 2.9822855829261243,
+      "peak_rss_kib": 375932,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "25",
+          "solve_s": "0.0013024"
+        },
+        {
+          "weight": "3",
+          "dimension": "83",
+          "solve_s": "0.00298476"
+        },
+        {
+          "weight": "4",
+          "dimension": "249",
+          "solve_s": "0.0170619"
+        },
+        {
+          "weight": "5",
+          "dimension": "696",
+          "solve_s": "0.17212"
+        },
+        {
+          "weight": "6",
+          "dimension": "1858",
+          "solve_s": "2.53258"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-symmetry-2",
+      "wall_s": 0.627856750972569,
+      "peak_rss_kib": 123404,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "41",
+          "columns": "54",
+          "nnz": "89",
+          "dimension": "25",
+          "assembly_s": "0.001757896",
+          "adapt_s": "4.7162e-05",
+          "kernel_s": "0.000445007",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.7365e-05",
+          "corner_columns": "3,6,3,6,9,9",
+          "template_s": "0.001155737",
+          "compression_s": "0.000569711",
+          "rref_s": "0.000375411",
+          "shorten_s": "1.479e-06",
+          "lift_s": "2.0635e-05"
+        },
+        {
+          "weight": "3",
+          "rows": "246",
+          "columns": "225",
+          "nnz": "1100",
+          "dimension": "83",
+          "assembly_s": "0.002871467",
+          "adapt_s": "0.000364178",
+          "kernel_s": "0.00122589",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000354245",
+          "corner_columns": "16,24,14,21,40,35",
+          "template_s": "0.001591796",
+          "compression_s": "0.001157255",
+          "rref_s": "0.001026804",
+          "shorten_s": "7.97e-07",
+          "lift_s": "9.9229e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "1025",
+          "columns": "747",
+          "nnz": "7387",
+          "dimension": "249",
+          "assembly_s": "0.001926138",
+          "adapt_s": "0.000509687",
+          "kernel_s": "0.004164087",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.001573508",
+          "corner_columns": "54,72,54,69,126,123",
+          "template_s": "0.000433102",
+          "compression_s": "0.00059426",
+          "rref_s": "0.003150191",
+          "shorten_s": "9.92e-07",
+          "lift_s": "0.000592474"
+        },
+        {
+          "weight": "5",
+          "rows": "3403",
+          "columns": "2241",
+          "nnz": "52519",
+          "dimension": "696",
+          "assembly_s": "0.005287669",
+          "adapt_s": "0.001412279",
+          "kernel_s": "0.033227436",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.009817562",
+          "corner_columns": "173,208,166,200,381,366",
+          "template_s": "4.2705e-05",
+          "compression_s": "0.00048998",
+          "rref_s": "0.026479985",
+          "shorten_s": "1.52e-06",
+          "lift_s": "0.004380183"
+        },
+        {
+          "weight": "6",
+          "rows": "10209",
+          "columns": "6264",
+          "nnz": "416268",
+          "dimension": "1858",
+          "assembly_s": "0.031417278",
+          "adapt_s": "0.00382631",
+          "kernel_s": "0.223481473",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.087908901",
+          "corner_columns": "490,562,485,551,1052,1036",
+          "template_s": "0.000131711",
+          "compression_s": "0.001469453",
+          "rref_s": "0.161005731",
+          "shorten_s": "4.536e-06",
+          "lift_s": "0.042144305"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-archive-2",
+      "wall_s": 0.28056169813498855,
+      "peak_rss_kib": 38128
+    },
+    {
+      "label": "hexagon-lec-w6-symmetry-3",
+      "wall_s": 0.6272090179845691,
+      "peak_rss_kib": 124348,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "41",
+          "columns": "54",
+          "nnz": "89",
+          "dimension": "25",
+          "assembly_s": "0.002089081",
+          "adapt_s": "5.3644e-05",
+          "kernel_s": "0.000449838",
+          "ordinary_kernel_s": "0",
+          "verification_s": "6.0367e-05",
+          "corner_columns": "3,6,3,6,9,9",
+          "template_s": "0.001153033",
+          "compression_s": "0.000907248",
+          "rref_s": "0.000389963",
+          "shorten_s": "1.091e-06",
+          "lift_s": "1.7392e-05"
+        },
+        {
+          "weight": "3",
+          "rows": "246",
+          "columns": "225",
+          "nnz": "1100",
+          "dimension": "83",
+          "assembly_s": "0.002961511",
+          "adapt_s": "0.000342376",
+          "kernel_s": "0.001249557",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000341238",
+          "corner_columns": "16,24,14,21,40,35",
+          "template_s": "0.001634548",
+          "compression_s": "0.001173461",
+          "rref_s": "0.0010564",
+          "shorten_s": "8.71e-07",
+          "lift_s": "9.1376e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "1025",
+          "columns": "747",
+          "nnz": "7387",
+          "dimension": "249",
+          "assembly_s": "0.002197332",
+          "adapt_s": "0.000508216",
+          "kernel_s": "0.00455701",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.001449709",
+          "corner_columns": "54,72,54,69,126,123",
+          "template_s": "0.000416924",
+          "compression_s": "0.000661131",
+          "rref_s": "0.00358776",
+          "shorten_s": "8.19e-07",
+          "lift_s": "0.000564884"
+        },
+        {
+          "weight": "5",
+          "rows": "3403",
+          "columns": "2241",
+          "nnz": "52519",
+          "dimension": "696",
+          "assembly_s": "0.005468048",
+          "adapt_s": "0.001267802",
+          "kernel_s": "0.034726801",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.009591171",
+          "corner_columns": "173,208,166,200,381,366",
+          "template_s": "3.7599e-05",
+          "compression_s": "0.000491741",
+          "rref_s": "0.02774547",
+          "shorten_s": "1.289e-06",
+          "lift_s": "0.004448849"
+        },
+        {
+          "weight": "6",
+          "rows": "10209",
+          "columns": "6264",
+          "nnz": "416268",
+          "dimension": "1858",
+          "assembly_s": "0.030727397",
+          "adapt_s": "0.003321329",
+          "kernel_s": "0.224435962",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.088807409",
+          "corner_columns": "490,562,485,551,1052,1036",
+          "template_s": "0.000138236",
+          "compression_s": "0.001340774",
+          "rref_s": "0.159208556",
+          "shorten_s": "4.813e-06",
+          "lift_s": "0.040391213"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-native-3",
+      "wall_s": 2.9671450122259557,
+      "peak_rss_kib": 364516,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "25",
+          "solve_s": "0.00185338"
+        },
+        {
+          "weight": "3",
+          "dimension": "83",
+          "solve_s": "0.00261144"
+        },
+        {
+          "weight": "4",
+          "dimension": "249",
+          "solve_s": "0.0182142"
+        },
+        {
+          "weight": "5",
+          "dimension": "696",
+          "solve_s": "0.152236"
+        },
+        {
+          "weight": "6",
+          "dimension": "1858",
+          "solve_s": "2.54281"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-archive-3",
+      "wall_s": 0.21141146589070559,
+      "peak_rss_kib": 38184
+    },
+    {
+      "label": "hexagon-lec-w6-native-4",
+      "wall_s": 3.0162116629071534,
+      "peak_rss_kib": 392808,
+      "phases": [
+        {
+          "weight": "2",
+          "dimension": "25",
+          "solve_s": "0.00326935"
+        },
+        {
+          "weight": "3",
+          "dimension": "83",
+          "solve_s": "0.00253901"
+        },
+        {
+          "weight": "4",
+          "dimension": "249",
+          "solve_s": "0.0215993"
+        },
+        {
+          "weight": "5",
+          "dimension": "696",
+          "solve_s": "0.150025"
+        },
+        {
+          "weight": "6",
+          "dimension": "1858",
+          "solve_s": "2.58739"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-symmetry-4",
+      "wall_s": 0.6121970792300999,
+      "peak_rss_kib": 122732,
+      "phases": [
+        {
+          "weight": "2",
+          "rows": "41",
+          "columns": "54",
+          "nnz": "89",
+          "dimension": "25",
+          "assembly_s": "0.001946115",
+          "adapt_s": "4.843e-05",
+          "kernel_s": "0.000490183",
+          "ordinary_kernel_s": "0",
+          "verification_s": "5.7785e-05",
+          "corner_columns": "3,6,3,6,9,9",
+          "template_s": "0.001276357",
+          "compression_s": "0.00062821",
+          "rref_s": "0.00042204",
+          "shorten_s": "1.337e-06",
+          "lift_s": "1.6984e-05"
+        },
+        {
+          "weight": "3",
+          "rows": "246",
+          "columns": "225",
+          "nnz": "1100",
+          "dimension": "83",
+          "assembly_s": "0.003263609",
+          "adapt_s": "0.00033023",
+          "kernel_s": "0.001441545",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.000311467",
+          "corner_columns": "16,24,14,21,40,35",
+          "template_s": "0.001726088",
+          "compression_s": "0.001283183",
+          "rref_s": "0.001233415",
+          "shorten_s": "7.78e-07",
+          "lift_s": "9.2195e-05"
+        },
+        {
+          "weight": "4",
+          "rows": "1025",
+          "columns": "747",
+          "nnz": "7387",
+          "dimension": "249",
+          "assembly_s": "0.002556199",
+          "adapt_s": "0.00046828",
+          "kernel_s": "0.006133192",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.001425371",
+          "corner_columns": "54,72,54,69,126,123",
+          "template_s": "0.000467057",
+          "compression_s": "0.000696784",
+          "rref_s": "0.005172947",
+          "shorten_s": "1.055e-06",
+          "lift_s": "0.000561676"
+        },
+        {
+          "weight": "5",
+          "rows": "3403",
+          "columns": "2241",
+          "nnz": "52519",
+          "dimension": "696",
+          "assembly_s": "0.005355366",
+          "adapt_s": "0.001300532",
+          "kernel_s": "0.024372778",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.009337166",
+          "corner_columns": "173,208,166,200,381,366",
+          "template_s": "3.7793e-05",
+          "compression_s": "0.00045283",
+          "rref_s": "0.017491846",
+          "shorten_s": "1.949e-06",
+          "lift_s": "0.004447252"
+        },
+        {
+          "weight": "6",
+          "rows": "10209",
+          "columns": "6264",
+          "nnz": "416268",
+          "dimension": "1858",
+          "assembly_s": "0.030767966",
+          "adapt_s": "0.003168038",
+          "kernel_s": "0.215921485",
+          "ordinary_kernel_s": "0",
+          "verification_s": "0.092065843",
+          "corner_columns": "490,562,485,551,1052,1036",
+          "template_s": "0.000128501",
+          "compression_s": "0.001289339",
+          "rref_s": "0.152123405",
+          "shorten_s": "4.873e-06",
+          "lift_s": "0.041735751"
+        }
+      ]
+    },
+    {
+      "label": "hexagon-lec-w6-archive-4",
+      "wall_s": 0.20723079470917583,
+      "peak_rss_kib": 38248
+    },
+    {
+      "label": "hexagon-lec-w6-verify",
+      "wall_s": 59.75538286194205,
+      "peak_rss_kib": 665972
+    },
+    {
+      "label": "hexagon-lec-w6-archive-export",
+      "wall_s": 0.11644374905154109,
+      "peak_rss_kib": 72760
+    },
+    {
+      "label": "hexagon-lec-w6-archive-verify",
+      "wall_s": 55.22209277795628,
+      "peak_rss_kib": 1351316
+    }
+  ],
+  "source_sha256": {
+    "symrep_io.hpp": "b3a5cc11eb33788f4724f16fcd606524bd8b26d33125805aab2983703ef8d422",
+    "symrep_regression.py": "d5fcaaeea972d34fb142d5ac271aa34761300aec6efdc6cb77acd0d5b906d04e",
+    "native_symrep_reference.cpp": "b0aa5a47914531dfa382465437c330ef74525e27ffd220abce9fbc8526f66bbe",
+    "symrep.hpp": "6bb9a2e810df7d27ff68000c56bc47d1ebf85e9dd6c6d8f73770a9bbe8d04c40",
+    "symrep_orbits.hpp": "4487a720cf5b4ed83648fba2587953ae75630b2f59d8d1d6cc23ca04f8124e74",
+    "symrep": "96b046b0acd74e487ba0c22c75dea32da47abd7f80ee6c9c75621743bd5d5ef7",
+    "symrep_orbits.py": "b9384aff724979c8913e9a9958e1586efc6a882db9dcd998867ca365e00bb949",
+    "symrep_carrier.hpp": "217254f65c0ddde85d7da38398bf91b607d67d7537f03fd79207990d527d38cd",
+    "symrep_probe.cpp": "18972031407e295bb21f3f043ef5d2558e17c34f4a9c9a8fa85546f4cd8b645c",
+    "symrep_bootstrap.hpp": "a51b4d6933f5e127af7344ed87a5baca05534630823276a7ea673724b6f96d24",
+    "symrep.cpp": "3d4c2b511dbf58ff987625f295d5a3935ada4c55832b8b0ba63ce5aab88db5b9"
+  },
+  "native_sha256": "e6476a74ba4eec3ba52520a73723f4190dc658165e8653aa950135a4fc990aea",
+  "notes": [
+    "Sequential fresh processes, alternating native/symmetry order; OS caches not flushed.",
+    "Times include startup, solving, output and completion checksums.",
+    "Prepared bundles are reused. Expanded export and optional verification are separate.",
+    "Compact output fully specifies the rational irrep basis through certified orbit seeds.",
+    "The compact backend still uses a full sparse QQ constraint kernel.",
+    "Repeated outputs must be byte-identical to the independently verified first run.",
+    "Archive executables retain their own libraries, build and compact output format."
+  ]
+}

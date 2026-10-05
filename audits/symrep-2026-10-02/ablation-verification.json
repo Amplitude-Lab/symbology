@@ -1,0 +1,47 @@
+[
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-fec8-0",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/fec-after-0",
+    "through_weight": 8
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-fec8-1",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/fec-after-0",
+    "through_weight": 8
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-fec8-2",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/fec-after-0",
+    "through_weight": 8
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec5-0",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/lec-after-0",
+    "through_weight": 5
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec5-1",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/lec-after-0",
+    "through_weight": 5
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec5-2",
+    "exactly_identical_to": "output_symrep_optimization_20261002/validated-hexagon/lec-after-0",
+    "through_weight": 5
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec6-0",
+    "exactly_identical_to": "output_symrep_optimization_20261002/final-hexagon-lec-0",
+    "through_weight": 6
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec6-1",
+    "exactly_identical_to": "output_symrep_optimization_20261002/final-hexagon-lec-0",
+    "through_weight": 6
+  },
+  {
+    "chain": "output_symrep_optimization_20261002/ablation-lec6-2",
+    "exactly_identical_to": "output_symrep_optimization_20261002/final-hexagon-lec-0",
+    "through_weight": 6
+  }
+]

@@ -1,0 +1,14 @@
+diff --git a/sparse_mat.h b/sparse_mat.h
+--- a/sparse_mat.h
++++ b/sparse_mat.h
+@@ -2020,7 +2020,9 @@
+ 				<< "2^" << mod.bits() << ".                " << std::endl;
+ 		}
+ 
+-		mat = matq;
++		// Reconstruction is complete; transfer its storage rather than retaining
++		// a second complete rational RREF beside the input and modular buffers.
++		mat = std::move(matq);
+ 
+ 		return pivots;
+ 	}

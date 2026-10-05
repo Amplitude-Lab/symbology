@@ -1,0 +1,50 @@
+{
+  "branch": "symrep-solver-dev",
+  "head": "ac664bba85f887c6255b940556c9952f6ed02b67",
+  "compiler": "GCC 14.4.0",
+  "flint": "3.2.2",
+  "flags": "-O3 -march=native -mtune=native -flto -std=c++20 -I. -I/tmp/symbology-audit-toolchain/env/include -UUSE_MIMALLOC",
+  "link_flags": "-L/tmp/symbology-audit-toolchain/env/lib -Wl,-rpath,/tmp/symbology-audit-toolchain/env/lib -lflint -lgmp -ltbb",
+  "archive_difference": "Archive forces USE_MIMALLOC in its headers and also links -lmimalloc -lmpfr -pthread; otherwise same optimization flags. Separate unmodified SparseRREF and pivot method 1.",
+  "source_sha256": {
+    "symrep_io.hpp": "b3a5cc11eb33788f4724f16fcd606524bd8b26d33125805aab2983703ef8d422",
+    "symrep_regression.py": "d5fcaaeea972d34fb142d5ac271aa34761300aec6efdc6cb77acd0d5b906d04e",
+    "native_symrep_reference.cpp": "b0aa5a47914531dfa382465437c330ef74525e27ffd220abce9fbc8526f66bbe",
+    "symrep.hpp": "6bb9a2e810df7d27ff68000c56bc47d1ebf85e9dd6c6d8f73770a9bbe8d04c40",
+    "symrep_orbits.hpp": "4487a720cf5b4ed83648fba2587953ae75630b2f59d8d1d6cc23ca04f8124e74",
+    "symrep": "96b046b0acd74e487ba0c22c75dea32da47abd7f80ee6c9c75621743bd5d5ef7",
+    "symrep_orbits.py": "b9384aff724979c8913e9a9958e1586efc6a882db9dcd998867ca365e00bb949",
+    "symrep_carrier.hpp": "217254f65c0ddde85d7da38398bf91b607d67d7537f03fd79207990d527d38cd",
+    "symrep_probe.cpp": "18972031407e295bb21f3f043ef5d2558e17c34f4a9c9a8fa85546f4cd8b645c",
+    "symrep_bootstrap.hpp": "a51b4d6933f5e127af7344ed87a5baca05534630823276a7ea673724b6f96d24",
+    "symrep.cpp": "3d4c2b511dbf58ff987625f295d5a3935ada4c55832b8b0ba63ce5aab88db5b9"
+  },
+  "current_solver_sha256": {
+    "symrep_io.hpp": "b3a5cc11eb33788f4724f16fcd606524bd8b26d33125805aab2983703ef8d422",
+    "symrep.hpp": "6bb9a2e810df7d27ff68000c56bc47d1ebf85e9dd6c6d8f73770a9bbe8d04c40",
+    "symrep_orbits.hpp": "4487a720cf5b4ed83648fba2587953ae75630b2f59d8d1d6cc23ca04f8124e74",
+    "symrep": "96b046b0acd74e487ba0c22c75dea32da47abd7f80ee6c9c75621743bd5d5ef7",
+    "symrep_carrier.hpp": "217254f65c0ddde85d7da38398bf91b607d67d7537f03fd79207990d527d38cd",
+    "symrep_bootstrap.hpp": "a51b4d6933f5e127af7344ed87a5baca05534630823276a7ea673724b6f96d24",
+    "symrep.cpp": "3d4c2b511dbf58ff987625f295d5a3935ada4c55832b8b0ba63ce5aab88db5b9"
+  },
+  "executable_sha256": {
+    "symrep": "96b046b0acd74e487ba0c22c75dea32da47abd7f80ee6c9c75621743bd5d5ef7",
+    "tests/symrep_probe": "4b7443044bcf82fa0080a15390b72e8d8ce402c0b2ab92c629b366c41a31c852",
+    "output_symrep_orbits_20261002/native-release-current": "e6476a74ba4eec3ba52520a73723f4190dc658165e8653aa950135a4fc990aea",
+    "output_symrep_orbits_20261002/archive-release/irr_lec": "650a258c39f7ac0c71ba4a76eea29a0f0639ec438d43199e720c9ad1f1a54f6a",
+    "output_symrep_orbits_20261002/archive-release/irr_fec": "f17cf97f6f91cf23591c910cdb0717702eb92c4764d747a8a53731fcb1a289bd"
+  },
+  "archive_sha256": "7f25b6f754f4b9bf4d297eba577bf14c6412700d427272289fcb4e4accb51a97",
+  "native_core_unchanged": {
+    "bootstrap.hpp": true,
+    "native_cache.hpp": true
+  },
+  "validation_logs": {
+    "probe-final.log": "c09862ea4345d8fa30086383ae2ef73a6d31999ecea1b3d55152f6407955d49f",
+    "regression-final.log": "b093e4baacf470f97448ea6daae83cd8216a1bdadaa1438fd5b9e7b7d7ea4e8c",
+    "legacy-compat/validation.log": "e256dde5e95a92e9e8ffb58e13ef77d10d62bd02310914f85ad51e14b781d231",
+    "audit.log": "135454d8bc6941c475fdc67325933636fd5a0c77cc7c7cf7c8f077705ca10321",
+    "export-validation.json": "b4b60a61f4f6a3e789df5d5a15db0c2de2be126a3d5ee6d9bba157e9f90a18b9"
+  }
+}

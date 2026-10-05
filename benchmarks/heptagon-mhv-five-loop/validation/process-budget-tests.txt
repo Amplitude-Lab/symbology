@@ -1,0 +1,13 @@
+test_cancellation_reaches_child (__main__.BudgetTests) ... ok
+test_child_rss_limit (__main__.BudgetTests) ... ok
+test_deadline (__main__.BudgetTests) ... ok
+test_ignoring_descendant_is_killed_after_leader_exits (__main__.BudgetTests) ... ok
+test_missing_certificate_stops_pipeline (__main__.BudgetTests) ... ok
+test_shared_deadline (__main__.BudgetTests) ... ok
+test_stages_and_output_certificates (__main__.BudgetTests) ... ok
+test_success_and_status (__main__.BudgetTests) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 7.239s
+
+OK

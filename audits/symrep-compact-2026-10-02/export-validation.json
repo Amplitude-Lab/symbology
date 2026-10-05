@@ -1,0 +1,16 @@
+[
+  {
+    "case": "hexagon-fec-w8",
+    "wall_s": 0.03203962882980704,
+    "peak_rss_kib": 16180,
+    "byte_identical_expanded_basis_all_weights": true,
+    "previous_v1_resume_and_compare": true
+  },
+  {
+    "case": "hexagon-lec-w6",
+    "wall_s": 0.14957120595499873,
+    "peak_rss_kib": 69472,
+    "byte_identical_expanded_basis_all_weights": true,
+    "previous_v1_resume_and_compare": true
+  }
+]

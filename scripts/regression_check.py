@@ -19,6 +19,7 @@ Exit code 0 only when every output is bit-identical. This is the gate for any
 change to the C++ calculation core: `make regression` after `make`.
 """
 import json
+import argparse
 import os
 import shutil
 import subprocess
@@ -37,7 +38,12 @@ def die(msg):
 
 
 def main():
-    manifest_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_MANIFEST
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('manifest', nargs='?', type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument('--legacy-kernels', action='store_true',
+                        help='Replay historical basis-dependent CRCs with the original strategies')
+    args = parser.parse_args()
+    manifest_path = args.manifest
     manifest = json.loads(manifest_path.read_text())
     # Some baselines read the repo's own data/ + output/ chain (repo_root_inputs)
     # instead of a front-end project directory.
@@ -66,6 +72,13 @@ def main():
         stdout_all = []
         for step in manifest["steps"]:
             argv = [a.replace("@ROOT@", root_s).replace("@PROJ@", sandbox_s) for a in step["argv"]]
+            if args.legacy_kernels and Path(argv[0]).stem in ('bootstrap', 'compute_rhs'):
+                flags = ['--kernel-strategy', '--sew-strategy']
+                if Path(argv[0]).stem == 'compute_rhs':
+                    flags.append('--projection-strategy')
+                for flag in flags:
+                    if flag not in argv:
+                        argv += [flag, 'original']
             print(f"  [{step['id']}] {step['label']}")
             # The front-end engine pre-creates output parent dirs before each
             # step; replicate that so a missing dir is never what we test.

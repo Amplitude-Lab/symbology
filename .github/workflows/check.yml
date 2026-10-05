@@ -26,10 +26,13 @@ jobs:
         run: |
           allocator_lib=""
           if [ "${{ matrix.mimalloc }}" = "1" ]; then allocator_lib="-lmimalloc"; fi
-          make -j2 check-public PORTABLE=1 MIMALLOC=${{ matrix.mimalloc }} \
+          make -j2 check-public check-symrep check-kernel check-nmhv check-staged check-early-sew PORTABLE=1 MIMALLOC=${{ matrix.mimalloc }} \
             CXX="$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-c++" \
             CXXFLAGS="-O2 -std=c++20 -I. -I$CONDA_PREFIX/include" \
             LDLIBS="-L$CONDA_PREFIX/lib -Wl,-rpath,$CONDA_PREFIX/lib -lflint -lgmp -ltbb $allocator_lib"
+      - name: Benchmark process budgets and cancellation
+        shell: bash -el {0}
+        run: python3 tests/process_budget_probe.py
       - name: WXF memory diagnostics
         if: matrix.mimalloc == 0
         shell: bash -el {0}

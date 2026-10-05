@@ -1,0 +1,164 @@
+[
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 0,
+    "wall_s": 1.4366911659017205,
+    "peak_rss_kib": 270676,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 0,
+    "wall_s": 1.3780612871050835,
+    "peak_rss_kib": 258052,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 1,
+    "wall_s": 1.3739203130826354,
+    "peak_rss_kib": 265332,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 1,
+    "wall_s": 1.3934609848074615,
+    "peak_rss_kib": 258288,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 2,
+    "wall_s": 1.4590163324028254,
+    "peak_rss_kib": 265400,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 2,
+    "wall_s": 1.3845369811169803,
+    "peak_rss_kib": 266296,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "unpruned",
+    "repeat": 0,
+    "wall_s": 0.39048484433442354,
+    "peak_rss_kib": 69728,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "pruned",
+    "repeat": 0,
+    "wall_s": 0.37161723570898175,
+    "peak_rss_kib": 67912,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "pruned",
+    "repeat": 1,
+    "wall_s": 0.36662976909428835,
+    "peak_rss_kib": 70508,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "unpruned",
+    "repeat": 1,
+    "wall_s": 0.34994872426614165,
+    "peak_rss_kib": 71384,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "unpruned",
+    "repeat": 2,
+    "wall_s": 0.3515771348029375,
+    "peak_rss_kib": 73780,
+    "basis_equal": true
+  },
+  {
+    "polygon": "heptagon",
+    "kind": "fec",
+    "method": "pruned",
+    "repeat": 2,
+    "wall_s": 0.3606928922235966,
+    "peak_rss_kib": 68032,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 0,
+    "wall_s": 0.20502436626702547,
+    "peak_rss_kib": 34172,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 0,
+    "wall_s": 0.19582557305693626,
+    "peak_rss_kib": 33688,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 1,
+    "wall_s": 0.18854002095758915,
+    "peak_rss_kib": 33692,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 1,
+    "wall_s": 0.1956580886617303,
+    "peak_rss_kib": 34008,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "unpruned",
+    "repeat": 2,
+    "wall_s": 0.20102239307016134,
+    "peak_rss_kib": 33852,
+    "basis_equal": true
+  },
+  {
+    "polygon": "hexagon",
+    "kind": "lec",
+    "method": "pruned",
+    "repeat": 2,
+    "wall_s": 0.18696599127724767,
+    "peak_rss_kib": 33120,
+    "basis_equal": true
+  }
+]

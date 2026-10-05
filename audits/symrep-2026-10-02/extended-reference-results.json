@@ -1,0 +1,142 @@
+[
+  {
+    "label": "extra-hexagon-lec-0-native",
+    "wall_s": 2.9701051050797105,
+    "peak_rss_kib": 438224
+  },
+  {
+    "label": "extra-hexagon-lec-0-after",
+    "wall_s": 0.6210657958872616,
+    "peak_rss_kib": 126656
+  },
+  {
+    "label": "extra-hexagon-lec-0-archive",
+    "wall_s": 0.2021646029315889,
+    "peak_rss_kib": 38232
+  },
+  {
+    "label": "extra-hexagon-lec-0-export",
+    "wall_s": 0.11110043479129672,
+    "peak_rss_kib": 74888
+  },
+  {
+    "label": "extra-hexagon-lec-0-archive-verify",
+    "wall_s": 50.8421486611478,
+    "peak_rss_kib": 1360264
+  },
+  {
+    "label": "extra-hexagon-lec-0-native-verify",
+    "wall_s": 54.88960671983659,
+    "peak_rss_kib": 701296
+  },
+  {
+    "label": "extra-hexagon-lec-1-native",
+    "wall_s": 2.953775175847113,
+    "peak_rss_kib": 432728
+  },
+  {
+    "label": "extra-hexagon-lec-1-after",
+    "wall_s": 0.6107727279886603,
+    "peak_rss_kib": 125104
+  },
+  {
+    "label": "extra-hexagon-lec-1-archive",
+    "wall_s": 0.1816840530373156,
+    "peak_rss_kib": 35848
+  },
+  {
+    "label": "extra-hexagon-lec-1-export",
+    "wall_s": 0.10628208378329873,
+    "peak_rss_kib": 72636
+  },
+  {
+    "label": "extra-hexagon-lec-2-native",
+    "wall_s": 2.9458847660571337,
+    "peak_rss_kib": 432696
+  },
+  {
+    "label": "extra-hexagon-lec-2-after",
+    "wall_s": 0.5885058040730655,
+    "peak_rss_kib": 125324
+  },
+  {
+    "label": "extra-hexagon-lec-2-archive",
+    "wall_s": 0.1898499191738665,
+    "peak_rss_kib": 38200
+  },
+  {
+    "label": "extra-hexagon-lec-2-export",
+    "wall_s": 0.1146766571328044,
+    "peak_rss_kib": 72796
+  },
+  {
+    "label": "extra-heptagon-fec-0-native",
+    "wall_s": 0.06731883389875293,
+    "peak_rss_kib": 21068
+  },
+  {
+    "label": "extra-heptagon-fec-0-after",
+    "wall_s": 8.643920458853245,
+    "peak_rss_kib": 570740
+  },
+  {
+    "label": "extra-heptagon-fec-0-native-verify",
+    "wall_s": 0.26590363681316376,
+    "peak_rss_kib": 49604
+  },
+  {
+    "label": "extra-heptagon-fec-1-native",
+    "wall_s": 0.07254415983334184,
+    "peak_rss_kib": 21072
+  },
+  {
+    "label": "extra-heptagon-fec-1-after",
+    "wall_s": 8.740303548052907,
+    "peak_rss_kib": 505456
+  },
+  {
+    "label": "extra-heptagon-fec-2-native",
+    "wall_s": 0.06824706308543682,
+    "peak_rss_kib": 20776
+  },
+  {
+    "label": "extra-heptagon-fec-2-after",
+    "wall_s": 8.66937653394416,
+    "peak_rss_kib": 572396
+  },
+  {
+    "label": "extra-heptagon-lec-0-native",
+    "wall_s": 0.05955522786825895,
+    "peak_rss_kib": 19924
+  },
+  {
+    "label": "extra-heptagon-lec-0-after",
+    "wall_s": 24.646162167191505,
+    "peak_rss_kib": 2388020
+  },
+  {
+    "label": "extra-heptagon-lec-0-native-verify",
+    "wall_s": 1.7970949932932854,
+    "peak_rss_kib": 169536
+  },
+  {
+    "label": "extra-heptagon-lec-1-native",
+    "wall_s": 0.06419562688097358,
+    "peak_rss_kib": 19244
+  },
+  {
+    "label": "extra-heptagon-lec-1-after",
+    "wall_s": 24.04173455480486,
+    "peak_rss_kib": 2392724
+  },
+  {
+    "label": "extra-heptagon-lec-2-native",
+    "wall_s": 0.0652691787108779,
+    "peak_rss_kib": 19416
+  },
+  {
+    "label": "extra-heptagon-lec-2-after",
+    "wall_s": 23.631194000132382,
+    "peak_rss_kib": 2396156
+  }
+]

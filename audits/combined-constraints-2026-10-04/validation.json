@@ -1,0 +1,38 @@
+[
+  {
+    "label": "unknown-method",
+    "exit_code": 1,
+    "expected": "reject",
+    "output": "symrep: unknown solving order\n"
+  },
+  {
+    "label": "changed-sealed-input",
+    "exit_code": 1,
+    "expected": "reject",
+    "output": "symrep: changed bundle file: input.tsv\n"
+  },
+  {
+    "label": "wrong-action-dimensions",
+    "exit_code": 1,
+    "expected": "reject",
+    "output": "symrep: action dimensions differ from saved bases\n"
+  },
+  {
+    "label": "prepare-same-shape-other-coordinates",
+    "exit_code": 0,
+    "expected": "pass",
+    "output": "remaining_columns=6\nmodular_assembly rows=0 cols=6 nnz=0 seconds=8.537e-06\nmodular_private_unit_pivots=0\nmodular_elimination_seconds=2.5091e-05\nmodular_attempt=1 rows=0 cols=6 input_nnz=0 rank=0\nrational_reconstruction modulus_bits=61 reconstructed_rows=6 total_rows=6 rational_nnz=6 residue_nnz=0\nexact_certificate=modular_kernel_plus_height bound_bits=2\nreconstruction_modulus_bits=61\npresolve_pass=1 relations=8 remaining_columns=10\npresolve_pass=2 relations=0 remaining_columns=10\nmodular_assembly rows=0 cols=10 nnz=0 seconds=3.378e-06\nmodular_private_unit_pivots=0\nmodular_elimination_seconds=5.597e-06\nmodular_attempt=1 rows=0 cols=10 input_nnz=0 rank=0\nrational_reconstruction modulus_bits=61 reconstructed_rows=10 total_rows=10 rational_nnz=10 residue_nnz=0\nexact_certificate=modular_kernel_plus_height bound_bits=2\nreconstruction_modulus_bits=61\npresolve_pass=1 relations=3 remaining_columns=6\npresolve_pass=2 relations=0 remaining_columns=6\nmodular_assembly rows=0 cols=6 nnz=0 seconds=1.808e-06\nmodular_private_unit_pivots=0\nmodular_elimination_seconds=3.278e-06\nmodular_attempt=1 rows=0 cols=6 input_nnz=0 rank=0\nrational_reconstruction modulus_bits=61 reconstructed_rows=6 total_rows=6 rational_nnz=6 residue_nnz=0\nexact_certificate=modular_kernel_plus_height bound_bits=2\nreconstruction_modulus_bits=61\npresolve_pass=1 relations=8 remaining_columns=10\npresolve_pass=2 relations=0 remaining_columns=10\nmodular_assembly rows=0 cols=10 nnz=0 seconds=3.205e-06\nmodular_private_unit_pivots=0\nmodular_elimination_seconds=4.864e-06\nmodular_attempt=1 rows=0 cols=10 input_nnz=0 rank=0\nrational_reconstruction modulus_bits=61 reconstructed_rows=10 total_rows=10 rational_nnz=10 residue_nnz=0\nexact_certificate=modular_kernel_plus_height bound_bits=2\nreconstruction_modulus_bits=61\nPREPARE_PASS\n"
+  },
+  {
+    "label": "solve-same-shape-other-coordinates",
+    "exit_code": 0,
+    "expected": "pass",
+    "output": "INTERFACE reduction=raw input_rows=18 input_nnz=36 rows=18 nnz=36 elapsed=1.5053e-05\npresolve_pass=1 relations=93 remaining_columns=7\npresolve_pass=2 relations=0 remaining_columns=7\nREFINE_SEED rows=0 cols=7 nnz=0 bounded=0 elapsed=0.00020308\nstreaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0\nREFINE_COMPLETE nullity=7 residual_nonzero_rows=0 complete_discovery=0 full_operator=1 elapsed=0.000369626\nmodular_assembly rows=0 cols=7 nnz=0 seconds=0.000373463\nmodular_private_unit_pivots=0\nmodular_elimination_seconds=0.000375143\nmodular_attempt=1 rows=0 cols=7 input_nnz=0 rank=0\nrational_reconstruction modulus_bits=61 reconstructed_rows=7 total_rows=7 rational_nnz=7 residue_nnz=0\ncombined_certificate_bound_bits=2\nexact_certificate=complete_factored_residues_plus_height modulus_bits=61\nreconstruction_modulus_bits=61\nBENCH_RESULT {\"method\":\"joint-staged\",\"left_dimension\":10,\"right_dimension\":10,\"initial_columns\":100,\"presolved_columns\":7,\"integrability_dimension\":0,\"dimension\":7,\"kernel_nnz\":100,\"solve_seconds\":0.000593662}\n"
+  },
+  {
+    "label": "checker-rejects-wrong-space-same-shape",
+    "exit_code": 1,
+    "expected": "reject",
+    "output": "--- FEC ---\nrank: 3\ndims: 10 6 3 \nnnz: 19\nalloc: 19\n--- LEC ---\nrank: 3\ndims: 10 3 6 \nnnz: 19\nalloc: 19\n--- dlogmat ---\nrank: 3\ndims: 3 3 3 \nnnz: 6\nalloc: 6\n-- Computing FEC.dlogmat ...\n-- Converting to matrix ...\n--- FEC.dlogmat ---\nrank: 2\ndims: 18 30 \nnnz: 38\nalloc: 38\n** FEC.dlogmat time: 1 ms\n-- Computing FEC.dlogmat RREF ...\n--- FEC.dlogmat RREF ---\nrank: 2\ndims: 18 30 \nnnz: 32\nalloc: 32\n** FEC.dlogmat RREF time: 0 ms\n-- Post-processing (cancel common divisor, clear zero and sort) ...\n--- FEC.dlogmat RREF simplified ---\nrank: 2\ndims: 15 30 \nnnz: 32\nalloc: 32\n** Post-process time: 0 ms\n-- Converting to tensor ...\n-- Computing FEC.dlogmat.LEC ...\n-- Converting to matrix ...\n--- FEC.dlogmat.LEC ---\nrank: 2\ndims: 90 100 \nnnz: 202\nalloc: 202\n** FEC.dlogmat.LEC time: 0 ms\n-- Computing FEC.dlogmat.LEC RREF ...\n--- FEC.dlogmat.LEC RREF ---\nrank: 2\ndims: 90 100 \nnnz: 158\nalloc: 158\n** FEC.dlogmat.LEC RREF time: 0 ms\n-- Post-processing (cancel common divisor, clear zero and sort) ...\n** Post-process time: 0 ms\n--- kernel ---\nrank: 3\ndims: 28 10 10 \nnnz: 114\nalloc: 114\nsymrep: independent exact full-space comparison failed\n"
+  }
+]

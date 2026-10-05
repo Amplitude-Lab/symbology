@@ -52,8 +52,19 @@ with tempfile.TemporaryDirectory(prefix='symbology-regression ') as tmp:
     # Resume from existing FEC_2/FEC_3 is the regression: do not prebuild FEC_4/5.
     for target in ('SEW_3p1', 'SEW_5p1'):
         call([ROOT/'compute_rhs', '--target', target, '--data-dir', ROOT/'data', '--output-dir', out,
-              '--letter-projection', out/'collinear/colprojdiv_w1.wxf'])
+              '--letter-projection', out/'collinear/colprojdiv_w1.wxf',
+              '--kernel-strategy', 'original', '--sew-strategy', 'original', '--projection-strategy', 'original'])
     for rel, expected in base.items():
         actual = f'{zlib.crc32((work/rel).read_bytes()):08x}'
         assert actual == expected, (rel, actual, expected)
     print(f'PASS: all {len(base)} two-/three-loop reference tensors match after resume')
+
+    # The historical coefficient CRCs are tied to the original basis. Check
+    # the promoted defaults against basis-independent expanded E/R symbols.
+    modern = work / 'default-output'
+    call([ROOT/'compute_rhs', '--target', 'SEW_5p1', '--data-dir', ROOT/'data',
+          '--output-dir', modern, '--letter-projection', modern/'collinear/colprojdiv_w1.wxf', '--threads', '2'])
+    for loop in (2, 3):
+        for name in (f'E{loop}.wxf', f'R{loop}.wxf', f'boundary_{loop}L.wxf'):
+            assert (modern/f'{loop}loop'/name).read_bytes() == (out/f'{loop}loop'/name).read_bytes(), name
+    print('PASS: default kernels reproduce all six legacy E/R/boundary physical tensors')

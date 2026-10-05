@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "-o",
+    "output_solver_strategy_20261002/fec7-factored.time",
+    "output_solver_strategy_20261002/factored-reference",
+    "forward",
+    "data/dlogmat_E6.wxf",
+    "data/FEC_1.wxf",
+    "7",
+    "output_solver_strategy_20261002/fec7-factored",
+    "8"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "wall_seconds": 18.683987248223275,
+  "peak_summed_rss_bytes": 2190417920,
+  "sample_interval_seconds": 0.1,
+  "max_processes": 2,
+  "virtual_limit_gib": 28
+}

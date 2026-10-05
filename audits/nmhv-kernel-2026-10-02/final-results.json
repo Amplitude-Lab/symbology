@@ -1,0 +1,122 @@
+[
+  {
+    "name": "final-hexagon-original-0",
+    "wall_s": 1.25,
+    "peak_rss_kib": 183584
+  },
+  {
+    "name": "final-hexagon-streamed-0",
+    "wall_s": 2.1,
+    "peak_rss_kib": 128540
+  },
+  {
+    "name": "final-heptagon-original-0",
+    "wall_s": 22.17,
+    "peak_rss_kib": 7749284
+  },
+  {
+    "name": "final-heptagon-streamed-0",
+    "wall_s": 19.06,
+    "peak_rss_kib": 4617808
+  },
+  {
+    "name": "sew-hexagon-original-0",
+    "wall_s": 0.04,
+    "peak_rss_kib": 8480
+  },
+  {
+    "name": "sew-hexagon-streamed-0",
+    "wall_s": 0.01,
+    "peak_rss_kib": 8800
+  },
+  {
+    "name": "sew-heptagon-original-0",
+    "wall_s": 0.12,
+    "peak_rss_kib": 31020
+  },
+  {
+    "name": "sew-heptagon-streamed-0",
+    "wall_s": 0.35,
+    "peak_rss_kib": 14548
+  },
+  {
+    "name": "final-hexagon-streamed-1",
+    "wall_s": 2.1,
+    "peak_rss_kib": 128908
+  },
+  {
+    "name": "final-hexagon-original-1",
+    "wall_s": 1.26,
+    "peak_rss_kib": 194364
+  },
+  {
+    "name": "final-heptagon-streamed-1",
+    "wall_s": 19.08,
+    "peak_rss_kib": 4952300
+  },
+  {
+    "name": "final-heptagon-original-1",
+    "wall_s": 21.93,
+    "peak_rss_kib": 7677344
+  },
+  {
+    "name": "sew-hexagon-streamed-1",
+    "wall_s": 0.01,
+    "peak_rss_kib": 8960
+  },
+  {
+    "name": "sew-hexagon-original-1",
+    "wall_s": 0.01,
+    "peak_rss_kib": 8640
+  },
+  {
+    "name": "sew-heptagon-streamed-1",
+    "wall_s": 0.34,
+    "peak_rss_kib": 14692
+  },
+  {
+    "name": "sew-heptagon-original-1",
+    "wall_s": 0.13,
+    "peak_rss_kib": 30976
+  },
+  {
+    "name": "final-hexagon-original-2",
+    "wall_s": 1.26,
+    "peak_rss_kib": 189828
+  },
+  {
+    "name": "final-hexagon-streamed-2",
+    "wall_s": 2.06,
+    "peak_rss_kib": 128152
+  },
+  {
+    "name": "final-heptagon-original-2",
+    "wall_s": 22.01,
+    "peak_rss_kib": 7541080
+  },
+  {
+    "name": "final-heptagon-streamed-2",
+    "wall_s": 18.95,
+    "peak_rss_kib": 4717136
+  },
+  {
+    "name": "sew-hexagon-original-2",
+    "wall_s": 0.01,
+    "peak_rss_kib": 8320
+  },
+  {
+    "name": "sew-hexagon-streamed-2",
+    "wall_s": 0.02,
+    "peak_rss_kib": 8800
+  },
+  {
+    "name": "sew-heptagon-original-2",
+    "wall_s": 0.13,
+    "peak_rss_kib": 30720
+  },
+  {
+    "name": "sew-heptagon-streamed-2",
+    "wall_s": 0.35,
+    "peak_rss_kib": 14240
+  }
+]

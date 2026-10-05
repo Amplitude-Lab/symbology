@@ -1,0 +1,44 @@
+[
+  {
+    "method": "prototype",
+    "repeat": 0,
+    "wall_s": 1.41971616121009,
+    "peak_rss_kib": 272524,
+    "basis_equal": true
+  },
+  {
+    "method": "direct-output",
+    "repeat": 0,
+    "wall_s": 1.4131977511569858,
+    "peak_rss_kib": 264004,
+    "basis_equal": true
+  },
+  {
+    "method": "direct-output",
+    "repeat": 1,
+    "wall_s": 1.4237057180143893,
+    "peak_rss_kib": 256068,
+    "basis_equal": true
+  },
+  {
+    "method": "prototype",
+    "repeat": 1,
+    "wall_s": 1.3721160078421235,
+    "peak_rss_kib": 272632,
+    "basis_equal": true
+  },
+  {
+    "method": "prototype",
+    "repeat": 2,
+    "wall_s": 1.3681693021208048,
+    "peak_rss_kib": 276432,
+    "basis_equal": true
+  },
+  {
+    "method": "direct-output",
+    "repeat": 2,
+    "wall_s": 1.4084576843306422,
+    "peak_rss_kib": 257724,
+    "basis_equal": true
+  }
+]

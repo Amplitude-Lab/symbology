@@ -1,0 +1,62 @@
+[
+  {
+    "label": "final-prepare-hexagon-fec-0",
+    "wall_s": 0.01306863920763135,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-hexagon-fec-1",
+    "wall_s": 0.010568274650722742,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-hexagon-fec-2",
+    "wall_s": 0.009815595112740993,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-hexagon-lec-0",
+    "wall_s": 0.014672153163701296,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-hexagon-lec-1",
+    "wall_s": 0.013223330024629831,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-hexagon-lec-2",
+    "wall_s": 0.012046628165990114,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-fec-0",
+    "wall_s": 0.2534071202389896,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-fec-1",
+    "wall_s": 0.25210918579250574,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-fec-2",
+    "wall_s": 0.24848986370489,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-lec-0",
+    "wall_s": 0.24508625036105514,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-lec-1",
+    "wall_s": 0.250691719353199,
+    "exact_prepared_bundle_match": true
+  },
+  {
+    "label": "final-prepare-heptagon-lec-2",
+    "wall_s": 0.24644372100010514,
+    "exact_prepared_bundle_match": true
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "base_commit": "ac664bba85f887c6255b940556c9952f6ed02b67",
+  "branch": "symrep-solver-dev",
+  "compiler": "GCC 14.4.0",
+  "flint": "3.2.2",
+  "main_flags": "-O2 -std=c++20 -UUSE_MIMALLOC",
+  "threads": 2,
+  "sha256": {
+    "/home/ana/Documents/symbology/symrep": "06934fc0af846417f8372632cdfbee105ffc8e46d0127dcdcd3c4c22ff72e8f1",
+    "/home/ana/Documents/symbology/output_symrep_optimization_20261002/symrep_before": "13a293e581926ba5811b9a7f99b14d334775d05d703a6f094ab7b3d6039bd1fb",
+    "/home/ana/Documents/symbology/output_symrep_optimization_20261002/native_reference": "b0b13accdff2923b0029848c24650061aedfcf2dbffa19001a8c3926c991e411",
+    "/home/ana/Documents/symbology/output_symrep_optimization_20261002/no-lll-source/symrep": "995fcc33d03e566a9b57fb2255611d72e1381d9c3dbf4894bcf6e63791423a17",
+    "/home/ana/Downloads/hexagon_irr_bootstrap_v2_20260928_inspected/hexagon_irr_bootstrap/bin/irr_fec": "c164492bfe007dd0b8e586d716c698a8c7eb08def4697740dc6d62d98c033aee",
+    "/home/ana/Downloads/hexagon_irr_bootstrap_v2_20260928_inspected/hexagon_irr_bootstrap/bin/irr_lec": "ec2ce511edc8e44404e547463f44e4678467e8ba44802a2d1bacb8ad8a44e8aa"
+  }
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "hexagon-original-0",
+    "wall_s": 1.32,
+    "peak_rss_kib": 190908
+  },
+  {
+    "name": "hexagon-streamed-0",
+    "wall_s": 2.59,
+    "peak_rss_kib": 123856
+  },
+  {
+    "name": "heptagon-original-0",
+    "wall_s": 21.59,
+    "peak_rss_kib": 7560640
+  },
+  {
+    "name": "heptagon-streamed-0",
+    "wall_s": 25.69,
+    "peak_rss_kib": 4436036
+  },
+  {
+    "name": "hexagon-streamed-1",
+    "wall_s": 2.46,
+    "peak_rss_kib": 130236
+  },
+  {
+    "name": "hexagon-original-1",
+    "wall_s": 1.14,
+    "peak_rss_kib": 191228
+  },
+  {
+    "name": "heptagon-streamed-1",
+    "wall_s": 26.1,
+    "peak_rss_kib": 4436088
+  },
+  {
+    "name": "heptagon-original-1",
+    "wall_s": 21.85,
+    "peak_rss_kib": 7530276
+  },
+  {
+    "name": "hexagon-original-2",
+    "wall_s": 1.46,
+    "peak_rss_kib": 185944
+  },
+  {
+    "name": "hexagon-streamed-2",
+    "wall_s": 2.59,
+    "peak_rss_kib": 129748
+  },
+  {
+    "name": "heptagon-original-2",
+    "wall_s": 21.56,
+    "peak_rss_kib": 7683056
+  },
+  {
+    "name": "heptagon-streamed-2",
+    "wall_s": 26.04,
+    "peak_rss_kib": 4446228
+  }
+]

@@ -1,0 +1,1 @@
+PASS symrep CLI: kernels, FEC/LEC, continuation, vector terminal, empty spaces, bundle integrity

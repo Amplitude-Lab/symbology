@@ -1,0 +1,78 @@
+diff --git a/wxf_parser.h b/wxf_parser.h
+index b06ebd1..6d21774 100644
+--- a/wxf_parser.h
++++ b/wxf_parser.h
+@@ -632,38 +632,39 @@ namespace WXF_PARSER {
+ 			fail("unterminated varint");
+ 		}
+ 
+-		void parse() {
+-			tokens.clear();
++		// Tokens are valid during the callback; payloads refer to buffer.
++		// Consumers can validate large files without a per-entry token vector.
++		template<typename Consumer> void parse_each(Consumer&& consume) {
+ 			if (pos == 0) {
+ 				if (size < 2 || buffer[0] != '8' || buffer[1] != ':')
+ 					fail("expected uncompressed WXF header 8:");
+ 				pos = 2;
+ 			}
+-			size_t pending = 1;
++			size_t pending = 1, seen = 0;
+ 			while (pos < size) {
+ 				if (!pending) fail("trailing expression or bytes");
+-				--pending;
++				--pending; ++seen;
+ 				WXF_HEAD type = WXF_HEAD(buffer[pos++]);
+ 				size_t children = 0;
+ 				switch (type) {
+ 				case WXF_HEAD::i8: case WXF_HEAD::i16: case WXF_HEAD::i32:
+ 				case WXF_HEAD::i64: case WXF_HEAD::f64: {
+ 					auto n = size_of_head_num_type(type); require(n);
+-					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++					consume(Token(type, n, buffer + pos)); pos += n; break;
+ 				}
+ 				case WXF_HEAD::symbol: case WXF_HEAD::bigint: case WXF_HEAD::bigreal:
+ 				case WXF_HEAD::string: case WXF_HEAD::binary_string: {
+ 					auto n = read_varint(); require(n);
+-					tokens.emplace_back(type, n, buffer + pos); pos += n; break;
++					consume(Token(type, n, buffer + pos)); pos += n; break;
+ 				}
+ 				case WXF_HEAD::func: case WXF_HEAD::association: {
+ 					auto n = read_varint();
+ 					if (n > size - pos) fail("impossible expression length");
+-					tokens.emplace_back(type, n, buffer + pos);
++					consume(Token(type, n, buffer + pos));
+ 					children = n + (type == WXF_HEAD::func ? 1 : 0); break;
+ 				}
+ 				case WXF_HEAD::delay_rule: case WXF_HEAD::rule:
+-					tokens.emplace_back(type, size_t(2), buffer + pos); children = 2; break;
++					consume(Token(type, size_t(2), buffer + pos)); children = 2; break;
+ 				case WXF_HEAD::array: case WXF_HEAD::narray: {
+ 					require(1); unsigned num_type = buffer[pos++];
+ 					if (!(num_type <= 3 || (num_type >= 16 && num_type <= 19) ||
+@@ -679,7 +680,7 @@ namespace WXF_PARSER {
+ 					}
+ 					size_t width = size_of_arr_num_type(num_type);
+ 					if (count > (size - pos) / width) fail("truncated array payload");
+-					tokens.emplace_back(type, dims, num_type, count, buffer + pos);
++					consume(Token(type, dims, num_type, count, buffer + pos));
+ 					pos += count * width; break;
+ 				}
+ 				default: fail("unknown token type");
+@@ -687,10 +688,15 @@ namespace WXF_PARSER {
+ 				if (children > size - pos || pending > size - pos - children) fail("truncated expression");
+ 				pending += children;
+ 			}
+-			if (pending || tokens.empty()) fail("incomplete expression");
++			if (pending || !seen) fail("incomplete expression");
+ 			err = 0;
+ 		}
+ 
++		void parse() {
++			tokens.clear();
++			parse_each([&](Token&& token) { tokens.push_back(std::move(token)); });
++		}
++
+ 	};
+ 
+ 	struct expr_node {

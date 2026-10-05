@@ -1,0 +1,146 @@
+diff --git a/sparse_mat.h b/sparse_mat.h
+index 78e6105..c271137 100644
+--- a/sparse_mat.h
++++ b/sparse_mat.h
+@@ -1886,7 +1886,20 @@ namespace SparseRREF {
+ 			});
+ 		pool.wait();
+ 
+-		int_t m_height = sparse_mat_height(mat);
++		// Row heights are independent; keep one accumulator per pool worker.
++		int_t m_height = 1;
++		if (nthreads > 1 && mat.nnz() >= 65536) {
++			std::vector<int_t> heights(nthreads, 1);
++			pool.detach_loop(size_t(0), mat.nrow, [&](size_t i) {
++				auto h = sparse_vec_height(mat[i]);
++				auto& best = heights[SparseRREF::thread_id()];
++				if (h > best) best = std::move(h);
++			});
++			pool.wait();
++			for (const auto& h : heights) if (h > m_height) m_height = h;
++		} else {
++			m_height = sparse_mat_height(mat);
++		}
+ 
+ 		auto cs = clocknow();
+ 		auto pivots = sparse_mat_rref_forward(matul, F, opt);
+@@ -1902,6 +1915,19 @@ namespace SparseRREF {
+ 				return pivots;
+ 		}
+ 
++		// Only the original pivot rows are needed for subsequent CRT solves.
++		// m_height was computed from every input row before releasing storage.
++		{
++			std::vector<index_t> rowset(mat.nrow, sv);
++			for (auto p : pivots)
++				for (auto [r, c] : p)
++					rowset[r] = c;
++			for (size_t i = 0; i < mat.nrow; i++)
++				if (rowset[i] == sv) {
++					mat[i].clear();
++				}
++		}
++
+ 		if (opt->is_back_sub)
+ 			triangular_solver_2(matul, pivots, F, opt);
+ 
+@@ -1912,20 +1938,35 @@ namespace SparseRREF {
+ 
+ 		std::vector<size_t> leftrows;
+ 
+-		for (size_t i = 0; i < mat.nrow; i++) {
++		for (size_t i = 0; i < mat.nrow; ++i)
++			if (matul[i].nnz()) leftrows.push_back(i);
++		std::vector<int> reconstructed(nthreads, 1);
++		// The same N=D=floor(sqrt((p-1)/2)) bound as fmpq_reconstruct_fmpz.
++		// A signed integer within N is the unique admissible fraction. Other
++		// residues still use FLINT, and the original exact height test remains.
++		const ulong integer_bound = n_sqrt((prime - 1) / 2);
++		auto reconstruct_row = [&](size_t i, size_t worker) {
+ 			size_t nnz = matul[i].nnz();
+-			if (nnz == 0)
+-				continue;
+-			leftrows.push_back(i);
+ 			matq[i].reserve(nnz);
+ 			matq[i].resize(nnz);
+-			for (size_t j = 0; j < nnz; j++) {
++			for (size_t j = 0; j < nnz; ++j) {
+ 				matq[i](j) = matul[i](j);
+-				int_t mod1 = matul[i][j];
+-				if (isok)
+-					isok = rational_reconstruct(matq[i][j], mod1, mod);
+-			}
++				ulong residue = matul[i][j];
++				if (residue <= integer_bound) matq[i][j] = residue;
++				else if (prime - residue <= integer_bound) matq[i][j] = -rat_t(prime - residue);
++				else if (reconstructed[worker])
++					reconstructed[worker] = rational_reconstruct(matq[i][j], int_t(residue), mod);
++			}
++		};
++		if (nthreads > 1 && matul.nnz() >= 65536) {
++			pool.detach_loop(size_t(0), leftrows.size(), [&](size_t k) {
++				reconstruct_row(leftrows[k], SparseRREF::thread_id());
++			});
++			pool.wait();
++		} else {
++			for (auto i : leftrows) reconstruct_row(i, 0);
+ 		}
++		for (auto good : reconstructed) isok = isok && good;
+ 
+ 		sparse_mat<int_t, index_t> matz(mat.nrow, mat.ncol);
+ 
+@@ -1958,17 +1999,6 @@ namespace SparseRREF {
+ 		if (opt->abort)
+ 			return pivots;
+ 
+-		// set rows not in pivots to zero
+-		if (!isok) {
+-			std::vector<index_t> rowset(mat.nrow, sv);
+-			for (auto p : pivots)
+-				for (auto [r, c] : p)
+-					rowset[r] = c;
+-			for (size_t i = 0; i < mat.nrow; i++)
+-				if (rowset[i] == sv) {
+-					mat[i].clear();
+-				}
+-		}
+ 
+ 		while (!isok) {
+ 			isok = true;
+@@ -2319,4 +2349,4 @@ namespace SparseRREF {
+ 
+ } // namespace SparseRREF
+ 
+-#endif
+\ No newline at end of file
++#endif
+diff --git a/sparse_vec.h b/sparse_vec.h
+index 4864454..cf41b1f 100644
+--- a/sparse_vec.h
++++ b/sparse_vec.h
+@@ -343,7 +343,8 @@ namespace SparseRREF {
+ 	int_t sparse_vec_denominator_lcm(const sparse_vec<rat_t, index_t>& vec) {
+ 		int_t d = 1;
+ 		for (size_t i = 0; i < vec.nnz(); i++) {
+-			d = Flint::LCM(d, vec[i].den());
++			auto denominator = vec[i].den();
++			if (denominator != 1 && denominator != d) d = Flint::LCM(d, denominator);
+ 		}
+ 		return d;
+ 	}
+@@ -353,9 +354,12 @@ namespace SparseRREF {
+ 		if (vec.nnz() == 0)
+ 			return 1;
+ 		int_t d = sparse_vec_denominator_lcm(vec);
+-		int_t h = (vec[0] * d).height();
+-		for (size_t i = 1; i < vec.nnz(); i++) {
+-			int_t hi = (vec[i] * d).height();
++		int_t h = 1;
++		for (size_t i = 0; i < vec.nnz(); i++) {
++			// d clears every denominator, so calculate the integer height
++			// directly without constructing and canonicalizing a rational.
++			int_t hi = vec[i].num().abs();
++			if (d != 1) { int_t factor = d; factor /= vec[i].den(); hi *= factor; }
+ 			if (hi > h)
+ 				h = hi;
+ 		}

@@ -1,0 +1,155 @@
+{
+  "solver_sha256": "06934fc0af846417f8372632cdfbee105ffc8e46d0127dcdcd3c4c22ff72e8f1",
+  "runs": [
+    {
+      "label": "final-hexagon-lec-0",
+      "wall_s": 0.5640941588208079,
+      "peak_rss_kib": 125436,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-hexagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "0db2ab32a730c7320b48f45acfb4ab5e69346b1b022caef2ca39da1dda5ce62d",
+        "w1_copies.tsv": "43c96ce6f603bc230d506f58312faf0951c4f92e68b359cad38979059eaa1e0b",
+        "w2.wxf": "918dcee6d558866068fc6690d3872b43327c27c24016a8a4d30667b4194aa746",
+        "w2_copies.tsv": "e7443827743465a1112b252a7c4005d921832f8aa343fcece56a18557d0836bc",
+        "w3.wxf": "43b334f6a1d3b3073fb0d6fa3dc494f6ecf4d470cc2e5972cf68ee9eabb42449",
+        "w3_copies.tsv": "8dbf25c02b0a24f78fea67e0cafd655de3fb5f9333a8c953bba3d339b37be38f",
+        "w4.wxf": "fccdb8190347978de28151c8f185a6bce64e8dce0179a17bf4ecb8e9390d95be",
+        "w4_copies.tsv": "93eee195794341d2f4a6cfc223e70605a47c051561b334f53969aee307d9a203",
+        "w5.wxf": "6cc01e5ce39e17b1f7e1c241131cf60c93c471681897ee0c289400c327571668",
+        "w5_copies.tsv": "4e3d09ab9adfa5c640805fef00efb852a208a3c0518602aad3937ee53913ef79",
+        "w6.wxf": "96d562c12ff6e9434fd1b30b2c2ce41f5e054f2dffbae58cb6880ef7de3313d3",
+        "w6_copies.tsv": "f874b1bff369621210e257c699d8255433b60b87c55376088f741d39b895d0f3"
+      }
+    },
+    {
+      "label": "final-hexagon-lec-1",
+      "wall_s": 0.5566132762469351,
+      "peak_rss_kib": 125492,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-hexagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "0db2ab32a730c7320b48f45acfb4ab5e69346b1b022caef2ca39da1dda5ce62d",
+        "w1_copies.tsv": "43c96ce6f603bc230d506f58312faf0951c4f92e68b359cad38979059eaa1e0b",
+        "w2.wxf": "918dcee6d558866068fc6690d3872b43327c27c24016a8a4d30667b4194aa746",
+        "w2_copies.tsv": "e7443827743465a1112b252a7c4005d921832f8aa343fcece56a18557d0836bc",
+        "w3.wxf": "43b334f6a1d3b3073fb0d6fa3dc494f6ecf4d470cc2e5972cf68ee9eabb42449",
+        "w3_copies.tsv": "8dbf25c02b0a24f78fea67e0cafd655de3fb5f9333a8c953bba3d339b37be38f",
+        "w4.wxf": "fccdb8190347978de28151c8f185a6bce64e8dce0179a17bf4ecb8e9390d95be",
+        "w4_copies.tsv": "93eee195794341d2f4a6cfc223e70605a47c051561b334f53969aee307d9a203",
+        "w5.wxf": "6cc01e5ce39e17b1f7e1c241131cf60c93c471681897ee0c289400c327571668",
+        "w5_copies.tsv": "4e3d09ab9adfa5c640805fef00efb852a208a3c0518602aad3937ee53913ef79",
+        "w6.wxf": "96d562c12ff6e9434fd1b30b2c2ce41f5e054f2dffbae58cb6880ef7de3313d3",
+        "w6_copies.tsv": "f874b1bff369621210e257c699d8255433b60b87c55376088f741d39b895d0f3"
+      }
+    },
+    {
+      "label": "final-hexagon-lec-2",
+      "wall_s": 0.5710512571968138,
+      "peak_rss_kib": 125372,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-hexagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "0db2ab32a730c7320b48f45acfb4ab5e69346b1b022caef2ca39da1dda5ce62d",
+        "w1_copies.tsv": "43c96ce6f603bc230d506f58312faf0951c4f92e68b359cad38979059eaa1e0b",
+        "w2.wxf": "918dcee6d558866068fc6690d3872b43327c27c24016a8a4d30667b4194aa746",
+        "w2_copies.tsv": "e7443827743465a1112b252a7c4005d921832f8aa343fcece56a18557d0836bc",
+        "w3.wxf": "43b334f6a1d3b3073fb0d6fa3dc494f6ecf4d470cc2e5972cf68ee9eabb42449",
+        "w3_copies.tsv": "8dbf25c02b0a24f78fea67e0cafd655de3fb5f9333a8c953bba3d339b37be38f",
+        "w4.wxf": "fccdb8190347978de28151c8f185a6bce64e8dce0179a17bf4ecb8e9390d95be",
+        "w4_copies.tsv": "93eee195794341d2f4a6cfc223e70605a47c051561b334f53969aee307d9a203",
+        "w5.wxf": "6cc01e5ce39e17b1f7e1c241131cf60c93c471681897ee0c289400c327571668",
+        "w5_copies.tsv": "4e3d09ab9adfa5c640805fef00efb852a208a3c0518602aad3937ee53913ef79",
+        "w6.wxf": "96d562c12ff6e9434fd1b30b2c2ce41f5e054f2dffbae58cb6880ef7de3313d3",
+        "w6_copies.tsv": "f874b1bff369621210e257c699d8255433b60b87c55376088f741d39b895d0f3"
+      }
+    },
+    {
+      "label": "final-heptagon-fec-0",
+      "wall_s": 8.197893018368632,
+      "peak_rss_kib": 574472,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-fec-0-after",
+      "sha256": {
+        "w1.wxf": "a8a34c6c2e4516fabd8798171d861ca544052588cfbf3f7cf238e1610354edeb",
+        "w1_copies.tsv": "171629d5dc872b9ed5efecf037e40bcf0b0967c39c3c6663791cedb7f439b927",
+        "w2.wxf": "e0d1eb2fafa5f16c6f51abb997f933e3513068bae7130a042b2f9a5a53a4adca",
+        "w2_copies.tsv": "eeb1e127abce8be57a4f419022ad7d66c4db7acaeb4eb47452255e85f9d00629",
+        "w3.wxf": "6b0ee8ef496754b367aad134e9d1e568238b8c9cfff9f4c251d63db54939c1a1",
+        "w3_copies.tsv": "468bf78eaebb5e6051557cf59eda324399573d4bedf2506e176f61b0bfc283f3",
+        "w4.wxf": "01919a1f7b6f721a69d94aa4965e2bc5afd776623e0a7d99b9bcb3db12ddb7f6",
+        "w4_copies.tsv": "5013243daa6c2c96f517f86ffccc102eb5ddf53aeb0a1143f5f9f0306ed9238b"
+      }
+    },
+    {
+      "label": "final-heptagon-fec-1",
+      "wall_s": 8.248434358276427,
+      "peak_rss_kib": 539176,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-fec-0-after",
+      "sha256": {
+        "w1.wxf": "a8a34c6c2e4516fabd8798171d861ca544052588cfbf3f7cf238e1610354edeb",
+        "w1_copies.tsv": "171629d5dc872b9ed5efecf037e40bcf0b0967c39c3c6663791cedb7f439b927",
+        "w2.wxf": "e0d1eb2fafa5f16c6f51abb997f933e3513068bae7130a042b2f9a5a53a4adca",
+        "w2_copies.tsv": "eeb1e127abce8be57a4f419022ad7d66c4db7acaeb4eb47452255e85f9d00629",
+        "w3.wxf": "6b0ee8ef496754b367aad134e9d1e568238b8c9cfff9f4c251d63db54939c1a1",
+        "w3_copies.tsv": "468bf78eaebb5e6051557cf59eda324399573d4bedf2506e176f61b0bfc283f3",
+        "w4.wxf": "01919a1f7b6f721a69d94aa4965e2bc5afd776623e0a7d99b9bcb3db12ddb7f6",
+        "w4_copies.tsv": "5013243daa6c2c96f517f86ffccc102eb5ddf53aeb0a1143f5f9f0306ed9238b"
+      }
+    },
+    {
+      "label": "final-heptagon-fec-2",
+      "wall_s": 8.246403717901558,
+      "peak_rss_kib": 570356,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-fec-0-after",
+      "sha256": {
+        "w1.wxf": "a8a34c6c2e4516fabd8798171d861ca544052588cfbf3f7cf238e1610354edeb",
+        "w1_copies.tsv": "171629d5dc872b9ed5efecf037e40bcf0b0967c39c3c6663791cedb7f439b927",
+        "w2.wxf": "e0d1eb2fafa5f16c6f51abb997f933e3513068bae7130a042b2f9a5a53a4adca",
+        "w2_copies.tsv": "eeb1e127abce8be57a4f419022ad7d66c4db7acaeb4eb47452255e85f9d00629",
+        "w3.wxf": "6b0ee8ef496754b367aad134e9d1e568238b8c9cfff9f4c251d63db54939c1a1",
+        "w3_copies.tsv": "468bf78eaebb5e6051557cf59eda324399573d4bedf2506e176f61b0bfc283f3",
+        "w4.wxf": "01919a1f7b6f721a69d94aa4965e2bc5afd776623e0a7d99b9bcb3db12ddb7f6",
+        "w4_copies.tsv": "5013243daa6c2c96f517f86ffccc102eb5ddf53aeb0a1143f5f9f0306ed9238b"
+      }
+    },
+    {
+      "label": "final-heptagon-lec-0",
+      "wall_s": 15.99353227764368,
+      "peak_rss_kib": 961872,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "ec227439d2ab76b9ca2efcd5a24c799471db6d524e68c79ac5661e44972c658a",
+        "w1_copies.tsv": "8013817244a6e21c8cb3fad84351654ccff061dddb4c5b33f7cd2567a5bb9976",
+        "w2.wxf": "8651959e2539b57d66c41e522247b5c8f9a861cd48e95356536e1a9ec5db3360",
+        "w2_copies.tsv": "8f023befb4b0e3135914da7aa64f980bc29cef633d6b0e27f150740f8cf38489",
+        "w3.wxf": "36671cd178439d18db31c6cbfbba2cc1a3d440bf5ca6d23c5e442d58cb5f4c35",
+        "w3_copies.tsv": "3b60735bd5ba3d24457264164c0569933f6f33bc0a68314aa3559eb85f65f69e"
+      }
+    },
+    {
+      "label": "final-heptagon-lec-1",
+      "wall_s": 15.763334666378796,
+      "peak_rss_kib": 964680,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "ec227439d2ab76b9ca2efcd5a24c799471db6d524e68c79ac5661e44972c658a",
+        "w1_copies.tsv": "8013817244a6e21c8cb3fad84351654ccff061dddb4c5b33f7cd2567a5bb9976",
+        "w2.wxf": "8651959e2539b57d66c41e522247b5c8f9a861cd48e95356536e1a9ec5db3360",
+        "w2_copies.tsv": "8f023befb4b0e3135914da7aa64f980bc29cef633d6b0e27f150740f8cf38489",
+        "w3.wxf": "36671cd178439d18db31c6cbfbba2cc1a3d440bf5ca6d23c5e442d58cb5f4c35",
+        "w3_copies.tsv": "3b60735bd5ba3d24457264164c0569933f6f33bc0a68314aa3559eb85f65f69e"
+      }
+    },
+    {
+      "label": "final-heptagon-lec-2",
+      "wall_s": 15.757256878074259,
+      "peak_rss_kib": 975788,
+      "exactly_identical_to_verified_chain": "/home/ana/Documents/symbology/output_symrep_optimization_20261002/extra-heptagon-lec-0-after",
+      "sha256": {
+        "w1.wxf": "ec227439d2ab76b9ca2efcd5a24c799471db6d524e68c79ac5661e44972c658a",
+        "w1_copies.tsv": "8013817244a6e21c8cb3fad84351654ccff061dddb4c5b33f7cd2567a5bb9976",
+        "w2.wxf": "8651959e2539b57d66c41e522247b5c8f9a861cd48e95356536e1a9ec5db3360",
+        "w2_copies.tsv": "8f023befb4b0e3135914da7aa64f980bc29cef633d6b0e27f150740f8cf38489",
+        "w3.wxf": "36671cd178439d18db31c6cbfbba2cc1a3d440bf5ca6d23c5e442d58cb5f4c35",
+        "w3_copies.tsv": "3b60735bd5ba3d24457264164c0569933f6f33bc0a68314aa3559eb85f65f69e"
+      }
+    }
+  ]
+}

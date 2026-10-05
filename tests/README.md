@@ -74,3 +74,40 @@ examples. The template test checks exact rational residuals and certifies the
 complete invariant spaces using an independent modular rank calculation.
 Sanitizer tests cover both matrix and tensor readers; they require a runtime
 that permits AddressSanitizer and LeakSanitizer to inspect the process.
+
+The shared staged kernel is covered by `make check-kernel` (generic exact
+matrices, affine systems, empty/large kernels, bad primes and arbitrary cuts),
+`make check-staged` (native product-invariance arguments and independent C3
+comparison), `make check-early-sew` (factored symmetry and exact certificates),
+and the staged paths in the NMHV and symrep regressions.
+
+`make bench-combined-constraints BENCH_OUTPUT=output_combined_constraints_trial`
+compares three solving orders on the same saved factors and generator actions.
+Every timed output is compared with a complete rational kernel from the
+original sewing assembler and explicit product actions. The default suite
+covers two S3 examples (including rational, non-permutation coordinates) and
+heptagon 2+2 and 4+2 sewing. Preparation and reference verification are measured
+separately; process guards and failed comparisons remain visible in the report.
+See [the benchmark document](../docs/combined-constraints-benchmark.md) for
+custom alphabets, archive inputs, replay, and measurement limitations. This
+opt-in Linux benchmark is separate from the quick correctness targets.
+
+The [five-loop release](../benchmarks/heptagon-mhv-five-loop/README.md) has a
+clean-start numerical runner. Use its `--loops 4` control for a smaller full
+pipeline check. `python3 tests/process_budget_probe.py` tests the shared time
+budget, output/certificate gates, cancellation, and termination of descendants
+even when their parent exits first and a child ignores SIGTERM. These small
+resource-control checks run in Linux CI; the full five-loop calculation is an
+explicit workstation benchmark.
+
+`check-kernel` also runs 120 exact tests of `column_restriction.hpp`: selected
+coordinates may be empty or reordered, and the restricted kernel is checked
+against an independently formed rational matrix and lifted residuals. The
+adapter restricts columns only; combining separately solved kernels requires
+a separate proof that the operator respects the proposed sector decomposition.
+The same target checks 12 partitioned tensor encodings against ordinary matrix
+encodings and independent parser readback, including empty axes/rows/partitions
+and large rational coefficients.
+Private-unit pivot tests cover independence, rejection of shared columns and
+an exact large-coefficient example requiring three reconstruction primes with
+the existing chart versus five after re-pivoting.

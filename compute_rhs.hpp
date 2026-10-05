@@ -14,8 +14,8 @@
 // The boundary at L loops is computed recursively:
 //   L=2: E1^2 / 2
 //   L=3: E1^3 / 6 + E1 * R2
-//   L=4: -E1^4 / 12 + E2^2 / 2 + E1 * R3        (not yet implemented)
-//   L=5: E1^5 / 20 - E1*E2^2 / 2 + E2*R3 + E1*R4  (not yet implemented)
+//   L=4: -E1^4 / 12 + E2^2 / 2 + E1 * R3
+//   L=5: E1^5 / 20 - E1*E2^2 / 2 + E2*R3 + E1*R4
 //
 // where E_L is the expanded collinear projection of hepMHV_LL, and
 // R_L = E_L - boundary_L (the "remainder" at loop L).
@@ -51,6 +51,8 @@
 #include "tensor_expand.hpp"
 #include "linear_solve.hpp"
 #include "tensor_shuffle.h"
+#include "recursive_word_chart.hpp"
+#include "restricted_projection.hpp"
 
 #include <set>
 #include <map>
@@ -130,7 +132,7 @@ sparse_tensor<T, index_t, SPARSE_CSR> expand_hepmhv(
 	sparse_tensor<T, index_t, SPARSE_COO> hep(std::move(hepMHV_csr));
 
 	// Prepend dummy dimension: (FEC, 11) → (1, FEC, 11)
-	std::vector<size_t> new_dims = {1, hep.dim(0), hep.dim(1)};
+	auto hep_dims=hep.dims();std::vector<size_t> new_dims = {1};new_dims.insert(new_dims.end(),hep_dims.begin(),hep_dims.end());
 	hep.reshape(new_dims);
 
 	std::cout << "-- Expand hepMHV --" << std::endl;
@@ -259,6 +261,10 @@ inline std::filesystem::path& compute_rhs_exe_dir() {
 	static std::filesystem::path d = std::filesystem::current_path();
 	return d;
 }
+inline std::string& compute_rhs_sew_strategy(){static std::string s="auto";return s;}
+inline std::string& compute_rhs_kernel_strategy(){static std::string s="streamed";return s;}
+inline std::string& compute_rhs_projection_strategy(){static std::string s="restricted";return s;}
+inline size_t& compute_rhs_threads(){static size_t n=0;return n;}
 
 inline std::string bootstrap_exe_path() {
 	auto p = compute_rhs_exe_dir() / "bootstrap";
@@ -281,7 +287,10 @@ inline void run_bootstrap_cmd(
 	auto abs_output = std::filesystem::absolute(output_dir);
 	std::string full = cmd
 		+ " --data-dir " + shell_quote(abs_data.string())
-		+ " --output-dir " + shell_quote(abs_output.string());
+		+ " --output-dir " + shell_quote(abs_output.string())
+        + " --sew-strategy " + shell_quote(compute_rhs_sew_strategy())
+        + " --kernel-strategy " + shell_quote(compute_rhs_kernel_strategy());
+    if(compute_rhs_threads())full+=" --threads "+std::to_string(compute_rhs_threads());
 	std::cout << "   [bootstrap] " << full << std::endl;
 	int ret = std::system(full.c_str());
 	if (ret != 0) {
@@ -307,7 +316,7 @@ inline void ensure_fec_tensors(
 
 	for (size_t w = 2; w <= F; w++) {
 		auto curr_fec = output_dir / ("FEC_" + std::to_string(w) + ".wxf");
-		native_cache::receipt cache(curr_fec.string()+".native-cache", "FEC extend", {dlogmat, prev_fec, bootstrap_exe_path()}, {curr_fec});
+		native_cache::receipt cache(curr_fec.string()+".native-cache", "FEC extend "+compute_rhs_kernel_strategy(), {dlogmat, prev_fec, bootstrap_exe_path()}, {curr_fec});
 		if (cache.valid()) {
 			prev_fec = curr_fec;
 			continue;
@@ -350,7 +359,14 @@ inline void ensure_sew_basis(
 
 	// Step 2: Ensure SEW tensor exists (via bootstrap --sew)
 	auto sew_tensor_path = output_dir / (sew_name + ".wxf");
-	native_cache::receipt sew_cache(sew_tensor_path.string()+".native-cache", "SEW", {dlogmat, fec_path, lec_path, bootstrap_exe_path()}, {sew_tensor_path});
+    std::vector<std::filesystem::path> forward_chain{data_dir/"FEC_1.wxf"};
+    for(size_t w=2;w<=F;++w)forward_chain.push_back(output_dir/("FEC_"+std::to_string(w)+".wxf"));
+    std::vector<std::pair<std::string,std::filesystem::path>> symmetries;
+    for(const auto& name:std::vector<std::string>{"cyc","flip","parity"}){
+        auto path=data_dir/(name+"repmat.wxf");if(std::filesystem::exists(path))symmetries.emplace_back(name,path);}
+    std::vector<std::filesystem::path> sew_inputs{dlogmat,fec_path,lec_path,bootstrap_exe_path()};
+    sew_inputs.insert(sew_inputs.end(),forward_chain.begin(),forward_chain.end());for(const auto& [name,path]:symmetries)sew_inputs.push_back(path);
+	native_cache::receipt sew_cache(sew_tensor_path.string()+".native-cache", "SEW MHV invariants v1 "+compute_rhs_sew_strategy(), sew_inputs, {sew_tensor_path});
 	if (!sew_cache.valid()) {
 		std::cout << "   Generating SEW tensor via bootstrap --sew..." << std::endl;
 		if (!std::filesystem::exists(lec_path)) {
@@ -365,8 +381,27 @@ inline void ensure_sew_basis(
 		if (!std::filesystem::exists(sew_tensor_path)) {
 			throw std::runtime_error("ensure_sew_basis: bootstrap --sew did not produce " + sew_tensor_path.string());
 		}
+        rref_option_t symmetry_opt;symmetry_opt->pool.reset(compute_rhs_threads());
+        recursive_word_chart::restrict_invariants(sew_tensor_path,forward_chain,lec_path,dlogmat,symmetries,symmetry_opt);
 		sew_cache.save();
 	}
+    if(compute_rhs_projection_strategy()=="restricted"){
+        symrep::require(F>=2&&L==1,"restricted projection requires a one-step right boundary");
+        std::vector<std::filesystem::path> inputs=sew_inputs;inputs.push_back(sew_tensor_path);inputs.push_back(data_dir/"colmat42.wxf");
+        std::vector<std::filesystem::path> outputs{sew_basis_path,collinear_dir/(sew_name+".wxf")};
+        for(size_t w=1;w<F;++w){outputs.push_back(collinear_dir/("first_w"+std::to_string(w)+".wxf"));if(w>1)outputs.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));}
+        native_cache::receipt cache(sew_basis_path.string()+".native-cache","Restricted sewn projection v1",inputs,outputs);
+        if(cache.valid())return;
+        run_bootstrap_cmd(shell_quote(bootstrap_exe_path())+" --project --symmetry collinear --target FEC_"+std::to_string(F-1),data_dir,output_dir);
+        rref_option_t opt;opt->pool.reset(compute_rhs_threads());
+        auto sewn=symrep::read(sew_tensor_path),forward=symrep::read(fec_path);
+        auto prefix=symrep::read_matrix(collinear_dir/("first_w"+std::to_string(F-1)+".wxf"));
+        auto letter=symrep::read_matrix(data_dir/"colmat42.wxf");auto last=symrep::mul(symrep::flatten(symrep::read(lec_path)),letter,&opt->pool);
+        auto projected=restricted_projection::sew_one(sewn,forward,prefix,letter,last,&opt->pool);
+        write_tensor_file(sew_basis_path,std::move(projected));
+        recursive_word_chart::save(collinear_dir/(sew_name+".wxf"),symrep::identity(sewn.dim(0)));
+        cache.save();return;
+    }
 	std::vector<std::filesystem::path> project_inputs{sew_tensor_path, data_dir/"FEC_1.wxf", data_dir/"LEC_1.wxf", data_dir/"colmat42.wxf", bootstrap_exe_path()};
 	std::vector<std::filesystem::path> project_outputs{collinear_dir/"first_w1.wxf", collinear_dir/"last_w1.wxf", collinear_dir/(sew_name+".wxf"), sew_basis_path};
 	for (size_t w=2; w<=F; ++w) {
@@ -483,6 +518,8 @@ void compute_rhs_for_loop(
 	size_t F_weight = 2*L - 1;
 	size_t L_weight = 1;
 	size_t target_weight = F_weight + L_weight;  // = 2L
+    bool restricted=compute_rhs_projection_strategy()=="restricted";
+    size_t expansion_top=target_weight-1-(restricted?1:0);
 
 	// Step 1: Compute boundary_L
 	auto boundary = compute_boundary<T, index_t>(L, E_list, R_list, F, pool);
@@ -501,7 +538,7 @@ void compute_rhs_for_loop(
 	ensure_sew_basis(sew_name, F_weight, L_weight, data_dir, output_dir);
 
 	// Step 3: Ensure FEC bases exist
-	ensure_fec_bases(target_weight, output_dir);
+	ensure_fec_bases(expansion_top+1, output_dir);
 
 	// Step 4: Invoke --solve-collinear to solve c.A = boundary.
 	// --solve-collinear handles: projection chain + divergent projection + matching
@@ -510,17 +547,22 @@ void compute_rhs_for_loop(
 	auto hepMHV_path = L_loop_dir / ("hepMHV_" + std::to_string(L) + "L.wxf");
 	auto E_L_path = L_loop_dir / ("E" + std::to_string(L) + ".wxf");
 	auto R_L_path = L_loop_dir / ("R" + std::to_string(L) + ".wxf");
+    auto recursive_path=L_loop_dir/("hepMHV_"+std::to_string(L)+"L_recursive.wxf");
+    auto original_solution_path=L_loop_dir/("solMHV_"+std::to_string(L)+"L_original.wxf");
 	auto sew_basis_path = collinear_dir / (sew_name + "_basis.wxf");
 
-	run_collinear_proj_chain<T, index_t>(detect_chain_base_paths(parse_target(sew_name), output_dir), data_dir, output_dir, F, opt, sew_name);
-	std::vector<std::filesystem::path> solve_inputs{boundary_path, sew_basis_path, data_dir/"colprojdiv.wxf", data_dir/"colprojfin.wxf", bootstrap_exe_path()};
-	for (size_t w=2; w<target_weight; ++w) solve_inputs.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));
+	run_collinear_proj_chain<T, index_t>(restricted?std::vector<std::filesystem::path>{}:detect_chain_base_paths(parse_target(sew_name), output_dir), data_dir, output_dir, F, opt, restricted?"":sew_name);
+	std::vector<std::filesystem::path> solve_inputs{boundary_path, sew_basis_path, data_dir/"colprojdiv.wxf", data_dir/"colprojfin.wxf", bootstrap_exe_path(),output_dir/(sew_name+".wxf"),collinear_dir/(sew_name+".wxf")};
+	for (size_t w=2; w<=expansion_top; ++w) solve_inputs.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));
 	if (letter_projection != "identity" && letter_projection != "finite" && letter_projection != "divergent") solve_inputs.push_back(letter_projection);
 	native_cache::receipt solve_cache(E_L_path.string()+".native-cache", "RHS solve " + letter_projection,
-		solve_inputs, {solMHV_path, hepMHV_path, E_L_path, R_L_path});
+		solve_inputs, {solMHV_path, hepMHV_path, E_L_path, R_L_path,recursive_path,original_solution_path});
 	if (solve_cache.valid()) { std::cout << "Verified cached loop " << L << std::endl; return; }
 	std::cout << "== Invoking --solve-collinear ==" << std::endl;
-	{
+	if(restricted){
+        std::vector<std::filesystem::path> bases;for(size_t w=expansion_top;w>=2;--w)bases.push_back(collinear_dir/("first_w"+std::to_string(w)+"_basis.wxf"));
+        run_collinear_solver<T,index_t>(sew_basis_path,boundary_path,"none",bases,{},target_weight,data_dir,output_dir,F,opt,sew_name,letter_projection,"incremental",sew_name,true);
+    }else{
 		auto abs_data = std::filesystem::absolute(data_dir);
 		auto abs_output = std::filesystem::absolute(output_dir);
 		// Resolve letter_projection: sentinels ("identity"/"divergent"/"finite")
@@ -531,13 +573,14 @@ void compute_rhs_for_loop(
 		if (letter_proj_arg != "identity" && letter_proj_arg != "divergent" && letter_proj_arg != "finite") {
 			letter_proj_arg = shell_quote(std::filesystem::absolute(letter_proj_arg).string());
 		}
-		std::string cmd = shell_quote(bootstrap_exe_path()) + " --solve-collinear"
+		std::string cmd = shell_quote(bootstrap_exe_path()) + " --solve-collinear --require-unique"
 			+ std::string(" --target ") + sew_name
 			+ std::string(" --rhs ") + shell_quote(std::filesystem::absolute(boundary_path).string())
 			+ std::string(" --projection divergent")
 			+ std::string(" --letter-projection ") + letter_proj_arg
 			+ std::string(" --data-dir ") + shell_quote(abs_data.string())
 			+ std::string(" --output-dir ") + shell_quote(abs_output.string());
+		if(compute_rhs_threads())cmd+=" --threads "+std::to_string(compute_rhs_threads());
 		std::cout << "   [bootstrap] " << cmd << std::endl;
 		int ret = std::system(cmd.c_str());
 		if (ret != 0) {
@@ -554,6 +597,21 @@ void compute_rhs_for_loop(
 	// collinear expression; colprojdiv is not applied to hepMHV/E_L.
 	std::cout << "== Computing hepMHV (contract solMHV with SEW basis) ==" << std::endl;
 	auto solMHV_csr = projection_read_tensor<T, index_t>(solMHV_path, F, pool);
+    {
+        // The solve uses a reduced collinear basis. Transport its coefficients
+        // back through the projection before claiming a full heptagon symbol.
+        auto projection=symrep::read_matrix(collinear_dir/(sew_name+".wxf"));
+        auto coefficients=symrep::flatten(solMHV_csr);
+        symrep::require(projection.nrow==projection.ncol&&symrep::row_basis(projection).nrow==projection.nrow,"collinear projection is not injective on the invariant ansatz; a unique full amplitude has not been determined");
+        auto physical_coefficients=symrep::mul(coefficients,symrep::chart_inverse(projection,opt));
+        symrep::require(symrep::equal(symrep::mul(physical_coefficients,projection),coefficients),"physical coefficient transport failed");
+        auto raw_sew=symrep::read(output_dir/(sew_name+".wxf"));
+        auto physical=symrep::mul(physical_coefficients,symrep::flatten(raw_sew),pool);
+        auto recursive=symrep::tensor(physical,{1,raw_sew.dim(1),raw_sew.dim(2)},pool);
+        write_tensor_file<T,index_t>(recursive_path,std::move(recursive));
+        auto original_solution=symrep::tensor(physical_coefficients,{physical_coefficients.nrow,physical_coefficients.ncol});
+        write_tensor_file<T,index_t>(original_solution_path,std::move(original_solution));
+    }
 	std::cout << "   solMHV_" << L << "L: rank=" << solMHV_csr.rank() << " dims=";
 	for (size_t i = 0; i < solMHV_csr.rank(); i++) {
 		std::cout << solMHV_csr.dim(i) << (i + 1 < solMHV_csr.rank() ? "x" : "");
@@ -590,7 +648,7 @@ void compute_rhs_for_loop(
 
 	// Expansion bases for E_L (highest weight first)
 	std::vector<std::filesystem::path> expansion_bases;
-	for (long w = static_cast<long>(target_weight) - 1; w >= 2; w--) {
+	for (long w = static_cast<long>(expansion_top); w >= 2; w--) {
 		expansion_bases.push_back(collinear_dir / ("first_w" + std::to_string(w) + "_basis.wxf"));
 	}
 

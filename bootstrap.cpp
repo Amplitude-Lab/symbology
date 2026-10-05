@@ -2,6 +2,8 @@
 #include "projection.hpp"
 #include "solve_symmetry.hpp"
 #include "solve_collinear.hpp"
+#include "tensor_kernel.hpp"
+#include "product_invariance.hpp"
 
 #include <cstdlib>
 #include <array>
@@ -20,6 +22,12 @@ enum class bootstrap_mode_t {
 };
 
 struct args_t {
+    std::string sew_strategy = "auto";
+    std::string local_reduction = "reduced";
+    size_t threads = 0;
+    std::vector<std::filesystem::path> left_actions,right_actions;
+    bool require_unique = false;
+    std::string kernel_strategy = "streamed";
 	bootstrap_mode_t mode = bootstrap_mode_t::none;
 	std::filesystem::path condition;
 	std::filesystem::path first;
@@ -53,6 +61,8 @@ struct args_t {
 // bootstrap.cpp owns only the command-line contract and WXF I/O.
 // The algebraic steps are kept in bootstrap.hpp so this file stays close to a dispatcher.
 void print_usage(const char* program) {
+	std::cerr << "  Optional: --kernel-strategy original|streamed|staged (default streamed); --sew-strategy auto|original|streamed|staged (default auto, contracts the smaller basis first); --threads N; --require-unique for single-target --solve-collinear" << std::endl;
+	std::cerr << "  --sew: --local-reduction reduced|raw (default reduced); optional paired --left-action <matrix.wxf> --right-action <matrix.wxf>, repeated for each generator; uses staged product invariance" << std::endl;
 	std::cerr << "Usage:" << std::endl;
 	std::cerr << "  " << program << " --extend -c <condition.wxf> -f <FEC_in.wxf> -o <FEC_out.wxf>" << std::endl;
 	std::cerr << "  " << program << " --extend -c <condition.wxf> -l <LEC_in.wxf> -o <LEC_out.wxf>" << std::endl;
@@ -118,6 +128,16 @@ args_t parse_args(int argc, char* argv[]) {
 		else if (arg == "--letter-projection") {
 			args.letter_projection = take_value(i, argc, argv, arg);
 		}
+		else if (arg == "--sew-strategy") {
+            args.sew_strategy = take_value(i,argc,argv,arg);
+            if(args.sew_strategy!="auto"&&args.sew_strategy!="original"&&args.sew_strategy!="streamed"&&args.sew_strategy!="staged") throw std::runtime_error("Unknown sewing strategy");
+        }
+        else if(arg=="--local-reduction") {args.local_reduction=take_value(i,argc,argv,arg);if(args.local_reduction!="raw"&&args.local_reduction!="reduced")throw std::runtime_error("local reduction must be raw or reduced");}
+        else if(arg=="--left-action") {args.left_actions.emplace_back(take_value(i,argc,argv,arg));}
+        else if(arg=="--right-action") {args.right_actions.emplace_back(take_value(i,argc,argv,arg));}
+        else if(arg=="--threads") { auto n=strict_integer(take_value(i,argc,argv,arg));if(n<1||n>1024)throw std::runtime_error("--threads must be in 1..1024");args.threads=size_t(n); }
+        else if(arg=="--require-unique") {args.require_unique=true;}
+        else if(arg=="--kernel-strategy") {args.kernel_strategy=take_value(i,argc,argv,arg);if(args.kernel_strategy!="original"&&args.kernel_strategy!="streamed"&&args.kernel_strategy!="staged")throw std::runtime_error("Unknown kernel strategy");}
 		else if (arg == "--solver") {
 			args.solver = take_value(i, argc, argv, arg);
 		}
@@ -176,6 +196,13 @@ args_t parse_args(int argc, char* argv[]) {
 }
 
 void validate_args(const args_t& args) {
+    if(args.local_reduction=="raw"&&(args.mode!=bootstrap_mode_t::sew||args.sew_strategy=="original"))throw std::runtime_error("raw local equations require streamed/staged sewing (or auto)");
+    if(args.left_actions.size()!=args.right_actions.size())throw std::runtime_error("paired left/right action counts differ");
+    if(!args.left_actions.empty()&&args.mode!=bootstrap_mode_t::sew)throw std::runtime_error("product actions require --sew");
+    if(!args.left_actions.empty()&&args.sew_strategy!="auto"&&args.sew_strategy!="staged")throw std::runtime_error("product actions require --sew-strategy staged or auto");
+	if (args.require_unique && (args.mode != bootstrap_mode_t::solve_collinear || !args.pairs.empty() || !args.pair_cond_paths.empty())) {
+		throw std::runtime_error("--require-unique requires single-target --solve-collinear.");
+	}
 	if (args.mode == bootstrap_mode_t::none) {
 		throw std::runtime_error("Missing mode: use --extend, --sew, --induce, or --project.");
 	}
@@ -345,6 +372,16 @@ void write_tensor(
 	std::cout << "CRC32 of " << path.string() << " : " << std::hex << crc << std::dec << std::endl;
 }
 
+// A file-producing extension needs no intermediate CSR tensor. Keep the
+// certified matrix as a view and publish only after exact WXF readback.
+void write_kernel(const std::filesystem::path& path,const symrep::Mat& kernel,const std::vector<size_t>& dims){
+    if(!path.parent_path().empty())std::filesystem::create_directories(path.parent_path());
+    auto temporary=path;temporary+=".kernel-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())+".tmp";
+    std::cout<<"Writing certified kernel "<<path.string()<<" nnz="<<kernel.nnz()<<std::endl;
+    try{symrep::write_tensor_view(temporary,symrep::MatrixTensorView(kernel,dims));std::filesystem::rename(temporary,path);}
+    catch(...){std::error_code ec;std::filesystem::remove(temporary,ec);throw;}
+}
+
 int main(int argc, char* argv[]) {
 	try {
 		native_cache::set_executable(native_cache::executable_path(argv[0]));
@@ -357,7 +394,7 @@ int main(int argc, char* argv[]) {
 		rref_option_t opt;
 		opt->method = 0;
 		opt->verbose = true;
-		opt->pool.reset();
+		opt->pool.reset(args.threads);
 		thread_pool* pool = &(opt->pool);
 
 		std::filesystem::path base = native_cache::executable_path(argv[0]).parent_path();
@@ -538,7 +575,7 @@ int main(int argc, char* argv[]) {
 				target_basis_path, rhs_path, args.projection_type,
 				expansion_bases, chain_base_paths,
 				target_weight, data_dir, output_dir, F, opt, sew_name,
-				letter_projection, args.solver, seed_name);
+				letter_projection, args.solver, seed_name,args.require_unique);
 		}
 	}
 		else {
@@ -555,22 +592,45 @@ int main(int argc, char* argv[]) {
 				std::cout << "Symbol bootstrap: " << first_path.string() << " -> " << output_path.string()
 						  << " @ " << condition_path.string() << std::endl;
 				auto FEC = read_tensor(first_path, F, pool);
-				auto output = extend_forward(std::move(dlogmat), std::move(FEC), F, opt);
-				write_tensor(output_path, std::move(output));
+                if(args.kernel_strategy!="original"){
+                    auto k=tensor_kernel::extension(FEC,dlogmat,false,opt,nullptr,args.kernel_strategy=="staged"?tensor_kernel::Strategy::staged:tensor_kernel::Strategy::streamed);std::vector<size_t> dims{k.nrow,FEC.dim(0),dlogmat.dim(0)};
+                    FEC.clear();dlogmat.clear();for(auto& row:k.rows)vec_cancel_divisor(row);k.sort_rows_by_nnz();write_kernel(output_path,k,dims);
+                }else write_tensor(output_path,extend_forward(std::move(dlogmat),std::move(FEC),F,opt));
 			}
 			else if (args.mode == bootstrap_mode_t::extend && !args.last.empty()) {
 				std::cout << "Symbol bootstrap: " << last_path.string() << " -> " << output_path.string()
 						  << " @ " << condition_path.string() << std::endl;
 				auto LEC = read_tensor(last_path, F, pool);
-				auto output = extend_backward(std::move(dlogmat), std::move(LEC), F, opt);
-				write_tensor(output_path, std::move(output));
+                if(args.kernel_strategy!="original"){
+                    auto k=tensor_kernel::extension(LEC,dlogmat,true,opt,nullptr,args.kernel_strategy=="staged"?tensor_kernel::Strategy::staged:tensor_kernel::Strategy::streamed);std::vector<size_t> dims{k.nrow,dlogmat.dim(0),LEC.dim(0)};
+                    LEC.clear();dlogmat.clear();for(auto& row:k.rows)vec_cancel_divisor(row);k.sort_rows_by_nnz();write_kernel(output_path,k,dims);
+                }else write_tensor(output_path,extend_backward(std::move(dlogmat),std::move(LEC),F,opt));
 			}
 			else if (args.mode == bootstrap_mode_t::sew) {
 				std::cout << "Symbol bootstrap: " << first_path.string() << " + " << last_path.string()
 						  << " -> " << output_path.string() << " @ " << condition_path.string() << std::endl;
 				auto FEC = read_tensor(first_path, F, pool);
 				auto LEC = read_tensor(last_path, F, pool);
-				auto output = sew_first_last(std::move(dlogmat), std::move(FEC), std::move(LEC), F, opt);
+                auto reduction=args.local_reduction=="raw"?tensor_kernel::BoundaryReduction::raw:tensor_kernel::BoundaryReduction::reduced;
+                bool right=args.local_reduction=="raw"||args.sew_strategy=="staged"||args.sew_strategy=="streamed"||(args.sew_strategy=="auto"&&tensor_kernel::prefer_right_boundary(FEC,LEC));
+                symrep::Tensor output;
+                if(!args.left_actions.empty()){
+                    std::vector<symrep::Mat> left,right_actions;
+                    for(const auto& path:args.left_actions){auto a=symrep::read_matrix(resolve_path(base,path));symrep::require(a.nrow==FEC.dim(0)&&a.ncol==FEC.dim(0),"left action does not act on the supplied FEC basis");left.push_back(std::move(a));}
+                    for(const auto& path:args.right_actions){auto a=symrep::read_matrix(resolve_path(base,path));symrep::require(a.nrow==LEC.dim(0)&&a.ncol==LEC.dim(0),"right action does not act on the supplied LEC basis");right_actions.push_back(std::move(a));}
+                    staged_kernel::ProductInvarianceRows invariants(std::move(left),std::move(right_actions));
+                    auto nf=FEC.dim(0),nl=LEC.dim(0);
+                    tensor_kernel::ConstraintRows equations(FEC,tensor_kernel::right_boundary_conditions(dlogmat,LEC,reduction),nl);
+                    FEC.clear();LEC.clear();dlogmat.clear();
+                    std::cout<<"sew_strategy=staged product_generators="<<args.left_actions.size()<<std::endl;
+                    auto k=staged_kernel::solve(staged_kernel::stack(invariants,equations),opt);
+                    output=symrep::tensor(k,{k.nrow,nf,nl},pool);
+                }else{
+                    std::cout<<"sew_strategy="<<(args.sew_strategy=="staged"?"staged":right?"streamed":"original")<<std::endl;
+                    output=right?tensor_kernel::sew_one(std::move(dlogmat),std::move(FEC),std::move(LEC),opt,
+                        args.sew_strategy=="staged"?tensor_kernel::Strategy::staged:tensor_kernel::Strategy::streamed,{},reduction)
+                        :sew_first_last(std::move(dlogmat),std::move(FEC),std::move(LEC),F,opt);
+                }
 				write_tensor(output_path, std::move(output));
 			}
 		}

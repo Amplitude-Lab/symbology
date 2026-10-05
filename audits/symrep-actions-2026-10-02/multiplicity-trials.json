@@ -1,0 +1,16 @@
+[
+  {
+    "kind": "fec",
+    "maximum": 4,
+    "wall_s": 4.8298610132187605,
+    "peak_rss_kib": 765372,
+    "exact_all_weights": true
+  },
+  {
+    "kind": "lec",
+    "maximum": 3,
+    "wall_s": 10.652721321210265,
+    "peak_rss_kib": 1102236,
+    "exact_all_weights": true
+  }
+]

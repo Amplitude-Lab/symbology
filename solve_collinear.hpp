@@ -712,7 +712,8 @@ void run_collinear_solver(
 	const std::string& sew_name = "",
 	const std::string& letter_projection = "identity",
 	const std::string& solver = "incremental",
-	const std::string& seed_name = "") {
+	const std::string& seed_name = "",
+    bool require_unique = false) {
 
 	thread_pool* pool = &(opt->pool);
 	auto collinear_dir = output_dir / "collinear";
@@ -979,6 +980,8 @@ void run_collinear_solver(
 		}
 	}
 
+    if(require_unique&&result.consistent&&!result.unique)
+        throw std::runtime_error("collinear constraints leave free coefficients; a unique amplitude has not been determined");
 	// Step 6b: Write solMHV_LL.wxf for SEW targets
 	if (!sew_name.empty() && result.consistent) {
 		size_t L = target_weight / 2;

@@ -1,0 +1,343 @@
+--- a/symrep.hpp
++++ b/symrep.hpp
+@@ -531,6 +531,22 @@
+ }
+ inline std::vector<Mat> generators(const Group& g,const std::vector<Model>& ms,const Layout& layout) {
+     std::vector<Mat> out;for(auto h:g.generator_ids)out.push_back(action(layout,ms,h));return out;
++}
++// Apply an irreducible block action without constructing the repeated matrix.
++// Input/output are row coefficients in the logical adapted basis. Each copy
++// uses only a small local accumulator, independent of total representation size.
++inline Vec apply_irrep_action(const Vec& v,const Layout& layout,const std::vector<Model>& ms,size_t h){
++    size_t n=layout.dimension(ms);require(!v.nnz()||(v(0)>=0&&size_t(v(v.nnz()-1))<n),"irrep action vector dimension mismatch");
++    Vec out;size_t position=0,offset=0;
++    for(size_t s=0;s<ms.size();++s){size_t d=ms[s].dimension,end=offset+layout.copies[s]*d;
++        require(h<ms[s].actions.size(),"unknown irrep action element");const auto& small=ms[s].actions[h];std::vector<Q> values(d);
++        while(position<v.nnz()&&size_t(v(position))<end){size_t begin=offset+((size_t(v(position))-offset)/d)*d;
++            std::fill(values.begin(),values.end(),Q(0));
++            while(position<v.nnz()&&size_t(v(position))<begin+d){size_t i=size_t(v(position))-begin;
++                for(auto [j,x]:small[i])values[j]+=v[position]*x;++position;}
++            for(size_t j=0;j<d;++j)if(values[j]!=0)out.push_back(index(begin+j),values[j]);
++        }offset=end;
++    }return out;
+ }
+ inline void verify_adaptation(const Adapted& a,const Group& g,const std::vector<Model>& ms,const std::vector<Mat>& gens) {
+     require(a.basis.nrow==a.layout.dimension(ms),"adapted dimension mismatch");
+--- a/symrep_carrier.hpp
++++ b/symrep_carrier.hpp
+@@ -40,46 +40,74 @@
+             require(equal(actual,mul(m.actions[h],orbit)),"carrier orbit fails the universal intertwiner identity");}
+     }
+ }
++// Kernel rows have private free-variable columns. Reading those columns is
++// enough to recover coordinates; no transpose of the full QQ basis is needed.
++struct PrivateCarrierChart {
++    std::vector<I> columns;
++    std::vector<Q> values;
++    bool complete=false;
++    explicit PrivateCarrierChart(const Mat& carrier,const field_t* fp=nullptr)
++        :columns(carrier.nrow,-1),values(carrier.nrow){
++        std::vector<I> owner(carrier.ncol,-1);
++        for(size_t i=0;i<carrier.nrow;++i)for(auto [j,x]:carrier[i]){
++            if(fp)require_carrier_prime(x.den()%fp->mod!=0,"bad carrier denominator prime");
++            if(x!=0)owner[j]=owner[j]==-1?index(i):I(-2);
++        }
++        for(size_t j=0;j<owner.size();++j)if(owner[j]>=0&&columns[owner[j]]<0){
++            auto i=owner[j];columns[i]=index(j);values[i]=*carrier[i].find(index(j));}
++        complete=std::all_of(columns.begin(),columns.end(),[](I j){return j>=0;});
++    }
++};
++// Construct only (L tensor R)[:, selected]. Traverse incoming entries of
++// selected columns, rather than scanning the nonzeros of the whole product.
++// Appending columns in order also makes every output row sorted by construction.
++template<class T> inline sparse_mat<T,I> tensor_action_columns(const sparse_mat<T,I>& left,
++    const sparse_mat<T,I>& right,const std::vector<I>& columns,const std::vector<T>* scales,const field_t& field){
++    sparse_mat<T,I> lt(left.ncol,left.nrow),rt(right.ncol,right.nrow);
++    for(size_t i=0;i<left.nrow;++i){I row=index(i);for(auto [j,x]:left[i])lt[j].push_back(row,x);}
++    for(size_t i=0;i<right.nrow;++i){I row=index(i);for(auto [j,x]:right[i])rt[j].push_back(row,x);}
++    sparse_mat<T,I> out(left.nrow*right.nrow,columns.size());
++    for(size_t c=0;c<columns.size();++c){I column=index(c);size_t k=size_t(columns[c])/right.ncol,l=size_t(columns[c])%right.ncol;
++        for(auto [i,x]:lt[k])for(auto [j,y]:rt[l]){
++            T value=scalar_mul(x,y,field);if(scales)value=scalar_mul(value,(*scales)[c],field);
++            if(value!=0)out[size_t(i)*right.nrow+j].push_back(column,value);
++        }
++    }return out;
++}
+ inline std::vector<Mat> carrier_actions(const Mat& carrier,const std::vector<Mat>& older,
+     const std::vector<Mat>& letters,bool backward,rref_option_t opt){
+-    Chart chart(carrier,opt);std::vector<I> selected(carrier.ncol,-1);
+-    for(size_t i=0;i<chart.pivots.size();++i)selected[chart.pivots[i]]=index(i);
++    require(older.size()==letters.size(),"carrier generator count mismatch");
++    PrivateCarrierChart chart(carrier);std::vector<I> columns=chart.columns;std::vector<Q> scales;Mat inverse;
++    if(chart.complete){for(const auto& x:chart.values)scales.push_back(Q(1)/x);}
++    else{Chart general(carrier,opt);columns=std::move(general.pivots);inverse=std::move(general.inverse);}
+     std::vector<Mat> result;
+     for(size_t h=0;h<letters.size();++h){const auto& left=backward?letters[h]:older[h];const auto& right=backward?older[h]:letters[h];
+-        require(left.nrow*right.nrow==carrier.ncol,"carrier action dimension mismatch");
+-        Mat restriction(carrier.ncol,carrier.nrow);
+-        for(size_t i=0;i<left.nrow;++i)for(size_t j=0;j<right.nrow;++j)for(auto [k,x]:left[i])for(auto [l,y]:right[j]){
+-            I c=selected[k*right.nrow+l];if(c>=0)restriction[i*right.nrow+j].push_back(c,x*y);}
+-        for(auto& row:restriction.rows)normalize(row);
+-        result.push_back(mul(mul(carrier,restriction,&opt->pool),chart.inverse,&opt->pool));
++        require(left.nrow==left.ncol&&right.nrow==right.ncol&&left.nrow*right.nrow==carrier.ncol,"carrier action dimension mismatch");
++        auto restriction=tensor_action_columns(left,right,columns,chart.complete?&scales:nullptr,QQ);
++        auto a=mul(carrier,restriction,&opt->pool);
++        result.push_back(chart.complete?std::move(a):mul(a,inverse,&opt->pool));
+     }return result;
+ }
+-// The orbit frame needs only modular independence certificates. Inherit
+-// the action in that field directly from the exact QQ kernel, avoiding large
+-// rational action matrices that normal recursion never consumes.
++// Normal recursion needs only modular independence certificates. Exact QQ
++// transformations are available separately, in either carrier or irrep coordinates.
+ inline std::vector<ModMat> carrier_actions_mod(const Mat& carrier,const std::vector<ModMat>& older,
+     const std::vector<ModMat>& letters,bool backward,const field_t& fp,rref_option_t opt){
+-    size_t n=carrier.nrow,nc=carrier.ncol;std::vector<I> owner(nc,-1),columns(n,-1);std::vector<ulong> diagonal(n);
+-    for(size_t i=0;i<n;++i)for(auto [j,x]:carrier[i]){require_carrier_prime(x.den()%fp.mod!=0,"bad carrier denominator prime");owner[j]=owner[j]==-1?index(i):I(-2);}
+-    for(size_t j=0;j<nc;++j)if(owner[j]>=0&&columns[owner[j]]<0){columns[owner[j]]=index(j);diagonal[owner[j]]=*(carrier[owner[j]].find(index(j)))%fp.mod;}
+-    bool private_chart=std::all_of(columns.begin(),columns.end(),[](I x){return x>=0;});
+-    ModMat inverse;auto basis=modular_matrix(carrier,fp);
+-    if(private_chart){for(auto& x:diagonal){require_carrier_prime(x!=0,"bad carrier chart prime");x=nmod_inv(x,fp.mod);}}
++    require(older.size()==letters.size(),"modular carrier generator count mismatch");
++    size_t n=carrier.nrow,nc=carrier.ncol;PrivateCarrierChart chart(carrier,&fp);
++    auto columns=chart.columns;std::vector<ulong> diagonal;ModMat inverse;auto basis=modular_matrix(carrier,fp);
++    if(chart.complete){for(const auto& x:chart.values){ulong value=x%fp.mod;require_carrier_prime(value!=0,"bad carrier chart prime");diagonal.push_back(nmod_inv(value,fp.mod));}}
+     else{auto echelon=basis;auto pivots=sparse_mat_rref_forward(echelon,fp,opt);columns.clear();
+         for(const auto& batch:pivots)for(auto [r,c]:batch)columns.push_back(c);
+         require_carrier_prime(columns.size()==n,"bad carrier rank prime");std::sort(columns.begin(),columns.end());
+         std::vector<I> selected(nc,-1);for(size_t i=0;i<n;++i)selected[columns[i]]=index(i);
+         ModMat minor(n,n);for(size_t i=0;i<n;++i)for(auto [j,x]:basis[i])if(selected[j]>=0)minor[i].push_back(selected[j],x);
+         inverse=sparse_mat_inverse(minor,fp,opt);}
+-    std::vector<I> selected(nc,-1);for(size_t i=0;i<columns.size();++i)selected[columns[i]]=index(i);
+     std::vector<ModMat> result;
+     for(size_t h=0;h<letters.size();++h){const auto& left=backward?letters[h]:older[h];const auto& right=backward?older[h]:letters[h];
+-        require(left.nrow*right.nrow==nc,"modular carrier action dimension mismatch");ModMat restriction(nc,n);
+-        for(size_t i=0;i<left.nrow;++i)for(size_t j=0;j<right.nrow;++j)for(auto [k,x]:left[i])for(auto [l,y]:right[j]){
+-            I col=selected[k*right.nrow+l];if(col>=0){ulong value=nmod_mul(x,y,fp.mod);if(private_chart)value=nmod_mul(value,diagonal[col],fp.mod);if(value)restriction[i*right.nrow+j].push_back(col,value);}}
+-        for(auto& row:restriction.rows)row.sort_indices();
+-        auto action=sparse_mat_mul(basis,restriction,fp,&opt->pool);
+-        result.push_back(private_chart?std::move(action):sparse_mat_mul(action,inverse,fp,&opt->pool));
++        require(left.nrow==left.ncol&&right.nrow==right.ncol&&left.nrow*right.nrow==nc,"modular carrier action dimension mismatch");
++        auto restriction=tensor_action_columns(left,right,columns,chart.complete?&diagonal:nullptr,fp);
++        auto a=sparse_mat_mul(basis,restriction,fp,&opt->pool);
++        result.push_back(chart.complete?std::move(a):sparse_mat_mul(a,inverse,fp,&opt->pool));
+     }return result;
+ }
+ struct CarrierFrameTimings {double modular=0,selection=0,lift=0,check=0;};
+--- a/symrep_orbits.hpp
++++ b/symrep_orbits.hpp
+@@ -155,7 +155,7 @@
+         for(auto& batch:piv)for(auto [r,c]:batch)used[c]=true;std::vector<size_t> free;
+         for(size_t i=0;i<n;++i)if(!used[i])free.push_back(i);
+         size_t expected=0;for(size_t s=0;s<ms.size();++s)if(ms[s].dimension==1)expected+=wanted[s];require_carrier_prime(free.size()==expected,"wrong total scalar eigenspace dimension");
+-        auto inclusion=sparse_mat_rref_kernel(equations,piv,fp,opt);for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);
++        auto inclusion=sparse_mat_rref_kernel(equations,piv,fp,opt);equations.clear();for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);
+         std::vector<ModMat> small;
+         for(size_t j=0;j<gs.size();++j){std::optional<Q> value;bool scalar=true;
+             for(const auto& m:ms)if(m.dimension==1){auto x=m.character[g.generator_ids[j]];if(value&&*value!=x)scalar=false;value=x;}
+@@ -208,7 +208,7 @@
+             for(const auto& batch:piv)for(auto [r,c]:batch)used[c]=true;std::vector<size_t> free;
+             for(size_t i=0;i<n;++i)if(!used[i])free.push_back(i);size_t total=0;for(auto s:higher)total+=wanted[s];
+             require_carrier_prime(free.size()==total,"wrong shared spectral dimension");
+-            auto inclusion=sparse_mat_rref_kernel(equation,piv,fp,opt);for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);
++            auto inclusion=sparse_mat_rref_kernel(equation,piv,fp,opt);equation.clear();for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);
+             std::vector<ModMat> small(gs.size(),ModMat(total,total));std::set<size_t> needed;
+             for(auto s:higher)for(auto [j,sign]:plans->at(s).fixed)if(g.table[g.generator_ids[j]][g.generator_ids[variable]]==g.table[g.generator_ids[variable]][g.generator_ids[j]])needed.insert(j);
+             for(auto j:needed){ModMat left(total,n);for(size_t i=0;i<total;++i)left[i]=gs[j][free[i]];small[j]=sparse_mat_mul(left,inclusion,fp,&opt->pool);}
+@@ -260,7 +260,7 @@
+         std::vector<size_t> free;for(size_t i=0;i<n;++i)if(!used[i])free.push_back(i);
+         if(plan.scalar){require_carrier_prime(free.size()==wanted[s],"wrong scalar eigenspace dimension");answer.seeds[s]=free;answer.layout.copies[s]=free.size();
+             return;}
+-        auto inclusion=sparse_mat_rref_kernel(equations,piv,fp,work);for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);require(inclusion.nrow==n&&inclusion.ncol==free.size(),"wrong fixed-space inclusion shape");
++        auto inclusion=sparse_mat_rref_kernel(equations,piv,fp,work);equations.clear();for(auto& row:inclusion.rows)sparse_vec_rescale(row,fp.mod.n-1,fp);require(inclusion.nrow==n&&inclusion.ncol==free.size(),"wrong fixed-space inclusion shape");
+         auto v=sparse_mat_mul(gs[plan.variable],inclusion,fp,&work->pool);std::vector<std::pair<size_t,long>> filters;
+         for(auto [j,sign]:plan.fixed)if(g.table[g.generator_ids[j]][g.generator_ids[plan.variable]]!=g.table[g.generator_ids[plan.variable]][g.generator_ids[j]])filters.push_back({j,sign});
+         ModMat rep(free.size(),free.size());
+--- a/symrep_bootstrap.hpp
++++ b/symrep_bootstrap.hpp
+@@ -485,4 +485,36 @@
+     }seal(output);
+ }
+ 
++// A symmetry-adapted chain already specifies every generator by its irrep
++// layout. Exporting these matrices never needs a carrier frame or LEC expansion.
++inline void export_chain_actions(const fs::path& prepared,const fs::path& chain,size_t maximum,
++    const Group& g,const std::vector<Model>& ms,rref_option_t opt,const fs::path& output,bool carrier_coordinates=false){
++    bool factorized=false;auto last=chain_weight(chain,prepared,&factorized);
++    require(maximum<=last,"requested actions exceed saved chain");
++    require(!carrier_coordinates||factorized,"carrier coordinates require a factorized chain");
++    bool backward=false;std::vector<Mat> previous;
++    if(carrier_coordinates){std::ifstream direction(chain/"carrier_direction.tsv");std::string name,extra;direction>>name;
++        require(bool(direction)&&(name=="forward"||name=="backward")&&!(direction>>extra),"invalid carrier direction metadata");backward=name=="backward";}
++    std::ofstream metadata(output/"actions.tsv"),stats(output/"timings.tsv");
++    metadata<<"symbology-symrep-actions-v1\ncoordinates\t"<<(carrier_coordinates?"carrier":"adapted")
++        <<"\nprepared_sha256\t"<<native_cache::digest(prepared/"checksums.tsv")
++        <<"\nchain_sha256\t"<<native_cache::digest(chain/"checksums.tsv")<<"\nmaximum_weight\t"<<maximum<<'\n';
++    for(size_t j=0;j<g.names.size();++j)metadata<<"generator\t"<<j<<'\t'<<g.names[j]<<'\n';
++    stats<<"weight\tdimension\tconstruction_s\taction_nnz\n";
++    for(size_t w=1;w<=maximum;++w){auto stem=weight_name(w);auto layout=load_layout(chain/(stem+"_copies.tsv"),ms);Mat basis;
++        if(carrier_coordinates&&w>1)basis=flatten(read(chain/(stem+"_carrier.wxf")));
++        auto start=std::chrono::steady_clock::now();std::vector<Mat> matrices;
++        if(!carrier_coordinates)matrices=generators(g,ms,layout);
++        else if(w==1)matrices=load_carrier_actions(chain,1,g,layout.dimension(ms),opt);
++        else matrices=carrier_actions(basis,previous,g.generators,backward,opt);
++        auto elapsed=seconds(start);size_t nnz=0;
++        for(size_t j=0;j<matrices.size();++j){require(matrices[j].nrow==layout.dimension(ms)&&matrices[j].ncol==layout.dimension(ms),"action/layout dimension mismatch");
++            nnz+=matrices[j].nnz();write(output/(stem+"_g"+std::to_string(j)+".wxf"),matrices[j]);}
++        save_layout(output/(stem+"_copies.tsv"),layout,ms);
++        stats<<std::setprecision(9)<<w<<'\t'<<layout.dimension(ms)<<'\t'<<elapsed<<'\t'<<nnz<<'\n';
++        if(carrier_coordinates)previous=std::move(matrices);
++    }
++    metadata.close();stats.close();require(bool(metadata)&&bool(stats),"cannot write symmetry actions metadata");seal(output);
++}
++
+ } // namespace symrep
+--- a/symrep.cpp
++++ b/symrep.cpp
+@@ -16,7 +16,7 @@
+                 (k=="--generator"?names:terminal_names).push_back(name);
+                 (k=="--generator"?gens:terminal_gens).push_back(read_matrix(v.substr(at+1)));
+             }else{
+-                require(k=="--output"||k=="--input"||k=="--matrix"||k=="--condition"||k=="--seed"||k=="--direction"||k=="--threads"||k=="--max-order"||k=="--max-weight"||k=="--chain"||k=="--reference"||k=="--backend","unknown option "+k);
++                require(k=="--output"||k=="--input"||k=="--matrix"||k=="--condition"||k=="--seed"||k=="--direction"||k=="--threads"||k=="--max-order"||k=="--max-weight"||k=="--chain"||k=="--reference"||k=="--backend"||k=="--coordinates","unknown option "+k);
+                 require(values.emplace(k,v).second,"duplicate option "+k);
+             }
+         }
+@@ -33,17 +33,19 @@
+           "symrep prepare --generator NAME=R.wxf [...] --condition D.wxf --seed FEC1.wxf --direction forward|backward --output DIR\n"
+           "symrep extend --input PREPARED --max-weight N --output DIR [--compare] [--chain PREVIOUS] [--backend auto|multiplicity|factorized]\n"
+           "symrep expand --input PREPARED --chain FACTORIZED --output DIR [--max-weight N]\n"
++          "symrep actions --input PREPARED --chain DIR --output DIR [--max-weight N] [--coordinates adapted|carrier]\n"
+           "symrep ordinary --condition D.wxf --seed FEC1.wxf --direction forward|backward --max-weight N --output DIR\n"
+           "symrep verify --input PREPARED --chain DIR --reference DIR --max-weight N --output DIR\n"
+           "All commands: --threads N, --max-order N. prepare: optional --terminal-generator NAME=R.wxf for each generator.\n"
+           "Outputs are QQ irreducible copies, including Galois-conjugate components together.\n";return 0;
+     }
+-    std::string command=argv[1];require(command=="kernel"||command=="adapt"||command=="prepare"||command=="extend"||command=="verify"||command=="ordinary"||command=="expand","unknown command");
++    std::string command=argv[1];require(command=="kernel"||command=="adapt"||command=="prepare"||command=="extend"||command=="verify"||command=="ordinary"||command=="expand"||command=="actions","unknown command");
+     Args args(argc,argv);rref_option_t opt;opt->pool.reset(args.number("--threads",2));opt->verbose=false;
+     const std::map<std::string,std::set<std::string>> allowed{
+         {"adapt",{}},{"kernel",{"--matrix","--input"}},{"prepare",{"--condition","--seed","--direction"}},
+         {"extend",{"--input","--max-weight","--chain","--backend"}},{"expand",{"--input","--chain","--max-weight"}},{"verify",{"--input","--chain","--reference","--max-weight"}},
+-        {"ordinary",{"--condition","--seed","--direction","--max-weight"}}};
++        {"ordinary",{"--condition","--seed","--direction","--max-weight"}},
++        {"actions",{"--input","--chain","--max-weight","--coordinates"}}};
+     for(const auto& [key,value]:args.values)require(key=="--output"||key=="--threads"||key=="--max-order"||allowed.at(command).count(key),key+" is not valid for "+command);
+     require(!args.compare||command=="extend","--compare is only valid for extend");
+     require(args.terminal_gens.empty()||command=="prepare","terminal generators are only valid for prepare");
+@@ -55,7 +57,7 @@
+         ordinary_chain(read(args.get("--seed")),read(args.get("--condition")),direction=="backward",args.number("--max-weight",2),output,opt);
+         std::cout<<"complete total_s="<<seconds(start)<<std::endl;return 0;
+     }
+-    bool saved=command=="extend"||command=="verify"||command=="expand"||(command=="kernel"&&args.values.count("--input"));
++    bool saved=command=="extend"||command=="verify"||command=="expand"||command=="actions"||(command=="kernel"&&args.values.count("--input"));
+     require(!saved||args.gens.empty(),"--input cannot be combined with --generator");
+     auto group=saved?load_group(args.get("--input"),limit):Group(args.names,args.gens,limit);auto ms=saved?load_models(args.get("--input"),group,opt):models(group,opt);
+     std::cout<<"group_order="<<group.order()<<" rational_irreps="<<ms.size()<<" group_setup_s="<<seconds(start)<<std::endl;
+@@ -89,6 +91,11 @@
+         bool compact=false;auto maximum=chain_weight(args.get("--chain"),args.get("--input"),nullptr,&compact);
+         if(compact)expand_multiplicity_chain(args.get("--input"),args.get("--chain"),args.number("--max-weight",maximum),group,ms,opt,output);
+         else expand_carrier_chain(args.get("--input"),args.get("--chain"),args.number("--max-weight",maximum),group,ms,opt,output);
++    }else if(command=="actions") {
++        auto maximum=chain_weight(args.get("--chain"),args.get("--input"));
++        auto coordinates=args.values.count("--coordinates")?args.get("--coordinates"):"adapted";
++        require(coordinates=="adapted"||coordinates=="carrier","coordinates must be adapted or carrier");
++        export_chain_actions(args.get("--input"),args.get("--chain"),args.number("--max-weight",maximum),group,ms,opt,output,coordinates=="carrier");
+     }else {
+         auto a=read_matrix(args.get("--matrix"));Adapted source;std::vector<Mat> domain;
+         if(saved) {
+--- a/tests/symrep_probe.cpp
++++ b/tests/symrep_probe.cpp
+@@ -51,8 +51,30 @@
+     std::cout<<"PASS direct row kernel versus SparseRREF extraction"<<std::endl;
+ }
+ Mat permutation(const std::vector<size_t>& p){Mat m(p.size(),p.size());for(size_t i=0;i<p.size();++i)m[i].push_back(index(p[i]),Q(1));return m;}
++void test_carrier_coordinates(rref_option_t opt){
++    std::vector<Mat> older{permutation({1,0})},letters{permutation({1,2,0})};
++    field_t fp(FIELD_Fp,n_nextprime(1ULL<<60,0));
++    for(bool backward:{false,true})for(size_t mode=0;mode<3;++mode){
++        Mat basis(mode==2?0:6,6);
++        for(size_t i=0;i<basis.nrow;++i)for(size_t j=0;j<6;++j)
++            if(mode==1||i==j)basis[i].push_back(index(j),Q((i==j?2:1)*(i+1),i+2));
++        auto ambient=backward?kron(letters[0],older[0]):kron(older[0],letters[0]);
++        auto expected=induced(basis,{ambient},opt),actual=carrier_actions(basis,older,letters,backward,opt);
++        require(equal(actual[0],expected[0]),"selected-column exact carrier action differs from full tensor action");
++        require(equal(mul(actual[0],basis),mul(basis,ambient)),"recursive exact carrier intertwiner failed");
++        auto modular=carrier_actions_mod(basis,{modular_matrix(older[0],fp)},{modular_matrix(letters[0],fp)},backward,fp,opt);
++        auto reduction=modular_matrix(expected[0],fp);
++        require(modular[0].nrow==reduction.nrow&&modular[0].ncol==reduction.ncol,"modular carrier shape mismatch");
++        for(size_t i=0;i<reduction.nrow;++i){auto row=modular[0][i];sparse_vec_sub_mul(row,reduction[i],ulong(1),fp);require(!row.nnz(),"modular carrier differs from exact action");}
++    }
++    std::cout<<"PASS selected tensor columns, private/general charts, both directions and zero-dimensional actions"<<std::endl;
++}
+ std::vector<Mat> dihedral(size_t n,bool reflection=true){std::vector<size_t> c(n),f(n);for(size_t i=0;i<n;++i){c[i]=(i+1)%n;f[i]=(n-i)%n;}auto out=std::vector<Mat>{permutation(c)};if(reflection)out.push_back(permutation(f));return out;}
+ void test_orbits(const Group& g,const std::vector<Model>& ms,const std::vector<Mat>& gs,rref_option_t opt){
++    Layout copies;copies.copies.assign(ms.size(),3);size_t n=copies.dimension(ms);Vec vector;
++    for(size_t j=0;j<n;++j)if(j%3)vector.push_back(index(j),Q(long(j%7)-3,long(j%5)+1));normalize(vector);
++    for(size_t h=0;h<g.order();++h){auto actual=apply_irrep_action(vector,copies,ms,h),expected=mul(vector,action(copies,ms,h));
++        require(equal(rows({actual},n),rows({expected},n)),"implicit irrep action differs from explicit block matrix");}
+     if(!fixed_corner_plans(g,ms))return;
+     auto recipe=select_fixed_orbits(g,ms,gs,opt);
+     auto frame=materialize_orbits(recipe,g,ms,gs,opt);
+@@ -180,6 +202,23 @@
+ }
+ int main(int argc,char** argv){try{
+     rref_option_t opt;opt->pool.reset(2);opt->verbose=false;
++    if(argc==6&&std::string(argv[1])=="verify-actions"){
++        fs::path prepared=argv[2],chain=argv[3],exported=argv[4];bool carrier=std::string(argv[5])=="carrier";
++        auto g=load_group(prepared);auto ms=load_models(prepared,g,opt);auto p=load_prepared(prepared,ms);
++        bool factorized=false,compact=false;size_t maximum=chain_weight(chain,prepared,&factorized,&compact);verify_seal(exported);
++        TensorAdapter adapter(g,ms,opt);std::vector<Mat> previous=generators(g,ms,p.terminal),letters=generators(g,ms,p.alphabet);
++        for(size_t w=1;w<=maximum;++w){auto layout=load_layout(chain/(weight_name(w)+"_copies.tsv"),ms);
++            std::vector<Mat> actual;for(size_t j=0;j<g.names.size();++j)actual.push_back(read_matrix(exported/(weight_name(w)+"_g"+std::to_string(j)+".wxf")));
++            if(factorized){auto gs=load_carrier_actions(chain,w,g,layout.dimension(ms),opt);
++                if(carrier){for(size_t j=0;j<gs.size();++j)require(equal(actual[j],gs[j]),"exported carrier action mismatch");}
++                else{auto frame=load_carrier_frame(chain,w,g,ms,gs,opt);
++                    for(size_t j=0;j<gs.size();++j)require(equal(mul(actual[j],frame.basis),mul(frame.basis,gs[j])),"exported adapted action fails frame intertwiner");}
++            }else{auto tensor=compact?materialize_multiplicity(chain,w,p,ms,adapter,opt):read(chain/(weight_name(w)+".wxf"));auto basis=flatten(tensor);
++                for(size_t j=0;j<letters.size();++j){auto ambient=p.backward?kron(letters[j],previous[j]):kron(previous[j],letters[j]);
++                    require(equal(mul(actual[j],basis),mul(basis,ambient)),"exported action fails recursive tensor intertwiner");}previous=actual;
++            }
++        }std::cout<<"PASS exported exact recursive symmetry actions"<<std::endl;return 0;
++    }
+     if(argc==3&&std::string(argv[1])=="fixtures"){
+         fs::path root=argv[2];fresh(root);auto gens=dihedral(3);write(root/"cycle.wxf",gens[0]);write(root/"flip.wxf",gens[1]);
+         Mat a(1,3);for(size_t i=0;i<3;++i)a[0].push_back(index(i),Q(1));write(root/"sum.wxf",a);
+@@ -192,7 +231,7 @@
+         write(root/"no_condition.wxf",condition_tensor(Mat(0,9),3));
+         write(root/"vector_seed.wxf",tensor(identity(9),{9,3,3}));return 0;
+     }
+-    test_incremental_wxf();test_reconstruction_paths(opt);test_direct_kernel(opt);
++    test_incremental_wxf();test_reconstruction_paths(opt);test_direct_kernel(opt);test_carrier_coordinates(opt);
+     for(size_t n:{3,5,7}){test("C"+std::to_string(n),dihedral(n,false),n,opt);test("D"+std::to_string(n),dihedral(n),2*n,opt);}
+     {auto gs=dihedral(7);for(auto& x:gs)x=kron(x,identity(2));gs.push_back(kron(identity(7),permutation({1,0})));
+         test("D7xC2",std::move(gs),28,opt);}
+--- a/tests/symrep_regression.py
++++ b/tests/symrep_regression.py
+@@ -148,6 +148,20 @@
+         assert file.read_bytes() == (work / "cyclic-chain" / file.name).read_bytes(), file.name
+     run("verify", "--input", cyclic, "--chain", work / "cyclic-chain", "--reference", work / "forward-ordinary", "--max-weight", 3, "--output", work / "cyclic-verified")
+ 
++    # Check action export in both coordinate systems against the actual recursive
++    # tensors/frames, including non-split irreps, vector terminals and zero kernels.
++    for case, chain_name in [("forward", "forward-continued"), ("backward-vector", "backward-vector-chain"),
++                             ("zero", "zero-chain"), ("forward", "forward-factorized-direct-continued"),
++                             ("backward", "backward-factorized-direct-continued"), ("cyclic", "cyclic-direct")]:
++        source = work / chain_name
++        for coordinates in (["adapted", "carrier"] if "factorized" in (source / "chain.tsv").read_text() else ["adapted"]):
++            target = work / f"{chain_name}-actions-{coordinates}"
++            run("actions", "--input", work / f"{case}-prepared", "--chain", source, "--coordinates", coordinates, "--output", target)
++            subprocess.run([str(args.probe.resolve()), "verify-actions", str(work / f"{case}-prepared"), str(source), str(target), coordinates], check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++    run("actions", "--input", cyclic, "--chain", work / "cyclic-direct", "--max-weight", 4, "--output", work / "actions-too-far", fail="exceed")
++    run("actions", "--input", cyclic, "--chain", work / "cyclic-direct", "--coordinates", "unknown", "--output", work / "actions-bad-coordinates", fail="coordinates must be")
++    run("actions", "--input", work / "forward-prepared", "--chain", work / "forward-continued", "--coordinates", "carrier", "--output", work / "actions-no-carrier", fail="factorized chain")
++
+     tampered = work / "tampered"
+     shutil.copytree(prepared, tampered)
+     with (tampered / "seed.wxf").open("ab") as stream:
+@@ -159,4 +173,4 @@
+     seal.write_text(seal.read_text().splitlines()[0] + "\n")
+     run("extend", "--input", truncated, "--output", work / "rejected-seal", fail="inventory is incomplete")
+ 
+-print("PASS symrep CLI: kernels, FEC/LEC, continuation, vector terminal, empty spaces, factorized frames/export, bundle integrity")
++print("PASS symrep CLI: kernels, FEC/LEC, continuation, vector terminal, empty spaces, factorized frames/export, recursive action exports, bundle integrity")

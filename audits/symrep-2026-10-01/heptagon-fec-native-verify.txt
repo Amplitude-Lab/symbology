@@ -1,0 +1,6 @@
+group_order=28 rational_irreps=6 group_setup_s=0.0264263
+EXACT_REFERENCE_PASS weight=1 dimension=7
+EXACT_REFERENCE_PASS weight=2 dimension=28
+EXACT_REFERENCE_PASS weight=3 dimension=97
+EXACT_REFERENCE_PASS weight=4 dimension=308
+complete total_s=0.267831 output="output_symrep_validated_20261001/heptagon-fec-native-verified"

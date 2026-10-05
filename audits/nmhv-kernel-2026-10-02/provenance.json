@@ -1,0 +1,16 @@
+{
+  "comparison_binary": "output_nmhv_kernel_20261002/benchmark",
+  "comparison_binary_sha256": "fdd5953f2a0538037d3f58bfd565bca8ed6be16e04b30b4d2bb874ed18ead127",
+  "production_dependency_commit": "5bbee55",
+  "threads": 8,
+  "comparison_compiler_flags": "-O3 -march=native -std=c++20 (both methods in one executable)",
+  "production_compiler_flags": "-O3 -march=native -mtune=native -flto -std=c++20",
+  "source_sha256": {
+    "certified_kernel.hpp": "e324e8e4d6f23e0b3ab859d0ab1d7fbd503f61dcb2b9d1be6320070877a6b72c",
+    "structured_kernel.hpp": "c7448e0d7f5e3ae2d8522949def12dfc26123365e5ff39e61704f0163a1c435f",
+    "tensor_kernel.hpp": "74262dc2f34c295639fc8a000f746813252dc93dfa4ffc26fa11522281eae76c",
+    "bench/nmhv_kernel_benchmark.cpp": "f2621418b7a4f4fc3e3d268241e5648cec521cb23710109718ff5be1c0941977",
+    "bench/nmhv_kernel_check.cpp": "33af222628c4b4384e270f4580a8a41d642f25d7b2a77c0312d17d43854bb410"
+  },
+  "note": "Source hashes identify the final source; timed comparison binary predates the later core_nnz statistics bookkeeping and comment changes. Production binaries contain them."
+}

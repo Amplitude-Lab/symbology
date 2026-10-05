@@ -1,6 +1,39 @@
 # Symbology
 
+The [five-loop MHV heptagon benchmark](benchmarks/heptagon-mhv-five-loop/README.md)
+includes the small accepted recursive solution and a clean-start runner that
+regenerates all large intermediates from the tracked seeds. Build with
+`make five-loop-tools`, then run
+`python3 bench/five_loop_heptagon.py run --output output/five-loop-heptagon`.
+
 Working prototype for symbol-space bootstrap experiments on the `E6` heptagon. The codebase covers the full bootstrap pipeline: recursive first-entry/last-entry growth and sewing (`bootstrap --extend` / `--sew`), universal projection matrices (`--project`), symmetry invariant-subspace solving (`--solve-symmetry`), collinear constraint solving (`--solve-collinear`), and recursive RHS (collinear boundary) computation (`compute_rhs`). All sparse rational linear algebra goes through [`SparseRREF`](https://github.com/munuxi/SparseRREF).
+
+The separate [`symrep` solver](docs/symrep.md) constructs rational irreducible
+kernel bases from supplied finite-group generator matrices. It can automatically
+adapt an alphabet, condition tensor and seed, then preserve the representation
+organization through recursive FEC/LEC extensions. The heptagon default retains
+a sparse carrier and a certified rational orbit recipe for its irreducible frame; `--backend multiplicity` keeps
+the reduced-unknown solver available. Split rational models, including hexagon,
+now retain scalar multiplicities throughout solving and storage. `symrep expand` exports compact
+chains to the existing tensor format. Build it with `make symrep` and run its
+public exact checks with `make check-symrep`. `symrep actions --input PREPARED
+--chain CHAIN --output ACTIONS` exports the exact irreducible transformation
+matrices at every saved weight without expanding FEC/LEC tensors.
+
+The latest [basis and transformation audit](audits/symrep-actions-2026-10-02/REPORT.md)
+compares the current and previous symmetry solvers with ordinary solving and the hexagon package.
+The preceding [research review](audits/symrep-research-2026-10-02/RESEARCH.md)
+covers exact sparse solvers, representation condensation and recent finite-field methods.
+
+The [whole-strategy audit](audits/solver-strategy-2026-10-02/REPORT.md) adds
+streamed exact kernels and projection after restricting the ansatz. It includes
+a completed four-loop heptagon MHV symbol calculation and time/RAM measurements.
+The [NMHV acceptance audit](audits/nmhv-kernel-2026-10-02/REPORT.md) verifies
+hexagon and heptagon NMHV spaces and measures time and peak RAM. Streamed
+extension kernels are now the default, sewing selects the smaller basis
+first, and the MHV RHS workflow uses restricted projection. The optimized,
+pinned SparseRREF patch stack remains the default dependency; explicit
+`original` strategies remain available. See [options and reproduction](docs/solver-strategy.md).
 
 ## What You Need
 
@@ -28,7 +61,15 @@ cd symbology
 ./scripts/setup-sparserref.sh
 ```
 
-(Manually: `git clone https://github.com/munuxi/SparseRREF.git`, `git checkout 5bbee55`, `git apply ../patches/sparserref-5bbee55-race-and-init-fix.patch`. Use `--check` to verify an existing checkout.)
+(Manually: clone SparseRREF, check out `5bbee55`, then apply
+`sparserref-5bbee55-race-and-init-fix.patch`, `sparserref-wxf-validation.patch`,
+`sparserref-move-reconstruction.patch`, `sparserref-reconstruction-throughput.patch`,
+`sparserref-wxf-visitor.patch`, `sparserref-scalar-move-cleanup.patch`, and
+`sparserref-tensor-capacity.patch` from `patches/` in that order.
+The performance patches transfer completed RREF storage, release unused rows
+earlier, accelerate exact rational reconstruction and support incremental WXF
+validation. Use
+`scripts/setup-sparserref.sh --check` to verify an existing checkout.)
 
 > **Required SparseRREF patches.** Upstream `sparse_mat_rref_forward/backward` (used by every
 > `--project` / sewing-nullspace computation) publish rewritten rows through plain
@@ -729,3 +770,24 @@ indices and rational denominators are validated before tensor construction.
 This is a checked subset of the [Wolfram WXF format](https://reference.wolfram.com/language/tutorial/WXFFormatDescription.html),
 not a general Mathematica-expression importer. Current native encoding targets
 little-endian machines. Run `make check-wxf-sanitized` for memory diagnostics.
+
+### Staged exact kernels and general sewing cuts
+
+The [staged kernel library](docs/staged-kernel.md) applies the same certified
+intersection algorithm to ordinary rational matrices, affine systems, factored
+tensor equations and supplied symmetry generators. `bootstrap` supports
+`--kernel-strategy staged` for extension and `--sew-strategy staged` for any
+`FEC_(n-m) × LEC_m` cut, with optional paired `--left-action`/`--right-action`
+matrices. `--local-reduction raw` can skip an expensive preliminary interface
+row reduction. Existing defaults remain in place for high-nullity recursive spaces.
+`make check-kernel` includes the generic library and cross-cut tests.
+See the [time, memory and correctness audit](audits/staged-kernel-2026-10-04/REPORT.md)
+for the measured improvements and cases favoring the existing strategy.
+The [combined integrability and symmetry benchmark](docs/combined-constraints-benchmark.md)
+explains the product-space equations and compares integrability-first, joint
+global, and joint staged solving on identical inputs. Run
+`make bench-combined-constraints BENCH_OUTPUT=output_combined_constraints_trial`
+for independent exact-space checks and repeated time/peak-RAM measurements.
+The [five-loop lessons and six-loop direction](docs/solver-strategy.md#five-loop-lessons-and-six-loop-direction)
+retain the successful formulation, memory/I/O lessons, and preflight criteria
+for a future supercomputer run.

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "commuting-s3-1p5",
+    "kind": "toy",
+    "left_weight": 1,
+    "right_weight": 5,
+    "coordinates": "permutation"
+  },
+  {
+    "name": "commuting-s3-3p3-rational",
+    "kind": "toy",
+    "left_weight": 3,
+    "right_weight": 3,
+    "coordinates": "rational"
+  },
+  {
+    "name": "heptagon-2p2",
+    "kind": "bootstrap",
+    "left_weight": 2,
+    "right_weight": 2,
+    "condition": "../data/dlogmat_E6.wxf",
+    "first": "../data/FEC_1.wxf",
+    "last": "../data/LEC_1.wxf",
+    "generators": [
+      "../data/cycrepmat.wxf",
+      "../data/fliprepmat.wxf",
+      "../data/parityrepmat.wxf"
+    ]
+  },
+  {
+    "name": "heptagon-4p2",
+    "kind": "bootstrap",
+    "left_weight": 4,
+    "right_weight": 2,
+    "condition": "../data/dlogmat_E6.wxf",
+    "first": "../data/FEC_1.wxf",
+    "last": "../data/LEC_1.wxf",
+    "generators": [
+      "../data/cycrepmat.wxf",
+      "../data/fliprepmat.wxf",
+      "../data/parityrepmat.wxf"
+    ]
+  }
+]
