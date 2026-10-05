@@ -42,7 +42,8 @@ jobs:
           from pathlib import Path
           path = Path(os.environ['RUNNER_TEMP']) / 'core-check.log'
           if path.exists():
-              message = path.read_text(errors='replace')[-8000:]
+              # Check annotations truncate long messages; retain the error tail.
+              message = path.read_text(errors='replace')[-3500:]
               message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
               print('::error title=C++ build/test output::' + message)
           PY
