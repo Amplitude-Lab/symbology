@@ -82,14 +82,16 @@ void vec_cancel_divisor(sparse_vec<rat_t, index_t>& vec) {
 		den = LCM(den, vec.entries[i].den());
 	}
 	sparse_vec_rescale(vec, (rat_t)den, field_t(FIELD_QQ));
-	int_t gcd = 1;
+	int_t gcd = 0;
 	for (size_t i = 0; i < vec.nnz(); i++) {
 		auto num = vec.entries[i].num();
 		if (num != 0) {
 			gcd = GCD(gcd, num);
 		}
 	}
-	sparse_vec_rescale(vec, rat_t(1, gcd), field_t(FIELD_QQ));
+	if (gcd != 0) {
+		sparse_vec_rescale(vec, rat_t(1, gcd), field_t(FIELD_QQ));
+	}
 }
 
 // Small reusable stopwatch. milliseconds()/seconds() also work while running,
