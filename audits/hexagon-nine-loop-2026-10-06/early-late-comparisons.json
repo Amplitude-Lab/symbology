@@ -1,0 +1,46 @@
+[
+  {
+    "control": "six",
+    "h": 8,
+    "k": 4,
+    "prime": 1152921504606847009,
+    "rows": 1,
+    "columns": 7477,
+    "identical_coefficient_payload": true,
+    "payload_sha256": "c77c03d21353f9ae468dcfe504faaf5f3e81a1902a25b42e56445aabd53f7d8d"
+  },
+  {
+    "control": "eight",
+    "h": 12,
+    "k": 4,
+    "prime": 1152921504606847009,
+    "rows": 1,
+    "columns": 69988,
+    "identical_coefficient_payload": true,
+    "payload_sha256": "6d208c1e1ec503c5840c40b032010f32ff86a413e1db4c605cf97843f1225d40"
+  },
+  {
+    "control": "left-six",
+    "h": 8,
+    "k": 4,
+    "prime": 1152921504606847009,
+    "identical_coefficient_payload": true,
+    "payload_sha256": "c77c03d21353f9ae468dcfe504faaf5f3e81a1902a25b42e56445aabd53f7d8d"
+  },
+  {
+    "control": "left-eight",
+    "h": 12,
+    "k": 4,
+    "prime": 1152921504606847009,
+    "identical_coefficient_payload": true,
+    "payload_sha256": "6d208c1e1ec503c5840c40b032010f32ff86a413e1db4c605cf97843f1225d40"
+  },
+  {
+    "control": "cached-eight",
+    "h": 12,
+    "k": 4,
+    "prime": 1152921504606847009,
+    "identical_coefficient_payload": true,
+    "payload_sha256": "6d208c1e1ec503c5840c40b032010f32ff86a413e1db4c605cf97843f1225d40"
+  }
+]

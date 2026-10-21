@@ -1,0 +1,20 @@
+[
+  "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/build-env/bin/x86_64-conda-linux-gnu-c++",
+  "-O2",
+  "-std=c++20",
+  "-I/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package/tests",
+  "-I/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package/src",
+  "-I/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package/src/reduced_d3",
+  "-I/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package/src/SparseRREF",
+  "-I/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/include",
+  "bench/hexagon_seam_replay.cpp",
+  "-o",
+  "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_seam_replay",
+  "-L/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+  "-Wl,-rpath,/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+  "-lflint",
+  "-lmpfr",
+  "-lgmp",
+  "-lmimalloc",
+  "-pthread"
+]

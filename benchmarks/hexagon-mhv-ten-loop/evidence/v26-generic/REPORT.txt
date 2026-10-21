@@ -1,0 +1,45 @@
+Selected V26: generic structural discovery replay and factored triangular affine maps.
+
+Nine-loop mean: 0.872271 CPU-hours per prime, including one learning prime and one replay prime. This is 41.13% below original V17 and 4.32% below the fresh matched V22 pair. Conservative peak RSS is 5.943 GB; the original-V17 reference for the 5% gate is 5.903 GB. The learning prime alone also passes the CPU gate.
+
+The earlier V18-V22 structural replay covered the final seam only. Discovery now records source positions and pivot groups, regenerates all coefficients at each prime, and verifies every discarded equation against the new basis. Dependency routes accelerate reduction against retained pivots; absent or incomplete routes fall back locally to ordinary heap elimination. A changed source stream, pivot/rank or plan identity triggers a fresh discovery solve. All original final seam and physical checks remain mandatory.
+
+The affine factor represents triangular equations x_j = b_j - sum_{k>j} U_jk*x_k. Free-coordinate maps and one shared constant coordinate are composed directly, avoiding an intermediate full reduced matrix. The generic API supports lift, operator projection and materialization. The current driver uses materialization at its existing complete-affine checkpoint boundaries; it does not yet carry implicit factors through every physical projection stage.
+
+The core accepts general sparse finite-field affine systems. Rank, pivot, dependency and free-coordinate choices derive from the supplied matrices. The adapter supplies the existing equations and retains all normalization conventions and conditional bonus assumptions.
+
+Nine-loop measurements (CPU-hours; RSS uses the larger of sampled RSS and the kernel high-water mark):
+
+Variant/suite                  learning       replay       mean       peak GB
+
+V22 / L9-combined               0.915311     0.907920   0.911615        5.949
+
+V23 / L9-combined               0.886114     0.872823   0.879469        5.907
+
+V23 / L9-factors-only           0.892980          n/a   0.892980        5.929
+
+V24 / L9-v24                    0.879167     0.863933   0.871550        6.149
+
+V25 / L9-v25                    0.875007     0.866817   0.870912        6.103
+
+V26 / L9-v26                    0.880155     0.864388   0.872271        5.943
+
+Original V17: 1.481645 CPU-hours, mean of two historical first-prime repetitions, 16 workers and 2 GiB OPE cache. The two-prime means above include learning plus replay; they are not same-prime statistical repetitions. All optimized runs use 3 GiB OPE cache. Small differences between neighboring candidates should not be treated as established universal speedups.
+
+Eight-loop cross-instance check: 0.097837 CPU-hours per prime versus 0.127617 for original V17 (23.34% saving). Peak RSS is 1.883 GB versus 1.871 GB. Both fields match all 38,989 native reference coefficients; nine-loop outputs match all 105,898. Complete original seam sweeps and fresh collinear, MRK and OPE checks pass in every selected run.
+
+Generic controls passed 96 field cases, 48 successful structural replays and 72 consistent affine-map comparisons against independent dense Gaussian elimination. They include sparse/dense and deficient/inconsistent systems, two genuine exceptional-prime rank cases, identity and triangular-shape guards. The dependency variant also passed 48 deliberately emptied-route controls using exact local fallback. Five additional affine matrix families matched both the previous implementation and every original equation; their short timing measurements are supporting examples, not broad performance guarantees.
+
+Profiling measured 825 CPU seconds for incoming-row reduction and 27 CPU seconds for new pivot search. This motivated dependency-path replay. A 256 MiB route cache was correct but raised eight-loop kernel RSS to 2.186 GB; reclaiming free allocator pages reduced that to 2.060 GB, still above the desired tolerance. The final tested route budget is 64 MiB for every input. Unused glibc pages are reclaimed only after temporary owners are destroyed at joined phase boundaries; no live coefficient/input object is removed. The 100 ms RSS sampler missed short allocation peaks, so the new acceptance audit also uses kernel high-water marks.
+
+Validation against the available rational result is transitive through the prior forced-QQ-only reference audit. New timings include input loading, discovery, physical fitting, checkpoint writes, structural-plan I/O and all current final checks. Compilation, cold basis/RHS generation and a new rational reconstruction are excluded. No ten-loop job was changed or benchmarked here; the 50 GB decimal production limit remains in force.
+
+Replay remains sensitive to the existing time-based physics schedule: a changed emitted row stream safely falls back, but can erase the speed advantage. Future generic directions are packed/delta-encoded dependency routes, selecting cached routes by measured work per byte, and work-based scheduling. Full cross-stage implicit maps are still untested. These results do not establish a globally optimal solver.
+
+Reproducible profile: /home/ana/Documents/symbology/output_hexagon_v23_20261009/accepted-nine-loop-profile.json
+
+All measurements: /home/ana/Documents/symbology/output_hexagon_v23_20261009/RESULTS.json
+
+Reference bindings: /home/ana/Documents/symbology/output_hexagon_v23_20261009/reference-binding-audit.json
+
+Frozen source/build receipt: /home/ana/Documents/symbology/output_hexagon_v23_20261009/package-v26/v26-build-receipt.json

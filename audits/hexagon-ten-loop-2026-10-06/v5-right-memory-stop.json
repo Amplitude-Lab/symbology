@@ -1,0 +1,8 @@
+{
+  "status": "system-memory reserve stopped discovery; no complete native prime",
+  "last_reported_rank": 271597,
+  "invariant_coordinates": 518048,
+  "peak_RSS_GB": 34.938036224,
+  "wall_seconds": 2069.390347273089,
+  "trigger": "MemAvailable below 3 GiB, before the 50 GB process-tree RSS limit"
+}

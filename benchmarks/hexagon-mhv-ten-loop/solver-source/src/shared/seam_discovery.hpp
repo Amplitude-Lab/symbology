@@ -1,0 +1,116 @@
+#pragma once
+#include "staged_kernel.hpp"
+namespace staged_kernel {
+// Consume pivot rows while constructing the kernel. For trivial unsigned
+// field elements, default initialization creates storage without clearing it;
+// every live entry is assigned before use. This avoids an eager second copy
+// of the large RREF and releases each source row immediately after transfer.
+inline MM consume_modular_kernel(MM& a, const std::vector<std::vector<pivot_t<I>>>& pivots, const field_t& fp) {
+    std::vector<I> pr(a.ncol,-1),free(a.ncol,-1);
+    for(const auto& batch:pivots)for(auto [r,c]:batch)pr[c]=r;
+    size_t n=0;for(size_t c=0;c<a.ncol;++c)if(pr[c]<0)free[c]=index(n++);
+    MM k(n,a.ncol);std::vector<size_t> count(n,1);
+    for(size_t c=0;c<a.ncol;++c)if(pr[c]>=0)
+        for(auto [j,x]:a[pr[c]])if(size_t(j)!=c&&x){require(free[j]>=0,"consuming kernel needs RREF");++count[free[j]];}
+    static_assert(std::is_trivially_default_constructible_v<ulong>);
+    for(size_t i=0;i<n;++i){
+        k[i].indices=s_malloc<I>(count[i]);k[i].entries=s_malloc<ulong>(count[i]);
+        std::uninitialized_default_construct_n(k[i].entries,count[i]);
+        k[i]._alloc=count[i];k[i]._nnz=0;
+    }
+    for(size_t c=0;c<a.ncol;++c){
+        if(pr[c]<0)k[free[c]].push_back(index(c),fp.mod.n-1);
+        else {
+            auto& row=a[pr[c]];
+            for(auto [j,x]:row)if(size_t(j)!=c&&x)k[free[j]].push_back(index(c),x);
+            row.clear();
+        }
+    }
+    a.clear();return k;
+}
+
+template<class Source> MM discover_candidate(const Source& source, const field_t& fp, rref_option_t& options_rref, Options options, const std::vector<I>& variable_order = {}) {
+    auto opt=options_rref; auto pool=&opt->pool;
+    structured_kernel::Relations relations(source.ncol());
+    std::vector<I> columns(source.ncol());std::iota(columns.begin(),columns.end(),0);
+    if(!variable_order.empty()){
+        require(variable_order.size()==columns.size(),"Variable permutation dimension");
+        columns=variable_order;std::vector<unsigned char> used(columns.size());
+        for(auto c:columns){require(c>=0&&size_t(c)<columns.size()&&!used[c],"Invalid variable permutation");used[c]=1;}
+    }
+    require(options.seed_terms && options.seed_nonzeros, "staged front limits must be positive");
+    size_t n = 0;
+    for (auto c : columns) if (c >= 0) n = std::max(n, size_t(c) + 1);
+    auto start = std::chrono::steady_clock::now();
+    auto elapsed = [&]() { return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count(); };
+    auto seen = source.masks(options.remember_equations || options.sample_equations);
+    Selection selected{options.seed_terms};
+    streaming_echelon::Reducer reducer(n, fp, opt, options.batch_rows, options.batch_nonzeros);
+    MM a(0, n); size_t seed_nnz = 0, seed_rows = 0; bool seeded = false;
+    source.discover(relations, columns, fp, selected, seen, [&](MV&& row) {
+        ++seed_rows; seed_nnz += row.nnz();
+        if (seeded) reducer.consume(std::move(row));
+        else {
+            a.rows.push_back(std::move(row));
+            if (seed_nnz >= options.seed_nonzeros) {
+                a.nrow = a.rows.size(); reducer.seed(std::move(a)); seeded = true;
+            }
+        }
+    }, pool);
+    if (!seeded) { a.nrow = a.rows.size(); reducer.seed(std::move(a)); }
+    else reducer.flush_pending();
+    std::cout << "REFINE_SEED rows=" << seed_rows << " cols=" << n << " nnz=" << seed_nnz
+              << " bounded=" << seeded << " elapsed=" << elapsed() << std::endl;
+    struct Enough {};
+    size_t threshold = options.seed_terms;
+    bool complete_discovery = threshold == SIZE_MAX;
+    bool plateau = false;
+    while (n - reducer.rank() > options.target_nullity && !complete_discovery && !plateau) {
+        size_t zeros = reducer.prune_zeros();
+        auto active_columns = columns;
+        for (auto& c : active_columns) if (c >= 0 && reducer.is_zero(c)) c = -1;
+        selected.substitution = &reducer.substitution();
+        if (threshold == SIZE_MAX) selected.sample_shift = selected.sample_shift > 2 ? selected.sample_shift - 2 : 0;
+        else {
+            threshold = threshold >= 16384 ? SIZE_MAX : threshold * 4;
+            selected.sample_shift = options.sample_equations && threshold > options.complete_through_terms ? 4 : 0;
+        }
+        selected.max_terms = threshold;
+        std::cout << "REFINE_ZERO_SUBSTITUTION columns=" << zeros << " limit=" << threshold
+                  << " sample_denominator=" << (UINT64_C(1) << selected.sample_shift) << std::endl;
+        bool stopped = false;
+        size_t last_batch = reducer.completed_batches(), last_rank = reducer.rank(), stagnant = 0;
+        try {
+            source.discover(relations, active_columns, fp, selected, seen, [&](MV&& row) {
+                reducer.consume(std::move(row));
+                if (n - reducer.rank() <= options.target_nullity) throw Enough{};
+                if (reducer.completed_batches() != last_batch) {
+                    size_t gain = reducer.rank() - last_rank;
+                    stagnant = gain <= options.stagnation_rank_gain ? stagnant + 1 : 0;
+                    last_batch = reducer.completed_batches(); last_rank = reducer.rank();
+                    if (options.stagnation_batches && stagnant >= options.stagnation_batches
+                        && n - reducer.rank() <= options.max_residual_nullity) {
+                        plateau = true;
+                        std::cout << "REFINE_STAGNATION nullity=" << n - reducer.rank()
+                                  << " batches=" << stagnant << " elapsed=" << elapsed() << std::endl;
+                        throw Enough{};
+                    }
+                }
+            }, pool);
+        } catch (const Enough&) { stopped = true; }
+        reducer.flush_pending();
+        complete_discovery = !stopped && threshold == SIZE_MAX && !selected.sample_shift;
+        std::cout << "REFINE_DISCOVERY limit=" << threshold << " rank=" << reducer.rank()
+                  << " nullity=" << n - reducer.rank() << " elapsed=" << elapsed() << std::endl;
+    }
+    auto reduced = reducer.finish();
+    auto k = consume_modular_kernel(reduced.first, reduced.second, fp);
+    if(!variable_order.empty()){
+        std::vector<I> inverse(variable_order.size());
+        for(size_t c=0;c<variable_order.size();++c)inverse[variable_order[c]]=index(c);
+        for(auto& row:k.rows){for(auto& c:row.index_span())c=inverse[c];row.sort_indices();}
+    }
+    std::cout << "JOINT_DISCOVERY nullity=" << k.nrow << " complete=" << complete_discovery << " nnz=" << k.nnz() << std::endl;
+    return k;
+}
+}

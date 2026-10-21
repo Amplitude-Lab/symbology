@@ -1,0 +1,295 @@
+{
+  "schema": "hexagon-v18-result-v1",
+  "status": "validated_at_L8_L9",
+  "date_pacific": "2026-10-09",
+  "source_package": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/package",
+  "changes": [
+    "Direct factored residual contraction",
+    "Forward learning scan without restarting satisfied prefixes",
+    "Persistent independent source-row selection for later primes",
+    "Measured 3 GiB OPE head-cache configuration at nine loops"
+  ],
+  "scope": "Matched warm-basis native first-prime runs, one later prime, and same-checkpoint final-seam comparisons. Native heap for both variants. Not a cold basis-generation benchmark or a V18 ten-loop run.",
+  "threads": 16,
+  "physical_cache_mib": 4096,
+  "hard_memory_bytes": 20000000000,
+  "memory_high_bytes": 18000000000,
+  "virtual_address_gib": 96,
+  "production_memory_limit_bytes": 50000000000,
+  "production_modified": false,
+  "runs": [
+    {
+      "loop": 8,
+      "version": 17,
+      "label": "L8-V17-prime1",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 60.86079773899837,
+      "cpu_seconds": 459.421852,
+      "sampled_peak_rss_bytes": 1871241216,
+      "cgroup_peak_bytes": 2232819712,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": []
+    },
+    {
+      "loop": 8,
+      "version": 18,
+      "label": "L8-V18-prime1",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 58.90709040499496,
+      "cpu_seconds": 446.46459300000004,
+      "sampled_peak_rss_bytes": 1873801216,
+      "cgroup_peak_bytes": 2246766592,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": [
+        "V18_SEAM_COMPLETE replay=0 selected_rows=0 contractions=0 lifts=0 initial_directions=0 final_directions=0 solve_seconds=0.00105057 verify_seconds=0.589969"
+      ]
+    },
+    {
+      "loop": 8,
+      "version": 18,
+      "label": "L8-V18-prime2",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 59.63082474199473,
+      "cpu_seconds": 454.581481,
+      "sampled_peak_rss_bytes": 1870565376,
+      "cgroup_peak_bytes": 2235576320,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": [
+        "V18_SEAM_COMPLETE replay=1 selected_rows=0 contractions=0 lifts=0 initial_directions=0 final_directions=0 solve_seconds=0.000929248 verify_seconds=0.621277"
+      ]
+    },
+    {
+      "loop": 9,
+      "version": 17,
+      "label": "L9-V17-prime1",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 511.50194648499746,
+      "cpu_seconds": 5334.435031,
+      "sampled_peak_rss_bytes": 5956567040,
+      "cgroup_peak_bytes": 7482114048,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": []
+    },
+    {
+      "loop": 9,
+      "version": 18,
+      "label": "L9-V18-prime1",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 495.8947263480004,
+      "cpu_seconds": 5215.018685,
+      "sampled_peak_rss_bytes": 5950156800,
+      "cgroup_peak_bytes": 7451766784,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": [
+        "V18_SEAM_COMPLETE replay=0 selected_rows=380 contractions=372388 lifts=6 initial_directions=380 final_directions=0 solve_seconds=3.41688 verify_seconds=3.34145"
+      ]
+    },
+    {
+      "loop": 9,
+      "version": 18,
+      "label": "L9-V18-prime2",
+      "ope_cache_mib": 2048,
+      "wall_seconds": 493.36931843500497,
+      "cpu_seconds": 5193.330898,
+      "sampled_peak_rss_bytes": 5923684352,
+      "cgroup_peak_bytes": 7475675136,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": [
+        "V18_SEAM_COMPLETE replay=1 selected_rows=380 contractions=380 lifts=1 initial_directions=380 final_directions=0 solve_seconds=0.0396693 verify_seconds=3.33687"
+      ]
+    },
+    {
+      "loop": 9,
+      "version": 18,
+      "label": "L9-V18-cache3g-prime1",
+      "ope_cache_mib": 3072,
+      "wall_seconds": 467.4896414049945,
+      "cpu_seconds": 4830.655856,
+      "sampled_peak_rss_bytes": 5984108544,
+      "cgroup_peak_bytes": 7474229248,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "seam_results": [
+        "V18_SEAM_COMPLETE replay=0 selected_rows=380 contractions=372388 lifts=6 initial_directions=380 final_directions=0 solve_seconds=3.38832 verify_seconds=3.40436"
+      ]
+    }
+  ],
+  "phase_results": {
+    "L8-phase-v17": {
+      "mode": "v17",
+      "phase_seconds": 1.47028,
+      "initial_rows": 1,
+      "rows": 1,
+      "columns": 38989,
+      "nnz": 34419,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 133214
+    },
+    "L8-phase-v18-learn": {
+      "mode": "v18",
+      "phase_seconds": 0.56321,
+      "initial_rows": 1,
+      "rows": 1,
+      "columns": 38989,
+      "nnz": 34419,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 133214
+    },
+    "L8-phase-v18-replay": {
+      "mode": "v18",
+      "phase_seconds": 0.566498,
+      "initial_rows": 1,
+      "rows": 1,
+      "columns": 38989,
+      "nnz": 34419,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 133214
+    },
+    "L9-phase-v17": {
+      "mode": "v17",
+      "phase_seconds": 22.0746,
+      "initial_rows": 381,
+      "rows": 1,
+      "columns": 105898,
+      "nnz": 94807,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 372388
+    },
+    "L9-phase-v18-learn": {
+      "mode": "v18",
+      "phase_seconds": 6.98913,
+      "initial_rows": 381,
+      "rows": 1,
+      "columns": 105898,
+      "nnz": 94807,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 372388
+    },
+    "L9-phase-v18-replay": {
+      "mode": "v18",
+      "phase_seconds": 3.3911,
+      "initial_rows": 381,
+      "rows": 1,
+      "columns": 105898,
+      "nnz": 94807,
+      "all_coefficients_equal": true,
+      "original_rows_verified": 372388
+    }
+  },
+  "correctness": {
+    "bonus_assumption_unchanged": true,
+    "all_native_reference_coefficients_equal": {
+      "L8": 38989,
+      "L9": 105898
+    },
+    "primes": [
+      1152921504606847009,
+      1152921504606847067
+    ],
+    "exact_rational_reference_comparison": "Both newly calculated primes agree after exact split conversion and reduction of saved QQ references. New QQ reconstruction was not performed.",
+    "original_contraction_audit_rows_per_loop": 4224,
+    "synthetic_exact_rational_cases": 10,
+    "rejection_guards": 4,
+    "all_current_physical_holdouts_passed": true,
+    "independent_original_row_checks_in_phase_controls": {
+      "L8": 133214,
+      "L9": 372388
+    },
+    "actual_cross_prime_row_replay": {
+      "L9_selected_rows": 380,
+      "second_prime_contractions": 380,
+      "second_prime_lifts": 1,
+      "second_prime_solve_seconds": 0.0396693,
+      "second_prime_complete_verify_seconds": 3.33687
+    }
+  },
+  "resource_tuning": {
+    "L9-V17": {
+      "phase_file": "output_hexagon_v18_20261009/validation/L9-V17/diagnostics/1791532177299712391/phases.tsv",
+      "terminal_head_generations": 4,
+      "terminal_head_seconds": 76.3131,
+      "all_head_seconds": 126.20253433500001
+    },
+    "L9-V18": {
+      "phase_file": "output_hexagon_v18_20261009/validation/L9-V18/diagnostics/1791531681002498501/phases.tsv",
+      "terminal_head_generations": 4,
+      "terminal_head_seconds": 75.0645,
+      "all_head_seconds": 124.09687447499999
+    },
+    "L9-V18-cache3g": {
+      "phase_file": "output_hexagon_v18_20261009/validation/L9-V18-cache3g/diagnostics/1791533476254827788/phases.tsv",
+      "terminal_head_generations": 3,
+      "terminal_head_seconds": 56.971000000000004,
+      "all_head_seconds": 94.198727436
+    }
+  },
+  "first_prime_time_reductions_percent": {
+    "L8_matched_2g": 3.21012442587737,
+    "L9_matched_2g": 3.051253322543279,
+    "L9_algorithm_and_3g_cache": 8.604523478835658
+  },
+  "isolation_gate": {
+    "time": 1791533476.211227,
+    "backend_receipts": {
+      "mapped": "passed",
+      "heap": "passed"
+    },
+    "receipt_hashes": {
+      "mapped": "02fadabf7c179acfbb920674bff09aabd7b4334115b9d8edfe0af9f9d3962b7a",
+      "heap": "9c1e1d6180a0462f73056c1dd93aea1a8abaa889cc9a45b05904e19b58834e75"
+    }
+  },
+  "future_scope": [
+    "Controlled timing replication for uncertainty estimates",
+    "Full ten-loop V18 pilot before production selection",
+    "Partial/discovery structural replay and grouped pivot reuse are not implemented"
+  ]
+}

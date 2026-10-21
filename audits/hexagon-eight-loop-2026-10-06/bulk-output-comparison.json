@@ -1,0 +1,19 @@
+{
+  "byte_identical": true,
+  "baseline": {
+    "irrSEW_12p4_pe_A1.wxf": "6ec04f6bbc9a0f4109e61904dafc9279966cfe8018a2d4a79cd9fa43151d7dce",
+    "irrSEW_12p4_pe_A2.wxf": "c7ff5db9c8c8d08084f996f7a0bf6cd623d4e2b6db5d35956af22317e11f1fb7",
+    "irrSEW_12p4_pe_E.wxf": "2acf898f9bccd0e38b03003c550c585c8fbc5f487c5399cd7fe4ff20468596fb",
+    "irrSEW_12p4_po_A1.wxf": "f0850056484f60c89a5189a18c07efc08d6df4ffd23f50928a93a6f15b42fa79",
+    "irrSEW_12p4_po_A2.wxf": "b7c3419563f5ccc62873bce62917ed3a41aab046348c0572d09e5f63905d3458",
+    "irrSEW_12p4_po_E.wxf": "bca3d248f0221f3207639028e2780d3e3c7eea3d2664eb44e869e9e66995f2e4"
+  },
+  "factored": {
+    "irrSEW_12p4_pe_A1.wxf": "6ec04f6bbc9a0f4109e61904dafc9279966cfe8018a2d4a79cd9fa43151d7dce",
+    "irrSEW_12p4_pe_A2.wxf": "c7ff5db9c8c8d08084f996f7a0bf6cd623d4e2b6db5d35956af22317e11f1fb7",
+    "irrSEW_12p4_pe_E.wxf": "2acf898f9bccd0e38b03003c550c585c8fbc5f487c5399cd7fe4ff20468596fb",
+    "irrSEW_12p4_po_A1.wxf": "f0850056484f60c89a5189a18c07efc08d6df4ffd23f50928a93a6f15b42fa79",
+    "irrSEW_12p4_po_A2.wxf": "b7c3419563f5ccc62873bce62917ed3a41aab046348c0572d09e5f63905d3458",
+    "irrSEW_12p4_po_E.wxf": "bca3d248f0221f3207639028e2780d3e3c7eea3d2664eb44e869e9e66995f2e4"
+  }
+}

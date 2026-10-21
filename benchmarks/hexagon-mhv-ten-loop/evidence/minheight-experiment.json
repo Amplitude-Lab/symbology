@@ -1,0 +1,33 @@
+{
+  "schema": "hexagon-minheight-reconstruction-experiment-v1",
+  "passed": true,
+  "source_sha256": "951c93415462323e45b5a3a0c8392a60d12c79dbc9ba4535f4667beda30eeb76",
+  "modulus_bits": 361,
+  "CRT_primes": 6,
+  "retrospective_selection_or_check_primes": 2,
+  "native_coefficients": 275246,
+  "native_reference_mismatches": 0,
+  "holdout_mismatches": [
+    0,
+    0
+  ],
+  "controls": [
+    {
+      "reference": "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/eight-reference.canonical.tsv",
+      "sha256": "7480e0bfda219042a35c3c74f965abb30c057400b87721ba489c2df96f13e48c",
+      "coefficients": 69988,
+      "mismatches": 0
+    },
+    {
+      "reference": "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/nine-reference.canonical.tsv",
+      "sha256": "47928f1ea392488591586b57736178bd6335f34fd71188e516ecbb0a2692bef9",
+      "coefficients": 195155,
+      "mismatches": 0
+    }
+  ],
+  "maximum_individual_2ND_bits": 329,
+  "maximum_global_box_2ND_bits": 361,
+  "wall_seconds": 11.526021732999652,
+  "vector_sha256": "ce4491fcc1507d13a47051eb995469dc9a89aee0919a7577468de1734fa7a033",
+  "required_future_protocol": "Freeze this algorithm before future independent validation primes. Retrospective success does not relabel previously computed primes as fresh. This experiment does not replace the accepted seven-prime native export provenance."
+}

@@ -1,0 +1,85 @@
+All four directions implemented and tested in experimental V27; V26 remains the accepted nine-loop solver.
+
+The latest complete V27D profile averages 0.867992 CPU-hours per prime versus 0.874501 for fresh V26: 0.74% less CPU. Peak RSS is 6.010 versus 5.912 decimal GB. With eight workers, V27D averages 0.838348 CPU-hours and peaks at 5.374 GB. Neither passes the required strictly-greater-than-15% CPU saving, although both satisfy the 5% RSS tolerance. The new benchmark is V26, as explicitly requested; earlier savings versus V17 are not credited again.
+
+Measurements below use total process user+system CPU divided by 3600. Two-prime means combine a learning prime and a replay prime, not independent statistical repetitions. RSS is the larger of the 100 ms process sample and kernel process high-water mark. One native solve ran at a time; compilation and other numerical tests did not overlap these timings.
+
+Matched eight-worker first-prime control: V26 0.869639, V27D 0.845487 CPU-hours (2.78% saving). Peak RSS is 5.389 and 5.328 GB, respectively. This is a single-prime comparison, separate from the main two-prime/16-worker baseline.
+
+Nine-loop measurements: suite, workers, primes, mean CPU-hours, peak GB, mean wall seconds
+
+ablations-c/L9-without-schedule                16  1   0.899015    5.968     306.6
+
+final-comparisons/L9-V26-eight-workers          8  1   0.869639    5.389     521.7
+
+final-comparisons/L9-eight-workers              8  2   0.838348    5.374     468.7
+
+final-comparisons/L9-without-compression       16  1   0.890178    5.976     307.5
+
+final-comparisons/L9-without-kernels           16  1   0.906910    5.896     343.7
+
+final-comparisons/L9-without-routes            16  2   0.882582    6.021     302.6
+
+final-comparisons/L9-without-schedule          16  1   0.876271    5.948     301.5
+
+suite-a/L9-V26                                 16  2   0.874501    5.912     325.3
+
+suite-b/L9-V27                                 16  2   1.103377    6.176     381.3
+
+suite-c/L9-V27                                 16  2   0.889249    6.036     302.3
+
+suite-d/L9-V27                                 16  2   0.867992    6.010     297.2
+
+Ablations, same first prime and 16 workers. Positive values mean enabling the named feature reduced CPU; negative values mean it increased CPU. These are local effects with other features enabled, and must not be added together.
+
+kernels        enabled 0.877439; disabled 0.906910; enabling saving +3.25%
+
+compression    enabled 0.877439; disabled 0.890178; enabling saving +1.43%
+
+schedule       enabled 0.877439; disabled 0.876271; enabling saving -0.13%
+
+routes         enabled 0.877439; disabled 0.883068; enabling saving +0.64%
+
+Packed routes, learning plus replay: 0.867992 CPU-hours/prime versus legacy routes 0.882582; enabling packed routes saves 1.65% in this pair.
+
+First-prime phase CPU seconds (phase timers are nested; do not sum all PROFILE records): V26/16, V27D/16, V27D/8
+
+compute_discovery                 930.056   1112.650    868.333
+
+compute_early_collinear           725.604    556.781    662.877
+
+compute_early_mrk                 282.442    276.208    226.085
+
+compute_early_ope_small_s         996.143   1007.630   1115.310
+
+compute_seam_complete              42.743     42.566     36.957
+
+Discovery illustrates the CPU/wall tradeoff: V26/16 used 930.056 CPU seconds in 126.644 wall seconds; V27D/16 used 1112.65 CPU seconds in 104.756 wall seconds. V27D/8 used 868.333 CPU seconds in 140.247 wall seconds. Greater worker utilization and shorter elapsed time do not by themselves meet the requested CPU-hour objective. A phase-dependent worker policy remains an untested follow-up; these observations do not establish the hardware-level cause of the scaling difference.
+
+Numerical kernels: exact hierarchical bit queue, work-balanced row ranges, reusable per-worker projection scratch, exact density-based sparse/dense dispatch, and delayed 128-bit modular accumulation with exact overflow correction. Fields larger than 61 bits use the existing canonical reduction path. Dependency hints always finish by checking all residual pivots. The arithmetic core does not depend on amplitude, loop order, expected rank or a known answer.
+
+Physical scheduling: input-nonzero triggers and measured rank gain per arithmetic work replace clock deadlines when enabled. Physical work competes with seam reduction, including retained fill. Persistent cycles and recorded task/stop decisions make structural replay reproducible. The initial work-budget-only V27B policy admitted expensive MRK/OPE work too early and regressed badly at nine loops. V27C/D added the competition with seam work. It remains a heuristic, not a proof of an optimal schedule.
+
+Exact compression: a reusable augmented feature-space row-span compressor validates each discarded equation with an explicit exact combination of source rows. Every RHS/origin column participates. It is connected to direct collinear discovery, the existing collinear suffix projection, and a conservative MRK polynomial-convolution adapter. MRK targets stayed full rank in these workloads, so that extension saved no projection rows. Independent physical checks still generate their complete original target lists. This removes redundant equations; it introduces no new physical constraints or bonus-relation assumptions.
+
+Dependency routes: delta-varint encoding and estimated coefficient updates saved per stored byte select retained batches. A rejected candidate does not evict useful routes. The retained accounting budget is 64 MiB, with an 8 MiB logical learning budget; allocator and vector-capacity overhead are included in measured RSS. Incomplete routes are valid hints and must finish with exact residual elimination. Turning this feature off restores the legacy prefix-admission cache, not an absence of structural replay.
+
+Eight-loop cross-instance result: 0.063614 CPU-hours versus V26 0.099578, a 36.12% reduction, with 1.784 versus 1.902 GB peak RSS. This useful lower-loop result does not satisfy the separate nine-loop adoption criterion.
+
+Correctness: all new complete native runs reproduce all 38,989 eight-loop or 105,898 nine-loop reference coefficients. Complete original seam sweeps and fresh collinear, MRK and OPE checks pass. Source/binary hashes, coefficients, plan checksums, timing receipts and reference bindings were rechecked when sealing this report. No cgroup pressure or OOM event occurred. The prior forced-QQ reference binding is preserved; no new rational reconstruction was timed.
+
+Generic controls: 96 field cases, 48 successful structural replays, two exceptional-prime guarded fallbacks and 72 affine-map cases passed with both new and legacy switches. Additional controls cover 144 augmented compression cases, 64 deterministic schedules, 756,718 ordered-queue operations, worker ownership/exception propagation, packed-budget eviction and malformed-plan checks, exact density aliasing, persistent schedule cycles and 5,077 deliberately exercised wide-accumulator overflow corrections against canonical arithmetic.
+
+Failed alternatives are retained: A used uniform density sampling that aliased polynomial layouts; B corrected density but scheduled costly physical work too early; C added competition with seam work; D added exact delayed modular accumulation. All completed variants were numerically correct. Corrections were built into new package directories; timed binaries and outputs were not overwritten.
+
+Scope and resources: warm precomputed basis/RHS inputs; 16 workers unless explicitly labeled eight; 4 GiB physics and 3 GiB OPE-head caches; heap backend; one prime process at a time; 20 GB decimal benchmark cgroup maximum, 18 GB high threshold and no swap. Full input loading, checks, checkpoints and learning/replay I/O are included. Cold input generation, compilation and a new QQ reconstruction are excluded. Hardware counters were unavailable, so phase scaling does not establish measured cache-miss or memory-bandwidth rates. No ten-loop job was modified or benchmarked; its 50 GB decimal limit remains in force.
+
+These measurements do not establish universal speedups or global optimality. The reusable implementations are retained for further work, but the current nine-loop profile stays V26. Further experiments should target the profiled incoming-row reduction and physical projection costs, with complete CPU/RSS comparisons before adoption.
+
+Experimental profile: /home/ana/Documents/symbology/output_hexagon_v27_20261009/experimental-profile.json
+
+All measurements: /home/ana/Documents/symbology/output_hexagon_v27_20261009/RESULTS.json
+
+Reference bindings: /home/ana/Documents/symbology/output_hexagon_v27_20261009/reference-binding-audit.json
+
+Frozen source/build receipt: /home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/v27-build-receipt.json

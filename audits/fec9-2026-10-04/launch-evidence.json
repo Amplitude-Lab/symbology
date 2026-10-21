@@ -1,0 +1,485 @@
+{
+  "manifest.json": {
+    "prepared_utc": "2026-10-04T16:20:59.696404+00:00",
+    "branch": "symrep-solver-dev",
+    "base_commit": "ac664bba85f887c6255b940556c9952f6ed02b67",
+    "inputs": [
+      {
+        "path": "data/dlogmat_E6.wxf",
+        "bytes": 27409,
+        "sha256": "d387550772cfd3fda887cef23b1bf53b1676a82d9228ca39b8b7efb9ab7514b1",
+        "matches_prior_input": "data/dlogmat_E6.wxf"
+      },
+      {
+        "path": "output_fiveloop_20261003/FEC_8.wxf",
+        "bytes": 1653307317,
+        "sha256": "13dabeb82f12b8ead93f5e31444405708f5c8144b59c365405838d6567cc3724",
+        "matches_prior_input": "output_earlysew_20261003/chain/FEC_8.wxf"
+      }
+    ],
+    "sources": [
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/.gitignore",
+        "bytes": 7060,
+        "sha256": "765d0755c9547542d0fc1d0717b4f8e85c8418ce9a86c654cc3e75058840acb3"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/LICENSE",
+        "bytes": 1086,
+        "sha256": "42dd466cbd35a0582f87440f5f073ed9661f7ccbd5ffe86b9f1a1e75709df672"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/README.md",
+        "bytes": 8589,
+        "sha256": "7e7ba5293f2a6c750e382efc428a99e51633836d63b839dba5b6d83213754b66"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/SparseRREF.wl",
+        "bytes": 19564,
+        "sha256": "fa9fc8dfba04f60ec6dd8cf87857cde7952ea6f8edfdd5ef8b7fd597a2611431"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/argparse.hpp",
+        "bytes": 84505,
+        "sha256": "a7016adbe2bf16c2b5b60aa974158dbf652a0c4f4e328481d08970c866e18c78"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/benchmark/spasm_rref.cpp",
+        "bytes": 2030,
+        "sha256": "617d69b2bbf28e8cbbc8d7d924e045f60ca196ce15e19a1c30c7bb43906df2c3"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/main.cpp",
+        "bytes": 10661,
+        "sha256": "4c1608112c0fe40e6f5ed604e033a6823c6976794279ea0abcc9f09bc5f03707"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/scalar.h",
+        "bytes": 24964,
+        "sha256": "c47e12bf07f57584c4f7dffd3b70b7049edd0990a08631cbd56de5e239e9784c"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sparse_mat.h",
+        "bytes": 68109,
+        "sha256": "792c6cf0d7aad03b246ba50d8bb41028e04d5c50d10ed828bc9fb392d1c7fdeb"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sparse_rref.h",
+        "bytes": 16461,
+        "sha256": "ba0d4c0990a9b8f383481e6d9ea914e4b2c1b437f0e99cbb5265276ba9e5890e"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sparse_tensor.h",
+        "bytes": 28084,
+        "sha256": "d3b7a8b5245b13e9ee301e1a53ac75f45e04f032d70a1fc510fd7b39d3bcab4c"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sparse_type.h",
+        "bytes": 99078,
+        "sha256": "4afe6e44eb2e4b4792f4acc8964eb0dd17d5ffa8fab439a685e5288899e35ce9"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sparse_vec.h",
+        "bytes": 9829,
+        "sha256": "102024c01d92f87bddb6fabb17efc49df8bdc7de38ddc17416cfac6a733f2598"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/sprreflink.cpp",
+        "bytes": 26603,
+        "sha256": "cfde92552df274c1fa6e6fb7c4f88a5cfdc25d476749aa88dfa91ef0ee60f139"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/thread_pool.hpp",
+        "bytes": 113314,
+        "sha256": "38214cd5308ec016173ff2edd911f479f30fd91eaf143c0452275cc52bdcf58a"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/wxf_parser.h",
+        "bytes": 40076,
+        "sha256": "eb876c8c34134e98a95b587ab751ea2dfb71a0824f51802d2abe33428350e60a"
+      },
+      {
+        "path": "output_fec9_20261004/sources/SparseRREF/wxf_support.h",
+        "bytes": 26936,
+        "sha256": "93a6d0b3adcebccef1ff246c66787f850e3f37840183219f2f48f200323c938e"
+      },
+      {
+        "path": "output_fec9_20261004/sources/bootstrap.hpp",
+        "bytes": 15013,
+        "sha256": "8e6491b3448e23fa35e97ad2b0a17b5ba6d6f804105e1ea086183588b5dec834"
+      },
+      {
+        "path": "output_fec9_20261004/sources/certified_kernel.hpp",
+        "bytes": 8273,
+        "sha256": "66b623f6935d7fdd0371027bc1e328492191439353b657393cb859816663f7d9"
+      },
+      {
+        "path": "output_fec9_20261004/sources/compute_rhs.hpp",
+        "bytes": 40395,
+        "sha256": "77fb6b9d22b6f2ed0644f3e61f5b310494b0b8678fe7acd03ef24373cdbdeb84"
+      },
+      {
+        "path": "output_fec9_20261004/sources/early_sew.hpp",
+        "bytes": 2585,
+        "sha256": "079c577d0b84c73cf4d926554ff1e2a8d47df1acd61ba4e43e7e47f25d26b40a"
+      },
+      {
+        "path": "output_fec9_20261004/sources/incremental_solve.hpp",
+        "bytes": 21599,
+        "sha256": "01098e232e4f040bda7bbcbf7d0cbd4aabbdc38f0c5aa3fc3f302d6110cc0c77"
+      },
+      {
+        "path": "output_fec9_20261004/sources/linear_solve.hpp",
+        "bytes": 12471,
+        "sha256": "18117823a1df457fab9d09ef41da7c78b46dacd8a76f3d02f9ede2e6124d92c5"
+      },
+      {
+        "path": "output_fec9_20261004/sources/measure_process.py",
+        "bytes": 5744,
+        "sha256": "3ac237fe18be2482989f663af82227aa8a5c63ca2762b1ef50d70d48ed150e78"
+      },
+      {
+        "path": "output_fec9_20261004/sources/native_cache.hpp",
+        "bytes": 6481,
+        "sha256": "54131e4496d41976af273ae79843ea8dd845ad87d8e6365536869c7959529456"
+      },
+      {
+        "path": "output_fec9_20261004/sources/numeric_parse.hpp",
+        "bytes": 1088,
+        "sha256": "ec3c28ebe81304205cb91388c4734e436c32217e15df3dd38d231fcde1c97ddc"
+      },
+      {
+        "path": "output_fec9_20261004/sources/packed_shuffle.hpp",
+        "bytes": 3387,
+        "sha256": "d9785aea36122202b1c4348147e39712eb2697ce7f665b3e2f9d52d504e4487c"
+      },
+      {
+        "path": "output_fec9_20261004/sources/process_budget_probe.py",
+        "bytes": 6046,
+        "sha256": "00b82ce95caad1aa0271857512bfddda27924104b8f67163fa5dde6d9d76c91c"
+      },
+      {
+        "path": "output_fec9_20261004/sources/product_invariance.hpp",
+        "bytes": 8875,
+        "sha256": "5a3dbd24e0f4fe9a5b48897941f1205576000db821cdac1857a94e212dc2fe09"
+      },
+      {
+        "path": "output_fec9_20261004/sources/projection.hpp",
+        "bytes": 26619,
+        "sha256": "ff531745b7ef0f59c4c0fddd2f68d978c709fb5b1a0a6eb3eb4e8f755c33999e"
+      },
+      {
+        "path": "output_fec9_20261004/sources/recursive_word_chart.hpp",
+        "bytes": 7362,
+        "sha256": "ae6d7edfa657637dbf0c0ddcdd739b9529bab6d5142da700f1d95dd59bba5e83"
+      },
+      {
+        "path": "output_fec9_20261004/sources/restricted_projection.hpp",
+        "bytes": 2940,
+        "sha256": "e5334c5a1b0aa342a14321453da4f07d8d8821c4dd3fccc103978a2b3fa0548d"
+      },
+      {
+        "path": "output_fec9_20261004/sources/run_pipeline.py",
+        "bytes": 5828,
+        "sha256": "24cfdc1678d1ddcbaefb8e846e26a5ac1a15753b0db2ee9d343b2f2d9b8abe3b"
+      },
+      {
+        "path": "output_fec9_20261004/sources/solve_collinear.hpp",
+        "bytes": 63052,
+        "sha256": "38f826c513076d94bb051d8c81220ce193ce75476c9344fb8a34eb49a7fd1843"
+      },
+      {
+        "path": "output_fec9_20261004/sources/solve_symmetry.hpp",
+        "bytes": 7648,
+        "sha256": "a847d0e13632a025467cc14e2887be19aa324b69839249301c8f6207baa96299"
+      },
+      {
+        "path": "output_fec9_20261004/sources/staged_kernel.hpp",
+        "bytes": 16450,
+        "sha256": "be7c7816ce9a908e8b47d24f73bfe5c297328bce5902b05a10779ca78f80ba69"
+      },
+      {
+        "path": "output_fec9_20261004/sources/staged_matrix.hpp",
+        "bytes": 6341,
+        "sha256": "6b770a41102ebed7e84a8a0daabb9f589793335df99380fcab4963a0f598dcad"
+      },
+      {
+        "path": "output_fec9_20261004/sources/streaming_echelon.hpp",
+        "bytes": 8233,
+        "sha256": "57d60d033944551984789adaba71b65f72533b08cb3ac4379c19c2a476aabea4"
+      },
+      {
+        "path": "output_fec9_20261004/sources/streaming_kernel_benchmark.cpp",
+        "bytes": 3379,
+        "sha256": "cd565eecc5f39a505113f7b6b6e7b38335ccbbb19c001e72c5522eca5fa26765"
+      },
+      {
+        "path": "output_fec9_20261004/sources/structured_kernel.hpp",
+        "bytes": 9536,
+        "sha256": "df97da3d1bea8566419a14f423cf790099d495caa3179813e474f00e953151a0"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep.hpp",
+        "bytes": 40957,
+        "sha256": "fc8ba583c2ae0d555807a48378cc6bfb0bc2a1eff15b22d25114036610616a16"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep_bootstrap.hpp",
+        "bytes": 44841,
+        "sha256": "0fab1526c1d5e1dc7c7cb642f40b87d7adb64f57bc15a9f3ad8b1bea49e1ba29"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep_carrier.hpp",
+        "bytes": 34602,
+        "sha256": "bcac208041fdc33a4d53a31cb9add70f7b5cca84bb56f3b7a51cb13502af0ee7"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep_io.hpp",
+        "bytes": 18354,
+        "sha256": "ebceb2ae7cec2246ef98aacb6489c7915b1b107ec83f6e15432f250fed0dc527"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep_multiplicity.hpp",
+        "bytes": 13756,
+        "sha256": "2f89389529f665712b25bede496e8d56eb07f0a000e5f408a4c61b329d5481ad"
+      },
+      {
+        "path": "output_fec9_20261004/sources/symrep_orbits.hpp",
+        "bytes": 30455,
+        "sha256": "c99f404386632b3064ee4b1d89d73261009c02a0df3e7c28d6771d018e1568a4"
+      },
+      {
+        "path": "output_fec9_20261004/sources/tensor_expand.hpp",
+        "bytes": 5679,
+        "sha256": "3d4349aafbe15a24f8e56027c4d34cf3b9fbc61eaacdff9ae6eb1cfce2defcc9"
+      },
+      {
+        "path": "output_fec9_20261004/sources/tensor_kernel.hpp",
+        "bytes": 21312,
+        "sha256": "4a7385b5beaed918c8a5d6eada20a9da99fc4ddd59888ab7ab05ab84aca1a84d"
+      }
+    ],
+    "algorithm": "Full FEC forward extension with staged exact kernel; no invariance restriction; input tensor released after factored source construction",
+    "workers": 8,
+    "virtual_limit_gib": 50,
+    "rss_limit_gib": 50,
+    "min_available_gib": 4,
+    "wall_limit_seconds": 86400,
+    "binaries": [
+      {
+        "path": "output_fec9_20261004/bin/measure_process.py",
+        "bytes": 5744,
+        "sha256": "3ac237fe18be2482989f663af82227aa8a5c63ca2762b1ef50d70d48ed150e78"
+      },
+      {
+        "path": "output_fec9_20261004/bin/nmhv_kernel_check",
+        "bytes": 763800,
+        "sha256": "e1634a506a58ff8920fe4df7a0b3662a4b015ed179532e04d75b2d20db62763c"
+      },
+      {
+        "path": "output_fec9_20261004/bin/run_pipeline.py",
+        "bytes": 5828,
+        "sha256": "24cfdc1678d1ddcbaefb8e846e26a5ac1a15753b0db2ee9d343b2f2d9b8abe3b"
+      },
+      {
+        "path": "output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "bytes": 921648,
+        "sha256": "d094ef31d057146c75893102951ff9970a461ec2d24fb2f3db3c02385cddb82d"
+      }
+    ],
+    "controls": "controls.json"
+  },
+  "controls.json": [
+    {
+      "name": "budget-guards",
+      "command": [
+        "python3",
+        "tests/process_budget_probe.py"
+      ],
+      "exit_code": 0,
+      "seconds": 2.1230548601597548,
+      "log": "output_fec9_20261004/control/budget-guards.log"
+    },
+    {
+      "name": "forward",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "forward",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop/FEC_4.wxf",
+        "-",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/forward.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.21922137029469013,
+      "log": "output_fec9_20261004/control/forward.log"
+    },
+    {
+      "name": "forward-staged",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "forward-staged",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop/FEC_4.wxf",
+        "-",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/forward-staged.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.2654272769577801,
+      "log": "output_fec9_20261004/control/forward-staged.log"
+    },
+    {
+      "name": "forward-space",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/nmhv_kernel_check",
+        "sew-compare",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/forward.wxf",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/forward-staged.wxf"
+      ],
+      "exit_code": 0,
+      "seconds": 0.11598468432202935,
+      "log": "output_fec9_20261004/control/forward-space.log"
+    },
+    {
+      "name": "backward",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "backward",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/data/LEC_1.wxf",
+        "-",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/backward.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.01778279896825552,
+      "log": "output_fec9_20261004/control/backward.log"
+    },
+    {
+      "name": "backward-staged",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "backward-staged",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/data/LEC_1.wxf",
+        "-",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/backward-staged.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03215075097978115,
+      "log": "output_fec9_20261004/control/backward-staged.log"
+    },
+    {
+      "name": "backward-space",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/nmhv_kernel_check",
+        "sew-compare",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/backward.wxf",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/backward-staged.wxf"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03232426010072231,
+      "log": "output_fec9_20261004/control/backward-space.log"
+    },
+    {
+      "name": "sew",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "sew",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop/FEC_3.wxf",
+        "/home/ana/Documents/symbology/data/LEC_1.wxf",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/sew.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.0326114590279758,
+      "log": "output_fec9_20261004/control/sew.log"
+    },
+    {
+      "name": "sew-staged",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+        "sew-staged",
+        "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+        "/home/ana/Documents/symbology/output_nmhv_kernel_20261002/default-fourloop/FEC_3.wxf",
+        "/home/ana/Documents/symbology/data/LEC_1.wxf",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/sew-staged.wxf",
+        "0",
+        "0",
+        "8"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03222531219944358,
+      "log": "output_fec9_20261004/control/sew-staged.log"
+    },
+    {
+      "name": "sew-space",
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/bin/nmhv_kernel_check",
+        "sew-compare",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/sew.wxf",
+        "/home/ana/Documents/symbology/output_fec9_20261004/control/sew-staged.wxf"
+      ],
+      "exit_code": 0,
+      "seconds": 0.007785683963447809,
+      "log": "output_fec9_20261004/control/sew-space.log"
+    }
+  ],
+  "config.json": {
+    "run_directory": "/home/ana/Documents/symbology/output_fec9_20261004",
+    "working_directory": "/home/ana/Documents/symbology",
+    "measure_program": "/home/ana/Documents/symbology/output_fec9_20261004/bin/measure_process.py",
+    "deadline_unix_seconds": 1791217333.826571,
+    "virtual_gib": 50,
+    "rss_gib": 50,
+    "min_available_gib": 4,
+    "stages": [
+      {
+        "name": "fec9",
+        "command": [
+          "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+          "forward-staged",
+          "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+          "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+          "-",
+          "/home/ana/Documents/symbology/output_fec9_20261004/FEC_9.wxf",
+          "0",
+          "0",
+          "8"
+        ],
+        "required_outputs": [
+          "/home/ana/Documents/symbology/output_fec9_20261004/FEC_9.wxf"
+        ],
+        "success_markers": [
+          "KERNEL dimension=",
+          "exact_certificate=complete_factored_residues_plus_height"
+        ]
+      }
+    ]
+  },
+  "controller-launch.json": {
+    "controller_pid": 1084509,
+    "launched_unix_seconds": 1791130933.8271098,
+    "deadline_unix_seconds": 1791217333.826571,
+    "config_sha256": "158000446bfdd6a9e3b3281a4a83dacf8b13cc4aea59ac2f63c1bd141c0d8fef",
+    "command": [
+      "python3",
+      "/home/ana/Documents/symbology/output_fec9_20261004/bin/run_pipeline.py",
+      "/home/ana/Documents/symbology/output_fec9_20261004/config.json"
+    ]
+  }
+}

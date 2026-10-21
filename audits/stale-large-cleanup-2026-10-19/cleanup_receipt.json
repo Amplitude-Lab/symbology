@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "files_removed": 37,
+  "allocated_bytes_removed": 51291713536,
+  "logical_bytes_removed": 848047900912,
+  "observed_free_bytes_change": 51291684864,
+  "categories": {
+    "abandoned_git_temporary_file": {
+      "files": 29,
+      "allocated_bytes_removed": 23414366208
+    },
+    "expired_solver_scratch_arena": {
+      "files": 8,
+      "allocated_bytes_removed": 27877347328
+    }
+  },
+  "wall_seconds": 0.24641895294189453,
+  "git_before": {
+    "HEAD": "7f18e01e1c59a52997331a944aa0e8dba3bfa1fa",
+    "refs": "b7de2203992cf5b807f4a2d19d29ff61aa9c9083 refs/codex/turn-diffs/captures/1792402916612/8465d032-5b15-48d4-aa27-f006119c3903/base\n7da9087a148a164bd4ef87dde7597cbd9ab63c80 refs/codex/turn-diffs/checkpoints/5abab4f05f0e7a3bea2356627824f7f3/f8b6afc9f88286d18f8296c4ecb3907e/1791988302975/f2eba5fa-9ac5-4048-8f9f-7a3fb784e6f2\nb914b2fb2b002e7e10ce63cdf903bf3c5bb6b3b0 refs/codex/turn-diffs/checkpoints/6ccce9390af1b2a133426a597bc6364f/3fc850e688305f830177d062c721b733/1792375853942/25d21fb9-f035-47ba-a007-ebacf0b28108\n2bd8f2cd552ee78c68a4698dffd16b10d9113e07 refs/codex/turn-diffs/checkpoints/912888ef49ebaa0139e6c2e804f05010/3418ceb3521a54ef2bdaba73fa7abc8a/1792288745592/58fe5674-2dcb-4d6f-9c6c-101fce145bb1\nb1ae786678831f98052b6ede9d67b5fc252146aa refs/codex/turn-diffs/checkpoints/fbb03125bc1af57e320c273fa03d6a78/7187bb7000f862852c96bc0859846916/1791961366424/06097aff-4dd5-40d0-9e6f-3c978779f039\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/heads/4pformfactor\nac664bba85f887c6255b940556c9952f6ed02b67 refs/heads/front-end-dev\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/heads/symrep-solver-dev\n5801c33fb996d4243bd4bb419e083f8f9a7524d3 refs/remotes/origin/HEAD\n3b991a6d6311cb02e02aed186a9e259f21916d46 refs/remotes/origin/front-end-dev\n5801c33fb996d4243bd4bb419e083f8f9a7524d3 refs/remotes/origin/main\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/remotes/origin/symrep-solver-dev\n",
+    "tracked_status": " M .gitignore\n M bench/split_character_extension.cpp\n M data_pentagon/Description.md\n M tensor_kernel.hpp\n M tests/tensor_kernel_probe.cpp\n",
+    "index_sha256": "e1746e09665b8ccd87a955078c7060c9fbd35b25a173cf2eb01a778a47115832"
+  },
+  "git_after": {
+    "HEAD": "7f18e01e1c59a52997331a944aa0e8dba3bfa1fa",
+    "refs": "b7de2203992cf5b807f4a2d19d29ff61aa9c9083 refs/codex/turn-diffs/captures/1792402916612/8465d032-5b15-48d4-aa27-f006119c3903/base\n7da9087a148a164bd4ef87dde7597cbd9ab63c80 refs/codex/turn-diffs/checkpoints/5abab4f05f0e7a3bea2356627824f7f3/f8b6afc9f88286d18f8296c4ecb3907e/1791988302975/f2eba5fa-9ac5-4048-8f9f-7a3fb784e6f2\nb914b2fb2b002e7e10ce63cdf903bf3c5bb6b3b0 refs/codex/turn-diffs/checkpoints/6ccce9390af1b2a133426a597bc6364f/3fc850e688305f830177d062c721b733/1792375853942/25d21fb9-f035-47ba-a007-ebacf0b28108\n2bd8f2cd552ee78c68a4698dffd16b10d9113e07 refs/codex/turn-diffs/checkpoints/912888ef49ebaa0139e6c2e804f05010/3418ceb3521a54ef2bdaba73fa7abc8a/1792288745592/58fe5674-2dcb-4d6f-9c6c-101fce145bb1\nb1ae786678831f98052b6ede9d67b5fc252146aa refs/codex/turn-diffs/checkpoints/fbb03125bc1af57e320c273fa03d6a78/7187bb7000f862852c96bc0859846916/1791961366424/06097aff-4dd5-40d0-9e6f-3c978779f039\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/heads/4pformfactor\nac664bba85f887c6255b940556c9952f6ed02b67 refs/heads/front-end-dev\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/heads/symrep-solver-dev\n5801c33fb996d4243bd4bb419e083f8f9a7524d3 refs/remotes/origin/HEAD\n3b991a6d6311cb02e02aed186a9e259f21916d46 refs/remotes/origin/front-end-dev\n5801c33fb996d4243bd4bb419e083f8f9a7524d3 refs/remotes/origin/main\n7f18e01e1c59a52997331a944aa0e8dba3bfa1fa refs/remotes/origin/symrep-solver-dev\n",
+    "tracked_status": " M .gitignore\n M bench/split_character_extension.cpp\n M data_pentagon/Description.md\n M tensor_kernel.hpp\n M tests/tensor_kernel_probe.cpp\n",
+    "index_sha256": "e1746e09665b8ccd87a955078c7060c9fbd35b25a173cf2eb01a778a47115832"
+  },
+  "git_state_unchanged": true,
+  "git_connectivity_passed": true,
+  "remaining_git_garbage_report": "",
+  "protected_large_files_checked": 580,
+  "changed_protected_large_files": [],
+  "document_sha256": {
+    "research/4pformfactor/tex/cluster_symbols.tex": "5a9cd511f6d4e899ef47404378cb0632c589d89b0801989c76d89866aacc00c6",
+    "research/4pformfactor/tex/cluster_symbols.pdf": "81d736c5d305a750266dab3a5892d0ab696b6f68fc450e98969c4e000fc0dd6d",
+    "research/4pformfactor/tex/cluster_symbols_all_loop.tex": "2741eb16547df3edb4d017ce143208721c68506a2b2bc698f4a7fde73ba9022a",
+    "research/4pformfactor/tex/cluster_symbols_all_loop.pdf": "fbafd95b1cc38dbe1f27e82fef837dad789a1c0642b3f39d79edb11e3f9f8d22"
+  },
+  "changed_documents": [],
+  "preserved": "All durable numerical checkpoints, coefficients, final outputs, sources and provenance; entire current V27D run."
+}

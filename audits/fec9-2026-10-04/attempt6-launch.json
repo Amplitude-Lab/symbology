@@ -1,0 +1,12 @@
+{
+  "controller_pid": 1176632,
+  "config_sha256": "1ed1c0aec791f9770b893e420c344710f4bac6c68b48016768dd824034f90bbd",
+  "binary_sha256": "95a7d8b499463b63f983b0fc47d21c6b7bda5ddc8d49ac1c5ce0a34a4c987e5f",
+  "launched_unix_seconds": 1791185254.9736366,
+  "deadline_unix_seconds": 1791217333.826571,
+  "command": [
+    "/usr/bin/python3",
+    "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/bin/run_pipeline.py",
+    "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/config.json"
+  ]
+}

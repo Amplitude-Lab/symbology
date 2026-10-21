@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_physical_holdouts",
+    "14",
+    "4",
+    "/home/ana/Documents/symbology/output_hexagon_14p4_20261006/cached-nine/joint",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/control-L9-mrk",
+    "1152921504606947147",
+    "202610090731",
+    "8",
+    "mrk",
+    "1"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 4.517317575999186,
+  "peak_summed_rss_bytes": 1060114432,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 24.78058,
+  "cpu_system_seconds": 0.744197,
+  "max_processes": 1,
+  "virtual_limit_gib": 128
+}

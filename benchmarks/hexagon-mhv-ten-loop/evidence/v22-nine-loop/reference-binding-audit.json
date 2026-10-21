@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "QQ_snapshot_and_original_files_verified": 15,
+  "QQ_cache_directory_absent": true,
+  "shift_bindings": [
+    {
+      "prime": 1152921504606847009,
+      "native_sha256": "e6a1a943d9651342dd99b091cf514468c36ace608748a479068cec1aea89e8e0",
+      "shifted_sha256": "6e9f818928b5070968eb945792962fba9d7c3451ba43dd6570dc00fe91b7857b"
+    },
+    {
+      "prime": 1152921504606847067,
+      "native_sha256": "ab4d6d0191074ffbe36fdf26551a6dfaaff3a508530323e6afbf6e92d2a7a50b",
+      "shifted_sha256": "719f02b0eb7241adc3921c694467fb3922176350b1aaaef8742b9397906956ba"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "hexagon-ten-conditional-asymmetric-certificate-v1",
+  "qq_root": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4",
+  "created": 1791524922.7174582,
+  "rational_reconstruction": {
+    "CRT_primes": 6,
+    "fresh_validation_primes": 2,
+    "candidate_sha256": "97355630801f12642cc284e46862af5239fe2dd5d98f3ca330752e511fca07d8",
+    "candidate_frozen_before_validation_primes_completed": true
+  },
+  "exact_original_target_seam": {
+    "exact_QQ_original_target_seam": true,
+    "shift_source_hash_receipts_verified": true,
+    "directions": 0,
+    "original_rows": 4196956,
+    "columns": 518048,
+    "source_h": 17,
+    "source_k": 3,
+    "target_h": 16,
+    "target_k": 4,
+    "residual_primes": 9,
+    "native_target_solve_primes": 0,
+    "derived_cache_congruence_primes": 8,
+    "extra_residual_primes": 1,
+    "bound_bits": 514,
+    "modulus_bits": 541
+  },
+  "exact_origin_holdouts": 44,
+  "seam_attempt": {
+    "report": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-runner/exact-target-seam.json",
+    "report_sha256": "eb06195f17b86f7d76330a67f6d876f5b9ab3c7aeb80e7d53681905e23bddcf1",
+    "log": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-runner/exact-target-seam.log",
+    "log_sha256": "71797a9cfbf80b4e8c97203ade8b1462357d856ad876b0b267508ff0b840dc8b",
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_hexagon_certificate_provenance_20261007/bin/hexagon_shifted_joint_certificate",
+        "16",
+        "4",
+        "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 7.078051567077637,
+      "cancel_signal": 0,
+      "min_available_gib": 2.0,
+      "wall_seconds": 67.66681823600084,
+      "peak_summed_rss_bytes": 4397793280,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 151.617538,
+      "cpu_system_seconds": 10.296821,
+      "max_processes": 1,
+      "virtual_limit_gib": 64
+    }
+  },
+  "origin_attempt": {
+    "report": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-runner/exact-origin-holdouts.json",
+    "report_sha256": "4e2802500501b14f920703d8f50cb4ef3f8303a6981206e3dbfa55011766b051",
+    "log": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-runner/exact-origin-holdouts.log",
+    "log_sha256": "bd4efb9e7496465b59c8e3bfc3568849cfaabb6c97c3f108cef4c1628c724106",
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/bin/origin_check",
+        "16",
+        "4",
+        "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+        "/home/ana/Documents/symbology/audits/hexagon-ten-loop-2026-10-06/origin-cases.tsv"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 7.078051567077637,
+      "cancel_signal": 0,
+      "min_available_gib": 2.0,
+      "wall_seconds": 44.997905951000575,
+      "peak_summed_rss_bytes": 5623566336,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 40.27693,
+      "cpu_system_seconds": 4.699891,
+      "max_processes": 1,
+      "virtual_limit_gib": 64
+    }
+  },
+  "artifact_hashes": {
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4/manifest.json": "a7c92eeeb538d753aff0f6e8c9796b3b42ab1c4487f5fdb8da39780e007f3941",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4/qq_complete.tsv": "2229278cf11313136f18f83a02f1de81a5288733268b88d1fab4f79399b5f7c8",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4/reconstruction_primes.tsv": "309eee1b49252e0715f71508781819fa77419e96c60df399b4cf7b93d7de3cf3",
+    "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/ten-install-receipt.json": "8a9f22835b2409f0bc1972cedbf5c59083db569f2412b3014eeed94c2b7ab86d",
+    "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/validation-passed.json": "8422c3c9943d3cca1f595ce0227329da5ee51cc397d3d085656a501822d6ff14",
+    "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/ten-independent-verify.log": "1e73c88a97278baab2b317bdfda8c83afdeec74c0f1fdf8647a551c6c1b132da",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-runner/v16-prime-import.json": "e8f48695d1543db60d416e9cfa45fe96647a426a0ccd1628be8b0dcb45a485a2",
+    "/home/ana/Documents/symbology/output_hexagon_certificate_provenance_20261007/bin/hexagon_shifted_joint_certificate": "d9ad435ac40f527ad65bf31c15f2058f498215645d232f6b17d79727e204b34c",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/bin/origin_check": "8a32180f0d60d83fe3fa59ca02c77edc5a5ab596e9e9b73c6514d43f54c6b6ac",
+    "/home/ana/Documents/symbology/audits/hexagon-ten-loop-2026-10-06/origin-cases.tsv": "7f193ed3d554778af10671db02c4d0b42cf2fe60a2e2e7d310cf2c860f158791",
+    "/home/ana/Documents/symbology/bench/hexagon_asymmetric_certificate_runner.py": "d8ef78f01ffacc1e35876e62ad8417beaaf4abfcad94fab13bdac157b40ab520"
+  },
+  "imported_prime_provenance": "Prime1 computed by V16; explicit validated V17 import. Primes2-8 computed by V17. Frozen asymmetric QQ export is a separate producer.",
+  "migration_receipt": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-runner/v16-prime-import.json",
+  "bonus_assumptions": "MHV double-final bonus relations, Dixon-Liu 2308.08199 eq76-79, full D3 orbit; extrapolated to L10",
+  "unrestricted_uniqueness_claimed": false,
+  "physical_scope": "Exact original 16+4 seam and44 exact origin holdouts. Native primes passed supplied finite sampled collinear/MRK/OPE checks; not a proof of every physical identity over QQ.",
+  "report_update_pending": true
+}

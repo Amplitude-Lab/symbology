@@ -1,0 +1,7 @@
+block	first_copies	last_copies	column_offset	filename
+pe_A1	5517	11	0	irrSEW_17p3_pe_A1_origin.wxf
+pe_A2	4449	4	60687	irrSEW_17p3_pe_A2_origin.wxf
+pe_E	9959	14	78483	irrSEW_17p3_pe_E_origin.wxf
+po_A1	1455	9	217909	irrSEW_17p3_po_A1_origin.wxf
+po_A2	1415	5	231004	irrSEW_17p3_po_A2_origin.wxf
+po_E	2859	13	238079	irrSEW_17p3_po_E_origin.wxf

@@ -1,0 +1,13 @@
+{
+  "bench/hexagon_joint_physics_v6.cpp": "6707e2ef2b0a227fb346e12c55586b718a2cdeef0fbbaf8d009bd9a12c5a37b7",
+  "bench/hexagon_joint_build_v6.py": "5fb22f1b503c605c0189fc66dd0f1687eef1a589747fd8ca6b6c1f38b1de0206",
+  "bench/hexagon_seam_discovery_v6.hpp": "801e7e93a379e26d9bd60de6f92fff7cbf4e27abb1e4707a24e8b22b2dda8a86",
+  "bench/hexagon_joint_checkpoint.hpp": "3bcddfa9a236eaacfd4393208040fdd4c745cfd31c23b7f79c2c95c2bcd26370",
+  "bench/hexagon_checkpoint_probe.cpp": "61a4ad7b308d96092e2936c84f8bdbc17a26cccfe83f94ed4a4bcdd567e33d83",
+  "bench/hexagon_irrep_seam_rows.hpp": "4818cdc63d36f138430f3bab3ef4b8ca1da0ced2fd9dfd6b4a881d43c40a62c7",
+  "bench/hexagon_joint_certificate.cpp": "61bcacf553ded03ea7341ff0ebb9f49a39e81a837d3b8740ad858d9d728c240d",
+  "bench/hexagon_origin_check.cpp": "1a849b0162d98fe0ee40ffd0e66a719229e27f619f0309df2d674fb642d15f81",
+  "patches/hexagon-v2-staged-sewing.patch": "9d82f7712461917a3f3fb36e8efb4c62693560516b0c4bc56688bcc3e3885517",
+  "patches/hexagon-v2-ope-head-cache.patch": "227cd9b1d72f0e3834a40c519ed612a45cfcbee4368c3f0292808acf3327f1f5",
+  "output_hexagon_16p4_20261006/joint-v6-package/bin/joint_physics": "73de946cb8773f4c7105583a9c23f2e635318bb995cf625a4a6ad85d2fdb0049"
+}

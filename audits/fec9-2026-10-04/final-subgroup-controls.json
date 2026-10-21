@@ -1,0 +1,52 @@
+{
+  "command": [
+    "output_fec9_20261004/subgroup-controls/split_extension_v4",
+    "output_fec9_20261004/subgroup-controls/parity-prepared",
+    "output_fec9_20261004/subgroup-controls/parity-compare5",
+    "output_fec9_20261004/subgroup-controls/parity6-final",
+    "8",
+    "assembled",
+    "1024",
+    "compare"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 12.0,
+  "cancel_signal": 0,
+  "min_available_gib": 4.0,
+  "wall_seconds": 5.134632080793381,
+  "peak_summed_rss_bytes": 309747712,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 11.228607,
+  "cpu_system_seconds": 0.40692799999999996,
+  "max_processes": 1,
+  "virtual_limit_gib": 16,
+  "byte_identical_to_previous_driver": [
+    {
+      "weight": 1,
+      "sha256": "7919d52bad76e50add563e377f93610a153eb239b7eac0c0a779094c70e99fe2"
+    },
+    {
+      "weight": 2,
+      "sha256": "f1622fce178e69c8bdea5a4cdc41065a52c7d2530fdbee57e8222dd5985fb727"
+    },
+    {
+      "weight": 3,
+      "sha256": "bca6bbf4c40de85f94c8f661ba9a60e2f5bd5eeef3bef870015d0119f09cb80a"
+    },
+    {
+      "weight": 4,
+      "sha256": "37df0759b642879cb9686d8866e2d4c5004999e5c676b7b1d828fe94492826ab"
+    },
+    {
+      "weight": 5,
+      "sha256": "11938204de8d0d073f69cac4ee67d2db8294de0f0190db2e17468ff18fbcc9fa"
+    },
+    {
+      "weight": 6,
+      "sha256": "701084b27591d32807f2ba5a2ff909d034cdf12ba56c0aaa7a525cb2e7819da0"
+    }
+  ]
+}

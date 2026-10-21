@@ -1,0 +1,326 @@
+[
+  {
+    "case": "w6-baseline",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-compare5",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w6-baseline",
+        "8",
+        "staged",
+        "1024",
+        "compare",
+        "front_nonzeros=268435456",
+        "batch_nonzeros=4194304",
+        "batch_rows=4096",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 5.6364062069915235,
+      "peak_summed_rss_bytes": 327675904,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 12.002585,
+      "cpu_system_seconds": 0.729455,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=6 dimension=2555 nnz=1556876 sectors=2",
+    "reconstruction_bits": [
+      "61",
+      "61",
+      "61"
+    ],
+    "output_sha256": "69735aebe1893c61a3a1773c303ab92109d9649f37be48e0ed5882e3ab65970b"
+  },
+  {
+    "case": "w6-wide16",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-compare5",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w6-wide16",
+        "8",
+        "staged",
+        "1024",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 5.643314068205655,
+      "peak_summed_rss_bytes": 328962048,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 12.364659,
+      "cpu_system_seconds": 0.675389,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=6 dimension=2555 nnz=1556876 sectors=2",
+    "reconstruction_bits": [
+      "61",
+      "61",
+      "61"
+    ],
+    "output_sha256": "69735aebe1893c61a3a1773c303ab92109d9649f37be48e0ed5882e3ab65970b"
+  },
+  {
+    "case": "w6-broad-wide16",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-compare5",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w6-broad-wide16",
+        "8",
+        "staged",
+        "4096",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 5.325766783207655,
+      "peak_summed_rss_bytes": 325394432,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 12.040816,
+      "cpu_system_seconds": 0.640975,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=6 dimension=2555 nnz=1387332 sectors=2",
+    "reconstruction_bits": [
+      "61",
+      "61",
+      "61"
+    ],
+    "output_sha256": "b0a5378d4d71f7b6394cebdc14fd20fbbf9ff6875bfcf5c1fd97ee177f730bf9"
+  },
+  {
+    "case": "w6-row-wide16",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-compare5",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w6-row-wide16",
+        "8",
+        "staged",
+        "4096",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=1"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 8.343125327024609,
+      "peak_summed_rss_bytes": 321368064,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 18.267116,
+      "cpu_system_seconds": 0.8405389999999999,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=6 dimension=2555 nnz=2747244 sectors=2",
+    "reconstruction_bits": [
+      "61",
+      "61",
+      "61"
+    ],
+    "output_sha256": "6e7b8f2a6a1ca108a801e5f4a6dd3f9ca88544c0339053f45435ad071e7507e0"
+  },
+  {
+    "case": "w7-baseline",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w7-baseline",
+        "8",
+        "staged",
+        "1024",
+        "compare",
+        "front_nonzeros=268435456",
+        "batch_nonzeros=4194304",
+        "batch_rows=4096",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 180.48846718901768,
+      "peak_summed_rss_bytes": 4041007104,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 711.365722,
+      "cpu_system_seconds": 6.496847,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=7 dimension=6826 nnz=20579497 sectors=2",
+    "reconstruction_bits": [
+      "121",
+      "61",
+      "61"
+    ],
+    "output_sha256": "92988e331e933ae690c1f3d7f9f3b75c789135a2fa355f1d00587fa3b5eb3a5e"
+  },
+  {
+    "case": "w7-wide16",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w7-wide16",
+        "8",
+        "staged",
+        "1024",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 186.38277757819742,
+      "peak_summed_rss_bytes": 4012937216,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 712.241201,
+      "cpu_system_seconds": 6.9480830000000005,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=7 dimension=6826 nnz=19176253 sectors=2",
+    "reconstruction_bits": [
+      "121",
+      "61",
+      "61"
+    ],
+    "output_sha256": "69783f19075a6520401090bfe9a6a6ec94a3671d5137685015bc92feaa12771a"
+  },
+  {
+    "case": "w7-broad-wide16",
+    "accepted": true,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w7-broad-wide16",
+        "8",
+        "staged",
+        "4096",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 212.96529358718544,
+      "peak_summed_rss_bytes": 4206407680,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 839.933356,
+      "cpu_system_seconds": 6.617414,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": "FULL_CHARACTER_BASIS_COMPLETE weight=7 dimension=6826 nnz=18170443 sectors=2",
+    "reconstruction_bits": [
+      "121",
+      "61",
+      "61"
+    ],
+    "output_sha256": "07c4baf58d3f3f3ac0d6902e2bb121f0ca34f9757c22033c6202754797ef5d30"
+  },
+  {
+    "case": "w7-row-wide16",
+    "accepted": false,
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/w7-row-wide16",
+        "8",
+        "staged",
+        "4096",
+        "compare",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=1"
+      ],
+      "exit_code": -15,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 15,
+      "min_available_gib": 4.0,
+      "wall_seconds": 343.9405337511562,
+      "peak_summed_rss_bytes": 3340533760,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 1173.156421,
+      "cpu_system_seconds": 8.864856,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "full_marker": null,
+    "reconstruction_bits": [],
+    "output_sha256": null
+  }
+]

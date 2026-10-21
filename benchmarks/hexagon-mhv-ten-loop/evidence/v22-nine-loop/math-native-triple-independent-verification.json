@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "meaning": "Complete 21-term Eq92 and both cyclic images vanish on the checked native amplitudes; QQ row replay also agrees",
+  "independent_arithmetic": "Python integer modular sums and Fraction QQ dot products",
+  "checks": [
+    {
+      "loop": 8,
+      "prime": 1152921504606847009,
+      "native_Eq92_nonzeros": 0,
+      "tail_copy_ranks": {
+        "pe_A1": 8,
+        "pe_A2": 3,
+        "pe_E": 10,
+        "po_A1": 8,
+        "po_A2": 3,
+        "po_E": 10
+      },
+      "concrete_native_witnesses": [],
+      "QQ_head_row_replay": {
+        "block": "pe_A1",
+        "head_copy": 0,
+        "columns_checked": 27,
+        "all_zero": true
+      },
+      "native_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a"
+    },
+    {
+      "loop": 9,
+      "prime": 1152921504606847009,
+      "native_Eq92_nonzeros": 0,
+      "tail_copy_ranks": {
+        "pe_A1": 8,
+        "pe_A2": 3,
+        "pe_E": 10,
+        "po_A1": 8,
+        "po_A2": 3,
+        "po_E": 10
+      },
+      "concrete_native_witnesses": [],
+      "QQ_head_row_replay": {
+        "block": "pe_A1",
+        "head_copy": 0,
+        "columns_checked": 27,
+        "all_zero": true
+      },
+      "native_sha256": "e6a1a943d9651342dd99b091cf514468c36ace608748a479068cec1aea89e8e0"
+    }
+  ],
+  "new_constraint_imposed": false,
+  "all_loop_proof": false,
+  "wall_seconds": 0.168963972995698
+}

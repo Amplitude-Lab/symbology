@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"path\":\"/home/ana/Documents/symbology/audits/hexagon-ten-loop-2026-10-06/TECHNIQUE.tex\",\"kind\":\"compile-failed\",\"message\":\"Could not compile the document\",\"diagnostics\":{\"untrustedData\":true,\"log\":\"bwrap: execvp /home/ana/.codex/tmp/arg0/codex-arg0iDHfpL/codex-linux-sandbox: No such file or directory\\n\"}}"
+    }
+  ],
+  "isError": true
+}

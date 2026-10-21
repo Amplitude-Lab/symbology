@@ -1,0 +1,983 @@
+--- a/src/reduced_d3/irr_physics_pipeline.hpp
++++ b/src/reduced_d3/irr_physics_pipeline.hpp
+@@ -336,7 +336,7 @@
+         for(size_t offset=0;offset<count;offset+=s.batch){c.samples=std::min(s.batch,count-offset);c.sample_offset=offset;
+             std::cout<<"PROJECTION "<<r.at("operator")<<" prime="<<c.F.mod.n<<" validation="<<validation<<" samples="<<offset<<".."<<offset+c.samples<<"/"<<count<<std::endl;
+             consume(!validation&&r.at("operator")=="collinear"&&r.count("projection")&&r.at("projection")=="tail-exact"?
+-                irr_physics::collinear_tail_exact(c):irr_physics::slots(c,r.at("operator")=="mrk"));c.cache_summary();}
++                irr_physics::collinear_tail_exact(c):irr_physics::slots(c,r.at("operator")=="mrk",3,!validation));c.cache_summary();}
+     }
+     auto train(const fields& r){
+         affine_rows reduced(c.rows-1,c.F,&c.opt->pool);
+@@ -356,11 +356,11 @@
+         size_t offset=0,last_rank=0,stagnant=0,attempt=0,total_rows=0;
+         for(;;){
+             c.seed=std::stoull(r.at("seed"));c.samples=std::min(s.batch,maximum-offset);c.sample_offset=offset;
+-            auto eq=r.at("operator")=="collinear"&&r.count("projection")&&r.at("projection")=="tail-exact"?
+-                irr_physics::collinear_tail_exact(c):irr_physics::slots(c,r.at("operator")=="mrk");
++            c.projection_raw_rows=0;auto eq=r.at("operator")=="collinear"&&r.count("projection")&&r.at("projection")=="tail-exact"?
++                irr_physics::collinear_tail_exact(c):irr_physics::slots(c,r.at("operator")=="mrk",3,true);
+             auto start=c.now();reduced.add(eq);c.record("affine_forward",eq.size(),c.rows,0,0,start);
+             size_t rank=std::count_if(reduced.pivots.begin(),reduced.pivots.end(),[](const auto& p){return bool(p);});
+-            stagnant=rank==last_rank?stagnant+eq.size():0;last_rank=rank;offset+=c.samples;total_rows+=eq.size();
++            stagnant=rank==last_rank?stagnant+std::max(eq.size(),c.projection_raw_rows):0;last_rank=rank;offset+=c.samples;total_rows+=eq.size();
+             std::cout<<"SAMPLING "<<r.at("operator")<<" prime="<<c.F.mod.n<<" points="<<offset<<" equations="<<total_rows
+                 <<" rank="<<rank<<" unknowns="<<reduced.n<<" limit="<<maximum<<std::endl;c.cache_summary();
+             if(rank==reduced.n||stagnant>=32||offset==maximum){
+--- a/src/reduced_d3/irr_projection.hpp
++++ b/src/reduced_d3/irr_projection.hpp
+@@ -10,6 +10,8 @@
+ #include <thread>
+ #include <memory>
+ #include <set>
++#include "shared/workload_kernels.hpp"
++#include "shared/exact_operator_compression.hpp"
+ #include "shared/hexagon_mrk_rhs_reuse.hpp"
+ #include "shared/hexagon_native_cache_release.hpp"
+ 
+@@ -27,7 +29,7 @@
+     fs::path fec,lec,out,data;size_t h,k,samples;const char variant='C';bool mhv;
+     field_t F;rref_option_t opt;irr::channels_t cg;irr::sewing_object_t sew;
+     std::array<mat,6> S;size_t rows=0,sample_offset=0;
+-    bool shoup=true;size_t scratch_limit=64ULL<<20;
++    size_t projection_raw_rows=0;bool shoup=true;size_t scratch_limit=64ULL<<20;
+     // Optional, bounded cache of first-side OPE jets. It contains no sewing
+     // coefficients and is discarded before a new prime's large solve.
+     size_t ope_head_cache_limit=0,ope_head_cache_bytes=0;ulong ope_head_cache_prime=0;
+@@ -65,12 +67,13 @@
+     }
+     void input(const fs::path& p){auto path=fs::absolute(p).lexically_normal();if(recorded_inputs.insert(path).second){io<<hex_sha256_file(path)<<"  "<<path.generic_string()<<'\n';io.flush();}}
+     auto now(){return std::chrono::steady_clock::now();}
+-    void axpy(ulong* dst,const ulong* src,size_t n,ulong v)const{
++    void axpy(ulong* dst,const ulong* src,size_t n,ulong v,bool dense=false)const{
+         if(!v)return;
+         if(v==1){for(size_t i=0;i<n;++i)dst[i]=nmod_add(dst[i],src[i],F.mod);return;}
+         if(v==F.mod.n-1){for(size_t i=0;i<n;++i)dst[i]=nmod_sub(dst[i],src[i],F.mod);return;}
+         if(shoup){auto pre=n_mulmod_precomp_shoup(v,F.mod.n);
+-            for(size_t i=0;i<n;++i)if(src[i])dst[i]=nmod_add(dst[i],n_mulmod_shoup(v,src[i],pre,F.mod.n),F.mod);
++            if(dense)for(size_t i=0;i<n;++i)dst[i]=nmod_add(dst[i],n_mulmod_shoup(v,src[i],pre,F.mod.n),F.mod);
++            else for(size_t i=0;i<n;++i)if(src[i])dst[i]=nmod_add(dst[i],n_mulmod_shoup(v,src[i],pre,F.mod.n),F.mod);
+         }else for(size_t i=0;i<n;++i)if(src[i])dst[i]=nmod_add(dst[i],nmod_mul(v,src[i],F.mod),F.mod);
+     }
+     void record(const std::string& phase,size_t r,size_t c,size_t nnz,size_t bytes,std::chrono::steady_clock::time_point start){
+@@ -189,24 +192,29 @@
+             size_t batch=std::max(size_t(1),c.scratch_limit/(sizeof(ulong)*stride));
+             for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu){
+                 for(size_t first=0;first<M.ncol;first+=batch){
+-                    size_t count=std::min(batch,M.ncol-first);std::vector<ulong> candidates(count*stride);
++                    size_t count=std::min(batch,M.ncol-first);std::vector<ulong> candidates(count*stride);std::vector<unsigned char> dense(count);
++                    std::vector<std::vector<ulong>> scratch;if(workload::kernels())scratch.assign(c.opt->pool.get_thread_count(),std::vector<ulong>(stride));
+                     irr_parallel::rows(count,&c.opt->pool,[&](size_t col){
+                         if(!used[first+col])return;
+-                        auto [a,copy,g]=decode[first+col];auto candidate=candidates.data()+col*stride;std::vector<ulong> term_image(stride);
++                        auto [a,copy,g]=decode[first+col];auto candidate=candidates.data()+col*stride;std::vector<ulong> local;
++                        if(!workload::kernels())local.resize(stride);auto& term_image=workload::kernels()?scratch[workload::slot()]:local;
+                         for(auto& term:c.cg.cg[b].vectors[g].component[mu]){
+                             size_t r=old.off[a]+(term.coordinate/9-c.cg.axis[a].offset)*old.m[a]+copy;
+                             T(previous.data()+r*input_stride,term_image.data(),term.coordinate%9);ulong v=term.coefficient%c.F.mod;
+                             c.axpy(candidate,term_image.data(),stride,v);
+                         }
++                        if(workload::kernels())dense[col]=workload::prefer_dense(candidate,stride);
+                     });
+-                    irr_parallel::rows(M.nrow,&c.opt->pool,[&](size_t r){
++                    auto gather=[&](size_t r){
+                         auto dst=current.data()+(next.off[b]+mu*next.m[b]+r)*stride;size_t lo=0,hi=M[r].nnz();
+                         while(lo<hi){size_t mid=(lo+hi)/2;if(size_t(M[r](mid))<first)lo=mid+1;else hi=mid;}
+                         for(size_t p=lo;p<M[r].nnz()&&size_t(M[r](p))<first+count;++p){
+                             auto candidate=candidates.data()+(M[r](p)-first)*stride;auto v=M[r][p];
+-                            c.axpy(dst,candidate,stride,v);
++                            c.axpy(dst,candidate,stride,v,dense[M[r](p)-first]);
+                         }
+-                    });
++                    };
++                    if(workload::kernels())workload::balanced(M.nrow,&c.opt->pool,[&](size_t r){return M[r].nnz()*stride;},gather);
++                    else irr_parallel::rows(M.nrow,&c.opt->pool,gather);
+                 }
+             }
+         }
+@@ -273,18 +281,47 @@
+         for(size_t first=0;first<S.ncol;first+=batch){size_t count=std::min(batch,S.ncol-first);
+             std::vector<ulong> images(count*stride);
+             irr_parallel::rows(count,&c.opt->pool,[&](size_t j){image_of(b,first+j,images.data()+j*stride);});
+-            irr_parallel::rows(S.nrow,&c.opt->pool,[&](size_t r){
+-                std::vector<ulong> sums(stride);size_t lo=0,hi=S[r].nnz();
++            std::vector<std::vector<ulong>> scratch;if(workload::kernels())scratch.assign(c.opt->pool.get_thread_count(),std::vector<ulong>(stride));
++            auto gather=[&](size_t r){
++                std::vector<ulong> local;if(!workload::kernels())local.resize(stride);
++                auto& sums=workload::kernels()?scratch[workload::slot()]:local;std::fill(sums.begin(),sums.end(),0);size_t lo=0,hi=S[r].nnz();
+                 if(first)while(lo<hi){size_t mid=(lo+hi)/2;if(size_t(S[r](mid))<first)lo=mid+1;else hi=mid;}
+                 for(size_t p=lo;p<S[r].nnz()&&size_t(S[r](p))<first+count;++p)
+                     c.axpy(sums.data(),images.data()+(S[r](p)-first)*stride,stride,S[r][p]);
+                 for(size_t s=0;s<stride;++s)rows[s].coefficients[r]=nmod_add(rows[s].coefficients[r],sums[s],c.F.mod);
+-            });
+-        }
+-    }
+-}
+-
+-inline equations slots(context& c,bool mrk,int metric=3){
++            };
++            if(workload::kernels())workload::balanced(S.nrow,&c.opt->pool,[&](size_t r){return S[r].nnz()*stride;},gather);
++            else irr_parallel::rows(S.nrow,&c.opt->pool,gather);
++        }
++    }
++}
++
++inline std::vector<size_t> convolution_targets(context& c,const std::vector<ulong>& head,
++    const std::vector<ulong>& tail,size_t d,const equations& rows,bool enabled){
++    std::vector<size_t> selected;size_t stride=c.samples*d;
++    if(!enabled||!workload::compression()||d==1){selected.resize(rows.size());std::iota(selected.begin(),selected.end(),0);return selected;}
++    size_t heads=head.size()/stride,tails=tail.size()/stride,audited=0;
++    for(size_t sample=0;sample<c.samples;++sample){
++        std::vector<size_t> powers;
++        for(size_t j=0;j<d;++j){bool active=false;for(size_t i=0;i<heads&&!active;++i)active=head[i*stride+sample*d+j]!=0;if(active)powers.push_back(j);}
++        exact_operator::Dense source(d,std::vector<ulong>(tails*powers.size()+1));
++        for(size_t q=0;q<d;++q){for(size_t j=0;j<powers.size();++j)if(powers[j]<=q)
++            for(size_t l=0;l<tails;++l)source[q][j*tails+l]=tail[l*stride+sample*d+q-powers[j]];
++            source[q].back()=rows[sample*d+q].rhs;}
++        auto basis=exact_operator::compress(source,c.F);audited+=basis.certified_entries;
++        for(auto q:basis.selected)selected.push_back(sample*d+q);
++    }
++    // One exact zero equation preserves the existing stop accounting.
++    if(selected.empty()&&!rows.empty())selected.push_back(0);
++    std::cout<<"OPERATOR_COMPRESSION family=polynomial_convolution raw="<<rows.size()<<" selected="<<selected.size()<<" certified_entries="<<audited<<" affine_rhs_included=1"<<std::endl;
++    return selected;
++}
++inline void select_equations(equations& rows,const std::vector<size_t>& selected){
++    if(rows.size()==selected.size())return;equations compressed;compressed.reserve(selected.size());
++    for(auto r:selected)compressed.push_back(std::move(rows[r]));rows=std::move(compressed);
++}
++
++inline equations slots(context& c,bool mrk,int metric=3,bool compress=false){
+     size_t w=c.h+c.k,degree=mrk?w-1:0,d=degree+1,stride=c.samples*d;
+     std::vector<std::vector<nmhv_limit_slot_weights_t<ulong>>> weights(w,std::vector<nmhv_limit_slot_weights_t<ulong>>(c.samples));
+     for(size_t s=0;s<c.samples;++s){uint64_t state=c.seed^(0xd1b54a32d192ed03ULL*(c.sample_offset+s+1));
+@@ -307,14 +344,15 @@
+     c.opt->pool.detach_loop(0,c.samples,[&](size_t s){auto rhs=mrk?rhs_values.at(s):std::vector<ulong>{nmhv_physical_collinear_rhs(w/2,nmhv_physical_sample_collinear_slots(c.seed,c.sample_offset+s,w,c.F),c.F)};
+         for(size_t q=0;q<d;++q){auto& r=rows[s*d+q];r.condition=mrk?"MRK":"collinear";r.sample=s;r.rhs=c.mhv?nmod_mul(rhs[q],n_invmod(2,c.F.mod.n),c.F.mod):rhs[q];r.coefficients.resize(c.rows);}});c.opt->pool.wait();
+     c.record(mrk?"mrk_rhs":"collinear_rhs",rows.size(),1,0,rows.size()*8,start);start=c.now();
++    c.projection_raw_rows=rows.size();auto targets=convolution_targets(c,head,tail,d,rows,compress);select_equations(rows,targets);
+     // Form each pair's convolution once, not once for every nonzero solution
+     // coefficient. Only one pair image is kept, not head x tail x all slots.
+     auto pair_image=[&](size_t a,size_t b,ulong* image,ulong scale){
+-        for(size_t s=0;s<c.samples;++s)for(size_t q=0;q<d;++q){ulong x=0;for(size_t j=0;j<=q;++j)x=nmod_add(x,nmod_mul(head[a*stride+s*d+j],tail[b*stride+s*d+q-j],c.F.mod),c.F.mod);
+-            image[s*d+q]=nmod_add(image[s*d+q],nmod_mul(scale,x,c.F.mod),c.F.mod);}
++        for(size_t z=0;z<targets.size();++z){size_t s=targets[z]/d,q=targets[z]%d;ulong x=0;for(size_t j=0;j<=q;++j)x=nmod_add(x,nmod_mul(head[a*stride+s*d+j],tail[b*stride+s*d+q-j],c.F.mod),c.F.mod);
++            image[z]=nmod_add(image[z],nmod_mul(scale,x,c.F.mod),c.F.mod);}
+     };
+     size_t nnz=0;for(auto& S:c.S)nnz+=S.nnz();
+-    apply_rows(c,rows,stride,[&](size_t b,size_t j,ulong* image){
++    apply_rows(c,rows,targets.size(),[&](size_t b,size_t j,ulong* image){
+         for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu)pair_image(fa.off[b]+mu*fa.m[b]+j/la.m[b],la.off[b]+mu*la.m[b]+j%la.m[b],image,mu?metric:1);});
+     c.record(mrk?"mrk_apply":"collinear_apply",rows.size(),c.rows,nnz,(head.size()+tail.size()+rows.size()*c.rows)*8,start);return rows;
+ }
+@@ -465,11 +503,15 @@
+                     auto [a,copy]=copies[owner];size_t col=base[a]+copy*c.cg.channels[b][a].size();
+                     std::vector<ulong> candidate(stride),term_image(stride);
+                     for(size_t g:c.cg.channels[b][a]){
+-                        std::fill(candidate.begin(),candidate.end(),0);for(auto [r,v]:M[col])for(size_t z=0;z<stride;++z){auto x=values[(current.off[b]+mu*current.m[b]+r)*stride+z];if(x)candidate[z]=germ.add(candidate[z],germ.mul(v,x));}
++                        std::fill(candidate.begin(),candidate.end(),0);for(auto [r,v]:M[col]){
++                            const ulong* src=values.data()+(current.off[b]+mu*current.m[b]+r)*stride;
++                            if(workload::kernels())c.axpy(candidate.data(),src,stride,v);
++                            else for(size_t z=0;z<stride;++z){auto x=src[z];if(x)candidate[z]=germ.add(candidate[z],germ.mul(v,x));}}
+                         for(auto& term:c.cg.cg[b].vectors[g].component[mu]){
+                             germ.integrate(candidate.data(),term_image.data(),term.coordinate%9,w);
+                             size_t r=old.off[a]+(term.coordinate/9-c.cg.axis[a].offset)*old.m[a]+copy;ulong v=term.coefficient%c.F.mod;
+-                            for(size_t z=0;z<stride;++z)if(term_image[z])next[r*stride+z]=germ.add(next[r*stride+z],germ.mul(v,term_image[z]));
++                            if(workload::kernels())c.axpy(next.data()+r*stride,term_image.data(),stride,v);
++                            else for(size_t z=0;z<stride;++z)if(term_image[z])next[r*stride+z]=germ.add(next[r*stride+z],germ.mul(v,term_image[z]));
+                         }++col;
+                     }
+                     },workers);
+--- a/src/shared/adaptive_physical_rows.hpp
++++ b/src/shared/adaptive_physical_rows.hpp
+@@ -30,6 +30,10 @@
+     size_t columns,collinear_offset=0,mrk_offset=0;
+     size_t collinear_stagnant=0,mrk_stagnant=0;
+     WorkCursor work;
++    structural_replay::Trace* trace=nullptr;
++    std::vector<workload::GainWork> costs=std::vector<workload::GainWork>(3);
++    workload::CycleProgress cycle_progress{2};
++    uint64_t callback_work=0;size_t previous=SIZE_MAX,streak=0;
+     bool collinear_done=false,mrk_done=false,activated=false;
+     size_t nullity(const streaming_echelon::Reducer& reducer)const{
+         return columns+1-reducer.rank();
+@@ -37,7 +41,7 @@
+     size_t admit(streaming_echelon::Reducer& reducer,const std::vector<int32_t>& coordinate,
+                  irr_physics::equations equations,const char* condition,size_t round,
+                  size_t sample_offset,size_t samples){
+-        size_t before=reducer.rank(),nnz=0,nonzero_rhs=0,smallest=SIZE_MAX,largest=0;
++        uint64_t arithmetic_before=reducer.arithmetic_work();size_t before=reducer.rank(),nnz=0,nonzero_rhs=0,smallest=SIZE_MAX,largest=0;
+         std::vector<staged_kernel::MV> rows;rows.reserve(equations.size());
+         for(auto& equation:equations){
+             irr::require(equation.coefficients.size()==columns,"Adaptive direct physical width");
+@@ -52,6 +56,9 @@
+         std::sort(rows.begin(),rows.end(),[](const auto& a,const auto& b){return a.nnz()<b.nnz();});
+         for(auto& row:rows)reducer.consume(std::move(row));reducer.flush_pending();
+         size_t gain=reducer.rank()-before;
++        uint64_t measured_work=uint64_t(equations.size())*columns+nnz+reducer.arithmetic_work()-arithmetic_before;
++        size_t kind=std::string(condition)=="collinear_tail_exact"?0:std::string(condition)=="mrk"?1:2;
++        costs[kind].observe(gain,measured_work);callback_work+=measured_work;
+         std::cout<<"ADAPTIVE_PHYSICS round="<<round<<" operator="<<condition
+                  <<" samples="<<sample_offset<<".."<<sample_offset+samples
+                  <<" equations="<<equations.size()<<" nnz="<<nnz
+@@ -85,8 +92,8 @@
+         reducer.prune_zeros();irr::require(!reducer.is_zero(columns),"Adaptive physical RHS is inconsistent");
+     }
+ public:
+-    DirectSchedule(irr_physics::context& context,uint64_t sample_seed,Policy value={})
+-        :c(context),seed(sample_seed),policy(value),columns(irr_physics::invariant_columns(context)){
++    DirectSchedule(irr_physics::context& context,uint64_t sample_seed,Policy value={},structural_replay::Trace* plan=nullptr)
++        :c(context),seed(sample_seed),policy(value),columns(irr_physics::invariant_columns(context)),trace(plan){
+         irr::require(c.k<=3,"Adaptive exact-tail physical schedule needs k<=3");
+         irr::require(policy.samples_per_batch&&policy.mrk_samples_per_batch&&policy.collinear_batches_per_cycle&&policy.stagnant_batches&&policy.cycles_before_ope&&policy.callback_seconds>0&&policy.maximum_cycles_per_callback,"Invalid adaptive physical batch policy");
+         irr::require(policy.target_augmented_nullity&&policy.target_augmented_nullity<=columns+1,"Invalid adaptive physical target");
+@@ -123,6 +130,38 @@
+             std::cout<<"ADAPTIVE_PHYSICS_COST operator=ope_lowgrade4 seconds="<<seconds
+                      <<" rank_gain="<<gain<<" gain_per_second="<<gain/std::max(seconds,1e-9)<<std::endl;
+         };
++        if(workload::schedule()){
++            callback_work=0;
++            // Recalibrate the integer budget from completed work, not elapsed
++            // time. Cost and gain depend only on the supplied rows/field.
++            uint64_t budget=4*std::min(costs[0].work,costs[1].work);
++            budget=std::max(budget,uint64_t(columns)*policy.samples_per_batch);
++            size_t tasks=0;
++            while(nullity(reducer)>policy.target_augmented_nullity&&
++                (trace&&trace->replay?trace->peek_decision()!=3:callback_work<budget&&tasks<policy.collinear_batches_per_cycle+1)){
++                bool ope_due=!work.ope_done&&policy.ope_target_cap&&
++                    (work.completed_cycles>=policy.cycles_before_ope||(collinear_done&&mrk_done));
++                std::vector<bool> enabled={!collinear_done,!mrk_done,ope_due};
++                // An early constraint is useful only if it competes with the
++                // elimination it delays. Probe unmeasured tasks, then compare
++                // observed rank gain per coefficient update, including fill.
++                if(!(trace&&trace->replay))for(size_t i=0;i<enabled.size();++i)if(enabled[i]&&!workload::competitive(costs[i],reducer.competing_work)){
++                    enabled[i]=false;std::cout<<"WORK_PHYSICS_DEFER round="<<round<<" task="<<i<<" physical_gain="<<costs[i].gain<<" physical_work="<<costs[i].work
++                        <<" seam_gain="<<reducer.competing_work.gain<<" seam_work="<<reducer.competing_work.work<<std::endl;}
++                size_t selected=enabled[2]?2:workload::choose(costs,enabled,previous,streak);
++                if(selected==SIZE_MAX)break;
++                if(trace)selected=trace->decision(selected);
++                structural_replay::guard(selected<3&&enabled[selected],"Replay physical task no longer eligible");
++                std::cout<<"WORK_PHYSICS_SELECT round="<<round<<" task="<<selected<<" consumed="<<callback_work<<" budget="<<budget<<" predicted_work="<<costs[selected].work<<" last_gain="<<costs[selected].gain<<std::endl;
++                if(selected==2){apply_ope();work.ope_done=true;}
++                else{batch(reducer,coordinate,selected==1,round,selected?policy.mrk_samples_per_batch:policy.samples_per_batch);
++                    cycle_progress.admit(selected,{collinear_done,mrk_done});work.completed_cycles=cycle_progress.completed;}
++                streak=selected==previous?streak+1:1;previous=selected;++tasks;
++            }
++            if(trace)structural_replay::guard(trace->decision(3)==3,"Replay physical stop changed");
++            std::cout<<"WORK_PHYSICS_PAUSE round="<<round<<" work="<<callback_work<<" tasks="<<tasks<<" nullity="<<nullity(reducer)<<std::endl;
++            return;
++        }
+         run_budgeted_physics(work,policy.collinear_batches_per_cycle,
+             policy.maximum_cycles_per_callback,policy.cycles_before_ope,bool(policy.ope_target_cap),
+             [&]{return nullity(reducer)>policy.target_augmented_nullity;},within_budget,
+--- a/src/shared/affine_seam_discovery.hpp
++++ b/src/shared/affine_seam_discovery.hpp
+@@ -72,14 +72,14 @@
+     std::cout<<"REFINE_SEED rows="<<seed_rows<<" cols="<<columns_count<<" augmented_cols="<<augmented_count
+              <<" nnz="<<seed_nnz<<" bounded="<<seeded<<" elapsed="<<elapsed()<<std::endl;
+     require(physical_interval_seconds>=0,"Invalid physical interleaving interval");
+-    size_t physical_round=0;double last_physical_time=elapsed();
++    size_t physical_round=0,last_physical_work=reducer.input_nonzeros();double last_physical_time=elapsed();
+     auto inject_physical=[&]{
+         size_t before=reducer.rank(),round=physical_round++;
+         physical(reducer,columns,round);reducer.flush_pending();reducer.prune_zeros();
+         require(!reducer.is_zero(columns_count),"Early physical equations are inconsistent with affine normalization");
+         std::cout<<"JOINT_EARLY_PHYSICS round="<<round<<" before_rank="<<before<<" rank="<<reducer.rank()
+                  <<" nullity="<<augmented_count-reducer.rank()<<" elapsed="<<elapsed()<<std::endl;
+-        last_physical_time=elapsed();
++        last_physical_time=elapsed();last_physical_work=reducer.input_nonzeros();
+     };
+     inject_physical();
+     struct Enough{};size_t threshold=options.seed_terms;
+@@ -98,23 +98,28 @@
+         std::cout<<"REFINE_ZERO_SUBSTITUTION columns="<<zeros<<" limit="<<threshold
+                  <<" sample_denominator="<<(UINT64_C(1)<<selected.sample_shift)<<std::endl;
+         bool stopped=false;size_t last_batch=reducer.completed_batches(),last_rank=reducer.rank(),stagnant=0;
++        uint64_t last_arithmetic=reducer.arithmetic_work(),last_input=reducer.input_nonzeros();size_t last_fill=reducer.retained_nonzeros();
+         try{
+             source.discover(relations,active_columns,fp,selected,seen,[&](MV&& row){
+                 reducer.consume(std::move(row));
+                 if(augmented_count-reducer.rank()<=options.target_nullity)throw Enough{};
+                 if(reducer.completed_batches()!=last_batch){
+                     size_t gain=reducer.rank()-last_rank;
++                    uint64_t cost=reducer.arithmetic_work()-last_arithmetic+reducer.input_nonzeros()-last_input;
++                    size_t fill=reducer.retained_nonzeros();if(fill>last_fill)cost+=fill-last_fill;
++                    reducer.competing_work.observe(gain,cost);
+                     stagnant=gain<=options.stagnation_rank_gain?stagnant+1:0;
+                     // Row generation has joined its worker pool before emit;
+                     // reducer.consume has also completed its flush. It is safe
+                     // to add physical rows at this boundary. Already built
+                     // tile rows are reduced again against the updated basis.
+-                    if(elapsed()-last_physical_time>=physical_interval_seconds){
++                    if(workload::schedule()?reducer.input_nonzeros()-last_physical_work>=16*options.batch_nonzeros:elapsed()-last_physical_time>=physical_interval_seconds){
+                         std::cout<<"JOINT_MID_SWEEP_PHYSICS elapsed="<<elapsed()<<std::endl;
+                         inject_physical();
+                         if(augmented_count-reducer.rank()<=options.target_nullity)throw Enough{};
+                     }
+                     last_batch=reducer.completed_batches();last_rank=reducer.rank();
++                    last_arithmetic=reducer.arithmetic_work();last_input=reducer.input_nonzeros();last_fill=reducer.retained_nonzeros();
+                     if(options.stagnation_batches&&stagnant>=options.stagnation_batches
+                        &&augmented_count-reducer.rank()<=options.max_residual_nullity){
+                         plateau=true;std::cout<<"REFINE_STAGNATION nullity="<<augmented_count-reducer.rank()
+--- a/src/shared/direct_physical_rows.hpp
++++ b/src/shared/direct_physical_rows.hpp
+@@ -56,14 +56,15 @@
+     c.opt->pool.detach_loop(0,c.samples,[&](size_t s){auto rhs=mrk?rhs_values.at(s):std::vector<ulong>{nmhv_physical_collinear_rhs(w/2,nmhv_physical_sample_collinear_slots(c.seed,c.sample_offset+s,w,c.F),c.F)};
+         for(size_t q=0;q<d;++q){auto& r=rows[s*d+q];r.condition=mrk?"MRK":"collinear";r.sample=s;r.rhs=c.mhv?nmod_mul(rhs[q],n_invmod(2,c.F.mod.n),c.F.mod):rhs[q];r.coefficients.resize(c.rows);}});c.opt->pool.wait();
+     c.record(mrk?"mrk_rhs":"collinear_rhs",rows.size(),1,0,rows.size()*8,start);start=c.now();
++    auto targets=convolution_targets(c,head,tail,d,rows,true);select_equations(rows,targets);
+     // Form each pair's convolution once, not once for every nonzero solution
+     // coefficient. Only one pair image is kept, not head x tail x all slots.
+     auto pair_image=[&](size_t a,size_t b,ulong* image,ulong scale){
+-        for(size_t s=0;s<c.samples;++s)for(size_t q=0;q<d;++q){ulong x=0;for(size_t j=0;j<=q;++j)x=nmod_add(x,nmod_mul(head[a*stride+s*d+j],tail[b*stride+s*d+q-j],c.F.mod),c.F.mod);
+-            image[s*d+q]=nmod_add(image[s*d+q],nmod_mul(scale,x,c.F.mod),c.F.mod);}
++        for(size_t z=0;z<targets.size();++z){size_t s=targets[z]/d,q=targets[z]%d;ulong x=0;for(size_t j=0;j<=q;++j)x=nmod_add(x,nmod_mul(head[a*stride+s*d+j],tail[b*stride+s*d+q-j],c.F.mod),c.F.mod);
++            image[z]=nmod_add(image[z],nmod_mul(scale,x,c.F.mod),c.F.mod);}
+     };
+     size_t nnz=0;
+-    apply_direct_invariant_columns(c,rows,stride,[&](size_t b,size_t j,ulong* image){
++    apply_direct_invariant_columns(c,rows,targets.size(),[&](size_t b,size_t j,ulong* image){
+         for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu)pair_image(fa.off[b]+mu*fa.m[b]+j/la.m[b],la.off[b]+mu*la.m[b]+j%la.m[b],image,mu?metric:1);});
+     for(const auto& row:rows)for(auto x:row.coefficients)nnz+=bool(x);
+     c.record(mrk?"mrk_direct":"collinear_direct",rows.size(),c.rows,nnz,(head.size()+tail.size()+rows.size()*c.rows)*8,start);return rows;
+@@ -107,6 +108,25 @@
+         }
+     });
+     c.record("collinear_rhs",rows.size(),1,0,rows.size()*8,start);start=c.now();
++    if(workload::compression()){
++        std::vector<unsigned char> active(la.dim);
++        for(size_t b=0;b<6;++b)for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu){bool used=false;
++            for(size_t f=0;f<fa.m[b]&&!used;++f)for(size_t sample=0;sample<n;++sample)if(head[(fa.off[b]+mu*fa.m[b]+f)*n+sample]){used=true;break;}
++            if(used)for(size_t l=0;l<la.m[b];++l)active[la.off[b]+mu*la.m[b]+l]=1;
++        }
++        auto selected=independent_collinear_suffix(c,la,rows,n,&active);std::vector<size_t> targets;
++        for(size_t sample=0;sample<n;++sample)for(auto beta:selected)targets.push_back(sample*t+beta);
++        select_equations(rows,targets);std::vector<size_t> selected_words;for(auto beta:selected)selected_words.push_back(c.tail_words[beta]);
++        // The shared tail word layout stays immutable across adapters/batches.
++        t=selected.size();stride=n*t;
++        apply_direct_invariant_columns(c,rows,stride,[&](size_t b,size_t j,ulong* image){
++            for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu){size_t i=fa.off[b]+mu*fa.m[b]+j/la.m[b],l=la.off[b]+mu*la.m[b]+j%la.m[b];
++                for(size_t sample=0;sample<n;++sample)for(size_t beta=0;beta<t;++beta){auto v=c.exact_tail[l*q+selected_words[beta]];
++                    auto x=nmod_mul(head[i*n+sample],v,c.F.mod);if(mu)x=nmod_mul(x,3,c.F.mod);image[sample*t+beta]=nmod_add(image[sample*t+beta],x,c.F.mod);}}
++        });
++        size_t nnz=0;for(const auto& row:rows)for(auto x:row.coefficients)nnz+=bool(x);
++        c.record("collinear_direct_tail_exact",rows.size(),c.rows,nnz,(head.size()+c.exact_tail.size()+rows.size()*c.rows)*8,start);return rows;
++    }
+     apply_direct_invariant_columns(c,rows,stride,[&](size_t b,size_t j,ulong* image){
+         for(size_t mu=0;mu<irr::specs()[b].irrep_dimension;++mu){size_t i=fa.off[b]+mu*fa.m[b]+j/la.m[b],l=la.off[b]+mu*la.m[b]+j%la.m[b];
+             for(size_t s=0;s<n;++s)for(size_t beta=0;beta<t;++beta){auto v=c.exact_tail[l*q+c.tail_words[beta]];
+--- /dev/null
++++ b/src/shared/exact_operator_compression.hpp
+@@ -0,0 +1,36 @@
++#pragma once
++#include <vector>
++#include <optional>
++#include <stdexcept>
++
++namespace exact_operator {
++using Dense=std::vector<std::vector<ulong>>;
++struct Basis {std::vector<size_t> selected;size_t certified_entries=0;};
++// Compress a small operator in a caller-supplied feature space. ALL affine
++// RHS/origin columns belong to that space. A zero residual is accepted only
++// after independently checking its explicit combination of original rows.
++inline Basis compress(const Dense& source,const field_t& F){
++    Basis out;if(source.empty())return out;size_t n=source.size(),width=source[0].size();
++    for(const auto& r:source){if(r.size()!=width)throw std::runtime_error("Operator compression width");
++        for(auto x:r)if(x>=F.mod.n)throw std::runtime_error("Operator compression residue");}
++    struct Pivot{std::vector<ulong> row,certificate;};std::vector<std::optional<Pivot>> pivots(width);
++    for(size_t i=0;i<n;++i){
++        if(source[i].size()!=width)throw std::runtime_error("Operator compression width");
++        auto row=source[i];std::vector<ulong> certificate(n);certificate[i]=1;
++        for(auto x:row)if(x>=F.mod.n)throw std::runtime_error("Operator compression residue");
++        for(size_t j=0;j<width;++j)if(row[j]&&pivots[j]){
++            ulong x=row[j];const auto& p=*pivots[j];
++            for(size_t k=j;k<width;++k)row[k]=nmod_sub(row[k],nmod_mul(x,p.row[k],F.mod),F.mod);
++            for(size_t k=0;k<n;++k)certificate[k]=nmod_sub(certificate[k],nmod_mul(x,p.certificate[k],F.mod),F.mod);
++        }
++        for(size_t k=0;k<width;++k){ulong x=0;
++            for(size_t j=0;j<n;++j)x=nmod_add(x,nmod_mul(certificate[j],source[j][k],F.mod),F.mod);
++            if(x!=row[k])throw std::runtime_error("Operator row-span certificate");++out.certified_entries;
++        }
++        size_t j=0;while(j<width&&!row[j])++j;if(j==width)continue;
++        ulong inv=n_invmod(row[j],F.mod.n);
++        for(auto& x:row)x=nmod_mul(x,inv,F.mod);for(auto& x:certificate)x=nmod_mul(x,inv,F.mod);
++        pivots[j]=Pivot{std::move(row),std::move(certificate)};out.selected.push_back(i);
++    }return out;
++}
++}
+--- a/src/shared/hexagon_collinear_tail_compression.hpp
++++ b/src/shared/hexagon_collinear_tail_compression.hpp
+@@ -13,6 +13,12 @@
+     for(size_t beta=0;beta<count;++beta){
+         for(size_t i=0;i<last.dim;++i)source[beta][i]=(!active||(*active)[i])?c.exact_tail[i*q+c.tail_words[beta]]:0;
+         for(size_t s=0;s<samples;++s)source[beta][last.dim+s]=raw[s*count+beta].rhs;
++    }
++    if(workload::compression()){
++        auto result=exact_operator::compress(source,F);auto selected=std::move(result.selected);size_t rank=selected.size();
++        if(selected.empty())selected.push_back(0);
++        std::cout<<"COL_TAIL_COMPRESSION raw_words="<<count<<" selected_words="<<selected.size()<<" affine_rank="<<rank<<" certificate_entries="<<result.certified_entries<<" rhs_columns="<<samples<<" complete_operator_preserved=1 generic=1"<<std::endl;
++        return selected;
+     }
+     struct Pivot{std::vector<ulong> row,certificate;};
+     std::vector<std::optional<Pivot>> pivots(width);std::vector<size_t> selected;
+--- a/src/shared/streaming_echelon.hpp
++++ b/src/shared/streaming_echelon.hpp
+@@ -2,6 +2,7 @@
+ #include "symrep.hpp"
+ #include <queue>
+ #include "structural_replay.hpp"
++#include "wide_modular_accumulator.hpp"
+ 
+ // Exact finite-field elimination with bounded input batches. Retain only an
+ // independent triangular row basis; redundant input rows never accumulate in
+@@ -20,8 +21,10 @@
+ }
+ class Reducer {
+     struct Work {std::vector<ulong> dense;std::vector<unsigned char> flags;std::vector<I> touched,heap;
+-        size_t heap_steps=0,route_steps=0,route_hits=0,route_fallbacks=0;
+-        explicit Work(size_t n):dense(n),flags(n){};};
++        size_t heap_steps=0,route_steps=0,route_hits=0,route_fallbacks=0;uint64_t coefficient_updates=0,queue_pushes=0;
++        std::vector<__uint128_t> wide;uint64_t wide_updates=0,wide_overflows=0;
++        workload::BitQueue bits;
++        explicit Work(size_t n):dense(n),flags(n),bits(n){};};
+     ModMat basis,pending;
+     structural_replay::Trace* trace=nullptr;
+     double reduce_cpu=0,forward_cpu=0,verify_cpu=0,back_cpu=0;
+@@ -36,32 +39,69 @@
+     size_t last_pruned_rank=0,zero_count=0;
+     size_t row_limit,nnz_limit,pending_nnz=0,input_rows=0,input_nnz=0,batches=0,retained_nnz=0;
+     size_t pivot_capacity_before=0,pivot_capacity_after=0;
++    void reduce_wide(ModVec& row,Work& w,structural_replay::Route* learn,const structural_replay::Route* route,size_t edge_limit)const{
++        using Wide=workload::WideModularAccumulator::Wide;
++        workload::WideModularAccumulator accumulator(fp.mod.n);
++        if(w.wide.empty())w.wide.resize(basis.ncol);
++        bool learning=bool(learn),routed=route&&route->complete;if(learn)learn->complete=true;
++        auto touch=[&](I c){if(!(w.flags[c]&1)){w.flags[c]|=1;w.touched.push_back(c);}};
++        auto enqueue=[&](I c){touch(c);if(pivot_row[c]>=0&&!(w.flags[c]&2)){w.flags[c]|=2;++w.queue_pushes;w.bits.push(pivot_row[c]);}};
++        for(auto[c,x]:row)if(substitutions.image[c]>=0){I j=substitutions.image[c];
++            ulong y=substitutions.scale[c]==1?x:nmod_mul(x,substitutions.scale[c],fp.mod);
++            accumulator.add(w.wide[j],y);if(routed)touch(j);else enqueue(j);
++        }
++        auto eliminate=[&](I r,bool queued){
++            I pivot=pivot_columns[r];ulong x=accumulator.reduce(w.wide[pivot]);w.wide[pivot]=0;
++            if(!x)return;x=fp.mod.n-x;
++            for(auto[c,y]:basis[r]){if(accumulator.add(w.wide[c],Wide(x)*y))++w.wide_overflows;if(queued)enqueue(c);else touch(c);}
++            // Normalized pivot coefficient is one. Its own update is exactly
++            // cancelled by the original coefficient modulo the field.
++            w.wide[pivot]=0;w.coefficient_updates+=basis[r].nnz();w.wide_updates+=basis[r].nnz();
++        };
++        if(routed){++w.route_hits;route->each([&](I r){if(size_t(r)<basis.nrow){++w.route_steps;eliminate(r,false);}});
++            size_t touched=w.touched.size();for(size_t i=0;i<touched;++i){I c=w.touched[i];if(w.wide[c]&&pivot_row[c]>=0)enqueue(c);}
++            if(!w.bits.empty())++w.route_fallbacks;
++        }
++        while(!w.bits.empty()){
++            I r=I(w.bits.pop());++w.heap_steps;
++            if(learning)learning=learn->append(r,edge_limit,basis[r].nnz());
++            eliminate(r,true);
++        }
++        if(learn){learn->pivots.shrink_to_fit();learn->packed.shrink_to_fit();}
++        row.zero();for(I c:w.touched){ulong x=w.wide[c]?accumulator.reduce(w.wide[c]):0;
++            if(x){require(pivot_row[c]<0,"Wide triangular reduction failed");row.push_back(c,x);}w.wide[c]=0;w.flags[c]=0;
++        }
++        w.touched.clear();row.sort_indices();row.compress();
++    }
+     void reduce(ModVec& row,Work& w,structural_replay::Route* learn=nullptr,
+                 const structural_replay::Route* route=nullptr,size_t edge_limit=0)const{
+         bool routed=route&&route->complete;
+-        if(learn){learn->complete=true;learn->pivots.clear();}
++        // Delay modular reduction only where overflow is infrequent. Route
++        // replay still scans ALL residual pivots and falls back exactly.
++        if(workload::kernels()&&fp.mod.n<=(uint64_t(1)<<61)){reduce_wide(row,w,learn,route,edge_limit);return;}
++        bool learning=bool(learn);if(learn){learn->complete=true;learn->pivots.clear();}
+         auto touch=[&](I c){if(!(w.flags[c]&1)){w.flags[c]|=1;w.touched.push_back(c);}};
+         auto enqueue=[&](I c){touch(c);if(pivot_row[c]>=0&&!(w.flags[c]&2)){
+-            w.flags[c]|=2;w.heap.push_back(pivot_row[c]);std::push_heap(w.heap.begin(),w.heap.end(),std::greater<I>());}};
++            w.flags[c]|=2;++w.queue_pushes;if(workload::kernels())w.bits.push(pivot_row[c]);else{w.heap.push_back(pivot_row[c]);std::push_heap(w.heap.begin(),w.heap.end(),std::greater<I>());}}};
+         for(auto[c,x]:row)if(substitutions.image[c]>=0){I j=substitutions.image[c];ulong y=substitutions.scale[c]==1?x:nmod_mul(x,substitutions.scale[c],fp.mod);
+             w.dense[j]=nmod_add(w.dense[j],y,fp.mod);if(routed)touch(j);else enqueue(j);}
+         if(routed){++w.route_hits;
+-            for(I r:route->pivots){if(size_t(r)>=basis.nrow)continue;++w.route_steps;
+-                ulong x=w.dense[pivot_columns[r]];if(!x)continue;ulong shoup=n_mulmod_precomp_shoup(x,fp.mod.n);
+-                for(auto[c,y]:basis[r]){ulong value=_nmod_sub(w.dense[c],n_mulmod_shoup(x,y,shoup,fp.mod.n),fp.mod);if(value)touch(c);w.dense[c]=value;}}
++            route->each([&](I r){if(size_t(r)>=basis.nrow)return;++w.route_steps;
++                ulong x=w.dense[pivot_columns[r]];if(!x)return;ulong shoup=n_mulmod_precomp_shoup(x,fp.mod.n);
++                for(auto[c,y]:basis[r]){ulong value=_nmod_sub(w.dense[c],n_mulmod_shoup(x,y,shoup,fp.mod.n),fp.mod);if(value)touch(c);w.dense[c]=value;}w.coefficient_updates+=basis[r].nnz();});
+             // Routing is only a performance hint: coefficients left on ANY
+             // pivot are eliminated by the ordinary heap. This is an exact
+             // local fallback even when a cancellation changes at a new prime.
+             size_t touched=w.touched.size();for(size_t i=0;i<touched;++i){I c=w.touched[i];if(w.dense[c]&&pivot_row[c]>=0)enqueue(c);}
+-            if(!w.heap.empty())++w.route_fallbacks;
+-        }
+-        while(!w.heap.empty()){
+-            std::pop_heap(w.heap.begin(),w.heap.end(),std::greater<I>());I r=w.heap.back();w.heap.pop_back();++w.heap_steps;
+-            if(learn&&learn->complete){if(learn->pivots.size()<edge_limit)learn->pivots.push_back(r);else{learn->complete=false;learn->pivots.clear();}}
++            if(workload::kernels()?!w.bits.empty():!w.heap.empty())++w.route_fallbacks;
++        }
++        while(workload::kernels()?!w.bits.empty():!w.heap.empty()){
++            I r;if(workload::kernels())r=I(w.bits.pop());else{std::pop_heap(w.heap.begin(),w.heap.end(),std::greater<I>());r=w.heap.back();w.heap.pop_back();}++w.heap_steps;
++            if(learning)learning=learn->append(r,edge_limit,basis[r].nnz());
+             ulong x=w.dense[pivot_columns[r]];if(!x)continue;ulong shoup=n_mulmod_precomp_shoup(x,fp.mod.n);
+-            for(auto[c,y]:basis[r]){ulong value=_nmod_sub(w.dense[c],n_mulmod_shoup(x,y,shoup,fp.mod.n),fp.mod);if(value)enqueue(c);w.dense[c]=value;}
+-        }
+-        if(learn)learn->pivots.shrink_to_fit();
++            for(auto[c,y]:basis[r]){ulong value=_nmod_sub(w.dense[c],n_mulmod_shoup(x,y,shoup,fp.mod.n),fp.mod);if(value)enqueue(c);w.dense[c]=value;}w.coefficient_updates+=basis[r].nnz();
++        }
++        if(learn){learn->pivots.shrink_to_fit();learn->packed.shrink_to_fit();}
+         row.zero();for(I c:w.touched){if(w.dense[c]){require(pivot_row[c]<0,"streaming triangular reduction failed");row.push_back(c,w.dense[c]);}w.dense[c]=0;w.flags[c]=0;}
+         w.touched.clear();row.sort_indices();row.compress();
+     }
+@@ -82,16 +122,22 @@
+         double reduce_started=cpu_now();
+         size_t edge_limit=0;
+         if(trace&&!trace->replay&&basis.nrow){
+-            size_t available=trace->max_route_edges*sizeof(I)-trace->route_bytes;
++            size_t available=workload::routes()?(8ULL<<20):trace->max_route_edges*sizeof(I)-trace->route_bytes;
+             size_t headers=pending.nrow*sizeof(structural_replay::Route);
+-            if(available>headers)edge_limit=std::min(size_t(16384),(available-headers)/sizeof(I)/pending.nrow);
+-            if(edge_limit){learned.routes.resize(pending.nrow);trace->route_bytes+=headers;}
+-        }
+-        if(basis.nrow){opt->pool.detach_loop(size_t(0),pending.nrow,[&](size_t i){
+-            reduce(pending[i],work[thread_id()],learned.routes.empty()?nullptr:&learned.routes[i],
++            if(available>headers)edge_limit=std::min(size_t(16384),(available-headers)/(workload::routes()?1:sizeof(I))/pending.nrow);
++            if(edge_limit)learned.routes.resize(pending.nrow);
++        }
++        if(basis.nrow){auto action=[&](size_t i){
++            reduce(pending[i],work[workload::slot()],learned.routes.empty()?nullptr:&learned.routes[i],
+                 replay&&i<replay->routes.size()?&replay->routes[i]:nullptr,edge_limit);
+-        });opt->pool.wait();}
+-        if(trace&&!trace->replay)for(const auto& route:learned.routes){trace->route_edges+=route.pivots.size();trace->route_bytes+=route.pivots.size()*sizeof(I);}
++        };
++        if(workload::kernels())workload::balanced(pending.nrow,&opt->pool,[&](size_t i){
++            uint64_t n=pending[i].nnz();for(auto[c,x]:pending[i]){I r=pivot_row[c];if(r>=0)n+=basis[r].nnz();}return n;
++        },action);else{opt->pool.detach_loop(size_t(0),pending.nrow,action);opt->pool.wait();}}
++        if(trace&&!trace->replay){
++            if(workload::routes())trace->retain_routes(learned);
++            else{trace->route_bytes+=learned.routes.size()*sizeof(structural_replay::Route);for(const auto& r:learned.routes){trace->route_edges+=r.pivots.size();trace->route_bytes+=r.bytes();}}
++        }
+ 
+         reduce_cpu+=cpu_now()-reduce_started;
+         std::vector<size_t> source_order;
+@@ -139,7 +185,7 @@
+         }
+         if(replay){
+             double verify_started=cpu_now();dependent_inputs+=discarded.nrow;
+-            opt->pool.detach_loop(size_t(0),discarded.nrow,[&](size_t i){reduce(discarded[i],work[thread_id()]);});opt->pool.wait();
++            opt->pool.detach_loop(size_t(0),discarded.nrow,[&](size_t i){reduce(discarded[i],work[workload::slot()]);});opt->pool.wait();
+             for(const auto& row:discarded.rows)structural_replay::guard(!row.nnz(),"Replay discarded equation gained rank or changed affine RHS");
+             verify_cpu+=cpu_now()-verify_started;
+         }
+@@ -169,6 +215,10 @@
+         require(!basis.nrow&&pending.rows.empty()&&matrix.ncol==basis.ncol,"streaming seed requires an empty compatible reducer");
+         input_rows=matrix.nrow;input_nnz=matrix.nnz();pending_nnz=input_nnz;pending=std::move(matrix);flush();
+     }
++    size_t input_nonzeros()const{return input_nnz;}
++    uint64_t arithmetic_work()const{uint64_t n=0;for(auto& w:work)n+=w.coefficient_updates;return n;}
++    workload::GainWork competing_work;
++    size_t retained_nonzeros()const{return retained_nnz;}
+     size_t rank()const{return basis.nrow;}
+     size_t completed_batches()const{return batches;}
+     bool is_zero(size_t column)const{return known_zero[column];}
+@@ -216,6 +266,10 @@
+         std::cout<<"DEPENDENCY_PROFILE heap_steps="<<heap_steps<<" route_steps="<<route_steps<<" route_hits="<<route_hits
+             <<" local_fallbacks="<<route_fallbacks<<" stored_edges="<<(trace?trace->route_edges:0)
+             <<" stored_route_bytes="<<(trace?trace->route_bytes:0)<<" route_payload_cap_bytes="<<(trace?trace->max_route_edges*sizeof(I):0)<<std::endl;
++        uint64_t updates=0,pushes=0;for(auto& w:work){updates+=w.coefficient_updates;pushes+=w.queue_pushes;}
++        std::cout<<"KERNEL_WORK coefficient_updates="<<updates<<" queue_pushes="<<pushes<<" bitqueue="<<workload::kernels()<<std::endl;
++        uint64_t wide_updates=0,overflows=0;for(auto& w:work){wide_updates+=w.wide_updates;overflows+=w.wide_overflows;}
++        std::cout<<"WIDE_KERNEL updates="<<wide_updates<<" exact_overflow_corrections="<<overflows<<std::endl;
+         work.clear();
+         std::cout<<"streaming_complete rows="<<input_rows<<" input_nnz="<<input_nnz<<" rank="<<basis.nrow<<" retained_nnz="<<basis.nnz()
+                  <<" retained_alloc="<<basis.alloc()<<" retained_array_bytes="<<basis.alloc()*(sizeof(ulong)+sizeof(I))
+--- a/src/shared/structural_replay.hpp
++++ b/src/shared/structural_replay.hpp
+@@ -3,6 +3,7 @@
+ #include <fstream>
+ #include <numeric>
+ #include <stdexcept>
++#include "workload_kernels.hpp"
+ 
+ namespace structural_replay {
+ using I=int32_t;
+@@ -10,26 +11,78 @@
+ using Groups=std::vector<std::vector<pivot_t<I>>>;
+ struct Mismatch:std::runtime_error{using std::runtime_error::runtime_error;};
+ inline void guard(bool ok,const char* why){if(!ok)throw Mismatch(why);}
+-struct Route {bool complete=false;std::vector<I> pivots;};
++struct Route {
++    bool complete=false;std::vector<I> pivots;std::vector<unsigned char> packed;
++    size_t count=0;uint64_t benefit=0;I last=-1;
++    size_t bytes()const{return pivots.size()*sizeof(I)+packed.size();}
++    bool append(I r,size_t limit,uint64_t work){
++        if(!workload::routes()){
++            if(pivots.size()>=limit){complete=false;pivots.clear();return false;}
++            pivots.push_back(r);return true;
++        }
++        uint32_t delta=uint32_t(r-last),x=delta;size_t n=1;while(x>=128){x>>=7;++n;}
++        if(packed.size()+n>limit)return false;
++        while(delta>=128){packed.push_back((delta&127)|128);delta>>=7;}packed.push_back(delta);
++        last=r;++count;benefit+=work;return true;
++    }
++    template<class Function>void each(Function f)const{
++        if(packed.empty()){for(I x:pivots)f(x);return;}
++        I previous=-1;uint32_t x=0;unsigned shift=0;
++        for(auto b:packed){x|=uint32_t(b&127)<<shift;if(b&128)shift+=7;
++            else{previous+=I(x);f(previous);x=0;shift=0;}}
++    }
++};
+ struct Batch {std::vector<Route> routes;size_t inputs=0;uint64_t support=0;std::vector<size_t> selected;Groups groups;};
+ struct Trace {
++    std::vector<size_t> physical_decisions;size_t decision_cursor=0;
++    size_t peek_decision()const{guard(replay&&decision_cursor<physical_decisions.size(),"Replay missing physical stop");return physical_decisions[decision_cursor];}
++    size_t decision(size_t proposed){
++        if(!replay){physical_decisions.push_back(proposed);return proposed;}
++        guard(decision_cursor<physical_decisions.size(),"Replay extra physical decision");return physical_decisions[decision_cursor++];
++    }
++    static size_t batch_bytes(const Batch& b){size_t n=b.routes.size()*sizeof(Route);for(auto& r:b.routes)n+=r.bytes();return n;}
++    static uint64_t batch_benefit(const Batch& b){uint64_t n=0;for(auto& r:b.routes)n+=r.benefit;return n;}
++    void retain_routes(Batch& next){
++        size_t bytes=batch_bytes(next);if(!bytes)return;
++        uint64_t benefit=batch_benefit(next);size_t budget=max_route_edges*sizeof(I);
++        auto drop=[](Batch& b){std::vector<Route>().swap(b.routes);};
++        if(bytes>budget||!benefit){drop(next);return;}
++        // Plan evictions before mutating the cache. A rejected large block
++        // must not displace useful smaller blocks along the way.
++        struct Victim{size_t index,bytes;uint64_t benefit;};std::vector<Victim> victims;
++        if(route_bytes+bytes>budget){
++            for(size_t i=0;i<batches.size();++i)if(!batches[i].routes.empty()){
++                size_t old_bytes=batch_bytes(batches[i]);uint64_t old_benefit=batch_benefit(batches[i]);
++                if(__uint128_t(benefit)*old_bytes>__uint128_t(old_benefit)*bytes)victims.push_back({i,old_bytes,old_benefit});
++            }
++            std::stable_sort(victims.begin(),victims.end(),[](auto& a,auto& b){return __uint128_t(a.benefit)*b.bytes<__uint128_t(b.benefit)*a.bytes;});
++            size_t available=budget-route_bytes,needed=0;while(available<bytes&&needed<victims.size())available+=victims[needed++].bytes;
++            if(available<bytes){drop(next);return;}victims.resize(needed);
++        }
++        for(auto v:victims){route_bytes-=v.bytes;for(auto& r:batches[v.index].routes)route_edges-=r.count?r.count:r.pivots.size();drop(batches[v.index]);
++        }
++        route_bytes+=bytes;for(auto& r:next.routes)route_edges+=r.count?r.count:r.pivots.size();
++    }
++
+     size_t columns=0,cursor=0;bool replay=false;
+     size_t route_edges=0,route_bytes=0,max_route_edges=(64ULL<<20)/sizeof(I);
+     std::vector<Batch> batches;
+-    void complete()const{guard(!replay||cursor==batches.size(),"Replay batch count changed");}
++    void complete()const{guard(!replay||(cursor==batches.size()&&decision_cursor==physical_decisions.size()),"Replay batch/physical decision count changed");}
+     void write(std::ostream& out,const std::string& identity)const{
+-        out<<"sparse-structural-replay-v2\n"<<identity<<'\n'<<columns<<' '<<batches.size()<<' '<<max_route_edges<<'\n';
++        out<<"sparse-structural-replay-v3-packed-work\n"<<identity<<'\n'<<columns<<' '<<batches.size()<<' '<<max_route_edges<<' '<<physical_decisions.size()<<'\n';for(auto x:physical_decisions)out<<x<<' ';out<<'\n';
+         for(const auto& b:batches){out<<b.inputs<<' '<<b.support<<' '<<b.selected.size()<<' '<<b.groups.size()<<'\n';
+             for(auto r:b.selected)out<<r<<' ';out<<'\n';
+             for(const auto& g:b.groups){out<<g.size();for(auto[r,c]:g)out<<' '<<r<<' '<<c;out<<'\n';}
+-            out<<b.routes.size()<<'\n';for(const auto& route:b.routes){out<<route.complete<<' '<<route.pivots.size();for(auto x:route.pivots)out<<' '<<x;out<<'\n';}}
++            out<<b.routes.size()<<'\n';for(const auto& route:b.routes){out<<route.complete<<' '<<route.pivots.size();for(auto x:route.pivots)out<<' '<<x;
++                out<<' '<<route.count<<' '<<route.benefit<<' '<<route.packed.size()<<' ';
++                static const char hex[]="0123456789abcdef";if(route.packed.empty())out<<'-';else for(auto x:route.packed)out<<hex[x>>4]<<hex[x&15];out<<'\n';}}
+ 
+         guard(bool(out),"Replay plan write failed");
+     }
+     static Trace read(std::istream& in,const std::string& identity){
+         std::string schema,key;std::getline(in,schema);std::getline(in,key);
+-        guard(schema=="sparse-structural-replay-v2"&&key==identity,"Replay identity changed");
+-        Trace t;t.replay=true;size_t count;in>>t.columns>>count>>t.max_route_edges;
++        guard(schema=="sparse-structural-replay-v3-packed-work"&&key==identity,"Replay identity changed");
++        Trace t;t.replay=true;size_t count;in>>t.columns>>count>>t.max_route_edges;size_t nd;in>>nd;guard(bool(in)&&nd<1000000,"Replay decision count");t.physical_decisions.resize(nd);for(auto& x:t.physical_decisions){in>>x;guard(bool(in),"Replay decision data");}
+         guard(bool(in)&&t.columns<=INT32_MAX&&count<1000000&&t.max_route_edges<=(64ULL<<20)/sizeof(I),"Replay plan dimensions");t.batches.resize(count);
+         for(auto& b:t.batches){size_t nr,ng;in>>b.inputs>>b.support>>nr>>ng;
+             guard(bool(in)&&b.inputs<=INT32_MAX&&nr<=t.columns&&nr<=b.inputs&&ng<=nr+1,"Replay batch dimensions");
+@@ -45,6 +98,15 @@
+                 route.complete=valid;route.pivots.resize(n);I previous=-1;
+                 for(auto& x:route.pivots){in>>x;guard(bool(in)&&x>=0&&size_t(x)<t.columns&&x>previous,"Replay route index/order");previous=x;}
+                 t.route_edges+=n;t.route_bytes+=n*sizeof(I);
++                size_t bytes;std::string hex;in>>route.count>>route.benefit>>bytes>>hex;
++                guard(bool(in)&&bytes<=t.max_route_edges*sizeof(I)-t.route_bytes&&(valid||(bytes==0&&route.count==0))&&(!bytes||!n),"Replay packed budget/mode");
++                guard(bytes?hex.size()==2*bytes:hex=="-","Replay packed shape");
++                auto digit=[](char x)->unsigned{guard((x>='0'&&x<='9')||(x>='a'&&x<='f'),"Replay hex digit");return x<='9'?x-'0':x-'a'+10;};
++                route.packed.resize(bytes);for(size_t j=0;j<bytes;++j)route.packed[j]=(digit(hex[2*j])<<4)|digit(hex[2*j+1]);
++                uint32_t delta=0;unsigned shift=0;uint64_t index=0;size_t decoded=0;
++                for(auto b:route.packed){guard(shift<35&&(shift!=28||(b&127)<8),"Replay delta overflow");delta|=uint32_t(b&127)<<shift;
++                    if(b&128)shift+=7;else{guard(delta>0,"Replay nonpositive delta");index+=delta;guard(index<=t.columns,"Replay packed index");++decoded;delta=0;shift=0;}}
++                guard(!shift&&decoded==route.count,"Replay packed truncation/count");t.route_edges+=route.count;t.route_bytes+=bytes;
+             }}
+         std::string extra;guard(!(in>>extra),"Replay plan trailing data");return t;
+     }
+--- /dev/null
++++ b/src/shared/wide_modular_accumulator.hpp
+@@ -0,0 +1,27 @@
++#pragma once
++#include <cstdint>
++#include <stdexcept>
++
++namespace workload {
++// Exact delayed reduction. If unsigned addition wraps, the mathematical sum
++// is represented by wrapped + 2^128. Reduce that exceptional case immediately;
++// otherwise retain the full sum until its coefficient is actually needed.
++// This works for any nonzero 64-bit modulus. Dispatch can separately restrict
++// it to fields where infrequent overflow makes it profitable.
++struct WideModularAccumulator {
++    using Wide=__uint128_t;
++    uint64_t modulus,wrap_residue;
++    explicit WideModularAccumulator(uint64_t p):modulus(p){
++        if(!p)throw std::runtime_error("Zero accumulator modulus");
++        Wide half=(Wide(1)<<127)%p;wrap_residue=uint64_t((half*2)%p);
++    }
++    uint64_t reduce(Wide value)const{return uint64_t(value%modulus);}
++    bool add(Wide& value,Wide product)const{
++        Wide previous=value;value+=product;
++        if(value>=previous)return false;
++        uint64_t r=reduce(value);
++        value=r>=modulus-wrap_residue?r-(modulus-wrap_residue):r+wrap_residue;
++        return true;
++    }
++};
++}
+--- /dev/null
++++ b/src/shared/workload_kernels.hpp
+@@ -0,0 +1,100 @@
++#pragma once
++#include <atomic>
++#include <bit>
++#include <cstdint>
++#include <cstdlib>
++#include <exception>
++#include <vector>
++#include <algorithm>
++#include <stdexcept>
++
++namespace workload {
++inline bool option(const char* name) {
++    const char* p=std::getenv(name);
++    if(!p)return true;
++    if(std::string(p)!="0"&&std::string(p)!="1")throw std::runtime_error(std::string("Invalid switch: ")+name);
++    return *p=='1';
++}
++inline bool kernels(){static const bool x=option("SOLVER_WORK_KERNELS");return x;}
++inline bool schedule(){static const bool x=option("SOLVER_WORK_SCHEDULE");return x;}
++inline bool compression(){static const bool x=option("SOLVER_EXACT_COMPRESSION");return x;}
++inline bool routes(){static const bool x=option("SOLVER_PACKED_ROUTES");return x;}
++inline size_t slot(){return BS::this_thread::get_index().value_or(0);}
++template<class Scalar>bool prefer_dense(const Scalar* values,size_t n){
++    if(n<256)return false;
++    size_t nonzero=std::count_if(values,values+n,[](Scalar x){return x!=0;});
++    return nonzero>=n-n/8;
++}
++
++// Exact ordered integer set. Upper levels mark nonempty words below them.
++// No matrix values or ordering assumptions enter the queue implementation.
++class BitQueue {
++    std::vector<std::vector<uint64_t>> level;
++public:
++    explicit BitQueue(size_t n){do{n=(n+63)/64;level.emplace_back(std::max(size_t(1),n));}while(n>1);}
++    bool empty()const{return !level.back()[0];}
++    void push(size_t x){
++        for(auto& a:level){size_t j=x/64;uint64_t old=a[j];a[j]|=uint64_t(1)<<(x%64);if(old)break;x=j;}
++    }
++    size_t pop(){
++        if(empty())throw std::runtime_error("Empty bit queue");
++        size_t x=0;for(size_t k=level.size();k-->0;)x=64*x+std::countr_zero(level[k][x]);
++        size_t result=x;
++        for(auto& a:level){size_t j=x/64;a[j]&=~(uint64_t(1)<<(x%64));if(a[j])break;x=j;}
++        return result;
++    }
++};
++
++// Contiguous task ranges with approximately equal predicted arithmetic.
++// Workers dynamically claim ranges; output ownership and arithmetic order
++// within each row remain fixed. The pool must not already be in use.
++template<class Estimate,class Function>
++void balanced(size_t count,thread_pool* pool,Estimate estimate,Function function,size_t cap=SIZE_MAX){
++    if(!count)return;
++    size_t workers=pool?std::min({count,size_t(pool->get_thread_count()),cap}):1;
++    std::vector<uint64_t> cost(count);uint64_t total=0;
++    for(size_t i=0;i<count;++i){cost[i]=std::max(uint64_t(1),uint64_t(estimate(i)));total+=cost[i];}
++    workers=std::min(workers,std::max(size_t(1),size_t(total/16384)));
++    if(workers<=1){for(size_t i=0;i<count;++i)function(i);return;}
++    uint64_t target=std::max(uint64_t(16384),total/(workers*8));
++    std::vector<std::pair<size_t,size_t>> ranges;size_t first=0;uint64_t sum=0;
++    for(size_t i=0;i<count;++i){sum+=cost[i];if(sum>=target){ranges.emplace_back(first,i+1);first=i+1;sum=0;}}
++    if(first<count)ranges.emplace_back(first,count);
++    std::atomic<size_t> next=0;std::atomic<bool> failed=false;std::vector<std::exception_ptr> errors(workers);
++    pool->detach_loop(size_t(0),workers,[&](size_t worker){try{
++        while(!failed){size_t q=next.fetch_add(1,std::memory_order_relaxed);if(q>=ranges.size())break;
++            for(size_t i=ranges[q].first;i<ranges[q].second;++i)function(i);}
++    }catch(...){errors[worker]=std::current_exception();failed=true;}});pool->wait();
++    for(auto e:errors)if(e)std::rethrow_exception(e);
++}
++
++// Measurements here are integer work counters, never clock deadlines.
++struct GainWork {
++    uint64_t gain=1,work=1;size_t visits=0;
++    void observe(uint64_t g,uint64_t w){gain=g;work=std::max(uint64_t(1),w);++visits;}
++};
++inline bool competitive(const GainWork& candidate,const GainWork& alternative){
++    if(!candidate.visits||!alternative.visits)return true;
++    if(!alternative.gain)return true;
++    return __uint128_t(candidate.gain)*alternative.work>=__uint128_t(alternative.gain)*candidate.work;
++}
++struct CycleProgress {
++    std::vector<bool> seen;size_t completed=0;
++    explicit CycleProgress(size_t n):seen(n){}
++    void admit(size_t task,const std::vector<bool>& finished){
++        if(task>=seen.size()||finished.size()!=seen.size())throw std::runtime_error("Cycle task shape");
++        seen[task]=true;bool done=true;for(size_t i=0;i<seen.size();++i)done=done&&(seen[i]||finished[i]);
++        if(done){++completed;seen=finished;}
++    }
++};
++inline size_t choose(const std::vector<GainWork>& costs,const std::vector<bool>& enabled,size_t previous,size_t streak){
++    size_t best=SIZE_MAX;
++    for(size_t i=0;i<costs.size();++i)if(enabled[i]){
++        if(!costs[i].visits)return i;
++        if(streak>=4&&i==previous&&std::count(enabled.begin(),enabled.end(),true)>1)continue;
++        if(best==SIZE_MAX||(__uint128_t(costs[i].gain+1)*costs[best].work>
++                           __uint128_t(costs[best].gain+1)*costs[i].work))best=i;
++    }
++    return best;
++}
++}
+--- a/tests/joint_physics_v26.cpp
++++ b/tests/joint_physics_v27.cpp
+@@ -157,7 +157,7 @@
+     fields descriptor={{"schema","irr-physics-v2-candidate"},{"operator","bulk"},
+         {"history","joint_seam_collinear_mrk_ope_small_s"},{"helicity","MHV"},
+         {"h",std::to_string(s.h)},{"k",std::to_string(s.k)},{"object_kind","affine"},
+-        {"algorithm","joint-discovery-physical-affine-v26-64mib-dependency-replay-affine-factors-reclaimed"},{"prereduce",direction},{"target",std::to_string(target)},
++        {"algorithm","joint-discovery-physical-affine-v27-workload-compression-packed-replay"},{"prereduce",direction},{"target",std::to_string(target)},
+         {"empirical_assumptions",bonus?"MHV double-final bonus relations, Dixon-Liu 2308.08199 eq76-79, full D3 orbit; extrapolated to L10":"none"},
+         {"early_physics","4 light rounds; persistent COL/MRK cycle cursor across 120-second callbacks; due OPE precedes the next cycle"},
+         {"joint_input_sha256",hex_sha256_file(s.output/"joint_inputs.txt")},
+@@ -167,6 +167,11 @@
+     descriptor["discovery_replay"]=switch_value("HEXAGON_DISCOVERY_REPLAY");
+     descriptor["affine_factors"]=switch_value("HEXAGON_AFFINE_FACTORS");
+     descriptor["discovery_route_budget_bytes"]="67108864";
++    for(const char* name:{"SOLVER_WORK_KERNELS","SOLVER_WORK_SCHEDULE","SOLVER_EXACT_COMPRESSION","SOLVER_PACKED_ROUTES"})descriptor[name]=workload::option(name)?"1":"0";
++    descriptor["early_physics"]=workload::schedule()?"4 light rounds; deterministic nonzero/work budgets; measured gain per work compared with seam elimination including fill; persistent cycles; recorded task/stop replay":"4 light rounds; original persistent COL/MRK cursor and 120-second deadlines";
++    descriptor["operator_compression"]=workload::compression()?"generic exact augmented feature-space row-span certificates; collinear and polynomial convolution training adapters":"V26 collinear suffix compression only";
++    descriptor["kernel_policy"]=workload::kernels()?"exact delayed 128-bit accumulation for fields <=61 bits; complete residual route fallback; hierarchical bit queue; weighted tasks; exact vector density; bounded scratch":"legacy heap and task kernels";
++    descriptor["route_policy"]=workload::routes()?"delta varints; 64 MiB retained plus 8 MiB learning workspace; block benefit-per-byte admission":"legacy 64 MiB prefix admission";
+     run.bind(root,descriptor);
+     run.special_evaluator=[&](const fs::path& requested,ulong p){
+         require(fs::canonical(requested)==fs::canonical(root),"Unexpected joint source");
+@@ -215,7 +220,7 @@
+             policy.target_augmented_nullity=target+1;
+             policy.activate_nullity=std::min(size_t(50000),rows.ncol()/5);
+             auto compute=[&](structural_replay::Trace* trace){
+-                hexagon_adaptive_physics::DirectSchedule schedule(run.c,run.s.seed,policy);
++                hexagon_adaptive_physics::DirectSchedule schedule(run.c,run.s.seed,policy,trace);
+                 auto early=[&](streaming_echelon::Reducer& reducer,const std::vector<int32_t>& coordinate,size_t round){
+                     if(bonus&&round==0)mhv_double_bonus::seed_original_coordinates(run.c,reducer,coordinate);
+                     schedule(reducer,coordinate,round);
+--- a/tests/v24_generic_control.cpp
++++ b/tests/v27_generic_control.cpp
+@@ -39,7 +39,7 @@
+                 try{check(reduce(a,n+1,F,opt,&trace)==reference,"replay row space differs");++replays;
+                     std::stringstream damaged;learned.write(damaged,"synthetic-family");
+                     auto incomplete=structural_replay::Trace::read(damaged,"synthetic-family");
+-                    for(auto& batch:incomplete.batches)for(auto& route:batch.routes)route.pivots.clear();
++                    for(auto& batch:incomplete.batches)for(auto& route:batch.routes){route.pivots.clear();route.packed.clear();route.count=0;}
+                     check(reduce(a,n+1,F,opt,&incomplete)==reference,"local route fallback row space differs");
+                 }
+                 catch(const structural_replay::Mismatch&){check(reduce(a,n+1,F,opt,nullptr)==reference,"fallback row space differs");++fallbacks;}}
+--- /dev/null
++++ b/tests/v27_additional_controls.cpp
+@@ -0,0 +1,103 @@
++#include "shared/streaming_echelon.hpp"
++#include "shared/exact_operator_compression.hpp"
++#include <random>
++#include <set>
++#include <sstream>
++using Dense=exact_operator::Dense;
++void check(bool b,const char* why){if(!b)throw std::runtime_error(why);}
++size_t gauss(Dense& a,const field_t& F){
++    if(a.empty())return 0;size_t rank=0;
++    for(size_t j=0;j<a[0].size()&&rank<a.size();++j){size_t r=rank;while(r<a.size()&&!a[r][j])++r;if(r==a.size())continue;
++        std::swap(a[r],a[rank]);ulong inv=n_invmod(a[rank][j],F.mod.n);for(auto& x:a[rank])x=nmod_mul(x,inv,F.mod);
++        for(size_t i=0;i<a.size();++i)if(i!=rank&&a[i][j]){ulong x=a[i][j];for(size_t k=j;k<a[i].size();++k)a[i][k]=nmod_sub(a[i][k],nmod_mul(x,a[rank][k],F.mod),F.mod);}++rank;
++    }a.resize(rank);return rank;
++}
++int main()try{
++    Flint::set_memory_functions();std::mt19937 rng(7102026);size_t queue_ops=0,compression_cases=0,schedule_cases=0;
++    {
++        size_t overflows=0;
++        for(ulong p:{101UL,103UL,1152921504606847009UL,1152921504606847067UL,18446744073709551557UL}){
++            field_t F(FIELD_Fp,p);workload::WideModularAccumulator kernel(p);__uint128_t value=0;ulong reference=0;
++            for(size_t i=0;i<10000;++i){ulong a=p-1-(rng()%97),b=p-1-(rng()%97);
++                overflows+=kernel.add(value,__uint128_t(a)*b);reference=nmod_add(reference,nmod_mul(a,b,F.mod),F.mod);
++                if(i%37==0)check(kernel.reduce(value)==reference,"Delayed modular accumulation differs from canonical arithmetic");
++            }check(kernel.reduce(value)==reference,"Delayed accumulation final residue");
++        }check(overflows>0,"Accumulator overflow path untested");
++        std::cout<<"WIDE_CONTROL overflow_cases="<<overflows<<" canonical_reference_equal=1"<<std::endl;
++    }
++    for(size_t n:{size_t(1),size_t(63),size_t(64),size_t(65),size_t(4097),size_t(105899),size_t(262145)}){
++        workload::BitQueue q(n);std::set<size_t> ref;
++        for(size_t i=0;i<100000;++i){if(ref.empty()||rng()%3){size_t j=rng()%n;q.push(j);ref.insert(j);}else{check(q.pop()==*ref.begin(),"Bit queue order");ref.erase(ref.begin());}check(q.empty()==ref.empty(),"Bit queue empty");++queue_ops;}
++        while(!ref.empty()){check(q.pop()==*ref.begin(),"Bit queue drain");ref.erase(ref.begin());++queue_ops;}check(q.empty(),"Bit queue retained state");
++    }
++    rref_option_t opt;opt->pool.reset(4);
++    {
++        std::vector<ulong> periodic(512);for(size_t i=0;i<periodic.size();i+=16)periodic[i]=1;
++        check(!workload::prefer_dense(periodic.data(),periodic.size()),"Density sampling alias");
++        std::fill(periodic.begin(),periodic.end(),1);check(workload::prefer_dense(periodic.data(),periodic.size()),"Dense dispatch");
++        workload::CycleProgress cycle(2);
++        for(size_t callback=0;callback<3;++callback)cycle.admit(0,{false,false});
++        check(cycle.completed==0,"Premature cycle");cycle.admit(1,{false,false});check(cycle.completed==1,"Cycle lost across budgets");
++        cycle.admit(1,{true,false});check(cycle.completed==2,"Finished task blocks cycle");
++        workload::GainWork task,seam;task.observe(7,1000);seam.observe(30,1000);
++        check(!workload::competitive(task,seam),"Unproductive early work admitted");
++        task.observe(70,1000);check(workload::competitive(task,seam),"Productive work deferred");
++        seam.observe(0,1);check(workload::competitive(task,seam),"Stagnant alternative received artificial rank gain");
++    }
++    for(size_t n:{size_t(0),size_t(1),size_t(37),size_t(1000)}){
++        std::vector<size_t> x(n);workload::balanced(n,&opt->pool,[&](size_t i){return i%17?1:100000;},[&](size_t i){++x[i];});
++        for(auto v:x)check(v==1,"Balanced ownership");
++    }
++    bool caught=false;try{workload::balanced(1000,&opt->pool,[](size_t){return 10000;},[](size_t i){if(i==51)throw std::runtime_error("expected");});}catch(const std::runtime_error&){caught=true;}check(caught,"Worker exception swallowed");
++    for(ulong p:{101UL,103UL,1152921504606847009UL,1152921504606847067UL})for(size_t n:{size_t(1),size_t(7),size_t(24)})for(size_t cols:{size_t(1),size_t(3),size_t(31)})for(size_t family=0;family<4;++family){
++        field_t F(FIELD_Fp,p);Dense a(n,std::vector<ulong>(cols+3));
++        for(auto& row:a)for(auto& v:row)v=rng()%p;
++        if(family==0)for(auto& row:a)std::fill(row.begin(),row.end(),0);
++        if(family==1)for(size_t r=1;r<n;++r)for(size_t c=0;c<cols+3;++c)a[r][c]=nmod_mul(r%p,a[0][c],F.mod);
++        if(family==2){for(auto& row:a)std::fill(row.begin(),row.end(),0);a.back().back()=1;}
++        if(family==3)for(size_t r=n/2;r<n;++r)a[r]=a[r/2];
++        auto basis=exact_operator::compress(a,F);Dense reference=a;gauss(reference,F);Dense selected;for(auto r:basis.selected)selected.push_back(a[r]);gauss(selected,F);check(selected==reference,"Compressed augmented row space");
++        // An arbitrary expensive linear projection and three affine columns.
++        Dense projected(n,std::vector<ulong>(12)),map(cols+3,std::vector<ulong>(12));for(auto& row:map)for(auto& x:row)x=rng()%p;
++        for(size_t r=0;r<n;++r)for(size_t j=0;j<cols+3;++j)for(size_t k=0;k<12;++k)projected[r][k]=nmod_add(projected[r][k],nmod_mul(a[r][j],map[j][k],F.mod),F.mod);
++        Dense after;for(auto r:basis.selected)after.push_back(projected[r]);gauss(after,F);gauss(projected,F);check(after==projected,"Preprojection compression changed operator");++compression_cases;
++    }
++    {
++        field_t F(FIELD_Fp,101),G(FIELD_Fp,103);
++        check(exact_operator::compress({{1,1},{1,1}},F).selected.size()==1,"Exceptional compression rank loss");
++        check(exact_operator::compress({{1,1},{1,102}},G).selected.size()==2,"Exceptional compression rank gain");
++        bool bad=false;try{exact_operator::compress({{1,2},{1}},F);}catch(const std::runtime_error&){bad=true;}check(bad,"Ragged compression input");
++    }
++    for(size_t pattern=0;pattern<64;++pattern){
++        auto run=[&](size_t fake_clock){std::vector<size_t> order;std::vector<workload::GainWork> cost(3);size_t previous=SIZE_MAX,streak=0;
++            for(size_t t=0;t<48;++t){std::vector<bool> enabled={true,true,bool(pattern&1)};auto chosen=workload::choose(cost,enabled,previous,streak);check(chosen<3&&enabled[chosen],"Ineligible scheduling");order.push_back(chosen);
++                cost[chosen].observe((pattern+chosen*7+t)%11,1+(pattern*97+chosen*31+t*13)%1000);
++                streak=previous==chosen?streak+1:1;previous=chosen;fake_clock+=rng()%10000;
++            }return order;};
++        check(run(0)==run(100000),"Schedule depends on time");++schedule_cases;
++    }
++    {
++        structural_replay::Trace t;t.columns=100000;t.max_route_edges=2048;
++        for(size_t batch=0;batch<12;++batch){structural_replay::Batch b;b.inputs=20;b.routes.resize(20);
++            for(size_t r=0;r<20;++r){auto& route=b.routes[r];route.complete=true;for(int j=0;j<100;++j)route.append(j*(r+1),128,(batch+1)*100);route.packed.shrink_to_fit();}
++            t.retain_routes(b);t.batches.push_back(std::move(b));check(t.route_bytes<=8192,"Route budget exceeded");
++        }
++        check(t.batches.front().routes.empty()&&!t.batches.back().routes.empty(),"Cost-based route eviction");
++        t.decision(1);t.decision(3);
++        std::stringstream stream;t.write(stream,"packed");auto copy=structural_replay::Trace::read(stream,"packed");check(copy.route_bytes==t.route_bytes&&copy.route_edges==t.route_edges,"Packed roundtrip accounting");
++        check(copy.decision(0)==1&&copy.peek_decision()==3&&copy.decision(3)==3,"Recorded task/stop replay");
++        copy.cursor=copy.batches.size();copy.complete();
++        for(size_t i=0;i<t.batches.size();++i)for(size_t r=0;r<t.batches[i].routes.size();++r){std::vector<int32_t> a,b;t.batches[i].routes[r].each([&](auto j){a.push_back(j);});copy.batches[i].routes[r].each([&](auto j){b.push_back(j);});check(a==b,"Packed route roundtrip");}
++        auto broken=t;for(auto& b:broken.batches)if(!b.routes.empty()){b.routes[0].packed.back()|=128;break;}
++        std::stringstream bad;broken.write(bad,"packed");bool caught=false;try{structural_replay::Trace::read(bad,"packed");}catch(const structural_replay::Mismatch&){caught=true;}check(caught,"Packed truncation guard");
++    }
++    {
++        structural_replay::Trace t;t.columns=10000;t.max_route_edges=512;
++        auto block=[](size_t bytes,uint64_t benefit){structural_replay::Batch b;b.inputs=1;b.routes.resize(1);auto& r=b.routes[0];r.complete=true;r.packed.assign(bytes,1);r.count=bytes;r.benefit=benefit;return b;};
++        auto low=block(600,6000);t.retain_routes(low);t.batches.push_back(std::move(low));
++        auto high=block(600,30000);t.retain_routes(high);t.batches.push_back(std::move(high));
++        size_t before=t.route_bytes;auto rejected=block(1500,32000);t.retain_routes(rejected);
++        check(rejected.routes.empty()&&t.route_bytes==before&&!t.batches[0].routes.empty()&&!t.batches[1].routes.empty(),"Rejected route block evicted useful cache");
++    }
++    std::cout<<"ADDITIONAL_CONTROL passed=1 queue_operations="<<queue_ops<<" compression_cases="<<compression_cases<<" deterministic_schedules="<<schedule_cases<<" packed_budget_and_damage_controls=1 exact_density_and_persistent_cycle_controls=1"<<std::endl;
++}catch(const std::exception& e){std::cerr<<"CONTROL_ERROR "<<e.what()<<std::endl;return 1;}

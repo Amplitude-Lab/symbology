@@ -1,0 +1,169 @@
+V18: validated final-seam optimization at eight and nine loops
+October 9, 2026, Pacific time
+
+V18 is implemented in a separate package. It reproduces the known eight- and
+nine-loop symbols in every checked coordinate. The final-seam phase is much
+faster, while complete-prime savings are smaller because discovery and OPE
+still dominate. The original V17 producer, data, checkpoints and accepted
+ten-loop result remain unchanged. V18 has not been selected for ten-loop work.
+
+Complete native first-prime measurements, 16 threads:
+
+Loop / solver / OPE cache       Wall seconds    Sampled peak RSS    Cgroup peak
+8 / V17 / 2 GiB                   60.861           1.871 GB          2.233 GB
+8 / V18 / 2 GiB                   58.907           1.874 GB          2.247 GB
+9 / V17 / 2 GiB                  511.502           5.957 GB          7.482 GB
+9 / V18 / 2 GiB                  495.895           5.950 GB          7.452 GB
+9 / V18 / 3 GiB                  467.490           5.984 GB          7.474 GB
+
+These matched first-prime runs show 3.21% less time at eight loops and 3.05%
+less at nine loops with equal cache settings. The combined nine-loop algorithm
+and cache configuration reduces time by 8.60%. The last comparison changes both
+algorithm and resource configuration; it is not an algorithm-only speed ratio.
+No meaningful complete-run peak-memory reduction is established.
+
+V18's second native prime took 59.631 s / 1.871 GB at eight loops and
+493.369 s / 5.924 GB at nine loops. Different moduli are operational repeated
+measurements, not controlled timing replications or confidence intervals.
+
+Same-checkpoint, same-prime finishing-phase measurements:
+
+Loop         V17           V18 learning       V18 replay
+8          1.470 s           0.563 s            0.566 s
+9         22.075 s           6.989 s            3.391 s
+
+At nine loops these are approximately 3.16x and 6.51x finishing-phase speedups.
+At eight loops the post-OPE checkpoint already has zero directions; its gain
+comes from faster complete verification, rather than constraint-row learning.
+Input loading and the independent original-code audit occur outside these
+phase timers. Process wall time and RSS include those activities.
+
+What changed
+
+1. Contract factors directly into candidate coordinates. V17 constructs each
+   complete sparse source equation, sorts and merges it, then contracts with
+   the transposed candidate. V18 sums the same factor products directly into
+   candidate coordinates. Distributivity makes the two contractions identical
+   over the finite field; no approximate arithmetic or sampled seam is used.
+
+2. Continue the learning scan after an affine restriction. A later restriction
+   is a left linear transformation of the current packed directions and origin.
+   A previously satisfied row remains zero under that transformation. V18
+   therefore continues at the next source block instead of reconstructing the
+   satisfied prefix. A complete final sweep still verifies the resulting object.
+
+3. Persist independent source-row addresses from the first prime. Later primes
+   regenerate the partial seam and every selected residual coefficient/RHS,
+   solve that small affine system, and lift once. No modular values are reused.
+   Plans bind input identity, source/candidate dimensions and expected rank;
+   checksum, identity, address and rank changes stop publication. Separate plans
+   are learned when the incoming candidate dimension changes. Plans are published
+   through synchronized temporary files, renames and a parent-directory sync.
+
+The actual second nine-loop prime reused all 380 selected rows. Its small solve
+took 0.0397 s, followed by 3.3369 s for complete seam verification. It performed
+380 selected contractions and one lift. The learning prime instead contracted
+372,388 rows and performed six lifts, then verified all rows.
+
+Both routes retain one common affine origin for all six D3 sectors, the original
+CG convention, the E metric (1,3), physical-copy-primitive normalization and
+origin-last cache convention. V17's augmented discovery, early physical work
+cursor, triangular OPE storage, shared MRK RHS and bonus ansatz are unchanged.
+The plan uses addresses in the recomputed factored row basis, not a claim that
+the modular numerical basis is identical at all primes. Layout/rank checks and
+the complete final operator check are essential to its acceptance policy.
+
+The measured cache improvement
+
+At nine loops each terminal OPE head occupies 876,573,360 bytes. Three auxiliary
+F values require 2,629,720,080 bytes, exceeding the original 2 GiB budget. The
+first V18 trial generated the terminal head four times, including one repeated
+value during checking. A 3 GiB cache retains all three values.
+
+Configuration           Terminal generations     All logged head-generation time
+V17, 2 GiB                      4                         126.203 s
+V18, 2 GiB                      4                         124.097 s
+V18, 3 GiB                      3                          94.199 s
+
+The larger cache removes about 29.9 s of logged OPE head work in this trial and
+reproduces all 105,898 known native coefficients. Its complete-prime peak RSS
+increased only about 34 MB relative to V18/2 GiB: the uncached third head already
+had to exist temporarily. This observation is specific to the tested data and
+cache lifetime; it is not a universal memory guarantee.
+
+Correctness and scope
+
+- Ten small affine cases at two primes match independent rational-origin and
+  free-direction formulas. Four guards reject lost replay rank, inconsistent
+  origin, wrong identity and a corrupted plan.
+- Direct contraction agrees with original row assembly on 4,224 actual sampled
+  rows at each loop, including the full incoming candidate coordinates.
+- All phase variants match every known native coefficient: 38,989 at eight
+  loops and 105,898 at nine loops. Each also verifies all 133,214 or 372,388
+  factored sewing rows through the independent original implementation.
+- Complete V17 and V18 first-prime runs reproduce the saved native results.
+- New V18 calculations at primes 1152921504606847009 and 1152921504606847067
+  pass all current fresh collinear/MRK/OPE checks. Exact split conversion to
+  12+4 and 14+4 agrees with reduction of the saved rational references at both
+  primes. This compares every coefficient, not just solution dimensions.
+- The 3 GiB nine-loop configuration also matches every native reference
+  coefficient and passes the same physical holdouts.
+
+The new calculations are finite-field controls against exact saved references.
+They are not new full QQ reconstructions, function-level constants, unrestricted
+uniqueness proofs or a complete test of all physical constraints. The inherited
+bonus assumptions and finite supplied physical coverage remain explicit.
+
+Measurement conditions
+
+All timed numerical jobs were serialized after the other chat's mapped/heap
+benchmarks completed. Mathematical audits and builds before that gate overlapped
+those earlier jobs; their resource figures are not speed comparisons. Timing
+used a matched GCC 14 build/runtime and native heap for both solvers. The primary
+nine-loop order was V18 then V17; the eight-loop order was V17 then V18. Source,
+binary, command, log, input, plan and cache identities are retained.
+
+These are warm-basis sewing measurements with precomputed FEC/LEC/physical
+inputs. Compiler time, cold basis construction and data generation are excluded.
+Each numerical job used 16 threads, 4 GiB physical projection cache, a decimal
+18 GB cgroup pressure threshold and 20 GB hard memory cap, no swap, a 96 GiB
+virtual address limit and a 3 GiB host-availability reserve. RSS was sampled at
+100 ms; cgroup peaks are reported separately. All memory limit/OOM counters
+were zero. Fast helper-process RSS samples can miss a sub-100-ms process.
+The production allowance remains 50,000,000,000 bytes.
+
+This establishes a tested optimization at these loops, not global solver
+optimality. Complete-prime timing replication, full ten-loop V18 testing and
+partial/discovery grouped-pivot replay remain unmeasured. Structural replay
+currently covers final sewing only.
+
+Files and reproduction
+
+Package and original parent:
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/package
+/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package
+
+Implementation and builder:
+/home/ana/Documents/symbology/bench/hexagon_final_seam_v18.hpp
+/home/ana/Documents/symbology/bench/hexagon_joint_build_v18.py
+The builder adds direct contraction methods and optional witness recording only
+to the separate package, then builds matched V17 and V18 executables.
+
+Validation runner:
+python3 /home/ana/Documents/symbology/bench/hexagon_v18_validate.py --package /home/ana/Documents/symbology/output_hexagon_v18_20261009/package --output /absolute/fresh/control/root --tune-cache
+This local runner uses existing hash-checked reference/basis inputs and waits
+for the recorded other-chat backend benchmark gate. It is not a fresh-clone
+cold benchmark. Preserve every output; do not reuse an existing root silently.
+
+Recommended tested settings: THREADS=16, PHYSICS_CACHE_MIB=4096;
+OPE_HEAD_CACHE_MIB=2048 at eight loops, 3072 at nine loops. The unchanged bonus
+switch is HEXAGON_MHV_DOUBLE_BONUS=1. Use the bundled permanent runtime in
+LD_LIBRARY_PATH when invoking the historical converter. The numerical driver
+CLI is the V17 CLI, with bin/joint_physics_v18 replacing its executable name.
+
+Machine-readable measurements, hashes and commands:
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/RESULTS.json
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/progress.json
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/package/v18-build-receipt.json
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/ope-cache-tuning-profile.json
+/home/ana/Documents/symbology/output_hexagon_v18_20261009/execution-gate.json

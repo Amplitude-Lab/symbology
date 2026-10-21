@@ -1,0 +1,31 @@
+{
+  "command": [
+    "output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+    "shift",
+    "MHV",
+    "17",
+    "3",
+    "output_hexagon_validation_20261009/native-qq-17p3",
+    "output_hexagon_validation_20261009/native-exact-shift-16p4",
+    "--head",
+    "16",
+    "--fec-root",
+    "output_hexagon_16p4_20261006/FEC",
+    "--lec-root",
+    "output_hexagon_16p4_20261006/LEC/MHV"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 170.32395861200348,
+  "peak_summed_rss_bytes": 14285049856,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 1501.548426,
+  "cpu_system_seconds": 13.509393,
+  "max_processes": 1,
+  "virtual_limit_gib": 128
+}

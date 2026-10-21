@@ -1,0 +1,45 @@
+{
+  "schema": "hexagon-v27-selection-amendment-v1",
+  "created": 1791561276.7539668,
+  "reason": "The assistant incorrectly treated the requested V26 comparison as a reset of the >15% qualification threshold. The user clarifies that the threshold refers to V16.",
+  "selected_working_benchmark": "V27D",
+  "threads": 16,
+  "qualification": {
+    "baseline": "V16, per latest explicit user clarification",
+    "incremental_comparator": "V26",
+    "cpu_saving_required_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "nine_loop_status": "not_verified_against_V16",
+    "reason": "Archived nine-loop qualification comparisons used V17. A direct nine-loop V16 measurement was not located; V17 results must not be relabeled as V16.",
+    "eight_loop_historical_reference": {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v16-controls/v16-eight-t16.json",
+      "sha256": "08dda347c89b14d9ccaba3e6178e5c1a17da354051352321610c1d0142741298",
+      "cpu_hours": 0.12553224777777777,
+      "peak_sampled_rss_bytes": 1758199808,
+      "v27d_cpu_saving": 0.49324567092423877,
+      "v27d_rss_ratio_to_sampled_reference": 1.0144065901297152,
+      "scope": "Historical V16 original mapped/cache settings versus new V27D heap settings; one V16 prime versus a V27D learning/replay pair. This is not a new controlled nine-loop qualification."
+    }
+  },
+  "comparison_with_v26": {
+    "cpu_hours_v26": 0.8745007165277778,
+    "cpu_hours_v27d": 0.8679919411111111,
+    "cpu_saving": 0.007442847437003741,
+    "wall_seconds_v26": 325.3471657775008,
+    "wall_seconds_v27d": 297.1890820510016,
+    "wall_saving": 0.08654780704546228,
+    "rss_bytes_v26": 5912215552.0,
+    "rss_bytes_v27d": 6009966592.0,
+    "rss_ratio": 1.016533740886178
+  },
+  "correctness": "All campaign native/reference/full seam/physical checks and generic controls passed; independent archived receipt review also passed. No separate correctness defect motivated the earlier rejection.",
+  "uncertainty": "The 0.74% incremental CPU reduction over V26 comes from one learning/replay pair, not statistical timing repetitions. It is not proof of a reproducible sub-percent CPU speedup.",
+  "scope": "Select the tested V27D/16-worker profile for subsequent comparisons. This does not assert that the unmeasured nine-loop V16 qualification gate passed, or establish ten-loop performance.",
+  "evidence": {
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/completion-receipt.json": "d21ecca348cdfde465abc3d8cce47ab08dc6b7c15979b2c2684cf8202a2d7635",
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/experimental-profile.json": "0b3a6985222c733fc4667851bb8c1691f58d003ba62fc14e143cbefec104788a",
+    "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/evidence/v27-experimental/v27-experimental-review.json": "4c32192c2d3d06139f85aa9de86604b6148e8f9c08e8d3123e0697626a592cd5"
+  },
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

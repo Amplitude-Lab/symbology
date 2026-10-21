@@ -1,0 +1,52 @@
+In this file, we will describe the instructions to write cluster_symbols.pdf and we will also mention some universal skills in writing a paper which will be quated in []. For thess universal rules you need to update to your pdf skills.
+
+[for the abstract: it should be short, only present important new results or findings] I will give some instructions to the abstract here:
+We study the even-weight symbol families defined totally on marked cluster algebras. The symbol alphabet, integrability and adjacency relations among the symbol letters are all derived from the corresponding cluster algebras. With first entry, symmetry and normalization specified, freezing compatibility gives the symbol spaces. 
+Such definition originates from the symbol bootstrap for physical amplitudes or form factors in $N=4$ SYM, but shows more structures. We use $E_6$ as a prototype to show the construction and how it is related to physical symbols of heptagon amplitude. Then we extend this to four-point form factor, whose corresponding cluster algebra is recently determined.
+We will show how freezing compatibility shows its power in fixing a unique symbol and how antipodal duality should be an emergent property of symbol itself for form factors.
+(you may revise based on what I write)
+
+Section 1
+paragraph 1 is OK. In paragraph 2, we need state how the cluster symbol is constructed or what the definition of cluster symbol is. We call then cluster symbols to distingush from usual symbols in the literature. 
+They are words constructed based on a set of letters (also called alphabet) which satisfy a set of rules
+1. (node marking on endpoints) first entry and last entry must be set of coordinates on nodes of quiver diagram.
+2. (letters propagating derived from mutations) the adjacent letters must satisfy the integrability relations and adjacency relations which both can be derived from the cluster mutations
+3. (specified symmetries) symmetries (mapping on the alphabets) which preserve the quiver for this cluster algebra
+4. (freezing consistency) including the normalization, regularity, and descendant support
+In paragraph 3, you should explain each concept in a clear way. For example, what is the alphabet and how they are derived. They are coordinates of clusters. here we should distinguish the finite types and infinite types. For infinite cluster algebra we need to perform some truncation to get the candidate alphabet. 
+For example, what does the normalization, regularity and descendant support, that is, freezing consistency mean. Here you can state all these formally but will clear formulation, then you refer to the example of E6 which will be represented later.
+You should stress that the integrability is derived from exchange relations and adjacencies are derived from clusters (also mention that for infinite type they should be a little different)
+
+In paragraph 4, stess that this study is used to show how special the physical symbols are, rather than what the physical symbols are and how we can derive them from freezing consistency, using different boundaries of the cluster algebras.
+And here, you should mention the first statement, a reverse of an allowed cluster symbol is trivially another cluster symbol allowed, usually we only discuss one of them.
+Then the second statement, not arbitrarily chosen first entry and last entry can have a symbol satisfying such conditions (refer to the counterexamples constructed for E6 or form factor which will be presented later in each section for them)
+Then following the second statement, you state that with given first entry, last entry can actually be determined from first entry, normalization and descendant support for the two examples we study. This further shows that not arbitrarily chosen first entry and last entry can pass the consistency conditions.
+Then the fourth statement, uniqueness is not necessary for situations where such symbol exists, refer to the example we constructed which is not unique in E6 (which will be presented later in the section for E6.) If you have another examples, you can also refer to them.
+Closely following fourth statement which shows that uniqueness is related to the first entry given, you state that for the physical first entry chosen, the symbol determined is unique, then refer to the construction we haved done for E6 and four-point form factor
+(Pay attention to our narative logic here, first is trivial statement, then when nontrivial symbol exists and then whether they are unique in all cases.)[when you have many statements or discoveries, always remember to present then in logic and show reader clearly that logic.]
+Then is the statement of freezing consistency among different boundaries. Here you can give statement of what we have found for E6 and form factor (we should use the name of its cluster algebra here, which I forget the name, but you should give it here). Refer the details to specific sections. You need to stress the meaning of this discoveries here. That is, we can use different boundaries which may be physical or not to determine the same symbol which we want, this is important, it proves that the consistency itself is important, rather than those physical conditions (which may be presented as some kind of freezing consistency)
+Then next statement is relative to the folding of cluster algebra, you need to state that the folding operation may not preserve the adjacency, refer to the example of E6 folding to F4 and similarly folding of form factor.
+The last statement is about the conjecture of emergence of antipodal duality for form factor. You should refer details to corresponding section.
+
+In paragraph 5, you give a summary of what we will present in the later sections.
+
+(for those questions summarized in the current introduction, you can move them to appendix. For those that are already covered in the above discussion, you can remove them. For those remain to be answered, keep them.)
+(in this section, you should give the description formally, the main aim is to let the reader understand the logic used here, rather than the details, the details will all be in the later sections which expand the discussions to some specific data)
+[the introduction is used to introduce some basic conception, let the reader learn the object and what we want to do and the logic we present what we have done. So technique details should not be put here. And a excellent introduction discuss the concept and our goals in an extremely clear way. It can let an outsider know at least what we are doing and what we have achieved.]
+
+Section 2 review of heptagon symbol and E6 bootstrap
+In this section, we will focus on the example of E6, which is related to heptagon amplitudes. we will following the discussion in section 1 and repeat this logic with explicit examples here. demonstrate that integrability and adjacency relations derived from cluster and mutations. give some simple examples (there is some in the reference pdf I give you, you may use the same ones). You can classify the integrability relations and adjacencies by D_7 symmetry since they are generated from mutations and clusters, they will respect this symmetry.
+subsection 1, review the cluster algebra, its quiver and alphabet of this cluster algebra. including the full symmetry of alphabet. draw the corresponding quiver.
+subsection 2, show example that not arbitrarily chosen first entry and last entry can have a symbol satisfying such conditions and examples where the symbol is not unique. This subsection is used to give examples that constructed from different first entry and last entry other than the physical ones.
+subsection 3, show that given the physical first entry, how the last entry is derived. Mark the first and last out, and draw the diagram.
+subsection 4,  the most important subsection. Demonstrate that different symmetry allowed boundaries, including the physical one, can give a unique physical symbol. and you have checked this up to four loops.
+subsection 5, give the example of folding F4, show that the adjacency of folded cluster algebra is different from original ones, and show that F4 has contradition with regularity.
+
+Section 3 review of four-point form factor symbol and cluster bootstrap
+It should follows in the same structure as Section 2, But it should have a new section discussing the antipodal duality.
+
+
+Section 4 conclusion and outlook
+summarize the paper and give remaining problems.
+
+[For groups of expressions or complicated proof, you may put it into appendix and refer to them in the proper position]. And for topics I miss above, you should put it in proper space which can be inserted by logic. If not, you can add a new section discussing it.

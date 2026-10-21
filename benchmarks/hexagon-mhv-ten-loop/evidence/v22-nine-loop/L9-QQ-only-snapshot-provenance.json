@@ -1,0 +1,22 @@
+{
+  "source": "/home/ana/Documents/symbology/output_hexagon_14p4_20261006/cached-nine/joint",
+  "cache_directory_deliberately_absent": true,
+  "purpose": "Force comparison tool to reduce actual QQ tensors instead of taking saved Fp cache",
+  "files": {
+    "columns.tsv": "e30768856d91127dd3a2db3cbaeefbf007fa30b6ae22e75ecbd9707ef1a8f6b5",
+    "irrSEW_14p4_po_A2_origin.wxf": "adda243bc633a32786f9f5f0d295572465f5d721ac9aca8101fc544527b47609",
+    "summary.tsv": "000c2c785b92e493b7a8bef065c012229d6d4f17578d87ba0b42ea6433ba4029",
+    "manifest.json": "0c04a6a58ca8761c748e9127d733e576f67b33a6faa49b7d8a8d94140fd3d62c",
+    "stage.tsv": "a1e370d7783d92b9c667ca8f9ed75a8e13b1b38cbfdb082befe84ab19b290c32",
+    "irrSEW_14p4_pe_E_origin.wxf": "f0b6b816ac190bcd902c84c00e9391eb756a677223af8336f40ec86109b38765",
+    "object.tsv": "2be0907ac875f7ed056a61a3cc3113cae1ad5eb9fb2b18cb6addbfbddc8f4fd3",
+    "irrSEW_14p4_po_A1_origin.wxf": "9e7a0c075249778a7438faf47347c2208b11ff2f74908ee8bec6d5be8431290d",
+    "cache_files.tsv": "2ba7627074727b08c8a8c009b779816ec8d51057f3a21478acf6945d5d33287b",
+    "irrSEW_14p4_pe_A2_origin.wxf": "aa9fd129c6d2d28c716ac0d7a552ed8351a291551cee8dac5dfba1cbaca48c79",
+    "irrSEW_14p4_pe_A1_origin.wxf": "5586acb5095c4b6fc81b7d0ee00a4b987d1e42acf3d938417905b27a79be3af0",
+    "basis_identity.tsv": "f98b8987f5ea0e9735810423764765ba74196ca7ab5852ad219a5efd200a7cb3",
+    "input_identity.txt": "b66648d666c30600b32f4eb56d442658573c4426562636e407bc4e88b9a440ad",
+    "qq_complete.tsv": "35002c0b0a7378b16771c3b92b3dbdb28b8aed70d2e81c12e1e36685c6b79adc",
+    "irrSEW_14p4_po_E_origin.wxf": "86fd57dae617f1004ead9d2c452fc19aa885db0418c97ca76bf7b473b88d0f48"
+  }
+}

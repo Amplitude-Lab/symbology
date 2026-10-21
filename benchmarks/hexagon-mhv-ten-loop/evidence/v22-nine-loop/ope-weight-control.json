@@ -1,0 +1,25 @@
+{
+  "command": [
+    "env",
+    "THREADS=2",
+    "output_hexagon_v19_20261009/package-v22/bin/ope_weight_control",
+    "output_hexagon_16p4_20261006/data/ope_mhv_small_s",
+    "output_hexagon_16p4_20261006/FEC",
+    "output_hexagon_16p4_20261006/LEC/MHV",
+    "output_hexagon_v19_20261009/ope-weight-head-control"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 3.7,
+  "cancel_signal": 0,
+  "min_available_gib": 0,
+  "wall_seconds": 0.603787824002211,
+  "peak_summed_rss_bytes": 41807872,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 0.5771999999999999,
+  "cpu_system_seconds": 0.08925699999999999,
+  "max_processes": 1,
+  "virtual_limit_gib": 4
+}

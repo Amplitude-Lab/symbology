@@ -1,0 +1,15 @@
+{
+  "state": "complete_candidate_rejected_retained_V26",
+  "selected": "V26",
+  "candidate": "V27D",
+  "acceptance": {
+    "baseline": "Fresh V26, 16 workers, 3 GiB OPE cache",
+    "cpu_saving_required_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "passed": false
+  },
+  "results": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/RESULTS.json",
+  "report": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/REPORT.txt",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

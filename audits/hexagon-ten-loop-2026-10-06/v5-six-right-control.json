@@ -1,0 +1,32 @@
+{
+  "command": [
+    "env",
+    "THREADS=8",
+    "PHYSICS_CACHE_MIB=2048",
+    "OPE_HEAD_CACHE_MIB=12288",
+    "output_hexagon_16p4_20261006/joint-v5-package/bin/joint_physics",
+    "8",
+    "4",
+    "output_hexagon_16p4_20261006/FEC",
+    "output_hexagon_16p4_20261006/LEC/MHV",
+    "output_hexagon_16p4_20261006/data",
+    "output_hexagon_16p4_20261006/v5-six-right-control",
+    "256",
+    "cache",
+    "right"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 1.9125132341869175,
+  "peak_summed_rss_bytes": 173965312,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 7.608081,
+  "cpu_system_seconds": 0.230758,
+  "max_processes": 1,
+  "virtual_limit_gib": 64
+}

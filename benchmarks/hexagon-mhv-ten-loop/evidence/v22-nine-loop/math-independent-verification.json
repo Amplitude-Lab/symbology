@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "independent_arithmetic": "denominator-cleared Python integers and cross-multiplication; modular rank lower bounds plus exact independent kernel give rational completeness",
+  "exact_source_kernel_zero": true,
+  "exact_free_column_identity": true,
+  "kernel_rank": 65,
+  "triple_extra_rank": 3,
+  "local_witnesses": 3,
+  "qbar_row_certificates": 4140,
+  "rank_checks": [
+    {
+      "prime": 1000003,
+      "source_rank_lower_bound": 4,
+      "kernel_rank": 65,
+      "triple_rank": 3,
+      "combined_rank": 7
+    },
+    {
+      "prime": 1000033,
+      "source_rank_lower_bound": 4,
+      "kernel_rank": 65,
+      "triple_rank": 3,
+      "combined_rank": 7
+    }
+  ],
+  "all_loop_triple_proof": false,
+  "wall_seconds": 0.12089519499568269,
+  "source_sha256": "4964c8740e2f2d6f755ff479a7383a2297ed0a0819dd64520376f09106e7fe82"
+}

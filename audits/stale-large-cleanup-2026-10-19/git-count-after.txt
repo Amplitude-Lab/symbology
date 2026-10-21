@@ -1,0 +1,8 @@
+count: 29274
+size: 6.89 GiB
+in-pack: 816
+packs: 4
+size-pack: 3.34 GiB
+prune-packable: 0
+garbage: 0
+size-garbage: 0 bytes

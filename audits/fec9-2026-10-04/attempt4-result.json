@@ -1,0 +1,50 @@
+{
+  "status": {
+    "state": "failed",
+    "controller_pid": 1093977,
+    "started_unix_seconds": 1791143911.6461864,
+    "deadline_unix_seconds": 1791217333.826571,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "fec8",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/bin/split_character_extension",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/prepared",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/seed7",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/weight8",
+            "8",
+            "staged",
+            "1024",
+            "front_nonzeros=268435456"
+          ],
+          "exit_code": -15,
+          "timeout": false,
+          "memory_pressure": true,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 4748.661437588278,
+          "peak_summed_rss_bytes": 41302458368,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 25740.226003,
+          "cpu_system_seconds": 72.864198,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 1
+      }
+    ],
+    "updated_utc": "2026-10-04T21:17:40.337969+00:00",
+    "wall_seconds": 4748.691786862444,
+    "current_stage": "fec8",
+    "current_log": "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/fec8.log",
+    "current_live": "/home/ana/Documents/symbology/output_fec9_20261004/attempt4/fec8-live.json",
+    "peak_stage_rss_bytes": 41302458368
+  },
+  "last_reconstruction": "601 bits, 2585 of 13915 tentative rows; eleventh modular elimination finished before guard termination",
+  "completed_fec8_sectors": 0,
+  "fec9_started": false
+}

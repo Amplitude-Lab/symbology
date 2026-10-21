@@ -1,0 +1,6 @@
+{
+  "control": "six-loop V5 right contraction",
+  "prime": 1152921504606847009,
+  "identical_to_established_result": true,
+  "payload_sha256": "c77c03d21353f9ae468dcfe504faaf5f3e81a1902a25b42e56445aabd53f7d8d"
+}

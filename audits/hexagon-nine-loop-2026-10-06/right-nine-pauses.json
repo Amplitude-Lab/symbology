@@ -1,0 +1,7 @@
+{
+  "owned_pid": 1309546,
+  "started_unix": 1791293230.0353613,
+  "reason": "Sequential build and left-contraction controls; wall time includes this suspension.",
+  "ended_unix": 1791293606.6798947,
+  "outcome": "superseded after left contraction passed both controls and reduced eight-loop sewing discovery from approximately 111 s to 44 s"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "file": "irrSEW_12p4_pe_A1_origin.wxf",
+    "sha256": "999864edcda34f5c38fd17f2beb14e9d1cc205baafe906b5d1175ee09ab971e6",
+    "byte_identical": true
+  },
+  {
+    "file": "irrSEW_12p4_pe_A2_origin.wxf",
+    "sha256": "d0ed51e57a0d12e3d6132e63e2a086c7a054498725c799da83a7406bb5c0b785",
+    "byte_identical": true
+  },
+  {
+    "file": "irrSEW_12p4_pe_E_origin.wxf",
+    "sha256": "93531ee495ea4d78af70323aff5965bff430d146d0d1833a78d2038907d19788",
+    "byte_identical": true
+  },
+  {
+    "file": "irrSEW_12p4_po_A1_origin.wxf",
+    "sha256": "677c0fe7c794de911545ad23e8d322939a4b1a8a51c0df71a67baeaa441e2b9c",
+    "byte_identical": true
+  },
+  {
+    "file": "irrSEW_12p4_po_A2_origin.wxf",
+    "sha256": "815a824aad86e224e44e68c5f18efc869ae863c6568bb20a1000e73766e659dd",
+    "byte_identical": true
+  },
+  {
+    "file": "irrSEW_12p4_po_E_origin.wxf",
+    "sha256": "8ace91093954082636abf6a907d18ec2fae02552ed0e98177fec4e816b9b1662",
+    "byte_identical": true
+  }
+]

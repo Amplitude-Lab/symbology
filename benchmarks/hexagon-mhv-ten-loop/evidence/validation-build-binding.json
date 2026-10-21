@@ -1,0 +1,50 @@
+{
+  "schema": "hexagon-additional-validation-build-record-v1",
+  "recorded": 1791527343.2919812,
+  "binding_recorded_after_run_start": true,
+  "run_started": 1791526396.6373124,
+  "artifacts": {
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_physical_holdouts": {
+      "sha256": "63a1819331596968ec552ec617c422855726d4ef70d7d157942dd6e2fefb20e8",
+      "mtime": 1791526338.0272992,
+      "ctime": 1791526338.0272992,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_joint_certificate": {
+      "sha256": "55f326a6f1ad5c82248b87640c8fe7aab52ca4fe75d545ebd6092ceb4585e087",
+      "mtime": 1791526360.4494348,
+      "ctime": 1791526360.4494348,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/bench/hexagon_physical_holdouts.cpp": {
+      "sha256": "0bfe667449f11759b8307b76ff001ff2d06c4382d360b8f70984779c0a96442e",
+      "mtime": 1791526318.4933145,
+      "ctime": 1791526318.4933145,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/bench/hexagon_joint_certificate.cpp": {
+      "sha256": "61bcacf553ded03ea7341ff0ebb9f49a39e81a837d3b8740ad858d9d728c240d",
+      "mtime": 1791293894.496578,
+      "ctime": 1791293894.496578,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_physical_holdouts.build.json": {
+      "sha256": "e4ffb82a915c3b2d825382cdca5a3dfd440993ef57ab03fab405e03e84588d4a",
+      "mtime": 1791526318.5173156,
+      "ctime": 1791526318.5173156,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/hexagon_joint_certificate.build.json": {
+      "sha256": "122054bd37749358f9065adb17b67dcfc2a751cf1c0ada0e3bf94fe15bea9500",
+      "mtime": 1791526338.0312994,
+      "ctime": 1791526338.0312994,
+      "unchanged_since_before_run": true
+    },
+    "/home/ana/Documents/symbology/bench/hexagon_additional_validation_run.py": {
+      "sha256": "b8f46e92f015995277ec6857546ca0ee21f2a4666129dc49e566c14d9bb675ca",
+      "mtime": 1791526396.5882773,
+      "ctime": 1791526396.5882773,
+      "unchanged_since_before_run": true
+    }
+  }
+}

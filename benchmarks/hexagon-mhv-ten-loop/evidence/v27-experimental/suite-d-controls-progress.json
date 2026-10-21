@@ -1,0 +1,93 @@
+{
+  "state": "passed",
+  "steps": [
+    {
+      "label": "build",
+      "command": [
+        "python3",
+        "/home/ana/Documents/symbology/bench/hexagon_v27/build.py",
+        "--output",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d"
+      ],
+      "started": 1791556147.3010828,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556191.4590092
+    },
+    {
+      "label": "generic-new",
+      "command": [
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/v27_generic_control"
+      ],
+      "started": 1791556191.4592268,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556191.5586703
+    },
+    {
+      "label": "generic-legacy",
+      "command": [
+        "env",
+        "SOLVER_WORK_KERNELS=0",
+        "SOLVER_WORK_SCHEDULE=0",
+        "SOLVER_EXACT_COMPRESSION=0",
+        "SOLVER_PACKED_ROUTES=0",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/v27_generic_control"
+      ],
+      "started": 1791556191.5588775,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556191.6623485
+    },
+    {
+      "label": "additional-controls",
+      "command": [
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/v27_additional_controls"
+      ],
+      "started": 1791556191.6625178,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556191.699875
+    },
+    {
+      "label": "L8-V27",
+      "command": [
+        "python3",
+        "/home/ana/Documents/symbology/bench/hexagon_v27_controls.py",
+        "--package",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d",
+        "--output",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L8-V27",
+        "--loop",
+        "8",
+        "--jobs",
+        "V27-p1,V27-p2"
+      ],
+      "started": 1791556191.7000215,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556245.3578968
+    },
+    {
+      "label": "L9-V27",
+      "command": [
+        "python3",
+        "/home/ana/Documents/symbology/bench/hexagon_v27_controls.py",
+        "--package",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d",
+        "--output",
+        "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L9-V27",
+        "--loop",
+        "9",
+        "--jobs",
+        "V27-p1,V27-p2"
+      ],
+      "started": 1791556245.3581712,
+      "status": "passed",
+      "returncode": 0,
+      "finished": 1791556841.087787
+    }
+  ],
+  "started": 1791556060.2093718,
+  "finished": 1791556841.0879726
+}

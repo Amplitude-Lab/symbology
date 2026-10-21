@@ -1,0 +1,12 @@
+{
+  "/home/ana/Documents/symbology/bench/hexagon_symrep_reference": "bcc90f838f54a7500c64c8444d66ef95db68ef0abd2ef9752a0819f20bdf0c22",
+  "/home/ana/Documents/symbology/bench/hexagon_physical_certificate.cpp": "d1d7355379199099491fbbc77ce1f15243029b6570bfd12078f8aaa238ad72c5",
+  "/home/ana/Documents/symbology/bench/hexagon_seam_prime.cpp": "81890f0f23bbc16058573e9b05007badf1fddda49ecfae64f2a260c34e09a19a",
+  "/home/ana/Documents/symbology/bench/hexagon_symrep_reference.cpp": "897b8c5aafe1121611acb8d9c71bc1aa64b0ef53cfa43dbf32cb52fee76deda7",
+  "/home/ana/Documents/symbology/bench/hexagon_staged_build.py": "919977ae6d4c4a2715732ae9f750fa54a2287743aa3a4396c32b7cf03121757a",
+  "/home/ana/Documents/symbology/bench/hexagon_irrep_seam_rows.hpp": "baeba16229534bc9273c95d69b530bf8b84d723b90a03fbb574105a8c9311c98",
+  "/home/ana/Documents/symbology/bench/hexagon_line_check.cpp": "af721b0f4665fb6e02a5adb6a80ca9f255577ced0cf66865ebf528c5e1c117b4",
+  "/home/ana/Documents/symbology/bench/hexagon_published_cases.py": "cf37f7eb43d3cdd1effcf218c241aea09b0f5be76c7aff49938adcc8b823b38f",
+  "/home/ana/Documents/symbology/bench/hexagon_seam_certificate.cpp": "c83f58a99d4b1afdb4acd4a9317644433c18160f5e736f24e61f6b69c1420987",
+  "/home/ana/Documents/symbology/patches/hexagon-v2-staged-sewing.patch": "9d82f7712461917a3f3fb36e8efb4c62693560516b0c4bc56688bcc3e3885517"
+}

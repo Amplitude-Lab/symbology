@@ -1,0 +1,35 @@
+[
+  {
+    "name": "tensor_kernel_probe",
+    "exit_code": 0,
+    "wall_seconds": 0.06413414468988776,
+    "passes": [
+      "PASS 106 rational factored extension/sewing operators against independent exact ranks and residuals"
+    ]
+  },
+  {
+    "name": "staged_kernel_probe",
+    "exit_code": 0,
+    "wall_seconds": 0.11495780479162931,
+    "passes": [
+      "PASS 303 exact generic kernel/composition/affine cases, inconsistency, bad primes and all five weight-six cuts"
+    ]
+  },
+  {
+    "name": "column_restriction_probe",
+    "exit_code": 0,
+    "wall_seconds": 0.06426858296617866,
+    "passes": [
+      "PASS 120 exact coordinate-restriction kernels, reordered/empty selections, short relations and staged paths"
+    ]
+  },
+  {
+    "name": "early_sew_probe",
+    "exit_code": 0,
+    "wall_seconds": 0.03187646856531501,
+    "passes": [
+      "PASS 16 exact product-invariance intersections, nontrivial irrep pairing, and bounded equation subsets",
+      "PASS extra-prime residual certificates, denominator-prime rejection and false-lift rejection"
+    ]
+  }
+]

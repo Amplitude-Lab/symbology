@@ -1,0 +1,14 @@
+{
+  "schema": "hexagon-final-seam-saturation-observation-v1",
+  "created": 1791530480.3433726,
+  "source": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/joint-v17-schedule-package/tests/joint_physics_v17.cpp",
+  "source_sha256": "917f716dde6b7b3bee54c4314aea60397e9daf0c44fa17f3576b7f31ff5bb163",
+  "function": "finish_seam",
+  "existing_trigger": "rank && (rank>=64 || block+1==rows.residual_blocks())",
+  "possible_trigger": "rank && (rank>=64 || rank==current.nrow-1 || block+1==rows.residual_blocks())",
+  "reason": "A rank equal to the remaining affine dimension determines a unique representative. The mandatory subsequent complete zero-residual sweep still tests all unused equations and detects inconsistency.",
+  "observed_phase": "Mapped replay pass33 leaves33 directions; old trigger cannot restrict again until the end of a complete residual sweep. Rank-saturation position is not logged, so time savings are not established.",
+  "performance_measured": false,
+  "production_modified": false,
+  "validation_required": "Known8/9 controls, coefficient equality, preserved complete original seam sweep, and measured same-checkpoint time/fill before selection."
+}

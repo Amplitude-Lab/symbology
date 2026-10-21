@@ -1,0 +1,14 @@
+Selection correction: V27D with 16 workers is the current working benchmark.
+
+The >15% threshold is against V16, per the user's clarification. It is not a fresh >15% requirement against V26. The earlier V27 rejection used the wrong threshold baseline.
+
+Nine-loop measured means: V26 0.874501 CPU-hours and 325.347 wall seconds per prime; V27D 0.867992 CPU-hours and 297.189 wall seconds. Peak RSS is 5.912 and 6.010 GB respectively. V27D saves 0.74% CPU and 8.65% wall time with 1.65% higher RSS.
+
+No independent correctness failure motivated rejection. All campaign checks and the independent receipt review passed. The CPU difference is small and is based on a learning/replay pair, not timing repetitions; it is not an established statistical speedup.
+
+Direct nine-loop qualification against V16 remains unverified: existing nine-loop historical comparisons used V17. Their timings must not be described as V16. This selection is for the current working benchmark, not a claim that this missing comparison or a ten-loop performance test has been completed.
+
+The original REPORT.txt, RESULTS.json and completion receipt remain historical evidence of the completed campaign under the then-applied rule. This amendment supersedes their selection recommendation without changing any measurement, binary, coefficient or physical result.
+
+Profile: /home/ana/Documents/symbology/output_hexagon_v27_20261009/current-nine-loop-profile.json
+Amendment: /home/ana/Documents/symbology/output_hexagon_v27_20261009/selection-amendment.json

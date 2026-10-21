@@ -1,0 +1,6 @@
+{
+  "control": "eight-loop V6 suffix-major right contraction",
+  "prime": 1152921504606847009,
+  "identical_to_established_result": true,
+  "payload_sha256": "6d208c1e1ec503c5840c40b032010f32ff86a413e1db4c605cf97843f1225d40"
+}

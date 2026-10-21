@@ -1,0 +1,24 @@
+Higher final-entry constraint audit — 2026-10-09
+
+The four double-final-entry bonuses have a conditional all-loop ordinary-symbol derivation in the separate heptagon study. Its heptagon alphabet, adjacency, Qbar support, regular-singular collinear map and normalization hypotheses must be retained. This is not an unconditional field-theory theorem or a proof of all function-level constants.
+
+On the certified local triple source, the ordinary constraints and even bonuses leave 69 directions. Prefix-wise odd-bonus rows have rank four, leaving 65. All 4,140 restricted heptagon image-membership rows lie in the span of these odd-bonus rows. They give no additional local triple restriction after all four double bonuses.
+
+The complete 21-term Eq. (92) of Dixon–Liu, arXiv:2308.08199, and its two cyclic images add exactly three independent constraints, giving 62 triple directions. Three saved rational local-tail witnesses satisfy the certified source but violate these targets. They prove non-implication from this local source alone. They are not physical-amplitude counterexamples: a global physical-prefix extension has not been established. A new all-loop triple-bonus derivation has not been obtained.
+
+Exact known eight- and nine-loop rational amplitudes pass all 87,048 and 243,378 tested full Eq. (92)/double-bonus contractions respectively. An independent Python integer/Fraction implementation checks the native residues and exported QQ operators. Completed ten-loop symbols pass Eq. (92) at two primes a posteriori; this is modular evidence, not a new ten-loop solve or exact QQ/all-loop proof. The triple constraints were not added to the numerical optimization candidate.
+
+For nine-loop 15+3 sewing, the double bonus can reduce 105,898 invariant coordinates to 83,515; the additional triple restrictions could reduce this further to 77,538. The latter reduction has not been timed in an equivalent complete solve. A possible proof direction is a four-slot heptagon source with all seams and normalization contact terms, followed by independent rational certificates and global-prefix checks.
+
+An optional local quadruple hierarchy probe returned 169 rather than the published 166 (84 even + 82 odd) and failed its calibration assertion. This diagnostic remains unresolved and is not used as a theorem, optimization premise or amplitude-error claim. See hierarchy/STATUS.json.
+
+Correction and provenance: the first Eq. (92) probe transcribed only the first display line and omitted three continuation lines. Its reported nonzero residuals were false flags. The complete 21-term replacement is triple_bonus_control.cpp, triple-control-v3.log and exact-reference-control-v3/. Earlier probes are retained and explicitly marked invalid. Their error does not affect the numerical solver, inputs, completed amplitudes or benchmarks.
+
+Authoritative receipts:
+  exact-tail-audit.json — exact local kernels, source certificates, rational witnesses.
+  independent-verification.json — independent denominator-cleared integer verification.
+  triple-control-v3.log — all exact known-amplitude contractions.
+  native-triple-independent-verification.json — independent native and QQ-operator replay.
+  completed-ten-triple-receipt.json — two-prime completed-ten-loop checks.
+
+Primary source: https://arxiv.org/html/2308.08199 (Eq. 92 in full; section 3 for higher-tail counts).

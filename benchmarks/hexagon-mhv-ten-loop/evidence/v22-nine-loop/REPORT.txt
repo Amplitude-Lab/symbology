@@ -1,0 +1,42 @@
+Nine-loop solver optimization — measured CPU-hours, 2026-10-09
+
+Selected measured profile: V22/16. Mean CPU saving against original V17: 37.99%; against V21/16: 11.61%.
+Acceptance: strictly more than 15% fewer user+system CPU-hours than original V17, with at most 5% higher peak RSS. Candidate peaks are conservatively compared to the LOWER of the two original V17 peaks.
+
+Version/threads | p1 repetitions | mean CPU-hours | mean wall seconds | peak RSS range (decimal GB) | CPU saving vs original V17
+V17/16         |  2 | 1.481645 | 508.864 | 5.903–6.011 | 0.00%
+V19/16         |  1 | 1.308730 | 453.225 | 5.905–5.905 | 11.67%
+V20/16         |  2 | 1.049393 | 384.887 | 5.877–5.935 | 29.17%
+V21/16         |  3 | 1.039490 | 380.377 | 5.849–5.939 | 29.84%
+V21/8          |  1 | 1.178127 | 684.994 | 5.323–5.323 | 20.49%
+V22/16         |  2 | 0.918766 | 347.391 | 5.840–5.890 | 37.99%
+
+The p2 runs are second-field correctness/replay controls, not repetitions of the p1 timing; the RSS ranges include every tested field. The selected profile has two complete p1 timings plus a p2 control. V17 uses its original algorithm/settings in the matched build with phase instrumentation. All numerical timings were serialized, without concurrent builds or other numerical probes. Build time, cold basis generation and new rational reconstruction are excluded. Shared-workstation timing has no confidence interval; these tests do not establish global optimality.
+
+What changed and why:
+V18 uses direct final-seam contraction, forward continuation after restriction and guarded source-row replay across primes. A 3 GiB OPE-head cache holds all three nine-loop terminal heads; V17 used 2 GiB and rebuilt one during validation.
+V19 extends exact collinear suffix projection to the post-discovery fit. Its 12.29% CPU saving in the first matched trial fails the requested 15% gate.
+V20 compresses the affine suffix operator, including every sampled RHS column. It selects independent ORIGINAL suffix rows and explicitly verifies source row-span certificates. The 36 suffix rows reduce to 14, removing repeated large projected sparse products.
+V21 additionally checks every relevant head copy at every current sample for exact zero, separately in each field and batch. Its exact support mask reduces 36 suffix rows to nine in this case. RHS-only constraints remain. Final scalar physical checks are unchanged.
+The V21 eight-thread control passes correctness but costs more CPU-hours than sixteen threads. Wall-time-based early-physics scheduling changes its discovery space (5,962 directions/48,535,187 nonzeros versus 5,977/47,127,363), so this is a complete configuration comparison rather than isolated hardware scaling.
+V22 stores only a+b<=w logarithm slots at intermediate head weight w. It keeps the full T/S jet and all kernels, and restores the existing final/cache layout before projection. At head weight 15, 136 logarithm slots replace 190 final-weight slots. Two-prime square-reference controls cover all letters and weights 1–20 (2,160 cases), plus complete FEC8 heads (1,178,100 coefficients per field). No new physical relation is imposed.
+The V22 build also changes the shared recurrence step to accept separate input/output strides. Collinear timing improved in both V22 trials even though its mathematical operator is unchanged; no separate compiler/layout attribution experiment was performed. Phase CPU means are reported independently in RESULTS.json, and the full improvement must not all be assigned to OPE storage.
+
+Correctness and provenance:
+Every completed native output has all 105,898 coefficients equal to the baseline reference at its prime (only the producer fingerprint differs). Fresh COL, MRK and OPE checks and the complete 372,388-row factored seam are retained. All cgroup high/max/OOM counters are zero.
+V20 was converted from 15+3 to 14+4 with exact shift-back verification. At both primes all 195,155 shifted coordinates match reductions of the existing rational nine-loop solution. The reference snapshots deliberately contain no cache directory, forcing actual QQ reduction. Selected candidate payloads match V20 at both primes. This repairs a validation-selection caveat: earlier pipeline_compare calls could choose saved Fp caches when present.
+The final source/binary hash audit and per-run cache/reference/log hash checks are recorded in RESULTS.json. Synthetic suffix tests preserve RHS-only constraints, changing affine rank, zero operators and exact head-zero support. Existing production inputs, outputs and checkpoints are preserved.
+
+Mathematical strategy:
+The current four double-final-entry bonus proof is conditional on its heptagon/collinear/adjacency/Qbar hypotheses at ordinary-symbol level. This optimization does not strengthen those assumptions. The complete published triple Eq. (92) and cyclic images add three independent local constraints (65 to 62 triple directions) and pass exact known eight/nine-loop checks. The certified local source alone does not derive them; rational local witnesses certify this non-implication, without being physical-amplitude counterexamples. New triple constraints were not used in the numerical candidates.
+The original truncated Eq. (92) diagnostic was invalid and has been marked accordingly; corrected v3 checks pass. A separate quadruple-dimension calibration returned 169 instead of the published 166 and remains unresolved. See bonusrelation/solver_audit_20261009/REPORT.txt for the precise scope and certificates.
+
+Remaining useful comparisons:
+Persistent discovery row/pivot replay with numerical coefficient/RHS recomputation, exceptional-rank guards and full verification; precomposition of the proven double-bonus tail copy basis; deterministic early-physics schedules; alternative splits with certified compressed suffix operators; a bounded ten-loop pilot. These remain proposals, not measured improvements.
+
+Use accepted-nine-loop-profile.json for the exact binary, hash, resource settings and measured scope. Sixteen-thread controls use heap allocation, 4 GiB physical cache, 3 GiB OPE cache (except original V17: 2 GiB), 20 GB hard cgroup limit, 18 GB high threshold, no swap, 96 GiB virtual limit. The production ten-loop limit remains 50,000,000,000 decimal bytes. No new ten-loop candidate has been selected or deployed.
+
+Reproduce from the workspace root: python3 bench/hexagon_v19_controls.py --package output_hexagon_v19_20261009/package-v22 --output /path/to/new-output-directory --threads 16 --jobs V22-p1,V22-p2,V22-p1-r2. Replace the output placeholder with a NEW directory. Do not reuse a completed output directory as a fresh timing.
+
+Related reports: output_hexagon_algorithm_comparison_20261008/COMPARISON.txt; output_hexagon_v18_20261009/REPORT.txt; bonusrelation/solver_audit_20261009/REPORT.txt.
+Primary higher-entry source: https://arxiv.org/html/2308.08199 (complete Eq. 92).

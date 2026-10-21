@@ -1,0 +1,205 @@
+[
+  {
+    "path": ".git/objects/pack/tmp_pack_FRZkiR",
+    "bytes": 610926604,
+    "allocated": 610934784,
+    "mtime": 1791727722.9258523,
+    "inode": 16946477
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_2GxoCg",
+    "bytes": 986578956,
+    "allocated": 986587136,
+    "mtime": 1791820910.9726646,
+    "inode": 16946890
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_OxrmZp",
+    "bytes": 3386900492,
+    "allocated": 3386908672,
+    "mtime": 1791893467.9985502,
+    "inode": 16947412
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_jLfrfm",
+    "bytes": 859701260,
+    "allocated": 859709440,
+    "mtime": 1791729609.4950695,
+    "inode": 16946494
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_03sjYh",
+    "bytes": 42205196,
+    "allocated": 42209280,
+    "mtime": 1791731136.7792032,
+    "inode": 16946513
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_395wJu",
+    "bytes": 12,
+    "allocated": 8192,
+    "mtime": 1791865528.7086031,
+    "inode": 16947140
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_KWA23L",
+    "bytes": 125042700,
+    "allocated": 125046784,
+    "mtime": 1791881832.0401871,
+    "inode": 16947365
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_jVOIpb",
+    "bytes": 1013186572,
+    "allocated": 1013194752,
+    "mtime": 1791855187.86073,
+    "inode": 16947025
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_xG6gdD",
+    "bytes": 12,
+    "allocated": 8192,
+    "mtime": 1791874383.1655526,
+    "inode": 16947263
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_ZmKlmV",
+    "bytes": 513277964,
+    "allocated": 513286144,
+    "mtime": 1791812903.4946237,
+    "inode": 16946762
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_w94Qth",
+    "bytes": 421003276,
+    "allocated": 421011456,
+    "mtime": 1791739141.7908318,
+    "inode": 16946573
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_tKRV4G",
+    "bytes": 388366348,
+    "allocated": 388374528,
+    "mtime": 1791722430.0990036,
+    "inode": 16946424
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_jmaLsh",
+    "bytes": 1020264460,
+    "allocated": 1020272640,
+    "mtime": 1791940140.4074588,
+    "inode": 16947470
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_qUSVTI",
+    "bytes": 8647727032,
+    "allocated": 8647733248,
+    "mtime": 1791942534.9130924,
+    "inode": 16947471
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_89vD2T",
+    "bytes": 4587532,
+    "allocated": 4591616,
+    "mtime": 1791790176.6262949,
+    "inode": 16946682
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_sPL6cl",
+    "bytes": 225050636,
+    "allocated": 225054720,
+    "mtime": 1791901095.5216494,
+    "inode": 16947452
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_H2cjFp",
+    "bytes": 382730252,
+    "allocated": 382738432,
+    "mtime": 1791784430.286898,
+    "inode": 16946648
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_shwLKa",
+    "bytes": 43253772,
+    "allocated": 43257856,
+    "mtime": 1791665600.234713,
+    "inode": 16946185
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_UD3uQY",
+    "bytes": 88342540,
+    "allocated": 88350720,
+    "mtime": 1791734836.7985463,
+    "inode": 16946545
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_uN5Bg7",
+    "bytes": 666501132,
+    "allocated": 666509312,
+    "mtime": 1791772005.8274066,
+    "inode": 16946601
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_UiVYLb",
+    "bytes": 853934092,
+    "allocated": 853942272,
+    "mtime": 1791850149.68937,
+    "inode": 16946951
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_DPzk8r",
+    "bytes": 699006988,
+    "allocated": 699015168,
+    "mtime": 1791686680.2298415,
+    "inode": 16946211
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_I5Se7T",
+    "bytes": 104595468,
+    "allocated": 104599552,
+    "mtime": 1791725515.326517,
+    "inode": 16946454
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_i8Jsyc",
+    "bytes": 917897228,
+    "allocated": 917905408,
+    "mtime": 1791713048.3895943,
+    "inode": 16946400
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_Eclhi9",
+    "bytes": 133824524,
+    "allocated": 133828608,
+    "mtime": 1791774981.9427824,
+    "inode": 16946622
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_UafGNQ",
+    "bytes": 986316812,
+    "allocated": 986324992,
+    "mtime": 1791641776.5068088,
+    "inode": 16946098
+  },
+  {
+    "path": ".git/objects/pack/tmp_pack_4psVos",
+    "bytes": 25690124,
+    "allocated": 25694208,
+    "mtime": 1791900397.4267485,
+    "inode": 16947451
+  },
+  {
+    "path": ".git/objects/53/tmp_obj_mABNq9",
+    "bytes": 97161216,
+    "allocated": 97161216,
+    "mtime": 1791451856.4235027,
+    "inode": 25991586
+  },
+  {
+    "path": ".git/objects/a6/tmp_obj_hP3O2Y",
+    "bytes": 170106880,
+    "allocated": 170106880,
+    "mtime": 1791874388.544272,
+    "inode": 17470394
+  }
+]

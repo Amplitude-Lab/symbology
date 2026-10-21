@@ -1,0 +1,185 @@
+{
+  "schema": "hexagon-v27-experimental-profile-v1",
+  "state": "tested_not_accepted",
+  "package": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d",
+  "binary": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+  "binary_sha256": "493bbc1a5712a27060e3f3641b75d1820ff031fb4658d022e7c4df733f2d1091",
+  "build_receipt": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/v27-build-receipt.json",
+  "baseline": {
+    "suite": "suite-a/L9-V26",
+    "version": "V26",
+    "loop": 9,
+    "runs": 2,
+    "threads": 16,
+    "flags": {
+      "kernels": 1,
+      "schedule": 1,
+      "compression": 1,
+      "routes": 1
+    },
+    "cpu_hours_mean": 0.8745007165277778,
+    "cpu_hours_total": 1.7490014330555557,
+    "peak_rss_bytes": 5912215552.0,
+    "correctness_passed": true,
+    "wall_seconds_mean": 325.3471657775008
+  },
+  "nine_loop": {
+    "suite": "suite-d/L9-V27",
+    "version": "V27",
+    "loop": 9,
+    "runs": 2,
+    "threads": 16,
+    "flags": {
+      "kernels": 1,
+      "schedule": 1,
+      "compression": 1,
+      "routes": 1
+    },
+    "cpu_hours_mean": 0.8679919411111111,
+    "cpu_hours_total": 1.7359838822222222,
+    "peak_rss_bytes": 6009966592.0,
+    "correctness_passed": true,
+    "wall_seconds_mean": 297.1890820510016
+  },
+  "eight_loop": {
+    "suite": "suite-d/L8-V27",
+    "version": "V27",
+    "loop": 8,
+    "runs": 2,
+    "threads": 16,
+    "flags": {
+      "kernels": 1,
+      "schedule": 1,
+      "compression": 1,
+      "routes": 1
+    },
+    "cpu_hours_mean": 0.06361401,
+    "cpu_hours_total": 0.12722802,
+    "peak_rss_bytes": 1783529472.0,
+    "correctness_passed": true,
+    "wall_seconds_mean": 26.60606386099971
+  },
+  "nine_loop_eight_workers": {
+    "suite": "final-comparisons/L9-eight-workers",
+    "version": "V27",
+    "loop": 9,
+    "runs": 2,
+    "threads": 8,
+    "flags": {
+      "kernels": 1,
+      "schedule": 1,
+      "compression": 1,
+      "routes": 1
+    },
+    "cpu_hours_mean": 0.8383480898611111,
+    "cpu_hours_total": 1.6766961797222222,
+    "peak_rss_bytes": 5374058496.0,
+    "correctness_passed": true,
+    "wall_seconds_mean": 468.65407326650165
+  },
+  "matched_eight_worker_first_prime": {
+    "scope": "Matched first prime only; eight workers for both executables",
+    "baseline_cpu_hours": 0.8696387588888889,
+    "candidate_cpu_hours": 0.8454874266666667,
+    "cpu_saving": 0.02777168332869573,
+    "baseline_peak_rss_bytes": 5388566528.0,
+    "candidate_peak_rss_bytes": 5327675392.0
+  },
+  "comparison_nine": {
+    "cpu_saving": 0.007442847437003741,
+    "rss_ratio": 1.016533740886178,
+    "passed": false
+  },
+  "comparison_nine_eight_workers": {
+    "cpu_saving": 0.041340877123819286,
+    "rss_ratio": 0.9089753999551063,
+    "passed": false
+  },
+  "comparison_eight": {
+    "cpu_saving": 0.361164749014107,
+    "rss_ratio": 0.9376025494713722,
+    "passed": true
+  },
+  "acceptance": {
+    "baseline": "Fresh V26, 16 workers, 3 GiB OPE cache",
+    "cpu_saving_required_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "passed": false
+  },
+  "environment": {
+    "THREADS": 16,
+    "PHYSICS_CACHE_MIB": 4096,
+    "OPE_HEAD_CACHE_MIB": 3072,
+    "HEXAGON_MHV_DOUBLE_BONUS": 1,
+    "HEXAGON_DISCOVERY_REPLAY": 1,
+    "HEXAGON_AFFINE_FACTORS": 1,
+    "MIMALLOC_PURGE_DELAY": 0,
+    "SOLVER_WORK_KERNELS": 1,
+    "SOLVER_WORK_SCHEDULE": 1,
+    "SOLVER_EXACT_COMPRESSION": 1,
+    "SOLVER_PACKED_ROUTES": 1,
+    "LD_LIBRARY_PATH": "/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib"
+  },
+  "hardware": {
+    "cpu_model": "Intel Core Ultra 7 265",
+    "logical_cpus": 20,
+    "perf_event_paranoid": 4,
+    "hardware_counters_available": false
+  },
+  "unset_environment": [
+    "HEXAGON_MAPPED_FILE",
+    "HEXAGON_MAPPED_GIB",
+    "HEXAGON_MAPPED_SOFT_GIB"
+  ],
+  "ablations": [
+    {
+      "feature": "kernels",
+      "off_suite": "final-comparisons/L9-without-kernels",
+      "matching_prime": 1152921504606847009,
+      "full_cpu_hours": 0.8774385352777777,
+      "off_cpu_hours": 0.906909835,
+      "enabling_feature_cpu_saving": 0.032496394442808385,
+      "off_peak_rss_bytes": 5895680000.0,
+      "scope": "One-at-a-time ablation; interactions remain. Disabled features use their V26 implementation."
+    },
+    {
+      "feature": "compression",
+      "off_suite": "final-comparisons/L9-without-compression",
+      "matching_prime": 1152921504606847009,
+      "full_cpu_hours": 0.8774385352777777,
+      "off_cpu_hours": 0.890177816111111,
+      "enabling_feature_cpu_saving": 0.014310939458126448,
+      "off_peak_rss_bytes": 5975871488.0,
+      "scope": "One-at-a-time ablation; interactions remain. Disabled features use their V26 implementation."
+    },
+    {
+      "feature": "schedule",
+      "off_suite": "final-comparisons/L9-without-schedule",
+      "matching_prime": 1152921504606847009,
+      "full_cpu_hours": 0.8774385352777777,
+      "off_cpu_hours": 0.8762710372222222,
+      "enabling_feature_cpu_saving": -0.0013323481045961483,
+      "off_peak_rss_bytes": 5947916288.0,
+      "scope": "One-at-a-time ablation; interactions remain. Disabled features use their V26 implementation."
+    },
+    {
+      "feature": "routes",
+      "off_suite": "final-comparisons/L9-without-routes",
+      "matching_prime": 1152921504606847009,
+      "full_cpu_hours": 0.8774385352777777,
+      "off_cpu_hours": 0.8830679905555555,
+      "enabling_feature_cpu_saving": 0.006374883177722501,
+      "off_peak_rss_bytes": 5935161344.0,
+      "scope": "One-at-a-time ablation; interactions remain. Disabled features use their V26 implementation."
+    }
+  ],
+  "route_pair": {
+    "full_cpu_hours_mean": 0.8679919411111111,
+    "legacy_routes_cpu_hours_mean": 0.8825819736111111,
+    "enabling_packed_routes_cpu_saving": 0.01653107919290997,
+    "scope": "Both first-prime learning and second-prime replay included, 16 workers"
+  },
+  "current_nine_loop_default": "V26",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

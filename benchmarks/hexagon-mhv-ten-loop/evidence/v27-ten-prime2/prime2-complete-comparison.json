@@ -1,0 +1,218 @@
+{
+  "schema": "hexagon-v27d-second-prime-comparison-v1",
+  "created": 1791577814.06832,
+  "prime": 1152921504606847067,
+  "metrics": {
+    "1": {
+      "version": "V27D/16",
+      "discovery_replay": false,
+      "native_cpu_hours": 23.379926966111107,
+      "native_wall_seconds": 6599.909593403005,
+      "native_peak_sampled_rss_bytes": 46188253184,
+      "native_kernel_peak_rss_bytes": 46207737856,
+      "conversion_cpu_hours": 0.031944588333333336,
+      "conversion_wall_seconds": 65.74031033199572
+    },
+    "2": {
+      "version": "V27D/16",
+      "discovery_replay": true,
+      "native_cpu_hours": 23.32918861444444,
+      "native_wall_seconds": 6540.289187214003,
+      "native_peak_sampled_rss_bytes": 47601254400,
+      "native_kernel_peak_rss_bytes": 47600750592,
+      "conversion_cpu_hours": 0.02923079111111111,
+      "conversion_wall_seconds": 64.42893395200372
+    }
+  },
+  "observed_comparison": {
+    "native_cpu_saving_replay_vs_learning": 0.0021701672439016217,
+    "native_wall_saving_replay_vs_learning": 0.00903351861798174,
+    "sampled_peak_rss_ratio_replay_vs_learning": 1.0305922202853404,
+    "seam_phase_cpu_saving": 0.4926737783379095,
+    "seam_phase_cpu_hours_learning": 0.09257083333333334,
+    "seam_phase_cpu_hours_replay": 0.04696361111111111,
+    "seam_cpu_saving_fraction_of_whole_learning_native": 0.0019506999439446188
+  },
+  "historical_same_prime_reference": {
+    "actual_producer": "V17",
+    "prime_index": 2,
+    "native_cpu_hours": 38.57167527333333,
+    "native_wall_seconds": 12627.650258421898,
+    "native_peak_sampled_rss_bytes": 38581391360,
+    "CPU_saving_V27D_vs_V17_same_prime": 0.3951730525281809,
+    "RSS_ratio_V27D_vs_V17_same_prime": 1.2337879149001225,
+    "scope": "Historical setup comparison with different heap/mapped and 3GiB/8GiB OPE settings; V17 is not the fixed V16 qualification baseline."
+  },
+  "phases": {
+    "1": {
+      "compute_discovery": {
+        "seconds": 3691.31,
+        "cpu_seconds": 48225.2,
+        "rss_bytes": 13933096960.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_collinear": {
+        "seconds": 1266.44,
+        "cpu_seconds": 17538.9,
+        "rss_bytes": 8396210176.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_mrk": {
+        "seconds": 125.562,
+        "cpu_seconds": 1726.69,
+        "rss_bytes": 8428224512.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_ope_small_s": {
+        "seconds": 809.382,
+        "cpu_seconds": 9201.54,
+        "rss_bytes": 11371196416.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_seam_complete": {
+        "seconds": 42.5155,
+        "cpu_seconds": 333.255,
+        "rss_bytes": 10370351104.0,
+        "process_peak_bytes": 46207737856.0
+      }
+    },
+    "2": {
+      "compute_discovery": {
+        "seconds": 3655.98,
+        "cpu_seconds": 48187.8,
+        "rss_bytes": 13806108672.0,
+        "process_peak_bytes": 47600750592.0
+      },
+      "compute_early_collinear": {
+        "seconds": 1271.17,
+        "cpu_seconds": 17590.2,
+        "rss_bytes": 8214953984.0,
+        "process_peak_bytes": 47600750592.0
+      },
+      "compute_early_mrk": {
+        "seconds": 124.549,
+        "cpu_seconds": 1729.73,
+        "rss_bytes": 8061046784.0,
+        "process_peak_bytes": 47600750592.0
+      },
+      "compute_early_ope_small_s": {
+        "seconds": 808.854,
+        "cpu_seconds": 9196.04,
+        "rss_bytes": 10882523136.0,
+        "process_peak_bytes": 47600750592.0
+      },
+      "compute_seam_complete": {
+        "seconds": 21.1629,
+        "cpu_seconds": 169.069,
+        "rss_bytes": 10830565376.0,
+        "process_peak_bytes": 47600750592.0
+      }
+    }
+  },
+  "seam_profiles": {
+    "1": {
+      "replay": "0",
+      "selected_rows": "2877",
+      "contractions": "989800",
+      "lifts": "34",
+      "initial_directions": "2877",
+      "final_directions": "0",
+      "solve_seconds": "22.1614",
+      "verify_seconds": "20.3328"
+    },
+    "2": {
+      "replay": "1",
+      "selected_rows": "2877",
+      "contractions": "2877",
+      "lifts": "1",
+      "initial_directions": "2877",
+      "final_directions": "0",
+      "solve_seconds": "0.557732",
+      "verify_seconds": "20.5855"
+    }
+  },
+  "correctness": {
+    "full_native_seam_rows_checked": 989800,
+    "directions": 0,
+    "all_supplied_fresh_COL_MRK_OPE_passed": true,
+    "coefficient_comparisons": {
+      "native": {
+        "path": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3/joint/cache/p1152921504606847067.bin",
+        "sha256": "6850e90e6ed88b158ba5a4f33e9819ccb1af5035f5477d88e5f16b0d78a70fa1",
+        "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847067.bin",
+        "reference_sha256": "b49eaf2065f5389772159f4b13bd4139aeac82c54503f720f97e3bb81b35323d",
+        "columns": 275246,
+        "every_coefficient_equal": true,
+        "header_length_identity_checksum_verified": true
+      },
+      "conversion": {
+        "path": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/shifted-16p4/cache/p1152921504606847067.bin",
+        "sha256": "22fa18d1c3a43233308b0802406fdbeb5a6d789e07448fdb12d84aa332dfde3e",
+        "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-shifted-16p4/cache/p1152921504606847067.bin",
+        "reference_sha256": "27f415ac1c3feea23f2652172b6fbc64b40a91ec8f0ec29656b1ab09fe0627ab",
+        "columns": 518048,
+        "every_coefficient_equal": true,
+        "header_length_identity_checksum_verified": true
+      }
+    },
+    "QQ_reconstruction_and_final_exact_certificates_complete": false
+  },
+  "completed_native_and_conversion_cpu_hours": 46.77029095999999,
+  "current_prime": 3,
+  "current_resource_status": {
+    "state": "running",
+    "pid": 135550,
+    "command": [
+      "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+      "17",
+      "3",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3",
+      "9000",
+      "cache",
+      "right",
+      "--prime-index",
+      "3"
+    ],
+    "wall_seconds": 1697.5223037760006,
+    "current_rss_bytes": 31921315840,
+    "peak_summed_rss_bytes": 31921315840,
+    "timeout_seconds": 172800.0,
+    "rss_limit_gib": 46.566128730773926,
+    "virtual_limit_gib": 256,
+    "updated_unix_seconds": 1791577805.3132637
+  },
+  "memory_events": {
+    "low": 0,
+    "high": 4481,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "service_memory_peak_bytes": 48019234816,
+  "memory_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=5975684\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=5956253\n",
+  "configured_hard_limit_bytes": 50000000000,
+  "kernel_page_rounded_hard_limit_bytes": 49999998976,
+  "soft_limit_bytes": 48000000000,
+  "swap_limit_bytes": 0,
+  "frozen_manifest_and_driver_hashes_verified": 23,
+  "active_process_binary_environment_cgroup_verified": true,
+  "active_producer_modified": false,
+  "sources": {
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-native-70ad835f1304.log": "9b2ec23f3310fe42f5f137e9e34105c13f2c811d192001143e9334fb08e7a98c",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-native-70ad835f1304.json": "40247e4b4f1ad5592984e9960c4be80310fcad98178d9498867a3d12d7e14432",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-convert-50a8d095c17e.log": "e2c171c04ff283b002bf00c914f5c4362fa089be002f94cd1736110a9d131052",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-convert-50a8d095c17e.json": "6a8c18c0940a588424edc7f1f871aab3ef5c872b44daa69eb2717560b298da3b",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p02-native-e4651a760f53.log": "2f4b3323489407487dd1662f2db6e99a125449281b21539c4e6ea67b57bcd4fa",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p02-native-e4651a760f53.json": "e5d762e0ec3337ef826b5f3d291bf7a56977de7d87a16e88c97ed1e43f4ec71f",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p02-convert-2fbfd7bde4fe.log": "aea215fb123c29fdc9456249374b3b044a7757574eca276325cf0c0ccab77fca",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p02-convert-2fbfd7bde4fe.json": "b5510e021c715ff8db0acba1bed701bdd435682d879e88c08b85f2cca3d9e331",
+    "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/production-measurements.json": "4309e79cb6f6f40dcb82069e5297972946a7e3183253dd1ab8b2ac4c7d842eb5"
+  },
+  "scope": "Two distinct fresh ten-loop primes, first learning and second replay, without same-prime replay-off controls or timing repetitions. This does not isolate causal replay gains. Fixed V16 >15% CPU and <=5% RSS qualification remains unchanged; direct nine-loop qualification is unverified and the ten-loop first-prime RSS gate failed.",
+  "optimization_conclusion": "Seam replay reduces contractions from 989800 to 2877 and lifts from 34 to 1, retaining full 989800-row verification. Its phase CPU nearly halves, saving only 0.195% of whole learning native CPU. Discovery still dominates. Prioritize dominant update arithmetic/locality and pivot-column-only exact-capacity transpose/backsolve memory in separate validated revisions. Evaluate bounded discovery route retention by net avoided queue/decode/residual cost; do not enlarge the cache without evidence under the 50GB limit.",
+  "action": "Continue authorized frozen service and retain all final exact checks; no restart, memory-limit change or competing heavy benchmark."
+}

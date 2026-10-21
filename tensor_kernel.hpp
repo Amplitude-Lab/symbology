@@ -12,8 +12,17 @@ enum class BoundaryReduction { reduced, raw };
 class ConstraintRows {
     size_t previous,older,letters,next;
     Mat local;
-    std::vector<Vec> slices;
+    using IntegralVec = sparse_vec<int_t,I>;
+    std::vector<IntegralVec> slices;
     bool ordered;
+    static sparse_vec<ulong,I> modular_slice(const IntegralVec& row,const field_t& fp){
+        sparse_vec<ulong,I> result;result.reserve(row.nnz());
+        for(auto [c,x]:row)result.push_back(c,x%fp.mod);
+        return result;
+    }
+    static int_t integral_height(const IntegralVec& row){
+        int_t h=0;for(auto [c,x]:row)h+=x.abs();return h;
+    }
 public:
     ConstraintRows(const Tensor& expansion,Mat conditions,size_t next_dimension,bool backward=false,bool order_short_rows=false)
         :previous(expansion.dim(0)),older(expansion.dim(backward?2:1)),letters(expansion.dim(backward?1:2)),next(next_dimension),local(std::move(conditions)),slices(older*letters),ordered(order_short_rows){
@@ -21,15 +30,18 @@ public:
         // Row scaling does not change a homogeneous equation. Clear rational
         // denominators before repeated modular conversion and certification.
         for(auto& row:local.rows)vec_cancel_divisor(row);
-        std::vector<size_t> counts(slices.size());
-        for(size_t p=0;p<expansion.nnz();++p){auto i=expansion.index(p);++counts[i[backward?1:0]*letters+i[backward?0:1]];}
+        // All letters for one older component share a scale. Compute it
+        // before transposing, so integral factors need no stored denominator
+        // or temporary rational copy. Scaling letters separately is invalid.
+        std::vector<size_t> counts(slices.size());std::vector<int_t> denominators(older,int_t(1));
+        for(size_t p=0;p<expansion.nnz();++p){auto i=expansion.index(p);size_t old=i[backward?1:0];
+            ++counts[old*letters+i[backward?0:1]];
+            const auto& x=expansion.val(p);if(!x.is_integer())denominators[old]=LCM(denominators[old],x.den());}
         for(size_t i=0;i<slices.size();++i)slices[i].reserve(counts[i]);
-        for(size_t b=0;b<previous;++b)for(size_t p=expansion.rowptr()[b];p<expansion.rowptr()[b+1];++p){auto i=expansion.index(p);slices[i[backward?1:0]*letters+i[backward?0:1]].push_back(index(b),expansion.val(p));}
-        // All letters for one older component share a scale: scaling each
-        // letter separately would change the equations.
-        for(size_t old=0;old<older;++old){int_t denominator=1;
-            for(size_t l=0;l<letters;++l)for(auto [b,x]:slices[old*letters+l])denominator=LCM(denominator,x.den());
-            if(denominator!=1)for(size_t l=0;l<letters;++l)for(size_t p=0;p<slices[old*letters+l].nnz();++p)slices[old*letters+l][p]*=Q(denominator);
+        for(size_t b=0;b<previous;++b)for(size_t p=expansion.rowptr()[b];p<expansion.rowptr()[b+1];++p){
+            auto i=expansion.index(p);size_t old=i[backward?1:0];const auto& x=expansion.val(p);int_t value=x.num();
+            if(denominators[old]!=1){int_t scale;fmpz_divexact(scale.data(),denominators[old].data(),x.den_data());value*=scale;}
+            slices[old*letters+i[backward?0:1]].push_back(index(b),std::move(value));
         }
     }
     size_t ncol()const{return previous*next;}
@@ -43,7 +55,7 @@ public:
     int_t integral_residual_bound_from_maximum(const int_t& hk)const{
         int_t hf=0,hc=0;
         auto norm=[](const Vec& row){int_t h=0;for(auto [j,x]:row){require(x.is_integer(),"integral residual bound needs integral factors");h+=x.num().abs();}return h;};
-        for(const auto& row:slices){auto h=norm(row);if(h>hf)hf=h;}
+        for(const auto& row:slices){auto h=integral_height(row);if(h>hf)hf=h;}
         for(const auto& row:local.rows){auto h=norm(row);if(h>hc)hc=h;}
         return hf*hc*hk;
     }
@@ -64,7 +76,7 @@ public:
         auto convert=[&](const Vec& row){for(auto [j,x]:row)if(x.den()%fp.mod==0)throw certified_kernel::BadPrime("residual factor denominator");return row%fp.mod;};
         std::vector<MV> cm(local.nrow);for(size_t q=0;q<local.nrow;++q)cm[q]=convert(local[q]);
         for(size_t old=first;old<end;){size_t stop=std::min(end,old+64);MM f((stop-old)*letters,previous);
-            for(size_t i=0;i<f.nrow;++i)f[i]=convert(slices[old*letters+i]);auto contracted=sparse_mat_mul(f,by_basis,fp,pool);f.clear();
+            for(size_t i=0;i<f.nrow;++i)f[i]=modular_slice(slices[old*letters+i],fp);auto contracted=sparse_mat_mul(f,by_basis,fp,pool);f.clear();
             std::vector<std::vector<MV>> result(stop-old);
             auto evaluate=[&](size_t o){std::vector<ulong> dense(letters*k.nrow*next);
                 for(size_t l=0;l<letters;++l)for(auto [j,x]:contracted[o*letters+l])dense[l*k.nrow*next+j]=x;
@@ -103,7 +115,7 @@ public:
         require(sample_shift<64,"invalid equation sampling shift");
         using ModVec=sparse_vec<ulong,I>;std::vector<ModVec> fm(slices.size()),cm(local.nrow);
         auto convert=[&](const Vec& row){for(auto [j,x]:row)if(x.den()%fp.mod==0)throw certified_kernel::BadPrime("factor denominator");return row%fp.mod;};
-        for(size_t i=0;i<slices.size();++i)fm[i]=convert(slices[i]);
+        for(size_t i=0;i<slices.size();++i)fm[i]=modular_slice(slices[i],fp);
         for(size_t i=0;i<local.nrow;++i)cm[i]=convert(local[i]);
         std::vector<I> mapped(ncol(),-1);std::vector<ulong> scales(ncol());
         for(size_t c=0;c<ncol();++c){auto [r,x]=relations.image(c);if(x==0)continue;if(x.den()%fp.mod==0)throw certified_kernel::BadPrime("relation denominator");mapped[c]=columns[r];scales[c]=x%fp.mod;
@@ -161,7 +173,7 @@ public:
         require(kernel.ncol==ncol(),"kernel certificate dimension mismatch");
         bool integral=true;int_t hf=0,hc=0,hk=0;
         auto row_height=[&](const Vec& row){int_t h=0;for(auto [j,x]:row){if(!x.is_integer())integral=false;h+=x.num().abs();}return h;};
-        for(const auto& row:slices){auto h=row_height(row);if(h>hf)hf=h;}
+        for(const auto& row:slices){auto h=integral_height(row);if(h>hf)hf=h;}
         for(const auto& row:local.rows){auto h=row_height(row);if(h>hc)hc=h;}
         for(const auto& row:kernel.rows)for(auto [j,x]:row){if(!x.is_integer())integral=false;auto h=x.num().abs();if(h>hk)hk=h;}
         ulong prime=congruent_prime?congruent_prime:n_nextprime(1ULL<<60,0);int_t bound=hf*hc*hk;std::atomic<bool> valid=true;
@@ -177,7 +189,7 @@ public:
         auto start=std::chrono::steady_clock::now();
         if(integral&&bound<int_t(prime)){
             field_t fp(FIELD_Fp,prime);std::vector<sparse_vec<ulong,I>> fm(slices.size());
-            for(size_t i=0;i<slices.size();++i)fm[i]=slices[i]%fp.mod;
+            for(size_t i=0;i<slices.size();++i)fm[i]=modular_slice(slices[i],fp);
             sparse_mat<ulong,I> cm(local.nrow,local.ncol),km(kt.nrow,kt.ncol);
             for(size_t i=0;i<local.nrow;++i)cm[i]=local[i]%fp.mod;
             for(size_t i=0;i<kt.nrow;++i)km[i]=kt[i]%fp.mod;

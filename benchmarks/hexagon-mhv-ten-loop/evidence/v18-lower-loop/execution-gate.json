@@ -1,0 +1,32 @@
+{
+  "state": "complete_v18_L8_L9_validated",
+  "created": 1791530394.7099059,
+  "parent": "output_hexagon_17p3_20261007/joint-v17-schedule-package",
+  "candidate": "V18 final-seam selected-row replay, forward continuation and direct factor contraction",
+  "warm_basis_tests": [
+    8,
+    9
+  ],
+  "production_modified": false,
+  "production_memory_max_bytes": 50000000000,
+  "timing_gate": "Wait for other chat mapped/heap tests to finish; mathematical/build tests may run with overlap recorded.",
+  "synthetic_log": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/synthetic.log",
+  "source_freeze": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/package/v18-build-receipt.json",
+  "mathematical_controls_overlap_other_backend": true,
+  "independent_contraction_cases_per_loop": 4224,
+  "synthetic_cases": 10,
+  "rejection_guards": 4,
+  "eight_loop_full_primes_passed": 2,
+  "nine_phase_all_105898_coefficients_equal": true,
+  "nine_phase_seconds": {
+    "v17": 22.0746,
+    "v18_learning": 6.98913,
+    "v18_replay": 3.3911
+  },
+  "latest_progress": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/progress.json",
+  "updated": 1791531768.4341898,
+  "result": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/RESULTS.json",
+  "recommended_nine_loop_ope_cache_mib": 3072,
+  "ten_loop_v18_selected": false,
+  "standard_and_tuned_controls_complete": true
+}

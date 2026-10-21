@@ -1,0 +1,63 @@
+{
+  "observed": 1791577885.1900063,
+  "progress_snapshot": {
+    "schema": "hexagon-ten-progress-v27d",
+    "state": "running_native",
+    "boot_id": "de36c236-9ce4-410e-b7cd-0b06dff448ab",
+    "runner_pid": 120842,
+    "updated_unix_seconds": 1791576107.777573,
+    "native_primes_committed": 2,
+    "max_primes": 12,
+    "accounted_cpu_hours": 46.77029095999999,
+    "interrupted_cpu_seconds_lower_bound": 0,
+    "final_symbol_certified": false,
+    "prime_index": 3,
+    "manager_pid": 135549,
+    "solver_log": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p03-native-09c6d234615b.log",
+    "resource_status": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p03-native-09c6d234615b.status.json"
+  },
+  "resource_snapshot": {
+    "state": "running",
+    "pid": 135550,
+    "command": [
+      "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+      "17",
+      "3",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3",
+      "9000",
+      "cache",
+      "right",
+      "--prime-index",
+      "3"
+    ],
+    "wall_seconds": 1767.8582633589976,
+    "current_rss_bytes": 32440160256,
+    "peak_summed_rss_bytes": 32440160256,
+    "timeout_seconds": 172800.0,
+    "rss_limit_gib": 46.566128730773926,
+    "virtual_limit_gib": 256,
+    "updated_unix_seconds": 1791577875.6492229
+  },
+  "systemd": {
+    "MainPID": "120840",
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/symbology-hexagon-ten-v27d-20261009.service",
+    "MemoryCurrent": "47998156800",
+    "TasksCurrent": "20",
+    "MemoryHigh": "48000000000",
+    "MemoryMax": "50000000000",
+    "MemorySwapMax": "0",
+    "TasksMax": "128",
+    "ActiveState": "active",
+    "SubState": "running"
+  },
+  "proc_exe": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+  "cmdline": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27 17 3 /home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC /home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV /home/ana/Documents/symbology/output_hexagon_16p4_20261006/data /home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3 9000 cache right --prime-index 3 ",
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/symbology-hexagon-ten-v27d-20261009.service\n",
+  "cpu_stat": "usage_usec 189250183190\nuser_usec 188727754909\nsystem_usec 522428280\ncore_sched.force_idle_usec 0\n",
+  "memory_events": "low 0\nhigh 4548\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory_pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=5978808\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=5959377\n",
+  "scope": "Read-only observation; active runner and solver unaltered."
+}

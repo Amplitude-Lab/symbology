@@ -1,0 +1,63 @@
+{
+  "schema": "generic-replay-affine-tested-profile-v1",
+  "selected": "V26",
+  "package": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/package-v26",
+  "binary": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/package-v26/bin/joint_physics_v26",
+  "binary_sha256": "fb10e23bc386a724dae9c4b324f792f7d5c2eae421ae896171e35396f4bb9189",
+  "build_receipt": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/package-v26/v26-build-receipt.json",
+  "environment": {
+    "THREADS": 16,
+    "PHYSICS_CACHE_MIB": 4096,
+    "OPE_HEAD_CACHE_MIB": 3072,
+    "HEXAGON_MHV_DOUBLE_BONUS": 1,
+    "HEXAGON_DISCOVERY_REPLAY": 1,
+    "HEXAGON_AFFINE_FACTORS": 1,
+    "MIMALLOC_PURGE_DELAY": 0,
+    "LD_LIBRARY_PATH": "/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib"
+  },
+  "unset_environment": [
+    "HEXAGON_MAPPED_FILE",
+    "HEXAGON_MAPPED_GIB",
+    "HEXAGON_MAPPED_SOFT_GIB"
+  ],
+  "dependency_route_budget_bytes": 67108864,
+  "execution": "One prime process at a time, 16 workers. Use fresh output roots. Plans contain structure, never old field values.",
+  "nine_loop": {
+    "learning_cpu_hours": 0.8801545302777778,
+    "replay_cpu_hours": 0.8643877191666667,
+    "two_prime_total_cpu_hours": 1.7445422494444445,
+    "two_prime_mean_cpu_hours": 0.8722711247222222,
+    "peak_rss_bytes": 5942951936.0,
+    "peak_sampled_rss_bytes": 5939867648,
+    "saving_vs_original_v17": 0.41128212558306154,
+    "saving_vs_matched_v22": 0.04315888985017369,
+    "conservative_rss_ratio_vs_original_v17": 1.0067248394420298
+  },
+  "eight_loop": {
+    "learning_cpu_hours": 0.09760145277777778,
+    "replay_cpu_hours": 0.0980717388888889,
+    "two_prime_mean_cpu_hours": 0.09783659583333335,
+    "peak_rss_bytes": 1883369472.0,
+    "original_v17_cpu_hours": 0.12761718111111112,
+    "original_v17_peak_rss_bytes": 1871241216,
+    "saving_vs_original_v17": 0.23335874541727275,
+    "rss_ratio_vs_original_v17": 1.0064813963567592,
+    "original_v17_measurement": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V17-prime1.json"
+  },
+  "acceptance": {
+    "baseline": "Original V17; matched V22 is a separate incremental comparator",
+    "cpu_saving_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "passed": true,
+    "rss_metric": "Conservative maximum of 100ms sampled process RSS and kernel process high-water mark in phase logs; one process per native solve. Historical V17 reference uses its sampled minimum, which is conservative for the new gate."
+  },
+  "scope": "Generic finite-field sparse/affine kernels, tested on arbitrary matrix families and two primes at both eight and nine loops. This does not establish universal speedups or global optimality. No ten-loop performance claim.",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000,
+  "remaining": [
+    "Ten-loop pilot under the existing50GB decimal limit",
+    "Dependency-route compression and cost-aware selection",
+    "Deterministic work-based early-physics scheduling",
+    "Fully implicit cross-stage affine projection; current checkpoint boundaries still materialize complete affine maps"
+  ]
+}

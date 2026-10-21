@@ -1,0 +1,3065 @@
+{
+  "schema": "nine-loop-cpu-optimization-summary-v1",
+  "updated": 1791545272.6063056,
+  "acceptance": {
+    "baseline": "original V17,16 threads,OPE2GiB",
+    "metric": "process user+system CPU-hours",
+    "cpu_saving_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "conservative_rss_reference_bytes": 5903253504
+  },
+  "selected": "V22/16",
+  "groups": {
+    "V17/16": {
+      "first_prime_repeats": 2,
+      "cpu_hours_mean": 1.4816453901388889,
+      "wall_seconds_mean": 508.86405658849617,
+      "peak_rss_bytes_min": 5903253504,
+      "peak_rss_bytes_max": 6011101184,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.0,
+      "cpu_saving_vs_v21_16": -0.42535741312295317,
+      "conservative_rss_ratio": 1.0182691934078256,
+      "numeric_gate_pass": false,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1019.385,
+        "compute_early_collinear": 1956.75,
+        "compute_early_mrk": 278.936,
+        "compute_early_ope_small_s": 1320.15,
+        "compute_seam_complete": 184.99200000000002
+      }
+    },
+    "V19/16": {
+      "first_prime_repeats": 1,
+      "cpu_hours_mean": 1.3087300425,
+      "wall_seconds_mean": 453.22461833299894,
+      "peak_rss_bytes_min": 5905137664,
+      "peak_rss_bytes_max": 5905137664,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.11670494761413863,
+      "cpu_saving_vs_v21_16": -0.25901115089301485,
+      "conservative_rss_ratio": 1.0003191731472694,
+      "numeric_gate_pass": false,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1037.06,
+        "compute_early_collinear": 1850.17,
+        "compute_early_mrk": 280.12,
+        "compute_early_ope_small_s": 1329.22,
+        "compute_seam_complete": 43.2616
+      }
+    },
+    "V20/16": {
+      "first_prime_repeats": 2,
+      "cpu_hours_mean": 1.04939335,
+      "wall_seconds_mean": 384.88676234900413,
+      "peak_rss_bytes_min": 5877338112,
+      "peak_rss_bytes_max": 5935214592,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.29173784970124994,
+      "cpu_saving_vs_v21_16": -0.009526706362726678,
+      "conservative_rss_ratio": 1.005414147974222,
+      "numeric_gate_pass": true,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1022.0350000000001,
+        "compute_early_collinear": 942.135,
+        "compute_early_mrk": 279.5405,
+        "compute_early_ope_small_s": 1319.05,
+        "compute_seam_complete": 44.02645
+      }
+    },
+    "V21/16": {
+      "first_prime_repeats": 3,
+      "cpu_hours_mean": 1.0394904299074075,
+      "wall_seconds_mean": 380.3768036646652,
+      "peak_rss_bytes_min": 5848817664,
+      "peak_rss_bytes_max": 5939150848,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.2984215812867571,
+      "cpu_saving_vs_v21_16": 0.0,
+      "conservative_rss_ratio": 1.0060809423101476,
+      "numeric_gate_pass": true,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1013.7,
+        "compute_early_collinear": 920.5513333333333,
+        "compute_early_mrk": 279.1546666666667,
+        "compute_early_ope_small_s": 1313.3766666666666,
+        "compute_seam_complete": 43.644866666666665
+      }
+    },
+    "V21/8": {
+      "first_prime_repeats": 1,
+      "cpu_hours_mean": 1.1781267616666669,
+      "wall_seconds_mean": 684.994348837994,
+      "peak_rss_bytes_min": 5323354112,
+      "peak_rss_bytes_max": 5323354112,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.2048524096874288,
+      "cpu_saving_vs_v21_16": -0.1333695123788763,
+      "conservative_rss_ratio": 0.9017661376718678,
+      "numeric_gate_pass": true,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1016.31,
+        "compute_early_collinear": 1207.53,
+        "compute_early_mrk": 195.79,
+        "compute_early_ope_small_s": 1658.28,
+        "compute_seam_complete": 19.5825
+      }
+    },
+    "V22/16": {
+      "first_prime_repeats": 2,
+      "cpu_hours_mean": 0.9187658295833334,
+      "wall_seconds_mean": 347.39136342250276,
+      "peak_rss_bytes_min": 5840363520,
+      "peak_rss_bytes_max": 5889835008,
+      "rss_scope": "all tested fields and repetitions",
+      "cpu_saving_vs_original_v17": 0.37990167168325706,
+      "cpu_saving_vs_v21_16": 0.11613825086857954,
+      "conservative_rss_ratio": 0.9977269321077085,
+      "numeric_gate_pass": true,
+      "phase_cpu_seconds_mean": {
+        "compute_discovery": 1033.49,
+        "compute_early_collinear": 781.2405,
+        "compute_early_mrk": 278.6415,
+        "compute_early_ope_small_s": 1000.55,
+        "compute_seam_complete": 42.9815
+      }
+    }
+  },
+  "runs": [
+    {
+      "label": "V17-p1",
+      "version": "V17",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.4920500419444442,
+      "wall_seconds": 511.2880570349953,
+      "peak_rss_bytes": 6011101184,
+      "cgroup_peak_bytes": 7520468992,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls/V17/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package/bin/joint_physics_v17",
+      "binary_sha256": "73daf308eac206db8e0c94e11816c049e4b6e0464c4b4547915857f44aefc79e",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30615,
+          "cpu_seconds": 1.3059,
+          "rss_bytes": 15826944.0,
+          "process_peak_bytes": 15581184.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000670462,
+          "cpu_seconds": 0.000674,
+          "rss_bytes": 384561152.0,
+          "process_peak_bytes": 1448566784.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.50924,
+          "cpu_seconds": 2.50531,
+          "rss_bytes": 2841600000.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.403,
+          "cpu_seconds": 1017.86,
+          "rss_bytes": 2841600000.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00065677,
+          "cpu_seconds": 0.000658,
+          "rss_bytes": 2841600000.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.521935,
+          "cpu_seconds": 0.521925,
+          "rss_bytes": 2544582656.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.15758,
+          "cpu_seconds": 0.162585,
+          "rss_bytes": 2339332096.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148435,
+          "cpu_seconds": 0.014851,
+          "rss_bytes": 2078298112.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 154.472,
+          "cpu_seconds": 1996.42,
+          "rss_bytes": 2078298112.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000666533,
+          "cpu_seconds": 0.000667,
+          "rss_bytes": 2078298112.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00331992,
+          "cpu_seconds": 0.003322,
+          "rss_bytes": 2061811712.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00581292,
+          "cpu_seconds": 0.006025,
+          "rss_bytes": 2681229312.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0150154,
+          "cpu_seconds": 0.015072,
+          "rss_bytes": 2681229312.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.531,
+          "cpu_seconds": 278.155,
+          "rss_bytes": 2681229312.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000617479,
+          "cpu_seconds": 0.000611,
+          "rss_bytes": 2681229312.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00276013,
+          "cpu_seconds": 0.002762,
+          "rss_bytes": 2676264960.0,
+          "process_peak_bytes": 3984158720.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00469535,
+          "cpu_seconds": 0.007263,
+          "rss_bytes": 4537667584.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0118451,
+          "cpu_seconds": 0.011848,
+          "rss_bytes": 4537303040.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.576,
+          "cpu_seconds": 1320.64,
+          "rss_bytes": 4537303040.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000642553,
+          "cpu_seconds": 0.000644,
+          "rss_bytes": 4537303040.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00554102,
+          "cpu_seconds": 0.005549,
+          "rss_bytes": 3782586368.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 21.6433,
+          "cpu_seconds": 184.787,
+          "rss_bytes": 3782586368.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.656589,
+          "cpu_seconds": 8.36892,
+          "rss_bytes": 3785555968.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.7889,
+          "cpu_seconds": 142.506,
+          "rss_bytes": 3768684544.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 32.1489,
+          "cpu_seconds": 412.114,
+          "rss_bytes": 3802763264.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00674792,
+          "cpu_seconds": 0.004551,
+          "rss_bytes": 3802763264.0,
+          "process_peak_bytes": 6010040320.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 504.513,
+          "cpu_seconds": 5364.68,
+          "rss_bytes": 3491057664.0,
+          "process_peak_bytes": 6010040320.0
+        }
+      ]
+    },
+    {
+      "label": "V19-p1",
+      "version": "V19",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.3087300425,
+      "wall_seconds": 453.22461833299894,
+      "peak_rss_bytes": 5905137664,
+      "cgroup_peak_bytes": 7354445824,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls/V19/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package/bin/joint_physics_v19",
+      "binary_sha256": "8602ec3a856d9d809dfe42d44f41e75fc18162fc1ca7f5c43384f7de12741368",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30625,
+          "cpu_seconds": 1.30603,
+          "rss_bytes": 15892480.0,
+          "process_peak_bytes": 15450112.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000678038,
+          "cpu_seconds": 0.000681,
+          "rss_bytes": 381800448.0,
+          "process_peak_bytes": 1434451968.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.49044,
+          "cpu_seconds": 2.48923,
+          "rss_bytes": 2789093376.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.995,
+          "cpu_seconds": 1037.06,
+          "rss_bytes": 2789093376.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000709988,
+          "cpu_seconds": 0.000711,
+          "rss_bytes": 2789093376.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.523336,
+          "cpu_seconds": 0.521781,
+          "rss_bytes": 2486243328.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.156662,
+          "cpu_seconds": 0.162539,
+          "rss_bytes": 2364592128.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.014998,
+          "cpu_seconds": 0.015004,
+          "rss_bytes": 2045227008.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 141.313,
+          "cpu_seconds": 1850.17,
+          "rss_bytes": 2045227008.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000635783,
+          "cpu_seconds": 0.000636,
+          "rss_bytes": 2045227008.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00290012,
+          "cpu_seconds": 0.002901,
+          "rss_bytes": 2028511232.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00679745,
+          "cpu_seconds": 0.006762,
+          "rss_bytes": 2616807424.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0151525,
+          "cpu_seconds": 0.015219,
+          "rss_bytes": 2616807424.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7065,
+          "cpu_seconds": 280.12,
+          "rss_bytes": 2616807424.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000618539,
+          "cpu_seconds": 0.000619,
+          "rss_bytes": 2616807424.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00257538,
+          "cpu_seconds": 0.002577,
+          "rss_bytes": 2614464512.0,
+          "process_peak_bytes": 3973767168.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00469511,
+          "cpu_seconds": 0.006918,
+          "rss_bytes": 5308706816.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0119858,
+          "cpu_seconds": 0.011989,
+          "rss_bytes": 5308510208.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 123.205,
+          "cpu_seconds": 1329.22,
+          "rss_bytes": 5308510208.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000702979,
+          "cpu_seconds": 0.000704,
+          "rss_bytes": 5308510208.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00525097,
+          "cpu_seconds": 0.005254,
+          "rss_bytes": 5299863552.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.78677,
+          "cpu_seconds": 43.2616,
+          "rss_bytes": 5299863552.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.604897,
+          "cpu_seconds": 7.77391,
+          "rss_bytes": 5301108736.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.465,
+          "cpu_seconds": 141.446,
+          "rss_bytes": 5283667968.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.979656,
+          "cpu_seconds": 11.7346,
+          "rss_bytes": 5283667968.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.0062192,
+          "cpu_seconds": 0.004688,
+          "rss_bytes": 5283667968.0,
+          "process_peak_bytes": 5904105472.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 446.377,
+          "cpu_seconds": 4704.66,
+          "rss_bytes": 4971761664.0,
+          "process_peak_bytes": 5904105472.0
+        }
+      ]
+    },
+    {
+      "label": "V20-p1",
+      "version": "V20",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.0488813122222223,
+      "wall_seconds": 384.0835395000031,
+      "peak_rss_bytes": 5935214592,
+      "cgroup_peak_bytes": 7485607936,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/V20/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v20/bin/joint_physics_v20",
+      "binary_sha256": "4865c0417d19c89abafa65224ddd92ca285aa37b4527fb7bfd825889c3a06ee4",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.3071,
+          "cpu_seconds": 1.3065,
+          "rss_bytes": 15785984.0,
+          "process_peak_bytes": 15327232.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000669747,
+          "cpu_seconds": 0.000672,
+          "rss_bytes": 381337600.0,
+          "process_peak_bytes": 1435791360.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.49993,
+          "cpu_seconds": 2.49884,
+          "rss_bytes": 2805510144.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.892,
+          "cpu_seconds": 1024.93,
+          "rss_bytes": 2805510144.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000647976,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 2805510144.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.506771,
+          "cpu_seconds": 0.506508,
+          "rss_bytes": 2506293248.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.159322,
+          "cpu_seconds": 0.161699,
+          "rss_bytes": 2344906752.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0156964,
+          "cpu_seconds": 0.015011,
+          "rss_bytes": 2059218944.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 73.2323,
+          "cpu_seconds": 935.781,
+          "rss_bytes": 2059218944.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000680366,
+          "cpu_seconds": 0.000681,
+          "rss_bytes": 2059218944.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.0030204,
+          "cpu_seconds": 0.003023,
+          "rss_bytes": 2039484416.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00487525,
+          "cpu_seconds": 0.005492,
+          "rss_bytes": 2622222336.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0150517,
+          "cpu_seconds": 0.015402,
+          "rss_bytes": 2622222336.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.6866,
+          "cpu_seconds": 279.629,
+          "rss_bytes": 2622222336.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000628187,
+          "cpu_seconds": 0.000629,
+          "rss_bytes": 2622222336.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00262169,
+          "cpu_seconds": 0.002623,
+          "rss_bytes": 2618765312.0,
+          "process_peak_bytes": 3959377920.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00538856,
+          "cpu_seconds": 0.007708,
+          "rss_bytes": 5336977408.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0123058,
+          "cpu_seconds": 0.012012,
+          "rss_bytes": 5336551424.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.257,
+          "cpu_seconds": 1320.74,
+          "rss_bytes": 5336551424.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000629639,
+          "cpu_seconds": 0.000631,
+          "rss_bytes": 5336551424.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00532978,
+          "cpu_seconds": 0.005298,
+          "rss_bytes": 5334474752.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.91253,
+          "cpu_seconds": 45.0217,
+          "rss_bytes": 5334474752.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.53186,
+          "cpu_seconds": 6.84631,
+          "rss_bytes": 5336068096.0,
+          "process_peak_bytes": 5930332160.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.4661,
+          "cpu_seconds": 140.727,
+          "rss_bytes": 5319081984.0,
+          "process_peak_bytes": 5934481408.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.996705,
+          "cpu_seconds": 11.7697,
+          "rss_bytes": 5319081984.0,
+          "process_peak_bytes": 5934481408.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00649617,
+          "cpu_seconds": 0.004704,
+          "rss_bytes": 5319081984.0,
+          "process_peak_bytes": 5934481408.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 377.263,
+          "cpu_seconds": 3769.26,
+          "rss_bytes": 5008162816.0,
+          "process_peak_bytes": 5934481408.0
+        }
+      ]
+    },
+    {
+      "label": "V20-p2",
+      "version": "V20",
+      "threads": 16,
+      "prime": 1152921504606847067,
+      "cpu_hours": 1.0462024152777778,
+      "wall_seconds": 382.66946618899965,
+      "peak_rss_bytes": 5915873280,
+      "cgroup_peak_bytes": 7370711040,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/V20/joint/cache/p1152921504606847067.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v20/bin/joint_physics_v20",
+      "binary_sha256": "4865c0417d19c89abafa65224ddd92ca285aa37b4527fb7bfd825889c3a06ee4",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.32999,
+          "cpu_seconds": 1.3276,
+          "rss_bytes": 15917056.0,
+          "process_peak_bytes": 15319040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000626714,
+          "cpu_seconds": 0.000628,
+          "rss_bytes": 387338240.0,
+          "process_peak_bytes": 1437945856.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.51912,
+          "cpu_seconds": 2.49793,
+          "rss_bytes": 2832109568.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.359,
+          "cpu_seconds": 1015.41,
+          "rss_bytes": 2832109568.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000630441,
+          "cpu_seconds": 0.000632,
+          "rss_bytes": 2832109568.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.49722,
+          "cpu_seconds": 0.49721,
+          "rss_bytes": 2522431488.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.157636,
+          "cpu_seconds": 0.163416,
+          "rss_bytes": 2363518976.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148625,
+          "cpu_seconds": 0.014869,
+          "rss_bytes": 2077835264.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 74.6754,
+          "cpu_seconds": 951.697,
+          "rss_bytes": 2077835264.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000666663,
+          "cpu_seconds": 0.000668,
+          "rss_bytes": 2077835264.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00315563,
+          "cpu_seconds": 0.003157,
+          "rss_bytes": 2059747328.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00617016,
+          "cpu_seconds": 0.006012,
+          "rss_bytes": 2636673024.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148076,
+          "cpu_seconds": 0.014815,
+          "rss_bytes": 2636673024.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7645,
+          "cpu_seconds": 278.866,
+          "rss_bytes": 2636673024.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000663776,
+          "cpu_seconds": 0.000664,
+          "rss_bytes": 2636673024.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.0027683,
+          "cpu_seconds": 0.002769,
+          "rss_bytes": 2634399744.0,
+          "process_peak_bytes": 3969253376.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00366736,
+          "cpu_seconds": 0.005704,
+          "rss_bytes": 5312757760.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0120075,
+          "cpu_seconds": 0.012318,
+          "rss_bytes": 5312430080.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 123.237,
+          "cpu_seconds": 1326.95,
+          "rss_bytes": 5312430080.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000623156,
+          "cpu_seconds": 0.000624,
+          "rss_bytes": 5312430080.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00518989,
+          "cpu_seconds": 0.005192,
+          "rss_bytes": 5302587392.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 3.45705,
+          "cpu_seconds": 21.6606,
+          "rss_bytes": 5302587392.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.635701,
+          "cpu_seconds": 8.25234,
+          "rss_bytes": 5304180736.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.4375,
+          "cpu_seconds": 141.163,
+          "rss_bytes": 5281136640.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.968566,
+          "cpu_seconds": 11.782,
+          "rss_bytes": 5281136640.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00710268,
+          "cpu_seconds": 0.00473,
+          "rss_bytes": 5281136640.0,
+          "process_peak_bytes": 5915041792.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847067",
+          "seconds": 375.801,
+          "cpu_seconds": 3759.58,
+          "rss_bytes": 4969517056.0,
+          "process_peak_bytes": 5915041792.0
+        }
+      ]
+    },
+    {
+      "label": "V20-p1-r2",
+      "version": "V20",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.0499053877777778,
+      "wall_seconds": 385.68998519800516,
+      "peak_rss_bytes": 5877338112,
+      "cgroup_peak_bytes": 7383465984,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/V20-r2/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v20/bin/joint_physics_v20",
+      "binary_sha256": "4865c0417d19c89abafa65224ddd92ca285aa37b4527fb7bfd825889c3a06ee4",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.31227,
+          "cpu_seconds": 1.30883,
+          "rss_bytes": 15777792.0,
+          "process_peak_bytes": 15331328.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00113957,
+          "cpu_seconds": 0.000696,
+          "rss_bytes": 387039232.0,
+          "process_peak_bytes": 1432068096.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.50425,
+          "cpu_seconds": 2.5038,
+          "rss_bytes": 2779217920.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.784,
+          "cpu_seconds": 1019.14,
+          "rss_bytes": 2779217920.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00068411,
+          "cpu_seconds": 0.000685,
+          "rss_bytes": 2779217920.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.508499,
+          "cpu_seconds": 0.508195,
+          "rss_bytes": 2474004480.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.162302,
+          "cpu_seconds": 0.164778,
+          "rss_bytes": 2295787520.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.016512,
+          "cpu_seconds": 0.014994,
+          "rss_bytes": 2010107904.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 74.3359,
+          "cpu_seconds": 948.489,
+          "rss_bytes": 2010107904.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000681597,
+          "cpu_seconds": 0.000682,
+          "rss_bytes": 2010107904.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00298736,
+          "cpu_seconds": 0.002989,
+          "rss_bytes": 1993195520.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00527144,
+          "cpu_seconds": 0.005195,
+          "rss_bytes": 2575982592.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152008,
+          "cpu_seconds": 0.015266,
+          "rss_bytes": 2575982592.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7405,
+          "cpu_seconds": 279.452,
+          "rss_bytes": 2575982592.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000647265,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 2575982592.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00273435,
+          "cpu_seconds": 0.002735,
+          "rss_bytes": 2571665408.0,
+          "process_peak_bytes": 3971477504.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00481303,
+          "cpu_seconds": 0.006348,
+          "rss_bytes": 5284233216.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0119457,
+          "cpu_seconds": 0.011863,
+          "rss_bytes": 5283803136.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.505,
+          "cpu_seconds": 1317.36,
+          "rss_bytes": 5283803136.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000688249,
+          "cpu_seconds": 0.000689,
+          "rss_bytes": 5283803136.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0054701,
+          "cpu_seconds": 0.005273,
+          "rss_bytes": 5276131328.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.78734,
+          "cpu_seconds": 43.0312,
+          "rss_bytes": 5276131328.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.606233,
+          "cpu_seconds": 7.7606,
+          "rss_bytes": 5277724672.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.8613,
+          "cpu_seconds": 142.265,
+          "rss_bytes": 5256925184.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.993677,
+          "cpu_seconds": 11.604,
+          "rss_bytes": 5263888384.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.0063658,
+          "cpu_seconds": 0.004585,
+          "rss_bytes": 5263888384.0,
+          "process_peak_bytes": 5875609600.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 378.898,
+          "cpu_seconds": 3772.94,
+          "rss_bytes": 4950949888.0,
+          "process_peak_bytes": 5875609600.0
+        }
+      ]
+    },
+    {
+      "label": "V17-p1-r2",
+      "version": "V17",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.4712407383333335,
+      "wall_seconds": 506.44005614199705,
+      "peak_rss_bytes": 5903253504,
+      "cgroup_peak_bytes": 7429611520,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/V17-r2/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package/bin/joint_physics_v17",
+      "binary_sha256": "73daf308eac206db8e0c94e11816c049e4b6e0464c4b4547915857f44aefc79e",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30838,
+          "cpu_seconds": 1.30754,
+          "rss_bytes": 15929344.0,
+          "process_peak_bytes": 15601664.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000676066,
+          "cpu_seconds": 0.000679,
+          "rss_bytes": 381984768.0,
+          "process_peak_bytes": 1440374784.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.48966,
+          "cpu_seconds": 2.48672,
+          "rss_bytes": 2768539648.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.705,
+          "cpu_seconds": 1020.91,
+          "rss_bytes": 2768539648.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000654484,
+          "cpu_seconds": 0.000656,
+          "rss_bytes": 2768539648.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.501742,
+          "cpu_seconds": 0.50079,
+          "rss_bytes": 2466082816.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.160839,
+          "cpu_seconds": 0.163546,
+          "rss_bytes": 2248658944.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152549,
+          "cpu_seconds": 0.015217,
+          "rss_bytes": 1987858432.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 149.293,
+          "cpu_seconds": 1917.08,
+          "rss_bytes": 1987858432.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000686114,
+          "cpu_seconds": 0.000687,
+          "rss_bytes": 1987858432.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00283852,
+          "cpu_seconds": 0.00284,
+          "rss_bytes": 1968521216.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00589482,
+          "cpu_seconds": 0.005279,
+          "rss_bytes": 2596642816.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0168083,
+          "cpu_seconds": 0.015346,
+          "rss_bytes": 2596642816.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.699,
+          "cpu_seconds": 279.717,
+          "rss_bytes": 2596642816.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000671261,
+          "cpu_seconds": 0.000673,
+          "rss_bytes": 2596642816.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00267531,
+          "cpu_seconds": 0.002676,
+          "rss_bytes": 2593316864.0,
+          "process_peak_bytes": 3963269120.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00492393,
+          "cpu_seconds": 0.007648,
+          "rss_bytes": 4433453056.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0123672,
+          "cpu_seconds": 0.011923,
+          "rss_bytes": 4433088512.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.597,
+          "cpu_seconds": 1319.66,
+          "rss_bytes": 4433088512.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000639094,
+          "cpu_seconds": 0.00064,
+          "rss_bytes": 4433088512.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00556924,
+          "cpu_seconds": 0.00549,
+          "rss_bytes": 3753746432.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 21.8463,
+          "cpu_seconds": 185.197,
+          "rss_bytes": 3753746432.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.630273,
+          "cpu_seconds": 8.22747,
+          "rss_bytes": 3754991616.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.479,
+          "cpu_seconds": 140.623,
+          "rss_bytes": 3735871488.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 32.1815,
+          "cpu_seconds": 414.529,
+          "rss_bytes": 3762638848.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00657285,
+          "cpu_seconds": 0.004692,
+          "rss_bytes": 3762638848.0,
+          "process_peak_bytes": 5901750272.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 499.736,
+          "cpu_seconds": 5289.8,
+          "rss_bytes": 3451908096.0,
+          "process_peak_bytes": 5901750272.0
+        }
+      ]
+    },
+    {
+      "label": "V21-p1",
+      "version": "V21",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.0281468975,
+      "wall_seconds": 376.4471700180002,
+      "peak_rss_bytes": 5922828288,
+      "cgroup_peak_bytes": 7392886784,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/V21/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+      "binary_sha256": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.31117,
+          "cpu_seconds": 1.3102,
+          "rss_bytes": 15790080.0,
+          "process_peak_bytes": 15327232.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00067118,
+          "cpu_seconds": 0.000675,
+          "rss_bytes": 383131648.0,
+          "process_peak_bytes": 1438613504.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.4872,
+          "cpu_seconds": 2.48507,
+          "rss_bytes": 2836873216.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 135.706,
+          "cpu_seconds": 1006.89,
+          "rss_bytes": 2836873216.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000661961,
+          "cpu_seconds": 0.000663,
+          "rss_bytes": 2836873216.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.499602,
+          "cpu_seconds": 0.498515,
+          "rss_bytes": 2544173056.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.152677,
+          "cpu_seconds": 0.158647,
+          "rss_bytes": 2353840128.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.01497,
+          "cpu_seconds": 0.014727,
+          "rss_bytes": 2067378176.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 69.4061,
+          "cpu_seconds": 896.777,
+          "rss_bytes": 2067378176.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000623155,
+          "cpu_seconds": 0.000624,
+          "rss_bytes": 2067378176.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00286821,
+          "cpu_seconds": 0.002869,
+          "rss_bytes": 2046279680.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00762407,
+          "cpu_seconds": 0.005403,
+          "rss_bytes": 2619383808.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0150468,
+          "cpu_seconds": 0.015072,
+          "rss_bytes": 2619383808.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.5502,
+          "cpu_seconds": 277.104,
+          "rss_bytes": 2619383808.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00062008,
+          "cpu_seconds": 0.000621,
+          "rss_bytes": 2619383808.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00222936,
+          "cpu_seconds": 0.002231,
+          "rss_bytes": 2618351616.0,
+          "process_peak_bytes": 4009156608.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00424409,
+          "cpu_seconds": 0.006618,
+          "rss_bytes": 5321723904.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0118089,
+          "cpu_seconds": 0.011811,
+          "rss_bytes": 5321461760.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 120.801,
+          "cpu_seconds": 1305.56,
+          "rss_bytes": 5321461760.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000606175,
+          "cpu_seconds": 0.000607,
+          "rss_bytes": 5321461760.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00516837,
+          "cpu_seconds": 0.005172,
+          "rss_bytes": 5312585728.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.85494,
+          "cpu_seconds": 43.6394,
+          "rss_bytes": 5312585728.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.603581,
+          "cpu_seconds": 7.80344,
+          "rss_bytes": 5314179072.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.5056,
+          "cpu_seconds": 141.317,
+          "rss_bytes": 5295661056.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.933181,
+          "cpu_seconds": 11.6649,
+          "rss_bytes": 5295661056.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00650277,
+          "cpu_seconds": 0.004694,
+          "rss_bytes": 5295661056.0,
+          "process_peak_bytes": 5921583104.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 369.655,
+          "cpu_seconds": 3694.58,
+          "rss_bytes": 4983283712.0,
+          "process_peak_bytes": 5921583104.0
+        }
+      ]
+    },
+    {
+      "label": "V21-p2",
+      "version": "V21",
+      "threads": 16,
+      "prime": 1152921504606847067,
+      "cpu_hours": 1.0396870955555555,
+      "wall_seconds": 380.5134810929958,
+      "peak_rss_bytes": 5939150848,
+      "cgroup_peak_bytes": 7444819968,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/V21/joint/cache/p1152921504606847067.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+      "binary_sha256": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30726,
+          "cpu_seconds": 1.30445,
+          "rss_bytes": 15900672.0,
+          "process_peak_bytes": 15331328.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000618467,
+          "cpu_seconds": 0.000621,
+          "rss_bytes": 384716800.0,
+          "process_peak_bytes": 1444655104.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.48784,
+          "cpu_seconds": 2.48628,
+          "rss_bytes": 2819538944.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 139.543,
+          "cpu_seconds": 1034.87,
+          "rss_bytes": 2819538944.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000644331,
+          "cpu_seconds": 0.000646,
+          "rss_bytes": 2819538944.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.508951,
+          "cpu_seconds": 0.508919,
+          "rss_bytes": 2514735104.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.163328,
+          "cpu_seconds": 0.166746,
+          "rss_bytes": 2341560320.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148411,
+          "cpu_seconds": 0.014783,
+          "rss_bytes": 2055188480.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 70.5241,
+          "cpu_seconds": 909.748,
+          "rss_bytes": 2055188480.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000640899,
+          "cpu_seconds": 0.000642,
+          "rss_bytes": 2055188480.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00304733,
+          "cpu_seconds": 0.003049,
+          "rss_bytes": 2037673984.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00587036,
+          "cpu_seconds": 0.006489,
+          "rss_bytes": 2627424256.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.016408,
+          "cpu_seconds": 0.015203,
+          "rss_bytes": 2627424256.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7088,
+          "cpu_seconds": 279.138,
+          "rss_bytes": 2627424256.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000674553,
+          "cpu_seconds": 0.000675,
+          "rss_bytes": 2627424256.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00282122,
+          "cpu_seconds": 0.002823,
+          "rss_bytes": 2624688128.0,
+          "process_peak_bytes": 3972386816.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00490862,
+          "cpu_seconds": 0.007077,
+          "rss_bytes": 5346476032.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0121357,
+          "cpu_seconds": 0.01214,
+          "rss_bytes": 5346181120.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 123.158,
+          "cpu_seconds": 1325.27,
+          "rss_bytes": 5346181120.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000628864,
+          "cpu_seconds": 0.000629,
+          "rss_bytes": 5346181120.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00521047,
+          "cpu_seconds": 0.005213,
+          "rss_bytes": 5335330816.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 3.43071,
+          "cpu_seconds": 21.469,
+          "rss_bytes": 5335330816.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.652063,
+          "cpu_seconds": 8.1817,
+          "rss_bytes": 5338497024.0,
+          "process_peak_bytes": 5937512448.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.4976,
+          "cpu_seconds": 141.709,
+          "rss_bytes": 5323411456.0,
+          "process_peak_bytes": 5942112256.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.947892,
+          "cpu_seconds": 11.8842,
+          "rss_bytes": 5323411456.0,
+          "process_peak_bytes": 5942112256.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00700196,
+          "cpu_seconds": 0.004812,
+          "rss_bytes": 5323411456.0,
+          "process_peak_bytes": 5942112256.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847067",
+          "seconds": 373.731,
+          "cpu_seconds": 3736.11,
+          "rss_bytes": 5012238336.0,
+          "process_peak_bytes": 5942112256.0
+        }
+      ]
+    },
+    {
+      "label": "V21-p1-r2",
+      "version": "V21",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.0445506527777777,
+      "wall_seconds": 382.21749032099615,
+      "peak_rss_bytes": 5895598080,
+      "cgroup_peak_bytes": 7425650688,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/V21-r2/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+      "binary_sha256": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.31012,
+          "cpu_seconds": 1.30778,
+          "rss_bytes": 15843328.0,
+          "process_peak_bytes": 15290368.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000706904,
+          "cpu_seconds": 0.00071,
+          "rss_bytes": 382631936.0,
+          "process_peak_bytes": 1445662720.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.50719,
+          "cpu_seconds": 2.50484,
+          "rss_bytes": 2751152128.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 136.832,
+          "cpu_seconds": 1015.77,
+          "rss_bytes": 2751152128.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000661211,
+          "cpu_seconds": 0.000663,
+          "rss_bytes": 2751152128.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.521132,
+          "cpu_seconds": 0.52106,
+          "rss_bytes": 2457006080.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.15459,
+          "cpu_seconds": 0.160311,
+          "rss_bytes": 2280579072.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0150524,
+          "cpu_seconds": 0.014758,
+          "rss_bytes": 1994170368.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 71.9174,
+          "cpu_seconds": 933.09,
+          "rss_bytes": 1994170368.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000766135,
+          "cpu_seconds": 0.000767,
+          "rss_bytes": 1994170368.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00233864,
+          "cpu_seconds": 0.002339,
+          "rss_bytes": 1992986624.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00602817,
+          "cpu_seconds": 0.005565,
+          "rss_bytes": 2577608704.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0150412,
+          "cpu_seconds": 0.015068,
+          "rss_bytes": 2577608704.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.8392,
+          "cpu_seconds": 280.815,
+          "rss_bytes": 2577608704.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000654471,
+          "cpu_seconds": 0.000655,
+          "rss_bytes": 2577608704.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00238974,
+          "cpu_seconds": 0.002391,
+          "rss_bytes": 2576556032.0,
+          "process_peak_bytes": 3944345600.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00506262,
+          "cpu_seconds": 0.007804,
+          "rss_bytes": 5297090560.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.012075,
+          "cpu_seconds": 0.012059,
+          "rss_bytes": 5296857088.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.362,
+          "cpu_seconds": 1315.36,
+          "rss_bytes": 5296857088.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000632941,
+          "cpu_seconds": 0.000634,
+          "rss_bytes": 5296857088.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00517691,
+          "cpu_seconds": 0.005181,
+          "rss_bytes": 5286285312.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.84411,
+          "cpu_seconds": 44.349,
+          "rss_bytes": 5286285312.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.601335,
+          "cpu_seconds": 7.76737,
+          "rss_bytes": 5287354368.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.7308,
+          "cpu_seconds": 140.951,
+          "rss_bytes": 5270618112.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.982184,
+          "cpu_seconds": 11.79,
+          "rss_bytes": 5270618112.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00640681,
+          "cpu_seconds": 0.004697,
+          "rss_bytes": 5270618112.0,
+          "process_peak_bytes": 5893582848.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 375.452,
+          "cpu_seconds": 3753.67,
+          "rss_bytes": 4958732288.0,
+          "process_peak_bytes": 5893582848.0
+        }
+      ]
+    },
+    {
+      "label": "V21-p1",
+      "version": "V21",
+      "threads": 8,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.1781267616666669,
+      "wall_seconds": 684.994348837994,
+      "peak_rss_bytes": 5323354112,
+      "cgroup_peak_bytes": 6705881088,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21-t8/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21-t8/V21/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+      "binary_sha256": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.31192,
+          "cpu_seconds": 1.3097,
+          "rss_bytes": 15781888.0,
+          "process_peak_bytes": 15540224.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000677173,
+          "cpu_seconds": 0.00068,
+          "rss_bytes": 382787584.0,
+          "process_peak_bytes": 1399468032.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.5889,
+          "cpu_seconds": 2.57666,
+          "rss_bytes": 2724347904.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 222.332,
+          "cpu_seconds": 1016.31,
+          "rss_bytes": 2724347904.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000664597,
+          "cpu_seconds": 0.000665,
+          "rss_bytes": 2724347904.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.544981,
+          "cpu_seconds": 0.544183,
+          "rss_bytes": 2444976128.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.162123,
+          "cpu_seconds": 0.161519,
+          "rss_bytes": 2196443136.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0183616,
+          "cpu_seconds": 0.015049,
+          "rss_bytes": 1911259136.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 159.735,
+          "cpu_seconds": 1207.53,
+          "rss_bytes": 1911259136.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000641738,
+          "cpu_seconds": 0.000642,
+          "rss_bytes": 1911259136.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00305862,
+          "cpu_seconds": 0.00306,
+          "rss_bytes": 1898708992.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00418916,
+          "cpu_seconds": 0.004618,
+          "rss_bytes": 1942360064.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0149382,
+          "cpu_seconds": 0.014955,
+          "rss_bytes": 1942360064.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 27.1671,
+          "cpu_seconds": 195.79,
+          "rss_bytes": 1942360064.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000632471,
+          "cpu_seconds": 0.000633,
+          "rss_bytes": 1942360064.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00262985,
+          "cpu_seconds": 0.002632,
+          "rss_bytes": 1938591744.0,
+          "process_peak_bytes": 3922788352.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.0047748,
+          "cpu_seconds": 0.006983,
+          "rss_bytes": 4733308928.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.013267,
+          "cpu_seconds": 0.013268,
+          "rss_bytes": 4733046784.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 243.224,
+          "cpu_seconds": 1658.28,
+          "rss_bytes": 4733046784.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000596588,
+          "cpu_seconds": 0.000597,
+          "rss_bytes": 4733046784.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00503205,
+          "cpu_seconds": 0.005034,
+          "rss_bytes": 4726140928.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 4.66923,
+          "cpu_seconds": 19.5825,
+          "rss_bytes": 4726140928.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.897778,
+          "cpu_seconds": 6.7193,
+          "rss_bytes": 4727734272.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 15.4211,
+          "cpu_seconds": 117.287,
+          "rss_bytes": 4712853504.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 1.3558,
+          "cpu_seconds": 9.32094,
+          "rss_bytes": 4712853504.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00691877,
+          "cpu_seconds": 0.004729,
+          "rss_bytes": 4712853504.0,
+          "process_peak_bytes": 5322031104.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 678.206,
+          "cpu_seconds": 4234.56,
+          "rss_bytes": 4401033216.0,
+          "process_peak_bytes": 5322031104.0
+        }
+      ]
+    },
+    {
+      "label": "V22-p1",
+      "version": "V22",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 0.9209156855555556,
+      "wall_seconds": 348.27574170200387,
+      "peak_rss_bytes": 5889835008,
+      "cgroup_peak_bytes": 7461298176,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22/V22/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+      "binary_sha256": "9cb4b24d075a0588a598aa253a1a1b0626cb0f4e27fd2b8deee7e99faff3dc10",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.3293,
+          "cpu_seconds": 1.3287,
+          "rss_bytes": 15888384.0,
+          "process_peak_bytes": 15372288.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000722118,
+          "cpu_seconds": 0.000724,
+          "rss_bytes": 382341120.0,
+          "process_peak_bytes": 1439199232.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.50944,
+          "cpu_seconds": 2.50838,
+          "rss_bytes": 2803904512.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 138.882,
+          "cpu_seconds": 1031.33,
+          "rss_bytes": 2803904512.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000678933,
+          "cpu_seconds": 0.000681,
+          "rss_bytes": 2803904512.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.510662,
+          "cpu_seconds": 0.51036,
+          "rss_bytes": 2505031680.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.158677,
+          "cpu_seconds": 0.161963,
+          "rss_bytes": 2323308544.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0149646,
+          "cpu_seconds": 0.014902,
+          "rss_bytes": 2037395456.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 61.9486,
+          "cpu_seconds": 784.781,
+          "rss_bytes": 2037395456.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00062049,
+          "cpu_seconds": 0.000622,
+          "rss_bytes": 2037395456.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00229751,
+          "cpu_seconds": 0.0023,
+          "rss_bytes": 2035707904.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00532194,
+          "cpu_seconds": 0.004607,
+          "rss_bytes": 2612224000.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152514,
+          "cpu_seconds": 0.01492,
+          "rss_bytes": 2612224000.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.6001,
+          "cpu_seconds": 279.16,
+          "rss_bytes": 2612224000.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000625832,
+          "cpu_seconds": 0.000627,
+          "rss_bytes": 2612224000.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00223753,
+          "cpu_seconds": 0.002238,
+          "rss_bytes": 2610909184.0,
+          "process_peak_bytes": 3963772928.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00486649,
+          "cpu_seconds": 0.006425,
+          "rss_bytes": 5316796416.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0117682,
+          "cpu_seconds": 0.01177,
+          "rss_bytes": 5316366336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 96.951,
+          "cpu_seconds": 1005.91,
+          "rss_bytes": 5316366336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000688679,
+          "cpu_seconds": 0.00064,
+          "rss_bytes": 5316366336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0054251,
+          "cpu_seconds": 0.005428,
+          "rss_bytes": 5301678080.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.7575,
+          "cpu_seconds": 43.1952,
+          "rss_bytes": 5301678080.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.548459,
+          "cpu_seconds": 7.14778,
+          "rss_bytes": 5302747136.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.4351,
+          "cpu_seconds": 141.409,
+          "rss_bytes": 5276430336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.970328,
+          "cpu_seconds": 11.7101,
+          "rss_bytes": 5276430336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00746371,
+          "cpu_seconds": 0.004682,
+          "rss_bytes": 5276430336.0,
+          "process_peak_bytes": 5944827904.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 341.439,
+          "cpu_seconds": 3308.53,
+          "rss_bytes": 4964552704.0,
+          "process_peak_bytes": 5944827904.0
+        }
+      ]
+    },
+    {
+      "label": "V21-p1-r3",
+      "version": "V21",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 1.0457737394444446,
+      "wall_seconds": 382.4657506549993,
+      "peak_rss_bytes": 5848817664,
+      "cgroup_peak_bytes": 7274356736,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-r3/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+      "binary_sha256": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30719,
+          "cpu_seconds": 1.30676,
+          "rss_bytes": 15962112.0,
+          "process_peak_bytes": 15622144.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000679925,
+          "cpu_seconds": 0.000682,
+          "rss_bytes": 387735552.0,
+          "process_peak_bytes": 1438961664.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.51085,
+          "cpu_seconds": 2.5095,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 136.881,
+          "cpu_seconds": 1018.44,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000654937,
+          "cpu_seconds": 0.000656,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.522258,
+          "cpu_seconds": 0.52221,
+          "rss_bytes": 2458279936.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.161848,
+          "cpu_seconds": 0.163982,
+          "rss_bytes": 2274537472.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0147423,
+          "cpu_seconds": 0.014698,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 71.8214,
+          "cpu_seconds": 931.787,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000621104,
+          "cpu_seconds": 0.000622,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00281531,
+          "cpu_seconds": 0.002816,
+          "rss_bytes": 1969221632.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00580338,
+          "cpu_seconds": 0.006215,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.015203,
+          "cpu_seconds": 0.015262,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7998,
+          "cpu_seconds": 279.545,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000629815,
+          "cpu_seconds": 0.00063,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00258051,
+          "cpu_seconds": 0.002582,
+          "rss_bytes": 2546507776.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.0048059,
+          "cpu_seconds": 0.007502,
+          "rss_bytes": 5255725056.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0123003,
+          "cpu_seconds": 0.012243,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.743,
+          "cpu_seconds": 1319.21,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000648405,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00533777,
+          "cpu_seconds": 0.00534,
+          "rss_bytes": 5249679360.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.72909,
+          "cpu_seconds": 42.9462,
+          "rss_bytes": 5249679360.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.626074,
+          "cpu_seconds": 8.17693,
+          "rss_bytes": 5251272704.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.8303,
+          "cpu_seconds": 142.237,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.960114,
+          "cpu_seconds": 11.8962,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00663143,
+          "cpu_seconds": 0.004664,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 375.676,
+          "cpu_seconds": 3758.07,
+          "rss_bytes": 4922155008.0,
+          "process_peak_bytes": 5847715840.0
+        }
+      ]
+    },
+    {
+      "label": "V22-p1-r2",
+      "version": "V22",
+      "threads": 16,
+      "prime": 1152921504606847009,
+      "cpu_hours": 0.9166159736111111,
+      "wall_seconds": 346.50698514300166,
+      "peak_rss_bytes": 5885362176,
+      "cgroup_peak_bytes": 7390199808,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/joint/cache/p1152921504606847009.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+      "binary_sha256": "9cb4b24d075a0588a598aa253a1a1b0626cb0f4e27fd2b8deee7e99faff3dc10",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30642,
+          "cpu_seconds": 1.30627,
+          "rss_bytes": 15937536.0,
+          "process_peak_bytes": 15765504.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000709742,
+          "cpu_seconds": 0.000712,
+          "rss_bytes": 386854912.0,
+          "process_peak_bytes": 1437933568.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.52259,
+          "cpu_seconds": 2.52237,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 138.881,
+          "cpu_seconds": 1035.65,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000648908,
+          "cpu_seconds": 0.000651,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.531057,
+          "cpu_seconds": 0.531008,
+          "rss_bytes": 2480340992.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.16129,
+          "cpu_seconds": 0.165497,
+          "rss_bytes": 2301648896.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152667,
+          "cpu_seconds": 0.01468,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 61.5859,
+          "cpu_seconds": 777.7,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000619617,
+          "cpu_seconds": 0.000621,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00321807,
+          "cpu_seconds": 0.003218,
+          "rss_bytes": 2002661376.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00564265,
+          "cpu_seconds": 0.005887,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152256,
+          "cpu_seconds": 0.015286,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.5448,
+          "cpu_seconds": 278.123,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000647316,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00279296,
+          "cpu_seconds": 0.002795,
+          "rss_bytes": 2588811264.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00474927,
+          "cpu_seconds": 0.006896,
+          "rss_bytes": 5302079488.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0129023,
+          "cpu_seconds": 0.012131,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 95.6448,
+          "cpu_seconds": 995.19,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00063168,
+          "cpu_seconds": 0.000632,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00544084,
+          "cpu_seconds": 0.005444,
+          "rss_bytes": 5303902208.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.80588,
+          "cpu_seconds": 42.7678,
+          "rss_bytes": 5303902208.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.601577,
+          "cpu_seconds": 7.65637,
+          "rss_bytes": 5305495552.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.3237,
+          "cpu_seconds": 140.285,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.940666,
+          "cpu_seconds": 11.8052,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.0108214,
+          "cpu_seconds": 0.004701,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 339.646,
+          "cpu_seconds": 3293.05,
+          "rss_bytes": 4969353216.0,
+          "process_peak_bytes": 5915144192.0
+        }
+      ]
+    },
+    {
+      "label": "V22-p2-r2",
+      "version": "V22",
+      "threads": 16,
+      "prime": 1152921504606847067,
+      "cpu_hours": 0.9044486552777777,
+      "wall_seconds": 340.49567684600333,
+      "peak_rss_bytes": 5840363520,
+      "cgroup_peak_bytes": 7431110656,
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/progress.json",
+      "cache": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/joint/cache/p1152921504606847067.bin",
+      "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+      "binary_sha256": "9cb4b24d075a0588a598aa253a1a1b0626cb0f4e27fd2b8deee7e99faff3dc10",
+      "native_coefficients_equal": true,
+      "cgroup_limit_events_zero": true,
+      "phases": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30733,
+          "cpu_seconds": 1.30694,
+          "rss_bytes": 15863808.0,
+          "process_peak_bytes": 15257600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000633474,
+          "cpu_seconds": 0.000637,
+          "rss_bytes": 386813952.0,
+          "process_peak_bytes": 1434505216.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.49539,
+          "cpu_seconds": 2.49456,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.392,
+          "cpu_seconds": 1024.68,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000623844,
+          "cpu_seconds": 0.000625,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.502631,
+          "cpu_seconds": 0.502536,
+          "rss_bytes": 2501824512.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.157478,
+          "cpu_seconds": 0.161679,
+          "rss_bytes": 2320797696.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.014766,
+          "cpu_seconds": 0.014772,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 60.7279,
+          "cpu_seconds": 769.499,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000608361,
+          "cpu_seconds": 0.000609,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.0029088,
+          "cpu_seconds": 0.00291,
+          "rss_bytes": 2017554432.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00575503,
+          "cpu_seconds": 0.006121,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148265,
+          "cpu_seconds": 0.014828,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.6234,
+          "cpu_seconds": 277.429,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000607866,
+          "cpu_seconds": 0.000608,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00260729,
+          "cpu_seconds": 0.002608,
+          "rss_bytes": 2601590784.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00433954,
+          "cpu_seconds": 0.006412,
+          "rss_bytes": 5306576896.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0119261,
+          "cpu_seconds": 0.012022,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 95.1962,
+          "cpu_seconds": 992.635,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000603109,
+          "cpu_seconds": 0.000604,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00534726,
+          "cpu_seconds": 0.005436,
+          "rss_bytes": 5255589888.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 3.44969,
+          "cpu_seconds": 22.1253,
+          "rss_bytes": 5255589888.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.571779,
+          "cpu_seconds": 7.02462,
+          "rss_bytes": 5257183232.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.393,
+          "cpu_seconds": 140.307,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 1.00198,
+          "cpu_seconds": 11.7152,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00625054,
+          "cpu_seconds": 0.00463,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847067",
+          "seconds": 333.65,
+          "cpu_seconds": 3249.23,
+          "rss_bytes": 4921798656.0,
+          "process_peak_bytes": 5930164224.0
+        }
+      ]
+    }
+  ],
+  "source_audits": [
+    {
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package/v19-build-receipt.json",
+      "sha256": "8838df58430b70df7565e56f7fcd72e332d878a416665f4ab31aa09ca32a611e",
+      "files_verified": 208
+    },
+    {
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v20/v20-build-receipt.json",
+      "sha256": "403ab7f6c6ee5f888e52b3f96c49b7da8cf05bd8ae9c4b7ad276949a6d3ec4ad",
+      "files_verified": 207
+    },
+    {
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/v21-build-receipt.json",
+      "sha256": "4673984613cfa8e209ae1bd6571a69c96765f7eb180eb361f06c986d1968b6db",
+      "files_verified": 208
+    },
+    {
+      "receipt": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/v22-build-receipt.json",
+      "sha256": "ee809d5e39ffb6faa3f5e5b39008082575367836dbdaf35af829c1a8e3522c48",
+      "files_verified": 211
+    }
+  ],
+  "validation": {
+    "native_columns": 105898,
+    "shifted_QQ_reference_columns": 195155,
+    "primes": [
+      1152921504606847009,
+      1152921504606847067
+    ],
+    "all_coefficients_equal": true,
+    "all_current_fresh_physical_and_full_seam_checks": true,
+    "forced_QQ_reduction": true,
+    "new_QQ_reconstruction": false
+  },
+  "scope": "Serialized complete fresh primes on warm precomputed basis inputs; compilation, cold basis generation and new rational reconstruction excluded. RSS is sampled at 100ms. Shared workstation; no confidence interval or global-optimality claim.",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

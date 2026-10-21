@@ -1,0 +1,26 @@
+{
+  "state": "complete",
+  "helicity": "MHV",
+  "loop": 8,
+  "weight": 16,
+  "cut": [
+    12,
+    4
+  ],
+  "dimension_chain": [
+    1339,
+    109,
+    13,
+    0
+  ],
+  "unique": true,
+  "symbol_nnz": 65344,
+  "coefficient_height_bits": 91,
+  "crt_primes": 4,
+  "validation_primes": 2,
+  "best_tested_wall_seconds": 1172.726035313215,
+  "best_tested_peak_rss_gib": 5.180110931396484,
+  "published_line_checks": 25,
+  "exact_original_seam": true,
+  "release": "/home/ana/Documents/symbology/output_hexagon_12p4_20261006/release_MHV_w16_12p4"
+}

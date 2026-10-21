@@ -1,0 +1,62 @@
+--- a/src/reduced_d3/irr_projection.hpp
++++ b/src/reduced_d3/irr_projection.hpp
+@@ -26,6 +26,11 @@
+     field_t F;rref_option_t opt;irr::channels_t cg;irr::sewing_object_t sew;
+     std::array<mat,6> S;size_t rows=0,sample_offset=0;
+     bool shoup=true;size_t scratch_limit=64ULL<<20;
++    // Optional, bounded cache of first-side OPE jets. It contains no sewing
++    // coefficients and is discarded before a new prime's large solve.
++    size_t ope_head_cache_limit=0,ope_head_cache_bytes=0;ulong ope_head_cache_prime=0;
++    std::map<std::string,std::shared_ptr<const std::vector<ulong>>> ope_head_cache;
++    void clear_ope_head_cache(){ope_head_cache.clear();ope_head_cache_bytes=0;ope_head_cache_prime=0;}
+     struct step_plan {
+         std::vector<std::tuple<size_t,size_t,size_t>> decode;
+         std::vector<unsigned char> used;
+@@ -46,6 +51,10 @@
+         :fec(f),lec(l),out(o),data(d),h(H),k(K),samples(n),mhv(m),F(FIELD_Fp,p),cg(&opt->pool) {
+         irr_run::threads(opt);opt->method=1;opt->is_back_sub=true;opt->verbose=false;
+         if(auto value=std::getenv("PHYSICS_CACHE_MIB"))cache_limit=std::stoull(value)*(1ULL<<20);
++        if(auto value=std::getenv("OPE_HEAD_CACHE_MIB")){
++            auto mib=std::stoull(value);require(mib<=(SIZE_MAX>>20),"OPE head cache budget overflow");ope_head_cache_limit=mib*(1ULL<<20);
++        }
++        std::cout<<"OPE_HEAD_CACHE budget_bytes="<<ope_head_cache_limit<<std::endl;
+         std::cout<<"CACHE budget_bytes="<<cache_limit<<std::endl;
+         sew.first=irr::chain_copies(fec,h,true);sew.last=irr::chain_copies(lec,k,false);
+         fs::create_directories(out);metrics.open(out/"phases.tsv");io.open(out/"inputs.sha256");
+@@ -333,10 +342,23 @@
+ }
+ 
+ template<class Germ>
+-inline std::vector<ulong> ope_values(context& c,const Germ& germ){
+-    size_t stride=germ.stride;std::vector<ulong> head(stride);head[germ.index(0,0,0,0)]=1;
+-    for(size_t w=1;w<=c.h;++w){auto K=c.modular_recurrence(w,true);axis old(irr::chain_copies(c.fec,w-1,true)),next(irr::chain_copies(c.fec,w,true));
+-        irr::matrices unused;head=step(c,unused,old,next,head,stride,[&](const ulong* a,ulong* b,size_t l){germ.integrate(a,b,l,w);},"ope_head_"+std::to_string(w),K.get());}
++inline std::vector<ulong> ope_values(context& c,const Germ& germ,const std::string& head_identity={}){
++    size_t stride=germ.stride;
++    if(c.ope_head_cache_prime!=c.F.mod.n){c.clear_ope_head_cache();c.ope_head_cache_prime=c.F.mod.n;}
++    auto key=head_identity+":"+std::to_string(c.h)+":"+std::to_string(stride);
++    std::shared_ptr<const std::vector<ulong>> head_storage;
++    if(!head_identity.empty())if(auto it=c.ope_head_cache.find(key);it!=c.ope_head_cache.end())head_storage=it->second;
++    if(head_storage)std::cout<<"OPE_HEAD_CACHE hit prime="<<c.F.mod.n<<" bytes="<<head_storage->size()*sizeof(ulong)<<std::endl;
++    else{
++        std::vector<ulong> calculated(stride);calculated[germ.index(0,0,0,0)]=1;
++        for(size_t w=1;w<=c.h;++w){auto K=c.modular_recurrence(w,true);axis old(irr::chain_copies(c.fec,w-1,true)),next(irr::chain_copies(c.fec,w,true));
++            irr::matrices unused;calculated=step(c,unused,old,next,calculated,stride,[&](const ulong* a,ulong* b,size_t l){germ.integrate(a,b,l,w);},"ope_head_"+std::to_string(w),K.get());}
++        head_storage=std::make_shared<const std::vector<ulong>>(std::move(calculated));
++        size_t bytes=head_storage->size()*sizeof(ulong);
++        if(!head_identity.empty()&&bytes<=c.ope_head_cache_limit-c.ope_head_cache_bytes){c.ope_head_cache.emplace(key,head_storage);c.ope_head_cache_bytes+=bytes;
++            std::cout<<"OPE_HEAD_CACHE stored prime="<<c.F.mod.n<<" bytes="<<bytes<<" used="<<c.ope_head_cache_bytes<<std::endl;}
++    }
++    const auto& head=*head_storage;
+     std::vector<std::shared_ptr<const std::array<mat,6>>> chain;for(size_t k=1;k<=c.k;++k)chain.push_back(c.modular_recurrence(k,false));
+     mat expanded;if(c.variant=='A')expanded=physical_sewing(c);
+     axis fa(c.sew.first),la(c.sew.last);size_t components=c.mhv?1:5;
+@@ -481,7 +503,7 @@
+         auto kernel=root/("kernels_F"+std::to_string(j+2)+".tsv");c.input(kernel);
+         nmhv_ope_germ_t germ(c.h+c.k,c.F.mod.n,kernel,mt,grade);
+         std::cout<<"MHV_SMALL_S F="<<j+2<<" validation="<<validation<<" rows="<<c.rows<<std::endl;
+-        auto values=ope_values(c,germ);
++        auto values=ope_values(c,germ,"MHV-SmallS:"+hex_sha256_file(kernel)+":"+std::to_string(mt)+":"+std::to_string(grade));
+         for(size_t i=0;i<targets.size();++i){auto x=targets[i];for(size_t row=0;row<c.rows;++row)
+             out[i].coefficients[row]=germ.add(out[i].coefficients[row],germ.mul(coeff[x.t],values[row*germ.stride+germ.index(x.t,x.z,x.a,x.b)]));}
+     }

@@ -1,0 +1,20 @@
+{
+  "L9-V17": {
+    "phase_file": "output_hexagon_v18_20261009/validation/L9-V17/diagnostics/1791532177299712391/phases.tsv",
+    "terminal_head_generations": 4,
+    "terminal_head_seconds": 76.3131,
+    "all_head_seconds": 126.20253433500001
+  },
+  "L9-V18": {
+    "phase_file": "output_hexagon_v18_20261009/validation/L9-V18/diagnostics/1791531681002498501/phases.tsv",
+    "terminal_head_generations": 4,
+    "terminal_head_seconds": 75.0645,
+    "all_head_seconds": 124.09687447499999
+  },
+  "L9-V18-cache3g": {
+    "phase_file": "output_hexagon_v18_20261009/validation/L9-V18-cache3g/diagnostics/1791533476254827788/phases.tsv",
+    "terminal_head_generations": 3,
+    "terminal_head_seconds": 56.971000000000004,
+    "all_head_seconds": 94.198727436
+  }
+}

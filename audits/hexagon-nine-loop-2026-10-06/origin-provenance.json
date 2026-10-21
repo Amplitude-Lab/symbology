@@ -1,0 +1,14 @@
+{
+  "source": "https://arxiv.org/html/2308.08199",
+  "equation": 42,
+  "claim": "At ordinary symbol level at the simultaneous origin, E tends to exp(g^2 E^(1)), and E^(1) has symbol minus sum of u_i tensor u_i.",
+  "derivation": "For even counts n_i, an ordered log-letter word has coefficient (-1)^L times product of (n_i-1) double factorials; a word with any odd count has zero coefficient.",
+  "role": "Independent post-reconstruction validation; not used in the sewing fit.",
+  "coverage": "All count partitions into three logarithmic letters, up to dihedral permutations; integrability makes the pure-log origin symbol symmetric under word permutations.",
+  "cases_per_loop": {
+    "1": 2,
+    "2": 4,
+    "8": 30,
+    "9": 37
+  }
+}

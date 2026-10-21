@@ -37,6 +37,24 @@ int main(){try{
     auto bigd=condition_tensor(large,2),bigf=tensor(identity(2),{2,1,2});
     auto biga=assemble(bigf,bigd,false),bigk=tensor_kernel::extension(bigf,bigd,false,opt);
     require(!mul(biga,transpose(bigk)).nnz()&&bigk.nrow==3&&row_basis(bigk).nrow==3,"multi-prime factored certificate");++cases;
+    // Integer storage must retain arbitrary precision and clear a common
+    // denominator across every letter of an older component. A denominator
+    // divisible by the first discovery prime also exercises a bad reduction.
+    {
+        ulong prime=n_nextprime(1ULL<<60,0);Mat fm(3,4),cm(1,4);
+        fm[0].push_back(0,Q(int_t(2).pow(170ul)+int_t(19))/Q(prime));
+        fm[0].push_back(1,Q(-3)/Q(7));fm[1].push_back(0,Q(2)/Q(5));
+        fm[1].push_back(2,Q(5)/Q(11));fm[2].push_back(1,Q(7)/Q(13));
+        fm[2].push_back(3,Q(int_t(2).pow(95ul)+int_t(3))/Q(17));
+        cm[0].push_back(1,Q(1));cm[0].push_back(2,Q(-1));auto d=condition_tensor(cm,2);
+        for(bool backward:{false,true})for(auto strategy:{tensor_kernel::Strategy::streamed,tensor_kernel::Strategy::staged}){
+            auto f=tensor(fm,{3,2,2});auto a=assemble(f,d,backward);
+            auto k=tensor_kernel::extension(f,d,backward,opt,nullptr,strategy);
+            require(equal(flatten(f),fm),"factored integer storage changed its input recurrence");
+            require(!mul(a,transpose(k)).nnz()&&k.nrow==a.ncol-row_basis(a).nrow&&row_basis(k).nrow==k.nrow,
+                    "factored integer storage lost rational scales or large coefficients");++cases;
+        }
+    }
     {
         integral=false;auto fm=random_matrix(6,300*4),cm=random_matrix(16,4*4);auto f=tensor(fm,{6,300,4});
         tensor_kernel::ConstraintRows rows(f,cm,4);structured_kernel::Relations relations(24);std::vector<I> columns(24);std::iota(columns.begin(),columns.end(),I(0));

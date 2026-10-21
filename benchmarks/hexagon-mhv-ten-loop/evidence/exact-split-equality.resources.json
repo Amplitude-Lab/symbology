@@ -1,0 +1,24 @@
+{
+  "command": [
+    "wolframscript",
+    "-file",
+    "bench/hexagon_candidate_export_controls.wls",
+    "verify",
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-exact-shift-16p4",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/audit/crt-six-prime-speculative-candidate-20261008T1532Z.candidate.tsv"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 4.321137196995551,
+  "peak_summed_rss_bytes": 500056064,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 0.037208,
+  "cpu_system_seconds": 0.047555,
+  "max_processes": 3,
+  "virtual_limit_gib": 128
+}

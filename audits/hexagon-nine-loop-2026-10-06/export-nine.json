@@ -1,0 +1,31 @@
+{
+  "command": [
+    "env",
+    "THREADS=4",
+    "output_hexagon_12p4_20261006/staged-package/bin/irr_convert",
+    "export",
+    "MHV",
+    "14",
+    "4",
+    "output_hexagon_14p4_20261006/cached-nine/joint",
+    "output_hexagon_14p4_20261006/release_MHV_w18_14p4",
+    "--fec-root",
+    "output_hexagon_14p4_20261006/FEC",
+    "--lec-root",
+    "output_hexagon_14p4_20261006/LEC/MHV"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 30.0,
+  "cancel_signal": 0,
+  "min_available_gib": 6.0,
+  "wall_seconds": 41.87796575529501,
+  "peak_summed_rss_bytes": 6009937920,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 38.022777,
+  "cpu_system_seconds": 3.88667,
+  "max_processes": 1,
+  "virtual_limit_gib": 42
+}

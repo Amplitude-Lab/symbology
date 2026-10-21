@@ -1,0 +1,970 @@
+{
+  "schema": "hexagon-v19-cpu-controls-v1",
+  "status": "passed",
+  "started": 1791544061.3121023,
+  "threads": 16,
+  "acceptance": {
+    "baseline": "original V17 with 2 GiB OPE cache",
+    "cpu_saving_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "metric": "process user+system CPU seconds / 3600",
+    "scope": "complete fresh prime including all current independent physical and complete seam checks; warm precomputed basis inputs"
+  },
+  "hard_cgroup_bytes": 20000000000,
+  "high_cgroup_bytes": 18000000000,
+  "swap_bytes": 0,
+  "production_limit_bytes": 50000000000,
+  "production_modified": false,
+  "steps": [
+    {
+      "label": "V21-p1-r3",
+      "status": "passed",
+      "started": 1791544061.3219976,
+      "command": [
+        "systemd-run",
+        "--user",
+        "--quiet",
+        "--wait",
+        "--collect",
+        "--unit=symbology-v19-bb3316a539",
+        "--property=MemoryMax=20000000000",
+        "--property=MemoryHigh=18000000000",
+        "--property=MemorySwapMax=0",
+        "--property=TasksMax=128",
+        "--property=WorkingDirectory=/home/ana/Documents/symbology",
+        "/usr/bin/python3",
+        "/home/ana/Documents/symbology/bench/measure_process.py",
+        "--report",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-p1-r3.json",
+        "--log",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-p1-r3.log",
+        "--status",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-p1-r3.status.json",
+        "--timeout",
+        "2400",
+        "--virtual-gib",
+        "96",
+        "--rss-gib",
+        "17.695128917694092",
+        "--min-available-gib",
+        "3",
+        "--",
+        "env",
+        "-u",
+        "HEXAGON_MAPPED_FILE",
+        "-u",
+        "HEXAGON_MAPPED_GIB",
+        "-u",
+        "HEXAGON_MAPPED_SOFT_GIB",
+        "THREADS=16",
+        "PHYSICS_CACHE_MIB=4096",
+        "OPE_HEAD_CACHE_MIB=3072",
+        "HEXAGON_MHV_DOUBLE_BONUS=1",
+        "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+        "MIMALLOC_PURGE_DELAY=0",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+        "15",
+        "3",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-r3",
+        "6000",
+        "cache",
+        "right",
+        "--prime-index",
+        "1"
+      ],
+      "ope_cache_mib": 3072,
+      "prime": 1152921504606847009,
+      "finished": 1791544443.9938152,
+      "measurement": {
+        "command": [
+          "env",
+          "-u",
+          "HEXAGON_MAPPED_FILE",
+          "-u",
+          "HEXAGON_MAPPED_GIB",
+          "-u",
+          "HEXAGON_MAPPED_SOFT_GIB",
+          "THREADS=16",
+          "PHYSICS_CACHE_MIB=4096",
+          "OPE_HEAD_CACHE_MIB=3072",
+          "HEXAGON_MHV_DOUBLE_BONUS=1",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "MIMALLOC_PURGE_DELAY=0",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v21/bin/joint_physics_v21",
+          "15",
+          "3",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V21-r3",
+          "6000",
+          "cache",
+          "right",
+          "--prime-index",
+          "1"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 17.695128917694092,
+        "cancel_signal": 0,
+        "min_available_gib": 3.0,
+        "wall_seconds": 382.4657506549993,
+        "peak_summed_rss_bytes": 5848817664,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 3734.67052,
+        "cpu_system_seconds": 30.114942,
+        "max_processes": 1,
+        "virtual_limit_gib": 96
+      },
+      "cpu_seconds": 3764.7854620000003,
+      "cpu_hours": 1.0457737394444446,
+      "phase_profiles": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30719,
+          "cpu_seconds": 1.30676,
+          "rss_bytes": 15962112.0,
+          "process_peak_bytes": 15622144.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000679925,
+          "cpu_seconds": 0.000682,
+          "rss_bytes": 387735552.0,
+          "process_peak_bytes": 1438961664.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.51085,
+          "cpu_seconds": 2.5095,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 136.881,
+          "cpu_seconds": 1018.44,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000654937,
+          "cpu_seconds": 0.000656,
+          "rss_bytes": 2761711616.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.522258,
+          "cpu_seconds": 0.52221,
+          "rss_bytes": 2458279936.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.161848,
+          "cpu_seconds": 0.163982,
+          "rss_bytes": 2274537472.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0147423,
+          "cpu_seconds": 0.014698,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 71.8214,
+          "cpu_seconds": 931.787,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000621104,
+          "cpu_seconds": 0.000622,
+          "rss_bytes": 1988251648.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00281531,
+          "cpu_seconds": 0.002816,
+          "rss_bytes": 1969221632.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00580338,
+          "cpu_seconds": 0.006215,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.015203,
+          "cpu_seconds": 0.015262,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.7998,
+          "cpu_seconds": 279.545,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000629815,
+          "cpu_seconds": 0.00063,
+          "rss_bytes": 2548785152.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00258051,
+          "cpu_seconds": 0.002582,
+          "rss_bytes": 2546507776.0,
+          "process_peak_bytes": 3976998912.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.0048059,
+          "cpu_seconds": 0.007502,
+          "rss_bytes": 5255725056.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0123003,
+          "cpu_seconds": 0.012243,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 122.743,
+          "cpu_seconds": 1319.21,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000648405,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 5255266304.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00533777,
+          "cpu_seconds": 0.00534,
+          "rss_bytes": 5249679360.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.72909,
+          "cpu_seconds": 42.9462,
+          "rss_bytes": 5249679360.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.626074,
+          "cpu_seconds": 8.17693,
+          "rss_bytes": 5251272704.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.8303,
+          "cpu_seconds": 142.237,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.960114,
+          "cpu_seconds": 11.8962,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00663143,
+          "cpu_seconds": 0.004664,
+          "rss_bytes": 5234548736.0,
+          "process_peak_bytes": 5847715840.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 375.676,
+          "cpu_seconds": 3758.07,
+          "rss_bytes": 4922155008.0,
+          "process_peak_bytes": 5847715840.0
+        }
+      ],
+      "cgroup_peak_bytes": 7274356736,
+      "cgroup_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "all_native_coefficients_equal": true,
+      "cache_sha256": "009ca2bbb366e3dfa45d0732a811a9094a9bba3ce77ffb3fce616cfeb1d9d59d",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_scope": "Original V17 native cache",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "log_sha256": "ba4526c444e0811afe99bf063016fd9445b4fcffe7775c77db2c1677597070bb"
+    },
+    {
+      "label": "V22-p1-r2",
+      "status": "passed",
+      "started": 1791544443.9951284,
+      "command": [
+        "systemd-run",
+        "--user",
+        "--quiet",
+        "--wait",
+        "--collect",
+        "--unit=symbology-v19-12696df360",
+        "--property=MemoryMax=20000000000",
+        "--property=MemoryHigh=18000000000",
+        "--property=MemorySwapMax=0",
+        "--property=TasksMax=128",
+        "--property=WorkingDirectory=/home/ana/Documents/symbology",
+        "/usr/bin/python3",
+        "/home/ana/Documents/symbology/bench/measure_process.py",
+        "--report",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p1-r2.json",
+        "--log",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p1-r2.log",
+        "--status",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p1-r2.status.json",
+        "--timeout",
+        "2400",
+        "--virtual-gib",
+        "96",
+        "--rss-gib",
+        "17.695128917694092",
+        "--min-available-gib",
+        "3",
+        "--",
+        "env",
+        "-u",
+        "HEXAGON_MAPPED_FILE",
+        "-u",
+        "HEXAGON_MAPPED_GIB",
+        "-u",
+        "HEXAGON_MAPPED_SOFT_GIB",
+        "THREADS=16",
+        "PHYSICS_CACHE_MIB=4096",
+        "OPE_HEAD_CACHE_MIB=3072",
+        "HEXAGON_MHV_DOUBLE_BONUS=1",
+        "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+        "MIMALLOC_PURGE_DELAY=0",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+        "15",
+        "3",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2",
+        "6000",
+        "cache",
+        "right",
+        "--prime-index",
+        "1"
+      ],
+      "ope_cache_mib": 3072,
+      "prime": 1152921504606847009,
+      "finished": 1791544790.552022,
+      "measurement": {
+        "command": [
+          "env",
+          "-u",
+          "HEXAGON_MAPPED_FILE",
+          "-u",
+          "HEXAGON_MAPPED_GIB",
+          "-u",
+          "HEXAGON_MAPPED_SOFT_GIB",
+          "THREADS=16",
+          "PHYSICS_CACHE_MIB=4096",
+          "OPE_HEAD_CACHE_MIB=3072",
+          "HEXAGON_MHV_DOUBLE_BONUS=1",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "MIMALLOC_PURGE_DELAY=0",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+          "15",
+          "3",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2",
+          "6000",
+          "cache",
+          "right",
+          "--prime-index",
+          "1"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 17.695128917694092,
+        "cancel_signal": 0,
+        "min_available_gib": 3.0,
+        "wall_seconds": 346.50698514300166,
+        "peak_summed_rss_bytes": 5885362176,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 3276.295549,
+        "cpu_system_seconds": 23.521956,
+        "max_processes": 1,
+        "virtual_limit_gib": 96
+      },
+      "cpu_seconds": 3299.817505,
+      "cpu_hours": 0.9166159736111111,
+      "phase_profiles": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30642,
+          "cpu_seconds": 1.30627,
+          "rss_bytes": 15937536.0,
+          "process_peak_bytes": 15765504.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000709742,
+          "cpu_seconds": 0.000712,
+          "rss_bytes": 386854912.0,
+          "process_peak_bytes": 1437933568.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.52259,
+          "cpu_seconds": 2.52237,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 138.881,
+          "cpu_seconds": 1035.65,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000648908,
+          "cpu_seconds": 0.000651,
+          "rss_bytes": 2781753344.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.531057,
+          "cpu_seconds": 0.531008,
+          "rss_bytes": 2480340992.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.16129,
+          "cpu_seconds": 0.165497,
+          "rss_bytes": 2301648896.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152667,
+          "cpu_seconds": 0.01468,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 61.5859,
+          "cpu_seconds": 777.7,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000619617,
+          "cpu_seconds": 0.000621,
+          "rss_bytes": 2015383552.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00321807,
+          "cpu_seconds": 0.003218,
+          "rss_bytes": 2002661376.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00564265,
+          "cpu_seconds": 0.005887,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0152256,
+          "cpu_seconds": 0.015286,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.5448,
+          "cpu_seconds": 278.123,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000647316,
+          "cpu_seconds": 0.000649,
+          "rss_bytes": 2591285248.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00279296,
+          "cpu_seconds": 0.002795,
+          "rss_bytes": 2588811264.0,
+          "process_peak_bytes": 3951575040.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00474927,
+          "cpu_seconds": 0.006896,
+          "rss_bytes": 5302079488.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0129023,
+          "cpu_seconds": 0.012131,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 95.6448,
+          "cpu_seconds": 995.19,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.00063168,
+          "cpu_seconds": 0.000632,
+          "rss_bytes": 5301780480.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00544084,
+          "cpu_seconds": 0.005444,
+          "rss_bytes": 5303902208.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 6.80588,
+          "cpu_seconds": 42.7678,
+          "rss_bytes": 5303902208.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.601577,
+          "cpu_seconds": 7.65637,
+          "rss_bytes": 5305495552.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.3237,
+          "cpu_seconds": 140.285,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 0.940666,
+          "cpu_seconds": 11.8052,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.0108214,
+          "cpu_seconds": 0.004701,
+          "rss_bytes": 5280604160.0,
+          "process_peak_bytes": 5915144192.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847009",
+          "seconds": 339.646,
+          "cpu_seconds": 3293.05,
+          "rss_bytes": 4969353216.0,
+          "process_peak_bytes": 5915144192.0
+        }
+      ],
+      "cgroup_peak_bytes": 7390199808,
+      "cgroup_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "all_native_coefficients_equal": true,
+      "cache_sha256": "d774c1518cb5e52973b65f1627dc6eeb2c70de595767a80d941fe1e036c1ff88",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_scope": "Original V17 native cache",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "log_sha256": "2f34107f55042fb2f4ec37d59967449b398f9efc192e6ca1a98865bb96eb4bf7"
+    },
+    {
+      "label": "V22-p2-r2",
+      "status": "passed",
+      "started": 1791544790.5530908,
+      "command": [
+        "systemd-run",
+        "--user",
+        "--quiet",
+        "--wait",
+        "--collect",
+        "--unit=symbology-v19-a6232ed184",
+        "--property=MemoryMax=20000000000",
+        "--property=MemoryHigh=18000000000",
+        "--property=MemorySwapMax=0",
+        "--property=TasksMax=128",
+        "--property=WorkingDirectory=/home/ana/Documents/symbology",
+        "/usr/bin/python3",
+        "/home/ana/Documents/symbology/bench/measure_process.py",
+        "--report",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p2-r2.json",
+        "--log",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p2-r2.log",
+        "--status",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-p2-r2.status.json",
+        "--timeout",
+        "2400",
+        "--virtual-gib",
+        "96",
+        "--rss-gib",
+        "17.695128917694092",
+        "--min-available-gib",
+        "3",
+        "--",
+        "env",
+        "-u",
+        "HEXAGON_MAPPED_FILE",
+        "-u",
+        "HEXAGON_MAPPED_GIB",
+        "-u",
+        "HEXAGON_MAPPED_SOFT_GIB",
+        "THREADS=16",
+        "PHYSICS_CACHE_MIB=4096",
+        "OPE_HEAD_CACHE_MIB=3072",
+        "HEXAGON_MHV_DOUBLE_BONUS=1",
+        "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+        "MIMALLOC_PURGE_DELAY=0",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+        "15",
+        "3",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+        "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+        "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2",
+        "6000",
+        "cache",
+        "right",
+        "--prime-index",
+        "2"
+      ],
+      "ope_cache_mib": 3072,
+      "prime": 1152921504606847067,
+      "finished": 1791545131.1293423,
+      "measurement": {
+        "command": [
+          "env",
+          "-u",
+          "HEXAGON_MAPPED_FILE",
+          "-u",
+          "HEXAGON_MAPPED_GIB",
+          "-u",
+          "HEXAGON_MAPPED_SOFT_GIB",
+          "THREADS=16",
+          "PHYSICS_CACHE_MIB=4096",
+          "OPE_HEAD_CACHE_MIB=3072",
+          "HEXAGON_MHV_DOUBLE_BONUS=1",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "MIMALLOC_PURGE_DELAY=0",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+          "15",
+          "3",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+          "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+          "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2",
+          "6000",
+          "cache",
+          "right",
+          "--prime-index",
+          "2"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 17.695128917694092,
+        "cancel_signal": 0,
+        "min_available_gib": 3.0,
+        "wall_seconds": 340.49567684600333,
+        "peak_summed_rss_bytes": 5840363520,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 3232.903911,
+        "cpu_system_seconds": 23.111248,
+        "max_processes": 1,
+        "virtual_limit_gib": 96
+      },
+      "cpu_seconds": 3256.015159,
+      "cpu_hours": 0.9044486552777777,
+      "phase_profiles": [
+        {
+          "phase": "bind_identity",
+          "seconds": 1.30733,
+          "cpu_seconds": 1.30694,
+          "rss_bytes": 15863808.0,
+          "process_peak_bytes": 15257600.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000633474,
+          "cpu_seconds": 0.000637,
+          "rss_bytes": 386813952.0,
+          "process_peak_bytes": 1434505216.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 2.49539,
+          "cpu_seconds": 2.49456,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_discovery",
+          "seconds": 137.392,
+          "cpu_seconds": 1024.68,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000623844,
+          "cpu_seconds": 0.000625,
+          "rss_bytes": 2805899264.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.502631,
+          "cpu_seconds": 0.502536,
+          "rss_bytes": 2501824512.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.157478,
+          "cpu_seconds": 0.161679,
+          "rss_bytes": 2320797696.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.014766,
+          "cpu_seconds": 0.014772,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_early_collinear",
+          "seconds": 60.7279,
+          "cpu_seconds": 769.499,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000608361,
+          "cpu_seconds": 0.000609,
+          "rss_bytes": 2034511872.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.0029088,
+          "cpu_seconds": 0.00291,
+          "rss_bytes": 2017554432.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00575503,
+          "cpu_seconds": 0.006121,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0148265,
+          "cpu_seconds": 0.014828,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "compute_early_mrk",
+          "seconds": 21.6234,
+          "cpu_seconds": 277.429,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000607866,
+          "cpu_seconds": 0.000608,
+          "rss_bytes": 2604785664.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "consume_unpack",
+          "seconds": 0.00260729,
+          "cpu_seconds": 0.002608,
+          "rss_bytes": 2601590784.0,
+          "process_peak_bytes": 3966115840.0
+        },
+        {
+          "phase": "block_affine_product",
+          "seconds": 0.00433954,
+          "cpu_seconds": 0.006412,
+          "rss_bytes": 5306576896.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.0119261,
+          "cpu_seconds": 0.012022,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "compute_early_ope_small_s",
+          "seconds": 95.1962,
+          "cpu_seconds": 992.635,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "bind_identity",
+          "seconds": 0.000603109,
+          "cpu_seconds": 0.000604,
+          "rss_bytes": 5306163200.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "sparse_checkpoint_write_verify",
+          "seconds": 0.00534726,
+          "cpu_seconds": 0.005436,
+          "rss_bytes": 5255589888.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "compute_seam_complete",
+          "seconds": 3.44969,
+          "cpu_seconds": 22.1253,
+          "rss_bytes": 5255589888.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_collinear",
+          "seconds": 0.571779,
+          "cpu_seconds": 7.02462,
+          "rss_bytes": 5257183232.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_mrk",
+          "seconds": 10.393,
+          "cpu_seconds": 140.307,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "check_ope_small_s",
+          "seconds": 1.00198,
+          "cpu_seconds": 11.7152,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "cache_write",
+          "seconds": 0.00625054,
+          "cpu_seconds": 0.00463,
+          "rss_bytes": 5234663424.0,
+          "process_peak_bytes": 5930164224.0
+        },
+        {
+          "phase": "evaluate_joint_1152921504606847067",
+          "seconds": 333.65,
+          "cpu_seconds": 3249.23,
+          "rss_bytes": 4921798656.0,
+          "process_peak_bytes": 5930164224.0
+        }
+      ],
+      "cgroup_peak_bytes": 7431110656,
+      "cgroup_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "all_native_coefficients_equal": true,
+      "cache_sha256": "240e34d835295cbddf422588b0a5661e1c92fafdb4bb2d6e7956614ecbe00929",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_scope": "Previously validated V18 second native prime; separate forced-QQ comparison required",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "log_sha256": "a6530c52c3b73856e4d5d0e8d8fb451617410f7d8807c60d42f8667a70e07715"
+    }
+  ],
+  "binaries": {
+    "V17": "73daf308eac206db8e0c94e11816c049e4b6e0464c4b4547915857f44aefc79e",
+    "V18": "710c318b119b5927b26417bc5fc0fc5d08226104edfdf4ac81f493b2a0c2b044",
+    "V19": "8602ec3a856d9d809dfe42d44f41e75fc18162fc1ca7f5c43384f7de12741368",
+    "V22": "9cb4b24d075a0588a598aa253a1a1b0626cb0f4e27fd2b8deee7e99faff3dc10",
+    "V21": "927de9a9c4b4a047d49bc180267a9eb05cbcd99dec0749e808222b5e4e5876ef"
+  },
+  "finished": 1791545131.1320686
+}

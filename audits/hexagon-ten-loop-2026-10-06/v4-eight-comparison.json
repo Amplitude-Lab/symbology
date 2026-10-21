@@ -1,0 +1,7 @@
+{
+  "control": "eight-loop V4 with ten-loop main OPE library",
+  "prime": 1152921504606847009,
+  "identical_coefficient_payload": true,
+  "payload_sha256": "6d208c1e1ec503c5840c40b032010f32ff86a413e1db4c605cf97843f1225d40",
+  "preserves_existing_origin_and_coordinates": true
+}

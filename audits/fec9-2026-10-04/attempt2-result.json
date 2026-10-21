@@ -1,0 +1,103 @@
+{
+  "status": {
+    "state": "failed",
+    "controller_pid": 1087673,
+    "started_unix_seconds": 1791135455.2284222,
+    "deadline_unix_seconds": 1791217333.826571,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "fec9",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/bin/streaming_kernel_benchmark",
+            "forward-staged",
+            "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+            "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+            "-",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/FEC_9.wxf",
+            "0",
+            "0",
+            "8",
+            "short",
+            "1024"
+          ],
+          "exit_code": -15,
+          "timeout": false,
+          "memory_pressure": true,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 3736.5748306768946,
+          "peak_summed_rss_bytes": 30494994432,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 24014.980306,
+          "cpu_system_seconds": 28.064716,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 1
+      }
+    ],
+    "updated_utc": "2026-10-04T18:39:51.836550+00:00",
+    "wall_seconds": 3736.6081328229047,
+    "current_stage": "fec9",
+    "current_log": "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/fec9.log",
+    "current_live": "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/fec9-live.json",
+    "peak_stage_rss_bytes": 30494994432
+  },
+  "measurement": {
+    "command": [
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/bin/streaming_kernel_benchmark",
+      "forward-staged",
+      "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+      "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+      "-",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt2/FEC_9.wxf",
+      "0",
+      "0",
+      "8",
+      "short",
+      "1024"
+    ],
+    "exit_code": -15,
+    "timeout": false,
+    "memory_pressure": true,
+    "rss_limit_exceeded": false,
+    "rss_limit_gib": 50.0,
+    "cancel_signal": 0,
+    "min_available_gib": 4.0,
+    "wall_seconds": 3736.5748306768946,
+    "peak_summed_rss_bytes": 30494994432,
+    "sample_interval_seconds": 0.1,
+    "cpu_user_seconds": 24014.980306,
+    "cpu_system_seconds": 28.064716,
+    "max_processes": 1,
+    "virtual_limit_gib": 50
+  },
+  "final_log_lines": [
+    "presolve_pass=4 relations=1 remaining_columns=266452",
+    "presolve_pass=5 relations=0 remaining_columns=266452",
+    "streaming_batch=1 input_rows=412944 rank=65067 retained_nnz=9792535",
+    "streaming_batch=32 input_rows=539920 rank=71863 retained_nnz=45511283",
+    "streaming_batch=64 input_rows=670992 rank=78311 retained_nnz=86914213",
+    "streaming_batch=96 input_rows=802064 rank=85835 retained_nnz=139701820",
+    "streaming_batch=128 input_rows=933136 rank=94114 retained_nnz=202081236",
+    "streaming_batch=160 input_rows=1064208 rank=101346 retained_nnz=259397032",
+    "streaming_batch=192 input_rows=1195280 rank=109017 retained_nnz=323907874",
+    "REFINE_SEED rows=1219228 cols=266452 nnz=582055340 bounded=1 elapsed=985.506",
+    "REFINE_ZERO_SUBSTITUTION columns=960 limit=4096 sample_denominator=16",
+    "streaming_batch=224 input_rows=1291244 rank=140456 retained_nnz=703119874",
+    "REFINE_DISCOVERY limit=4096 rank=141838 nullity=124614 elapsed=1458.91",
+    "REFINE_ZERO_SUBSTITUTION columns=1026 limit=16384 sample_denominator=16",
+    "REFINE_DISCOVERY limit=16384 rank=151299 nullity=115153 elapsed=1657.85",
+    "REFINE_ZERO_SUBSTITUTION columns=1028 limit=18446744073709551615 sample_denominator=16",
+    "streaming_batch=256 input_rows=1309831 rank=153803 retained_nnz=950310093",
+    "streaming_batch=288 input_rows=1314925 rank=158500 retained_nnz=1084016395",
+    "REFINE_DISCOVERY limit=18446744073709551615 rank=159373 nullity=107079 elapsed=2062.38",
+    "REFINE_ZERO_SUBSTITUTION columns=1029 limit=18446744073709551615 sample_denominator=4",
+    "streaming_batch=320 input_rows=1393669 rank=163143 retained_nnz=1183330863",
+    "streaming_batch=352 input_rows=1483082 rank=175544 retained_nnz=1421619420"
+  ]
+}

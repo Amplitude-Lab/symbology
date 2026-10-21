@@ -1,0 +1,60 @@
+{
+  "schema": "accepted-nine-loop-profile-v1",
+  "selection": "V22/16",
+  "binary": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/bin/joint_physics_v22",
+  "binary_sha256": "9cb4b24d075a0588a598aa253a1a1b0626cb0f4e27fd2b8deee7e99faff3dc10",
+  "loop": 9,
+  "head": 15,
+  "tail": 3,
+  "target": 6000,
+  "mode": "cache",
+  "prereduce": "right",
+  "inputs": {
+    "fec_root": "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+    "lec_root": "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+    "data_root": "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data"
+  },
+  "environment": {
+    "THREADS": 16,
+    "PHYSICS_CACHE_MIB": 4096,
+    "OPE_HEAD_CACHE_MIB": 3072,
+    "HEXAGON_MHV_DOUBLE_BONUS": 1,
+    "MIMALLOC_PURGE_DELAY": 0,
+    "LD_LIBRARY_PATH": "/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib"
+  },
+  "unset_environment": [
+    "HEXAGON_MAPPED_FILE",
+    "HEXAGON_MAPPED_GIB",
+    "HEXAGON_MAPPED_SOFT_GIB"
+  ],
+  "limits": {
+    "memory_max_bytes": 20000000000,
+    "memory_high_bytes": 18000000000,
+    "swap_bytes": 0,
+    "virtual_GiB": 96,
+    "sampled_RSS_limit_bytes": 19000000000,
+    "tasks": 128
+  },
+  "results": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/RESULTS.json",
+  "production_memory_limit_bytes": 50000000000,
+  "acceptance": {
+    "first_prime_repeats": 2,
+    "cpu_hours_mean": 0.9187658295833334,
+    "wall_seconds_mean": 347.39136342250276,
+    "peak_rss_bytes_min": 5840363520,
+    "peak_rss_bytes_max": 5889835008,
+    "rss_scope": "all tested fields and repetitions",
+    "cpu_saving_vs_original_v17": 0.37990167168325706,
+    "cpu_saving_vs_v21_16": 0.11613825086857954,
+    "conservative_rss_ratio": 0.9977269321077085,
+    "numeric_gate_pass": true,
+    "phase_cpu_seconds_mean": {
+      "compute_discovery": 1033.49,
+      "compute_early_collinear": 781.2405,
+      "compute_early_mrk": 278.6415,
+      "compute_early_ope_small_s": 1000.55,
+      "compute_seam_complete": 42.9815
+    }
+  },
+  "scope": "Nine-loop measured profile only; use fresh output roots. Ten-loop pilot remains required."
+}

@@ -1,0 +1,122 @@
+{
+  "status": {
+    "state": "failed",
+    "controller_pid": 1101114,
+    "started_unix_seconds": 1791148837.2643824,
+    "deadline_unix_seconds": 1791217333.826571,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "fec8",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/bin/split_character_extension",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/prepared",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/seed7",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8",
+            "8",
+            "assembled",
+            "1024",
+            "front_nonzeros=268435456"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "memory_pressure": false,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 1686.978093300946,
+          "peak_summed_rss_bytes": 30659522560,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 8410.709478,
+          "cpu_system_seconds": 59.155978,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 0,
+        "outputs": [
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8.wxf",
+            "bytes": 2493666600,
+            "sha256": "f83dcd770ea3a25cbbc1cf87bb74c50558100fb5d9c8ed800626eba0f517ff31"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8_copies.tsv",
+            "bytes": 80,
+            "sha256": "f30e4372261a0d87816f37bb518a1a1b18435e84ed5315cc369ae35948aace46"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/chain.tsv",
+            "bytes": 109,
+            "sha256": "0a45254210c9ef2625b58575cf351ea2ec3accf5898620223bfe38569048e140"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/checksums.tsv",
+            "bytes": 1680,
+            "sha256": "d72226d0fb8c7c3cbe6c967eecdbabcfc0bf719c16a450d64a92b927cad18672"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8_sector0.wxf",
+            "bytes": 1253646900,
+            "sha256": "4c2bbb62fbfc89432563398185893ec6f82d69fb04db064b14988f14ca70e96d"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8_sector0.tsv",
+            "bytes": 121,
+            "sha256": "1725efd9a6a524571b76dee5a9b93b830524222dd5fab9d08f7da147cd81666a"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8_sector1.wxf",
+            "bytes": 1240019807,
+            "sha256": "e642e0b640cf0cd33d4d1b7b9605044a10c50964898adb89bda3aaa262db8a4d"
+          },
+          {
+            "path": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8/w8_sector1.tsv",
+            "bytes": 119,
+            "sha256": "c11bea5c7901cc8ad523302addb30ab7bb298e8f31198ec55ea033c6b15fca1f"
+          }
+        ]
+      },
+      {
+        "name": "fec9",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/bin/split_character_extension",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/prepared",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight8",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/weight9",
+            "8",
+            "staged",
+            "1024",
+            "front_nonzeros=268435456"
+          ],
+          "exit_code": -15,
+          "timeout": false,
+          "memory_pressure": true,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 18696.762763738167,
+          "peak_summed_rss_bytes": 39809060864,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 114781.934212,
+          "cpu_system_seconds": 51.920267,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 1
+      }
+    ],
+    "updated_utc": "2026-10-05T03:00:23.343277+00:00",
+    "wall_seconds": 20386.110232353676,
+    "current_stage": "fec9",
+    "current_log": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/fec9.log",
+    "current_live": "/home/ana/Documents/symbology/output_fec9_20261004/attempt5/fec9-live.json",
+    "peak_stage_rss_bytes": 39809060864
+  },
+  "certified_fec8_retained": true,
+  "completed_fec9_sectors": 0,
+  "reason": "host-memory floor; no FEC9 certificate or output"
+}

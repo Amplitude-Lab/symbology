@@ -1,0 +1,4118 @@
+[
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_symmetry128/echelon.bin",
+    "bytes": 22514872200,
+    "allocated": 22514876416,
+    "mtime": 1791910483.2269895,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-runner/scratch/pindex09-native-f51472808cb5.mmap",
+    "bytes": 206158430208,
+    "allocated": 21239685120,
+    "mtime": 1791524968.7415555,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1first_pole64_v7/echelon.bin",
+    "bytes": 21035580424,
+    "allocated": 21035585536,
+    "mtime": 1791913711.1919763,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_leading_v4_64/echelon.bin",
+    "bytes": 17016076552,
+    "allocated": 17016082432,
+    "mtime": 1791909510.188496,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_pole256_b1/echelon.bin",
+    "bytes": 16215068360,
+    "allocated": 16215072768,
+    "mtime": 1791907813.216652,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1_symmetry_first128/echelon.bin",
+    "bytes": 16116102760,
+    "allocated": 16116109312,
+    "mtime": 1791911189.5043762,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847201.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791308503.1016624,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847127.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791304401.459823,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847123.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791302347.301784,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847067.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791298310.5769427,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847189.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791306462.112691,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847009.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791295276.7960446,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847081.bin",
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime": 1791300398.4159284,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1_symmetry_first8/echelon.bin",
+    "bytes": 8728939224,
+    "allocated": 8728944640,
+    "mtime": 1791910824.249427,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_localized64/echelon.bin",
+    "bytes": 8656939880,
+    "allocated": 8656945152,
+    "mtime": 1791906117.17432,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_50gb/FEC_7_balanced_t4.wxf",
+    "bytes": 7526905213,
+    "allocated": 7526912000,
+    "mtime": 1791852980.406341,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847123.csr",
+    "bytes": 6804833312,
+    "allocated": 6804840448,
+    "mtime": 1791437751.6154778,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847189.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791463836.0165746,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847081.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791424294.215109,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847067.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791411466.6637409,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847127.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791450787.3578992,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847201.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791476785.3319857,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847229.csr",
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime": 1791516430.5790107,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v16-main/discovery/cache/p1152921504606847009.csr",
+    "bytes": 6150987584,
+    "allocated": 6150991872,
+    "mtime": 1791394656.4370208,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847189.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791599692.0912478,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847081.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791579892.2319891,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847009.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791566673.9848394,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847067.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791573300.9647279,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847127.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791593069.203033,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847201.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791606288.1435323,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847123.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791586483.9791,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847229.csr",
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime": 1791612893.5598638,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_E.wxf",
+    "bytes": 3000124922,
+    "allocated": 3000131584,
+    "mtime": 1791357873.5374906,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/SEW_5p1_invariant.wxf",
+    "bytes": 2612558856,
+    "allocated": 2612563968,
+    "mtime": 1791636546.337114,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/SEW_5p1.wxf",
+    "bytes": 2612558856,
+    "allocated": 2612563968,
+    "mtime": 1791636546.337114,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight8/w8.wxf",
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime": 1791150462.7360816,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight9/w8.wxf",
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime": 1791185296.4760292,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight8/w8.wxf",
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime": 1791150462.7360816,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight9/w8.wxf",
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime": 1791150570.4651997,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_validation_20261009/replay-mapped/scratch.mmap",
+    "bytes": 206158430208,
+    "allocated": 2492866560,
+    "mtime": 1791531116.6145723,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847201.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791308745.102305,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847127.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791304619.909451,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847123.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791302555.8083644,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847067.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791298540.624558,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847189.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791306669.3434472,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847009.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791295559.0952399,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847081.bin",
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime": 1791300608.0915012,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_E.wxf",
+    "bytes": 2399347178,
+    "allocated": 2399354880,
+    "mtime": 1791358581.60583,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_contract.wxf",
+    "bytes": 1969089240,
+    "allocated": 1969094656,
+    "mtime": 1791692639.8598359,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/nine.mmap",
+    "bytes": 51539607552,
+    "allocated": 1845747712,
+    "mtime": 1791509766.5641851,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-nine-control/nine.mmap",
+    "bytes": 51539607552,
+    "allocated": 1845227520,
+    "mtime": 1791402162.7179537,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/affine/direct_w6.wxf",
+    "bytes": 1738363581,
+    "allocated": 1738371072,
+    "mtime": 1791637115.5742514,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/FEC_8.wxf",
+    "bytes": 1653307317,
+    "allocated": 1653313536,
+    "mtime": 1791043308.2139351,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_loops/exploratory_full_expansion/equal_boundary_w6.wxf",
+    "bytes": 1432318167,
+    "allocated": 1432326144,
+    "mtime": 1791626028.3246336,
+    "links": 1
+  },
+  {
+    "path": "output_earlysew_20261003/amplitude5/boundary_5L.wxf",
+    "bytes": 1265737523,
+    "allocated": 1265741824,
+    "mtime": 1791088180.2102578,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight8/w8_sector0.wxf",
+    "bytes": 1253646900,
+    "allocated": 1253654528,
+    "mtime": 1791149403.2211545,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight8/w8_sector0.wxf",
+    "bytes": 1253646900,
+    "allocated": 1253654528,
+    "mtime": 1791149403.2211545,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight8/w8_sector1.wxf",
+    "bytes": 1240019807,
+    "allocated": 1240027136,
+    "mtime": 1791150413.2099888,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight8/w8_sector1.wxf",
+    "bytes": 1240019807,
+    "allocated": 1240027136,
+    "mtime": 1791150413.2099888,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/native_integer/product_covectors.txt",
+    "bytes": 1216943808,
+    "allocated": 1216950272,
+    "mtime": 1791868220.8335795,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847253_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357681.105981,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847081_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357533.0854595,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847127_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357563.8179822,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847009_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357502.4189777,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847067_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357519.5732505,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847189_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357581.2868223,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847229_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357620.3344283,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847123_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357547.8705323,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847201_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357600.3625684,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847291_1.bin",
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime": 1791357751.3209565,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/control-eight/discovery/cache/p1152921504606847009.bin",
+    "bytes": 1133245768,
+    "allocated": 1133252608,
+    "mtime": 1791291715.767187,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-eight/discovery/cache/p1152921504606847009.bin",
+    "bytes": 1090693064,
+    "allocated": 1090699264,
+    "mtime": 1791293779.1814103,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/left-eight/discovery/cache/p1152921504606847009.bin",
+    "bytes": 1090693064,
+    "allocated": 1090699264,
+    "mtime": 1791293365.6734886,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_day_20261004/amplitude5/E5_candidate.wxf",
+    "bytes": 986314808,
+    "allocated": 986320896,
+    "mtime": 1791106656.3327456,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847201.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791309245.8443205,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847127.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791305135.1184878,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847123.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791303062.6855257,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847067.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791299036.1712065,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847189.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791307179.9381838,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847009.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791296262.4965937,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847081.bin",
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime": 1791301085.9925668,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847201.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791309509.259083,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847127.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791305399.4519632,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847123.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791303325.5185833,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847067.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791299276.811748,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847189.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791307443.144021,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847009.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791296586.3640988,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847081.bin",
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime": 1791301323.2877438,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v13-controls/nine/discovery/cache/p1152921504606847009.csr",
+    "bytes": 776610776,
+    "allocated": 776617984,
+    "mtime": 1791385800.1387503,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v21-t8/V21/discovery/cache/p1152921504606847009.csr",
+    "bytes": 776610776,
+    "allocated": 776617984,
+    "mtime": 1791543179.6895788,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-compression/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 756010760,
+    "allocated": 756015104,
+    "mtime": 1791558772.0762315,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-kernels/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791558458.003502,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791559372.2181482,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791559676.8504164,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791556990.1547978,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791557458.425287,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791556357.9583728,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791556655.481126,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791555349.7041898,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime": 1791555651.5959616,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-nine-control/nine/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791401742.4193578,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-factors-only/V23/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791549265.0332987,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v26/V26/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791550503.9631739,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v26/V26/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791550829.775338,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-combined/V22/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791547698.395956,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-combined/V22/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791548043.3395972,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-combined/V23/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791547036.967968,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-combined/V23/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791547365.651744,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v24/V24/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791548617.147852,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v24/V24/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791548942.1441414,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v25/V25/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791549724.7009947,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v25/V25/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791550051.1162722,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/nine/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791509347.4163206,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls/V19/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791536445.2756588,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls/V17/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791535932.8019795,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v20/V20/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791537296.611517,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v20/V20/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791538206.9845777,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v20/V17-r2/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791538976.6145642,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v20/V20-r2/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791538590.5386155,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v22/V22/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791543844.2017694,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791544590.7887294,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791544935.8802662,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v22-confirmation/V21-r3/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791544206.0634887,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v21/V21/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791540112.7072244,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v21/V21/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791540493.1316469,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v19_20261009/controls-v21/V21-r2/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791541162.8259614,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-schedule/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791559070.0367684,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-V26-eight-workers/V26/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791557968.113601,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/ablations-c/L9-without-schedule/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791555958.2677414,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791553747.2368846,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791554074.9097104,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L9-V17/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791532324.3881586,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L9-V18-cache3g/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791533622.209035,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L9-V18/discovery/cache/p1152921504606847009.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791531828.3740373,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L9-V18/discovery/cache/p1152921504606847067.csr",
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime": 1791532835.9848742,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847127.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791281889.8797376,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847123.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791281694.2013845,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847067.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791281301.1106431,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847189.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791282086.095647,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847009.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791281106.8761942,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847081.bin",
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime": 1791281497.6464195,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847127.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791278150.2728255,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847201.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791278660.9020224,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847229.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791278922.5223973,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/prime_1.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791277143.861513,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847123.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791277896.0772882,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847189.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791278404.1510491,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847067.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791277393.3074973,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847081.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791277644.097154,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847127.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276356.8212097,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847201.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276587.6280766,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847229.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276707.792013,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/prime_1.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791275890.3476884,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847123.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276242.6902466,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847189.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276469.783099,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847067.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276010.7560415,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847081.bin",
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime": 1791276130.4962804,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 745766304,
+    "allocated": 745771008,
+    "mtime": 1791554578.2515771,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 745766304,
+    "allocated": 745771008,
+    "mtime": 1791554957.2092986,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/native_integer/product_covectors.wxf",
+    "bytes": 736497422,
+    "allocated": 736501760,
+    "mtime": 1791868213.1218753,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847253_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358402.806796,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847301_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358501.5489683,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847081_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358277.0826488,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847127_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358315.9529567,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847009_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358233.9573936,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847067_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358259.0522733,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847189_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358336.3621457,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847229_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358380.6170323,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847123_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358296.0189826,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847201_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358357.9797292,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847291_1.bin",
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime": 1791358449.6636052,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_E.wxf",
+    "bytes": 694957288,
+    "allocated": 694964224,
+    "mtime": 1791340882.3281996,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/union_rank3/SEW_4p2_g0.wxf",
+    "bytes": 693221039,
+    "allocated": 693227520,
+    "mtime": 1791902375.2172186,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_A1.wxf",
+    "bytes": 654176289,
+    "allocated": 654184448,
+    "mtime": 1791357306.3035169,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_contract.wxf",
+    "bytes": 629115242,
+    "allocated": 629121024,
+    "mtime": 1791691596.5150726,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_E.wxf",
+    "bytes": 628722587,
+    "allocated": 628727808,
+    "mtime": 1791341049.880722,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_A2.wxf",
+    "bytes": 627214239,
+    "allocated": 627220480,
+    "mtime": 1791357402.3766744,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/TC/joint/collinear/first_w6_basis.wxf",
+    "bytes": 592600853,
+    "allocated": 592605184,
+    "mtime": 1791693100.5379045,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/TC/joint/regular_constraints_w6.wxf",
+    "bytes": 591391348,
+    "allocated": 591396864,
+    "mtime": 1791693180.3024602,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_basis.wxf",
+    "bytes": 585948850,
+    "allocated": 585953280,
+    "mtime": 1791692791.1162798,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/TC/regular_constraints_w6.wxf",
+    "bytes": 584869856,
+    "allocated": 584876032,
+    "mtime": 1791693099.4659142,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_14.wxf",
+    "bytes": 582463917,
+    "allocated": 582471680,
+    "mtime": 1791309765.9245033,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_E.wxf",
+    "bytes": 579879983,
+    "allocated": 579887104,
+    "mtime": 1791278949.6781163,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_E.wxf",
+    "bytes": 579879983,
+    "allocated": 579887104,
+    "mtime": 1791276738.3749652,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_freezing_selection_20261013/FEC6_extra1_purelast.wxf",
+    "bytes": 534738250,
+    "allocated": 534745088,
+    "mtime": 1791866356.1534042,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-staged-natural64.wxf",
+    "bytes": 531129220,
+    "allocated": 531136512,
+    "mtime": 1791135245.7465754,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v8-eight-right-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime": 1791356761.605237,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v6-eight-right-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime": 1791346867.946449,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v7-eight-right-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime": 1791350293.0139272,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_freezing_selection_20261013/FEC6_extra1.wxf",
+    "bytes": 515397498,
+    "allocated": 515403776,
+    "mtime": 1791866076.8509717,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/FEC_5.wxf",
+    "bytes": 512332699,
+    "allocated": 512339968,
+    "mtime": 1791655107.2783463,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_A1.wxf",
+    "bytes": 508148046,
+    "allocated": 508153856,
+    "mtime": 1791357988.7406836,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_adjacency_equivalence/FEC_6.wxf",
+    "bytes": 503203260,
+    "allocated": 503209984,
+    "mtime": 1791723038.255449,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/FEC_6.wxf",
+    "bytes": 503203260,
+    "allocated": 503209984,
+    "mtime": 1791686905.3164313,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v5-eight-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 495996944,
+    "allocated": 496005120,
+    "mtime": 1791342984.9617918,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v4-eight-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 495996944,
+    "allocated": 496001024,
+    "mtime": 1791341533.828423,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_A2.wxf",
+    "bytes": 490086345,
+    "allocated": 490090496,
+    "mtime": 1791358075.4040163,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_projection.wxf",
+    "bytes": 458514474,
+    "allocated": 458522624,
+    "mtime": 1791692788.7357378,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/collinear/first_w5.wxf",
+    "bytes": 438235964,
+    "allocated": 438243328,
+    "mtime": 1791656431.5511363,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847081_1.bin",
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime": 1791340829.5226905,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847009_1.bin",
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime": 1791340820.7307737,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847067_1.bin",
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime": 1791340825.4887288,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847123_1.bin",
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime": 1791340834.0746477,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847201_1.bin",
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime": 1791340857.2164314,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847127_1.bin",
+    "bytes": 430180992,
+    "allocated": 430182400,
+    "mtime": 1791340839.0116014,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847189_1.bin",
+    "bytes": 430180992,
+    "allocated": 430182400,
+    "mtime": 1791340844.386551,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_algorithm_comparison_20261008/controls/L8-S/SEW_13p3/MHV/bulk/cache/p1152921504606847009.bin",
+    "bytes": 417962152,
+    "allocated": 417968128,
+    "mtime": 1791528349.4653778,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/DC/joint/collinear/first_w6_basis.wxf",
+    "bytes": 405436795,
+    "allocated": 405442560,
+    "mtime": 1791692103.8850675,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_basis.wxf",
+    "bytes": 405067575,
+    "allocated": 405073920,
+    "mtime": 1791692010.2046282,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v25/V25/discovery_plans/structure.tsv",
+    "bytes": 394565168,
+    "allocated": 394571776,
+    "mtime": 1791549723.244962,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v24/V24/discovery_plans/structure.tsv",
+    "bytes": 394565168,
+    "allocated": 394567680,
+    "mtime": 1791548615.6828232,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/DC/joint/regular_constraints_w6.wxf",
+    "bytes": 390315161,
+    "allocated": 390316032,
+    "mtime": 1791692206.8213077,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/boundary/DC/regular_constraints_w6.wxf",
+    "bytes": 390007265,
+    "allocated": 390012928,
+    "mtime": 1791692104.3257701,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v25/V25/discovery_plans/structure.tsv",
+    "bytes": 376686301,
+    "allocated": 376692736,
+    "mtime": 1791549520.910341,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v24/V24/discovery_plans/structure.tsv",
+    "bytes": 376686301,
+    "allocated": 376688640,
+    "mtime": 1791548318.2939696,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_50gb/control_w6_staged_t4.wxf",
+    "bytes": 365169041,
+    "allocated": 365174784,
+    "mtime": 1791850190.635422,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.toolchain/lean.tar.zst",
+    "bytes": 343842845,
+    "allocated": 343851008,
+    "mtime": 1791520395.9608753,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v10-13p3-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 310738784,
+    "allocated": 310738944,
+    "mtime": 1791362759.730479,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-13p3-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 308842176,
+    "allocated": 308846592,
+    "mtime": 1791359032.1658146,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v9-13p3-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 308842176,
+    "allocated": 308842496,
+    "mtime": 1791361876.873456,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude-final/collinear/first_w7_basis.wxf",
+    "bytes": 308536055,
+    "allocated": 308543488,
+    "mtime": 1790997544.05205,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude/collinear/first_w7_basis.wxf",
+    "bytes": 308536055,
+    "allocated": 308539392,
+    "mtime": 1790996421.1282609,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-original-2/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307101696,
+    "mtime": 1791007540.724732,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-original-0/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007650.7887435,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-original-0/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007234.8422933,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-original-1/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007514.70762,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-original-2/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007744.2271183,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-original-1/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007717.3319168,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-original-0/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007450.526378,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-original-1/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007312.2595758,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-original-2/w4.wxf",
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime": 1791007337.9415858,
+    "links": 1
+  },
+  {
+    "path": "output_earlysew_20261003/actions/w8_flip.wxf",
+    "bytes": 299367586,
+    "allocated": 299368448,
+    "mtime": 1791082129.8111093,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/ope_selection_L7/algebra/L7-input/collinear.tsv",
+    "bytes": 290364869,
+    "allocated": 290365440,
+    "mtime": 1791451046.6147509,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-after-2/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime": 1791044226.380128,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-before-2/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime": 1791044201.9879403,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-streamed-1/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime": 1791007290.6083553,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-after-1/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791044146.5729647,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-before-1/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791044172.5948117,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-after-0/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791044120.492653,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/nmhv-comparison/heptagon-before-0/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791044095.1052735,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-streamed-2/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007559.8449857,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-streamed-0/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007260.8094006,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-streamed-0/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007469.7617645,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-streamed-1/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007694.005925,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/heptagon-streamed-2/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007364.3204618,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/final-heptagon-streamed-1/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007492.8762424,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-streamed-0/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007670.7708364,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/v3-heptagon-streamed-2/w4.wxf",
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime": 1791007765.1301138,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847081_1.bin",
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime": 1791357241.3959439,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847189_1.bin",
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime": 1791357250.9283178,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847123_1.bin",
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime": 1791357244.2463596,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847201_1.bin",
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime": 1791357254.693848,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847253_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357269.441862,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847127_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357247.4418204,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847009_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357235.605086,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847067_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357238.951584,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847229_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357258.729409,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847291_1.bin",
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime": 1791357282.1805277,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847081_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357337.8451521,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847127_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357343.7988088,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847009_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357331.8544824,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847067_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357335.3078697,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847123_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357340.6564631,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847291_1.bin",
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime": 1791357378.634785,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847253_1.bin",
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime": 1791357365.5621412,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847189_1.bin",
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime": 1791357347.190179,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847229_1.bin",
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime": 1791357355.066029,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847201_1.bin",
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime": 1791357350.9675884,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/native_cached/product_covectors.txt",
+    "bytes": 262632421,
+    "allocated": 262639616,
+    "mtime": 1791866137.236538,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847081_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791340996.7771785,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847127_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791341007.6480842,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847009_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791340984.8622823,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847067_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791340991.7852218,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847189_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791341013.3480349,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847229_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791341031.38588,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847123_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791341002.0321329,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847201_1.bin",
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime": 1791341019.6289809,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/ope_selection_L7/algebra/L7-input/seam.tsv",
+    "bytes": 260902098,
+    "allocated": 260902912,
+    "mtime": 1791450999.2940085,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-staged-natural256.wxf",
+    "bytes": 257255060,
+    "allocated": 257257472,
+    "mtime": 1791135356.9906251,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_day_20261004/amplitude5/projection/collinear/first_w7_basis.wxf",
+    "bytes": 256419282,
+    "allocated": 256425984,
+    "mtime": 1791106469.9261317,
+    "links": 1
+  },
+  {
+    "path": "output_earlysew_20261003/amplitude5/projection/collinear/first_w7_basis.wxf",
+    "bytes": 256419282,
+    "allocated": 256421888,
+    "mtime": 1791089653.397438,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/physical/d5full_FEC6/product_covectors.txt",
+    "bytes": 246362408,
+    "allocated": 246370304,
+    "mtime": 1791903753.30653,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_integrability_20261013/contexts0to24/free_block.wxf",
+    "bytes": 245632557,
+    "allocated": 245633024,
+    "mtime": 1791882950.5538898,
+    "links": 1
+  },
+  {
+    "path": "output_earlysew_20261003/actions/w8_cyc.wxf",
+    "bytes": 243873052,
+    "allocated": 243879936,
+    "mtime": 1791082127.8342776,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v11-validation-repair/eight/discovery/cache/p1152921504606847009.csr",
+    "bytes": 233913872,
+    "allocated": 233914368,
+    "mtime": 1791384813.2802188,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/eight.mmap",
+    "bytes": 34359738368,
+    "allocated": 229466112,
+    "mtime": 1791509190.2296195,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_A1.wxf",
+    "bytes": 227358660,
+    "allocated": 227364864,
+    "mtime": 1791278942.6396818,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_A1.wxf",
+    "bytes": 227358660,
+    "allocated": 227364864,
+    "mtime": 1791276730.8572292,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-schedule-controls/eight.mmap",
+    "bytes": 34359738368,
+    "allocated": 224354304,
+    "mtime": 1791394249.8440952,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_candidate_export_20261009/build-env/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive.real",
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime": 1765578899.105385,
+    "links": 2
+  },
+  {
+    "path": "output_hexagon_candidate_export_20261009/build-env/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive",
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime": 1765578899.2523978,
+    "links": 2
+  },
+  {
+    "path": "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h087de78_3/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive.real",
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime": 1765578899.105385,
+    "links": 2
+  },
+  {
+    "path": "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h087de78_3/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive",
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime": 1765578899.2523978,
+    "links": 2
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/split7-assembled/w7.wxf",
+    "bytes": 221984707,
+    "allocated": 221990912,
+    "mtime": 1791140355.6381278,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/LEC_4.wxf",
+    "bytes": 215221882,
+    "allocated": 215224320,
+    "mtime": 1791687837.4555974,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/FEC_7_batched.wxf",
+    "bytes": 211894566,
+    "allocated": 211898368,
+    "mtime": 1791041189.4686263,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-staged-short64.wxf",
+    "bytes": 201527521,
+    "allocated": 201535488,
+    "mtime": 1791135270.3888445,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/through7/w7_multiplicity.wxf",
+    "bytes": 198882906,
+    "allocated": 198885376,
+    "mtime": 1791139954.507599,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_exchange_closure_mixed_c2_2a.wxf",
+    "bytes": 197422568,
+    "allocated": 197423104,
+    "mtime": 1791655419.724678,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/dependencies41/modular_dependencies.txt",
+    "bytes": 191631435,
+    "allocated": 191639552,
+    "mtime": 1791893907.7317576,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/sources/pentagon_three_loop/Symbol-3-loop-WL.txt",
+    "bytes": 189906611,
+    "allocated": 189911040,
+    "mtime": 1791728277.571748,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/collinear/first_w5_basis.wxf",
+    "bytes": 189511974,
+    "allocated": 189513728,
+    "mtime": 1791656433.115384,
+    "links": 1
+  },
+  {
+    "path": "output_earlysew_20261003/actions/w8_parity.wxf",
+    "bytes": 187869257,
+    "allocated": 187871232,
+    "mtime": 1791082131.5729592,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/lean/libLean.a",
+    "bytes": 184390812,
+    "allocated": 184397824,
+    "mtime": 1746084398.0,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/dependency_blocks41/homogeneous_modular_dependencies.txt",
+    "bytes": 183636556,
+    "allocated": 183644160,
+    "mtime": 1791894666.4181907,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/localized41/component1_modular.txt",
+    "bytes": 183542295,
+    "allocated": 183545856,
+    "mtime": 1791894889.0329337,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/boundary_recursive_regularity_20261016/TC_parent5.txt",
+    "bytes": 179232860,
+    "allocated": 179236864,
+    "mtime": 1792215969.661418,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/parity/first_w5.wxf",
+    "bytes": 177195920,
+    "allocated": 177197056,
+    "mtime": 1791655558.9402747,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/pivot-controls/parity7/w7.wxf",
+    "bytes": 177168222,
+    "allocated": 177172480,
+    "mtime": 1791143596.0868483,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-staged/w7.wxf",
+    "bytes": 177168222,
+    "allocated": 177168384,
+    "mtime": 1791140702.1330729,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-baseline/w7.wxf",
+    "bytes": 177168222,
+    "allocated": 177168384,
+    "mtime": 1791183972.5589385,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847081_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357939.6351411,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847127_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357946.9848144,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847067_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357936.179414,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847189_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357950.9277852,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847229_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357959.324982,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847123_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357943.1719089,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847201_1.bin",
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime": 1791357955.0468438,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847253_1.bin",
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime": 1791357965.0308337,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847009_1.bin",
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime": 1791357930.354509,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847291_1.bin",
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime": 1791357973.895264,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-staged-short256.wxf",
+    "bytes": 176515209,
+    "allocated": 176517120,
+    "mtime": 1791135292.5990677,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/irrFEC_15_pe_E.wxf",
+    "bytes": 165396999,
+    "allocated": 165400576,
+    "mtime": 1791340701.2419474,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/copy-short-lec/w3.wxf",
+    "bytes": 160679904,
+    "allocated": 160681984,
+    "mtime": 1790923470.431459,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847081_1.bin",
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime": 1791358033.920475,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847189_1.bin",
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime": 1791358043.0753486,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847123_1.bin",
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime": 1791358036.8158784,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847201_1.bin",
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime": 1791358046.480032,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847291_1.bin",
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime": 1791358061.6785147,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847253_1.bin",
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime": 1791358053.829141,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847127_1.bin",
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime": 1791358039.8785658,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847009_1.bin",
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime": 1791358026.706313,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847067_1.bin",
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime": 1791358031.3626401,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847229_1.bin",
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime": 1791358050.086813,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/native_cached/product_covectors.wxf",
+    "bytes": 157381130,
+    "allocated": 157388800,
+    "mtime": 1791866135.6182406,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/columns512/reduced/equation_basis.txt",
+    "bytes": 155649952,
+    "allocated": 155656192,
+    "mtime": 1791868625.1634517,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847081_1.bin",
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime": 1791340691.2240498,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847127_1.bin",
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime": 1791340695.4860063,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847009_1.bin",
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime": 1791340688.795075,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847067_1.bin",
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime": 1791340690.0100625,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847123_1.bin",
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime": 1791340692.6230354,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/flip/first_w5.wxf",
+    "bytes": 154626215,
+    "allocated": 154628096,
+    "mtime": 1791655393.2762349,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/lean/libleanshared.so",
+    "bytes": 153918616,
+    "allocated": 153919488,
+    "mtime": 1746084398.0,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-staged-short1024.wxf",
+    "bytes": 151983331,
+    "allocated": 151986176,
+    "mtime": 1791135313.464262,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_A2.wxf",
+    "bytes": 150082945,
+    "allocated": 150085632,
+    "mtime": 1791340791.7000513,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_A1.wxf",
+    "bytes": 149844174,
+    "allocated": 149848064,
+    "mtime": 1791340769.3942676,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_13.wxf",
+    "bytes": 144621111,
+    "allocated": 144625664,
+    "mtime": 1791309743.2498186,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/physical/complete_leading/pole1_w6/basis_w6.wxf",
+    "bytes": 144163808,
+    "allocated": 144171008,
+    "mtime": 1791905717.2681189,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.lake/packages/mathlib/.lake/build/bin/cache",
+    "bytes": 142789760,
+    "allocated": 142790656,
+    "mtime": 1791520461.2391827,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7.wxf",
+    "bytes": 142709018,
+    "allocated": 142716928,
+    "mtime": 1791184969.7202363,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7.wxf",
+    "bytes": 142709018,
+    "allocated": 142716928,
+    "mtime": 1791185033.3949015,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-wide16/w7.wxf",
+    "bytes": 142709018,
+    "allocated": 142712832,
+    "mtime": 1791184159.501096,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_projection.wxf",
+    "bytes": 142688624,
+    "allocated": 142696448,
+    "mtime": 1791692008.7610652,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_A1.wxf",
+    "bytes": 140250588,
+    "allocated": 140255232,
+    "mtime": 1791340914.481907,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/irrFEC_15_po_E.wxf",
+    "bytes": 140059292,
+    "allocated": 140062720,
+    "mtime": 1791340739.821559,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/f4_highloop/FEC_1_9.wxf",
+    "bytes": 139163659,
+    "allocated": 139165696,
+    "mtime": 1791821089.2232163,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery_plans/structure.tsv",
+    "bytes": 135269893,
+    "allocated": 135270400,
+    "mtime": 1791566669.9242737,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 134379339,
+    "allocated": 134385664,
+    "mtime": 1791556357.1480157,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-kernels/V27/discovery_plans/structure.tsv",
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime": 1791558457.1971262,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-schedule/V27/discovery_plans/structure.tsv",
+    "bytes": 134378962,
+    "allocated": 134381568,
+    "mtime": 1791559069.2206407,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery_plans/structure.tsv",
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime": 1791556989.3468773,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-compression/V27/discovery_plans/structure.tsv",
+    "bytes": 134379041,
+    "allocated": 134381568,
+    "mtime": 1791558771.262395,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/ablations-c/L9-without-schedule/V27/discovery_plans/structure.tsv",
+    "bytes": 134378962,
+    "allocated": 134381568,
+    "mtime": 1791555957.4476755,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime": 1791555348.8831575,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/fec7-baseline/w7.wxf",
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime": 1790995419.2881484,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude-final/FEC_7.wxf",
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime": 1790997388.4557645,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/fec7-upstream/w7.wxf",
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime": 1790995809.1151054,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude/FEC_7.wxf",
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime": 1790996250.1980176,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 133808170,
+    "allocated": 133812224,
+    "mtime": 1791554577.4407468,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7.wxf",
+    "bytes": 133758496,
+    "allocated": 133758976,
+    "mtime": 1791184373.088084,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 129426373,
+    "allocated": 129429504,
+    "mtime": 1791554320.741206,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 129426369,
+    "allocated": 129429504,
+    "mtime": 1791553559.9201078,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/FEC_7_current.wxf",
+    "bytes": 128997987,
+    "allocated": 129003520,
+    "mtime": 1791041293.5024862,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude-confirmation/FEC_7.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1790998634.4845955,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/amplitude-all-streamed/FEC_7.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1790997993.0901666,
+    "links": 1
+  },
+  {
+    "path": "output_solver_strategy_20261002/fec7-factored/w7.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1790998298.6765153,
+    "links": 1
+  },
+  {
+    "path": "output_fiveloop_20261003/fourloop/FEC_7.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1791044295.197347,
+    "links": 1
+  },
+  {
+    "path": "output_nmhv_kernel_20261002/default-fourloop/FEC_7.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1791008210.9168596,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls/fec7-assembled.wxf",
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime": 1791135185.2178047,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/cyclic/first_w5.wxf",
+    "bytes": 127805127,
+    "allocated": 127807488,
+    "mtime": 1791655240.5066624,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime": 1791556198.8789856,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery_plans/structure.tsv",
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime": 1791555185.1471348,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/recovery-control/L8/discovery_plans/structure.tsv",
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime": 1791562592.968319,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/recovery-control-first-attempt/L8/discovery_plans/structure.tsv",
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime": 1791562503.5678093,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v14-cache-release-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime": 1791386255.3124719,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-combined/V23/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime": 1791546695.6316988,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/eight/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime": 1791509162.0430548,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L8-V17/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime": 1791531453.798225,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v13-controls/eight/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791385349.5090578,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v15-triangular-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791386596.054594,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v16-controls/v16-eight-t16/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791388675.5315058,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v16-controls/v16-eight-t8/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791388604.575037,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v16-controls/v15-eight-t8/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791388510.9318852,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791394157.5529115,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v24/V22/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791548413.3068361,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v24/V22/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791548461.5007842,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v24/V24/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791548319.3119895,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v24/V24/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791548366.6819196,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-combined/V23/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791546744.4323857,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v26/V26/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791550301.4467645,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v26/V26/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791550349.5248134,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v25/V25/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791549521.9413648,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v25/V25/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791549570.241478,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791553483.3173313,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791553531.9840956,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L8-V18/discovery/cache/p1152921504606847009.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791531513.9199443,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v18_20261009/validation/L8-V18/discovery/cache/p1152921504606847067.csr",
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime": 1791531573.611682,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/pivot-controls/parity7/w7_sector0.wxf",
+    "bytes": 126580239,
+    "allocated": 126586880,
+    "mtime": 1791143572.6109385,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-staged/w7_sector0.wxf",
+    "bytes": 126580239,
+    "allocated": 126582784,
+    "mtime": 1791140682.155359,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-baseline/w7_sector0.wxf",
+    "bytes": 126580239,
+    "allocated": 126582784,
+    "mtime": 1791183830.2079248,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt3/seed7/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime": 1791140509.0423298,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt4/seed7/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime": 1791140509.0423298,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight8/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime": 1791148839.9744918,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/seed7/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime": 1791140509.0423298,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt3/weight8/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791140973.0104978,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-assembled/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791140509.0423298,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt4/weight8/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791143914.2951753,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt6/weight9/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791185276.2715821,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight8/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791148839.9744918,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/weight9/w7.wxf",
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime": 1791150549.0561845,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/physical/complete_leading/pole1_w6/basis_w6.txt",
+    "bytes": 125101237,
+    "allocated": 125108224,
+    "mtime": 1791905718.2095792,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_exchange_saturated_closure_2a_marked.wxf",
+    "bytes": 124184083,
+    "allocated": 124186624,
+    "mtime": 1791666238.6400626,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_integrability_20261013/contexts0to24/pivot_block.wxf",
+    "bytes": 123480890,
+    "allocated": 123486208,
+    "mtime": 1791882949.5353353,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/no-short-lec/w3.wxf",
+    "bytes": 122545003,
+    "allocated": 122552320,
+    "mtime": 1790922217.0747838,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v12-bonus-control/discovery/cache/p1152921504606847009.csr",
+    "bytes": 121391416,
+    "allocated": 121393152,
+    "mtime": 1791385086.1096687,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/copy-short-lec/w3_kernel.wxf",
+    "bytes": 119483521,
+    "allocated": 119484416,
+    "mtime": 1790923472.6554885,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_A2.wxf",
+    "bytes": 115878041,
+    "allocated": 115884032,
+    "mtime": 1791340937.767698,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/physical/d5full_FEC6/product_covectors.wxf",
+    "bytes": 115457852,
+    "allocated": 115462144,
+    "mtime": 1791903751.6406882,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime": 1791554321.145879,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime": 1791554349.1662555,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime": 1791553560.3231223,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime": 1791553591.3402455,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791556199.2756274,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791556225.7549708,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery/cache/p1152921504606847009.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791555185.5453653,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery/cache/p1152921504606847067.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791555212.201426,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/recovery-control/L8/discovery/cache/p1152921504606847009.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791562593.3601577,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_ten_v27d_20261009/recovery-control-first-attempt/L8/discovery/cache/p1152921504606847009.csr",
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime": 1791562503.9605916,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/f4_induced_five_loop/FEC_7.wxf",
+    "bytes": 106977018,
+    "allocated": 106979328,
+    "mtime": 1791855393.187068,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/antipodal_c3_higher_weights_20261016/native_1283728_3.rows",
+    "bytes": 106863408,
+    "allocated": 106868736,
+    "mtime": 1792150451.4224277,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847081_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340757.6693826,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847127_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340759.7783618,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847009_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340755.6644022,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847067_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340756.7673914,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847189_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340761.0263495,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847123_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340758.6673727,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847201_1.bin",
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime": 1791340763.8503218,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_A2.wxf",
+    "bytes": 102204917,
+    "allocated": 102211584,
+    "mtime": 1791278945.874345,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_A2.wxf",
+    "bytes": 102204917,
+    "allocated": 102207488,
+    "mtime": 1791276734.3222506,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847081_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340779.736167,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847127_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340781.9161458,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847009_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340777.6821868,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847067_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340778.8561754,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847189_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340783.2101333,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847123_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340780.760157,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847201_1.bin",
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime": 1791340786.017106,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_to_end/output/SEW_5p1.wxf",
+    "bytes": 101887930,
+    "allocated": 101892096,
+    "mtime": 1791655954.2539868,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/results/exact-L5-v1/L5/system.json",
+    "bytes": 101840107,
+    "allocated": 101842944,
+    "mtime": 1791432348.666162,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v8-eight-right-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime": 1791356777.2757738,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v6-eight-right-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime": 1791346883.5227323,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v7-eight-right-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime": 1791350309.6057155,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/modular-no-short-lec/w3.wxf",
+    "bytes": 98113921,
+    "allocated": 98119680,
+    "mtime": 1790923358.3130424,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v4-eight-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 98039480,
+    "allocated": 98041856,
+    "mtime": 1791341549.4452949,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/v5-eight-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 98039480,
+    "allocated": 98041856,
+    "mtime": 1791343000.6906226,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/dependencies41/proposed_relations.wxf",
+    "bytes": 97799466,
+    "allocated": 97804288,
+    "mtime": 1791893907.9367747,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/corners-no-short-lec/w3.wxf",
+    "bytes": 95244273,
+    "allocated": 95248384,
+    "mtime": 1790923197.5883102,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/ten-v16-main/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 94542776,
+    "allocated": 94547968,
+    "mtime": 1791398839.4462647,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847081_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340729.3606634,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847127_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340732.405633,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847009_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340726.2716944,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847067_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340727.9656775,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847189_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340735.2996042,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847123_1.bin",
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime": 1791340730.8276486,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L9-v26/V26/discovery_plans/structure.tsv",
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime": 1791550503.2461584,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-V26-eight-workers/V26/discovery_plans/structure.tsv",
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime": 1791557967.410171,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery_plans/structure.tsv",
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime": 1791553746.529859,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/control_w6_integer_v2/product_covectors.txt",
+    "bytes": 93993769,
+    "allocated": 93999104,
+    "mtime": 1791867714.7310045,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/dependency_blocks41/homogeneous_proposed_relations.wxf",
+    "bytes": 93805365,
+    "allocated": 93810688,
+    "mtime": 1791894667.9593136,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/localized41/component1_proposed.wxf",
+    "bytes": 93778060,
+    "allocated": 93782016,
+    "mtime": 1791894888.9029233,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/actions/prefix_flipmat_w6.wxf",
+    "bytes": 93441285,
+    "allocated": 93446144,
+    "mtime": 1791688464.8916183,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v23_20261009/L8-v26/V26/discovery_plans/structure.tsv",
+    "bytes": 92229527,
+    "allocated": 92229632,
+    "mtime": 1791550301.1227572,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery_plans/structure.tsv",
+    "bytes": 92229527,
+    "allocated": 92229632,
+    "mtime": 1791553482.9943197,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-wide16/w7_sector0.wxf",
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime": 1791184013.8934574,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7_sector0.wxf",
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime": 1791184944.8744628,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7_sector0.wxf",
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime": 1791185009.1564362,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery_plans/structure.tsv",
+    "bytes": 88341415,
+    "allocated": 88342528,
+    "mtime": 1791559371.5063787,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/actions/prefix_cycmat_w6.wxf",
+    "bytes": 87541964,
+    "allocated": 87547904,
+    "mtime": 1791688464.298641,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/results/completed-boundary/L5/certificates.json",
+    "bytes": 82614565,
+    "allocated": 82616320,
+    "mtime": 1791433555.3125947,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/results/completed-U-boundary/L5/certificates.json",
+    "bytes": 82479727,
+    "allocated": 82485248,
+    "mtime": 1791433506.2076483,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/results/canonical-boundary/L5/certificates.json",
+    "bytes": 82479773,
+    "allocated": 82481152,
+    "mtime": 1791433404.6550941,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_four_loop/adapted_w4_words.json",
+    "bytes": 82247471,
+    "allocated": 82247680,
+    "mtime": 1791825098.9506533,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_integrability_20261013/audit/context791_OPE_inputs.json",
+    "bytes": 81725493,
+    "allocated": 81727488,
+    "mtime": 1791882899.1247542,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/no-short-lec/w3_kernel.wxf",
+    "bytes": 79438275,
+    "allocated": 79446016,
+    "mtime": 1790922217.954799,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/linux-64/gcc_impl_linux-64-14.4.0-h4b2a866_7.conda",
+    "bytes": 78647149,
+    "allocated": 78651392,
+    "mtime": 1791524446.1065755,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7_sector0.wxf",
+    "bytes": 77683036,
+    "allocated": 77684736,
+    "mtime": 1791184195.5644622,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_four_loop/FEC_6.wxf",
+    "bytes": 77038805,
+    "allocated": 77045760,
+    "mtime": 1791821471.2572365,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g1_fixed/coordinate_map.txt",
+    "bytes": 75630494,
+    "allocated": 75636736,
+    "mtime": 1791904027.2290647,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g1/coordinate_map.txt",
+    "bytes": 75630495,
+    "allocated": 75632640,
+    "mtime": 1791903840.7983317,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g0/coordinate_map.txt",
+    "bytes": 75491528,
+    "allocated": 75493376,
+    "mtime": 1791903738.0528002,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/physical-lec/w3.wxf",
+    "bytes": 74799156,
+    "allocated": 74805248,
+    "mtime": 1790923798.6942794,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/affine/expansion_w6_prefix1.wxf",
+    "bytes": 74504574,
+    "allocated": 74510336,
+    "mtime": 1791637953.2461135,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/eigen_prefix_w6/prefix/chart.wxf",
+    "bytes": 73095311,
+    "allocated": 73101312,
+    "mtime": 1791911829.5244086,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/eigen_sparse_prefix_w6/prefix/chart.wxf",
+    "bytes": 73079499,
+    "allocated": 73084928,
+    "mtime": 1791912303.6372173,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/env/lib/libflint.so.20.0.1",
+    "bytes": 73026080,
+    "allocated": 73027584,
+    "mtime": 1743478358.732709,
+    "links": 2
+  },
+  {
+    "path": "output_hexagon_runtime_recovery_20261008/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/linux-64/libflint-3.2.2-h754cb6e_0/lib/libflint.so.20.0.1",
+    "bytes": 73026080,
+    "allocated": 73027584,
+    "mtime": 1743478358.732709,
+    "links": 2
+  },
+  {
+    "path": "bonusrelation/strategy_audit/algebra/family_reduction.json",
+    "bytes": 72565503,
+    "allocated": 72572928,
+    "mtime": 1791470522.4149852,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/modular-no-short-lec/w3_kernel.wxf",
+    "bytes": 72540777,
+    "allocated": 72548352,
+    "mtime": 1790923359.281054,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/split7-assembled/w7_sector3.wxf",
+    "bytes": 72078442,
+    "allocated": 72085504,
+    "mtime": 1791140354.4589617,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/affine/expansion_w6_prefix2.wxf",
+    "bytes": 70883399,
+    "allocated": 70889472,
+    "mtime": 1791637932.5175934,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/affine/reconstructed_w6.wxf",
+    "bytes": 70883719,
+    "allocated": 70889472,
+    "mtime": 1791637954.1050165,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_bootstrap/steinmann/affine/reconstructed_w6_embedded.wxf",
+    "bytes": 70883719,
+    "allocated": 70885376,
+    "mtime": 1791638053.4511912,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt3/seed7/w7_sector0.wxf",
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime": 1791140492.7224934,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt4/seed7/w7_sector0.wxf",
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime": 1791140492.7224934,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/seed7/w7_sector0.wxf",
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime": 1791140492.7224934,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-assembled/w7_sector0.wxf",
+    "bytes": 70651789,
+    "allocated": 70651904,
+    "mtime": 1791140492.7224934,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/corners-no-short-lec/w3_kernel.wxf",
+    "bytes": 70206044,
+    "allocated": 70213632,
+    "mtime": 1790923198.6913207,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/split7-assembled/w7_sector2.wxf",
+    "bytes": 69620754,
+    "allocated": 69623808,
+    "mtime": 1791140319.1048372,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_allweight_letters/local_audit/char0.bin",
+    "bytes": 68688000,
+    "allocated": 68694016,
+    "mtime": 1791793190.3695774,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847229_1.bin",
+    "bytes": 66409800,
+    "allocated": 66416640,
+    "mtime": 1791340909.9939475,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847081_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340901.117028,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847127_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340903.5790057,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847009_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340898.378053,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847067_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340900.028038,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847189_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340904.882994,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847123_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340902.2890174,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847201_1.bin",
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime": 1791340907.2219727,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/reduced/covector_basis.wxf",
+    "bytes": 66222104,
+    "allocated": 66224128,
+    "mtime": 1791866214.2153835,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/boundary_recursive_regularity_20261016/J135_parent5.txt",
+    "bytes": 65530034,
+    "allocated": 65531904,
+    "mtime": 1792215864.8620546,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_po_E.wxf",
+    "bytes": 65002334,
+    "allocated": 65007616,
+    "mtime": 1791278957.6887102,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_po_E.wxf",
+    "bytes": 65002334,
+    "allocated": 65003520,
+    "mtime": 1791276747.1651146,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/cached-eight/early_collinear/cache/p1152921504606847009.bin",
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime": 1791293804.1891496,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/left-eight/early_collinear/cache/p1152921504606847009.bin",
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime": 1791293391.0948877,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/control-eight/early_collinear/cache/p1152921504606847009.bin",
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime": 1791291741.9321625,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve/union_rank3/LEC_4.wxf",
+    "bytes": 61848641,
+    "allocated": 61849600,
+    "mtime": 1791901763.5247655,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847123.bin",
+    "bytes": 61589512,
+    "allocated": 61595648,
+    "mtime": 1791279479.577445,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847127.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791279631.50942,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847067.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791279172.4778142,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847189.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791279782.0713863,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847009.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791279017.8564837,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847081.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791279326.8484855,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847127.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791281907.6761396,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847123.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791281711.8388371,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847067.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791281318.8790653,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847189.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791282103.9943275,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847009.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791281124.0835748,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847081.bin",
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime": 1791281515.0038514,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/libLLVM-15.so",
+    "bytes": 61545616,
+    "allocated": 61550592,
+    "mtime": 1746083426.0,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847201_1.bin",
+    "bytes": 59806176,
+    "allocated": 59813888,
+    "mtime": 1791340934.1527302,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847081_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340928.927777,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847127_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340930.8837595,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847009_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340926.5357985,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847067_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340928.034785,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847189_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340931.94875,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847123_1.bin",
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime": 1791340929.8557687,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/libclang-cpp.so.15",
+    "bytes": 58437312,
+    "allocated": 58441728,
+    "mtime": 1746083426.0,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_boot_validation/F43_full.bin",
+    "bytes": 57939256,
+    "allocated": 57942016,
+    "mtime": 1791636121.3532767,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/boundary_recursive_regularity_20261016/DC_parent5.txt",
+    "bytes": 57002124,
+    "allocated": 57004032,
+    "mtime": 1792215993.6512742,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-13p3-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 56196680,
+    "allocated": 56197120,
+    "mtime": 1791359046.3027432,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/eight-v9-13p3-control/early_collinear/cache/p1152921504606847009.csr",
+    "bytes": 56196680,
+    "allocated": 56197120,
+    "mtime": 1791361891.4459932,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7_sector1.wxf",
+    "bytes": 56075568,
+    "allocated": 56078336,
+    "mtime": 1791184240.309898,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/ff_four_loop/affine_TR_rhs_w8_residual.wxf",
+    "bytes": 55011587,
+    "allocated": 55013376,
+    "mtime": 1791691489.2768228,
+    "links": 1
+  },
+  {
+    "path": "output_symrep_sparse_20261002/physical-lec/w3_kernel.wxf",
+    "bytes": 54847123,
+    "allocated": 54853632,
+    "mtime": 1790923799.6562946,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt3/seed7/w7_sector1.wxf",
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime": 1791140508.198236,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt4/seed7/w7_sector1.wxf",
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime": 1791140508.198236,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/attempt5/seed7/w7_sector1.wxf",
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime": 1791140508.198236,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-assembled/w7_sector1.wxf",
+    "bytes": 54781185,
+    "allocated": 54784000,
+    "mtime": 1791140508.198236,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/e6_first_markings/end_nodes/output/boundary_w4.wxf",
+    "bytes": 54687192,
+    "allocated": 54689792,
+    "mtime": 1791654604.3145154,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/audit/full_residual41/residual_modp.bin",
+    "bytes": 54589936,
+    "allocated": 54591488,
+    "mtime": 1791895299.3254206,
+    "links": 1
+  },
+  {
+    "path": "research/4pformfactor/results/pentagon_completion_20261013/audit/full_residual_control/residual_modp.bin",
+    "bytes": 54589936,
+    "allocated": 54591488,
+    "mtime": 1791894608.807593,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847081_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291233.2648177,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847009_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291232.2573216,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847067_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291232.7540731,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847123_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291234.2773113,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847081_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291233.2648177,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847009_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291232.2573216,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847067_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291232.7540731,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847123_1.bin",
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime": 1791291234.2773113,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_12p4_20261006/release_MHV_w16_12p4/hexagon_coproduct_entries_first_12.wxf",
+    "bytes": 52810954,
+    "allocated": 52813824,
+    "mtime": 1791279915.265753,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_12.wxf",
+    "bytes": 52810954,
+    "allocated": 52813824,
+    "mtime": 1791309736.4300075,
+    "links": 1
+  },
+  {
+    "path": "bonusrelation/ope_selection_L7/algebra/L7-certificate/quotient.json",
+    "bytes": 52450839,
+    "allocated": 52453376,
+    "mtime": 1791451351.7769642,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7_sector1.wxf",
+    "bytes": 51213946,
+    "allocated": 51220480,
+    "mtime": 1791184966.0378315,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7_sector1.wxf",
+    "bytes": 51213946,
+    "allocated": 51220480,
+    "mtime": 1791185029.7145326,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-wide16/w7_sector1.wxf",
+    "bytes": 51213946,
+    "allocated": 51216384,
+    "mtime": 1791184035.1677146,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/pivot-controls/parity7/w7_sector1.wxf",
+    "bytes": 50588091,
+    "allocated": 50593792,
+    "mtime": 1791143592.2603745,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/subgroup-controls/parity7-staged/w7_sector1.wxf",
+    "bytes": 50588091,
+    "allocated": 50589696,
+    "mtime": 1791140701.2189956,
+    "links": 1
+  },
+  {
+    "path": "output_fec9_20261004/policy-controls-v2/w7-baseline/w7_sector1.wxf",
+    "bytes": 50588091,
+    "allocated": 50589696,
+    "mtime": 1791183848.5622065,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-migration-controls/unused.mmap",
+    "bytes": 34359738368,
+    "allocated": 0,
+    "mtime": 1791405091.4233282,
+    "links": 1
+  },
+  {
+    "path": "output_hexagon_17p3_20261007/v17-migration-controls-attempt1/unused.mmap",
+    "bytes": 206158430208,
+    "allocated": 0,
+    "mtime": 1791405043.2815793,
+    "links": 1
+  }
+]

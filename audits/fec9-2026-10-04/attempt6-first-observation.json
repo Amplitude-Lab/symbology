@@ -1,0 +1,15 @@
+{
+  "time": 1791185419.6293762,
+  "state": "running",
+  "controller_pid": 1176632,
+  "solver_pid": 1176634,
+  "config_sha256": "1ed1c0aec791f9770b893e420c344710f4bac6c68b48016768dd824034f90bbd",
+  "wall_seconds": 160.34974203817546,
+  "peak_gib": 12.430042266845703,
+  "current_gib": 3.7812423706054688,
+  "deadline_unix_seconds": 1791217333.826571,
+  "last_lines": [
+    "POLICY seed_terms=1024 front_nonzeros=536870912 batch_nonzeros=16777216 batch_rows=16384 method=0",
+    "SECTOR_BEGIN weight=9 sector=0 columns=439404"
+  ]
+}

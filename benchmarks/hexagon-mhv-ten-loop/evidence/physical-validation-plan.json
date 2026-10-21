@@ -1,0 +1,28 @@
+{
+  "schema": "hexagon-additional-physical-validation-plan-v1",
+  "created": 1791526361.8729134,
+  "primes": [
+    1152921504606947147,
+    1152921504606947161
+  ],
+  "seed": 202610090731,
+  "sample_offset": 1000003,
+  "samples_per_condition_per_prime": 64,
+  "new_ope_coefficients": 912,
+  "overlap_coefficients": 2280,
+  "overlap_equal": true,
+  "candidate": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-qq-17p3",
+  "candidate_manifest_sha256": "a158d8210b1977d2f2b7d2b695a27ed06993389f160a695f91dbedff345271f2",
+  "ope_scope": "Maximal-helicity T1 and T2, S through14, all supplied log powers; no T2 helicity-zero or higher-twist claim. New coefficients at T1 S11,S13 and T2 S12,S14.",
+  "inputs": {
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data/ope_mhv_small_s/calE_L10.tsv": "f6bbe63334f7e1b4c3587d767b08d0195c1eeb6771c4f63037a931e558a8d597",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/calE_L10.tsv": "407f5a703d5b1ef3e7dfaf01f3092d404adca04bbe983c48a91bdcef7b6dda93",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/coverage_identity.tsv": "0a6ac883e41aebcf3219d1d7cfb36a5d5ebea38224a5e7350fdd23c02509487f",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/generator_manifest.json": "d4b6aa8530658d72eff01b2c59d8fa25455c362401ffa68a311cfe07bd939169",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/projection.tsv": "4b80b4ba015e018a4692b258ac7c1919c4d21fe5f44f87d8e2847d261ff69106",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/kernels_F2.tsv": "3024332fa7564e4939d921bd489ee6c072b4ca1aa8a046046902146a9c4c5326",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/kernels_F3.tsv": "7ac61e644db1c026bead68868bd015620309c507e4e0f0ad427625fa2a4a603a",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/data/ope_L10_extended/ope_mhv_small_s/kernels_F4.tsv": "b45a3b7be23c7459f39bdee15f4ed254481115cc507f4ca715251b418be59e9a"
+  },
+  "holdout_scope": "Finite-field physical checks at new primes and seeds, plus unused higher-S data; exact QQ sewing, origin and split comparison separate."
+}

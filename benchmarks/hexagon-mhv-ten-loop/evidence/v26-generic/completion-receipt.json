@@ -1,0 +1,47 @@
+{
+  "state": "complete",
+  "selected": "V26",
+  "finished": 1791551059.025276,
+  "source_binary_files_verified": 221,
+  "plans": [
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L8-v26/V26/discovery_plans/structure.tsv",
+      "sha256": "3bbfaefec89c8b0135bbbb969f9386499db98dbd4a6bd83fdb03991051aaeda0",
+      "bytes": 92229527,
+      "learning_prime": 1152921504606847009,
+      "input_identity_sha256": "25758d63c38975467afbf5d71126034e488f05e6f0cc274045b002d53a8c116a"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L9-v26/V26/discovery_plans/structure.tsv",
+      "sha256": "8fd0fd5344884dbd913bdc30825728f38e31c5f08303de203910369129247e60",
+      "bytes": 94157932,
+      "learning_prime": 1152921504606847009,
+      "input_identity_sha256": "1fa7807c8baee32eba5572153bc846291b8f56b3c133de59404cf38d3e25bc0b"
+    }
+  ],
+  "generic_controls": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/v26-generic.log",
+  "generic_controls_sha256": "818cedb44e4df7e2108b62a0af0741c0d7baeff060fb26a8a8b8c159d32c2cf4",
+  "affine_family_controls": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/v24-affine-families.log",
+  "affine_family_controls_sha256": "4df92a1c3a61c60e270539a010a22652201a423a3ff4589df72a8c82ffad6a08",
+  "native_reference_binding_audit": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/reference-binding-audit.json",
+  "total_fresh_native_runs": 21,
+  "total_benchmark_cpu_hours": 10.687734726944443,
+  "production_modified": false,
+  "artifact_hashes": {
+    "REPORT.txt": "3bd6b0ac428eeef2f98066e340c35a2540d569f22d88a7dae8792bb03f82d42e",
+    "RESULTS.json": "3750f110d57241bf319b96e24ecd6a9192a8103b8bf74a210f16af723fa18084",
+    "accepted-nine-loop-profile.json": "6f3f9439d995db8df0356feb960ae107171606ecc51ef6b27cba71ff704b9ee0",
+    "reference-binding-audit.json": "aba8c7aff3cdb3005ee99e736d6043568c2d18fd135af50db3ee90b3c00745fc",
+    "execution-gate.json": "e9cd64db6d13f25562fdd771f0a2a43f46ae1adcca19eeed489ce169115e2cad",
+    "coordination-receipt.json": "a075e3a953c6bdb9b1bf53719e48cfdae4971e7850f942e9d7e3f90ad67dbf24"
+  },
+  "reproducer_script_hashes": {
+    "hexagon_joint_build_v23.py": "2afa13f9000fbe65e621ad94d80df800069eeead85060eb85fbf6a5d42c984fb",
+    "hexagon_joint_build_v24.py": "2f6e86043a6e5e7d41c87b0b2c99302df3aaea78cb7891743b68c1432b504acf",
+    "hexagon_joint_build_v25.py": "6dd515ffde30adbe27e3002e9ba620b5c3b97f799669c666f56e7f3801833bc2",
+    "hexagon_joint_build_v26.py": "7db5dc63c6fdf308cdd6d0bdc2f99681b0b951627c6a794589e503f1c6aa4ac7",
+    "hexagon_v23_controls.py": "a36eff56b53530e0be0d7173666bff65c0fe8717851d929e0e3d889a19f8cd55",
+    "hexagon_v23_report.py": "249847f5232d4aeb77454244e8be9fe1c7539382e62d8316081c6fb898b2ee29",
+    "hexagon_v23_finalize.py": "7680549fef57387d0ab943c41cde8e6f616fff715de6c8dbb943c420f5911b7c"
+  }
+}

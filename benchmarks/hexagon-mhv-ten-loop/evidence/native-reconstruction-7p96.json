@@ -1,0 +1,76 @@
+{
+  "schema": "hexagon-saved-cache-rational-reconstruction-v1",
+  "created": 1791526210.7073123,
+  "source_sha256": "af39e51fab80a705619168a0417c2c54252371b12af5d6d09f8a9a56efa43df4",
+  "arithmetic_controls_passed": 2682,
+  "split": [
+    17,
+    3
+  ],
+  "columns": 275246,
+  "nonzero": 246941,
+  "numerator_bits": 45,
+  "denominator_bits": 315,
+  "numerator_bound_bits": 96,
+  "denominator_bound_bits": 324,
+  "modulus_bits": 421,
+  "cache_receipts": [
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847009.bin",
+      "sha256": "8c1e6116bf2b71acd5c939febaaf8d80eed4c8919cf720a0965f5ca0f3282672",
+      "prime": 1152921504606847009,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847067.bin",
+      "sha256": "b49eaf2065f5389772159f4b13bd4139aeac82c54503f720f97e3bb81b35323d",
+      "prime": 1152921504606847067,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847081.bin",
+      "sha256": "27fc27167cfa3c00c19faba83c2cb0852fd75128956fbbe34fa0b3e14ffa534b",
+      "prime": 1152921504606847081,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847123.bin",
+      "sha256": "1b0af5b2124bc2c1589224e4d4770069a42889dbbf22eb96fa2e1dabc8d57e18",
+      "prime": 1152921504606847123,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847127.bin",
+      "sha256": "81188d1052177ccf255bbf512c53d7956749b022c759665120f4917b2a1ad194",
+      "prime": 1152921504606847127,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847189.bin",
+      "sha256": "4a1bb849c7323d4cc73522b5010bcd9c6fd66d9f94ba400f82279538fcf50e3d",
+      "prime": 1152921504606847189,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847201.bin",
+      "sha256": "a42eb4cb7ed9164e6b95b4a1fb4b8166e70e6a60d3e78bb5ab837bb733336b7d",
+      "prime": 1152921504606847201,
+      "role": "CRT"
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847229.bin",
+      "sha256": "6d6e7deffd36eee4e9a978edeec5e1444a98f242650b5b8717ca55935b5703d9",
+      "prime": 1152921504606847229,
+      "role": "retrospective_holdout"
+    }
+  ],
+  "failed_columns": [],
+  "holdout_mismatches": [
+    0
+  ],
+  "vector": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-reconstruction-7p96.tsv",
+  "vector_sha256": "adad228cd4b00885357bbb2a246521f47d0ecb96c406990c4449bd6aeffb4b94",
+  "passed": true,
+  "scope": "Reconstruction and retrospective modular holdouts only; exact split equality, original sewing and physical checks separate. No claim of newly generated fresh primes.",
+  "wall_seconds": 2.998912687005941
+}

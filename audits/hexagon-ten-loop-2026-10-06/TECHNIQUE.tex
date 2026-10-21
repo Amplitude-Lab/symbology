@@ -1,0 +1,1814 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\title{Interleaving physical constraints with sewing:\\the $17+3$ and $16+4$ ten-loop MHV hexagon calculation}
+\author{Computational technique report}
+\date{Result completed 8 October; extended validation 9 October 2026 (Pacific time)}
+\begin{document}
+\maketitle
+\begin{abstract}
+The ten-loop weight-20 MHV hexagon symbol is obtained in the native
+$17+3$ coordinates and converted exactly to the requested $16+4$
+coordinates, within the explicitly stated conditional ansatz.
+The native rational export has 246941 nonzero entries in 275246
+coordinates; the equivalent shifted export has 491197 nonzero entries
+in 518048 coordinates. An independent WXF reader confirms equality of
+every coefficient after exact conversion. Separate denominator-bound
+certificates verify all 2053259 original native joining equations and
+all 4196956 original shifted joining equations over $\mathbb Q$.
+All 44 reserved origin predictions pass exactly in both representations.
+The native numerator and denominator heights are 45 and 315 bits; the
+shifted heights are 44 and 231 bits. The shifted six-prime candidate was
+validated against two subsequently computed primes. Native reconstruction
+and its additional retrospective checks have separate provenance.
+The method interleaves physical equations with integrability while retaining
+symmetry through a common affine coordinate space. Measured changes to
+allocation, OPE storage, MRK evaluation, scheduling and rational
+reconstruction make the calculation feasible within a 50 GB decimal cap.
+The double-final-entry bonus relations remain extrapolated assumptions;
+finite sampled collinear, MRK and OPE checks do not constitute a proof of
+all physical identities or unrestricted ten-loop uniqueness.
+\end{abstract}
+
+\section{The problem and the space in which it is solved}
+At loop order $L$, the ordinary MHV symbol has weight $2L$. The requested
+split at $L=10$ uses a weight-16 first-entry coproduct basis and a weight-4
+last-entry coproduct basis. Their internal constraints are already imposed;
+the remaining integrability and adjacency equations act at their joining
+interface. Constructing the full interface matrix, or a large rational
+kernel before imposing physical data, is the computational bottleneck.
+
+The first-entry chain implements internal integrability, extended Steinmann
+conditions and its specified one-term adjacency constraints. The generic MHV
+last-entry chain implements internal integrability and full adjacency from
+the fixed single-final-entry seed. The joining map uses the supplied full-CA
+tensor. These are the input spaces actually used, rather than an unrestricted
+weight-20 word ansatz.
+
+The computation works directly in the parity-even $D_3$ invariant tensor
+space. Its coordinates include all matching irreducible sectors:
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Sector & First copies & Last copies & Invariant coordinates\\\midrule
+$\mathrm{pe}\ A_1$ & 3445 & 28 & 96460\\
+$\mathrm{pe}\ A_2$ & 2771 & 16 & 44336\\
+$\mathrm{pe}\ E$   & 6213 & 44 & 273372\\
+$\mathrm{po}\ A_1$ & 902 & 25 & 22550\\
+$\mathrm{po}\ A_2$ & 873 & 14 & 12222\\
+$\mathrm{po}\ E$   & 1772 & 39 & 69108\\\midrule
+Total & & & 518048\\\bottomrule
+\end{tabular}
+\end{center}
+The physical dimensions of the two bases are 23961 and 249. Their full
+product has 5966289 coordinates. Passing to the invariant multiplicity
+coordinates gives 518048 without discarding the $A_2\otimes A_2$,
+$E\otimes E$, or odd-parity-pair contributions. The fixed Clebsch--Gordan
+conventions and physical-copy-primitive-v1 normalization are retained.
+The two components of $E$ are not independently rescaled.
+
+\section{The alternative $17+3$ split and conversion to the requested coordinates}
+The user also authorized the $17+3$ split. It moves one coproduct letter
+from the last-entry basis into the first-entry basis, while keeping total
+weight 20. The completed FEC17 basis has physical dimension 38472; LEC3 has
+physical dimension 83. Their matching invariant sectors are
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Sector & First copies & Last copies & Invariant coordinates\\\midrule
+$\mathrm{pe}\ A_1$ & 5517 & 11 & 60687\\
+$\mathrm{pe}\ A_2$ & 4449 & 4 & 17796\\
+$\mathrm{pe}\ E$ & 9959 & 14 & 139426\\
+$\mathrm{po}\ A_1$ & 1455 & 9 & 13095\\
+$\mathrm{po}\ A_2$ & 1415 & 5 & 7075\\
+$\mathrm{po}\ E$ & 2859 & 13 & 37167\\\midrule
+Total & & & 275246\\\bottomrule
+\end{tabular}
+\end{center}
+This is 46.8686\% fewer invariant coordinates than $16+4$. It does not
+predict a corresponding runtime reduction: sparse elimination fill and
+coefficient heights depend on the split. FEC17 generation took 1596.590
+seconds, peaking at 44.411 GB; it has 171950436 compact nonzeros and
+343-bit coefficient height. Its six blocks and completion manifest are
+verified before use.
+
+A completed $17+3$ finite-field symbol can be expressed in $16+4$
+coordinates before rational reconstruction. The converter expands the first
+recurrence, recouples the fixed CG channels, and solves for coordinates in
+the target last-entry recurrence. Multiplication back through that target
+recurrence must reproduce the expanded tensor exactly modulo the prime.
+Each output cache binds both recurrence identities and the hash of its
+source cache. A derived $16+4$ cache is not a native $16+4$ solve.
+
+This route has passed a known-symbol control: the eight-loop $13+3$ solve
+was unique modulo $p=1152921504606847009$, and its left shift to $12+4$
+reproduced every coefficient of the established eight-loop result. The
+$13+3$ solve took 110.391 seconds with a 2.227 GB peak; conversion took
+0.406 seconds with a 0.160 GB peak. These figures establish the converter
+and sewing conventions on the control, not a ten-loop completion time.
+The completed ten-loop target has rational reconstruction and an independent
+full $16+4$ joining certificate, detailed below. This check is necessary
+because moving the split does not by itself establish equality of the two
+constrained ansatz spaces.
+
+\section{Why physical equations may be imposed before sewing is complete}
+Let $V$ be this invariant coordinate space and $M$ the complete joining map.
+The integrable symbols satisfy $Mc=0$. Suppose the current affine candidate
+is written as
+\begin{equation}\label{eq:affine}
+ c=o+N\alpha,
+\end{equation}
+where the columns of $N$ span its surviving directions. A new block of
+equations $Ac=b$ reduces to
+\begin{equation}
+ (AN)\alpha=b-Ao.
+\end{equation}
+If its solution is $\alpha=a+K\beta$, the next candidate is
+\begin{equation}\label{eq:update}
+ c=(o+Na)+(NK)\beta.
+\end{equation}
+Every earlier equation remains true for both the new origin and every new
+direction. Homogeneous sewing has $b=0$; physical data can have $b\ne0$.
+Consequently, retaining only homogeneous kernels after a physical fit would
+lose essential information. The origin is stored as the final row of every
+candidate, checkpoint, and native-prime cache.
+
+This algebra permits any ordering of consistent linear blocks. If a
+physical functional $P$ is initially defined on $\ker M$, its implemented
+linear extension $\widetilde P$ to $V$ must agree with $P$ on $\ker M$.
+Under that condition,
+\begin{equation}
+ \ker M\cap\{c:\widetilde Pc=b\}
+ =\{c\in\ker M:Pc=b\}.
+\end{equation}
+An off-integrable candidate is therefore only a temporary linear-algebra
+object. All remaining sewing equations must eventually be imposed. Early
+physical restrictions are not a substitute for this final intersection.
+
+Symmetry is compatible with this procedure because $o$, every column of
+$N$, and all subsequent affine combinations stay in $V$. In the actual
+storage convention, directions and origin are rows, so equation
+\eqref{eq:update} is implemented as one common left multiplication on each
+of the six irrep blocks. Giving different blocks independent solution axes
+would break the common coefficient assignment; the implementation uses the
+same affine transform for all six.
+
+\section{Putting physical rows into the initial sewing reduction}
+The scheduling requirement is to make all required physical equations, or
+their lazy block generators, available alongside integrability and symmetry
+from the start. Assembly and elimination may occur later. A costly block
+$Ac=b$ evaluated on the current affine coordinates $c=o+Ny$ becomes
+$ANy=b-Ao$; a deferred block must be regenerated or transformed consistently
+after each coordinate change, retaining the common origin. Completion
+accounting and final checks must prevent omission or stale projected rows.
+This permits cost-aware block execution without requiring physics to be
+solved first. The completed implementations below test specific schedules;
+they do not establish a fully generic pending-block scheduler.
+
+The preceding affine argument also permits physical constraints to enter
+before discovery has constructed a small candidate. This is the user's
+requested refinement for $17\otimes3$. V10 implements it using physical
+rows in the original invariant coordinates, followed by a common augmented
+reduction. The former schedule first reduced sewing to approximately 9000
+directions and only then fitted physical data; that schedule can accumulate
+substantial fill before physics has supplied any pivots.
+
+The collinear and MRK projection already evolves separate first and last
+basis images. Let $H_{bf\mu}(s,j)$ and $L_{bl\mu}(s,j)$ be their values for
+sample $s$, irrep $b$, copy indices $f,l$, component $\mu$, and MRK
+logarithmic degree $j$. A direct physical row has coefficient
+\begin{equation}
+ A_{s,q;(b,f,l)}=\sum_\mu g_\mu\sum_{j=0}^{q}
+ H_{bf\mu}(s,j)L_{bl\mu}(s,q-j),
+ \qquad g_0=1,\quad g_1=3.
+\end{equation}
+Collinear scalar evaluation has only degree zero. The component metric is
+the existing fixed irrep convention. The MHV right-hand side retains the
+existing factor $1/2$. The generator forms these coordinate images directly;
+it does not project a matrix with 275246 independent identity solutions.
+For the three-letter last side, collinear projection can instead keep its
+boundary suffix words exact while sampling only the first side. Its
+right-hand side uses those same suffix coordinates, including words outside
+the last-entry image.
+
+Introduce one shared scalar $t$ and reduce
+\begin{equation}
+ [M\ \ 0]\begin{pmatrix}c\\t\end{pmatrix}=0,
+ \qquad [A_j\ \ -b_j]\begin{pmatrix}c\\t\end{pmatrix}=0.
+\end{equation}
+Thus sewing rows and physical rows belong to the same streaming reducer.
+The extra coordinate is last and is not permuted. After the cheapest sewing
+seed, one exact-tail collinear sample and one MRK sample are inserted. Fresh
+batches are inserted between the next three sewing refinements. Physical
+rows bypass the sewing row-density and sampling filters. They are sorted
+by support within each batch, but their equations and right-hand sides are
+retained exactly.
+
+If $k_0$ is a kernel row with $t_0\ne0$, define $o=k_{0,c}/t_0$. A different
+kernel row $(k_c,t_k)$ becomes the homogeneous direction $k_c-t_k o$.
+Removing the $t$ coordinate yields one affine origin and a common set of
+directions. If every kernel row has $t=0$, the affine system is inconsistent;
+there is no acceptable physical origin. The temporary permutation is
+inverted after this slicing. All six sectors use the same $t$, so symmetry
+and a common coefficient assignment are preserved.
+
+The direct-row probe compares every coefficient with the original identity
+projection at a small control split, then contracts the rows into arbitrary
+sparse directions and a nonzero origin. It checks both $Ao$ and $b-Ao$ for
+scalar collinear, MRK and exact-tail collinear projection. The affine probe
+checks a unique solution, a surviving direction, a nonzero-$t$ origin row
+at a nonfinal position, permutation recovery and inconsistent RHS rejection.
+Both probes passed. The full eight-loop V10 control also passed every
+remaining sewing row and fresh physical check; its unique coefficient
+payload agrees with V9 exactly modulo the test prime. Early physical
+batches added 94 pivots. Discovery left 1869 directions rather than 1963;
+after the subsequent collinear fit, 66 remained rather than 112. Both runs
+then reached 14 after MRK and zero after the covered OPE fit. V10 took
+124.808 seconds with a sampled 2.316 GB peak, compared with 112.339 seconds
+and 2.197 GB for V9. Its candidate had 19420234 nonzeros versus 19301649.
+Thus earlier physical information reduced the remaining dimension in this
+control, but did not demonstrate a runtime or fill improvement.
+The first ten-loop V10 trial was frozen during validation and then retired
+after the V13 nine-loop and V15 eight-loop controls passed. Its input files,
+and logs are preserved; obsolete temporary working storage was subsequently
+removed under the authorized scratch cleanup. Its last reported rank was 248552, with
+3331074850 retained nonzeros. The live field entries alone require about
+39.97 GB before input arrays and allocation overhead. Repeated paging made
+low processor utilization a symptom of memory traffic, rather than evidence
+that more threads would resolve the bottleneck. Neither that trial nor its
+V15 replacement completed a native ten-loop prime. Both used a 48 GB
+pressure threshold and a 50 GB hard limit.
+
+This ordering offers earlier pivots, not a theorem that every new row will
+be sparse. Generic physical rows can themselves create fill. Bounded batches
+make that cost measurable without materializing a full physical kernel.
+All remaining adaptive collinear, MRK and covered OPE equations are still
+imposed on the discovered candidate; complete residual sewing and fresh
+physical checks remain mandatory.
+
+\section{Direct leading OPE constraints and measured scheduling}
+The OPE conditions can enter the same augmented reduction. To avoid evolving
+275246 separate unit candidates, the direct implementation uses the
+transpose of the existing finite jet integration map. If $J_{\ell,w}$
+integrates a jet against letter $\ell$ at weight $w$, then
+\begin{equation}
+ \langle e,J_{\ell,w}h\rangle
+ =\langle J_{\ell,w}^{T}e,h\rangle.
+\end{equation}
+The first-entry jets are evolved once for each helicity evaluation. A chosen
+OPE coefficient supplies a sparse endpoint covector; the last-entry chain
+propagates that covector backwards through weights $20,19,18$. Contracting
+the resulting last-side cotangent against the first-side jet gives one row
+in the original invariant coordinates, with the same component metric and
+single affine normalization as above.
+
+The transpose reverses all three stages of the existing integration:
+origin logarithmic integration, the triangular logarithmic recursion, and
+kernel convolution. It is tested by arbitrary primal--dual dot products for
+all letters and weights in the small control. The resulting coordinate rows
+are also multiplied into arbitrary sparse directions and a nonzero origin,
+and compared with the unchanged grade-12 projection. Both checks pass.
+
+Only existing solve-role $T S$ and $T^2 S^2$ coefficients are selected for
+early use. Grade four suffices for these targets because every ordinary
+kernel term has nonnegative total power increment, while logarithmic
+kernel terms do not lower the retained grading; the implementation checks
+this filtration condition. The same three evaluations $F=2,3,4$ eliminate
+the unknown $T^2F^0$ term. No held-out coefficient is used for fitting and
+no unavailable coefficient is set to zero. At ten loops one grade-four
+first-side jet occupies approximately 2.04 GB, so it is released between
+helicity evaluations instead of retaining all three beside the reducer.
+
+The V11 experiment continues disjoint collinear and MRK sample streams
+after the four light rounds, activates larger batches once augmented
+nullity reaches $\min(50000,n/5)$, and introduces leading OPE after two
+initial cycles. Each subsequent callback has a soft time budget, checked
+between batches. Rank gained, elapsed time and retained storage are logged
+to compare scheduling choices. Stagnation thresholds and sample caps guide
+discovery only; the later full sewing sweep and fresh physical checks
+remain the acceptance conditions. More early equations need not reduce
+runtime, because their evaluation and the fill they create also cost work.
+
+The associated allocator change makes shrinking a sparse buffer return its
+unused suffix to the mapped arena. Adjacent free extents coalesce, and only
+whole pages inside free storage may be hole-punched; partial pages shared
+with live arrays are retained. The allocator probe checks live neighbours,
+tail reuse, suffix trimming and forced paging. The reducer comparison also
+preserves exact coefficients and pivot order against V8 at two primes.
+These engineering checks establish storage correctness; only completed
+amplitude controls can establish the benefit of a complete schedule.
+
+The completed V11 $13+3$ eight-loop control reproduces the V10 coefficient
+payload exactly modulo $1152921504606847009$, with zero surviving directions
+and all final sewing and physical checks passing. Early leading OPE adds
+255 independent pivots in this control. Its discovery candidate has
+14618598 nonzeros, compared with V10's 19420234. Nevertheless the complete
+run takes 265.720 seconds and peaks at 2.587 GB, compared with 124.808 seconds
+and 2.316 GB for V10. The aggressive schedule therefore improves candidate
+fill but fails the end-to-end time and memory comparison on this control;
+it is not selected as the final ten-loop strategy on that evidence.
+
+\section{A conditional restriction before dense elimination}
+The user permits reasonable additional assumptions, provided that any unique
+candidate is subsequently tested against independent physical information.
+The next experiment therefore uses the empirical MHV double-final-entry
+relations of Dixon and Liu, equations (76)--(79) in \cite{dixonliu}. These
+are additional to the ordinary double-final-entry $\bar Q$ relations:
+the latter already vanish on the generic 25-dimensional pair space and
+would supply no new constraints. The bonus relations are treated explicitly
+as an extrapolation to ten loops, not as an all-orders theorem.
+
+The relations are published in the alphabet
+$(u,v,w,1-u,1-v,1-w,y_u,y_v,y_w)$. Let $B$ express the working alphabet's
+logarithmic differentials in this alphabet. A functional on the last two
+coefficients transforms by $R\mapsto BRB^T$. The implementation calibrates
+this dual transformation against both the ordinary single-entry and the
+ordinary double-entry conditions, before admitting the bonus equations.
+It expands only the small last-entry chains through weight four and applies
+the full $D_3$ orbit of each relation to the final two slots. The exact
+copy kernels give
+\begin{center}
+\begin{tabular}{lrr}\toprule
+Last-entry weight & Generic physical dimension & With double bonus\\\midrule
+2 & 25 & 21\\
+3 & 83 & 65\\
+4 & 249 & 184\\\bottomrule
+\end{tabular}
+\end{center}
+For the three-letter side, the reduced copy multiplicities, in the six
+sector order used above, are $(9,3,11,8,3,10)$. Hence the conditional
+weight-20 invariant ansatz has 217024 coordinates at $17+3$, compared with
+275246 before these relations. At $16+4$ the corresponding count is 380474,
+compared with 518048. These counts precede the joining constraints and
+do not assert the dimension of the physical solution space.
+
+The audit verifies the exact rational copy kernels, their right inverses,
+and coordinate round trips. It also contracts every bonus constraint with
+the completed eight-loop symbol at the first native prime, and with the
+completed nine-loop symbol at two native primes. Every residual is zero.
+The common copy map acts on both components of each $E$ sector, preserving
+the existing symmetry and normalization conventions.
+
+In the solver experiment, independent bonus equations are inserted as short
+homogeneous rows in the original invariant coordinates after the cheap
+sewing seed and before dense refinement. This avoids changing either the
+generic last-entry files or the subsequent $17+3\to16+4$ conversion. The
+candidate descriptor records the empirical assumption. A unique result in
+this restricted ansatz would establish uniqueness only within that ansatz;
+original sewing and held-out physical tests provide independent evidence
+for the candidate, not a proof of unrestricted ten-loop uniqueness.
+
+The conditional V12 eight-loop control passes every original sewing and
+fresh physical check and reproduces the known coefficient payload exactly.
+Its 8228 short bonus rows add 6145 pivots after the seed in about 0.04 seconds.
+Discovery has 7585975 nonzeros, and the complete run takes 160.058 seconds
+with a 2.367 GB sampled peak. This improves on the aggressive V11 schedule,
+but still costs more time than V10.
+
+V13 therefore limits each physical callback to one cycle and adds callbacks
+at completed elimination-batch boundaries when 120 seconds have elapsed
+inside a long sewing sweep. The row-generation workers and reduction workers
+have joined before such a callback. A previously generated row is reduced
+against the updated basis when consumed; the coordinate permutation remains
+fixed. A targeted affine probe exercises this mid-sweep path with a nonzero
+right-hand side and a nontrivial variable permutation. It passes, and the
+complete eight-loop control again reproduces the known symbol, with all
+final checks passing. Discovery has 7923078 nonzeros; runtime is 129.512
+seconds and sampled peak memory is 2.319 GB. This is close to V10's complete
+runtime while substantially reducing discovery fill.
+
+The larger V13 nine-loop $15+3$ control has now also passed. Discovery takes
+297.101 seconds and returns 5962 directions with 48535187 nonzeros; collinear
+equations reduce this to 564 directions. After the remaining physical fit,
+complete sewing reduces the candidate to a single point, and all fresh
+physical checks pass. The complete native control takes 1474.609 seconds
+with a 7.755 GB sampled peak. Conversion to $14+4$ takes 5.222 seconds and
+reproduces every coefficient of the independently completed nine-loop
+symbol modulo $1152921504606847009$. Its wall time includes overlapping
+compilations, a FEC17 memory probe and the later eight-loop controls; it
+must not be treated as an isolated throughput benchmark.
+
+\section{Recovering memory retained by integer caches}
+A real FEC17 input probe identifies an additional engineering bottleneck.
+After the temporary rational recurrence has been destroyed, its finite-field
+cache contains 171950436 entries and occupies about 2.06 GB, but the process
+still retains about 10.84 GB. Ordinary allocator collection returns only a
+few megabytes: FLINT still owns reusable multiprecision integer objects in
+thread-local caches, so their limbs are not yet free allocator pages.
+
+V14 calls FLINT's cache cleanup at joined phase boundaries, after releasing
+the temporary rational input. One task per worker waits at a barrier before
+cleanup; this guarantees coverage of every worker, unlike submitting several
+short tasks that may all run on one worker. The main thread is cleaned as
+well. The global master cleanup routine is not used during the solve.
+The implementation follows the installed FLINT 3.2.2 cache ownership rules
+and its documented thread-local cleanup mechanism \cite{flintmemory}.
+
+In the FEC17 probe this operation reduces resident memory from
+10.8467 GB to 2.5913 GB in 1.37 seconds. All six finite-field block hashes
+remain identical to the previous probe, every live rational sentinel is
+preserved, and subsequent large-rational arithmetic succeeds. Cleanup
+releases unused cached objects; it does not change a mathematical basis or
+discard a retained recurrence. The complete V14 eight-loop solver reproduces
+every known coefficient and passes its original sewing and physical checks.
+It takes 156.210 seconds with a 2.322 GB sampled peak while the independent
+nine-loop control is also running; this is a correctness control, not an
+isolated runtime comparison.
+
+The finite-field input cache is also sized to retain the whole needed chain:
+the FEC17 residue alone needs 2064226160 bytes, so a nominal 2 GiB cache
+cannot retain it together with earlier weights. Repeatedly decoding the
+same rational input would negate the benefit of bounded physical batches.
+The proposed ten-loop configuration uses a 4 GiB recurrence cache. The
+square logarithmic layout would require approximately 5.29 GB for each of
+three grade-12 FEC17 jets. The next optimization reduces this requirement
+before assigning the late OPE cache. Early OPE continues to release its
+grade-four jets between evaluations while the elimination basis is live.
+
+\section{Triangular logarithmic storage for OPE jets}
+The OPE evaluation integrates the symbol recurrence into truncated series in
+$T$ and $S$, with coefficients polynomial in $\log T$ and $\log S$.
+Let $W$ denote the final weight, and write a logarithmic monomial as
+$(\log T)^a(\log S)^b$. At intermediate weight $w$, the integration recurrence
+produces only $a+b\leq w$. Indeed, the weight-zero scalar has no logarithms,
+and each integration either preserves the logarithmic degree or raises it
+by at most one. Thus the final representation needs only $a+b\leq W$.
+Storing all $0\leq a,b\leq W$ leaves a triangle of entries identically zero.
+
+For each retained power pair of $T$ and $S$, V15 packs the logarithmic index
+as
+\[
+ i(a,b)=a(W+1)-\frac{a(a-1)}{2}+b,
+ \qquad 0\leq a\leq W,\quad 0\leq b\leq W-a.
+\]
+The number of slots is $(W+1)(W+2)/2$ instead of $(W+1)^2$.
+At $W=20$ this changes 441 slots to 231, a reduction of $47.62\%$.
+The forward and transposed integration maps both omit neighbors whose total
+logarithmic degree exceeds the current weight. They retain the same field
+coefficients, truncation order, target rows and normalization.
+
+This change is checked against a separately retained square implementation,
+not against another use of the new index. The probe visits all nine letters,
+every weight from 1 through 20, truncation grades 4 and 12, and two primes.
+It compares every retained output, verifies that discarded outputs are zero,
+and checks the forward--adjoint pairing. All 2160 cases pass, including
+inputs in logarithmic slots that are unreachable from the weight-zero seed.
+The complete V15 eight-loop solve then passes its original joining and fresh
+physical checks and reproduces the known coefficient payload exactly.
+Its sampled peak is 1.492 GB, compared with 2.319 GB for V13. Its wall time
+is 134.307 seconds while the nine-loop control is also active; no isolated
+speedup is inferred from those overlapping measurements.
+
+For the ten-loop grade-12 calculation, each FEC17 head now has stride 9009
+and occupies approximately 2.773 GB. Three such heads fit in an 8 GiB cache,
+so later physical checks can reuse all three evaluations without repeating
+the long recurrence integration. At grade 4, the early head stride changes
+from 6615 to 3465, approximately halving its temporary workspace as well.
+This is an exact representation change and introduces no further physical
+assumption beyond the conditional final-entry restriction stated above.
+
+\section{Reusing common factors in the MRK right-hand side}
+Ten-loop profiling identifies a bottleneck that memory reclamation does not
+address. Each of the first single-sample MRK right-hand sides takes roughly
+140 seconds, while its head and tail recurrence projections take only a few
+seconds. A 30-second resource sample records approximately one busy core
+and no memory pressure. The reference generator repeatedly evaluates the
+same shuffle products for different terms in the physical formula.
+
+The replacement shares those common subexpressions. For slot $i$, write its
+three sampled field values as $(a_i,b_i,c_i)$ and let $x$ track logarithmic
+degree. Define
+\[
+ \tau_i(x)=\tfrac12 b_i-c_i+a_i x,
+ \qquad Q_{ij}(x)=-2\tau_i(x)\tau_j(x)-\tfrac12 b_i b_j.
+\]
+These are precisely the existing one-letter logarithmic and symmetric
+one-loop two-letter factors. Let $H_{p,d}(I)$ denote the evaluation on the
+slot subset $I$ of $p$ shuffled copies of $Q$, divided by $p!$, shuffled
+with $d$ copies of $\tau$. It vanishes unless $|I|=2p+d$, with
+$H_{0,0}(\varnothing)=1$. Choosing the least slot $i\in I$ gives
+\[
+ H_{p,d}(I)=d\tau_i H_{p,d-1}(I\setminus\{i\})
+ +\sum_{j\in I\setminus\{i\}} Q_{ij}
+ H_{p-1,d}(I\setminus\{i,j\}),
+\]
+where terms with negative indices are zero. The first term counts the $d$
+identical logarithmic factors that could occupy $i$. The second pairs $i$
+with its partner; dividing by $p!$ removes the ordering of the identical
+one-loop factors. Symmetry of $Q_{ij}$ makes this a sum over unordered
+pairings with the correct shuffle multiplicity.
+
+For a fixed slot set, $d=|I|-2p$, so the implementation memoizes only
+$(p,I)$. It then contracts each input MRK symbol on its complementary ordered
+subset. Binary words and their coefficients modulo the current prime are
+prepared once per evaluation. No symbol coefficient or sample is changed.
+The final derivative and half-phase contributions combine into $\tau_i$,
+using the same expression above. All intermediate polynomials are truncated
+at the requested nonnegative degree, which commutes with these polynomial
+sums and products. The external MHV factor of one half remains unchanged.
+
+There are 32 exact comparisons against the retained generator, covering
+loop orders 1--10, small and production-size primes, different sample
+indices, and truncated as well as full logarithmic degree. Every returned
+coefficient agrees. For the two ten-loop cases the isolated reference/new
+times are 138.420/21.0852 seconds and 143.734/21.0271 seconds, respectively:
+a factor of approximately 6.6--6.8 for this kernel. The larger comparison
+process peaks at 0.420 GB. These measurements are made sequentially with
+the numerical pilot frozen; they do not establish a complete-solver speedup.
+
+V16 integrates this generator and precomputes four RHS samples when a
+single-sample callback is requested. Only the requested equations are
+admitted, in their original order; the other RHS values are retained for
+later callbacks. Cache keys include prime, seed, loop order, logarithmic
+degree and sample index. At most 128 samples are retained, and larger
+batches bypass retention. Generation uses the existing worker pool from a
+joined outer call, avoiding nested waits. Cache and complete known-symbol
+controls have now passed. The cache probe checks 1848 cases across prime,
+seed, degree and sample changes, including cache hits and large uncached
+batches. With the pilot frozen and compilation finished, sequential complete
+eight-loop runs take 103.267 seconds for V15 with 8 threads, 76.712 seconds
+for V16 with 8 threads, and 60.730 seconds for V16 with 16 threads. Every
+coefficient agrees with the independently known result. Thus V16 reduces
+this complete-control runtime by 25.7 percent at equal thread count, and
+16 threads reduce its runtime a further 20.8 percent. These are measured
+control results, not a claimed ten-loop speedup or global optimum.
+
+V16 with 16 threads was consequently selected for the ten-loop first-prime
+pilot. The unfinished V15 trial was retired with its inputs and evidence
+preserved. V16 has now completed one native prime and its conversion;
+the scheduling review below selected V17 for the subsequent primes.
+
+\subsection{Preserving unfinished physical work across deadlines}
+The full-scale pilot exposes a scheduling defect that the faster controls
+did not trigger. A four-sample collinear batch costs about 19--21 seconds
+at the relevant ten-loop discovery dimension. Six or seven such batches
+consume the 120-second callback budget before the intended eight-batch
+collinear segment is complete. V16 restarts that segment at the next
+callback and increments its cycle count even when MRK was skipped. Repeated
+callbacks can therefore postpone both MRK and the due low-grade OPE block
+indefinitely. In this pilot, discovery admitted 71 collinear batches but
+only the initial four light MRK samples; no low-grade OPE block was admitted.
+The subsequent full physical fits still ran, so this finding concerns
+the timing of constraints rather than removal of the final checks.
+
+The separate V17 correction retains a cursor counting collinear batches
+already completed in the current cycle. Once their quota is reached, the
+next eligible work is MRK; a new cycle starts only after that MRK batch is
+admitted or its stream is exhausted. OPE becomes the first eligible block
+once two cycles are complete, or both sampling streams have finished.
+This also preserves an OPE obligation when the preceding MRK batch exceeds
+the remaining callback budget. Each admitted collinear batch advances a
+bounded cursor, so repeated eligible callbacks cannot repeatedly start
+the same segment. The argument assumes callbacks continue and the target
+dimension has not already been reached. A single indivisible block may
+still exceed the nominal time budget.
+
+The correction changes admission order and persistence of work, while
+retaining the original affine equations, right-hand sides, symmetry
+conventions and final checks. Its 5184 scheduler controls vary deadlines,
+operator costs, stream exhaustion and early target attainment, checking
+that the operator sequence is preserved without replay. The full known
+eight-loop coefficient payload also agrees exactly and its final checks
+pass. That control ran alongside the productive pilot, so its timing is
+not an isolated speed comparison. The serialized nine-loop regression has
+also passed: every native $15+3$ coefficient and every converted $14+4$
+coefficient agrees with the independent completed controls. Its native
+calculation took 576.942 seconds with sampled peak RSS 6.442 GB; conversion
+took 4.821 seconds. These controls support the scheduling change, while its
+effect on total ten-loop runtime is assessed in the completed measurements below.
+
+To use V17 without discarding the completed ten-loop prime, a separate
+output chain imports the V16 native and converted caches with an explicit
+provenance receipt. The physical input hashes, recurrence basis, affine
+origin convention, coefficient order and every residue remain identical.
+The native descriptor changes only the algorithm, admission schedule and
+executable hash. The cache header's eight-byte identity fingerprint is
+rebound to that descriptor; the shifted identity is rebound to its new
+parent identity. The original files and hashes remain preserved, and the
+receipt identifies V16 as the producer of the imported prime. This is a
+validated import, not another native solve or another sewing conversion.
+
+The import was checked against the independently computed V17 eight-loop
+native cache byte for byte. A V17 cache-resume check recomputed the input
+identity and reused that cache without solving the prime. Its shifted
+import also agrees byte for byte with an independent conversion of the
+imported native cache. Six negative controls reject checksum corruption,
+an incorrect identity, multiple affine rows, incorrect dimensions,
+truncation and noncanonical residues. The supervisor pins the import
+receipt, original evidence and validation hashes, and rechecks the full
+source-to-import coefficient equality before final certification. The
+final certificate records the original producer of each prime alongside
+the independent rational sewing and origin checks.
+
+\section{Factored sewing and staged discovery}
+The first and last recurrence maps and the fixed joining tensor supply the
+interface equations through contractions. The full product matrix is not
+materialized. Left contraction gives 1232602 rows at this split; right
+contraction gives 1925885. Both have 518048 invariant columns and enforce
+the same complete joining condition after the required residual checks.
+
+Discovery admits cheap sparse rows first, then progressively denser rows.
+Exact singleton and doubleton relations support substitutions. Nested,
+deterministic row samples guide the schedule. Sampling cannot certify a
+symbol: the final acceptance step visits every unsampled joining equation.
+The scheduling target is 12000 directions, not a prediction of the physical
+dimension.
+
+The right-contracted experiment temporarily permutes variables within each
+irrep block. If that block has $m$ first copies and $n$ last copies, the
+original coordinate $fn+l$ is sent to $lm+f$. Writing $c'=\Pi c$, discovery
+uses $M\Pi^{-1}$. The candidate is mapped back by $\Pi^{-1}$ before physical
+projection, checkpointing, residual sewing and reconstruction. The map is
+checked to be bijective. It changes sparse elimination fill, not the ansatz,
+the symmetry condition or coefficient normalization.
+
+Once discovery supplies a manageable candidate, collinear, multi-Regge
+(MRK), and covered operator-product-expansion (OPE) equations are imposed
+in affine coordinates. The remaining joining map is then contracted into
+that smaller candidate. A rank-changing residual block triggers an affine
+restriction and a replay from the beginning. A complete sweep with no
+remaining residual is required. Fresh physical checks follow on the fully
+integrable object.
+
+\section{Physical input coverage and the limits of the checks}
+The ten-loop main and extended MHV OPE libraries have complete, hash-bound
+generation receipts. The current run uses the main library, with grade 12,
+solve power 8, and check power 10. Its T1 and T2 coverage supplies 1824 solve
+equations and 456 held-out coefficients. The extraction combines evaluations
+at $F=2,3,4$ to remove the unknown T2 $F^0$ contribution. An unsupported
+coefficient is never replaced by zero. MRK inputs are available through ten
+loops.
+
+Physical constraints are applied using the supplied ordered projection
+prescription. Collinear and MRK validation uses points separate from the
+training stream. OPE validation uses its specified held-out powers. These
+are concrete checks of the implemented conditions; finite sampled checks
+alone do not prove an identity at every kinematic point. Full sewing has a
+separate exact rational certificate, described below. Nor does an ordinary
+symbol determine function-level constants invisible to the symbol map.
+
+\section{Storage changes and what the controls establish}
+Large intermediate objects must be shortened in lifetime as well as kept
+sparse. Temporary rational recurrence matrices are released after the
+finite-field joining operator has taken ownership of its required copies.
+Kernel extraction consumes reduced pivot rows as it transfers their
+coefficients to the kernel. Storage for trivial field elements is allocated
+without eagerly clearing a second full array, and all live entries are
+assigned before use. The free-variable sign convention remains the
+original one: a private free coordinate is $-1$, with pivot coefficients
+given by the corresponding reduced-row coefficients.
+
+Physical projection transfers a packed candidate into its irrep blocks row
+by row, releasing the input rows immediately. After fitting, the common
+affine transform multiplies one block at a time; the old block is released
+after its product is packed. This avoids retaining both a full packed
+candidate and a complete second block copy.
+
+Private intermediate checkpoints use sparse rows and include the affine
+origin. For $r$ rows and $z$ nonzeros, their size is $80+8r+16z$ bytes,
+compared with $72+8rn$ bytes for the conventional dense payload at $n$
+coordinates. Writes are streamed back and compared exactly with the live
+matrix; stage identity and SHA256 protect later reuse. Final native-prime
+caches retain the package's original format. Wrong split identities,
+damaged bytes, chunk boundaries, and nonzero origins are covered by the
+checkpoint probe.
+
+These changes and the variable permutation still left excessive discovery
+fill. The V5 right-contracted trial stopped at 34.9 GB RSS when the system
+reserve was exhausted. V6 reached a 43.1 GB peak; its last reported rank was
+296591 with 2125869115 retained nonzeros. Neither produced a completed
+native ten-loop prime. The retained logs distinguish last reported rank
+from the rank at the actual memory-stop instant.
+
+V7 therefore maps SparseRREF arrays of at least 4096 bytes into a fresh
+private scratch file. Small arrays and GMP/FLINT limbs keep their ordinary
+allocator. Shared file pages preserve exact bytes when residency is
+released; later accesses reload those bytes. The allocator synchronizes
+pages before requesting reduced residency. This is temporary working
+storage, not an imported solution or a completed-prime cache.
+
+The production mapping reserves 192 GiB of sparse-file virtual address
+space under a 256 GiB virtual limit. Actual process-tree RSS is guarded at
+exactly 50000000000 bytes (46.5661287308 GiB), with a 3 GiB system-memory
+reserve. V15 raises the selected residency threshold from the previous
+32 GiB to 40 GiB after reducing retained input and OPE storage. Input caches and ordinary
+allocations also consume RAM, so the threshold is not a hard total-memory
+bound. Sixteen internal threads operate on one native prime at a time.
+
+The allocator probe passes growth, shrinking, heap-to-file transition,
+concurrent-buffer and forced-eviction checks, including rational arrays
+whose numerators and denominators exceed the small-integer representation.
+More decisively, V7 reproduced the known eight-loop symbol exactly modulo
+$p=1152921504606847009$, with all final sewing and physical checks passing.
+That control exercised 28 evictions with a deliberately low 1 GiB
+residency threshold. It took 148.675 seconds and peaked at 2.203 GB RSS.
+Its final invariant coefficient payload has 65344 nonzeros. This validates
+the storage and ordering changes on a known calculation; it is not a
+ten-loop result.
+
+\section{Reconstruction and an independent exact sewing certificate}
+Only the final affine product is reconstructed over $\mathbb Q$.
+Native good primes are accumulated by CRT and rational reconstruction;
+two independent validation primes check the reconstructed coefficients.
+Large intermediate presentation kernels are not reconstructed.
+
+An independent checker contracts the reconstructed coefficients directly
+through the original first recurrence, last recurrence and CG joining
+tensor, rather than through the factored discovery reduction. Let
+$\widehat F,\widehat L,\widehat T,\widehat c$ denote these four objects with
+their respective common denominators cleared. Define
+\begin{equation}
+ B=\|\widehat F\|_1\,\|\widehat L\|_1\,
+   \|\widehat T\|_1\,\|\widehat c\|_\infty.
+\end{equation}
+Every resulting integer residual has absolute value at most $B$. Good
+certificate primes divide none of the cleared denominators. If every
+residual vanishes modulo distinct primes whose product $Q$ exceeds $B$,
+each residual is an integer multiple of $Q$ with magnitude less than $Q$,
+and hence is exactly zero. The checker also compares the rational result
+with all eight shifted caches and verifies each link to its native cache. Additional primes used solely for
+residual certification are explicitly distinguished from native symbol
+solves and never written as solve caches.
+
+\subsection{Asymmetric reconstruction for denominator-heavy coordinates}
+The production reconstruction used equal numerator and denominator bounds.
+That is inefficient for this basis: the final largest numerator has only
+44 bits, while the largest denominator has 231 bits. Six roughly 60-bit
+fitting primes give a 361-bit CRT modulus $M$. A symmetric bound of roughly
+$\sqrt{M/2}$ cannot accommodate that denominator, even though the same
+residues contain enough information for unequal bounds.
+
+The separate reconstruction experiment fixes
+\[
+ N=2^{48}-1,\qquad D=\left\lfloor\frac{M-1}{2N}\right\rfloor,
+ \qquad 2ND<M.
+\]
+The bound $D$ has 312 bits; it is calculated from $M$, not set independently
+to $2^{312}$. For a residue $r$, the Euclidean algorithm on $(M,r)$ tracks
+$r_i\equiv t_i r\pmod M$. It stops when $|r_i|\leq N$, adjusts the sign so
+that $t_i>0$, and requires $t_i\leq D$, coprimality and the original
+congruence. If two reduced fractions within these bounds represented the
+same residue, their cross-difference would be a multiple of $M$ of absolute
+value at most $2ND<M$; it must therefore vanish. This proves uniqueness
+inside the selected coefficient bounds, not that an unknown physical
+answer necessarily satisfies them.
+
+The implementation passed 2682 exhaustive small-modulus cases. Diagnostic
+bound comparisons used existing residues and were treated as fitting
+information. The final six-prime vector and bounds were then frozen before
+native prime 7 was committed, with primes 7 and 8 reserved for future
+validation. Reconstruction took 7.200 seconds. Every one of the 518048
+entries, including zeros, agrees with both later primes; neither check
+prime divides any candidate denominator. No coefficient or bound was tuned
+after these checks. The two checks took 0.540 seconds. The six fitting
+residues themselves were never counted as independent validation.
+
+The rational vector was exported into a new directory rather than inserted
+into the active producer's chain. A separate format-only exporter reads
+canonical rationals in the fixed six-block order, writes reduced WXF
+matrices, and reads them back exactly. An independent Wolfram WXF decoder
+provided the known eight- and nine-loop controls: all 69988 and 195155
+coordinates pass, and every exported block and metadata file is byte-identical
+to its respective reference. Six malformed-input cases are rejected before
+creating an output. Wolfram then independently checked all 518048 entries
+of the ten-loop export. No basis change, normalization change, presentation
+RREF or coefficient filtering is performed.
+
+The new manifest explicitly records the external reconstruction and exporter.
+The shift-map identity, basis identities, eight committed residue payloads,
+and their source hashes are copied unchanged, retaining the original native
+parent. Prime 1 remains attributed to V16 through its validated import;
+primes 2--8 were computed by V17. The completion seal means the rational
+object is written and hash-consistent; its physical acceptance follows only
+from the additional checks below.
+
+For this object the independent original joining operator has 4196956 rows.
+Its denominator-cleared residual bound has 514 bits. All eight available
+primes give zero residual; one further cheap residual evaluation increases
+the certificate modulus to 541 bits, strictly exceeding the bound.
+Consequently every original joining residual vanishes exactly over
+$\mathbb Q$. This ninth certificate prime is not a ninth native symbol solve.
+The unchanged certificate completed in 67.667 seconds with a sampled
+4.398 GB peak RSS. It also verified all eight QQ-to-shifted-cache congruences
+and all source-hash links.
+
+\section{An independent origin prediction}
+The origin check was held out of the fit and has now passed exactly. At ordinary
+symbol level the all-order origin prediction of Dixon and Liu, equation
+(42), gives the exponential generated by the one-loop origin term
+\cite{dixonliu}. Since that term is
+$-\tfrac12\sum_i\log^2u_i$ at the relevant logarithmic order, the coefficient
+of a word with counts $n_i$ at loop order $L$ is zero if any count is odd,
+and otherwise equals
+\begin{equation}
+ (-1)^L\prod_i\frac{n_i!}{2^{n_i/2}(n_i/2)!}
+ =(-1)^L\prod_i(n_i-1)!! .
+\end{equation}
+Here $(-1)!!=1$. The factorials follow from the ordinary-symbol convention
+for powers of logarithms; omitting them would give a different
+normalization. At ten loops, counts $(20,0,0)$ predict 654729075, while
+$(8,6,6)$ predict 23625. Pure-log integrability and $D_3$ symmetry reduce the
+checks to 44 count partitions at weight 20. This prediction concerns the
+origin limit and is not an identification with coefficients on the
+$(u,1,1)$ line.
+
+\section{Completed native calculations and reproducibility}
+On 7 October the V15 first-prime trial identified the serial MRK generator
+as a substantial bottleneck. After the exact and complete-solver V16
+controls described above passed, the unfinished V15 trial was retired and
+its inputs and evidence preserved. The V16 first-prime pilot has completed. It combines
+the bounded physical schedule and conditional final-entry rows with integer
+cache release, triangular OPE storage, shared MRK shuffle evaluation and
+bounded RHS prefetch.
+
+The pilot retained one native prime and its $16+4$ conversion, and stopped
+before further primes for a review of full-scale timings and elimination
+fill. The native prime is $1152921504606847009$. Its finite-field dimension
+chain is
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Stage & Remaining affine directions\\
+\midrule
+Discovery candidate & 22489\\
+Collinear fit & 3056\\
+MRK fit & 3041\\
+Covered OPE fit & 2877\\
+Complete original sewing & 0\\
+\bottomrule
+\end{tabular}
+\end{center}
+The factored $17+3$ joining operator has 989800 rows; the finishing routine
+made 35 passes including the final complete zero-residual sweep. Fresh
+collinear, MRK and OPE checks then passed on the unique representative.
+The native result contains 246941 nonzero coefficients in 275246 invariant
+coordinates. It took 12711.891 seconds, about 3 hours 32 minutes, with
+sampled peak RSS 34.628 GB and no resource-guard stop. The subsequent
+$16+4$ conversion took 64.061 seconds including the reconstruction attempt,
+peaked at 12.017 GB, and passed the exact finite-field shift checks. It has
+491197 nonzeros in 518048 coordinates. The native and converted cache
+hashes and their source linkage are committed in the V16 runner ledger.
+
+After the first prime, the pilot supervisor exited in its expected
+cache-only state. After the nine-loop scheduling regression and
+explicit-import controls passed, V17 started at prime index 2 with a budget
+of 12 primes, retaining the completed first prime and its conversion. It
+holds both supervisor locks to prevent a concurrent V16 or V17 solve.
+The hourly monitor followed this chain through reconstruction and exact
+certification, including recovery after the host reboot. Correctness controls alone do not
+establish practical optimization. The thread choice is supported by the
+isolated eight-loop comparison; remaining ten-loop kernels and alternative
+elimination orderings have not all been compared. Optimization continues
+from measured bottlenecks while validated inputs and results are preserved.
+The reusable decisions and unsuccessful alternatives are recorded in the
+repository optimization lessons, referenced by its agent instructions.
+
+The supervisor is configured to run one native prime at a time with 16 internal threads,
+a 4 GiB recurrence cache and an 8 GiB late OPE head cache. After each
+successful prime it converts the candidate to $16+4$ and attempts rational
+reconstruction, reserving two independent validation primes. Its configured final stages are the independent exact original
+$16+4$ sewing certificate and all 44 reserved origin tests. The faster
+asymmetric reconstruction used a separately validated exporter and
+controller for these same unchanged checkers, as detailed below. Completion is
+reported only within the conditional ansatz and the stated physical
+validation scope. The first-prime runtime established feasibility within the memory cap.
+The completed reconstruction used six fitting primes and two fresh
+validation primes; the completed native solves totaled 28.793 hours,
+excluding stopped trials, input generation, downtime and certification.
+
+The first full V17 calculation has now completed at the second prime,
+$p=1152921504606847067$. Its native runtime is 12627.650 seconds, about
+3 hours 30 minutes, with sampled peak RSS 38.581 GB. The verified $16+4$
+conversion took 64.129 seconds and reused the already converted first
+prime. All 989800 factored joining rows pass, with 35 finishing passes
+and zero remaining directions; fresh collinear, MRK and covered OPE checks
+also pass. The final native and shifted nonzero counts are respectively
+246941 and 491197. Every completed cache hash and source link, and all five
+sparse checkpoint identities and hashes, were rechecked independently of
+the running supervisor. The first prime retains its explicit V16 producer
+provenance. At that stage the supervisor continued with prime index 3: two completed
+primes were insufficient for a protocol reserving two additional primes
+to validate a CRT candidate. The final eight-prime outcome is given below.
+
+The completed comparison explains why early physical rank gain alone was
+an inadequate performance measure. V17 admitted 68 MRK samples and one
+456-equation low-grade OPE block during discovery; the latter supplied
+390 independent restrictions in 489.729 seconds. Its discovery candidate
+has 22032 directions instead of 22489, but 400158698 nonzeros instead of
+384425474. The reported refinement time rose from 4600.320 to 5121.300
+seconds. After the full collinear fit, however, V17 has 2984 directions
+and 1082630 nonzeros, compared with V16's 3056 directions and 5907390
+nonzeros. Its later MRK fit removes no further directions. Both schedules
+reach 2877 directions and 1645065 nonzeros after the full OPE fit.
+
+Measured between successive checkpoint timestamps, the V17 collinear,
+MRK, OPE and final-seam stages took 3982.214, 124.299, 934.674 and
+1251.481 seconds, respectively; these intervals include checkpoint work.
+The corresponding V16 intervals are 4183.009, 297.208, 964.827 and
+1309.844 seconds. Thus downstream savings offset the larger discovery
+cost in this run. Overall wall time was only 84.241 seconds, or 0.66\%,
+shorter, while CPU time increased by about 3.45\% and peak RSS increased.
+These are operational measurements at different primes and with different
+background workloads, so they establish comparable observed wall times,
+not a controlled speedup. V17 remains selected for its validated admission
+schedule and acceptable resource use; no global performance optimum is
+claimed.
+
+\subsection{Final timings, recovery and resource use}
+The eight completed native primes and their conversions have the following
+measured wall times. GB denotes $10^9$ bytes, not GiB. The first row is the
+V16 pilot; all remaining native rows used V17.
+\begin{center}
+\begin{tabular}{rrrr}\toprule
+Prime index & Native seconds & Native peak RSS (GB) & Shift seconds\\\midrule
+1 & 12711.891 & 34.628 & 64.061\\
+2 & 12627.650 & 38.581 & 64.129\\
+3 & 12859.913 & 38.594 & 67.581\\
+4 & 13382.666 & 39.141 & 69.883\\
+5 & 13030.380 & 38.602 & 68.881\\
+6 & 12911.333 & 38.513 & 69.589\\
+7 & 12781.880 & 38.711 & 64.767\\
+8 & 13349.812 & 38.582 & 68.285\\\bottomrule
+\end{tabular}
+\end{center}
+All eight have zero surviving directions after their complete original
+native joining sweeps and pass their fresh supplied collinear, MRK and OPE
+checks. V17 successfully admits the previously postponed MRK/OPE discovery
+work, but the completed measurements do not show a large overall ten-loop
+speedup over V16. More early physical pivots can increase discovery fill.
+The earlier controls, profiling and unsuccessful schedules remain relevant;
+no claim of a globally optimal algorithm or engineering configuration is
+made. In this final stage, asymmetric reconstruction removes the need to
+finish further expensive native primes solely to satisfy a symmetric
+coefficient bound.
+
+An abrupt host reboot on 8 October interrupted the transition from native
+prime 7 to its shift. System logs do not establish the cause: they contain
+no recorded orderly shutdown, nearby OOM, thermal shutdown or kernel panic.
+The earlier unrelated OOM is not evidence about this reboot. Native prime 7
+was not recomputed. Its bytes matched the durable ledger and every
+coefficient of its final sparse checkpoint. Empty checksum and measurement
+metadata were restored from that independent evidence with the empty
+originals retained. A first resumed shift exited before calculation because
+the runtime libraries formerly under \texttt{/tmp} had disappeared.
+
+A permanent, hash-pinned runtime was prepared without changing the frozen
+executables. Complete eight-loop native, nine-loop native and nine-loop
+shifted controls reproduced every reference byte before continuation.
+The resumed seventh shift then completed normally. The replacement user
+service guarded runtime hashes at startup and retained the 48 GB pressure
+threshold, 50 GB hard limit, zero swap and 16 internal threads. Future
+producers should also fsync payloads, sidecars and parent directories before
+committing a ledger: atomic rename alone does not guarantee power-loss
+durability. This recovery is recorded separately from the mathematics.
+
+After the eighth prime passed the reserved check, the ninth native solve
+was temporarily frozen, preserving its state while exact certification ran.
+Its cgroup held 39.708 GB at freezing. The certificate service had an 8 GB
+hard limit; with a 0.3 GB reserve the combined bound was 48.008 GB. Both a
+controller cleanup handler and the service stop handler automatically thawed
+the original job. The 44 origin holdouts completed in 44.998 seconds with a
+5.624 GB sampled peak, all agreeing exactly. An independent final review
+rehashed 161 artifacts, verified the V16 import, recomputed all 44 origin
+predictions and confirmed that they cover every ordered-by-size count
+partition of 20 into three nonnegative parts. Only then was the now
+redundant ninth native solve stopped and its automatic startup disabled.
+Its partial work is not counted as a completed prime.
+
+\subsection{Where the result and certificates are recorded}
+The primary native result consists of six unique-origin rational matrices in
+\begin{center}
+\path{output_hexagon_validation_20261009/native-qq-17p3}.
+\end{center}
+Its 275246 coordinates contain 246941 nonzero entries. The later native
+verification section records its reconstruction, exact original-seam and
+origin certificates, and exact equality with the shifted export.
+The equivalent $16+4$ result is the six unique-origin matrices in
+\begin{center}
+\path{output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4}.
+\end{center}
+Each filename is \texttt{irrSEW\_16p4\_}\emph{sector}\texttt{\_origin.wxf},
+with the sectors and dimensions of the first table. Entries are exact
+rationals; the origin matrix has two basis axes, and there are no remaining
+homogeneous directions. The \texttt{columns.tsv} file fixes the order of the
+518048 invariant coordinates. These matrices use the unchanged FEC16 and
+MHV LEC4 chains under \path{output_hexagon_16p4_20261006}; symmetry expansion
+uses the same $E$-component metric $(1,3)$ described above. They are a
+factorized ordinary symbol, not an expanded list of all length-20 words.
+
+The final receipt and its independent audit are
+\begin{center}
+\path{output_hexagon_17p3_20261007/ten-asymmetric-runner/final-verification.json},\\
+\path{output_hexagon_17p3_20261007/ten-asymmetric-runner/independent-final-review.json}.
+\end{center}
+The QQ manifest records the source chains, all eight prime producers, the
+frozen candidate, known-result controls and input hashes. The native and
+shifted V16/V17 chains remain preserved. The rational candidate contains
+491197 nonzero entries, with maximum numerator and denominator sizes
+44 and 231 bits. Its independent certificates establish exact joining and
+44 exact origin constraints. The other physical validation is the stated
+finite supplied COL/MRK/OPE coverage. The empirical ten-loop bonus
+restriction remains explicit; neither these certificates nor the observed
+finite-field uniqueness proves unrestricted uniqueness or determines
+function-level constants invisible to ordinary symbols.
+
+The earlier attempts below explain the engineering changes and remain part
+of the reproducibility record.
+The FEC15 and FEC16 input generation completed in 422.028 seconds with a
+13.702 GB peak. FEC16 has 63882715 compact nonzeros and 232-bit coefficient
+height. The V7 eight-loop control and allocator probes have passed.
+The first V7 ten-loop trial used a 16 GiB eviction trigger. It was manually
+superseded after 1670.57 seconds, with a 26.15 GB peak, twelve completed
+evictions and last reported rank 274251. Its counters at 1588 seconds showed
+about 56.5 GB read and 238.5 GB written, compared with 29.6 GB of allocated
+scratch-file storage. The subsequent V7 retry raised the trigger to 32 GiB to
+reduce that page turnover. It used the same frozen executable, mathematical
+constraints and 50 GB RSS guard. The trigger changes storage policy only.
+The last recorded state of the V7 retry has rank 317799, with 2783740982
+retained nonzeros and a sampled peak RSS of 49.6386 GB. The process is no
+longer present, and its measurement manager left no final shutdown report.
+The interruption cause is not established. It produced no completed native
+prime or candidate checkpoint; the inputs and logs are preserved.
+
+V8 passed its storage and reducer controls. It adds a continuous
+background pager, since allocator-only checks leave long elimination and
+short-relation sweeps unchecked between allocations. A 1100 MiB allocator
+probe passes concurrent writes and an automatic eviction with no allocation
+callbacks, preserving every tested coefficient byte.
+
+V8 also removes redundant writes from short-relation propagation. The old
+pass assigns each retained coefficient back to itself even when its
+substitution is unchanged; with billions of nonzeros this dirties a large
+fraction of the file-backed basis. The new pass writes only an actual
+substitution or compaction. Furthermore, new triangular rows contain no
+earlier pivot columns. If every new row has more than two entries, old short
+relations cannot reduce them, and no new singleton or doubleton relation is
+introduced. In that case the previous substitution state remains exactly
+valid and the full sweep is a no-op. When a new short row exists, the
+complete reverse propagation still runs. The legacy-reducer comparison passed for singleton, doubleton, cascading
+zero and dense no-op cases at both a small prime and the production prime.
+The $12+4$ eight-loop control passed all sewing and physical checks and
+matched the known coefficient payload exactly; it took 134.344 seconds,
+peaked at 2.209 GB and completed 39 evictions.
+
+V9 retained these mathematical and storage kernels and added explicit
+selection of the native prime. This allows one prime per process, with
+conversion and reconstruction between solves. V10 additionally admits direct physical rows during discovery, as described
+above. Its $17+3$ scheduling target is 9000 directions. The managed
+user service enforces
+a 48 GB memory-pressure threshold and a 50 GB hard cgroup limit, alongside
+the process-tree RSS and system-reserve guards. Thus a chat interruption
+need not terminate the numerical process. Each successful prime retains
+its native cache and sparse checkpoints; only its temporary mapped working
+file is eligible for removal after the process exits.
+
+The completed rational candidate and exact certificates now supplement the
+one-prime dimension chains. These separate results establish rational
+joining and the reserved origin predictions; the finite-field dimension
+chains alone would not do so.
+
+The experiment preserves earlier stopped attempts, complete input blocks,
+private checkpoints, source and executable hashes, and resource reports.
+The audit directory is
+\texttt{audits/hexagon-ten-loop-2026-10-06}; the numerical experiment is
+\texttt{output\_hexagon\_16p4\_20261006}, with the alternative split
+recorded in \texttt{output\_hexagon\_17p3\_20261007}. No stopped attempt is labeled a
+completed native prime. The completed result has the conditional certification scope stated in the
+abstract and in the final verification receipt.
+
+
+% BEGIN NATIVE BENCHMARK ADDENDUM
+\section{The native rational export and reproducible benchmarks}
+The native representation deserves its own durable result because the
+linear solve takes place in $17+3$ coordinates. It is now stored as six
+rational sector matrices under
+\begin{center}
+\path{output_hexagon_validation_20261009/native-qq-17p3}.
+\end{center}
+There are 275246 coordinates and 246941 nonzero entries, with no remaining
+homogeneous directions in the selected conditional ansatz. The export uses
+the original native recurrence identity and preserves the origin-last
+convention. Its manifest explicitly identifies an external rational export;
+it does not relabel the first prime as a V17 computation.
+
+Seven saved native primes reconstruct the vector with numerator bound
+$N=2^{96}-1$ and denominator bound
+$D=\lfloor(M-1)/(2N)\rfloor$. Every coefficient agrees at the eighth
+saved prime. This is a retrospective check. It is distinct from the two
+primes that were genuinely reserved after the earlier shifted candidate
+was frozen. An exact rational conversion of the native vector to $16+4$
+then reproduces all 518048 coefficients of that independently certified
+candidate. Wolfram's independent WXF reader verifies both the native
+export against its rational TSV vector and the converted export against
+the accepted shifted vector. The conversion checks its exact factorization
+identity before writing the output.
+
+The native export also passes every original, unprereduced joining row.
+Clearing the recurrence, route and candidate denominators gives an absolute
+integer residual bound of 700 bits. Eight saved congruence primes and four
+additional residual-only primes give a 721-bit modulus exceeding that
+bound. Each of the 2053259 residuals is zero modulo every prime, so it is
+zero over $\mathbb Q$. The four extra primes evaluate an existing candidate;
+they do not repeat the native solve. All 44 origin predictions also pass
+exactly on the native factorization. This checks the native result directly for coordinate and normalization
+errors, in addition to its exact relationship to the shifted result.
+
+The exact native seam check took 116.652 seconds with 14.334 GB sampled
+peak RSS; the 44 native origin checks took 145.819 seconds with 18.896 GB.
+The shifted factorization is cheaper for these checks: its corresponding
+costs were 67.667 seconds/4.398 GB and 44.998 seconds/5.624 GB. The primary
+native representation can therefore be retained while a proven exact
+change of split supplies a cheaper verification representation.
+
+\subsection{Reconstruction should respect coefficient height asymmetry}
+The first native reconstruction trial used six primes with a uniform
+48-bit numerator bound. It failed to find 31 coordinates and supplied
+incorrect candidates for 31 others, which both saved check primes rejected.
+That failure is preserved. It does not signal inconsistent modular solutions:
+the verified native vector has denominators as large as 315 bits, whereas
+the trial's denominator bound has only 312 bits. The coordinates with these
+large denominators have particularly small numerators.
+
+For each reduced coefficient $n_j/d_j$, define the product height
+$H_j=2|n_j|d_j$. The maximum individual height in this result has 329 bits,
+while the product formed from separate global numerator and denominator
+maxima has 361 bits. The six-prime modulus itself has 361 bits. Thus a
+single rectangular reconstruction bound can miss useful coefficient-wise
+asymmetry. A retrospective experiment enumerates the Euclidean convergents
+satisfying $2|n|d<M$ and chooses the unique candidate minimizing $|n|d$,
+handling zero separately. This is a candidate-selection heuristic when
+coefficient bounds are unknown; it is not a substitute for reserved checks.
+
+The experiment reconstructs every native coefficient from the first six
+primes, agrees with both remaining saved caches, and reproduces every
+coefficient of the known eight- and nine-loop reference exports (69988 and
+195155 coordinates). A measured repetition, including those controls,
+takes 9.754 seconds and 0.183 GB peak RSS. The initial uninstrumented
+experiment took 11.526 seconds. The accepted seven-prime export's provenance
+is retained. For future calculations, freezing this reconstruction rule
+before two new validation primes would allow a six-plus-two protocol for
+both representations on data of this kind. Retrospective success cannot
+turn existing primes into fresh checks.
+
+\subsection{Additional physical coverage and phase measurements}
+The broader validation is performed on the primary native vector. Exact
+conversion transfers its symbol-level conclusions to the shifted
+representation. The new checker first reproduces the saved eight- and
+nine-loop references: respectively 8/8 collinear equations, 128/144 MRK
+equations, and 2100/2618 extended OPE coefficients. A deliberately doubled
+eight-loop symbol fails all 64 equations in a separate MRK negative control.
+The projection engines themselves are shared with the solver; the new
+points and unused physical coefficients provide additional tests, not an
+independent implementation of every formula.
+
+The extended ten-loop OPE table contains 3192 coefficients. Its 2280-entry
+overlap with the original table agrees exactly. The additional 912 entries
+occur at $T S^{11}$, $T S^{13}$, $T^2 S^{12}$ and $T^2 S^{14}$, with all
+supplied log powers in the maximal-helicity sectors. None of those entries
+was present in the original fit or original holdouts. The original fit did
+include solve-role twist-one data, so twist one as a whole is not an unused
+holdout. The input plan fixes the additional data, seed and sample offset
+before validation of the ten-loop result.
+
+At each of the new primes 1152921504606947147 and 1152921504606947161,
+64 collinear projections, 1280 MRK equations and all 3192 extended OPE
+coefficients pass without a mismatch. Thus there are 9072 successful
+finite-field checks, including the same 912 distinct new OPE coefficients
+at each prime. They are validation equations, not 9072 new independent
+fitting constraints. The coverage still excludes helicity-zero twist two
+and all higher twists. These finite-field tests are separate from the exact
+rational seam, origin and split certificates and do not prove every
+physical limit as a rational identity.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Check & Prime 1 seconds & Peak GB & Prime 2 seconds & Peak GB\\\midrule
+Collinear & 88.187 & 16.962 & 93.250 & 16.438\\
+MRK & 275.950 & 16.912 & 288.675 & 16.905\\
+Extended OPE & 1157.125 & 18.908 & 1083.189 & 18.995\\
+\bottomrule
+\end{tabular}
+\end{center}
+The six ten-loop physical validation jobs take 2986.376 seconds
+in sum, with an 18.995 GB sampled peak. Control calculations and exact
+certification are accounted for separately.
+
+\subsection{Reproduction scope and remaining algorithmic comparisons}
+The benchmark bundle is \path{benchmarks/hexagon-mhv-ten-loop}. Its primary
+reference directory is \path{reference/17p3}; the equivalent shifted result
+is in \path{reference/16p4}. Coordinate order, recurrence identities, sources,
+commands and validation receipts accompany the six sector matrices. The
+complete-prime wrapper starts from the prepared FEC and LEC bases in a new
+output directory, and reads the reference vector only after the solve for
+comparison. Its command construction and input validation have been checked;
+a new complete prime has not been run solely to test this wrapper.
+
+This is a sewing benchmark with prepared bases. It does not yet provide a
+validated fresh-clone regeneration of all hexagon bases and external physical
+inputs. The eight successful native solves took 103655.526 seconds in total
+(28.793 hours), with 39.141 GB maximum sampled process-tree RSS. Their combined
+CPU time was 1116756.594 seconds, averaging 10.77 cores. The eight modular
+conversions took a further 537.176 seconds. These totals exclude basis
+preparation, failed or interrupted trials, reboot downtime, reconstruction
+and later certification. Memory figures use decimal GB and 100 ms RSS
+sampling, within the 50 GB hard cgroup limit.
+
+The measurements identify discovery and collinear fitting as the main
+whole-run targets. Structural row and pivot replay across primes could reuse
+an elimination order while recomputing every coefficient and right-hand
+side. Exceptional pivots must trigger a checked fallback, and the complete
+original seam certificate must remain independent. A separate V18 experiment
+has now validated final-seam structural replay at eight and nine loops, as
+reported below. V26 subsequently tests discovery replay at eight and nine
+loops; its ten-loop cost and fully implicit physical projection remain
+unmeasured.
+
+The newly checked higher-$S$ OPE data also permit a concrete scheduling
+experiment: admit $S^{11}$/$S^{12}$ data earlier while retaining
+$S^{13}$/$S^{14}$ as holdouts. The decision should use total subsequent time
+and fill, including projection cost, rather than rank gain alone. A weight-dependent triangular log bound is now validated at nine loops by
+V22 below, while its ten-loop performance remains unmeasured:
+at head weight 17 there are 171 slots, compared with 231 at total weight 20.
+Omitted entries and the known eight- and nine-loop results must be checked
+before selecting that change.
+
+Finally, the finishing solver currently restricts its affine space after
+64 pivots or at the end of a sweep. If fewer than 64 parameters remain,
+restricting as soon as the rank equals the remaining dimension could avoid
+some work. A subsequent complete zero-residual sweep would still be required.
+Existing logs do not locate the point of rank saturation, so this is a
+proposal with no measured saving. These remaining comparisons preclude a
+claim of global performance optimality.
+
+\subsection{Measured memory-policy improvement in final sewing}
+Both replay runs start from the same prime-two post-OPE checkpoint, with
+2877 homogeneous directions and 1645065 stored nonzeros including the affine
+origin row. They invoke the identical frozen V17 finishing function and
+reproduce all 275246 final native coefficients, including all zero entries.
+Each completes the full final zero-residual sweep; the comparison changes
+allocation policy without changing equations or mathematical scheduling.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Backend & Seam seconds & Process seconds & CPU seconds & Peak GB\\\midrule
+Mapped & 1276.920 & 1349.263 & 2781.930 & 13.959\\
+Heap & 222.071 & 289.422 & 2268.137 & 14.410\\
+\bottomrule
+\end{tabular}
+\end{center}
+The phase wall-time ratio is 5.750, an 82.61\% reduction. Including input
+loading, the process ratio is 4.662. The sampled peak increases by only
+0.451 GB, and includes loading as well as the finishing phase. Both jobs
+use 16 threads, the same O2 binary and the same field prime. They run serially
+in mapped-then-heap order with warm input and OS caches on the shared
+workstation. This is one trial per backend and does not establish an
+end-to-end prime speedup.
+
+The mapped allocator log records at least 8310784 free-range reclamation
+calls. Its implementation punches holes in free storage while holding an
+allocator mutex. System CPU time is 877.627 seconds for mapped storage and
+82.527 seconds for heap storage; average whole-process CPU usage is 2.06
+and 7.84 cores respectively. These observations support allocation and
+reclamation overhead as a substantial finishing-stage cost. The free-range
+byte counters are not measurements of physical disk traffic.
+
+Live cgroup snapshots verify the 48 GB pressure threshold, the 50 GB hard
+limit (rounded down to a page boundary), and zero swap allowance. The
+observed high/max/OOM counters and memory pressure are zero. Post-exit
+\texttt{systemctl} queries returned default values after the transient units
+were collected; the saved live snapshots provide the resource-limit evidence.
+
+Heap storage is therefore the measured choice for a separate replay of
+this finishing checkpoint. For future complete solves, a checked process
+boundary or an ownership-safe policy switch after the large spaces shrink
+is worth benchmarking. The result does not support using heap storage
+throughout discovery, where memory retention previously mattered. The
+benchmark bundle preserves both commands, input and executable hashes,
+full logs, resource records and exhaustive coefficient comparisons. The
+frozen production results are unchanged.
+\subsection{V18 follow-up on eight- and nine-loop references}
+The separate V18 package adds three related changes to final sewing. It
+contracts the seam factors directly into candidate coordinates, avoiding
+construction, sorting and merging of each full source row. After an affine
+restriction it continues at the next block: a previously satisfied row
+remains zero under the common left transformation of directions and origin.
+Finally, it stores independent source-row addresses for later primes,
+regenerates every modular coefficient and right-hand side, solves the small
+system and lifts once. Layout, identity and rank checks guard reuse. Every
+route retains a complete final operator check. The earlier discovery and
+physical scheduling, CG conventions and bonus ansatz are unchanged.
+
+The saved validation has 19 stages and a 208-file build receipt. An additional
+review verifies their hashes, reported measurements and every first-prime
+native coefficient against the original saved payload. Both new primes pass
+the current physical holdouts and their converted vectors agree with the saved reference values. The original
+comparator could select stored finite-field caches; those calls therefore
+did not establish fresh reduction of the rational reference files. The V22
+follow-up below verifies forced rational reduction at nine loops. Phase controls separately replay
+all 133214 and 372388 factored sewing rows through the original implementation.
+These are finite-field lower-loop controls, not new rational reconstructions
+or replacements for the ten-loop exact certificates.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Run & V17 seconds & V18 seconds & V17 peak GB & V18 peak GB\\\midrule
+Eight loops, 2 GiB cache & 60.861 & 58.907 & 1.871 & 1.874\\
+Nine loops, 2 GiB cache & 511.502 & 495.895 & 5.957 & 5.950\\
+Nine loops, V18 3 GiB cache & 511.502 & 467.490 & 5.957 & 5.984\\
+\bottomrule
+\end{tabular}
+\end{center}
+With equal cache settings, complete-prime wall time falls by 3.21\% at eight
+loops and 3.05\% at nine loops. The 8.60\% reduction in the last row combines
+algorithm and cache changes. Each nine-loop terminal OPE head occupies
+876573360 bytes; three require 2629720080 bytes, exceeding 2 GiB but fitting
+within 3 GiB. The enlarged cache reduces terminal generations from four to
+three and removes about 29.9 seconds of logged head-generation work. Peak
+memory is essentially unchanged in these trials; this is not a general
+memory guarantee.
+
+At the same nine-loop finishing checkpoint, V17 takes 22.075 seconds, V18
+learning takes 6.989 seconds, and replay takes 3.391 seconds. The actual later
+prime reuses 380 rows and one lift: the small solve takes 0.040 seconds and
+complete verification takes 3.337 seconds. At eight loops the checkpoint
+already has zero directions, so its improvement concerns verification, not
+learning constraints.
+
+These measurements use matched O3 builds, heap allocation, 16 threads and
+prepared bases, with one complete-prime trial per configuration. Numerical
+timings begin after the ten-loop allocator comparison. The jobs have a 20 GB
+hard cgroup cap, no swap and zero recorded limit/OOM events. The ten-loop
+allocator comparison used O2, and these lower-loop factors cannot be
+multiplied into a ten-loop speedup estimate. No ten-loop V18 production
+selection is made. A bounded ten-loop pilot, repeated timings and structural
+ten-loop discovery replay remain useful next comparisons. V26 below
+subsequently tests discovery replay at eight and nine loops.
+
+The source package and detailed report are in
+\path{output_hexagon_v18_20261009}; the benchmark archives the reviewed
+receipts under \path{evidence/v18-lower-loop}. The accepted ten-loop
+coefficients, checks and producer identities remain unchanged.
+
+\subsection{V22: compressing physical operators and intermediate OPE storage}
+The historical nine-loop study measures complete process user-plus-system
+CPU time. Its then-applied gate requires more than 15\% improvement over original V17,
+with no more than 5\% higher sampled peak RSS, using the smaller V17 peak
+as the conservative reference. Independent review recomputes the means,
+checks 14 run receipts and 834 source/build file bindings, and repeats all
+native coefficient-payload comparisons.
+This historical V17 comparison does not establish the current V16-baseline
+qualification clarified below.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Configuration & Trials & CPU-hours & Wall seconds & Peak GB range\\\midrule
+V17 / 16 threads & 2 & 1.481645 & 508.864 & 5.903--6.011\\
+V20 / 16 threads & 2 & 1.049393 & 384.887 & 5.877--5.935\\
+V21 / 16 threads & 3 & 1.039490 & 380.377 & 5.849--5.939\\
+V21 / 8 threads & 1 & 1.178127 & 684.994 & 5.323\\
+V22 / 16 threads & 2 & 0.918766 & 347.391 & 5.840--5.890\\
+\bottomrule
+\end{tabular}
+\end{center}
+CPU and wall means use first-prime repetitions; RSS ranges include every
+field and repetition. V22 reduces CPU time by 37.99\% relative to V17 and
+11.61\% relative to V21 with 16 threads. The eight-thread control loses on
+CPU and wall time. Its wall-time-driven physical schedule changes the
+discovered space, so it is a configuration comparison rather than pure
+hardware scaling. The initial V19 candidate saved only 11.67\% against the
+final two-trial baseline and failed the gate.
+
+The main change compresses the affine collinear suffix operator together
+with every sampled right-hand-side column. Write the augmented operator as
+$Q=[T\mid b_1\ \cdots\ b_m]$. Selecting original rows $I$ and explicitly
+verifying a certificate $Q=CQ_I$ preserves the full row span, including
+RHS-only equations. The observed suffix count falls from 36 to 14. Rechecking
+exact zero-head support for each field and sample batch reduces it to nine.
+The smaller operator avoids repeated large projected sparse products while
+retaining the scalar physical holdouts and complete seam verification.
+
+V22 then stores only logarithm powers $a+b\leq w$ at intermediate head
+weight $w$, retaining all $T/S$ jet coefficients and restoring the existing
+external layout before projection and cache use. At weight 15, 136 slots
+replace 190. The implementation passes 2160 square-reference operator cases
+and all 1178100 coefficients of complete FEC8 heads at each of two primes.
+Mean OPE CPU time decreases from 1313.38 seconds in V21 to 1000.55 seconds
+in V22. Collinear timing also improves after the shared recurrence gains
+separate input/output strides. No isolated attribution experiment was made,
+so the full improvement cannot be assigned solely to OPE storage.
+
+Every one of the 105898 native coordinates agrees at both primes, and the
+current collinear, MRK, OPE and complete 372388-row factored seam checks pass.
+An additional reference audit corrects the earlier comparator ambiguity:
+cache-free snapshots match all original rational reference files by hash,
+forcing genuine rational reduction. Both V20 shifted outputs agree in all
+195155 coordinates; V22 native payload equality with V20 transfers that
+check. The older V18 comparison evidence remains preserved with its narrower
+scope. This correction does not affect the ten-loop independent Wolfram
+readback, exact split equality or original-seam certificates.
+
+These are serialized sewing trials on prepared bases, with a 20 GB hard
+cgroup limit, no swap and zero recorded limit/OOM events. Physical cache is
+4 GiB and OPE cache is 3 GiB, except original V17 uses 2 GiB. There is no
+confidence interval, cold-basis timing or V22 ten-loop measurement. The
+50 GB production limit is unchanged. Discovery still costs about 1033 CPU
+seconds per nine-loop run, motivating guarded row/pivot replay and
+precomposition of the double-bonus tail basis as further comparisons.
+
+\subsection{Additional triple-entry checks and their limits}
+The separate mathematical audit checks the complete 21-term Eq.~(92) of
+ref.~\cite{dixonliu} and both cyclic images. The completed native ten-loop
+symbol passes at two primes after fitting. These are additional modular
+holdouts, not a new rational triple certificate or an all-loop proof.
+The constraints were not used in V22 or in the accepted ten-loop solve.
+
+On the audited local source they add rank three beyond the double bonuses,
+reducing 65 local triple directions to 62. Rational local witnesses prove
+that the certified local source alone does not imply these relations;
+without a global physical-prefix extension they are not counterexamples to
+the amplitude relations. The initial truncated transcription omitted
+continuation lines and was invalid. Its apparent failures are superseded
+by the complete v3 checks, including exact known eight- and nine-loop tests.
+A separate quadruple calibration returned 169 rather than 166 and remains
+unresolved; it supplies no amplitude-error claim or solver constraint.
+
+The numerical evidence and pinned nine-loop profile are archived under
+\path{evidence/v22-nine-loop} in the benchmark. The mathematical source and
+receipts are in \path{bonusrelation/solver_audit_20261009}. All claims of
+uniqueness retain the stated conditional ordinary-symbol scope.
+
+\subsection{V26: generic discovery replay and triangular affine factors}
+The next implementation moves structural reuse into discovery and delays
+expansion of triangular affine equations. The core accepts general sparse
+finite-field systems: source rows determine ranks, pivots and free variables.
+The physical adapter supplies the existing equations and normalization;
+no additional bonus assumption or known-answer fitting equation is introduced.
+
+A discovery plan records source positions, pivot groups and bounded
+dependency routes, never coefficients from an earlier field. Every matrix
+entry and right-hand side is regenerated at the new prime. Discarded rows
+are checked against the new basis. An absent dependency route uses ordinary
+exact elimination locally, while changed source identity, row streams,
+pivots or rank trigger fresh discovery. This preserves the complete system
+even on an exceptional prime, though fallback can remove the speed advantage.
+
+The affine factor retains triangular equations
+\[
+ x_j=b_j-\sum_{k>j}U_{jk}x_k.
+\]
+Free-variable maps and a shared constant coordinate are composed directly,
+avoiding an intermediate fully expanded reduced matrix. The generic API
+supports lifting, operator projection and materialization. The current
+driver still materializes complete maps at its existing affine checkpoint
+boundaries; fully implicit propagation through all physical stages is not
+yet a measured implementation.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Configuration & Learn CPU-h & Replay CPU-h & Mean wall s & Peak GB\\\midrule
+Eight-loop V26 & 0.097601 & 0.098072 & 47.654 & 1.883\\
+Nine-loop fresh V22 & 0.915311 & 0.907920 & 342.590 & 5.949\\
+Nine-loop V26 & 0.880155 & 0.864388 & 324.935 & 5.943\\
+\bottomrule
+\end{tabular}
+\end{center}
+All three rows use 16 workers. Each mean includes one learning prime and
+one replay prime, not statistical repetitions of one prime. The V26
+nine-loop mean is 0.872271 CPU-hours: 41.13\% below the historical V17
+mean of 1.481645 CPU-hours and 4.32\% below the fresh matched V22 pair
+(0.911615 CPU-hours). The eight-loop mean is 0.097837 CPU-hours, a 23.34\%
+reduction against its original V17 control. These include learning costs.
+The historical V17 comparison changes OPE cache from 2 to 3 GiB as well as
+algorithm, and therefore measures a whole configuration.
+
+Here peak RSS is the larger of the 100 ms sample maximum and kernel process
+high-water marks recorded by phase instrumentation. The nine-loop value
+is 5942951936 bytes, only 0.672\% above the conservative historical sampled
+V17 reference of 5903253504 bytes. The eight-loop value is 1883369472 bytes,
+0.648\% above its reference. Earlier tables retain their sampled metric.
+Thus both tested workloads pass the greater-than-15\% CPU saving and
+at-most-5\% RSS growth gate then applied against original V17. The V17
+measurements retain that identity and do not establish V16 qualification.
+
+The distinction between sampled and kernel peaks changes the engineering
+decision. Profiling measured 825 CPU seconds reducing incoming rows and
+27 seconds searching for new pivots, motivating dependency-route replay.
+A 256 MiB route cache passed correctness but reached 2.186 GB at eight
+loops. Reclaiming unused allocator pages reduced its kernel peak to
+2.060 GB, still too high; the sampler alone reported 1.884 GB and missed
+this brief allocation spike. V26 uses a fixed 64 MiB route budget for every
+input, with reclamation only after temporary owners are destroyed at joined
+phase boundaries. V24/V25 have slightly smaller nine-loop CPU means but
+fail this cross-instance memory criterion. Their small time differences do
+not establish a general performance ordering.
+
+Independent review verifies 21 native run receipts, all 221 selected-build
+file hashes, every native payload comparison, and the recomputed CPU/RSS
+gate. Generic controls cover 96 field cases, 48 structural replays and
+72 affine-map comparisons against independent dense elimination, including
+rank-deficient and inconsistent systems and two exceptional-prime rank
+changes. Deliberately absent routes pass 48 fallback controls. Five other
+matrix families agree with both the previous implementation and all original
+equations. The selected runs reproduce all 38989 eight-loop and 105898
+nine-loop native coordinates at both fields; complete sewing sweeps and
+fresh collinear, MRK and OPE checks pass. The nine-loop rational reference
+chain retains the earlier forced-QQ-only reduction audit.
+
+Runs were serialized with native heap storage, 4 GiB physical cache,
+3 GiB OPE cache, an 18 GB pressure threshold, a 20 GB hard cap and no swap.
+Time includes input loading, discovery, fitting, checkpoint and plan I/O,
+and final checks. Compilation, cold basis/RHS generation and a new rational
+reconstruction are excluded. All 21 fresh native runs together consume
+10.688 CPU-hours. These controls establish correctness and measured costs
+on the tested workloads, not universal speedups or global optimality.
+
+This study motivates compressed dependency routes, selection by work saved
+per byte, a deterministic work-based physical schedule, and implicit affine
+factors across physical projection stages. V27 below tests the first three;
+complete implicit projection remains unmeasured. A time-based
+schedule can change the source-row stream and safely force rediscovery.
+V26 ten-loop performance remains unmeasured; lower-loop savings cannot be
+multiplied into the accepted ten-loop timings. The 50 GB production limit,
+native and shifted rational references, and original producers are preserved.
+The independently reviewed receipts are in \path{evidence/v26-generic};
+full packages and plans remain in \path{output_hexagon_v23_20261009}.
+
+\subsection{V27: further experiments and the corrected working selection}
+V27D with 16 workers is the current working nine-loop benchmark. The
+qualification target remains strictly more than 15\% CPU saving against
+V16, with at most 5\% higher RSS; V26 supplies an incremental comparison.
+The earlier recommendation to retain V26 incorrectly reset the qualification
+threshold against V26. There was no separate correctness failure motivating
+that recommendation. Direct nine-loop qualification against V16 remains
+unverified: the historical comparison measured V17 and must retain that
+identity. Working selection does not assert that the missing V16 comparison
+has passed or that ten-loop V27 performance has been measured.
+
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Complete native workload & Mean CPU-h & Mean wall s & Peak GB\\\midrule
+Nine-loop V26 / 16 workers & 0.874501 & 325.347 & 5.912\\
+Nine-loop V27D / 16 workers & 0.867992 & 297.189 & 6.010\\
+Nine-loop V27D / 8 workers & 0.838348 & 468.654 & 5.374\\
+Eight-loop V26 / 16 workers & 0.099578 & 48.714 & 1.902\\
+Eight-loop V27D / 16 workers & 0.063614 & 26.606 & 1.784\\
+\bottomrule
+\end{tabular}
+\end{center}
+Each row averages a learning prime and a replay prime, not timing
+repetitions. Peak memory is the maximum of the 100 ms RSS sample and kernel
+process high-water marks. V27D with 16 workers saves 0.74\% CPU time and
+8.65\% wall time, and raises peak RSS by 1.65\% against fresh V26. The small
+CPU difference is not an established statistical speedup. Eight workers save 4.13\% CPU
+against that 16-worker baseline but take longer. A separate matched
+eight-worker first-prime comparison gives 0.869639 versus 0.845487 CPU-hours,
+a 2.78\% saving. The eight-loop 36.12\% saving against V26 does not establish
+nine-loop qualification against V16. A historical eight-loop V16 control
+gives 49.32\% CPU saving and 1.44\% RSS growth for V27D, but compares one
+original mapped/cache-configured V16 prime with a new heap learning/replay
+pair. It is not a matched nine-loop qualification experiment.
+
+The implementation tests four reusable directions. Ordered bit queues,
+balanced row ranges, reusable worker scratch and exact density-based
+sparse/dense dispatch improve the numerical kernels. Delayed 128-bit
+accumulation corrects arithmetic overflow exactly; fields larger than
+61 bits retain canonical reduction. Scheduling compares physical rank
+gain per arithmetic work against seam work, including retained fill, and
+records task decisions for replay. An augmented feature-space compressor
+certifies discarded equations using all RHS and origin columns. Finally,
+delta-varint dependency routes are selected by estimated updates saved per
+byte. Their accounting budget is 64 MiB, with an 8 MiB logical learning
+budget; incomplete routes finish with exact residual elimination. These
+are transformations of the supplied system, not additional physical or
+bonus constraints.
+
+First-prime ablations at nine loops save 3.25\% CPU for the kernel bundle,
+1.43\% for the compression extension and 0.64\% for packed routes. The new
+schedule costs 0.13\% more CPU in its local comparison. Packed routes save
+1.65\% over learning plus replay relative to the legacy route cache.
+These are interacting measurements with other features enabled, not additive
+gains or confidence intervals. Disabling packed routes restores legacy
+structural replay rather than removing replay altogether.
+
+Failures supply useful engineering constraints. Uniform sampled density
+aliased polynomial layouts, requiring exact density inspection. The initial
+work-budget-only physical schedule admitted expensive MRK/OPE work too
+early: V27B averaged 1.103377 CPU-hours per nine-loop prime. Comparing
+physical gain/work against seam work recovered most of that regression.
+The MRK feature-space operator remained full rank, so the new compression
+adapter removed no rows there. All completed variants stayed numerically
+correct; their separate source packages, executables and logs are preserved.
+The scheduling regression concerns early execution, not availability of
+physical constraints. All required equations or lazy generators should be
+registered from the start; expensive blocks may remain pending according
+to expected rank gain, total arithmetic cost, fill and memory. Deferred
+blocks must preserve the affine RHS and origin under coordinate changes
+and remain subject to completion accounting and final checks.
+
+The phase data distinguish elapsed time from CPU cost. First-prime discovery
+uses 930.056 CPU seconds in 126.644 wall seconds for V26 with 16 workers,
+1112.650 CPU seconds in 104.756 wall seconds for V27D with 16 workers, and
+868.333 CPU seconds in 140.247 wall seconds for V27D with eight workers.
+Lower worker count also improves MRK CPU time while worsening collinear
+and OPE CPU time. Phase-dependent worker selection is an untested next
+comparison. Hardware counters were unavailable, so these timings do not
+establish cache-miss or memory-bandwidth rates. Nested phase records must
+not be summed as independent costs.
+
+Independent review checks all 27 native runs, 909 source/build file bindings
+across four packages, serial timing intervals, all native coefficients and
+the recalculated measurements and ablations. Every run reproduces the
+38989 eight-loop or 105898 nine-loop reference coordinates and passes
+complete sewing and fresh collinear, MRK and OPE checks. The prior
+forced-QQ-only reference chain is retained. New and legacy switches pass
+96 field cases, 48 replays, two exceptional-prime fallbacks and 72 affine-map
+comparisons. Additional controls cover 144 augmented compression cases,
+64 deterministic schedules, 756718 queue operations, route damage/budget
+guards, exact density and persistent cycles, and 5077 deliberately exercised
+overflow corrections against canonical arithmetic.
+
+All 27 native trials together consume 16.098 CPU-hours. They run serially
+with prepared inputs, heap allocation, 4 GiB physical cache and 3 GiB OPE
+cache, under a 20 GB hard limit, 18 GB pressure threshold and no swap.
+Recorded cgroup events are zero. Timings include loading, checkpoint and
+plan I/O and final checks, but exclude compilation, cold inputs and a new
+rational reconstruction. The review is archived in
+\path{evidence/v27-experimental}; complete sources and plans remain in
+\path{output_hexagon_v27_20261009}. The current working selection and its
+independent amendment review are in \path{evidence/v27-selection-amendment}.
+Original reports and receipt reviews retain their old selection decision as
+historical evidence; the amendment supersedes that recommendation. The old
+execution gate is preserved byte for byte with an explicit verified
+relocation. Legacy comparison flags refer to the superseded V26 threshold,
+not the unverified V16 qualification. At this selection stage ten-loop V27
+performance was unmeasured; the later first-prime result follows below.
+The accepted ten-loop producers, 50 GB production cap and
+conditional uniqueness scope are preserved.
+
+\subsection{First fresh V27D ten-loop prime and the memory regression}
+The fresh V27D solve at $p=1152921504606847009$ now reproduces every one
+of the 275246 native and 518048 shifted coefficients of the preserved
+modular result. Independent receipt review checks the complete 989800-row
+factored seam and the fresh supplied collinear, MRK and OPE checks over
+this field. These are modular checks, distinct from the original unreduced
+QQ sewing certificates of the already certified result. The new run's
+rational reconstruction and exact certificates remain pending; its second
+prime was running at the first-prime snapshot. Its completed replay
+measurement is reported in the following subsection.
+
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Native learning prime & CPU-hours & Wall seconds & Sampled peak GB\\\midrule
+Historical V16 / 16 workers & 37.285539 & 12711.891 & 34.628\\
+Fresh V27D / 16 workers & 23.379927 & 6599.910 & 46.188\\
+\bottomrule
+\end{tabular}
+\end{center}
+The observed savings are 37.295\% in CPU time and 48.081\% in wall time,
+but sampled peak RSS grows by 33.383\%. Thus the CPU threshold passes
+while the 5\% memory tolerance fails: this ten-loop configuration does not
+pass the combined criterion. Staying within the absolute 50 GB ceiling
+is a separate property. The V27D kernel process high-water mark is
+46.208 GB; the table compares sampled RSS on both sides. The recorded
+service-wide peak was 47.774 GB, with zero high/max/OOM events at the
+comparison snapshot.
+
+V16 used mapped storage with an 8 GiB OPE-head cache, while V27D uses
+heap storage with a 3 GiB OPE-head cache. Both use 16 workers and prepared
+basis inputs. This is one historical configuration comparison, not isolated
+algorithm attribution, statistical repetition or nine-loop V16 qualification.
+At that stage replay and total reconstruction costs remained unmeasured. Conversion
+adds 65.740 wall seconds and 0.031945 CPU-hours, at 10.785 GB sampled peak
+RSS, and is excluded from the native comparison.
+
+\begin{center}
+\begin{tabular}{lrr}\toprule
+Native phase & CPU-hours & Wall seconds\\\midrule
+Discovery & 13.395889 & 3691.310\\
+Collinear restriction & 4.871917 & 1266.440\\
+MRK restriction & 0.479636 & 125.562\\
+Low-$S$ OPE restriction & 2.555983 & 809.382\\
+Complete final sewing & 0.092571 & 42.516\\
+\bottomrule
+\end{tabular}
+\end{center}
+Discovery and collinear restriction account for approximately 57.3\% and
+20.8\% of the whole-native CPU cost. Loading, checks and other overheads
+are not all represented in this table, and nested profile records must not
+be added again. The final MRK restriction gains no rank in this run.
+Skipping redundant elimination would require a reusable exact span or
+equation certificate; a zero-rank observation alone does not authorize
+dropping its required equations or independent final checks.
+
+The peak identifies a concrete generic memory hypothesis. Discovery retains
+1649199276 entries, or 19.790 GB of row payload, before
+\path{streaming_echelon.hpp} calls \path{triangular_solver_2}.
+In the frozen \path{SparseRREF/sparse_mat.h}, the transpose builder appends
+row incidence for every stored column with mutex-protected
+\texttt{push\_back}. Four-byte indices alone require at least 6.597 GB for
+this full transpose, before capacity slack and metadata. This lower bound
+does not estimate the savings from removing any particular incidence.
+The inspected recursive and scalar backsolve consumers access pivot columns.
+
+A candidate replacement would count and allocate exact-capacity incidence
+only for required pivot columns. Before selection, all consumer accesses
+must be proved covered and the new fill/indexing path tested on generic
+finite-field, rational, affine, rank-deficient and exceptional-prime systems.
+Actual pivot incidence, live transpose storage, affine materialization and
+allocator retention must be measured separately. A 20-second backsolve
+sample used approximately 15.06 active-core equivalents, so the observation
+does not diagnose insufficient task parallelism.
+
+The proposal remains unimplemented and unmeasured. The review changed no
+active solver, controller, inputs, checkpoints or completed coefficients and
+launched no competing heavy benchmark. The replay run retains 48 GB
+MemoryHigh, 50 GB MemoryMax and no swap. Evidence is archived in
+\path{evidence/v27-ten-prime1}, with active outputs under
+\path{output_hexagon_ten_v27d_20261009}. The original certified references
+and conditional bonus assumptions are preserved.
+
+\subsection{Second fresh V27D prime: the scope of replay savings}
+The solve at $p=1152921504606847067$ passes the recorded complete
+989800-row factored seam and fresh supplied collinear, MRK and OPE checks.
+Independent review again compares all 275246 native and 518048 shifted
+coefficients with their preserved same-prime references. Prime three is
+active; this fresh chain's rational reconstruction, new-prime validation
+and final exact certificates remain pending.
+
+\begin{center}
+\begin{tabular}{lrrr}\toprule
+Native V27D / 16 workers & CPU-hours & Wall seconds & Sampled peak GB\\\midrule
+Prime one, learning & 23.379927 & 6599.910 & 46.188\\
+Prime two, replay & 23.329189 & 6540.289 & 47.601\\
+\bottomrule
+\end{tabular}
+\end{center}
+Observed whole-native CPU decreases by 0.2170\%, wall time by 0.9034\%,
+and sampled peak RSS increases by 3.059\%. These are different primes,
+without timing repetitions or a same-prime replay-off control, so they do
+not isolate causal replay gains. Native solves plus both conversions total
+46.770291 CPU-hours. The second conversion adds 64.429 wall seconds and
+0.029231 CPU-hours; a complete reconstruction cost is not yet available.
+
+\begin{center}
+\begin{tabular}{lrrrr}\toprule
+Phase & Learn CPU-h & Replay CPU-h & Learn wall s & Replay wall s\\\midrule
+Discovery & 13.395889 & 13.385500 & 3691.310 & 3655.980\\
+Final sewing & 0.092571 & 0.046964 & 42.516 & 21.163\\
+\bottomrule
+\end{tabular}
+\end{center}
+Final-seam replay reduces contractions from 989800 to 2877 and affine
+lifts from 34 to one, while retaining the full 989800-row verification.
+The phase CPU reduction is 49.27\%, but its difference is only 0.1951\%
+of the first prime's whole-native CPU cost. The replay solve takes
+0.558 wall seconds; full verification still takes about 20.6 seconds.
+Thus an effective optimization of this phase has little effect on the
+dominant whole-solve cost.
+
+Discovery CPU falls by only 0.0776\%. Learning performs
+12329356644947 coefficient updates and replay 12332936520495, both about
+12.33 trillion. Recorded route steps are 64870291 alongside 3231942664
+ordinary queue steps, or 1.968\% of their combined count. This is step
+coverage, not avoided arithmetic or saved CPU. There are 3739 local residual
+completions among 4402 route uses. The inspected implementation follows
+each routed prefix by exact elimination of all remaining pivots; these
+completions are not global replay failure. The profile records structural
+replay for this completed discovery.
+
+At the comparison snapshot the service records 4481 MemoryHigh events,
+48.019 GB cgroup peak, and zero MemoryMax or OOM events. Event counts are
+cumulative service observations, not stall durations or isolated phase
+costs. Process sampled RSS peaks at 47.601 GB, also the rounded kernel
+high-water mark. Limits remain 48 GB soft, 50 GB hard and no swap. This
+pressure evidence does not repair the first-prime relative RSS gate failure.
+
+The same-prime historical producer was V17, with 38.571675 CPU-hours and
+38.581 GB sampled peak RSS. V27D uses 39.52\% less CPU and 23.38\% more
+RSS in that historical configuration comparison. The V17 identity must
+not be changed to V16; fixed V16 qualification and the unverified direct
+nine-loop comparison retain their stated scope.
+
+The profiling priorities are discovery update arithmetic and locality,
+backsolve transpose storage and allocation lifetimes. Counts alone do not
+separate arithmetic from bandwidth limits. Route admission should use net
+queue, decoding and residual work avoided, rather than coverage alone.
+The pivot-column-only exact-capacity transpose still requires independent
+generic validation. No active producer change, enlarged route cache or
+competing heavy benchmark was introduced. Required physical equations,
+affine RHS/origin and final checks are preserved. The independent review
+and receipts are in \path{evidence/v27-ten-prime2}.
+
+% END NATIVE BENCHMARK ADDENDUM
+
+\begin{thebibliography}{9}
+\bibitem{dixonliu}
+L. J. Dixon and Y.-T. Liu,
+\emph{An Eight Loop Amplitude via Antipodal Duality},
+\href{https://arxiv.org/abs/2308.08199}{arXiv:2308.08199}.
+\bibitem{flintmemory}
+FLINT developers, \emph{Memory management},
+\href{https://flintlib.org/doc/memory.html}{FLINT documentation};
+installed-runtime ownership implementation checked against
+\href{https://github.com/flintlib/flint/blob/v3.2.2/src/fmpz/link/fmpz_single.c}{FLINT 3.2.2 integer cache source}.
+\end{thebibliography}
+\end{document}

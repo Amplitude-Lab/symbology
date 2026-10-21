@@ -1,0 +1,126 @@
+{
+  "recorded_utc": "2026-10-05T12:18:51.447679+00:00",
+  "status": {
+    "state": "failed",
+    "controller_pid": 1176632,
+    "started_unix_seconds": 1791185255.000576,
+    "deadline_unix_seconds": 1791217333.826571,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "fec9",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/bin/split_character_extension",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/prepared",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/weight8",
+            "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/weight9",
+            "8",
+            "staged",
+            "1024",
+            "front_nonzeros=536870912",
+            "batch_nonzeros=16777216",
+            "batch_rows=16384",
+            "method=0"
+          ],
+          "exit_code": -15,
+          "timeout": false,
+          "memory_pressure": true,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 16336.398944069166,
+          "peak_summed_rss_bytes": 36151386112,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 107354.901804,
+          "cpu_system_seconds": 39.362257,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 1
+      }
+    ],
+    "updated_utc": "2026-10-05T11:59:51.399123+00:00",
+    "wall_seconds": 16336.427772745024,
+    "current_stage": "fec9",
+    "current_log": "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/fec9.log",
+    "current_live": "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/fec9-live.json",
+    "peak_stage_rss_bytes": 36151386112
+  },
+  "measurement": {
+    "command": [
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/bin/split_character_extension",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/prepared",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/weight8",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/weight9",
+      "8",
+      "staged",
+      "1024",
+      "front_nonzeros=536870912",
+      "batch_nonzeros=16777216",
+      "batch_rows=16384",
+      "method=0"
+    ],
+    "exit_code": -15,
+    "timeout": false,
+    "memory_pressure": true,
+    "rss_limit_exceeded": false,
+    "rss_limit_gib": 50.0,
+    "cancel_signal": 0,
+    "min_available_gib": 4.0,
+    "wall_seconds": 16336.398944069166,
+    "peak_summed_rss_bytes": 36151386112,
+    "sample_interval_seconds": 0.1,
+    "cpu_user_seconds": 107354.901804,
+    "cpu_system_seconds": 39.362257,
+    "max_processes": 1,
+    "virtual_limit_gib": 50
+  },
+  "launch": {
+    "controller_pid": 1176632,
+    "config_sha256": "1ed1c0aec791f9770b893e420c344710f4bac6c68b48016768dd824034f90bbd",
+    "binary_sha256": "95a7d8b499463b63f983b0fc47d21c6b7bda5ddc8d49ac1c5ce0a34a4c987e5f",
+    "launched_unix_seconds": 1791185254.9736366,
+    "deadline_unix_seconds": 1791217333.826571,
+    "command": [
+      "/usr/bin/python3",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/bin/run_pipeline.py",
+      "/home/ana/Documents/symbology/output_fec9_20261004/attempt6/config.json"
+    ]
+  },
+  "configuration_verified": true,
+  "owned_controller_and_solver_absent": true,
+  "completed_sectors": 0,
+  "required_outputs_present": {
+    "w9.wxf": false,
+    "w9_copies.tsv": false,
+    "chain.tsv": false,
+    "checksums.tsv": false,
+    "w9_sector0.wxf": false,
+    "w9_sector0.tsv": false,
+    "w9_sector1.wxf": false,
+    "w9_sector1.tsv": false
+  },
+  "last_completed_discovery": {
+    "reduced_columns": 234379,
+    "rank": 191801,
+    "candidate_nullity": 42578,
+    "sample_denominator": 4,
+    "elapsed_seconds": 14433.6
+  },
+  "last_emitted_triangular_count": {
+    "rank": 190202,
+    "nonzeros": 1945173760,
+    "payload_bytes_at_12_bytes_per_entry": 23342085120,
+    "is_peak": false
+  },
+  "log_sha256": "add0dcdeb77d56faa4900244a6a9e10007f183f09015e647af7d5e63ac934eef",
+  "log": "POLICY seed_terms=1024 front_nonzeros=536870912 batch_nonzeros=16777216 batch_rows=16384 method=0\nSECTOR_BEGIN weight=9 sector=0 columns=439404\npresolve_pass=1 relations=203170 remaining_columns=236234\npresolve_pass=2 relations=1798 remaining_columns=234436\npresolve_pass=3 relations=51 remaining_columns=234385\npresolve_pass=4 relations=6 remaining_columns=234379\npresolve_pass=5 relations=0 remaining_columns=234379\nstreaming_batch=1 input_rows=727387 rank=59732 retained_nnz=26271345\nREFINE_SEED rows=727387 cols=234379 nnz=304506965 bounded=0 elapsed=63.5498\nREFINE_ZERO_SUBSTITUTION columns=1925 limit=4096 sample_denominator=16\nREFINE_DISCOVERY limit=4096 rank=102086 nullity=132293 elapsed=304.972\nREFINE_ZERO_SUBSTITUTION columns=2028 limit=16384 sample_denominator=16\nREFINE_DISCOVERY limit=16384 rank=117491 nullity=116888 elapsed=544.736\nREFINE_ZERO_SUBSTITUTION columns=2035 limit=18446744073709551615 sample_denominator=16\nstreaming_batch=32 input_rows=818774 rank=129894 retained_nnz=895928441\nREFINE_DISCOVERY limit=18446744073709551615 rank=131250 nullity=103129 elapsed=1480.83\nREFINE_ZERO_SUBSTITUTION columns=2035 limit=18446744073709551615 sample_denominator=4\nstreaming_batch=64 input_rows=1039613 rank=174904 retained_nnz=1660384080\nstreaming_batch=96 input_rows=1079575 rank=187970 retained_nnz=1897852457\nstreaming_batch=128 input_rows=1094459 rank=190202 retained_nnz=1945173760\nREFINE_DISCOVERY limit=18446744073709551615 rank=191801 nullity=42578 elapsed=14433.6\nREFINE_ZERO_SUBSTITUTION columns=4886 limit=18446744073709551615 sample_denominator=1\n",
+  "no_resumable_elimination_checkpoint": true,
+  "deadline_unix_seconds": 1791217333.826571,
+  "remaining_seconds_at_record": 14602.378853082657,
+  "retry_decision": "No unchanged restart: less original time remains than the failed first-prime partial run consumed. A further full retry requires a validated substantial improvement; no deadline extension or interference with unrelated jobs.",
+  "config_sha256": "1ed1c0aec791f9770b893e420c344710f4bac6c68b48016768dd824034f90bbd",
+  "binary_sha256": "95a7d8b499463b63f983b0fc47d21c6b7bda5ddc8d49ac1c5ce0a34a4c987e5f"
+}

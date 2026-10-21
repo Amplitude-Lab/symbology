@@ -1,0 +1,100 @@
+{
+  "front": {
+    "command": [
+      "./bench/split_character_extension",
+      "output_fec9_20261004/subgroup-controls/parity-prepared",
+      "output_fec9_20261004/subgroup-controls/parity-compare5",
+      "output_fec9_20261004/pivot-controls/front-control",
+      "8",
+      "staged",
+      "1024",
+      "compare",
+      "front_nonzeros=268435456"
+    ],
+    "exit_code": 0,
+    "timeout": false,
+    "memory_pressure": false,
+    "rss_limit_exceeded": false,
+    "rss_limit_gib": 12.0,
+    "cancel_signal": 0,
+    "min_available_gib": 4.0,
+    "wall_seconds": 5.534203993156552,
+    "peak_summed_rss_bytes": 328998912,
+    "sample_interval_seconds": 0.1,
+    "cpu_user_seconds": 12.322969,
+    "cpu_system_seconds": 0.643589,
+    "max_processes": 1,
+    "virtual_limit_gib": 16
+  },
+  "generic_staged": "PASS 303 exact generic kernel/composition/affine cases, inconsistency, bad primes and all five weight-six cuts",
+  "coordinate_restriction": "PASS 120 exact coordinate-restriction kernels, reordered/empty selections, short relations and staged paths",
+  "private_units": "PASS private-unit rank certificate, shared-column rejection, empty matrix and large-height reconstruction; primes=3 repivoted_primes=5",
+  "parity7": {
+    "measurement": {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "output_fec9_20261004/pivot-controls/parity7.time",
+        "./bench/split_character_extension",
+        "output_fec9_20261004/subgroup-controls/parity-prepared",
+        "output_fec9_20261004/subgroup-controls/parity6",
+        "output_fec9_20261004/pivot-controls/parity7",
+        "8",
+        "staged",
+        "1024"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 12.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 61.17451080493629,
+      "peak_summed_rss_bytes": 1583063040,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 165.568813,
+      "cpu_system_seconds": 4.375752,
+      "max_processes": 2,
+      "virtual_limit_gib": 16
+    },
+    "matches": {
+      "1": {
+        "same_bytes": true,
+        "old": "7919d52bad76e50add563e377f93610a153eb239b7eac0c0a779094c70e99fe2",
+        "new": "7919d52bad76e50add563e377f93610a153eb239b7eac0c0a779094c70e99fe2"
+      },
+      "2": {
+        "same_bytes": true,
+        "old": "f1622fce178e69c8bdea5a4cdc41065a52c7d2530fdbee57e8222dd5985fb727",
+        "new": "f1622fce178e69c8bdea5a4cdc41065a52c7d2530fdbee57e8222dd5985fb727"
+      },
+      "3": {
+        "same_bytes": true,
+        "old": "bca6bbf4c40de85f94c8f661ba9a60e2f5bd5eeef3bef870015d0119f09cb80a",
+        "new": "bca6bbf4c40de85f94c8f661ba9a60e2f5bd5eeef3bef870015d0119f09cb80a"
+      },
+      "4": {
+        "same_bytes": true,
+        "old": "37df0759b642879cb9686d8866e2d4c5004999e5c676b7b1d828fe94492826ab",
+        "new": "37df0759b642879cb9686d8866e2d4c5004999e5c676b7b1d828fe94492826ab"
+      },
+      "5": {
+        "same_bytes": true,
+        "old": "11938204de8d0d073f69cac4ee67d2db8294de0f0190db2e17468ff18fbcc9fa",
+        "new": "11938204de8d0d073f69cac4ee67d2db8294de0f0190db2e17468ff18fbcc9fa"
+      },
+      "6": {
+        "same_bytes": true,
+        "old": "701084b27591d32807f2ba5a2ff909d034cdf12ba56c0aaa7a525cb2e7819da0",
+        "new": "701084b27591d32807f2ba5a2ff909d034cdf12ba56c0aaa7a525cb2e7819da0"
+      },
+      "7": {
+        "same_bytes": true,
+        "old": "92988e331e933ae690c1f3d7f9f3b75c789135a2fa355f1d00587fa3b5eb3a5e",
+        "new": "92988e331e933ae690c1f3d7f9f3b75c789135a2fa355f1d00587fa3b5eb3a5e"
+      }
+    }
+  }
+}

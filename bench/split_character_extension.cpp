@@ -5,7 +5,7 @@ using namespace symrep;
 // Full extension under rational one-dimensional characters. All sectors are
 // retained; the original factored operator certifies each restricted kernel.
 int main(int argc,char** argv){try{
-    require(argc>=7,"split_character_extension PREPARED CHAIN_OR_DASH OUTPUT THREADS staged|assembled|staged-raw|assembled-raw SEED_TERMS [compare] [front_nonzeros=N] [method=N]");
+    require(argc>=7,"split_character_extension PREPARED CHAIN_OR_DASH OUTPUT THREADS staged|assembled|staged-raw|assembled-raw SEED_TERMS [compare] [front_nonzeros=N] [batch_nonzeros=N] [batch_rows=N] [method=N]");
     fs::path prepared=argv[1],resume=argv[2],root=argv[3];fresh(root);
     rref_option_t opt;opt->pool.reset(std::stoul(argv[4]));
     std::string strategy=argv[5];bool raw=strategy.ends_with("-raw");if(raw)strategy.resize(strategy.size()-4);
@@ -15,10 +15,13 @@ int main(int argc,char** argv){try{
     for(int i=7;i<argc;++i){std::string arg=argv[i];auto at=arg.find('=');auto key=arg.substr(0,at);require(seen.insert(key).second,"duplicate option");
         if(arg=="compare")compare=true;
         else if(key=="front_nonzeros"&&at!=std::string::npos){auto n=strict_integer(arg.substr(at+1));require(n>0,"positive front size required");options.seed_nonzeros=size_t(n);}
+        else if(key=="batch_nonzeros"&&at!=std::string::npos){auto n=strict_integer(arg.substr(at+1));require(n>0,"positive batch nonzero limit required");options.batch_nonzeros=size_t(n);}
+        else if(key=="batch_rows"&&at!=std::string::npos){auto n=strict_integer(arg.substr(at+1));require(n>0,"positive batch row limit required");options.batch_rows=size_t(n);}
         else if(key=="method"&&at!=std::string::npos){auto n=strict_integer(arg.substr(at+1));require(n>=0&&n<=2,"method must be 0, 1 or 2");opt->method=int(n);}
         else require(false,"unknown option "+arg);
     }
-    std::cout<<"POLICY seed_terms="<<options.seed_terms<<" front_nonzeros="<<options.seed_nonzeros<<" method="<<opt->method<<std::endl;
+    std::cout<<"POLICY seed_terms="<<options.seed_terms<<" front_nonzeros="<<options.seed_nonzeros
+             <<" batch_nonzeros="<<options.batch_nonzeros<<" batch_rows="<<options.batch_rows<<" method="<<opt->method<<std::endl;
     auto group=load_group(prepared,256);auto ms=load_models(prepared,group,opt);auto p=load_prepared(prepared,ms);
     require(!p.backward,"pilot currently supports forward extension");
     for(const auto& m:ms)require(m.dimension==1&&m.division_dimension==1,"character extension needs one-dimensional rational models");

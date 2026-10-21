@@ -1,0 +1,304 @@
+{
+  "schema": "hexagon-v27d-operational-profile-v1",
+  "recorded_unix_seconds": 1791566707.7137876,
+  "state": "running_native",
+  "prime_index": 1,
+  "completed_primes": 0,
+  "phase_inference": "streaming elimination completed; triangular_solver_2 back substitution precedes affine kernel materialization and discovery checkpoint",
+  "source_evidence": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/src/shared/streaming_echelon.hpp:277",
+  "streaming_record": "streaming_complete rows=367728 input_nnz=2410118813 rank=251500 retained_nnz=1649199276 retained_alloc=1649199276 retained_array_bytes=19790391312 pivot_capacity_freed_slots=28",
+  "full_discovery_checkpoint_completed": true,
+  "resource_status": {
+    "state": "running",
+    "pid": 120852,
+    "command": [
+      "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+      "17",
+      "3",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/FEC",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+      "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3",
+      "9000",
+      "cache",
+      "right",
+      "--prime-index",
+      "1"
+    ],
+    "wall_seconds": 3867.5046807550098,
+    "current_rss_bytes": 12862513152,
+    "peak_summed_rss_bytes": 46188253184,
+    "timeout_seconds": 172800.0,
+    "rss_limit_gib": 46.566128730773926,
+    "virtual_limit_gib": 256,
+    "updated_unix_seconds": 1791566704.6259818
+  },
+  "live_cpu_hours_lower_bound": 13.467099999999999,
+  "sample": {
+    "start": {
+      "time": 1791566557.3998063,
+      "cpu_seconds": 47254.59,
+      "threads": {
+        "120852": {
+          "state": "S",
+          "cpu_seconds": 317.33,
+          "wchan": "futex_wait_queue"
+        },
+        "120854": {
+          "state": "R",
+          "cpu_seconds": 2959.06,
+          "wchan": "0"
+        },
+        "120855": {
+          "state": "R",
+          "cpu_seconds": 2906.94,
+          "wchan": "0"
+        },
+        "120856": {
+          "state": "R",
+          "cpu_seconds": 2933.94,
+          "wchan": "0"
+        },
+        "120857": {
+          "state": "R",
+          "cpu_seconds": 2911.66,
+          "wchan": "0"
+        },
+        "120858": {
+          "state": "R",
+          "cpu_seconds": 2925.16,
+          "wchan": "0"
+        },
+        "120859": {
+          "state": "R",
+          "cpu_seconds": 2926.87,
+          "wchan": "0"
+        },
+        "120860": {
+          "state": "R",
+          "cpu_seconds": 2922.52,
+          "wchan": "0"
+        },
+        "120861": {
+          "state": "R",
+          "cpu_seconds": 2939.56,
+          "wchan": "0"
+        },
+        "120862": {
+          "state": "R",
+          "cpu_seconds": 2970.71,
+          "wchan": "0"
+        },
+        "120863": {
+          "state": "R",
+          "cpu_seconds": 2955.98,
+          "wchan": "0"
+        },
+        "120864": {
+          "state": "R",
+          "cpu_seconds": 2908.49,
+          "wchan": "0"
+        },
+        "120865": {
+          "state": "R",
+          "cpu_seconds": 2948.45,
+          "wchan": "0"
+        },
+        "120866": {
+          "state": "R",
+          "cpu_seconds": 2938.27,
+          "wchan": "0"
+        },
+        "120867": {
+          "state": "R",
+          "cpu_seconds": 2920.15,
+          "wchan": "0"
+        },
+        "120868": {
+          "state": "R",
+          "cpu_seconds": 2932.65,
+          "wchan": "0"
+        },
+        "120869": {
+          "state": "R",
+          "cpu_seconds": 2936.66,
+          "wchan": "0"
+        }
+      },
+      "memory_current": 45566881792,
+      "memory_peak": 47774425088,
+      "memory_stat": {
+        "anon": 43922649088,
+        "file": 16744448,
+        "kernel": 96399360,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "slab": 489008
+      },
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory_pressure": "some avg10=0.00 avg60=0.00 avg300=0.09 total=5447332\nfull avg10=0.00 avg60=0.00 avg300=0.09 total=5432136\n",
+      "proc_status": {
+        "VmHWM": "45124744 kB",
+        "VmRSS": "42884896 kB",
+        "Threads": "17"
+      }
+    },
+    "end": {
+      "time": 1791566577.4163537,
+      "cpu_seconds": 47556.04,
+      "threads": {
+        "120852": {
+          "state": "S",
+          "cpu_seconds": 318.12,
+          "wchan": "futex_wait_queue"
+        },
+        "120854": {
+          "state": "R",
+          "cpu_seconds": 2977.92,
+          "wchan": "0"
+        },
+        "120855": {
+          "state": "S",
+          "cpu_seconds": 2925.7,
+          "wchan": "futex_wait_queue"
+        },
+        "120856": {
+          "state": "S",
+          "cpu_seconds": 2952.71,
+          "wchan": "futex_wait_queue"
+        },
+        "120857": {
+          "state": "S",
+          "cpu_seconds": 2930.42,
+          "wchan": "futex_wait_queue"
+        },
+        "120858": {
+          "state": "S",
+          "cpu_seconds": 2944.0,
+          "wchan": "futex_wait_queue"
+        },
+        "120859": {
+          "state": "R",
+          "cpu_seconds": 2945.73,
+          "wchan": "0"
+        },
+        "120860": {
+          "state": "S",
+          "cpu_seconds": 2941.34,
+          "wchan": "futex_wait_queue"
+        },
+        "120861": {
+          "state": "S",
+          "cpu_seconds": 2958.3,
+          "wchan": "futex_wait_queue"
+        },
+        "120862": {
+          "state": "S",
+          "cpu_seconds": 2989.52,
+          "wchan": "futex_wait_queue"
+        },
+        "120863": {
+          "state": "S",
+          "cpu_seconds": 2974.78,
+          "wchan": "futex_wait_queue"
+        },
+        "120864": {
+          "state": "S",
+          "cpu_seconds": 2927.29,
+          "wchan": "futex_wait_queue"
+        },
+        "120865": {
+          "state": "R",
+          "cpu_seconds": 2967.17,
+          "wchan": "0"
+        },
+        "120866": {
+          "state": "S",
+          "cpu_seconds": 2956.98,
+          "wchan": "futex_wait_queue"
+        },
+        "120867": {
+          "state": "S",
+          "cpu_seconds": 2938.95,
+          "wchan": "futex_wait_queue"
+        },
+        "120868": {
+          "state": "S",
+          "cpu_seconds": 2951.48,
+          "wchan": "futex_wait_queue"
+        },
+        "120869": {
+          "state": "S",
+          "cpu_seconds": 2955.44,
+          "wchan": "futex_wait_queue"
+        }
+      },
+      "memory_current": 45394616320,
+      "memory_peak": 47774425088,
+      "memory_stat": {
+        "anon": 43724345344,
+        "file": 16744448,
+        "kernel": 96157696,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "slab": 488576
+      },
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory_pressure": "some avg10=0.00 avg60=0.00 avg300=0.08 total=5447332\nfull avg10=0.00 avg60=0.00 avg300=0.08 total=5432136\n",
+      "proc_status": {
+        "VmHWM": "45124744 kB",
+        "VmRSS": "42691240 kB",
+        "Threads": "17"
+      }
+    },
+    "sample_wall_seconds": 20.016547441482544,
+    "active_core_equivalents": 15.06003974368105,
+    "thread_cpu_delta_seconds": {
+      "120852": 0.79,
+      "120854": 18.86,
+      "120855": 18.76,
+      "120856": 18.77,
+      "120857": 18.76,
+      "120858": 18.84,
+      "120859": 18.86,
+      "120860": 18.82,
+      "120861": 18.74,
+      "120862": 18.81,
+      "120863": 18.8,
+      "120864": 18.8,
+      "120865": 18.72,
+      "120866": 18.71,
+      "120867": 18.8,
+      "120868": 18.83,
+      "120869": 18.78
+    }
+  },
+  "frozen_manifest_hashes_checked": 22,
+  "frozen_manifest_mismatches": [],
+  "binary_sha256": "493bbc1a5712a27060e3f3641b75d1820ff031fb4658d022e7c4df733f2d1091",
+  "rss_comparison": {
+    "baseline_version": "V16 (later imported without recomputation)",
+    "baseline_sampled_peak_bytes": 34628349952,
+    "candidate_peak_so_far_bytes": 46188253184,
+    "candidate_to_baseline_ratio": 1.333827723470039,
+    "rss_tolerance_max_ratio": 1.05,
+    "within_tolerance_so_far": false,
+    "scope": "Historical ten-loop V16 mapped storage/8 GiB OPE versus current V27D heap/3 GiB OPE; same sampled-RSS metric, different configurations. Not a nine-loop qualification or isolated algorithm comparison. Peak is monotone, but complete CPU timing is pending.",
+    "baseline_evidence": "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/production-measurements.json",
+    "baseline_report": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/audit/pindex01-native-396570e096ad.json"
+  },
+  "optimization_candidates": [
+    {
+      "direction": "Build triangular dependency transpose only for pivot columns, using counted exact-capacity storage instead of mutex-protected push_back across all columns",
+      "source": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/src/SparseRREF/sparse_mat.h:1051",
+      "evidence": "Builder inserts every stored column, while the inspected backsolve consumers index the transpose by supplied pivot columns. Retained input arrays are 19.790 GB; the full boolean transpose would require at least 6.597 GB of index payload before allocation slack.",
+      "status": "Read-only candidate; requires exact generic field/rational and affine controls, empty/free-column cases, and complete CPU/RSS benchmarks in a separate revision. No active producer edits."
+    },
+    {
+      "direction": "Measure live allocation versus allocator-retained pages at the transition to back substitution and materialization",
+      "evidence": "Sampled RSS ~46.2 GB versus 34.6 GB historical V16; retained echelon payload differs only about 2.3%, while current active-core sample is 15.06/16 with zero memory-limit events.",
+      "status": "Allocator/backend effects and larger residual nullity are hypotheses, not established causes; cannot infer hardware memory bandwidth from occupancy."
+    }
+  ],
+  "action": "Continue current authorized run unchanged under 50 GB cap; preserve CPU/RSS evidence. Do not claim ten-loop memory qualification or speedup before final measurements; no competing heavy benchmarks."
+}

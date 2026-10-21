@@ -1,0 +1,196 @@
+{
+  "native_comparisons": [
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/ablations-c/L9-without-schedule/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "6dbb6d2d928556eadfff74099fae01305cc249a14f354581fa5be75850c5bc69",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-V26-eight-workers/V26/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "9b2207a52dce48063f4ba60735f98ba5a40b1522b36d5988604b3f8cd11a4e9a",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "33dcce7cb18519ce1434f2c9d9e386f33b4a81a75dd00bd6495cde7d839b7808",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "5518247d3f0e65227f62173804edb31ae774400d3d88da6b77f6bc255316fc84",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-without-compression/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "209040ad7c1840feec51b974eb126e0f45d500b2ce6803d4e84e0b782610a692",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-without-kernels/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "6b2477c6d1ac712965c659889a7ec9fe530f173420be9889d4729aa541f0307c",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "4cfcf25ca108fe808bc07d5e0ec1ecaeda16da501607fc39ac760dfd0392c08c",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "2c13bed8c22d40432bb0f72c2f847474b4991258701111058f64fd1e86eb11d6",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/final-comparisons/L9-without-schedule/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "8905a630a23e3737a48c3fc61fc1b24e3e0bdb035edbb8e94efc24443115bd66",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L8-V26/V26/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "ff602139dfbe68f6468d846f5b8d6aae770e4cb54960fe392a587e37d0df4f85",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L8-V26/V26/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "784fbeadc4641f74ea2ee69960b8bcb07c69d2b2b6d9d538c02c9c2f95c5c3cd",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L8-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "27bf62afda441cec58b19eae8c61df76c673cf599cbdbe34d4a78b32ec6b467b",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L8-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "f02eea01330f0f34076bf38a6704173267cdd6a2195fe6d33c7eac8088e262b1",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L9-V26/V26/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "9b2207a52dce48063f4ba60735f98ba5a40b1522b36d5988604b3f8cd11a4e9a",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-a/L9-V26/V26/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "e86ebf02c0cb3485d50a252c584b740193140022cca78eeaa4f8d50335378647",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-b/L8-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "084aad0a0f4e16e2c07a01f73247433401e9ac8c4d4fa65f127d8ef393454875",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-b/L8-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "b00edecb1e05054c9b8aa1af6c3b902f1e4491971e9971ff734e9728cb7aff91",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-b/L9-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "434274b8691ac83d14a7d3204849fe5cafe8082094b224ba65f3f3eb82a75f5a",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-b/L9-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "8abd04f4a464a78081795d5d9a03d73854d62b5a21241cf36d600350d62ee3fa",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-c/L8-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "4264c5d30b9a9526dcb1c0e9bef88a267df40fb15190f133c52b439d52887187",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-c/L8-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "98a2d4b2521eb8492e9eedf45c6e7c21449c1a0a0dcae594f5fd8424bb7f9004",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-c/L9-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "732b9fd7b30d5524ede8ff4ad506539797180ff66365a85d4283332abaf46f3e",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-c/L9-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "1d734d6cbb718226ac5541f0048e8d69651934adde36afc731986bea5359d49c",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L8-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "bf3fbe3f380b24044df5068965eef21e2b0c5d94827273561c791a82a723993c",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L8-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "cbc91e440e7ca54533751e4bb998739891ef074be1fbb2fe7d6b1c022eb285ac",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L9-V27/V27/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "33dcce7cb18519ce1434f2c9d9e386f33b4a81a75dd00bd6495cde7d839b7808",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/suite-d/L9-V27/V27/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "5518247d3f0e65227f62173804edb31ae774400d3d88da6b77f6bc255316fc84",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "All header and coefficient bytes equal except identity at bytes 64:72"
+    }
+  ],
+  "prior_reference_audit": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/reference-binding-audit.json",
+  "prior_reference_audit_sha256": "aba8c7aff3cdb3005ee99e736d6043568c2d18fd135af50db3ee90b3c00745fc",
+  "scope": "Every new finite-field output was rechecked against the historical V17/V18 native references. The prior audit binds the nine-loop references to a forced-QQ-only comparison. No new QQ reconstruction or independent new physics proof was performed."
+}

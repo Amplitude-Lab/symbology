@@ -1,0 +1,128 @@
+[
+  {
+    "name": "integer-w6",
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/integer-controls/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-compare5",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/integer-controls/integer-w6",
+        "8",
+        "staged",
+        "1024",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0",
+        "compare"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 5.736001976300031,
+      "peak_summed_rss_bytes": 329326592,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 12.332654,
+      "cpu_system_seconds": 0.725331,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "all_recurrences_byte_identical_to_independently_certified_reference": {
+      "w1.wxf": true,
+      "w2.wxf": true,
+      "w3.wxf": true,
+      "w4.wxf": true,
+      "w5.wxf": true,
+      "w6.wxf": true
+    },
+    "sector_timings": "weight\tsector\tcolumns\tdimension\tnnz\tseconds\n6\t0\t23828\t2149\t994266\t1.69554\n6\t1\t14434\t406\t562610\t1.57183\n"
+  },
+  {
+    "name": "rational-w7",
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/bin/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7",
+        "8",
+        "staged",
+        "1024",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 63.04419627506286,
+      "peak_summed_rss_bytes": 1461960704,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 166.051466,
+      "cpu_system_seconds": 4.296732,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "all_recurrences_byte_identical_to_independently_certified_reference": {
+      "w1.wxf": true,
+      "w2.wxf": true,
+      "w3.wxf": true,
+      "w4.wxf": true,
+      "w5.wxf": true,
+      "w6.wxf": true,
+      "w7.wxf": true
+    },
+    "sector_timings": "weight\tsector\tcolumns\tdimension\tnnz\tseconds\n7\t0\t65856\t5566\t11879078\t33.1016\n7\t1\t41454\t1260\t7297175\t20.2898\n"
+  },
+  {
+    "name": "integer-w7",
+    "measurement": {
+      "command": [
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/integer-controls/split_character_extension",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity-prepared",
+        "/home/ana/Documents/symbology/output_fec9_20261004/subgroup-controls/parity6",
+        "/home/ana/Documents/symbology/output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7",
+        "8",
+        "staged",
+        "1024",
+        "front_nonzeros=536870912",
+        "batch_nonzeros=16777216",
+        "batch_rows=16384",
+        "method=0"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "memory_pressure": false,
+      "rss_limit_exceeded": false,
+      "rss_limit_gib": 16.0,
+      "cancel_signal": 0,
+      "min_available_gib": 4.0,
+      "wall_seconds": 63.551099721342325,
+      "peak_summed_rss_bytes": 1393340416,
+      "sample_interval_seconds": 0.1,
+      "cpu_user_seconds": 164.425474,
+      "cpu_system_seconds": 4.288887,
+      "max_processes": 1,
+      "virtual_limit_gib": 20
+    },
+    "all_recurrences_byte_identical_to_independently_certified_reference": {
+      "w1.wxf": true,
+      "w2.wxf": true,
+      "w3.wxf": true,
+      "w4.wxf": true,
+      "w5.wxf": true,
+      "w6.wxf": true,
+      "w7.wxf": true
+    },
+    "sector_timings": "weight\tsector\tcolumns\tdimension\tnnz\tseconds\n7\t0\t65856\t5566\t11879078\t34.0914\n7\t1\t41454\t1260\t7297175\t19.7006\n"
+  }
+]

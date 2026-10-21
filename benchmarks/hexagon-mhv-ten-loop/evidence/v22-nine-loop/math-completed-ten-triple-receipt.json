@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "loop": 10,
+      "prime": 1152921504606847009,
+      "Eq92_nonzeros": 0,
+      "copy_ranks": {
+        "pe_A1": 8,
+        "pe_A2": 3,
+        "pe_E": 10,
+        "po_A1": 8,
+        "po_A2": 3,
+        "po_E": 10
+      },
+      "cache_sha256": "8c1e6116bf2b71acd5c939febaaf8d80eed4c8919cf720a0965f5ca0f3282672"
+    },
+    {
+      "loop": 10,
+      "prime": 1152921504606847067,
+      "Eq92_nonzeros": 0,
+      "copy_ranks": {
+        "pe_A1": 8,
+        "pe_A2": 3,
+        "pe_E": 10,
+        "po_A1": 8,
+        "po_A2": 3,
+        "po_E": 10
+      },
+      "cache_sha256": "b49eaf2065f5389772159f4b13bd4139aeac82c54503f720f97e3bb81b35323d"
+    }
+  ],
+  "scope": "A posteriori modular check of completed native ten-loop symbols. No new solve, QQ triple certificate or all-loop proof.",
+  "production_modified": false,
+  "wall_seconds": 0.6946706429953338
+}

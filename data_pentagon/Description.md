@@ -26,7 +26,9 @@ Delta5 = s12^2 s15^2 - 2 s12^2 s15 s23 + s12^2 s23^2
        + s15^2 s45^2 - 2 s15 s34 s45^2 + s34^2 s45^2
 ```
 
-This is the unique algebraic letter for massless 5-particle kinematics.
+This supplies one quadratic field extension, not one algebraic letter.
+The five letters W[26]–W[30] depend on its square root; W[31] is the
+rational Gram polynomial itself in this repository’s convention.
 
 ## The 31 letters
 
@@ -62,7 +64,7 @@ Linear combos of four:
 |---|---|---|---|---|
 | W[21] = s34 + s45 − s12 − s23 | W[22] = s15 + s45 − s23 − s34 | W[23] = s12 + s15 − s34 − s45 | W[24] = s12 + s23 − s15 − s45 | W[25] = s23 + s34 − s12 − s15 |
 
-### Square-root letters (W[26]–W[31])
+### Root-dependent ratio letters (W[26]–W[30])
 
 Each of W[26]–W[30] has the form `(P − eps5)/(P + eps5)` where `P` is a
 bilinear in the `s`'s:
@@ -75,20 +77,22 @@ bilinear in the `s`'s:
 | W[29] | −s12·s15 + s12·s23 − s23·s34 + s15·s45 − s34·s45 |
 | W[30] | +s12·s15 − s12·s23 + s23·s34 − s15·s45 − s34·s45 |
 
-The five `P`'s are the five distinct sign flips (even number of flips each)
-of the bilinear `s12·s15 − s12·s23 + s23·s34 + s15·s45 − s34·s45`,
-reflecting the cyclic structure of the pentagon.
+Writing `v = {s12,s23,s34,s45,s15}` with indices modulo 5, these are
+`P_i = v_i v_(i+1) - v_(i+1) v_(i+2) + v_(i+2) v_(i+3)
+       - v_(i+3) v_(i+4) - v_(i+4) v_i`.
 
-Finally:
+### Gram letter (W[31])
 
 ```
 W[31] = eps5^2 = Delta5
 ```
 
-the polynomial under the square root itself. Although `W[31]` is rationally
-expressible in the `s`'s, it is kept as a distinct letter because
-`d log(eps5^2) = 2 d log(eps5)` ties it to the same square-root branch as
-W[26]–W[30].
+This is rational and independent of the square-root branch. The usual
+literature normalization is `W31_standard = eps5`; hence
+`d log W[31] = 2 d log W31_standard`. Both choices span the same rational
+logarithmic space, but coefficients must be transformed when comparing
+symbols. Each occurrence of index 31 contributes a factor of 2 when a
+repository symbol is expressed in the standard basis.
 
 ## Summary
 
@@ -102,10 +106,13 @@ W[26]–W[30].
 
 ## Square-root handling
 
-The pentagon alphabet is **not Galois-invariant**: the 5 algebraic letters
-`W[26]-W[30]` of the form `(P - eps5)/(P + eps5)` are listed without their
-conjugates `(P + eps5)/(P - eps5) = 1/W[i]`. Consequently the integrability
-minors contain `1/Sqrt[Delta5]` factors that do **not** cancel.
+The logarithmic alphabet **is Galois-invariant**. Under `eps5 -> -eps5`,
+`W[26]`–`W[30]` become their inverses, so their logarithms change sign.
+All other repository letters are fixed. The action on logarithms, modulo
+constant logarithms, is `diag(+1 repeated 25, -1 repeated 5, +1)`.
+Inverses need not be listed as independent letters. Mixed even–odd
+integrability minors can still contain `1/Sqrt[Delta5]`; closure of the
+logarithmic space does not remove the odd differential sector.
 
 [SymbolBootstrap.wl](../SymbolBootstrap.wl) handles this automatically:
 `GenSqrtD` detects `Sqrt[Delta5]`, Z2-reduces the square-root set,
@@ -184,7 +191,7 @@ Export[FileNameJoin[{$ProjectRoot, "data_pentagon", "cycmat.wxf"}], projMat];
 ## Flip symmetry projection matrix
 
 The flip transformation reverses the order of the external legs
-`{1, 2, 3, 4, 5} -> {5, 4, 3, 2, 1}`. On the 5 Mandelstam invariants it acts as
+`{1, 2, 3, 4, 5} -> {1, 5, 4, 3, 2}` (the reflection fixing leg 1). On the 5 Mandelstam invariants it acts as
 `{s12 -> s15, s23 -> s45, s34 -> s34, s45 -> s23, s15 -> s12}` (s34 and the
 diagonal structure are preserved). It is an involution, generating the Z2
 dihedral half of the full D5 symmetry of the pentagon.
@@ -197,7 +204,9 @@ plus **7 fixed points**:
 | (W[1], W[5]), (W[2], W[4]), (W[6], W[10]), (W[7], W[9]), (W[11], W[12]), (W[13], W[15]), (W[16], W[19]), (W[17], W[18]), (W[21], W[22]), (W[23], W[25]), (W[26], W[27]), (W[28], W[30]) | W[3], W[8], W[14], W[20], W[24], W[29], W[31] |
 
 The projection matrix `M` encodes the action:
-`Log[W[i]_new] = Sum_j M[[i,j]]*Log[W[j]]`. For the flip case, `M` is a
+`Log[W[i]_new] = Sum_j M[[i,j]]*Log[W[j]]`, modulo constant logarithms.
+The raw letters W[11]–W[15] and W[21]–W[25] acquire an additional minus
+sign, which disappears under `d log`. For the flip case, `M` is a
 permutation matrix with one `+1` per row (an involution, so `M = M^T = M^-1`).
 
 ```mathematica
@@ -218,3 +227,58 @@ Export[FileNameJoin[{$ProjectRoot, "data_pentagon", "flipmat.wxf"}], projMat];
 | Group | Z2 (flip / dihedral half of D5) |
 | Cycle structure | 12 transpositions + 7 fixed points |
 | Verification | `M^2 == IdentityMatrix[31]` (exact) |
+
+
+## Literature dictionary and physical first entries
+
+The raw letters W[1]–W[30] agree with equations (4)–(7) of
+[Chicherin, Henn and Mitev, arXiv:1712.09610](https://arxiv.org/html/1712.09610).
+Their W31 is `eps5`, as above. In equation (6.3) of
+[Bossinger, Drummond and Glew, arXiv:2212.08931](https://arxiv.org/html/2212.08931v1),
+W16–W20 have the opposite overall signs; this leaves their logarithmic
+coordinates unchanged. Thus the logarithmic change of basis is diagonal,
+with thirty entries equal to 1 and the final entry equal to 2.
+
+The planar alphabet has indices **1–20 and 26–31**; the nonplanar alphabet
+adds **21–25**. For physical first entries, the planar choice is **1–5**,
+and the nonplanar choice is **1–5 together with 16–20**, corresponding to
+the ten two-particle Mandelstam invariants up to signs.
+The shipped template instead uses unrestricted weight-two words and imposes
+integrability and cyclic/flip symmetry; it does not impose either physical
+first-entry choice.
+
+Exact checks of the stored tensor reproduce the weight-two counts in
+Table 1 of arXiv:1712.09610 before its optional second-entry restrictions:
+
+| Choice | Even dimension | Odd dimension | Total |
+|--------|---------------:|--------------:|------:|
+| Planar alphabet and planar first entries | 25 | 0 | 25 |
+| Full alphabet and nonplanar first entries | 100 | 9 | 109 |
+
+The unrestricted integrable space has dimension `31^2 - 361 = 600`.
+Imposing only cyclic and flip invariance gives dimension 76, as in the
+shipped template. These are different constraint spaces.
+
+## Cluster interpretation and scope
+
+The name “pentagon” denotes five-particle kinematics here. It does not
+identify this 31-letter alphabet with the rank-two A2 cluster algebra.
+[Bossinger, Drummond, Glew, Gürdoğan and Wright, arXiv:2507.01015,
+sections IV.1–IV.2](https://arxiv.org/html/2507.01015v1) discuss two finite
+flag cluster realizations: spinor-helicity `F(2,3;5)` of type D4 and
+momentum-twistor `F(2,4;5)` of type A4. Multiplicative combinations of
+coordinates, completed under particle relabelings, recover W1–W30.
+W31 is not recovered by this construction; its reported absence from
+certain finite two-loop quantities does not remove it from the integral
+alphabet. These alphabet statements alone do not establish a universal
+physical adjacency rule. No momentum-twistor chart is shipped in this
+folder; its data use Mandelstam variables and `eps5`.
+
+The exact audit scripts and receipts are
+[pentagon_repository_audit.wls](../research/4pformfactor/code/pentagon_repository_audit.wls),
+[pentagon_repository_independent.py](../research/4pformfactor/code/pentagon_repository_independent.py),
+and [pentagon_repository_audit.json](../research/4pformfactor/results/pentagon_repository_audit.json).
+They preserve the four raw alphabet/tensor/symmetry files, whose SHA-256
+hashes are recorded. Besides the rank and symmetry checks, they verify
+`Delta5 = Det[2 p_i.p_j]` for `i,j = 1,...,4` and the repository-sign identity
+`W[6] W[12] = W[4] W[17] - W[3] W[19]` exactly.

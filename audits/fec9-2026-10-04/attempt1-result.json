@@ -1,0 +1,108 @@
+{
+  "status.json": {
+    "state": "failed",
+    "controller_pid": 1084509,
+    "started_unix_seconds": 1791130933.857976,
+    "deadline_unix_seconds": 1791217333.826571,
+    "rss_limit_gib": 50,
+    "stages": [
+      {
+        "name": "fec9",
+        "measurement": {
+          "command": [
+            "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+            "forward-staged",
+            "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+            "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+            "-",
+            "/home/ana/Documents/symbology/output_fec9_20261004/FEC_9.wxf",
+            "0",
+            "0",
+            "8"
+          ],
+          "exit_code": -15,
+          "timeout": false,
+          "memory_pressure": true,
+          "rss_limit_exceeded": false,
+          "rss_limit_gib": 50.0,
+          "cancel_signal": 0,
+          "min_available_gib": 4.0,
+          "wall_seconds": 3442.3595921858214,
+          "peak_summed_rss_bytes": 23642218496,
+          "sample_interval_seconds": 0.1,
+          "cpu_user_seconds": 22025.689425,
+          "cpu_system_seconds": 22.250603,
+          "max_processes": 1,
+          "virtual_limit_gib": 50
+        },
+        "monitor_exit_code": 1
+      }
+    ],
+    "updated_utc": "2026-10-04T17:19:35.849023+00:00",
+    "wall_seconds": 3442.3988463059068,
+    "current_stage": "fec9",
+    "current_log": "/home/ana/Documents/symbology/output_fec9_20261004/fec9.log",
+    "current_live": "/home/ana/Documents/symbology/output_fec9_20261004/fec9-live.json",
+    "peak_stage_rss_bytes": 23642218496
+  },
+  "fec9.json": {
+    "command": [
+      "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+      "forward-staged",
+      "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+      "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+      "-",
+      "/home/ana/Documents/symbology/output_fec9_20261004/FEC_9.wxf",
+      "0",
+      "0",
+      "8"
+    ],
+    "exit_code": -15,
+    "timeout": false,
+    "memory_pressure": true,
+    "rss_limit_exceeded": false,
+    "rss_limit_gib": 50.0,
+    "cancel_signal": 0,
+    "min_available_gib": 4.0,
+    "wall_seconds": 3442.3595921858214,
+    "peak_summed_rss_bytes": 23642218496,
+    "sample_interval_seconds": 0.1,
+    "cpu_user_seconds": 22025.689425,
+    "cpu_system_seconds": 22.250603,
+    "max_processes": 1,
+    "virtual_limit_gib": 50
+  },
+  "fec9-live.json": {
+    "command": [
+      "/home/ana/Documents/symbology/output_fec9_20261004/bin/streaming_kernel_benchmark",
+      "forward-staged",
+      "/home/ana/Documents/symbology/data/dlogmat_E6.wxf",
+      "/home/ana/Documents/symbology/output_fiveloop_20261003/FEC_8.wxf",
+      "-",
+      "/home/ana/Documents/symbology/output_fec9_20261004/FEC_9.wxf",
+      "0",
+      "0",
+      "8"
+    ],
+    "exit_code": -15,
+    "timeout": false,
+    "memory_pressure": true,
+    "rss_limit_exceeded": false,
+    "rss_limit_gib": 50.0,
+    "cancel_signal": 0,
+    "min_available_gib": 4.0,
+    "wall_seconds": 3442.3595921858214,
+    "peak_summed_rss_bytes": 23642218496,
+    "sample_interval_seconds": 0.1,
+    "cpu_user_seconds": 22025.689425,
+    "cpu_system_seconds": 22.250603,
+    "max_processes": 1,
+    "virtual_limit_gib": 50,
+    "state": "finished",
+    "pid": 1084512,
+    "updated_unix_seconds": 1791134375.8405807
+  },
+  "log": "presolve_pass=1 relations=465174 remaining_columns=268608\npresolve_pass=2 relations=2143 remaining_columns=266465\npresolve_pass=3 relations=12 remaining_columns=266453\npresolve_pass=4 relations=1 remaining_columns=266452\npresolve_pass=5 relations=0 remaining_columns=266452\nstreaming_batch=1 input_rows=150375 rank=39158 retained_nnz=832858\nREFINE_SEED rows=150375 cols=266452 nnz=3060565 bounded=0 elapsed=8.98334\nREFINE_ZERO_SUBSTITUTION columns=286 limit=256 sample_denominator=1\nREFINE_DISCOVERY limit=256 rank=55108 nullity=211344 elapsed=26.9263\nREFINE_ZERO_SUBSTITUTION columns=396 limit=1024 sample_denominator=1\nstreaming_batch=32 input_rows=273385 rank=65284 retained_nnz=118896734\nstreaming_batch=64 input_rows=404457 rank=78611 retained_nnz=232076137\nstreaming_batch=96 input_rows=535529 rank=85450 retained_nnz=291993293\nstreaming_batch=128 input_rows=666601 rank=91770 retained_nnz=349785156\nstreaming_batch=160 input_rows=797673 rank=97645 retained_nnz=405047307\nstreaming_batch=192 input_rows=928745 rank=103150 retained_nnz=458300907\nstreaming_batch=224 input_rows=1059817 rank=108307 retained_nnz=510614404\nstreaming_batch=256 input_rows=1190889 rank=110492 retained_nnz=530885683\nREFINE_DISCOVERY limit=1024 rank=110584 nullity=155868 elapsed=1581.57\nREFINE_ZERO_SUBSTITUTION columns=855 limit=4096 sample_denominator=16\nstreaming_batch=288 input_rows=1287071 rank=140308 retained_nnz=1005540275\nREFINE_DISCOVERY limit=4096 rank=141937 nullity=124515 elapsed=2817.12\nREFINE_ZERO_SUBSTITUTION columns=877 limit=16384 sample_denominator=16\nREFINE_DISCOVERY limit=16384 rank=151391 nullity=115061 elapsed=3354.32\nREFINE_ZERO_SUBSTITUTION columns=878 limit=18446744073709551615 sample_denominator=16\n",
+  "observed_utc": "2026-10-04T17:33:20.610712+00:00",
+  "processes_absent": true
+}

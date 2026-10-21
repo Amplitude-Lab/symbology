@@ -1,0 +1,9 @@
+[
+  {
+    "pid": 1316671,
+    "start_unix": 1791299995.790122,
+    "reason": "Sequential compilation and validation of independent origin checker.",
+    "end_unix": 1791300139.1721416,
+    "outcome": "Origin controls passed: all 2, 4 and 30 independent count partitions at one, two and eight loops."
+  }
+]

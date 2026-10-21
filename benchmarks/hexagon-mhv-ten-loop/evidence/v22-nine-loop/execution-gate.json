@@ -1,0 +1,53 @@
+{
+  "state": "complete_accepted_for_nine_loop_measured_scope",
+  "selected": "V22/16",
+  "baseline": "original V17,16 threads,OPE2GiB",
+  "metric": "process user+system CPU-hours",
+  "acceptance": {
+    "baseline": "original V17,16 threads,OPE2GiB",
+    "metric": "process user+system CPU-hours",
+    "cpu_saving_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "conservative_rss_reference_bytes": 5903253504
+  },
+  "measurements": {
+    "first_prime_repeats": 2,
+    "cpu_hours_mean": 0.9187658295833334,
+    "wall_seconds_mean": 347.39136342250276,
+    "peak_rss_bytes_min": 5840363520,
+    "peak_rss_bytes_max": 5889835008,
+    "rss_scope": "all tested fields and repetitions",
+    "cpu_saving_vs_original_v17": 0.37990167168325706,
+    "cpu_saving_vs_v21_16": 0.11613825086857954,
+    "conservative_rss_ratio": 0.9977269321077085,
+    "numeric_gate_pass": true,
+    "phase_cpu_seconds_mean": {
+      "compute_discovery": 1033.49,
+      "compute_early_collinear": 781.2405,
+      "compute_early_mrk": 278.6415,
+      "compute_early_ope_small_s": 1000.55,
+      "compute_seam_complete": 42.9815
+    }
+  },
+  "results": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/RESULTS.json",
+  "profile": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/accepted-nine-loop-profile.json",
+  "source_freeze": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/package-v22/v22-build-receipt.json",
+  "proof_scope": "Conditional four double-final-entry ordinary-symbol bonuses; no additional triple bonus imposed.",
+  "current_progress": [
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls/progress.json",
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/progress.json",
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21/progress.json",
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v21-t8/progress.json",
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22/progress.json",
+    "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v22-confirmation/progress.json"
+  ],
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000,
+  "remaining": [
+    "bounded ten-loop pilot",
+    "persistent discovery replay",
+    "precomposed bonus copy basis",
+    "deterministic early-physics schedule"
+  ],
+  "completed": 1791545272.6644375
+}

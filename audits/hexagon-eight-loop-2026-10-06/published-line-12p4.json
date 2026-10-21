@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-f",
+    "%M",
+    "-o",
+    "output_hexagon_12p4_20261006/log/published-line-12p4.rss",
+    "output_hexagon_12p4_20261006/bin/line_symbol_check",
+    "12",
+    "4",
+    "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear_mrk_ope_small_s",
+    "output_hexagon_12p4_20261006/FEC",
+    "output_hexagon_12p4_20261006/LEC/MHV",
+    "output_hexagon_12p4_20261006/published-validation/cases.tsv"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 30.0,
+  "cancel_signal": 0,
+  "min_available_gib": 6.0,
+  "wall_seconds": 7.934947609901428,
+  "peak_summed_rss_bytes": 140906496,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 7.441236,
+  "cpu_system_seconds": 0.279476,
+  "max_processes": 2,
+  "virtual_limit_gib": 40
+}

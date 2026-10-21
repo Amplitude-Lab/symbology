@@ -1,0 +1,16 @@
+{
+  "state": "complete_accepted_for_eight_and_nine_loop_measured_scope",
+  "selected": "V26",
+  "acceptance": {
+    "baseline": "Original V17; matched V22 is a separate incremental comparator",
+    "cpu_saving_strictly_greater_than": 0.15,
+    "rss_ratio_max": 1.05,
+    "passed": true,
+    "rss_metric": "Conservative maximum of 100ms sampled process RSS and kernel process high-water mark in phase logs; one process per native solve. Historical V17 reference uses its sampled minimum, which is conservative for the new gate."
+  },
+  "profile": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/accepted-nine-loop-profile.json",
+  "results": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/RESULTS.json",
+  "completion": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/completion-receipt.json",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

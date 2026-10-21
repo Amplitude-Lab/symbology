@@ -1,0 +1,35 @@
+{
+  "native_comparisons": [
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L9-v26/V26/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "9b2207a52dce48063f4ba60735f98ba5a40b1522b36d5988604b3f8cd11a4e9a",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+      "comparison": "all header/payload bytes equal except the algorithm/input identity word at bytes64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L9-v26/V26/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "e86ebf02c0cb3485d50a252c584b740193140022cca78eeaa4f8d50335378647",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L9-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "d91907d0eca83991105fbb603afdf26ab89da309d2b2935418164efcaae33506",
+      "comparison": "all header/payload bytes equal except the algorithm/input identity word at bytes64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L8-v26/V26/joint/cache/p1152921504606847009.bin",
+      "candidate_sha256": "ff602139dfbe68f6468d846f5b8d6aae770e4cb54960fe392a587e37d0df4f85",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+      "reference_sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+      "comparison": "all header/payload bytes equal except the algorithm/input identity word at bytes64:72"
+    },
+    {
+      "candidate": "/home/ana/Documents/symbology/output_hexagon_v23_20261009/L8-v26/V26/joint/cache/p1152921504606847067.bin",
+      "candidate_sha256": "784fbeadc4641f74ea2ee69960b8bcb07c69d2b2b6d9d538c02c9c2f95c5c3cd",
+      "reference": "/home/ana/Documents/symbology/output_hexagon_v18_20261009/validation/L8-V18/joint/cache/p1152921504606847067.bin",
+      "reference_sha256": "37c2d63bfc81f14eabd7e6a62e94beca18c5b982ec97a8d1692811fb35d3ae3b",
+      "comparison": "all header/payload bytes equal except the algorithm/input identity word at bytes64:72"
+    }
+  ],
+  "prior_forced_QQ_binding_audit": "/home/ana/Documents/symbology/output_hexagon_v19_20261009/reference-binding-audit.json",
+  "prior_forced_QQ_binding_audit_sha256": "863e396cb8a491e0d27edf1a52b58e537d50e6870d5de6fd43860001b9e80653",
+  "scope": "New native outputs match historical V17/V18 finite-field references. Nine-loop references are also bound transitively to the prior forced-QQ-only comparison recorded in the linked audit. No new QQ reconstruction was performed."
+}

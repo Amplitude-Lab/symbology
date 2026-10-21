@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "root": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-qq-17p3",
+  "inputs": {
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-reconstruction-7p96.json": "cb4d76bb6241188e7d78f70f046bf5ca81ce06b46ed794626f012b6751c21111",
+    "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-reconstruction-7p96.tsv": "adad228cd4b00885357bbb2a246521f47d0ecb96c406990c4449bd6aeffb4b94",
+    "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/validation-passed.json": "8422c3c9943d3cca1f595ce0227329da5ee51cc397d3d085656a501822d6ff14",
+    "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/candidate_qq_export": "8af0a1182dcb7892527ecaff16d5dfb4012cd9d7f34511d3f53b7091eb0ecb3b",
+    "/home/ana/Documents/symbology/bench/hexagon_native_export_install.py": "61a132e12bec7cdfe66358ebdb29d92ad3425a684898068c0b1def6c01eef4d8",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/input_identity.txt": "094b23af4cb25bd741d28bb86f08354fca067d4a8b96d33066370a54f9be6551",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/basis_identity.tsv": "b78f9c7376a52daf186ec4030aab444eb306699e12a7a5521779b587a058eb4f",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/stage.tsv": "b44e2eefe0a863d3c840e99d403fbd332190a56212409e81bfc8961ccf95eda1",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847009.bin": "8c1e6116bf2b71acd5c939febaaf8d80eed4c8919cf720a0965f5ca0f3282672",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847009.bin.sha256": "eb58c88a8c71e8cfe807fa940f16de705dec6fc19f0f2040b633c918a4c41bff",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847067.bin": "b49eaf2065f5389772159f4b13bd4139aeac82c54503f720f97e3bb81b35323d",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847067.bin.sha256": "8c0dba1eb056f20b61f334b415a3b9a23251acf2fcac57428a4f33355c787b4f",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847081.bin": "27fc27167cfa3c00c19faba83c2cb0852fd75128956fbbe34fa0b3e14ffa534b",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847081.bin.sha256": "e0e0b6be555335735edf6f9dcf9c30c839d8d128e99a8b7f0c5164576c003a72",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847123.bin": "1b0af5b2124bc2c1589224e4d4770069a42889dbbf22eb96fa2e1dabc8d57e18",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847123.bin.sha256": "5aea8c1cd2fa711b5a7f9f3c38474e1d1e058a8ea98ea663a372742ae3772005",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847127.bin": "81188d1052177ccf255bbf512c53d7956749b022c759665120f4917b2a1ad194",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847127.bin.sha256": "baf08bf16afce582dc3709bd6ddd132a0f4c22ba1e9ab0ef1aec85081c5fcbbd",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847189.bin": "4a1bb849c7323d4cc73522b5010bcd9c6fd66d9f94ba400f82279538fcf50e3d",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847189.bin.sha256": "7fccf65f067325076b876054eb36c186f53d1051ae769619e68f4ad5fe846d6e",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847201.bin": "a42eb4cb7ed9164e6b95b4a1fb4b8166e70e6a60d3e78bb5ab837bb733336b7d",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847201.bin.sha256": "cd36ac76e709f64273a34de8452ea36353771733f997cbb8b9d88bfde8e550e3",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847229.bin": "6d6e7deffd36eee4e9a978edeec5e1444a98f242650b5b8717ca55935b5703d9",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847229.bin.sha256": "8ae0b537929090807293562506671eb6c69b32aa57e0720e7b41df46a7c0cbfc"
+  },
+  "qq_complete_sha256": "06ea0c6416ed5a74a4d214ca32232c4d290b8a9616d4c7569d0179dd4bd154e5",
+  "manifest_sha256": "a158d8210b1977d2f2b7d2b695a27ed06993389f160a695f91dbedff345271f2"
+}

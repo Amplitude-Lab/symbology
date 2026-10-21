@@ -1,0 +1,142 @@
+{
+  "schema": "hexagon-v27d-ten-loop-prime1-review-v1",
+  "passed": true,
+  "created": 1791570535.3215718,
+  "native_coordinates_checked": 275246,
+  "shifted_coordinates_checked": 518048,
+  "coefficient_equality_rechecked": true,
+  "timing_memory_and_phase_receipts_recomputed": true,
+  "complete_factored_seam_rows_mod_prime": 989800,
+  "new_QQ_reconstruction_complete": false,
+  "new_exact_QQ_certificates_complete": false,
+  "combined_CPU_RSS_gate_passed": false,
+  "comparison": {
+    "schema": "hexagon-v27d-first-native-prime-comparison-v1",
+    "created": 1791570254.7640715,
+    "prime": 1152921504606847009,
+    "candidate_version": "V27D/16",
+    "baseline_version": "V16, first prime later imported into V17 without coefficient changes",
+    "candidate": {
+      "native_cpu_hours": 23.379926966111107,
+      "native_wall_seconds": 6599.909593403005,
+      "native_peak_sampled_rss_bytes": 46188253184,
+      "native_kernel_peak_rss_bytes": 46207737856,
+      "conversion_cpu_hours": 0.031944588333333336,
+      "conversion_wall_seconds": 65.74031033199572
+    },
+    "baseline": {
+      "native_cpu_hours": 37.285539370555554,
+      "native_wall_seconds": 12711.890974738635,
+      "native_peak_sampled_rss_bytes": 34628349952
+    },
+    "comparison": {
+      "cpu_saving": 0.3729492087065187,
+      "wall_saving": 0.48080819710312983,
+      "rss_ratio": 1.333827723470039,
+      "cpu_threshold_gt_15pct_passed": true,
+      "rss_tolerance_5pct_passed": false,
+      "combined_gate_passed": false
+    },
+    "correctness": {
+      "all_fresh_supplied_COL_MRK_OPE_checks_passed": true,
+      "full_native_seam_rows_checked": 989800,
+      "directions": 0,
+      "coefficient_comparisons": {
+        "native": {
+          "columns": 275246,
+          "every_coefficient_equal": true,
+          "path": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3/joint/cache/p1152921504606847009.bin",
+          "sha256": "a4ce82883e6d2665aebe6d58f4b0858b3f395057510f2d812c2e0cb51fdea5ae",
+          "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847009.bin",
+          "reference_sha256": "8c1e6116bf2b71acd5c939febaaf8d80eed4c8919cf720a0965f5ca0f3282672"
+        },
+        "conversion": {
+          "columns": 518048,
+          "every_coefficient_equal": true,
+          "path": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/shifted-16p4/cache/p1152921504606847009.bin",
+          "sha256": "c5987c572255e5e253e75bb8f49cc3add2cf4cfc83813f732945a01b35b93046",
+          "reference": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-shifted-16p4/cache/p1152921504606847009.bin",
+          "reference_sha256": "419c1ec0cbf3199f179711afccab7aa0592e1c521273dd830080e57ba9146178"
+        }
+      },
+      "rational_reconstruction_complete": false,
+      "final_exact_QQ_certificates_complete": false
+    },
+    "phases": {
+      "compute_discovery": {
+        "seconds": 3691.31,
+        "cpu_seconds": 48225.2,
+        "rss_bytes": 13933096960.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_collinear": {
+        "seconds": 1266.44,
+        "cpu_seconds": 17538.9,
+        "rss_bytes": 8396210176.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_mrk": {
+        "seconds": 125.562,
+        "cpu_seconds": 1726.69,
+        "rss_bytes": 8428224512.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_early_ope_small_s": {
+        "seconds": 809.382,
+        "cpu_seconds": 9201.54,
+        "rss_bytes": 11371196416.0,
+        "process_peak_bytes": 46207737856.0
+      },
+      "compute_seam_complete": {
+        "seconds": 42.5155,
+        "cpu_seconds": 333.255,
+        "rss_bytes": 10370351104.0,
+        "process_peak_bytes": 46207737856.0
+      }
+    },
+    "current_service_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "current_service_memory_peak": 47774425088,
+    "current_prime": 2,
+    "active_frozen_solver_changed": false,
+    "sources": {
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-native-70ad835f1304.json": "40247e4b4f1ad5592984e9960c4be80310fcad98178d9498867a3d12d7e14432",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-native-70ad835f1304.log": "9b2ec23f3310fe42f5f137e9e34105c13f2c811d192001143e9334fb08e7a98c",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-convert-50a8d095c17e.json": "6a8c18c0940a588424edc7f1f871aab3ef5c872b44daa69eb2717560b298da3b",
+      "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-convert-50a8d095c17e.log": "e2c171c04ff283b002bf00c914f5c4362fa089be002f94cd1736110a9d131052",
+      "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/audit/pindex01-native-396570e096ad.json": "88f45ebbc4696f7963b01d6c933203c5407c2521dff2dce5af2c1354ee7ea865",
+      "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/log/pindex01-native-396570e096ad.log": "aa308f495ab82cee13dfc01a040dc06304cd6f101d8409e5f04c6f7ee4f2bf06",
+      "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/production-measurements.json": "4309e79cb6f6f40dcb82069e5297972946a7e3183253dd1ab8b2ac4c7d842eb5"
+    },
+    "scope": "One completed fresh ten-loop learning prime on precomputed basis inputs. V16 mapped/8GiB OPE versus V27D heap/3GiB OPE; historical setup comparison, not isolated algorithm attribution or a nine-loop qualification. Replay and statistical repetitions remain unmeasured.",
+    "optimization_priorities": [
+      "Keep discovery reduction and collinear projection as CPU priorities: their completed phase totals are ~57.3% and20.8% of whole-native CPU, respectively; phase nesting prevents summing internal timers again.",
+      "Retain memory priority for pivot-only exact-capacity transpose/backsolve and allocation lifetimes identified in prior profile; test in a separate revision after uncontended measurements.",
+      "Fresh final MRK restriction adds zero rank here but consumes0.48CPUh; require reusable span/equation certificates before skipping redundant elimination, and keep all independent final checks."
+    ]
+  },
+  "scope": "One fresh ten-loop learning prime. Historical V16 mapped/8GiB OPE versus V27D heap/3GiB OPE. Finite-field checks and reference equality do not replace this new run's pending rational reconstruction and exact certificates. Replay timing remains pending at review. Existing certified ten-loop references remain unchanged.",
+  "optimization_hypothesis": "Count and allocate exact-capacity pivot-column incidence in the backsolve transpose; prove consumer coverage and validate generic finite-field, rational, affine, rank and exceptional cases before any replacement. No implementation change or competing benchmark made.",
+  "input_hashes": {
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/prime1-complete-comparison.json": "db132439c7ce5a647042d9cc1f46352452857bdc170d54338e0b9e2c997b16f4",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-native-70ad835f1304.json": "40247e4b4f1ad5592984e9960c4be80310fcad98178d9498867a3d12d7e14432",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-native-70ad835f1304.log": "9b2ec23f3310fe42f5f137e9e34105c13f2c811d192001143e9334fb08e7a98c",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/p01-convert-50a8d095c17e.json": "6a8c18c0940a588424edc7f1f871aab3ef5c872b44daa69eb2717560b298da3b",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p01-convert-50a8d095c17e.log": "e2c171c04ff283b002bf00c914f5c4362fa089be002f94cd1736110a9d131052",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/audit/pindex01-native-396570e096ad.json": "88f45ebbc4696f7963b01d6c933203c5407c2521dff2dce5af2c1354ee7ea865",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/log/pindex01-native-396570e096ad.log": "aa308f495ab82cee13dfc01a040dc06304cd6f101d8409e5f04c6f7ee4f2bf06",
+    "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/production-measurements.json": "4309e79cb6f6f40dcb82069e5297972946a7e3183253dd1ab8b2ac4c7d842eb5",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-17p3/joint/cache/p1152921504606847009.bin": "a4ce82883e6d2665aebe6d58f4b0858b3f395057510f2d812c2e0cb51fdea5ae",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-main/joint/cache/p1152921504606847009.bin": "8c1e6116bf2b71acd5c939febaaf8d80eed4c8919cf720a0965f5ca0f3282672",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/shifted-16p4/cache/p1152921504606847009.bin": "c5987c572255e5e253e75bb8f49cc3add2cf4cfc83813f732945a01b35b93046",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-shifted-16p4/cache/p1152921504606847009.bin": "419c1ec0cbf3199f179711afccab7aa0592e1c521273dd830080e57ba9146178",
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27": "493bbc1a5712a27060e3f3641b75d1820ff031fb4658d022e7c4df733f2d1091",
+    "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-runner/manifest.json": "f2ce236bc8a1ca22e9a704a5ec7eb4230f83c8fff8e1cf33d702b7dd4382591d",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/manifest.json": "f10bcad9aea1538e5ed9fc368179073073ddc3f9f1dafca4eae5f8bf14a194ec",
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/src/shared/streaming_echelon.hpp": "8de7cc4c82181a5fb821fd2872d4a63d0d82fbd948e95097746a23d1fad2b361",
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/src/SparseRREF/sparse_mat.h": "51a1c9996ad8dae9c4259431c523485d77b005c019ccfac393a14b424536d6d2",
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/v27-build-receipt.json": "fbdb08e393418c3057ac5b04881daaa7afcb98e9f7e0e93a2d7b21c451ff7f3f",
+    "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/audit/heartbeat-20261009T172507Z.json": "f34569c9d688af4092cf645fe9fd83f28c46d36bd42e1002228d546ad6f5fdf0",
+    "/home/ana/Documents/symbology/benchmarks/hexagon-mhv-ten-loop/evidence/v27-ten-prime1/active-run-observation.json": "939122290efa9c2294d2c3074b37d4094e7b131c5174c278375439629f3c7ee4",
+    "/home/ana/Documents/symbology/bench/hexagon_v27_ten_prime_review.py": "e1af606ca0bf6eea2a839a127411f9ef100359513bd4f4473e6bf89bfe5ffa98"
+  }
+}

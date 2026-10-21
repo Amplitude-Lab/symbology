@@ -1,0 +1,5222 @@
+{
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_symmetry128/echelon.bin": {
+    "inode": 28474685,
+    "device": 66309,
+    "bytes": 22514872200,
+    "allocated": 22514876416,
+    "mtime_ns": 1791910483226989531,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1first_pole64_v7/echelon.bin": {
+    "inode": 28475212,
+    "device": 66309,
+    "bytes": 21035580424,
+    "allocated": 21035585536,
+    "mtime_ns": 1791913711191976380,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_leading_v4_64/echelon.bin": {
+    "inode": 28474579,
+    "device": 66309,
+    "bytes": 17016076552,
+    "allocated": 17016082432,
+    "mtime_ns": 1791909510188496159,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_pole256_b1/echelon.bin": {
+    "inode": 28474347,
+    "device": 66309,
+    "bytes": 16215068360,
+    "allocated": 16215072768,
+    "mtime_ns": 1791907813216652007,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1_symmetry_first128/echelon.bin": {
+    "inode": 28474818,
+    "device": 66309,
+    "bytes": 16116102760,
+    "allocated": 16116109312,
+    "mtime_ns": 1791911189504376064,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847201.bin": {
+    "inode": 26747037,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791308503101662323,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847127.bin": {
+    "inode": 26746963,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791304401459822940,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847123.bin": {
+    "inode": 26745170,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791302347301784134,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847067.bin": {
+    "inode": 26744237,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791298310576942620,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847189.bin": {
+    "inode": 26747006,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791306462112690913,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847009.bin": {
+    "inode": 26743908,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791295276796044527,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/discovery/cache/p1152921504606847081.bin": {
+    "inode": 26744436,
+    "device": 66309,
+    "bytes": 9369001312,
+    "allocated": 9369006080,
+    "mtime_ns": 1791300398415928404,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_g1_symmetry_first8/echelon.bin": {
+    "inode": 28474750,
+    "device": 66309,
+    "bytes": 8728939224,
+    "allocated": 8728944640,
+    "mtime_ns": 1791910824249427087,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/modular_w8_localized64/echelon.bin": {
+    "inode": 28474180,
+    "device": 66309,
+    "bytes": 8656939880,
+    "allocated": 8656945152,
+    "mtime_ns": 1791906117174319896,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_50gb/FEC_7_balanced_t4.wxf": {
+    "inode": 28468962,
+    "device": 66309,
+    "bytes": 7526905213,
+    "allocated": 7526912000,
+    "mtime_ns": 1791852980406341100,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847123.csr": {
+    "inode": 26767239,
+    "device": 66309,
+    "bytes": 6804833312,
+    "allocated": 6804840448,
+    "mtime_ns": 1791437751615477705,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847189.csr": {
+    "inode": 26767779,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791463836016574548,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847081.csr": {
+    "inode": 26767040,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791424294215109148,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847067.csr": {
+    "inode": 26766844,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791411466663740848,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847127.csr": {
+    "inode": 26768120,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791450787357899109,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847201.csr": {
+    "inode": 26768695,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791476785331985621,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v17-main/discovery/cache/p1152921504606847229.csr": {
+    "inode": 26768710,
+    "device": 66309,
+    "bytes": 6402715512,
+    "allocated": 6402719744,
+    "mtime_ns": 1791516430579010806,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v16-main/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26760919,
+    "device": 66309,
+    "bytes": 6150987584,
+    "allocated": 6150991872,
+    "mtime_ns": 1791394656437020733,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847189.csr": {
+    "inode": 28457177,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791599692091247855,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847081.csr": {
+    "inode": 28457100,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791579892231989079,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456752,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791566673984839436,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28457020,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791573300964727842,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847127.csr": {
+    "inode": 28457118,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791593069203033037,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847201.csr": {
+    "inode": 28457167,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791606288143532388,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847123.csr": {
+    "inode": 28457099,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791586483979099952,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery/cache/p1152921504606847229.csr": {
+    "inode": 28457190,
+    "device": 66309,
+    "bytes": 5747496360,
+    "allocated": 5747503104,
+    "mtime_ns": 1791612893559863899,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_E.wxf": {
+    "inode": 26760818,
+    "device": 66309,
+    "bytes": 3000124922,
+    "allocated": 3000131584,
+    "mtime_ns": 1791357873537490720,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/SEW_5p1_invariant.wxf": {
+    "inode": 28458725,
+    "device": 66309,
+    "bytes": 2612558856,
+    "allocated": 2612563968,
+    "mtime_ns": 1791636546337113985,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/SEW_5p1.wxf": {
+    "inode": 28458737,
+    "device": 66309,
+    "bytes": 2612558856,
+    "allocated": 2612563968,
+    "mtime_ns": 1791636546337113985,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight8/w8.wxf": {
+    "inode": 25969958,
+    "device": 66309,
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime_ns": 1791150462736081654,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight9/w8.wxf": {
+    "inode": 25969987,
+    "device": 66309,
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime_ns": 1791185296476029069,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight8/w8.wxf": {
+    "inode": 25967076,
+    "device": 66309,
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime_ns": 1791150462736081654,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight9/w8.wxf": {
+    "inode": 25967082,
+    "device": 66309,
+    "bytes": 2493666600,
+    "allocated": 2493673472,
+    "mtime_ns": 1791150570465199664,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847201.bin": {
+    "inode": 26747041,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791308745102305020,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847127.bin": {
+    "inode": 26746968,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791304619909450911,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847123.bin": {
+    "inode": 26745549,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791302555808364425,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847067.bin": {
+    "inode": 26744271,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791298540624558064,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847189.bin": {
+    "inode": 26747009,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791306669343447236,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847009.bin": {
+    "inode": 26743917,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791295559095239884,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_collinear/cache/p1152921504606847081.bin": {
+    "inode": 26744438,
+    "device": 66309,
+    "bytes": 2429289512,
+    "allocated": 2429296640,
+    "mtime_ns": 1791300608091501320,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_E.wxf": {
+    "inode": 26760902,
+    "device": 66309,
+    "bytes": 2399347178,
+    "allocated": 2399354880,
+    "mtime_ns": 1791358581605829979,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_contract.wxf": {
+    "inode": 28462433,
+    "device": 66309,
+    "bytes": 1969089240,
+    "allocated": 1969094656,
+    "mtime_ns": 1791692639859835859,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/affine/direct_w6.wxf": {
+    "inode": 28458870,
+    "device": 66309,
+    "bytes": 1738363581,
+    "allocated": 1738371072,
+    "mtime_ns": 1791637115574251415,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/FEC_8.wxf": {
+    "inode": 22570153,
+    "device": 66309,
+    "bytes": 1653307317,
+    "allocated": 1653313536,
+    "mtime_ns": 1791043308213935154,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_loops/exploratory_full_expansion/equal_boundary_w6.wxf": {
+    "inode": 28457912,
+    "device": 66309,
+    "bytes": 1432318167,
+    "allocated": 1432326144,
+    "mtime_ns": 1791626028324633714,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_earlysew_20261003/amplitude5/boundary_5L.wxf": {
+    "inode": 25964898,
+    "device": 66309,
+    "bytes": 1265737523,
+    "allocated": 1265741824,
+    "mtime_ns": 1791088180210257793,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight8/w8_sector0.wxf": {
+    "inode": 25969956,
+    "device": 66309,
+    "bytes": 1253646900,
+    "allocated": 1253654528,
+    "mtime_ns": 1791149403221154561,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight8/w8_sector0.wxf": {
+    "inode": 25966197,
+    "device": 66309,
+    "bytes": 1253646900,
+    "allocated": 1253654528,
+    "mtime_ns": 1791149403221154561,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight8/w8_sector1.wxf": {
+    "inode": 25969957,
+    "device": 66309,
+    "bytes": 1240019807,
+    "allocated": 1240027136,
+    "mtime_ns": 1791150413209988754,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight8/w8_sector1.wxf": {
+    "inode": 25966931,
+    "device": 66309,
+    "bytes": 1240019807,
+    "allocated": 1240027136,
+    "mtime_ns": 1791150413209988754,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/native_integer/product_covectors.txt": {
+    "inode": 28471485,
+    "device": 66309,
+    "bytes": 1216943808,
+    "allocated": 1216950272,
+    "mtime_ns": 1791868220833579492,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847253_1.bin": {
+    "inode": 26760814,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357681105981206,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847081_1.bin": {
+    "inode": 26760797,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357533085459484,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847127_1.bin": {
+    "inode": 26760805,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357563817982204,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847009_1.bin": {
+    "inode": 26760798,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357502418977676,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847067_1.bin": {
+    "inode": 26760800,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357519573250449,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847189_1.bin": {
+    "inode": 26760808,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357581286822346,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847229_1.bin": {
+    "inode": 26760812,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357620334428287,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847123_1.bin": {
+    "inode": 26760802,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357547870532160,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847201_1.bin": {
+    "inode": 26760810,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357600362568378,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_E/prime_1152921504606847291_1.bin": {
+    "inode": 26760806,
+    "device": 66309,
+    "bytes": 1160922496,
+    "allocated": 1160929280,
+    "mtime_ns": 1791357751320956368,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/control-eight/discovery/cache/p1152921504606847009.bin": {
+    "inode": 26742550,
+    "device": 66309,
+    "bytes": 1133245768,
+    "allocated": 1133252608,
+    "mtime_ns": 1791291715767187157,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-eight/discovery/cache/p1152921504606847009.bin": {
+    "inode": 26743833,
+    "device": 66309,
+    "bytes": 1090693064,
+    "allocated": 1090699264,
+    "mtime_ns": 1791293779181410380,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/left-eight/discovery/cache/p1152921504606847009.bin": {
+    "inode": 26743240,
+    "device": 66309,
+    "bytes": 1090693064,
+    "allocated": 1090699264,
+    "mtime_ns": 1791293365673488616,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_day_20261004/amplitude5/E5_candidate.wxf": {
+    "inode": 25965245,
+    "device": 66309,
+    "bytes": 986314808,
+    "allocated": 986320896,
+    "mtime_ns": 1791106656332745572,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847201.bin": {
+    "inode": 26747045,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791309245844320528,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847127.bin": {
+    "inode": 26746977,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791305135118487868,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847123.bin": {
+    "inode": 26746605,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791303062685525565,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847067.bin": {
+    "inode": 26743926,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791299036171206519,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847189.bin": {
+    "inode": 26747014,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791307179938183714,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847009.bin": {
+    "inode": 26743932,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791296262496593666,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_mrk/cache/p1152921504606847081.bin": {
+    "inode": 26744440,
+    "device": 66309,
+    "bytes": 846192152,
+    "allocated": 846196736,
+    "mtime_ns": 1791301085992566753,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847201.bin": {
+    "inode": 26747049,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791309509259083095,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847127.bin": {
+    "inode": 26746980,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791305399451963269,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847123.bin": {
+    "inode": 26746952,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791303325518583315,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847067.bin": {
+    "inode": 26744422,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791299276811748052,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847189.bin": {
+    "inode": 26747019,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791307443144020982,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847009.bin": {
+    "inode": 26743944,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791296586364098785,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s/cache/p1152921504606847081.bin": {
+    "inode": 26744449,
+    "device": 66309,
+    "bytes": 783742552,
+    "allocated": 783749120,
+    "mtime_ns": 1791301323287743885,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v13-controls/nine/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26763802,
+    "device": 66309,
+    "bytes": 776610776,
+    "allocated": 776617984,
+    "mtime_ns": 1791385800138750365,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v21-t8/V21/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28446993,
+    "device": 66309,
+    "bytes": 776610776,
+    "allocated": 776617984,
+    "mtime_ns": 1791543179689578702,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-compression/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456405,
+    "device": 66309,
+    "bytes": 756010760,
+    "allocated": 756015104,
+    "mtime_ns": 1791558772076231559,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-kernels/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456327,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791558458003501834,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456562,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791559372218148165,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28456613,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791559676850416413,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456147,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791556990154797757,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28456202,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791557458425286895,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456044,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791556357958372926,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28456102,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791556655481125962,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28455154,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791555349704189758,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28455205,
+    "device": 66309,
+    "bytes": 755673936,
+    "allocated": 755679232,
+    "mtime_ns": 1791555651595961531,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v17-nine-control/nine/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26766784,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791401742419357850,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-factors-only/V23/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28450342,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791549265033298637,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v26/V26/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28451913,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791550503963173867,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v26/V26/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28451964,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791550829775337981,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-combined/V22/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28449357,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791547698395956024,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-combined/V22/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28449412,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791548043339597322,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-combined/V23/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28449262,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791547036967967894,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-combined/V23/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28449313,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791547365651743901,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v24/V24/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28450246,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791548617147852052,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v24/V24/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28450297,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791548942144141491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v25/V25/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28451114,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791549724700994763,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v25/V25/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28451171,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791550051116272210,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_runtime_recovery_20261008/nine/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26888203,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791509347416320482,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls/V19/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28445078,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791536445275658790,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls/V17/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28445009,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791535932801979472,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v20/V20/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28445761,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791537296611516978,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v20/V20/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28445915,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791538206984577593,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v20/V17-r2/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28446025,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791538976614564234,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v20/V20-r2/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28445953,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791538590538615556,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v22/V22/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28447658,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791543844201769459,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28447802,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791544590788729326,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v22-confirmation/V22-r2/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28447857,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791544935880266134,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v22-confirmation/V21-r3/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28447731,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791544206063488763,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v21/V21/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28446787,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791540112707224369,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v21/V21/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28446842,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791540493131646884,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v19_20261009/controls-v21/V21-r2/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28446884,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791541162825961339,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-schedule/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456483,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791559070036768322,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-V26-eight-workers/V26/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456249,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791557968113601075,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/ablations-c/L9-without-schedule/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28455255,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791555958267741545,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28453518,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791553747236884523,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28453577,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791554074909710300,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L9-V17/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28443595,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791532324388158524,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L9-V18-cache3g/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28443706,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791533622209034811,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L9-V18/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28443524,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791531828374037190,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L9-V18/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28443641,
+    "device": 66309,
+    "bytes": 754085712,
+    "allocated": 754089984,
+    "mtime_ns": 1791532835984874303,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847127.bin": {
+    "inode": 26740022,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791281889879737541,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847123.bin": {
+    "inode": 26740013,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791281694201384642,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847067.bin": {
+    "inode": 26739995,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791281301110643243,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847189.bin": {
+    "inode": 26740031,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791282086095647132,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847009.bin": {
+    "inode": 26739977,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791281106876194301,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache/p1152921504606847081.bin": {
+    "inode": 26740004,
+    "device": 66309,
+    "bytes": 750271432,
+    "allocated": 750276608,
+    "mtime_ns": 1791281497646419495,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847127.bin": {
+    "inode": 26739045,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791278150272825560,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847201.bin": {
+    "inode": 26111980,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791278660902022455,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847229.bin": {
+    "inode": 26111983,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791278922522397383,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/prime_1.bin": {
+    "inode": 26111914,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791277143861512984,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847123.bin": {
+    "inode": 26738827,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791277896077288079,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847189.bin": {
+    "inode": 26739568,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791278404151049023,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847067.bin": {
+    "inode": 26738821,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791277393307497234,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/cache/validation_p1152921504606847081.bin": {
+    "inode": 26738822,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791277644097153974,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847127.bin": {
+    "inode": 26111207,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276356821209637,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847201.bin": {
+    "inode": 26111364,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276587628076580,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847229.bin": {
+    "inode": 26111383,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276707792012957,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/prime_1.bin": {
+    "inode": 26109902,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791275890347688509,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847123.bin": {
+    "inode": 26110824,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276242690246640,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847189.bin": {
+    "inode": 26111348,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276469783098992,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847067.bin": {
+    "inode": 26110341,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276010756041532,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/cache/validation_p1152921504606847081.bin": {
+    "inode": 26110709,
+    "device": 66309,
+    "bytes": 749711528,
+    "allocated": 749719552,
+    "mtime_ns": 1791276130496280474,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28454335,
+    "device": 66309,
+    "bytes": 745766304,
+    "allocated": 745771008,
+    "mtime_ns": 1791554578251577031,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28454400,
+    "device": 66309,
+    "bytes": 745766304,
+    "allocated": 745771008,
+    "mtime_ns": 1791554957209298668,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/native_integer/product_covectors.wxf": {
+    "inode": 28471484,
+    "device": 66309,
+    "bytes": 736497422,
+    "allocated": 736501760,
+    "mtime_ns": 1791868213121875311,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847253_1.bin": {
+    "inode": 26760874,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358402806795994,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847301_1.bin": {
+    "inode": 26760896,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358501548968210,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847081_1.bin": {
+    "inode": 26760884,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358277082648849,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847127_1.bin": {
+    "inode": 26760888,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358315952956586,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847009_1.bin": {
+    "inode": 26760880,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358233957393594,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847067_1.bin": {
+    "inode": 26760882,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358259052273330,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847189_1.bin": {
+    "inode": 26760890,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358336362145694,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847229_1.bin": {
+    "inode": 26760894,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358380617032398,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847123_1.bin": {
+    "inode": 26760886,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358296018982677,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847201_1.bin": {
+    "inode": 26760892,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358357979729128,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_E/prime_1152921504606847291_1.bin": {
+    "inode": 26760898,
+    "device": 66309,
+    "bytes": 703302368,
+    "allocated": 703307776,
+    "mtime_ns": 1791358449663605179,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_E.wxf": {
+    "inode": 26753348,
+    "device": 66309,
+    "bytes": 694957288,
+    "allocated": 694964224,
+    "mtime_ns": 1791340882328199526,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/union_rank3/SEW_4p2_g0.wxf": {
+    "inode": 28472410,
+    "device": 66309,
+    "bytes": 693221039,
+    "allocated": 693227520,
+    "mtime_ns": 1791902375217218675,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_A1.wxf": {
+    "inode": 26760766,
+    "device": 66309,
+    "bytes": 654176289,
+    "allocated": 654184448,
+    "mtime_ns": 1791357306303516755,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_contract.wxf": {
+    "inode": 28462139,
+    "device": 66309,
+    "bytes": 629115242,
+    "allocated": 629121024,
+    "mtime_ns": 1791691596515072499,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_E.wxf": {
+    "inode": 26753739,
+    "device": 66309,
+    "bytes": 628722587,
+    "allocated": 628727808,
+    "mtime_ns": 1791341049880722137,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_pe_A2.wxf": {
+    "inode": 26760791,
+    "device": 66309,
+    "bytes": 627214239,
+    "allocated": 627220480,
+    "mtime_ns": 1791357402376674530,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/TC/joint/collinear/first_w6_basis.wxf": {
+    "inode": 28462500,
+    "device": 66309,
+    "bytes": 592600853,
+    "allocated": 592605184,
+    "mtime_ns": 1791693100537904404,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/TC/joint/regular_constraints_w6.wxf": {
+    "inode": 28462533,
+    "device": 66309,
+    "bytes": 591391348,
+    "allocated": 591396864,
+    "mtime_ns": 1791693180302460173,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_basis.wxf": {
+    "inode": 28462436,
+    "device": 66309,
+    "bytes": 585948850,
+    "allocated": 585953280,
+    "mtime_ns": 1791692791116279766,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/TC/regular_constraints_w6.wxf": {
+    "inode": 28462499,
+    "device": 66309,
+    "bytes": 584869856,
+    "allocated": 584876032,
+    "mtime_ns": 1791693099465914265,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_14.wxf": {
+    "inode": 26747076,
+    "device": 66309,
+    "bytes": 582463917,
+    "allocated": 582471680,
+    "mtime_ns": 1791309765924503311,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_E.wxf": {
+    "inode": 26111992,
+    "device": 66309,
+    "bytes": 579879983,
+    "allocated": 579887104,
+    "mtime_ns": 1791278949678116345,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_E.wxf": {
+    "inode": 26111392,
+    "device": 66309,
+    "bytes": 579879983,
+    "allocated": 579887104,
+    "mtime_ns": 1791276738374965298,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_freezing_selection_20261013/FEC6_extra1_purelast.wxf": {
+    "inode": 28470718,
+    "device": 66309,
+    "bytes": 534738250,
+    "allocated": 534745088,
+    "mtime_ns": 1791866356153404205,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls/fec7-staged-natural64.wxf": {
+    "inode": 25966154,
+    "device": 66309,
+    "bytes": 531129220,
+    "allocated": 531136512,
+    "mtime_ns": 1791135245746575424,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v8-eight-right-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26760687,
+    "device": 66309,
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime_ns": 1791356761605237035,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v6-eight-right-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26758608,
+    "device": 66309,
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime_ns": 1791346867946449099,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v7-eight-right-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26759799,
+    "device": 66309,
+    "bytes": 530491280,
+    "allocated": 530497536,
+    "mtime_ns": 1791350293013927299,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_freezing_selection_20261013/FEC6_extra1.wxf": {
+    "inode": 28470643,
+    "device": 66309,
+    "bytes": 515397498,
+    "allocated": 515403776,
+    "mtime_ns": 1791866076850971633,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/FEC_5.wxf": {
+    "inode": 28459973,
+    "device": 66309,
+    "bytes": 512332699,
+    "allocated": 512339968,
+    "mtime_ns": 1791655107278346318,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_A1.wxf": {
+    "inode": 26760847,
+    "device": 66309,
+    "bytes": 508148046,
+    "allocated": 508153856,
+    "mtime_ns": 1791357988740683561,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_adjacency_equivalence/FEC_6.wxf": {
+    "inode": 28463103,
+    "device": 66309,
+    "bytes": 503203260,
+    "allocated": 503209984,
+    "mtime_ns": 1791723038255448975,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/FEC_6.wxf": {
+    "inode": 28460753,
+    "device": 66309,
+    "bytes": 503203260,
+    "allocated": 503209984,
+    "mtime_ns": 1791686905316431316,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v5-eight-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26755858,
+    "device": 66309,
+    "bytes": 495996944,
+    "allocated": 496005120,
+    "mtime_ns": 1791342984961791767,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v4-eight-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26754682,
+    "device": 66309,
+    "bytes": 495996944,
+    "allocated": 496001024,
+    "mtime_ns": 1791341533828423079,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/irrFEC_17_po_A2.wxf": {
+    "inode": 26760870,
+    "device": 66309,
+    "bytes": 490086345,
+    "allocated": 490090496,
+    "mtime_ns": 1791358075404016168,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/TC_w6_modcert_projection.wxf": {
+    "inode": 28462435,
+    "device": 66309,
+    "bytes": 458514474,
+    "allocated": 458522624,
+    "mtime_ns": 1791692788735737885,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/collinear/first_w5.wxf": {
+    "inode": 28460126,
+    "device": 66309,
+    "bytes": 438235964,
+    "allocated": 438243328,
+    "mtime_ns": 1791656431551136364,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847081_1.bin": {
+    "inode": 26753201,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime_ns": 1791340829522690626,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847009_1.bin": {
+    "inode": 26753199,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime_ns": 1791340820730773764,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847067_1.bin": {
+    "inode": 26753204,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime_ns": 1791340825488728722,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847123_1.bin": {
+    "inode": 26753209,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime_ns": 1791340834074647740,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847201_1.bin": {
+    "inode": 26753326,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430186496,
+    "mtime_ns": 1791340857216431349,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847127_1.bin": {
+    "inode": 26753210,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430182400,
+    "mtime_ns": 1791340839011601348,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_E/prime_1152921504606847189_1.bin": {
+    "inode": 26753239,
+    "device": 66309,
+    "bytes": 430180992,
+    "allocated": 430182400,
+    "mtime_ns": 1791340844386550983,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_algorithm_comparison_20261008/controls/L8-S/SEW_13p3/MHV/bulk/cache/p1152921504606847009.bin": {
+    "inode": 28319809,
+    "device": 66309,
+    "bytes": 417962152,
+    "allocated": 417968128,
+    "mtime_ns": 1791528349465377757,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/DC/joint/collinear/first_w6_basis.wxf": {
+    "inode": 28462271,
+    "device": 66309,
+    "bytes": 405436795,
+    "allocated": 405442560,
+    "mtime_ns": 1791692103885067582,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_basis.wxf": {
+    "inode": 28462221,
+    "device": 66309,
+    "bytes": 405067575,
+    "allocated": 405073920,
+    "mtime_ns": 1791692010204628274,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v25/V25/discovery_plans/structure.tsv": {
+    "inode": 28451090,
+    "device": 66309,
+    "bytes": 394565168,
+    "allocated": 394571776,
+    "mtime_ns": 1791549723244961879,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v24/V24/discovery_plans/structure.tsv": {
+    "inode": 28450243,
+    "device": 66309,
+    "bytes": 394565168,
+    "allocated": 394567680,
+    "mtime_ns": 1791548615682823141,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/DC/joint/regular_constraints_w6.wxf": {
+    "inode": 28462287,
+    "device": 66309,
+    "bytes": 390315161,
+    "allocated": 390316032,
+    "mtime_ns": 1791692206821307545,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/boundary/DC/regular_constraints_w6.wxf": {
+    "inode": 28462272,
+    "device": 66309,
+    "bytes": 390007265,
+    "allocated": 390012928,
+    "mtime_ns": 1791692104325770047,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v25/V25/discovery_plans/structure.tsv": {
+    "inode": 28451011,
+    "device": 66309,
+    "bytes": 376686301,
+    "allocated": 376692736,
+    "mtime_ns": 1791549520910341020,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v24/V24/discovery_plans/structure.tsv": {
+    "inode": 28450048,
+    "device": 66309,
+    "bytes": 376686301,
+    "allocated": 376688640,
+    "mtime_ns": 1791548318293969604,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_50gb/control_w6_staged_t4.wxf": {
+    "inode": 28467630,
+    "device": 66309,
+    "bytes": 365169041,
+    "allocated": 365174784,
+    "mtime_ns": 1791850190635422104,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.toolchain/lean.tar.zst": {
+    "inode": 26889131,
+    "device": 66309,
+    "bytes": 343842845,
+    "allocated": 343851008,
+    "mtime_ns": 1791520395960875171,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v10-13p3-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26761130,
+    "device": 66309,
+    "bytes": 310738784,
+    "allocated": 310738944,
+    "mtime_ns": 1791362759730478984,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-13p3-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26760939,
+    "device": 66309,
+    "bytes": 308842176,
+    "allocated": 308846592,
+    "mtime_ns": 1791359032165814526,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v9-13p3-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26761030,
+    "device": 66309,
+    "bytes": 308842176,
+    "allocated": 308842496,
+    "mtime_ns": 1791361876873455886,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude-final/collinear/first_w7_basis.wxf": {
+    "inode": 22560783,
+    "device": 66309,
+    "bytes": 308536055,
+    "allocated": 308543488,
+    "mtime_ns": 1790997544052050005,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude/collinear/first_w7_basis.wxf": {
+    "inode": 22560464,
+    "device": 66309,
+    "bytes": 308536055,
+    "allocated": 308539392,
+    "mtime_ns": 1790996421128260851,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-original-2/w4.wxf": {
+    "inode": 22564565,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307101696,
+    "mtime_ns": 1791007540724731984,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-original-0/w4.wxf": {
+    "inode": 22564623,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007650788743419,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-original-0/w4.wxf": {
+    "inode": 22564326,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007234842293301,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-original-1/w4.wxf": {
+    "inode": 22564526,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007514707619918,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-original-2/w4.wxf": {
+    "inode": 22564702,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007744227118212,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-original-1/w4.wxf": {
+    "inode": 22564672,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007717331916844,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-original-0/w4.wxf": {
+    "inode": 22564477,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007450526377925,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-original-1/w4.wxf": {
+    "inode": 22564392,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007312259575728,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-original-2/w4.wxf": {
+    "inode": 22564419,
+    "device": 66309,
+    "bytes": 307095003,
+    "allocated": 307097600,
+    "mtime_ns": 1791007337941585795,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_earlysew_20261003/actions/w8_flip.wxf": {
+    "inode": 25964666,
+    "device": 66309,
+    "bytes": 299367586,
+    "allocated": 299368448,
+    "mtime_ns": 1791082129811109264,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/ope_selection_L7/algebra/L7-input/collinear.tsv": {
+    "inode": 26768176,
+    "device": 66309,
+    "bytes": 290364869,
+    "allocated": 290365440,
+    "mtime_ns": 1791451046614750899,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-after-2/w4.wxf": {
+    "inode": 22570288,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime_ns": 1791044226380127984,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-before-2/w4.wxf": {
+    "inode": 22570279,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime_ns": 1791044201987940318,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-streamed-1/w4.wxf": {
+    "inode": 22564375,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285704192,
+    "mtime_ns": 1791007290608355306,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-after-1/w4.wxf": {
+    "inode": 22570241,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791044146572964581,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-before-1/w4.wxf": {
+    "inode": 22570250,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791044172594811629,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-after-0/w4.wxf": {
+    "inode": 22570212,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791044120492652873,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/nmhv-comparison/heptagon-before-0/w4.wxf": {
+    "inode": 22570203,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791044095105273497,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-streamed-2/w4.wxf": {
+    "inode": 22564580,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007559844985682,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-streamed-0/w4.wxf": {
+    "inode": 22564335,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007260809400445,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-streamed-0/w4.wxf": {
+    "inode": 22564492,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007469761764541,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-streamed-1/w4.wxf": {
+    "inode": 22564659,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007694005924961,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/heptagon-streamed-2/w4.wxf": {
+    "inode": 22564434,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007364320461704,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/final-heptagon-streamed-1/w4.wxf": {
+    "inode": 22564515,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007492876242457,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-streamed-0/w4.wxf": {
+    "inode": 22564636,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007670770836258,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/v3-heptagon-streamed-2/w4.wxf": {
+    "inode": 22564709,
+    "device": 66309,
+    "bytes": 285699523,
+    "allocated": 285700096,
+    "mtime_ns": 1791007765130113802,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847081_1.bin": {
+    "inode": 26760748,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime_ns": 1791357241395943799,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847189_1.bin": {
+    "inode": 26760754,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime_ns": 1791357250928317703,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847123_1.bin": {
+    "inode": 26760750,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime_ns": 1791357244246359475,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847201_1.bin": {
+    "inode": 26760756,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281493504,
+    "mtime_ns": 1791357254693847985,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847253_1.bin": {
+    "inode": 26760758,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357269441862198,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847127_1.bin": {
+    "inode": 26760745,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357247441820481,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847009_1.bin": {
+    "inode": 26760741,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357235605086100,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847067_1.bin": {
+    "inode": 26760746,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357238951584004,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847229_1.bin": {
+    "inode": 26760752,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357258729408890,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A1/prime_1152921504606847291_1.bin": {
+    "inode": 26760760,
+    "device": 66309,
+    "bytes": 281487680,
+    "allocated": 281489408,
+    "mtime_ns": 1791357282180527739,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847081_1.bin": {
+    "inode": 26760771,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357337845152075,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847127_1.bin": {
+    "inode": 26760779,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357343798808771,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847009_1.bin": {
+    "inode": 26760770,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357331854482471,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847067_1.bin": {
+    "inode": 26760773,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357335307869566,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847123_1.bin": {
+    "inode": 26760777,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357340656463221,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847291_1.bin": {
+    "inode": 26760789,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274575360,
+    "mtime_ns": 1791357378634784957,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847253_1.bin": {
+    "inode": 26760781,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime_ns": 1791357365562141128,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847189_1.bin": {
+    "inode": 26760775,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime_ns": 1791357347190179092,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847229_1.bin": {
+    "inode": 26760785,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime_ns": 1791357355066029055,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/pe_A2/prime_1152921504606847201_1.bin": {
+    "inode": 26760783,
+    "device": 66309,
+    "bytes": 274569024,
+    "allocated": 274571264,
+    "mtime_ns": 1791357350967588479,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/native_cached/product_covectors.txt": {
+    "inode": 28470673,
+    "device": 66309,
+    "bytes": 262632421,
+    "allocated": 262639616,
+    "mtime_ns": 1791866137236537976,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847081_1.bin": {
+    "inode": 26753721,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791340996777178459,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847127_1.bin": {
+    "inode": 26753726,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791341007648084216,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847009_1.bin": {
+    "inode": 26753714,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791340984862282262,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847067_1.bin": {
+    "inode": 26753708,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791340991785221883,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847189_1.bin": {
+    "inode": 26753723,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791341013348034976,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847229_1.bin": {
+    "inode": 26753736,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791341031385879928,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847123_1.bin": {
+    "inode": 26753724,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791341002032132847,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_E/prime_1152921504606847201_1.bin": {
+    "inode": 26753731,
+    "device": 66309,
+    "bytes": 261731544,
+    "allocated": 261738496,
+    "mtime_ns": 1791341019628980855,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/ope_selection_L7/algebra/L7-input/seam.tsv": {
+    "inode": 26768160,
+    "device": 66309,
+    "bytes": 260902098,
+    "allocated": 260902912,
+    "mtime_ns": 1791450999294008436,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls/fec7-staged-natural256.wxf": {
+    "inode": 25966170,
+    "device": 66309,
+    "bytes": 257255060,
+    "allocated": 257257472,
+    "mtime_ns": 1791135356990625108,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_day_20261004/amplitude5/projection/collinear/first_w7_basis.wxf": {
+    "inode": 25965155,
+    "device": 66309,
+    "bytes": 256419282,
+    "allocated": 256425984,
+    "mtime_ns": 1791106469926131839,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_earlysew_20261003/amplitude5/projection/collinear/first_w7_basis.wxf": {
+    "inode": 25964956,
+    "device": 66309,
+    "bytes": 256419282,
+    "allocated": 256421888,
+    "mtime_ns": 1791089653397437963,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/physical/d5full_FEC6/product_covectors.txt": {
+    "inode": 28473726,
+    "device": 66309,
+    "bytes": 246362408,
+    "allocated": 246370304,
+    "mtime_ns": 1791903753306529955,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_integrability_20261013/contexts0to24/free_block.wxf": {
+    "inode": 28472488,
+    "device": 66309,
+    "bytes": 245632557,
+    "allocated": 245633024,
+    "mtime_ns": 1791882950553889769,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_earlysew_20261003/actions/w8_cyc.wxf": {
+    "inode": 25964662,
+    "device": 66309,
+    "bytes": 243873052,
+    "allocated": 243879936,
+    "mtime_ns": 1791082127834277520,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v11-validation-repair/eight/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26762403,
+    "device": 66309,
+    "bytes": 233913872,
+    "allocated": 233914368,
+    "mtime_ns": 1791384813280218744,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_A1.wxf": {
+    "inode": 26111988,
+    "device": 66309,
+    "bytes": 227358660,
+    "allocated": 227364864,
+    "mtime_ns": 1791278942639681764,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_A1.wxf": {
+    "inode": 26111388,
+    "device": 66309,
+    "bytes": 227358660,
+    "allocated": 227364864,
+    "mtime_ns": 1791276730857229309,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_candidate_export_20261009/build-env/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive.real": {
+    "inode": 28316264,
+    "device": 66309,
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime_ns": 1765578899105385000,
+    "links": 2,
+    "mode": 33204
+  },
+  "output_hexagon_candidate_export_20261009/build-env/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive": {
+    "inode": 28316287,
+    "device": 66309,
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime_ns": 1765578899252397800,
+    "links": 2,
+    "mode": 33204
+  },
+  "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h087de78_3/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive.real": {
+    "inode": 28316264,
+    "device": 66309,
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime_ns": 1765578899105385000,
+    "links": 2,
+    "mode": 33204
+  },
+  "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.34-h087de78_3/x86_64-conda-linux-gnu/sysroot/usr/lib64/locale/locale-archive": {
+    "inode": 28316287,
+    "device": 66309,
+    "bytes": 223542144,
+    "allocated": 223547392,
+    "mtime_ns": 1765578899252397800,
+    "links": 2,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/split7-assembled/w7.wxf": {
+    "inode": 25966372,
+    "device": 66309,
+    "bytes": 221984707,
+    "allocated": 221990912,
+    "mtime_ns": 1791140355638127847,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/LEC_4.wxf": {
+    "inode": 28460966,
+    "device": 66309,
+    "bytes": 215221882,
+    "allocated": 215224320,
+    "mtime_ns": 1791687837455597361,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/FEC_7_batched.wxf": {
+    "inode": 22570052,
+    "device": 66309,
+    "bytes": 211894566,
+    "allocated": 211898368,
+    "mtime_ns": 1791041189468626247,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls/fec7-staged-short64.wxf": {
+    "inode": 25966158,
+    "device": 66309,
+    "bytes": 201527521,
+    "allocated": 201535488,
+    "mtime_ns": 1791135270388844406,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/through7/w7_multiplicity.wxf": {
+    "inode": 25966285,
+    "device": 66309,
+    "bytes": 198882906,
+    "allocated": 198885376,
+    "mtime_ns": 1791139954507599171,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_exchange_closure_mixed_c2_2a.wxf": {
+    "inode": 28460022,
+    "device": 66309,
+    "bytes": 197422568,
+    "allocated": 197423104,
+    "mtime_ns": 1791655419724678066,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/dependencies41/modular_dependencies.txt": {
+    "inode": 28472701,
+    "device": 66309,
+    "bytes": 191631435,
+    "allocated": 191639552,
+    "mtime_ns": 1791893907731757537,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/sources/pentagon_three_loop/Symbol-3-loop-WL.txt": {
+    "inode": 28463300,
+    "device": 66309,
+    "bytes": 189906611,
+    "allocated": 189911040,
+    "mtime_ns": 1791728277571747950,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/collinear/first_w5_basis.wxf": {
+    "inode": 28460127,
+    "device": 66309,
+    "bytes": 189511974,
+    "allocated": 189513728,
+    "mtime_ns": 1791656433115384001,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_earlysew_20261003/actions/w8_parity.wxf": {
+    "inode": 25964665,
+    "device": 66309,
+    "bytes": 187869257,
+    "allocated": 187871232,
+    "mtime_ns": 1791082131572959231,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/lean/libLean.a": {
+    "inode": 26896995,
+    "device": 66309,
+    "bytes": 184390812,
+    "allocated": 184397824,
+    "mtime_ns": 1746084398000000000,
+    "links": 1,
+    "mode": 33188
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/dependency_blocks41/homogeneous_modular_dependencies.txt": {
+    "inode": 28472743,
+    "device": 66309,
+    "bytes": 183636556,
+    "allocated": 183644160,
+    "mtime_ns": 1791894666418190748,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/localized41/component1_modular.txt": {
+    "inode": 28472770,
+    "device": 66309,
+    "bytes": 183542295,
+    "allocated": 183545856,
+    "mtime_ns": 1791894889032933596,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/boundary_recursive_regularity_20261016/TC_parent5.txt": {
+    "inode": 28980328,
+    "device": 66309,
+    "bytes": 179232860,
+    "allocated": 179236864,
+    "mtime_ns": 1792215969661418033,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/parity/first_w5.wxf": {
+    "inode": 28460048,
+    "device": 66309,
+    "bytes": 177195920,
+    "allocated": 177197056,
+    "mtime_ns": 1791655558940274628,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/pivot-controls/parity7/w7.wxf": {
+    "inode": 25966755,
+    "device": 66309,
+    "bytes": 177168222,
+    "allocated": 177172480,
+    "mtime_ns": 1791143596086848272,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-staged/w7.wxf": {
+    "inode": 25966488,
+    "device": 66309,
+    "bytes": 177168222,
+    "allocated": 177168384,
+    "mtime_ns": 1791140702133072944,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-baseline/w7.wxf": {
+    "inode": 25969705,
+    "device": 66309,
+    "bytes": 177168222,
+    "allocated": 177168384,
+    "mtime_ns": 1791183972558938473,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847081_1.bin": {
+    "inode": 26760829,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357939635141114,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847127_1.bin": {
+    "inode": 26760833,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357946984814405,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847067_1.bin": {
+    "inode": 26760827,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357936179413976,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847189_1.bin": {
+    "inode": 26760831,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357950927785061,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847229_1.bin": {
+    "inode": 26760839,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357959324981894,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847123_1.bin": {
+    "inode": 26760823,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357943171908754,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847201_1.bin": {
+    "inode": 26760837,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176558080,
+    "mtime_ns": 1791357955046843725,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847253_1.bin": {
+    "inode": 26760835,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime_ns": 1791357965030833621,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847009_1.bin": {
+    "inode": 26760825,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime_ns": 1791357930354509039,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A1/prime_1152921504606847291_1.bin": {
+    "inode": 26760841,
+    "device": 66309,
+    "bytes": 176552336,
+    "allocated": 176553984,
+    "mtime_ns": 1791357973895263973,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls/fec7-staged-short256.wxf": {
+    "inode": 25966162,
+    "device": 66309,
+    "bytes": 176515209,
+    "allocated": 176517120,
+    "mtime_ns": 1791135292599067574,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/irrFEC_15_pe_E.wxf": {
+    "inode": 26753086,
+    "device": 66309,
+    "bytes": 165396999,
+    "allocated": 165400576,
+    "mtime_ns": 1791340701241947438,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/copy-short-lec/w3.wxf": {
+    "inode": 21919876,
+    "device": 66309,
+    "bytes": 160679904,
+    "allocated": 160681984,
+    "mtime_ns": 1790923470431459060,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847081_1.bin": {
+    "inode": 26760856,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime_ns": 1791358033920474989,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847189_1.bin": {
+    "inode": 26760862,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime_ns": 1791358043075348594,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847123_1.bin": {
+    "inode": 26760858,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime_ns": 1791358036815878307,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847201_1.bin": {
+    "inode": 26760864,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime_ns": 1791358046480032041,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847291_1.bin": {
+    "inode": 26760866,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160280576,
+    "mtime_ns": 1791358061678514741,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847253_1.bin": {
+    "inode": 26760868,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime_ns": 1791358053829140973,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847127_1.bin": {
+    "inode": 26760860,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime_ns": 1791358039878565792,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847009_1.bin": {
+    "inode": 26760852,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime_ns": 1791358026706312891,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847067_1.bin": {
+    "inode": 26760851,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime_ns": 1791358031362640075,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w17/cache/po_A2/prime_1152921504606847229_1.bin": {
+    "inode": 26760861,
+    "device": 66309,
+    "bytes": 160273312,
+    "allocated": 160276480,
+    "mtime_ns": 1791358050086813047,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/native_cached/product_covectors.wxf": {
+    "inode": 28470672,
+    "device": 66309,
+    "bytes": 157381130,
+    "allocated": 157388800,
+    "mtime_ns": 1791866135618240541,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/columns512/reduced/equation_basis.txt": {
+    "inode": 28471523,
+    "device": 66309,
+    "bytes": 155649952,
+    "allocated": 155656192,
+    "mtime_ns": 1791868625163451609,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847081_1.bin": {
+    "inode": 26753077,
+    "device": 66309,
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime_ns": 1791340691224049891,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847127_1.bin": {
+    "inode": 26753082,
+    "device": 66309,
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime_ns": 1791340695486006221,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847009_1.bin": {
+    "inode": 26753055,
+    "device": 66309,
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime_ns": 1791340688795074835,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847067_1.bin": {
+    "inode": 26753075,
+    "device": 66309,
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime_ns": 1791340690010062353,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/pe_E/prime_1152921504606847123_1.bin": {
+    "inode": 26753081,
+    "device": 66309,
+    "bytes": 155029792,
+    "allocated": 155033600,
+    "mtime_ns": 1791340692623035543,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/flip/first_w5.wxf": {
+    "inode": 28460018,
+    "device": 66309,
+    "bytes": 154626215,
+    "allocated": 154628096,
+    "mtime_ns": 1791655393276234908,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/lean/libleanshared.so": {
+    "inode": 26897930,
+    "device": 66309,
+    "bytes": 153918616,
+    "allocated": 153919488,
+    "mtime_ns": 1746084398000000000,
+    "links": 1,
+    "mode": 33188
+  },
+  "output_fec9_20261004/policy-controls/fec7-staged-short1024.wxf": {
+    "inode": 25966166,
+    "device": 66309,
+    "bytes": 151983331,
+    "allocated": 151986176,
+    "mtime_ns": 1791135313464261993,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_A2.wxf": {
+    "inode": 26753192,
+    "device": 66309,
+    "bytes": 150082945,
+    "allocated": 150085632,
+    "mtime_ns": 1791340791700051237,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_pe_A1.wxf": {
+    "inode": 26753160,
+    "device": 66309,
+    "bytes": 149844174,
+    "allocated": 149848064,
+    "mtime_ns": 1791340769394267633,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_13.wxf": {
+    "inode": 26747093,
+    "device": 66309,
+    "bytes": 144621111,
+    "allocated": 144625664,
+    "mtime_ns": 1791309743249818542,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/physical/complete_leading/pole1_w6/basis_w6.wxf": {
+    "inode": 28474165,
+    "device": 66309,
+    "bytes": 144163808,
+    "allocated": 144171008,
+    "mtime_ns": 1791905717268118789,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.lake/packages/mathlib/.lake/build/bin/cache": {
+    "inode": 26903240,
+    "device": 66309,
+    "bytes": 142789760,
+    "allocated": 142790656,
+    "mtime_ns": 1791520461239182782,
+    "links": 1,
+    "mode": 33277
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7.wxf": {
+    "inode": 25969829,
+    "device": 66309,
+    "bytes": 142709018,
+    "allocated": 142716928,
+    "mtime_ns": 1791184969720236271,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7.wxf": {
+    "inode": 25969853,
+    "device": 66309,
+    "bytes": 142709018,
+    "allocated": 142716928,
+    "mtime_ns": 1791185033394901546,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-wide16/w7.wxf": {
+    "inode": 25969730,
+    "device": 66309,
+    "bytes": 142709018,
+    "allocated": 142712832,
+    "mtime_ns": 1791184159501095972,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/projection_cfirst/DC_w6_projection.wxf": {
+    "inode": 28462220,
+    "device": 66309,
+    "bytes": 142688624,
+    "allocated": 142696448,
+    "mtime_ns": 1791692008761065300,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_A1.wxf": {
+    "inode": 26753496,
+    "device": 66309,
+    "bytes": 140250588,
+    "allocated": 140255232,
+    "mtime_ns": 1791340914481907003,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/irrFEC_15_po_E.wxf": {
+    "inode": 26753130,
+    "device": 66309,
+    "bytes": 140059292,
+    "allocated": 140062720,
+    "mtime_ns": 1791340739821559048,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/f4_highloop/FEC_1_9.wxf": {
+    "inode": 28466862,
+    "device": 66309,
+    "bytes": 139163659,
+    "allocated": 139165696,
+    "mtime_ns": 1791821089223216230,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/native-17p3/discovery_plans/structure.tsv": {
+    "inode": 28456638,
+    "device": 66309,
+    "bytes": 135269893,
+    "allocated": 135270400,
+    "mtime_ns": 1791566669924273645,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L9-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28456020,
+    "device": 66309,
+    "bytes": 134379339,
+    "allocated": 134385664,
+    "mtime_ns": 1791556357148015723,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-kernels/V27/discovery_plans/structure.tsv": {
+    "inode": 28456303,
+    "device": 66309,
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime_ns": 1791558457197126054,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-schedule/V27/discovery_plans/structure.tsv": {
+    "inode": 28456459,
+    "device": 66309,
+    "bytes": 134378962,
+    "allocated": 134381568,
+    "mtime_ns": 1791559069220640554,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-eight-workers/V27/discovery_plans/structure.tsv": {
+    "inode": 28456144,
+    "device": 66309,
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime_ns": 1791556989346877394,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-compression/V27/discovery_plans/structure.tsv": {
+    "inode": 28456402,
+    "device": 66309,
+    "bytes": 134379041,
+    "allocated": 134381568,
+    "mtime_ns": 1791558771262394931,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/ablations-c/L9-without-schedule/V27/discovery_plans/structure.tsv": {
+    "inode": 28455230,
+    "device": 66309,
+    "bytes": 134378962,
+    "allocated": 134381568,
+    "mtime_ns": 1791555957447675571,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L9-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28455130,
+    "device": 66309,
+    "bytes": 134379339,
+    "allocated": 134381568,
+    "mtime_ns": 1791555348883157531,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/fec7-baseline/w7.wxf": {
+    "inode": 22559965,
+    "device": 66309,
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime_ns": 1790995419288148468,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude-final/FEC_7.wxf": {
+    "inode": 22560702,
+    "device": 66309,
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime_ns": 1790997388455764584,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/fec7-upstream/w7.wxf": {
+    "inode": 22560198,
+    "device": 66309,
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime_ns": 1790995809115105461,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude/FEC_7.wxf": {
+    "inode": 22560423,
+    "device": 66309,
+    "bytes": 133812262,
+    "allocated": 133816320,
+    "mtime_ns": 1790996250198017556,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L9-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28454332,
+    "device": 66309,
+    "bytes": 133808170,
+    "allocated": 133812224,
+    "mtime_ns": 1791554577440746677,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7.wxf": {
+    "inode": 25969751,
+    "device": 66309,
+    "bytes": 133758496,
+    "allocated": 133758976,
+    "mtime_ns": 1791184373088084077,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28454229,
+    "device": 66309,
+    "bytes": 129426373,
+    "allocated": 129429504,
+    "mtime_ns": 1791554320741206009,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28453414,
+    "device": 66309,
+    "bytes": 129426369,
+    "allocated": 129429504,
+    "mtime_ns": 1791553559920107751,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/FEC_7_current.wxf": {
+    "inode": 22570067,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 129003520,
+    "mtime_ns": 1791041293502486224,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude-confirmation/FEC_7.wxf": {
+    "inode": 22561417,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1790998634484595428,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/amplitude-all-streamed/FEC_7.wxf": {
+    "inode": 22560860,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1790997993090166501,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_solver_strategy_20261002/fec7-factored/w7.wxf": {
+    "inode": 22561179,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1790998298676515431,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fiveloop_20261003/fourloop/FEC_7.wxf": {
+    "inode": 22570359,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1791044295197346853,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_nmhv_kernel_20261002/default-fourloop/FEC_7.wxf": {
+    "inode": 22565366,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1791008210916859546,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls/fec7-assembled.wxf": {
+    "inode": 25966149,
+    "device": 66309,
+    "bytes": 128997987,
+    "allocated": 128999424,
+    "mtime_ns": 1791135185217804711,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/cyclic/first_w5.wxf": {
+    "inode": 28459992,
+    "device": 66309,
+    "bytes": 127805127,
+    "allocated": 127807488,
+    "mtime_ns": 1791655240506662293,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28455941,
+    "device": 66309,
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime_ns": 1791556198878985563,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery_plans/structure.tsv": {
+    "inode": 28455048,
+    "device": 66309,
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime_ns": 1791555185147134738,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/recovery-control/L8/discovery_plans/structure.tsv": {
+    "inode": 28456854,
+    "device": 66309,
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime_ns": 1791562592968318963,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/recovery-control-first-attempt/L8/discovery_plans/structure.tsv": {
+    "inode": 28456776,
+    "device": 66309,
+    "bytes": 127102761,
+    "allocated": 127102976,
+    "mtime_ns": 1791562503567809357,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v14-cache-release-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26764417,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime_ns": 1791386255312471977,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-combined/V23/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28448572,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime_ns": 1791546695631698872,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_runtime_recovery_20261008/eight/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26888132,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime_ns": 1791509162043054745,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L8-V17/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28443300,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126787584,
+    "mtime_ns": 1791531453798224853,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v13-controls/eight/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26763723,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791385349509057756,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v15-triangular-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26765055,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791386596054593979,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v16-controls/v16-eight-t16/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26765993,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791388675531505933,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v16-controls/v16-eight-t8/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26765925,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791388604575037028,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v16-controls/v15-eight-t8/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26765857,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791388510931885328,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26766645,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791394157552911620,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v24/V22/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28450144,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791548413306836016,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v24/V22/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28450199,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791548461500784202,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v24/V24/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28450051,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791548319311989579,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v24/V24/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28450106,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791548366681919614,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-combined/V23/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28448623,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791546744432385630,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v26/V26/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28451813,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791550301446764379,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v26/V26/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28451864,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791550349524813421,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v25/V25/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28451014,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791549521941364860,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v25/V25/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28451065,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791549570241477974,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28453317,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791553483317331406,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28453368,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791553531984095640,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L8-V18/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28443367,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791531513919944213,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v18_20261009/validation/L8-V18/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28442632,
+    "device": 66309,
+    "bytes": 126782552,
+    "allocated": 126783488,
+    "mtime_ns": 1791531573611681855,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/pivot-controls/parity7/w7_sector0.wxf": {
+    "inode": 25966736,
+    "device": 66309,
+    "bytes": 126580239,
+    "allocated": 126586880,
+    "mtime_ns": 1791143572610938468,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-staged/w7_sector0.wxf": {
+    "inode": 25966468,
+    "device": 66309,
+    "bytes": 126580239,
+    "allocated": 126582784,
+    "mtime_ns": 1791140682155359138,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-baseline/w7_sector0.wxf": {
+    "inode": 25969678,
+    "device": 66309,
+    "bytes": 126580239,
+    "allocated": 126582784,
+    "mtime_ns": 1791183830207924898,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt3/seed7/w7.wxf": {
+    "inode": 25966619,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime_ns": 1791140509042329819,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt4/seed7/w7.wxf": {
+    "inode": 25966823,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime_ns": 1791140509042329819,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight8/w7.wxf": {
+    "inode": 25969954,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime_ns": 1791148839974491838,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/seed7/w7.wxf": {
+    "inode": 25967040,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125440000,
+    "mtime_ns": 1791140509042329819,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt3/weight8/w7.wxf": {
+    "inode": 25966718,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791140973010497705,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-assembled/w7.wxf": {
+    "inode": 25966437,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791140509042329819,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt4/weight8/w7.wxf": {
+    "inode": 25966924,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791143914295175201,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt6/weight9/w7.wxf": {
+    "inode": 25969975,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791185276271582054,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight8/w7.wxf": {
+    "inode": 25967072,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791148839974491838,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/weight9/w7.wxf": {
+    "inode": 25967096,
+    "device": 66309,
+    "bytes": 125432866,
+    "allocated": 125435904,
+    "mtime_ns": 1791150549056184597,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/physical/complete_leading/pole1_w6/basis_w6.txt": {
+    "inode": 28474166,
+    "device": 66309,
+    "bytes": 125101237,
+    "allocated": 125108224,
+    "mtime_ns": 1791905718209579329,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_exchange_saturated_closure_2a_marked.wxf": {
+    "inode": 28460377,
+    "device": 66309,
+    "bytes": 124184083,
+    "allocated": 124186624,
+    "mtime_ns": 1791666238640062686,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_integrability_20261013/contexts0to24/pivot_block.wxf": {
+    "inode": 28472487,
+    "device": 66309,
+    "bytes": 123480890,
+    "allocated": 123486208,
+    "mtime_ns": 1791882949535335417,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/no-short-lec/w3.wxf": {
+    "inode": 21919587,
+    "device": 66309,
+    "bytes": 122545003,
+    "allocated": 122552320,
+    "mtime_ns": 1790922217074783706,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v12-bonus-control/discovery/cache/p1152921504606847009.csr": {
+    "inode": 26763093,
+    "device": 66309,
+    "bytes": 121391416,
+    "allocated": 121393152,
+    "mtime_ns": 1791385086109668652,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/copy-short-lec/w3_kernel.wxf": {
+    "inode": 21919879,
+    "device": 66309,
+    "bytes": 119483521,
+    "allocated": 119484416,
+    "mtime_ns": 1790923472655488604,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/irrFEC_16_po_A2.wxf": {
+    "inode": 26753579,
+    "device": 66309,
+    "bytes": 115878041,
+    "allocated": 115884032,
+    "mtime_ns": 1791340937767698025,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/physical/d5full_FEC6/product_covectors.wxf": {
+    "inode": 28473724,
+    "device": 66309,
+    "bytes": 115457852,
+    "allocated": 115462144,
+    "mtime_ns": 1791903751640688120,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28454232,
+    "device": 66309,
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime_ns": 1791554321145878985,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-b/L8-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28454287,
+    "device": 66309,
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime_ns": 1791554349166255395,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28453417,
+    "device": 66309,
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime_ns": 1791553560323122349,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28453473,
+    "device": 66309,
+    "bytes": 113492832,
+    "allocated": 113496064,
+    "mtime_ns": 1791553591340245599,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28455944,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791556199275627449,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-d/L8-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28455999,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791556225754970860,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28455051,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791555185545365239,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-c/L8-V27/V27/discovery/cache/p1152921504606847067.csr": {
+    "inode": 28455106,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791555212201425969,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/recovery-control/L8/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456857,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791562593360157806,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_ten_v27d_20261009/recovery-control-first-attempt/L8/discovery/cache/p1152921504606847009.csr": {
+    "inode": 28456779,
+    "device": 66309,
+    "bytes": 110510432,
+    "allocated": 110514176,
+    "mtime_ns": 1791562503960591461,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/f4_induced_five_loop/FEC_7.wxf": {
+    "inode": 28469096,
+    "device": 66309,
+    "bytes": 106977018,
+    "allocated": 106979328,
+    "mtime_ns": 1791855393187067958,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/antipodal_c3_higher_weights_20261016/native_1283728_3.rows": {
+    "inode": 28837369,
+    "device": 66309,
+    "bytes": 106863408,
+    "allocated": 106868736,
+    "mtime_ns": 1792150451422427732,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847081_1.bin": {
+    "inode": 26753158,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340757669382542,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847127_1.bin": {
+    "inode": 26753162,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340759778361813,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847009_1.bin": {
+    "inode": 26753154,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340755664402274,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847067_1.bin": {
+    "inode": 26753156,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340756767391416,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847189_1.bin": {
+    "inode": 26753164,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340761026349559,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847123_1.bin": {
+    "inode": 26753149,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340758667372730,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A1/prime_1152921504606847201_1.bin": {
+    "inode": 26753166,
+    "device": 66309,
+    "bytes": 105408216,
+    "allocated": 105410560,
+    "mtime_ns": 1791340763850321865,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_pe_A2.wxf": {
+    "inode": 26111990,
+    "device": 66309,
+    "bytes": 102204917,
+    "allocated": 102211584,
+    "mtime_ns": 1791278945874345114,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_pe_A2.wxf": {
+    "inode": 26111390,
+    "device": 66309,
+    "bytes": 102204917,
+    "allocated": 102207488,
+    "mtime_ns": 1791276734322250542,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847081_1.bin": {
+    "inode": 26753180,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340779736166948,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847127_1.bin": {
+    "inode": 26753184,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340781916145803,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847009_1.bin": {
+    "inode": 26753176,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340777682186895,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847067_1.bin": {
+    "inode": 26751733,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340778856175491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847189_1.bin": {
+    "inode": 26753186,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340783210133264,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847123_1.bin": {
+    "inode": 26753182,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340780760157012,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/pe_A2/prime_1152921504606847201_1.bin": {
+    "inode": 26753188,
+    "device": 66309,
+    "bytes": 102202480,
+    "allocated": 102203392,
+    "mtime_ns": 1791340786017106099,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_to_end/output/SEW_5p1.wxf": {
+    "inode": 28460088,
+    "device": 66309,
+    "bytes": 101887930,
+    "allocated": 101892096,
+    "mtime_ns": 1791655954253986927,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/results/exact-L5-v1/L5/system.json": {
+    "inode": 18123498,
+    "device": 66309,
+    "bytes": 101840107,
+    "allocated": 101842944,
+    "mtime_ns": 1791432348666161987,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v8-eight-right-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26760696,
+    "device": 66309,
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime_ns": 1791356777275773657,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v6-eight-right-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26758617,
+    "device": 66309,
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime_ns": 1791346883522732322,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v7-eight-right-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26759810,
+    "device": 66309,
+    "bytes": 100655896,
+    "allocated": 100659200,
+    "mtime_ns": 1791350309605715602,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/modular-no-short-lec/w3.wxf": {
+    "inode": 21919858,
+    "device": 66309,
+    "bytes": 98113921,
+    "allocated": 98119680,
+    "mtime_ns": 1790923358313042341,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v4-eight-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26754701,
+    "device": 66309,
+    "bytes": 98039480,
+    "allocated": 98041856,
+    "mtime_ns": 1791341549445294872,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/v5-eight-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26755867,
+    "device": 66309,
+    "bytes": 98039480,
+    "allocated": 98041856,
+    "mtime_ns": 1791343000690622679,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/dependencies41/proposed_relations.wxf": {
+    "inode": 28472702,
+    "device": 66309,
+    "bytes": 97799466,
+    "allocated": 97804288,
+    "mtime_ns": 1791893907936774761,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/corners-no-short-lec/w3.wxf": {
+    "inode": 21919838,
+    "device": 66309,
+    "bytes": 95244273,
+    "allocated": 95248384,
+    "mtime_ns": 1790923197588310193,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/ten-v16-main/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26766685,
+    "device": 66309,
+    "bytes": 94542776,
+    "allocated": 94547968,
+    "mtime_ns": 1791398839446264821,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847081_1.bin": {
+    "inode": 26753131,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340729360663417,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847127_1.bin": {
+    "inode": 26753135,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340732405632967,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847009_1.bin": {
+    "inode": 26753105,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340726271694368,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847067_1.bin": {
+    "inode": 26753129,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340727965677387,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847189_1.bin": {
+    "inode": 26753137,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340735299604080,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w15/cache/po_E/prime_1152921504606847123_1.bin": {
+    "inode": 26753133,
+    "device": 66309,
+    "bytes": 94264536,
+    "allocated": 94265344,
+    "mtime_ns": 1791340730827648739,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L9-v26/V26/discovery_plans/structure.tsv": {
+    "inode": 28451889,
+    "device": 66309,
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime_ns": 1791550503246158294,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-V26-eight-workers/V26/discovery_plans/structure.tsv": {
+    "inode": 28456246,
+    "device": 66309,
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime_ns": 1791557967410171088,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L9-V26/V26/discovery_plans/structure.tsv": {
+    "inode": 28453494,
+    "device": 66309,
+    "bytes": 94157932,
+    "allocated": 94158848,
+    "mtime_ns": 1791553746529858972,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_D5_carriers/control_w6_integer_v2/product_covectors.txt": {
+    "inode": 28471463,
+    "device": 66309,
+    "bytes": 93993769,
+    "allocated": 93999104,
+    "mtime_ns": 1791867714731004458,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/dependency_blocks41/homogeneous_proposed_relations.wxf": {
+    "inode": 28472747,
+    "device": 66309,
+    "bytes": 93805365,
+    "allocated": 93810688,
+    "mtime_ns": 1791894667959313695,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/localized41/component1_proposed.wxf": {
+    "inode": 28472771,
+    "device": 66309,
+    "bytes": 93778060,
+    "allocated": 93782016,
+    "mtime_ns": 1791894888902923242,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/actions/prefix_flipmat_w6.wxf": {
+    "inode": 28461687,
+    "device": 66309,
+    "bytes": 93441285,
+    "allocated": 93446144,
+    "mtime_ns": 1791688464891618232,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v23_20261009/L8-v26/V26/discovery_plans/structure.tsv": {
+    "inode": 28451810,
+    "device": 66309,
+    "bytes": 92229527,
+    "allocated": 92229632,
+    "mtime_ns": 1791550301122757304,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/suite-a/L8-V26/V26/discovery_plans/structure.tsv": {
+    "inode": 28453293,
+    "device": 66309,
+    "bytes": 92229527,
+    "allocated": 92229632,
+    "mtime_ns": 1791553482994319692,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-wide16/w7_sector0.wxf": {
+    "inode": 25969711,
+    "device": 66309,
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime_ns": 1791184013893457508,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7_sector0.wxf": {
+    "inode": 25969825,
+    "device": 66309,
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime_ns": 1791184944874462915,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7_sector0.wxf": {
+    "inode": 25969849,
+    "device": 66309,
+    "bytes": 91495180,
+    "allocated": 91496448,
+    "mtime_ns": 1791185009156436248,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_v27_20261009/final-comparisons/L9-without-routes/V27/discovery_plans/structure.tsv": {
+    "inode": 28456538,
+    "device": 66309,
+    "bytes": 88341415,
+    "allocated": 88342528,
+    "mtime_ns": 1791559371506378683,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/actions/prefix_cycmat_w6.wxf": {
+    "inode": 28461686,
+    "device": 66309,
+    "bytes": 87541964,
+    "allocated": 87547904,
+    "mtime_ns": 1791688464298640891,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/results/completed-boundary/L5/certificates.json": {
+    "inode": 26767117,
+    "device": 66309,
+    "bytes": 82614565,
+    "allocated": 82616320,
+    "mtime_ns": 1791433555312594631,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/results/completed-U-boundary/L5/certificates.json": {
+    "inode": 26086231,
+    "device": 66309,
+    "bytes": 82479727,
+    "allocated": 82485248,
+    "mtime_ns": 1791433506207648181,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/results/canonical-boundary/L5/certificates.json": {
+    "inode": 18123607,
+    "device": 66309,
+    "bytes": 82479773,
+    "allocated": 82481152,
+    "mtime_ns": 1791433404655094237,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_four_loop/adapted_w4_words.json": {
+    "inode": 28467782,
+    "device": 66309,
+    "bytes": 82247471,
+    "allocated": 82247680,
+    "mtime_ns": 1791825098950653380,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_integrability_20261013/audit/context791_OPE_inputs.json": {
+    "inode": 28472483,
+    "device": 66309,
+    "bytes": 81725493,
+    "allocated": 81727488,
+    "mtime_ns": 1791882899124754225,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/no-short-lec/w3_kernel.wxf": {
+    "inode": 21919590,
+    "device": 66309,
+    "bytes": 79438275,
+    "allocated": 79446016,
+    "mtime_ns": 1790922217954798844,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_candidate_export_20261009/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/linux-64/gcc_impl_linux-64-14.4.0-h4b2a866_7.conda": {
+    "inode": 28311579,
+    "device": 66309,
+    "bytes": 78647149,
+    "allocated": 78651392,
+    "mtime_ns": 1791524446106575405,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7_sector0.wxf": {
+    "inode": 25969736,
+    "device": 66309,
+    "bytes": 77683036,
+    "allocated": 77684736,
+    "mtime_ns": 1791184195564462252,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_four_loop/FEC_6.wxf": {
+    "inode": 28467133,
+    "device": 66309,
+    "bytes": 77038805,
+    "allocated": 77045760,
+    "mtime_ns": 1791821471257236408,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g1_fixed/coordinate_map.txt": {
+    "inode": 28473765,
+    "device": 66309,
+    "bytes": 75630494,
+    "allocated": 75636736,
+    "mtime_ns": 1791904027229064774,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g1/coordinate_map.txt": {
+    "inode": 28473742,
+    "device": 66309,
+    "bytes": 75630495,
+    "allocated": 75632640,
+    "mtime_ns": 1791903840798331847,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/presolve_g0/coordinate_map.txt": {
+    "inode": 28473722,
+    "device": 66309,
+    "bytes": 75491528,
+    "allocated": 75493376,
+    "mtime_ns": 1791903738052800079,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/physical-lec/w3.wxf": {
+    "inode": 21919945,
+    "device": 66309,
+    "bytes": 74799156,
+    "allocated": 74805248,
+    "mtime_ns": 1790923798694279444,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/affine/expansion_w6_prefix1.wxf": {
+    "inode": 28459061,
+    "device": 66309,
+    "bytes": 74504574,
+    "allocated": 74510336,
+    "mtime_ns": 1791637953246113636,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/eigen_prefix_w6/prefix/chart.wxf": {
+    "inode": 28474961,
+    "device": 66309,
+    "bytes": 73095311,
+    "allocated": 73101312,
+    "mtime_ns": 1791911829524408500,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/eigen_sparse_prefix_w6/prefix/chart.wxf": {
+    "inode": 28475056,
+    "device": 66309,
+    "bytes": 73079499,
+    "allocated": 73084928,
+    "mtime_ns": 1791912303637217245,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_runtime_recovery_20261008/env/lib/libflint.so.20.0.1": {
+    "inode": 26887421,
+    "device": 66309,
+    "bytes": 73026080,
+    "allocated": 73027584,
+    "mtime_ns": 1743478358732709000,
+    "links": 2,
+    "mode": 33277
+  },
+  "output_hexagon_runtime_recovery_20261008/mamba-root/pkgs/https/conda.anaconda.org/conda-forge/linux-64/libflint-3.2.2-h754cb6e_0/lib/libflint.so.20.0.1": {
+    "inode": 26887421,
+    "device": 66309,
+    "bytes": 73026080,
+    "allocated": 73027584,
+    "mtime_ns": 1743478358732709000,
+    "links": 2,
+    "mode": 33277
+  },
+  "bonusrelation/strategy_audit/algebra/family_reduction.json": {
+    "inode": 27787426,
+    "device": 66309,
+    "bytes": 72565503,
+    "allocated": 72572928,
+    "mtime_ns": 1791470522414985173,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/modular-no-short-lec/w3_kernel.wxf": {
+    "inode": 21919861,
+    "device": 66309,
+    "bytes": 72540777,
+    "allocated": 72548352,
+    "mtime_ns": 1790923359281053916,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/split7-assembled/w7_sector3.wxf": {
+    "inode": 25966370,
+    "device": 66309,
+    "bytes": 72078442,
+    "allocated": 72085504,
+    "mtime_ns": 1791140354458961834,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/affine/expansion_w6_prefix2.wxf": {
+    "inode": 28459060,
+    "device": 66309,
+    "bytes": 70883399,
+    "allocated": 70889472,
+    "mtime_ns": 1791637932517593328,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/affine/reconstructed_w6.wxf": {
+    "inode": 28459062,
+    "device": 66309,
+    "bytes": 70883719,
+    "allocated": 70889472,
+    "mtime_ns": 1791637954105016515,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_bootstrap/steinmann/affine/reconstructed_w6_embedded.wxf": {
+    "inode": 28459071,
+    "device": 66309,
+    "bytes": 70883719,
+    "allocated": 70885376,
+    "mtime_ns": 1791638053451191228,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt3/seed7/w7_sector0.wxf": {
+    "inode": 25966620,
+    "device": 66309,
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime_ns": 1791140492722493491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt4/seed7/w7_sector0.wxf": {
+    "inode": 25966824,
+    "device": 66309,
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime_ns": 1791140492722493491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/seed7/w7_sector0.wxf": {
+    "inode": 25967041,
+    "device": 66309,
+    "bytes": 70651789,
+    "allocated": 70656000,
+    "mtime_ns": 1791140492722493491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-assembled/w7_sector0.wxf": {
+    "inode": 25966418,
+    "device": 66309,
+    "bytes": 70651789,
+    "allocated": 70651904,
+    "mtime_ns": 1791140492722493491,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/corners-no-short-lec/w3_kernel.wxf": {
+    "inode": 21919841,
+    "device": 66309,
+    "bytes": 70206044,
+    "allocated": 70213632,
+    "mtime_ns": 1790923198691320653,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/split7-assembled/w7_sector2.wxf": {
+    "inode": 25966368,
+    "device": 66309,
+    "bytes": 69620754,
+    "allocated": 69623808,
+    "mtime_ns": 1791140319104837136,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_allweight_letters/local_audit/char0.bin": {
+    "inode": 28466273,
+    "device": 66309,
+    "bytes": 68688000,
+    "allocated": 68694016,
+    "mtime_ns": 1791793190369577321,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847229_1.bin": {
+    "inode": 26753451,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66416640,
+    "mtime_ns": 1791340909993947552,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847081_1.bin": {
+    "inode": 26753388,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340901117028020,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847127_1.bin": {
+    "inode": 26753395,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340903579005667,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847009_1.bin": {
+    "inode": 26753363,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340898378052921,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847067_1.bin": {
+    "inode": 26753380,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340900028037916,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847189_1.bin": {
+    "inode": 26753397,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340904882993839,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847123_1.bin": {
+    "inode": 26753393,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340902289017376,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A1/prime_1152921504606847201_1.bin": {
+    "inode": 26753399,
+    "device": 66309,
+    "bytes": 66409800,
+    "allocated": 66412544,
+    "mtime_ns": 1791340907221972642,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_continuation_20261013/complete_union/reduced/covector_basis.wxf": {
+    "inode": 28470687,
+    "device": 66309,
+    "bytes": 66222104,
+    "allocated": 66224128,
+    "mtime_ns": 1791866214215383570,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/boundary_recursive_regularity_20261016/J135_parent5.txt": {
+    "inode": 28980302,
+    "device": 66309,
+    "bytes": 65530034,
+    "allocated": 65531904,
+    "mtime_ns": 1792215864862054691,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/factored/irrSEW_12p4_po_E.wxf": {
+    "inode": 26111998,
+    "device": 66309,
+    "bytes": 65002334,
+    "allocated": 65007616,
+    "mtime_ns": 1791278957688710279,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/SEW_12p4/MHV/right/irrSEW_12p4_po_E.wxf": {
+    "inode": 26111398,
+    "device": 66309,
+    "bytes": 65002334,
+    "allocated": 65003520,
+    "mtime_ns": 1791276747165114614,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/cached-eight/early_collinear/cache/p1152921504606847009.bin": {
+    "inode": 26743842,
+    "device": 66309,
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime_ns": 1791293804189149663,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/left-eight/early_collinear/cache/p1152921504606847009.bin": {
+    "inode": 26743249,
+    "device": 66309,
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime_ns": 1791293391094887734,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/control-eight/early_collinear/cache/p1152921504606847009.bin": {
+    "inode": 26742566,
+    "device": 66309,
+    "bytes": 62149416,
+    "allocated": 62152704,
+    "mtime_ns": 1791291741932162550,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_last_entry_20261013/solve/union_rank3/LEC_4.wxf": {
+    "inode": 28473558,
+    "device": 66309,
+    "bytes": 61848641,
+    "allocated": 61849600,
+    "mtime_ns": 1791901763524765555,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847123.bin": {
+    "inode": 26739885,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61595648,
+    "mtime_ns": 1791279479577445137,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847127.bin": {
+    "inode": 26739892,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791279631509419828,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847067.bin": {
+    "inode": 26739834,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791279172477814270,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847189.bin": {
+    "inode": 26739899,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791279782071386394,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847009.bin": {
+    "inode": 26739821,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791279017856483779,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/physical/SEW_12p4/MHV/collinear/cache/p1152921504606847081.bin": {
+    "inode": 26739841,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791279326848485578,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847127.bin": {
+    "inode": 26740024,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791281907676139605,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847123.bin": {
+    "inode": 26740015,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791281711838837175,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847067.bin": {
+    "inode": 26739997,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791281318879065246,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847189.bin": {
+    "inode": 26740033,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791282103994327612,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847009.bin": {
+    "inode": 26739982,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791281124083574660,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear/cache/p1152921504606847081.bin": {
+    "inode": 26740006,
+    "device": 66309,
+    "bytes": 61589512,
+    "allocated": 61591552,
+    "mtime_ns": 1791281515003851416,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/libLLVM-15.so": {
+    "inode": 26896947,
+    "device": 66309,
+    "bytes": 61545616,
+    "allocated": 61550592,
+    "mtime_ns": 1746083426000000000,
+    "links": 1,
+    "mode": 33188
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847201_1.bin": {
+    "inode": 26753569,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59813888,
+    "mtime_ns": 1791340934152730315,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847081_1.bin": {
+    "inode": 26753553,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340928927777083,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847127_1.bin": {
+    "inode": 26753560,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340930883759562,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847009_1.bin": {
+    "inode": 26753545,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340926535798534,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847067_1.bin": {
+    "inode": 26753550,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340928034785088,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847189_1.bin": {
+    "inode": 26753564,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340931948750028,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w16/cache/po_A2/prime_1152921504606847123_1.bin": {
+    "inode": 26753556,
+    "device": 66309,
+    "bytes": 59806176,
+    "allocated": 59809792,
+    "mtime_ns": 1791340929855768769,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/lean/.toolchain/lean-4.19.0-linux/lib/libclang-cpp.so.15": {
+    "inode": 26896971,
+    "device": 66309,
+    "bytes": 58437312,
+    "allocated": 58441728,
+    "mtime_ns": 1746083426000000000,
+    "links": 1,
+    "mode": 33188
+  },
+  "research/4pformfactor/results/ff_boot_validation/F43_full.bin": {
+    "inode": 28458509,
+    "device": 66309,
+    "bytes": 57939256,
+    "allocated": 57942016,
+    "mtime_ns": 1791636121353276683,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/boundary_recursive_regularity_20261016/DC_parent5.txt": {
+    "inode": 28980338,
+    "device": 66309,
+    "bytes": 57002124,
+    "allocated": 57004032,
+    "mtime_ns": 1792215993651274197,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-13p3-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26760948,
+    "device": 66309,
+    "bytes": 56196680,
+    "allocated": 56197120,
+    "mtime_ns": 1791359046302743087,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_17p3_20261007/eight-v9-13p3-control/early_collinear/cache/p1152921504606847009.csr": {
+    "inode": 26761039,
+    "device": 66309,
+    "bytes": 56196680,
+    "allocated": 56197120,
+    "mtime_ns": 1791361891445993267,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-broad-wide16/w7_sector1.wxf": {
+    "inode": 25969753,
+    "device": 66309,
+    "bytes": 56075568,
+    "allocated": 56078336,
+    "mtime_ns": 1791184240309897939,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/ff_four_loop/affine_TR_rhs_w8_residual.wxf": {
+    "inode": 28462062,
+    "device": 66309,
+    "bytes": 55011587,
+    "allocated": 55013376,
+    "mtime_ns": 1791691489276822720,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_symrep_sparse_20261002/physical-lec/w3_kernel.wxf": {
+    "inode": 21919948,
+    "device": 66309,
+    "bytes": 54847123,
+    "allocated": 54853632,
+    "mtime_ns": 1790923799656294671,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt3/seed7/w7_sector1.wxf": {
+    "inode": 25966624,
+    "device": 66309,
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime_ns": 1791140508198235921,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt4/seed7/w7_sector1.wxf": {
+    "inode": 25966828,
+    "device": 66309,
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime_ns": 1791140508198235921,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/attempt5/seed7/w7_sector1.wxf": {
+    "inode": 25967045,
+    "device": 66309,
+    "bytes": 54781185,
+    "allocated": 54788096,
+    "mtime_ns": 1791140508198235921,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-assembled/w7_sector1.wxf": {
+    "inode": 25966433,
+    "device": 66309,
+    "bytes": 54781185,
+    "allocated": 54784000,
+    "mtime_ns": 1791140508198235921,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/e6_first_markings/end_nodes/output/boundary_w4.wxf": {
+    "inode": 28459687,
+    "device": 66309,
+    "bytes": 54687192,
+    "allocated": 54689792,
+    "mtime_ns": 1791654604314515419,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/audit/full_residual41/residual_modp.bin": {
+    "inode": 28472808,
+    "device": 66309,
+    "bytes": 54589936,
+    "allocated": 54591488,
+    "mtime_ns": 1791895299325420568,
+    "links": 1,
+    "mode": 33204
+  },
+  "research/4pformfactor/results/pentagon_completion_20261013/audit/full_residual_control/residual_modp.bin": {
+    "inode": 28472734,
+    "device": 66309,
+    "bytes": 54589936,
+    "allocated": 54591488,
+    "mtime_ns": 1791894608807593075,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847081_1.bin": {
+    "inode": 26751844,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291233264817734,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847009_1.bin": {
+    "inode": 26751849,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291232257321694,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847067_1.bin": {
+    "inode": 26751850,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291232754073213,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_16p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847123_1.bin": {
+    "inode": 26751852,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291234277311274,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847081_1.bin": {
+    "inode": 26741831,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291233264817734,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847009_1.bin": {
+    "inode": 26741706,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291232257321694,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847067_1.bin": {
+    "inode": 26741829,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291232754073213,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/FEC/w14/cache/pe_E/prime_1152921504606847123_1.bin": {
+    "inode": 26741833,
+    "device": 66309,
+    "bytes": 54020680,
+    "allocated": 54026240,
+    "mtime_ns": 1791291234277311274,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_12p4_20261006/release_MHV_w16_12p4/hexagon_coproduct_entries_first_12.wxf": {
+    "inode": 26739931,
+    "device": 66309,
+    "bytes": 52810954,
+    "allocated": 52813824,
+    "mtime_ns": 1791279915265752959,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_hexagon_14p4_20261006/release_MHV_w18_14p4/hexagon_coproduct_entries_first_12.wxf": {
+    "inode": 26747092,
+    "device": 66309,
+    "bytes": 52810954,
+    "allocated": 52813824,
+    "mtime_ns": 1791309736430007350,
+    "links": 1,
+    "mode": 33204
+  },
+  "bonusrelation/ope_selection_L7/algebra/L7-certificate/quotient.json": {
+    "inode": 26768211,
+    "device": 66309,
+    "bytes": 52450839,
+    "allocated": 52453376,
+    "mtime_ns": 1791451351776964205,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/rational-w7/w7_sector1.wxf": {
+    "inode": 25969827,
+    "device": 66309,
+    "bytes": 51213946,
+    "allocated": 51220480,
+    "mtime_ns": 1791184966037831629,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/integer-controls/integer-w7/w7_sector1.wxf": {
+    "inode": 25969851,
+    "device": 66309,
+    "bytes": 51213946,
+    "allocated": 51220480,
+    "mtime_ns": 1791185029714532688,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-wide16/w7_sector1.wxf": {
+    "inode": 25969728,
+    "device": 66309,
+    "bytes": 51213946,
+    "allocated": 51216384,
+    "mtime_ns": 1791184035167714596,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/pivot-controls/parity7/w7_sector1.wxf": {
+    "inode": 25966753,
+    "device": 66309,
+    "bytes": 50588091,
+    "allocated": 50593792,
+    "mtime_ns": 1791143592260374599,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/subgroup-controls/parity7-staged/w7_sector1.wxf": {
+    "inode": 25966486,
+    "device": 66309,
+    "bytes": 50588091,
+    "allocated": 50589696,
+    "mtime_ns": 1791140701218995524,
+    "links": 1,
+    "mode": 33204
+  },
+  "output_fec9_20261004/policy-controls-v2/w7-baseline/w7_sector1.wxf": {
+    "inode": 25969695,
+    "device": 66309,
+    "bytes": 50588091,
+    "allocated": 50589696,
+    "mtime_ns": 1791183848562206414,
+    "links": 1,
+    "mode": 33204
+  }
+}

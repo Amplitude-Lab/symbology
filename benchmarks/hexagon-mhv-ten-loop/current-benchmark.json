@@ -1,0 +1,9 @@
+{
+  "schema": "hexagon-current-ten-loop-benchmark-v1",
+  "selected": "V27D/16, native17+3",
+  "primary_QQ_root": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-benchmark-20261010/qq-17p3",
+  "benchmark": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/native-benchmark-20261010/benchmark.json",
+  "benchmark_sha256": "ad11ad40c1cb5526c5c2220833b759f2bb085c1199850591ccf9d5dcb585171a",
+  "qualification_baseline": "V16",
+  "previous_manifest_is_historical": true
+}

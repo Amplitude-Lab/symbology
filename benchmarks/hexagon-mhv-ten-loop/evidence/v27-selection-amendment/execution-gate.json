@@ -1,0 +1,13 @@
+{
+  "state": "comparison_complete_selection_amended",
+  "selected_working_benchmark": "V27D",
+  "threads": 16,
+  "qualification_baseline": "V16",
+  "qualification_status": "not_verified_against_V16_at_nine_loops",
+  "incremental_comparator": "V26",
+  "profile": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/current-nine-loop-profile.json",
+  "amendment": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/selection-amendment.json",
+  "superseded_gate": "/home/ana/Documents/symbology/output_hexagon_v27_20261009/execution-gate-superseded-v26-threshold.json",
+  "production_modified": false,
+  "production_memory_limit_bytes": 50000000000
+}

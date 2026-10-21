@@ -1,0 +1,37 @@
+count: 29274
+size: 6.89 GiB
+in-pack: 816
+packs: 4
+size-pack: 3.34 GiB
+prune-packable: 0
+garbage: 29
+size-garbage: 21.80 GiB
+warning: garbage found: .git/objects/pack/tmp_pack_FRZkiR
+warning: garbage found: .git/objects/pack/tmp_pack_2GxoCg
+warning: garbage found: .git/objects/pack/tmp_pack_OxrmZp
+warning: garbage found: .git/objects/pack/tmp_pack_jLfrfm
+warning: garbage found: .git/objects/pack/tmp_pack_03sjYh
+warning: garbage found: .git/objects/pack/tmp_pack_395wJu
+warning: garbage found: .git/objects/pack/tmp_pack_KWA23L
+warning: garbage found: .git/objects/pack/tmp_pack_jVOIpb
+warning: garbage found: .git/objects/pack/tmp_pack_xG6gdD
+warning: garbage found: .git/objects/pack/tmp_pack_ZmKlmV
+warning: garbage found: .git/objects/pack/tmp_pack_w94Qth
+warning: garbage found: .git/objects/pack/tmp_pack_tKRV4G
+warning: garbage found: .git/objects/pack/tmp_pack_jmaLsh
+warning: garbage found: .git/objects/pack/tmp_pack_qUSVTI
+warning: garbage found: .git/objects/pack/tmp_pack_89vD2T
+warning: garbage found: .git/objects/pack/tmp_pack_sPL6cl
+warning: garbage found: .git/objects/pack/tmp_pack_H2cjFp
+warning: garbage found: .git/objects/pack/tmp_pack_shwLKa
+warning: garbage found: .git/objects/pack/tmp_pack_UD3uQY
+warning: garbage found: .git/objects/pack/tmp_pack_uN5Bg7
+warning: garbage found: .git/objects/pack/tmp_pack_UiVYLb
+warning: garbage found: .git/objects/pack/tmp_pack_DPzk8r
+warning: garbage found: .git/objects/pack/tmp_pack_I5Se7T
+warning: garbage found: .git/objects/pack/tmp_pack_i8Jsyc
+warning: garbage found: .git/objects/pack/tmp_pack_Eclhi9
+warning: garbage found: .git/objects/pack/tmp_pack_UafGNQ
+warning: garbage found: .git/objects/pack/tmp_pack_4psVos
+warning: garbage found: .git/objects/53/tmp_obj_mABNq9
+warning: garbage found: .git/objects/a6/tmp_obj_hP3O2Y

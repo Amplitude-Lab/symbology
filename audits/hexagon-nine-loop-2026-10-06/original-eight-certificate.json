@@ -1,0 +1,27 @@
+{
+  "command": [
+    "env",
+    "THREADS=4",
+    "output_hexagon_14p4_20261006/bin/joint_certificate",
+    "12",
+    "4",
+    "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear_mrk_ope_small_s",
+    "output_hexagon_14p4_20261006/FEC",
+    "output_hexagon_14p4_20261006/LEC/MHV",
+    "output_hexagon_12p4_20261006/reference-package/data"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 30.0,
+  "cancel_signal": 0,
+  "min_available_gib": 6.0,
+  "wall_seconds": 0.6048543369397521,
+  "peak_summed_rss_bytes": 127545344,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 0.9605199999999999,
+  "cpu_system_seconds": 0.046023999999999995,
+  "max_processes": 1,
+  "virtual_limit_gib": 42
+}

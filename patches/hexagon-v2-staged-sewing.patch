@@ -1,0 +1,82 @@
+--- a/src/reduced_d3/irr_bulk.hpp
++++ b/src/reduced_d3/irr_bulk.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "irr_sew_prereduce.hpp"
++#include "shared/irrep_seam_rows.hpp"
+ #include "irr_runtime.hpp"
+ #include "irr_stage.hpp"
+ #include "joint_eet_io.hpp"
+@@ -111,14 +112,16 @@
+ // driver increases the reconstruction budget automatically and reuses caches.
+ template<class Assemble>
+ nmhv_sew_reconstruction_result_t<int32_t> solve_seam(Assemble assemble, size_t columns,
+-	size_t h,size_t k,const fs::path& root,rref_option_t& opt,size_t& primes) {
++	size_t h,size_t k,const fs::path& root,rref_option_t& opt,size_t& primes,std::function<staged_kernel::MM(const field_t&,rref_option_t&)> direct={}) {
+ 	uint64_t fingerprint=std::stoull(hex_sha256_file(root/"input_identity.txt").substr(0,16),nullptr,16);
+ 	for(primes=1;;++primes) {
+ 		try {
+ 			opt->verbose=true;
+ 			return nmhv_sew_reconstruct_with_evaluator<int32_t>((h+k)/2,h,k,primes,root/"cache",fingerprint,opt,
+ 				[&](ulong prime,nmhv_sew_modular_cache_t<int32_t>&,rref_option_t& options) {
+-					field_t F(FIELD_Fp,prime);auto reduced=assemble(F,options);
++					field_t F(FIELD_Fp,prime);
++					if(direct){nmhv_sew_prime_result_t<int32_t> result;result.basis=direct(F,options);result.dimensions={columns,result.basis.nrow};result.seam_nnz={0};return result;}
++					auto reduced=assemble(F,options);
+ 					size_t nnz=reduced.nnz();reduced.sort_rows_by_nnz();
+ 					nmhv_sew_pivot_stage_t<int32_t> stage;nmhv_sew_prime_result_t<int32_t> result;
+ 					result.basis=nmhv_sew_modular_kernel_rows(std::move(reduced),stage,F,options);
+--- a/src/reduced_d3/irr_sew.cpp
++++ b/src/reduced_d3/irr_sew.cpp
+@@ -9,13 +9,15 @@
+ 	fs::path root=argv[4],fec="output/FEC",lec=fs::path("output/LEC")/helicity;
+ 	fs::path condition="data/dlogmat_full_ca_pd3.wxf",blocks="data/dlogmat_full_ca_pd3_blocks.tsv";
+ 	std::string prereduce=k==1?"right":"left";
+-	bool verify=false;size_t expected=SIZE_MAX;
++	bool verify=false;size_t expected=SIZE_MAX;std::string solver="baseline";
+ 	for(int i=5;i<argc;++i) {
+ 		std::string key=argv[i];if(key=="--verify"){verify=true;continue;}require(i+1<argc,"Missing option value");std::string value=argv[++i];
+-		if(key=="--prereduce")prereduce=value;
++		if(key=="--solver")solver=value;else if(key=="--prereduce")prereduce=value;
+ 		else if(key=="--fec-root")fec=value;else if(key=="--lec-root")lec=value;else if(key=="--condition")condition=value;
+ 		else if(key=="--condition-blocks")blocks=value;else if(key=="--expect")expected=std::stoul(value);else throw std::runtime_error("Unknown option "+key);
+ 	}
++	require(solver=="baseline"||solver=="staged-factored","--solver must be baseline or staged-factored");
++	require(solver!="staged-factored"||prereduce=="right","factored staged sewing requires --prereduce right");
+ 	require(prereduce=="left"||prereduce=="right"||prereduce=="none","--prereduce must be left, right or none");
+ 	std::vector<fs::path> identity{condition,blocks,lec/"common"/"CG.tsv",lec/"LEC_0_components.wxf",lec/"LEC_1_physical.wxf"};
+ 	identity.push_back(fec/joint_eet_weight_name(h)/"multiplicities.tsv");
+@@ -26,7 +28,7 @@
+ 		identity.push_back(irr::tensor_path(fec/joint_eet_weight_name(h)/("irrFEC_"+std::to_string(h)+"_"+irr::specs()[b].name+".wxf")));
+ 		identity.push_back(irr::tensor_path(lec/joint_eet_weight_name(k)/("irrLEC_"+std::to_string(k)+"_"+irr::specs()[b].name+".wxf")));
+ 	}
+-	irr_run::bind(root,helicity+" SEW "+std::to_string(h)+"p"+std::to_string(k)+(prereduce=="none"?"":" prereduce="+prereduce),identity);
++	irr_run::bind(root,helicity+" SEW "+std::to_string(h)+"p"+std::to_string(k)+(prereduce=="none"?"":" prereduce="+prereduce)+" solver="+solver,identity);
+ 	irr_stage::lock active(root/".active.lock");
+ 	if(irr_run::ready(root/"manifest.json")) {irr_run::verify_checksums(root);std::cout<<"COMPLETE SEW already exists: "<<root<<std::endl;return 0;}
+ 	Flint::set_memory_functions();rref_option_t opt;opt->method=1;opt->is_back_sub=true;opt->verbose=true;irr_run::threads(opt);auto* pool=&opt->pool;
+@@ -67,7 +69,14 @@
+ 		std::cout<<"IRR_SEW_MOD prime="<<F.mod.n<<" rows="<<reduced.nrow<<" nnz="<<reduced.nnz()<<std::endl;
+ 		return reduced;
+ 	};
+-	size_t primes=0;auto reconstructed=solve_seam(assemble,layout.columns,h,k,root,opt,primes);
++	size_t primes=0;
++    std::function<staged_kernel::MM(const field_t&,rref_option_t&)> direct;
++    if(solver=="staged-factored")direct=[&](const field_t& F,rref_option_t& options){
++        IrrepSeamRows rows(cg,t,layout,of,ol,first,last,F,options);
++        input_rows=std::max(input_rows,rows.nrow());
++        return factored_staged_kernel(rows,F,options);
++    };
++    auto reconstructed=solve_seam(assemble,layout.columns,h,k,root,opt,primes,direct);
+ 	auto kernel=std::move(reconstructed.basis);matrix.clear();
+ 	pool->detach_loop(0,kernel.nrow,[&](size_t r){kernel[r].canonicalize();fec_irrep_cancel_divisor(kernel[r]);});pool->wait();kernel.sort_rows_by_nnz();
+ 	require(expected==SIZE_MAX||kernel.nrow==expected,"Unexpected bulk solution dimension: "+std::to_string(kernel.nrow));
+@@ -120,7 +129,7 @@
+ 	std::ofstream summary(root/"summary.tsv");summary<<"helicity\th\tk\trows\tcolumns\tconstraint_nnz\tconstraint_height_bits\tsolutions\tsewing_nnz\theight_bits\tmodulus_bits\tprimes\tpeak_bytes\tverified\n"
+ 		<<helicity<<'\t'<<h<<'\t'<<k<<'\t'<<input_rows<<'\t'<<layout.columns<<'\t'<<input_nnz<<'\t'<<(prereduce=="none"?std::to_string(input_height):"NA")<<'\t'<<kernel.nrow<<'\t'<<kernel.nnz()<<'\t'<<stats.height_bits<<'\t'<<reconstructed.modulus_bits<<'\t'<<primes<<'\t'<<memory.peak_working_set_bytes<<'\t'<<verify<<'\n';
+ 	std::ofstream manifest(root/"manifest.json");manifest<<"{\"schema\":\"hexagon-irr-sew-v1\",\"complete\":true,\"helicity\":\""<<helicity<<"\",\"h\":"<<h<<",\"k\":"<<k
+-		<<",\"prereduce\":\""<<prereduce<<"\",\"constraint_arithmetic\":\""<<(prereduce=="none"?"QQ":"Fp")<<"\",\"solutions\":"<<kernel.nrow<<",\"method\":1,\"reconstruction_primes\":"<<primes<<",\"validation_primes\":2,\"modulus_bits\":"<<reconstructed.modulus_bits<<",\"seed_normalization\":\"physical-copy-primitive-v1\",\"layout\":\"solution,first_copy,last_copy\",\"singlet_E_metric\":[1,3],\"shared_solution_axis\":true,\"verified_expanded\":"<<(verify?"true":"false")
++		<<",\"solver\":\""<<solver<<"\",\"full_product_stored\":"<<(solver=="baseline"?"true":"false")<<",\"prereduce\":\""<<prereduce<<"\",\"constraint_arithmetic\":\""<<(prereduce=="none"?"QQ":"Fp")<<"\",\"solutions\":"<<kernel.nrow<<",\"method\":1,\"reconstruction_primes\":"<<primes<<",\"validation_primes\":2,\"modulus_bits\":"<<reconstructed.modulus_bits<<",\"seed_normalization\":\"physical-copy-primitive-v1\",\"layout\":\"solution,first_copy,last_copy\",\"singlet_E_metric\":[1,3],\"shared_solution_axis\":true,\"verified_expanded\":"<<(verify?"true":"false")
+ 		<<",\"checksums_sha256\":\""<<hex_sha256_file(root/"checksums.sha256")<<"\",\"stage\":\"bulk\"}\n";
+ 	manifest.close();require(bool(manifest),"Cannot write sewing manifest");irr_run::mark(root/"manifest.json");
+ 	irr_stage::write(root/"basis_identity.tsv",irr_stage::basis_identity(fec,lec,h,k));irr_stage::complete_chain(root,false);
