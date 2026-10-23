@@ -97,7 +97,11 @@ prebuilt binary linking the recovered FLINT runtime under
 when present. Recorded cost of the accepted chain: **8,157 s (about 2.3 h)**
 in total, dominated by the three sewing stages (1,069 / 1,910 / 4,445 s),
 with sampled peaks at most 11.2 GB on adopted stages (the 11.9 GB spike in
-the receipts is the staged control that was **not** adopted).
+the receipts is the staged control that was **not** adopted). One receipt
+caveat: the 371.6 s `symrep` entry predates the final condition tensor (see
+VALIDATION.md, "symrep timing anomaly"); with the committed tensor that
+stage takes hours, and since its output is read by no downstream stage it is
+auxiliary to the compared artifacts.
 
 The boundary training that produced the two committed collinear projection
 maps (`bootstrap --project --symmetry collinear --target FEC_6`, driver

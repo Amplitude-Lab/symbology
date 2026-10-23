@@ -45,8 +45,8 @@
   "toolchain": "environment-linux.yml (gxx_linux-64=14.4.0, libflint, gmp, tbb); bootstrap built from repository root sources (make bootstrap)",
   "files": {
     "README.md": {
-      "sha256": "85d28792181b774bb6d523efbf7a2dbb630f0ab9e1ab4f094a108332d4bf75e4",
-      "bytes": 8700
+      "sha256": "7fe73b36693c879d1a70379664fa1f344c29496ad0d63249d92b104f495e4ece",
+      "bytes": 8974
     },
     "VALIDATION.md": {
       "sha256": "bb8021a00f668579b17aeb9b3b825e99e2b6b13fd54db198849846a7f866ece4",
