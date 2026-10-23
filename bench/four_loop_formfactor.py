@@ -461,14 +461,16 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
         return guarded_run(command, log, cap_bytes, env=core_env)
 
     # Replay the recorded stage commands in order.  Control/variant stages
-    # and the auxiliary symrep preparation are not on the accepted artifact
-    # path: symrep's output directory is read by no downstream stage (the
-    # sewing consumes only data/, the bases and the action files), and its
-    # receipt predates the final condition tensor (VALIDATION.md, "symrep
-    # timing anomaly"), so replaying it costs hours without affecting any
-    # compared artifact.
+    # and the auxiliary symrep/cyclic-projection receipts are not on the
+    # accepted artifact path: symrep's output directory is read by no
+    # downstream stage, the recorded sewing consumes only data/, the bases
+    # and the action files (never cyclic/), and both auxiliary receipts
+    # predate the final condition tensor (VALIDATION.md, "symrep timing
+    # anomaly") — their recorded geometry no longer applies, while the
+    # artifacts they once guarded are reproduced exactly (FEC_3..5, LEC_2).
     stages = json.loads((BENCH / "reference/stage_receipts.json").read_text())
-    skip = {"prefix_w6_staged", "symrep_cached_prepare", "symrep_prepare"}
+    skip = {"prefix_w6_staged", "symrep_cached_prepare", "symrep_prepare",
+            "cyclic_LEC_2"}
 
     # The symmetry-action files consumed by the sewing stage are regenerated
     # deterministically from the committed data generators right before the
