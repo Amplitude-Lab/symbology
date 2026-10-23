@@ -127,3 +127,24 @@ confirm. Consequence for `run-core`: with the committed final tensor the
 symrep stage legitimately takes hours (measured: 3+ h CPU, still running at
 the time of this entry); its recorded 371.6 s should not be used as a cost
 estimate, and the stage is auxiliary to the compared artifacts.
+
+## Solver path nondeterminism observed with byte-identical inputs (2026-10-23)
+
+A rerun of the recorded `sew_w8_6p2` stage with hash-verified identical
+binary, `interior.wxf`, FEC_6 (sha d116600a... — the candidate-manifest
+pin), LEC_2 and all ten action files (each compared byte-for-byte against
+the originals) entered a multi-pass presolve trajectory the recorded run
+never printed: the original completed in 1,069 s after the interface
+reduction with no presolve output, while the rerun was still reducing
+~1.25 M remaining columns after six presolve passes and 2+ h. The presolve
+skips rows against a relation state that evolves during parallel emission,
+so scheduling order can change the trajectory; the exact kernel, when
+reached, is unchanged. Consequences recorded honestly: (1) the receipt
+timings are single samples of a path-nondeterministic solver, not strict
+upper bounds; (2) run-to-run wall time can vary by orders of magnitude
+under identical inputs; (3) this finding also weakens the earlier
+"pre-merge fossil" attribution for the symrep anomaly to one of two
+consistent explanations (input-generation difference, as the file
+chronology suggests, or the same path nondeterminism). A rerun taking the
+recorded fast path would reproduce the original timings; the final
+byte-comparison gate remains the arbiter of correctness either way.
