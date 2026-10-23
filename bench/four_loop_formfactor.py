@@ -17,8 +17,9 @@ three modes:
 
   run-core      Full native rebuild of the recorded stage chain
                 (reference/stage_receipts.json): prefix bases FEC_3..FEC_6,
-                symrep preparation, suffix chain, cyclic projection, weight-8
-                sewing, invariant masked sewing and the affine TR matrix.
+                suffix chain, cyclic projection, weight-8 sewing, invariant
+                masked sewing and the affine TR matrix.  The auxiliary symrep
+                stage is skipped (its output feeds no downstream stage).
                 Starts from the committed hash-pinned FEC_2 basis, regenerates
                 the 503 MB FEC_6 and the symmetry-action files, and compares
                 every regenerable base against the committed reference bytes.
@@ -456,8 +457,16 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
         return guarded_run(command, log, cap_bytes, env=core_env)
 
     # Replay the recorded stage commands in order.  Control/variant stages
-    # recorded in the receipts are not on the accepted chain.  The
-    # symmetry-action files consumed by the sewing stage are regenerated
+    # and the auxiliary symrep preparation are not on the accepted artifact
+    # path: symrep's output directory is read by no downstream stage (the
+    # sewing consumes only data/, the bases and the action files), and its
+    # receipt predates the final condition tensor (VALIDATION.md, "symrep
+    # timing anomaly"), so replaying it costs hours without affecting any
+    # compared artifact.
+    stages = json.loads((BENCH / "reference/stage_receipts.json").read_text())
+    skip = {"prefix_w6_staged", "symrep_cached_prepare", "symrep_prepare"}
+
+    # The symmetry-action files consumed by the sewing stage are regenerated
     # deterministically from the committed data generators right before the
     # first sewing stage, because their producers read the FEC bases.
     def prep_actions() -> None:
@@ -473,13 +482,12 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
                     f"(see {out / ('prep_' + label + '.log')})")
             print(f"{label}: regenerated ({r['wall_seconds']:.1f}s)")
 
-    stages = json.loads((BENCH / "reference/stage_receipts.json").read_text())
-    skip = {"prefix_w6_staged", "symrep_cached_prepare"}
     done = []
     for stage in stages:
         name = stage["stage"]
         if name in skip or "command" not in stage:
-            print(f"skip {name} (control/variant stage, not on the accepted chain)")
+            print(f"skip {name} (control/variant/auxiliary stage, not on the "
+                  f"accepted artifact chain)")
             continue
         if name == "sew_w8_6p2" and not (out / "galois5_w6.wxf").is_file():
             prep_actions()

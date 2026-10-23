@@ -81,11 +81,14 @@ recorded native stage commands of `reference/stage_receipts.json`:
 
 1. prefix bases FEC_3→FEC_6 (`bootstrap --extend`, starting from the
    committed hash-pinned FEC_2 basis),
-2. `symrep` representation preparation from the committed generators,
-3. the suffix chain LEC_2→LEC_4 and the cyclic LEC_2 projection,
-4. the symmetry-action files (`galois`, `galois_suffix`, `actions` helpers
+2. the suffix chain LEC_2→LEC_4 and the cyclic LEC_2 projection,
+3. the symmetry-action files (`galois`, `galois_suffix`, `actions` helpers
    from `solver-source`, deterministic from `data/`),
-5. the weight-8 sewing: invariant, masked and affine-TR stages.
+4. the weight-8 sewing: invariant, masked and affine-TR stages.
+
+The `symrep` receipt on the recorded list is auxiliary and skipped: its
+output directory is read by no downstream stage, and its recorded 371.6 s
+predates the final condition tensor (VALIDATION.md).
 
 Every regenerable base with a committed copy — FEC_3, FEC_4, FEC_5, LEC_2 and
 the affine-TR sewing matrix — is then compared byte-for-byte against
