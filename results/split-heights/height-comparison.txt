@@ -1,0 +1,47 @@
+4 [5, 3] count 384 nonzero 240 Nbits 8 Dbits 26 LCMbits 27 2ND 31
+4 [4, 4] count 591 nonzero 311 Nbits 8 Dbits 27 LCMbits 29 2ND 33
+6 [9, 3] count 4460 nonzero 3599 Nbits 17 Dbits 48 LCMbits 48 2ND 59
+6 [8, 4] count 7477 nonzero 6036 Nbits 17 Dbits 51 LCMbits 51 2ND 63
+8 [13, 3] count 38989 nonzero 34419 Nbits 31 Dbits 100 LCMbits 107 2ND 110
+8 [12, 4] count 69988 nonzero 65344 Nbits 30 Dbits 91 LCMbits 94 2ND 107
+9 [15, 3] count 105898 nonzero 94807 Nbits 38 Dbits 165 LCMbits 171 2ND 176
+9 [14, 4] count 195155 nonzero 184573 Nbits 38 Dbits 136 LCMbits 141 2ND 149
+10 [17, 3] count 275246 nonzero 246941 Nbits 45 Dbits 315 LCMbits 339 2ND 329
+10 [16, 4] count 518048 nonzero 491197 Nbits 44 Dbits 231 LCMbits 256 2ND 245
+[
+  {
+    "loop": 4,
+    "shifted_common_denominator_divides_native": false,
+    "native_common_denominator_divides_shifted": true,
+    "shifted_has_smaller_maximum_denominator": false,
+    "shifted_has_more_coordinates": true
+  },
+  {
+    "loop": 6,
+    "shifted_common_denominator_divides_native": false,
+    "native_common_denominator_divides_shifted": true,
+    "shifted_has_smaller_maximum_denominator": false,
+    "shifted_has_more_coordinates": true
+  },
+  {
+    "loop": 8,
+    "shifted_common_denominator_divides_native": true,
+    "native_common_denominator_divides_shifted": false,
+    "shifted_has_smaller_maximum_denominator": true,
+    "shifted_has_more_coordinates": true
+  },
+  {
+    "loop": 9,
+    "shifted_common_denominator_divides_native": true,
+    "native_common_denominator_divides_shifted": false,
+    "shifted_has_smaller_maximum_denominator": true,
+    "shifted_has_more_coordinates": true
+  },
+  {
+    "loop": 10,
+    "shifted_common_denominator_divides_native": true,
+    "native_common_denominator_divides_shifted": false,
+    "shifted_has_smaller_maximum_denominator": true,
+    "shifted_has_more_coordinates": true
+  }
+]

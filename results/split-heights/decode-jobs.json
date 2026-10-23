@@ -1,0 +1,56 @@
+[
+  {
+    "loop": 4,
+    "split": [
+      5,
+      3
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_algorithm_comparison_20261008/controls/L4-V17/joint",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-native.tsv"
+  },
+  {
+    "loop": 4,
+    "split": [
+      4,
+      4
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted.tsv"
+  },
+  {
+    "loop": 6,
+    "split": [
+      9,
+      3
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_algorithm_comparison_20261008/controls/L6-V17/joint",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-native.tsv"
+  },
+  {
+    "loop": 6,
+    "split": [
+      8,
+      4
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted.tsv"
+  },
+  {
+    "loop": 8,
+    "split": [
+      13,
+      3
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-native",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-native.tsv"
+  },
+  {
+    "loop": 9,
+    "split": [
+      15,
+      3
+    ],
+    "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native",
+    "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native.tsv"
+  }
+]

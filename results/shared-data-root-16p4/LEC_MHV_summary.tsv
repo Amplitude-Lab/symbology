@@ -1,0 +1,5 @@
+weight	dimension	irr_nnz	height_bits	fractions	max_rows	max_columns	max_matrix_nnz	peak_bytes
+1	6	4	1	0	0	0	0	14839808
+2	25	43	4	0	7	9	20	15003648
+3	83	316	8	0	41	40	218	17108992
+4	249	2796	13	0	172	126	1807	19214336

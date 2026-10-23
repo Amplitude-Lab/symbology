@@ -1,0 +1,12 @@
+algorithm	joint-discovery-physical-affine-v3
+executable_sha256	f9ecc11b4c2637cad2de0b9be4860b0ad60a4c11d221c3b36a847ef560bb3e92
+h	14
+helicity	MHV
+history	joint_seam_collinear_mrk_ope_small_s
+joint_input_sha256	1543671b75cfa81c67817fe7dff8261a8b765cf581d8942fd352d00ae56dee4c
+k	4
+object_kind	affine
+operator	bulk
+prereduce	left
+schema	irr-physics-v2-candidate
+target	6000

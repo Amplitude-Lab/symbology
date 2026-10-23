@@ -1,0 +1,46 @@
+{
+  "schema": "hexagon-first-native-prime-review-v1",
+  "recorded_unix_seconds": 1791401915.2204993,
+  "prime": 1152921504606847009,
+  "native": {
+    "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-main/joint/cache/p1152921504606847009.bin",
+    "sha256": "3cf04ceb0f22b3fec2e9311a165b89a7f32046a0f5ee747eb3fcb97abdfdf2d9",
+    "prime": 1152921504606847009,
+    "rows": 1,
+    "directions": 0,
+    "columns": 275246
+  },
+  "converted_16p4": {
+    "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v16-shifted-16p4/cache/p1152921504606847009.bin",
+    "sha256": "caad5663c7ebafce1211e2ddc10fe8c01bb2784612245d4f732648e86f3c05f1",
+    "prime": 1152921504606847009,
+    "rows": 1,
+    "directions": 0,
+    "columns": 518048
+  },
+  "dimension_chain": {
+    "discovery": 22489,
+    "collinear": 3056,
+    "mrk": 3041,
+    "ope_small_s": 2877,
+    "full_original_seam": 0
+  },
+  "original_seam_rows": 989800,
+  "original_seam_passes": 35,
+  "fresh_physical_checks": [
+    "collinear",
+    "mrk",
+    "ope_small_s"
+  ],
+  "native_wall_seconds": 12711.890974738635,
+  "native_peak_summed_rss_bytes": 34628349952,
+  "native_cpu_seconds": 134227.941734,
+  "conversion_wall_seconds": 64.06058381590992,
+  "conversion_peak_summed_rss_bytes": 12017389568,
+  "memory_guard_stopped": false,
+  "native_finite_field_result_verified": true,
+  "rational_result_certified": false,
+  "conditional_assumptions": "MHV double-final bonus relations, Dixon-Liu 2308.08199 eq76-79, full D3 orbit; extrapolated to L10",
+  "performance_assessment": "First native prime is feasible under 50 GB. Observed callback starvation motivates the separate V17 scheduling validation before extending the expensive prime series. No global optimality or whole-run ETA is established.",
+  "next_validation_progress": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/progress.json"
+}

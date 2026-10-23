@@ -1,0 +1,29 @@
+{
+  "schema": "hexagon-v17-production-selection-v1",
+  "created": 1791405233.5782492,
+  "status": "validated_selected_for_sequential_prime_accumulation",
+  "runner": "/home/ana/Documents/symbology/bench/hexagon_ten_loop_runner_v17.py",
+  "runner_sha256": "b099cd043c770841e231c99c081831ab8194fcf1a33a60a650ab65ec6601a4c6",
+  "unit": "symbology-hexagon-ten-v17-20261007.service",
+  "max_prime_index": 12,
+  "resume_at_prime_index": 2,
+  "native_primes_already_complete": 1,
+  "justification": "Measured V16 callback starvation prevented MRK/OPE admission during long COL callbacks. V17 persists the unfinished cycle and prioritizes due OPE; known eight/nine results and exact explicit-import controls pass. All physical equations, normalization and final original seam checks remain required.",
+  "validation": {
+    "v17-schedule-controls/progress.json": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/progress.json",
+    "v17-nine-control/progress.json": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/progress.json",
+    "v17-migration-controls/progress.json": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-migration-controls/progress.json",
+    "ten-v17-runner/v16-prime-import.json": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-v17-runner/v16-prime-import.json"
+  },
+  "performance_claim": "No whole-ten-loop speedup measured yet; evaluate phase times and fill on the next prime. Correctness controls do not establish global optimality.",
+  "first_prime_review": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/audit/v16-first-prime-completion-20261007.json",
+  "resources": {
+    "threads": 16,
+    "memory_high_bytes": 48000000000,
+    "memory_max_bytes": 50000000000,
+    "memory_swap_max_bytes": 0,
+    "tasks_max": 128
+  },
+  "conditional_uniqueness": true,
+  "rational_symbol_complete": false
+}

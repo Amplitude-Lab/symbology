@@ -1,0 +1,143 @@
+{
+ "schema": "workspace-cleanup-v1",
+ "created": 1792739591.505624,
+ "delete": [
+  {
+   "path": "output_hexagon_ten_v27d_20261009/native-17p3/discovery",
+   "bytes": 45979997518,
+   "reason": "completed certified campaign; joint payloads, stage identities and certificates kept"
+  },
+  {
+   "path": "output_hexagon_17p3_20261007/ten-v17-main/discovery",
+   "bytes": 45221151363,
+   "reason": "superseded by v27d chain; joint reference kept"
+  },
+  {
+   "path": "output_hexagon_17p3_20261007/ten-v16-main/discovery",
+   "bytes": 6151012237,
+   "reason": "superseded; joint kept"
+  },
+  {
+   "path": "output_hexagon_14p4_20261006/cached-nine/discovery",
+   "bytes": 65583030887,
+   "reason": "nine-loop benchmark done; joint kept"
+  },
+  {
+   "path": "output_hexagon_14p4_20261006/cached-nine/early_collinear",
+   "bytes": 17005048305,
+   "reason": "phase cache of completed solve"
+  },
+  {
+   "path": "output_hexagon_14p4_20261006/cached-nine/early_mrk",
+   "bytes": 5923366767,
+   "reason": "phase cache of completed solve"
+  },
+  {
+   "path": "output_hexagon_14p4_20261006/cached-nine/early_ope_small_s",
+   "bytes": 5486219591,
+   "reason": "phase cache of completed solve"
+  },
+  {
+   "path": "output_hexagon_16p4_20261006/FEC/w17/cache",
+   "bytes": 28274387772,
+   "reason": "chain-regeneration CRT cache; w17 tensors kept"
+  },
+  {
+   "path": "output_hexagon_16p4_20261006/FEC/w16/cache",
+   "bytes": 7508325486,
+   "reason": "chain-regeneration CRT cache; tensors kept"
+  },
+  {
+   "path": "output_hexagon_16p4_20261006/FEC/w15/cache",
+   "bytes": 1946604422,
+   "reason": "chain-regeneration CRT cache; tensors kept"
+  },
+  {
+   "path": "output_hexagon_16p4_20261006/FEC/w14/cache",
+   "bytes": 521337502,
+   "reason": "chain-regeneration CRT cache; tensors kept"
+  },
+  {
+   "path": "output_hexagon_16p4_20261006/FEC/w13/cache",
+   "bytes": 133108228,
+   "reason": "chain-regeneration CRT cache; tensors kept"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/FEC/w18/cache",
+   "bytes": 112202085886,
+   "reason": "FEC-18 generation CRT cache; w18 tensors and receipts kept"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/FEC-validation",
+   "bytes": 38743165289,
+   "reason": "byte-identity validation served; receipts in audit/"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-17p3-mapped/scratch.mmap",
+   "bytes": 0,
+   "reason": "mapped scratch of measurement run"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-17p3-mapped/discovery",
+   "bytes": 5747522557,
+   "reason": "completed measurement run; joint kept"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-17p3-mapped/discovery_plans",
+   "bytes": 135269958,
+   "reason": "completed measurement run"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-native-18p2-mapped/scratch.mmap",
+   "bytes": 0,
+   "reason": "mapped scratch; joint payload kept"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-native-18p2-mapped/discovery",
+   "bytes": 1838914179,
+   "reason": "first 18+2 prime complete; joint kept"
+  },
+  {
+   "path": "output_hexagon_18p2_20261021/solve-native-18p2-mapped/discovery_plans",
+   "bytes": 135489542,
+   "reason": "first 18+2 prime complete"
+  },
+  {
+   "path": "output_fec9_20261004",
+   "bytes": 21414849245,
+   "reason": "September campaign superseded; audits tracked in git"
+  },
+  {
+   "path": "output_hexagon_12p4_20261006/SEW_12p4",
+   "bytes": 14020348504,
+   "reason": "superseded sewing scratch; modular_direct object kept"
+  },
+  {
+   "path": "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/bulk/cache",
+   "bytes": 4501628982,
+   "reason": "modular scratch inside kept eight-loop 12+4 object tree; identity/object files kept"
+  }
+ ],
+ "archive": [
+  {
+   "path": "research/4pformfactor/results/pentagon_last_entry_20261013/solve",
+   "archive": "archives/pentagon-last-entry-solve-20261013.tar.zst",
+   "note": "4pformfactor modular solve arrays; sources, code, figures, physical results, audit kept"
+  },
+  {
+   "path": "output_hexagon_v18_20261009",
+   "archive": "archives/hexagon-v18-v19-v23-packages.tar.zst",
+   "note": "superseded build-lineage packages; v27d package kept"
+  },
+  {
+   "path": "output_hexagon_v19_20261009",
+   "archive": "archives/hexagon-v18-v19-v23-packages.tar.zst",
+   "note": "superseded build-lineage packages; v27d package kept"
+  },
+  {
+   "path": "output_hexagon_v23_20261009",
+   "archive": "archives/hexagon-v18-v19-v23-packages.tar.zst",
+   "note": "superseded build-lineage packages; v27d package kept"
+  }
+ ]
+}

@@ -1,0 +1,554 @@
+{
+  "schema": "hexagon-exact-split-height-audit-v1",
+  "records": [
+    {
+      "loop": 4,
+      "split": [
+        5,
+        3
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_algorithm_comparison_20261008/controls/L4-V17/joint",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-native.tsv",
+      "coefficients": 384,
+      "nonzero": 240,
+      "max_numerator_bits": 8,
+      "max_denominator_bits": 26,
+      "max_denominator_decimal": "40310784",
+      "common_denominator_bits": 27,
+      "common_denominator_decimal": "80621568",
+      "maximum_individual_2ND_bits": 31,
+      "global_box_2ND_bits": 34,
+      "vector_sha256": "3908162676a0d34a9f1e29d5176811089fe70821e6e0e531c33515ef79915490",
+      "object_hashes": {
+        "basis_identity.tsv": "5e923dfe3d37372ec7ea65f158a38698249a8baced4afdb12237dd72c4db6d59",
+        "columns.tsv": "2628147d5066e3889314bc3a6b040b18118f2605d82fdc55592836a2d3c4b78b",
+        "irrSEW_5p3_pe_A1_origin.wxf": "3e994c1e5c20256d95ddafefaefe94c6865d575af97f816bf5fca1c86f548369",
+        "irrSEW_5p3_pe_A2_origin.wxf": "427deb278f1351444e5c24ecdd8763aed8e654552b85d5fcf791cb107405d195",
+        "irrSEW_5p3_pe_E_origin.wxf": "3c13c10b8640bfdc01bd06c54d2b8b4ef5a2bc2f4484880d2baf02131849a134",
+        "irrSEW_5p3_po_A1_origin.wxf": "52a2ab6ae2345ff7bcfdda26b463e7a7d738bfb49bd239b33b993ebf886240de",
+        "irrSEW_5p3_po_A2_origin.wxf.shape": "772658440c3e736c1fa78e7ec52020ef4b3f7e814837002f8b69c901f5813c06",
+        "irrSEW_5p3_po_E_origin.wxf": "d3b1aadf8bd64aff8a2ceddc6418b80920fc4fcfdb6ed6c272b0b44b8eecbbe5",
+        "object.tsv": "eb359c38116e3effe77aea5ec8735aa17c7b71eef47758c36d09d02de19328e6",
+        "qq_complete.tsv": "33d76b8a07b2d2601aca11337c36c2a7a4f2d9686a9102262198b3e27e02de11"
+      }
+    },
+    {
+      "loop": 4,
+      "split": [
+        4,
+        4
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted.tsv",
+      "coefficients": 591,
+      "nonzero": 311,
+      "max_numerator_bits": 8,
+      "max_denominator_bits": 27,
+      "max_denominator_decimal": "80621568",
+      "common_denominator_bits": 29,
+      "common_denominator_decimal": "483729408",
+      "maximum_individual_2ND_bits": 33,
+      "global_box_2ND_bits": 36,
+      "vector_sha256": "69213da760b76038d5a1e4bc1ee073a08a99c284ae0240fd4a626c1e00ed96e9",
+      "object_hashes": {
+        "basis_identity.tsv": "89848b1dea25691beb48f6fe20e7c132a1ab379baad8ac22b9939328a4464be5",
+        "columns.tsv": "24bc99033beb17511072c86a253bd02642a2b067caeec436f707769cf605cfce",
+        "inputs.sha256": "e8495e99167c945bc8be0ba8f4feaa312f436f8db4878f36a3746991c60e2535",
+        "irrSEW_4p4_pe_A1_origin.wxf": "a106b9d45e91dfdb8cb8cd341f30ccbfd899cabbc8435947c383a6ee922df2a2",
+        "irrSEW_4p4_pe_A2_origin.wxf": "f0b5a33c38ec7e1a996a7ac647e1d0f7be398dddb04cf7a7be83296b44037a5e",
+        "irrSEW_4p4_pe_E_origin.wxf": "f2631c4833523e33bb99dae72376eb9f1a03efa90850d9700132700bb7f581cf",
+        "irrSEW_4p4_po_A1_origin.wxf.shape": "8335ff88ecdf889e566d994238cf5beb0366f99e834b4270e08f7a9b3cfef22d",
+        "irrSEW_4p4_po_A2_origin.wxf.shape": "a02394f28368fac74910e4ec51607de5553c246281604d1c5147731460b4420e",
+        "irrSEW_4p4_po_E_origin.wxf": "db0289cfb2ceb6b99d044ecfc4554b62d0991d1864c5c6fc72ca1d75202dd77a",
+        "object.tsv": "2e1c4545b5a88a296568b8d461e9f74f0ec0809cf09bfcc4bf93358b59a77fef"
+      }
+    },
+    {
+      "loop": 6,
+      "split": [
+        9,
+        3
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_algorithm_comparison_20261008/controls/L6-V17/joint",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-native.tsv",
+      "coefficients": 4460,
+      "nonzero": 3599,
+      "max_numerator_bits": 17,
+      "max_denominator_bits": 48,
+      "max_denominator_decimal": "270826551115776",
+      "common_denominator_bits": 48,
+      "common_denominator_decimal": "270826551115776",
+      "maximum_individual_2ND_bits": 59,
+      "global_box_2ND_bits": 66,
+      "vector_sha256": "2bc93775fe8151a82fe3a3e67ded61c45de28f01ccdd85332c826bc35b854836",
+      "object_hashes": {
+        "basis_identity.tsv": "9e325ed116cae1abc8d8a77e39801c3f10695b6178021b4f0b24d7d92f0daf2a",
+        "columns.tsv": "8c4b764de9da95f74ecc79381f710dde14dacc54f96bbc129291f9792a7c867b",
+        "irrSEW_9p3_pe_A1_origin.wxf": "815eedc4e8e6d1a194249ba5c8942f9fe763aec27a528521fa4accbdbb59adc2",
+        "irrSEW_9p3_pe_A2_origin.wxf": "28c88da6d28538a51ab106550c36e18ab132910d46a8c70960ed6186f52633ea",
+        "irrSEW_9p3_pe_E_origin.wxf": "66a172a492047847facf17f62f461054ff860ecc0d1ecfbc5d76bcf386e64b8e",
+        "irrSEW_9p3_po_A1_origin.wxf": "451f15d12565e80a3b16bdc21a13d0aee4a32481e82b86bf8da68f697a9d8b6e",
+        "irrSEW_9p3_po_A2_origin.wxf": "d4c0736542112dc4a41becdc8b504415f216092781333eec7659f13c367d8fe2",
+        "irrSEW_9p3_po_E_origin.wxf": "e8c74179d481652c07a899911de47568165eeab25a8b9e22a13a0d9db365c6a0",
+        "object.tsv": "4b40739313809370db6156ddab170de95971df46250418c2dec1c1f21341668f",
+        "qq_complete.tsv": "268662b4b6cd29df30b68b0274578e399ec03c37311a6cdc3a492daaf7ddf088"
+      }
+    },
+    {
+      "loop": 6,
+      "split": [
+        8,
+        4
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted.tsv",
+      "coefficients": 7477,
+      "nonzero": 6036,
+      "max_numerator_bits": 17,
+      "max_denominator_bits": 51,
+      "max_denominator_decimal": "1624959306694656",
+      "common_denominator_bits": 51,
+      "common_denominator_decimal": "1624959306694656",
+      "maximum_individual_2ND_bits": 63,
+      "global_box_2ND_bits": 69,
+      "vector_sha256": "d67f8b4f75394f93cc87c2d67ff2db4f5c852a4333fe99a1ad5683336024bad5",
+      "object_hashes": {
+        "basis_identity.tsv": "33a95917051a5074022e3bebc8913e203a8deb23257b88b9e9cda5dc00d5ab02",
+        "columns.tsv": "f6a2deb4715eba75000811d1bf0117417f99c4fff6b30f95d91237b7b29d12a4",
+        "inputs.sha256": "e7be2f323fdb40e62dd90547be3136c57ca9a27783ebd07b43f8e91606edd6c7",
+        "irrSEW_8p4_pe_A1_origin.wxf": "a193994ca1dc0246af3d4523e6e18e31d81cde73c8fee9b9eb7ebff2d83e4e7f",
+        "irrSEW_8p4_pe_A2_origin.wxf": "2adae1a5b15c99650da85e79d364f0135bd60abd0e66ca031a379fc303bf9e72",
+        "irrSEW_8p4_pe_E_origin.wxf": "8a63edee7dc66e5dd371ba530b98c03552c031a3dc50e33ea1b1861f857968b2",
+        "irrSEW_8p4_po_A1_origin.wxf": "0f16322a890abd2e5c8311dd6d6c011993882a15bcb193674a117ec8300ff17f",
+        "irrSEW_8p4_po_A2_origin.wxf": "5b73cc045efaecc4de4ece6d722157fde616ca33c24f92fa8e8a21b2b927e383",
+        "irrSEW_8p4_po_E_origin.wxf": "79ca29c7ecee5331e9eecc4bbf144fff068cef062dd8458da84e741ebef18b77",
+        "object.tsv": "127016b72005f474c4a0d3c519ae863949da98b6d6e25d689633beab5da9c1cd"
+      }
+    },
+    {
+      "loop": 8,
+      "split": [
+        13,
+        3
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-native",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-native.tsv",
+      "coefficients": 38989,
+      "nonzero": 34419,
+      "max_numerator_bits": 31,
+      "max_denominator_bits": 100,
+      "max_denominator_decimal": "687628319899369036411463270400",
+      "common_denominator_bits": 107,
+      "common_denominator_decimal": "115521557743093998117125829427200",
+      "maximum_individual_2ND_bits": 110,
+      "global_box_2ND_bits": 131,
+      "vector_sha256": "2af48954657a7488ec1ba866eb38b564cbe5937c2cdc6a8c5b79f53c4d1731e9",
+      "object_hashes": {
+        "basis_identity.tsv": "0aefa3f023958942705014edd70f926e809ffe54f993612cbf96367e1465194a",
+        "columns.tsv": "f8a0a9ded18be4a94a04dc150c6ef0ee64ec4b27b2f96989d7c5dc0c65667a55",
+        "inputs.sha256": "84c37662e19e89f5ed3f1294403591249daf196fa128fac2c968344629428406",
+        "irrSEW_13p3_pe_A1_origin.wxf": "099263f9f433d27677d5764188f17e8b2c8dbcd648c7a067397cc06771e33806",
+        "irrSEW_13p3_pe_A2_origin.wxf": "00e1b980e65cdbb0d33e09e7ff81872d330f98876c19306309571112f97042a2",
+        "irrSEW_13p3_pe_E_origin.wxf": "8318defe135868624821efba224d6ec6fcda078f5139231e6d73bf69edf694b3",
+        "irrSEW_13p3_po_A1_origin.wxf": "15509703f55afa571acb0c7327b176297d4a67154d99b55fb2f4bbbad93c7fe1",
+        "irrSEW_13p3_po_A2_origin.wxf": "365132fff4a58052dd492007461b9eb06e78049b16cd1e51c68bf1a983a9667f",
+        "irrSEW_13p3_po_E_origin.wxf": "200e94244625d72ce94b858e0d81b9e35cfc69d5e08ad915d115cc4e447cbe4a",
+        "object.tsv": "272bca5f03c5206d196005c52a2ff91a0463e1642441434575a6eab7840461f1"
+      },
+      "native_cache_check": {
+        "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-schedule-controls/eight-t4/joint/cache/p1152921504606847009.bin",
+        "sha256": "e5b58d672a02fba9b3c9d2fee5e0d4ba217225c0b973ce8c86990e5f1187568a",
+        "prime": 1152921504606847009,
+        "mismatches": 0,
+        "coefficients_checked": 38989
+      }
+    },
+    {
+      "loop": 8,
+      "split": [
+        12,
+        4
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear_mrk_ope_small_s",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/eight-reference.canonical.tsv",
+      "coefficients": 69988,
+      "nonzero": 65344,
+      "max_numerator_bits": 30,
+      "max_denominator_bits": 91,
+      "max_denominator_decimal": "1910078666387136212254064640",
+      "common_denominator_bits": 94,
+      "common_denominator_decimal": "11460471998322817273524387840",
+      "maximum_individual_2ND_bits": 107,
+      "global_box_2ND_bits": 121,
+      "vector_sha256": "7480e0bfda219042a35c3c74f965abb30c057400b87721ba489c2df96f13e48c",
+      "object_hashes": {
+        "basis_identity.tsv": "a2cff19f4b54c3e5fd618dda5afd520127d67645bb7d87b299c1a5930c4ae55f",
+        "columns.tsv": "85e3598910ab5455a710a22ca20c2a76db834f3d0a5b822008177b13661512ca",
+        "irrSEW_12p4_pe_A1_origin.wxf": "999864edcda34f5c38fd17f2beb14e9d1cc205baafe906b5d1175ee09ab971e6",
+        "irrSEW_12p4_pe_A2_origin.wxf": "d0ed51e57a0d12e3d6132e63e2a086c7a054498725c799da83a7406bb5c0b785",
+        "irrSEW_12p4_pe_E_origin.wxf": "93531ee495ea4d78af70323aff5965bff430d146d0d1833a78d2038907d19788",
+        "irrSEW_12p4_po_A1_origin.wxf": "677c0fe7c794de911545ad23e8d322939a4b1a8a51c0df71a67baeaa441e2b9c",
+        "irrSEW_12p4_po_A2_origin.wxf": "815a824aad86e224e44e68c5f18efc869ae863c6568bb20a1000e73766e659dd",
+        "irrSEW_12p4_po_E_origin.wxf": "8ace91093954082636abf6a907d18ec2fae02552ed0e98177fec4e816b9b1662",
+        "object.tsv": "c267d15c2fb259c8488a94f9aa18ac9790ca2402dac137138de76927391e19fd",
+        "qq_complete.tsv": "5ee09c72fed1652ed1195fac63ea7fcaf6c6c57b9573a85be875e129d91035fb"
+      }
+    },
+    {
+      "loop": 9,
+      "split": [
+        15,
+        3
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native.tsv",
+      "coefficients": 105898,
+      "nonzero": 94807,
+      "max_numerator_bits": 38,
+      "max_denominator_bits": 165,
+      "max_denominator_decimal": "26691129006943635991682607337443778002765742080000",
+      "common_denominator_bits": 171,
+      "common_denominator_decimal": "1601467740416618159500956440246626680165944524800000",
+      "maximum_individual_2ND_bits": 176,
+      "global_box_2ND_bits": 203,
+      "vector_sha256": "a46b0ee3514d3239f43597fc365d9106484ed71a7399952d35392d8a22a648de",
+      "object_hashes": {
+        "basis_identity.tsv": "9cf7076b41727f5a69b015933f5a31b79304ddea177f616161a270d1d0f4e52c",
+        "columns.tsv": "12e36dd8aa27f41a76076941d2c1590fdc721e1d8ca15f526b2aab9efde40662",
+        "inputs.sha256": "da2da374c0f90a846e3f777749f02b440c1215f8500b264aae0b1a8527c737dc",
+        "irrSEW_15p3_pe_A1_origin.wxf": "16ea4bf3ed4cff497dba1c95c68bbaf328b299acc548ece33e1277e0fb0cc31f",
+        "irrSEW_15p3_pe_A2_origin.wxf": "f36588cf6bced1a7f005e96a9ab12dea107e83c5823a26bdfee0a649f6a2bb76",
+        "irrSEW_15p3_pe_E_origin.wxf": "94c701a5b8172a3b89e49eeb874fa951cc76797e3ce36558b32b8095ba80ff46",
+        "irrSEW_15p3_po_A1_origin.wxf": "9aa09bfae061a56f7e97df45e2e428cad1609f12bef2d32a33b8cd1a9a9a78b8",
+        "irrSEW_15p3_po_A2_origin.wxf": "e84d79315f671a494768c3517239681727ee6e5d31e7bac96a9ac4f9fba41500",
+        "irrSEW_15p3_po_E_origin.wxf": "20356f14b5870809b16a13fd6c31f3a1d5af7c12dfb7b2e39ef57d954b239c11",
+        "object.tsv": "fd91224a4ae96c6b66d2a96218d6c299b125492190ad01d646aa7484bb0d26ff"
+      },
+      "native_cache_check": {
+        "path": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/v17-nine-control/nine/joint/cache/p1152921504606847009.bin",
+        "sha256": "d26d630158b4c862229380d35c4ee4f5e172ab1c8425b313929da415bd291e99",
+        "prime": 1152921504606847009,
+        "mismatches": 0,
+        "coefficients_checked": 105898
+      }
+    },
+    {
+      "loop": 9,
+      "split": [
+        14,
+        4
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_14p4_20261006/cached-nine/joint",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_candidate_export_20261009/nine-reference.canonical.tsv",
+      "coefficients": 195155,
+      "nonzero": 184573,
+      "max_numerator_bits": 38,
+      "max_denominator_bits": 136,
+      "max_denominator_decimal": "70724611778166855306274715039946925670400",
+      "common_denominator_bits": 141,
+      "common_denominator_decimal": "1980289129788671948575692021118513918771200",
+      "maximum_individual_2ND_bits": 149,
+      "global_box_2ND_bits": 175,
+      "vector_sha256": "47928f1ea392488591586b57736178bd6335f34fd71188e516ecbb0a2692bef9",
+      "object_hashes": {
+        "basis_identity.tsv": "f98b8987f5ea0e9735810423764765ba74196ca7ab5852ad219a5efd200a7cb3",
+        "columns.tsv": "e30768856d91127dd3a2db3cbaeefbf007fa30b6ae22e75ecbd9707ef1a8f6b5",
+        "irrSEW_14p4_pe_A1_origin.wxf": "5586acb5095c4b6fc81b7d0ee00a4b987d1e42acf3d938417905b27a79be3af0",
+        "irrSEW_14p4_pe_A2_origin.wxf": "aa9fd129c6d2d28c716ac0d7a552ed8351a291551cee8dac5dfba1cbaca48c79",
+        "irrSEW_14p4_pe_E_origin.wxf": "f0b6b816ac190bcd902c84c00e9391eb756a677223af8336f40ec86109b38765",
+        "irrSEW_14p4_po_A1_origin.wxf": "9e7a0c075249778a7438faf47347c2208b11ff2f74908ee8bec6d5be8431290d",
+        "irrSEW_14p4_po_A2_origin.wxf": "adda243bc633a32786f9f5f0d295572465f5d721ac9aca8101fc544527b47609",
+        "irrSEW_14p4_po_E_origin.wxf": "86fd57dae617f1004ead9d2c452fc19aa885db0418c97ca76bf7b473b88d0f48",
+        "object.tsv": "2be0907ac875f7ed056a61a3cc3113cae1ad5eb9fb2b18cb6addbfbddc8f4fd3",
+        "qq_complete.tsv": "35002c0b0a7378b16771c3b92b3dbdb28b8aed70d2e81c12e1e36685c6b79adc"
+      }
+    },
+    {
+      "loop": 10,
+      "split": [
+        17,
+        3
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-qq-17p3",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/native-reconstruction-7p96.tsv",
+      "coefficients": 275246,
+      "nonzero": 246941,
+      "max_numerator_bits": 45,
+      "max_denominator_bits": 315,
+      "max_denominator_decimal": "50909080394854790541246190704910391191400756234329211210205202000700317513140928512000000000000",
+      "common_denominator_bits": 339,
+      "common_denominator_decimal": "562174923894192472024792300005690894658669724486976804532002029057981413009981646661746688000000000000",
+      "maximum_individual_2ND_bits": 329,
+      "global_box_2ND_bits": 361,
+      "vector_sha256": "adad228cd4b00885357bbb2a246521f47d0ecb96c406990c4449bd6aeffb4b94",
+      "object_hashes": {
+        "basis_identity.tsv": "b78f9c7376a52daf186ec4030aab444eb306699e12a7a5521779b587a058eb4f",
+        "columns.tsv": "94a626ffbeb535d44cdaab69b7580d0eae2d449fc8c709467d2e7190ca95d37f",
+        "irrSEW_17p3_pe_A1_origin.wxf": "6bffc9a6d872369ffcba047179844249046ef427bc84ef10e513d0f7ae1665ad",
+        "irrSEW_17p3_pe_A2_origin.wxf": "1dfd060d7cb6ead26f42240b1436663d91d2bdbf8da36a07c1645813665bfde7",
+        "irrSEW_17p3_pe_E_origin.wxf": "4c3fc8b2e2a30903e93aba84e1ae848b3fcfd327145c6ed530f417890b06a7ed",
+        "irrSEW_17p3_po_A1_origin.wxf": "8e83e78e119b2ef3b93b830db17221c49c30b77bcf068583985f6fe6bdf08846",
+        "irrSEW_17p3_po_A2_origin.wxf": "e048086e32438a317fbbdf9964e1c8ddfa86dfe7497782b3143daf06ca95300c",
+        "irrSEW_17p3_po_E_origin.wxf": "2f187a519d93c33db41f709700de051aad766fc3891550cbb79eaf9cca170039",
+        "object.tsv": "4cf8cc8be5d999cf7c3ad333d1e571ef48a2d4983f3c858f492b11bce32ec61b",
+        "qq_complete.tsv": "06ea0c6416ed5a74a4d214ca32232c4d290b8a9616d4c7569d0179dd4bd154e5"
+      }
+    },
+    {
+      "loop": 10,
+      "split": [
+        16,
+        4
+      ],
+      "root": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/ten-asymmetric-qq-16p4",
+      "vector": "/home/ana/Documents/symbology/output_hexagon_17p3_20261007/audit/crt-six-prime-speculative-candidate-20261008T1532Z.candidate.tsv",
+      "coefficients": 518048,
+      "nonzero": 491197,
+      "max_numerator_bits": 44,
+      "max_denominator_bits": 231,
+      "max_denominator_decimal": "2562948384559018030566829406996505199380530870342194246434422784000000",
+      "common_denominator_bits": 256,
+      "common_denominator_decimal": "72505297209497708281129490558049732789435342215806606792780533674803200000000",
+      "maximum_individual_2ND_bits": 245,
+      "global_box_2ND_bits": 276,
+      "vector_sha256": "97355630801f12642cc284e46862af5239fe2dd5d98f3ca330752e511fca07d8",
+      "object_hashes": {
+        "basis_identity.tsv": "41c6a46b55631a74301ad3bf78bf4ed78d910a5b2b6f8a813add71d09f1ba1f0",
+        "columns.tsv": "3c2bedb4ea0d5106478de8d05e5a53603a5f13067075ae836201c90b909a79b5",
+        "irrSEW_16p4_pe_A1_origin.wxf": "fa2640b442b0c80b2cbb1da9515e4bb2d59306e777e1cf4033ee94ec48aa0d34",
+        "irrSEW_16p4_pe_A2_origin.wxf": "3ef9259167c9162193c448a72c187e41875788c4777cc52dc7a06c2cc9faee49",
+        "irrSEW_16p4_pe_E_origin.wxf": "78dffab3fa3173b519e13ddf842a5108c2529970a99382815e60f9cec9ff22fd",
+        "irrSEW_16p4_po_A1_origin.wxf": "abad56bd5fa4ae7c4c59cced3b8b5bf5eddf53b0e74b3d70e1e3f66fdbf9b357",
+        "irrSEW_16p4_po_A2_origin.wxf": "b1d278dc71a01d6c9a05e88ce11097d0ec47c3d9bf0c47302758e3687be4a8c3",
+        "irrSEW_16p4_po_E_origin.wxf": "a401eb32d029f9d0dabf23d5b8801617ae4e42f4440bc625554e98af148fade1",
+        "object.tsv": "c2c73eb8c9fd3ddb1e60714af69a3b82e36cd5a9c65799e8f10dc76e407b58a9",
+        "qq_complete.tsv": "2229278cf11313136f18f83a02f1de81a5288733268b88d1fab4f79399b5f7c8"
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "loop": 4,
+      "shifted_common_denominator_divides_native": false,
+      "native_common_denominator_divides_shifted": true,
+      "shifted_has_smaller_maximum_denominator": false,
+      "shifted_has_more_coordinates": true
+    },
+    {
+      "loop": 6,
+      "shifted_common_denominator_divides_native": false,
+      "native_common_denominator_divides_shifted": true,
+      "shifted_has_smaller_maximum_denominator": false,
+      "shifted_has_more_coordinates": true
+    },
+    {
+      "loop": 8,
+      "shifted_common_denominator_divides_native": true,
+      "native_common_denominator_divides_shifted": false,
+      "shifted_has_smaller_maximum_denominator": true,
+      "shifted_has_more_coordinates": true
+    },
+    {
+      "loop": 9,
+      "shifted_common_denominator_divides_native": true,
+      "native_common_denominator_divides_shifted": false,
+      "shifted_has_smaller_maximum_denominator": true,
+      "shifted_has_more_coordinates": true
+    },
+    {
+      "loop": 10,
+      "shifted_common_denominator_divides_native": true,
+      "native_common_denominator_divides_shifted": false,
+      "shifted_has_smaller_maximum_denominator": true,
+      "shifted_has_more_coordinates": true
+    }
+  ],
+  "exact_conversion_receipts": [
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-right-shift.resources.json",
+      "sha256": "d47d85632160c6d225da8a40cefedf3b76821e0dccf28a95eb190a6a16e63a8a",
+      "log": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L8-right-shift.log",
+      "log_sha256": "1123afae52e07f2182404abd294fd85c574044df1eee406956d5955e02595410",
+      "measurement": {
+        "command": [
+          "env",
+          "THREADS=2",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "nice",
+          "-n",
+          "15",
+          "output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+          "shift",
+          "MHV",
+          "12",
+          "4",
+          "output_hexagon_12p4_20261006/modular_direct/SEW_12p4/MHV/collinear_mrk_ope_small_s",
+          "output_hexagon_split_heights_20261010/L8-native",
+          "--head",
+          "13",
+          "--fec-root",
+          "output_hexagon_16p4_20261006/FEC",
+          "--lec-root",
+          "output_hexagon_16p4_20261006/LEC/MHV"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 3.5,
+        "cancel_signal": 0,
+        "min_available_gib": 5.0,
+        "wall_seconds": 5.139874050000799,
+        "peak_summed_rss_bytes": 119484416,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 8.258472,
+        "cpu_system_seconds": 0.235642,
+        "max_processes": 1,
+        "virtual_limit_gib": 8
+      }
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native.resources.json",
+      "sha256": "87279779f021a9a9cecdb006cc15b98009af650b47a73bc6b1c5e66918e35ecf",
+      "log": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L9-native.log",
+      "log_sha256": "b8aa5a2e57b7070f9782c81f6c2991957ab7ba6818fb0db0fc44dd553f88808d",
+      "measurement": {
+        "command": [
+          "env",
+          "THREADS=2",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "nice",
+          "-n",
+          "15",
+          "output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+          "shift",
+          "MHV",
+          "14",
+          "4",
+          "output_hexagon_14p4_20261006/cached-nine/joint",
+          "output_hexagon_split_heights_20261010/L9-native",
+          "--head",
+          "15",
+          "--fec-root",
+          "output_hexagon_16p4_20261006/FEC",
+          "--lec-root",
+          "output_hexagon_16p4_20261006/LEC/MHV"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 3.5,
+        "cancel_signal": 0,
+        "min_available_gib": 5.0,
+        "wall_seconds": 61.90870393700607,
+        "peak_summed_rss_bytes": 1179238400,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 100.868562,
+        "cpu_system_seconds": 3.391631,
+        "max_processes": 1,
+        "virtual_limit_gib": 8
+      }
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted.resources.json",
+      "sha256": "88c527b4ede10964ab1141d016d42728d5e4076108ecee974fbea5b7de634661",
+      "log": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L4-shifted.log",
+      "log_sha256": "d91eb2e632d24e5ffb9f9fc4cde2a0df5ceaaa2c73630c84b401b7a65f675e0d",
+      "measurement": {
+        "command": [
+          "env",
+          "THREADS=2",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "nice",
+          "-n",
+          "15",
+          "output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+          "shift",
+          "MHV",
+          "5",
+          "3",
+          "output_hexagon_algorithm_comparison_20261008/controls/L4-V17/joint",
+          "output_hexagon_split_heights_20261010/L4-shifted",
+          "--head",
+          "4",
+          "--fec-root",
+          "output_hexagon_16p4_20261006/FEC",
+          "--lec-root",
+          "output_hexagon_16p4_20261006/LEC/MHV"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 3.5,
+        "cancel_signal": 0,
+        "min_available_gib": 5.0,
+        "wall_seconds": 0.10200518999772612,
+        "peak_summed_rss_bytes": 1609728,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 0.005275,
+        "cpu_system_seconds": 0.0071849999999999995,
+        "max_processes": 1,
+        "virtual_limit_gib": 8
+      }
+    },
+    {
+      "path": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted.resources.json",
+      "sha256": "ca4e2d0c2694a07390fbd9a0408744c8e612db6c152e9b68827267dd34c09058",
+      "log": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/L6-shifted.log",
+      "log_sha256": "9c119380851b3b34a4b5eb4af32abd19de4ebb8a1be0f0f4d7ef5de6a301f142",
+      "measurement": {
+        "command": [
+          "env",
+          "THREADS=2",
+          "LD_LIBRARY_PATH=/home/ana/Documents/symbology/output_hexagon_runtime_recovery_20261008/env/lib",
+          "nice",
+          "-n",
+          "15",
+          "output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+          "shift",
+          "MHV",
+          "9",
+          "3",
+          "output_hexagon_algorithm_comparison_20261008/controls/L6-V17/joint",
+          "output_hexagon_split_heights_20261010/L6-shifted",
+          "--head",
+          "8",
+          "--fec-root",
+          "output_hexagon_16p4_20261006/FEC",
+          "--lec-root",
+          "output_hexagon_16p4_20261006/LEC/MHV"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "memory_pressure": false,
+        "rss_limit_exceeded": false,
+        "rss_limit_gib": 3.5,
+        "cancel_signal": 0,
+        "min_available_gib": 5.0,
+        "wall_seconds": 0.10250269599782769,
+        "peak_summed_rss_bytes": 1871872,
+        "sample_interval_seconds": 0.1,
+        "cpu_user_seconds": 0.044375,
+        "cpu_system_seconds": 0.005915999999999999,
+        "max_processes": 1,
+        "virtual_limit_gib": 8
+      }
+    }
+  ],
+  "converter": {
+    "path": "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/joint-v8-package/bin/irr_convert",
+    "sha256": "4c85e609a6dd3953d876cb6ba21785b0d5faf7630d7a502b6a7effd95721b46c"
+  },
+  "independent_decoder_log": {
+    "path": "/home/ana/Documents/symbology/output_hexagon_split_heights_20261010/decode.log",
+    "sha256": "3db4929d07cc98bd007578ea6a904eb7c2356677fb78ec8d9a241008189c8cd9"
+  },
+  "scope": "Fixed existing parity x D3, physical-copy-primitive-v1 conventions. L4/L6 exact left conversion; L8/L9 exact right conversion with all-coordinate native modular comparison; L10 historical certified QQ vectors. This does not certify the currently running fresh ten-loop calculation.",
+  "interpretation": "Finite-loop empirical comparison, not an all-loop theorem or basis-independent rule.",
+  "scripts": {
+    "/home/ana/Documents/symbology/bench/hexagon_split_height_audit.py": "5547236df8761c22bf18b10c4f5c7f758e4f1e0d105950ba17b8434c6150235e",
+    "/home/ana/Documents/symbology/bench/hexagon_split_height_decode.wls": "8b71dc346a5ff8a89a99102c61290510feebd51901a1668d982829f7ca445ab5"
+  }
+}

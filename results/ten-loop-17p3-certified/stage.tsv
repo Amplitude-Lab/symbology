@@ -1,0 +1,31 @@
+SOLVER_EXACT_COMPRESSION	1
+SOLVER_PACKED_ROUTES	1
+SOLVER_WORK_KERNELS	1
+SOLVER_WORK_SCHEDULE	1
+affine_factors	1
+algorithm	joint-discovery-physical-affine-v27-workload-compression-packed-replay
+collinear_training	exact head-supported affine suffix row basis; all coefficient/RHS row-span certificates; scalar independent validation
+column_order	last-copy-major-within-irrep
+discovery_replay	1
+discovery_route_budget_bytes	67108864
+early_physics	4 light rounds; deterministic nonzero/work budgets; measured gain per work compared with seam elimination including fill; persistent cycles; recorded task/stop replay
+empirical_assumptions	MHV double-final bonus relations, Dixon-Liu 2308.08199 eq76-79, full D3 orbit; extrapolated to L10
+executable_sha256	493bbc1a5712a27060e3f3641b75d1820ff031fb4658d022e7c4df733f2d1091
+h	17
+helicity	MHV
+history	joint_seam_collinear_mrk_ope_small_s
+joint_input_sha256	f5a45468874a31a1b98429d36b28067736d1e4b874f973b4de982d96ded6cb19
+k	3
+kernel_policy	exact delayed 128-bit accumulation for fields <=61 bits; complete residual route fallback; hierarchical bit queue; weighted tasks; exact vector density; bounded scratch
+mrk_rhs_engine	shared_one_loop_log_shuffle_v1
+mrk_rhs_prefetch	4_for_single_sample;bounded_cache_128
+object_kind	affine
+ope_coverage	MHV-small-S-T1T2-all
+ope_storage	triangular_log_powers_a_plus_b_le_weight
+operator	bulk
+operator_compression	generic exact augmented feature-space row-span certificates; collinear and polynomial convolution training adapters
+prereduce	right
+route_policy	delta varints; 64 MiB retained plus 8 MiB learning workspace; block benefit-per-byte admission
+schema	irr-physics-v2-candidate
+target	9000
+working_storage	heap

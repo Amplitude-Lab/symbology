@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/home/ana/Documents/symbology/output_hexagon_v27_20261009/package-v27d/bin/joint_physics_v27",
+    "18",
+    "2",
+    "/home/ana/Documents/symbology/output_hexagon_18p2_20261021/FEC",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/LEC/MHV",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data",
+    "/home/ana/Documents/symbology/output_hexagon_18p2_20261021/solve-native-18p2-mapped",
+    "9000",
+    "cache",
+    "right",
+    "--prime-index",
+    "1"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 25850.626817878103,
+  "peak_summed_rss_bytes": 48672456704,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 115963.990721,
+  "cpu_system_seconds": 6781.861075,
+  "max_processes": 1,
+  "virtual_limit_gib": 256
+}

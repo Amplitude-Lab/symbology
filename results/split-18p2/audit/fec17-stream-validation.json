@@ -1,0 +1,27 @@
+{
+  "command": [
+    "env",
+    "THREADS=16",
+    "/home/ana/Documents/symbology/output_hexagon_18p2_20261021/bin/irr_fec_stream",
+    "17",
+    "/home/ana/Documents/symbology/output_hexagon_18p2_20261021/FEC-validation",
+    "--condition",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data/dlogmat_ca_1term_pd3.wxf",
+    "--condition-blocks",
+    "/home/ana/Documents/symbology/output_hexagon_16p4_20261006/data/dlogmat_ca_1term_pd3_blocks.tsv"
+  ],
+  "exit_code": 0,
+  "timeout": false,
+  "memory_pressure": false,
+  "rss_limit_exceeded": false,
+  "rss_limit_gib": 46.566128730773926,
+  "cancel_signal": 0,
+  "min_available_gib": 3.0,
+  "wall_seconds": 931.9218190780375,
+  "peak_summed_rss_bytes": 23768862720,
+  "sample_interval_seconds": 0.1,
+  "cpu_user_seconds": 3879.387265,
+  "cpu_system_seconds": 206.153206,
+  "max_processes": 1,
+  "virtual_limit_gib": 256
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "hexagon-ten-progress-v27d",
+  "state": "complete_conditional_candidate_certified",
+  "boot_id": "de36c236-9ce4-410e-b7cd-0b06dff448ab",
+  "runner_pid": 120842,
+  "updated_unix_seconds": 1791615814.1075764,
+  "native_primes_committed": 8,
+  "max_primes": 12,
+  "accounted_cpu_hours": 186.92333508888888,
+  "interrupted_cpu_seconds_lower_bound": 0,
+  "final_symbol_certified": true,
+  "certificate": {
+    "schema": "hexagon-ten-v27d-certified-v1",
+    "qq_root": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/asymmetric-qq-16p4",
+    "qq_receipt_sha256": "045a9a34b6f754c87fdce236342be0fc5f53e5d7494e04b8c83d04a21ce3dd9e",
+    "native_prime_producers": "all V27D; no imported coefficients",
+    "empirical_assumptions": "MHV double-final bonus relations, Dixon-Liu 2308.08199 eq76-79, full D3 orbit; extrapolated to L10",
+    "unrestricted_uniqueness_claimed": false,
+    "exact_target_seam": {
+      "exact_QQ_original_target_seam": true,
+      "shift_source_hash_receipts_verified": true,
+      "directions": 0,
+      "original_rows": 4196956,
+      "columns": 518048,
+      "source_h": 17,
+      "source_k": 3,
+      "target_h": 16,
+      "target_k": 4,
+      "residual_primes": 9,
+      "native_target_solve_primes": 0,
+      "derived_cache_congruence_primes": 8,
+      "extra_residual_primes": 1,
+      "bound_bits": 514,
+      "modulus_bits": 541
+    },
+    "exact_origin_holdouts": 44,
+    "physical_scope": "full supplied COL/MRK/OPE checks each native prime; finite kinematics and OPE data",
+    "seam_log": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p00-exact-target-seam-ef460ac0dc0e.log",
+    "origin_log": "/home/ana/Documents/symbology/output_hexagon_ten_v27d_20261009/runner/log/p00-exact-origin-holdouts-40455d5b9c9a.log",
+    "created": 1791615814.1044292
+  }
+}
