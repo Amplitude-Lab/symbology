@@ -436,6 +436,10 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
     # the masked/affine sewing stages read from the experiment root.
     shutil.copytree(BENCH / "data", out / "data")
     shutil.copy2(BENCH / "reference/FEC_2.wxf", out / "FEC_2.wxf")
+    # The recorded suffix chain reads the LEC_1 seed from the experiment
+    # root (identical to data/LEC_1.wxf; sha256 84a4385b... pinned in the
+    # candidate manifest).
+    shutil.copy2(BENCH / "data/LEC_1.wxf", out / "LEC_1.wxf")
     for staged in ("boundary_local_rref.wxf", "boundary_local_TR_rref.wxf",
                    "affine_TR_rhs_w8_residual.wxf"):
         shutil.copy2(BENCH / "reference" / staged, out / staged)
