@@ -437,9 +437,11 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
     shutil.copytree(BENCH / "data", out / "data")
     shutil.copy2(BENCH / "reference/FEC_2.wxf", out / "FEC_2.wxf")
     # The recorded suffix chain reads the LEC_1 seed from the experiment
-    # root (identical to data/LEC_1.wxf; sha256 84a4385b... pinned in the
-    # candidate manifest).
+    # root, and the actions helper reads FEC_1 from the experiment root
+    # (both identical to their data/ copies; sha256 pinned in the candidate
+    # manifest).
     shutil.copy2(BENCH / "data/LEC_1.wxf", out / "LEC_1.wxf")
+    shutil.copy2(BENCH / "data/FEC_1.wxf", out / "FEC_1.wxf")
     for staged in ("boundary_local_rref.wxf", "boundary_local_TR_rref.wxf",
                    "affine_TR_rhs_w8_residual.wxf"):
         shutil.copy2(BENCH / "reference" / staged, out / staged)
