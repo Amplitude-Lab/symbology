@@ -1,0 +1,72 @@
+{
+  "status": "independent published finite triple-collinear holdout prepared",
+  "source_url": "https://s3df.slac.stanford.edu/people/lance/R64/R64symb.m.gz",
+  "paper": "https://arxiv.org/abs/1402.3300v2",
+  "source_sha256": "9701ba8fdcbff8466ab0f6ce3107d013de888783bb1564ef725dd7e0f7441b8a",
+  "uncompressed_source_sha256": "2210e5eba6bc111a1b107be0b130c673d30375c204286a1abe607639565f0621",
+  "terms": 1544205,
+  "validated_trailer": {
+    "inert_self_assignments": 1446,
+    "sign_convention": "dlog(-x)=dlog(x)",
+    "executed": false
+  },
+  "alphabet_order": [
+    "u",
+    "v",
+    "w",
+    "1-u",
+    "1-v",
+    "1-w",
+    "yu",
+    "yv",
+    "yw"
+  ],
+  "binary_schema": "headerless sorted 16-byte records: big-endian uint32 word, int64 numerator, uint32 denominator (Python struct >IqI)",
+  "word_encoding": "eight base-nine digits, zero-based alphabet; most significant digit first",
+  "coefficient": "numerator/denominator in g^(2L) convention, after multiplying published R6^(4) by 16",
+  "object": "coefficient of logarithmic BDS remainder R6, not coefficient of exp(R6)",
+  "normalization_source": "R64.tex equations removeBDS and perturbative expansion immediately before line681: a=gYM^2 Nc/(8 pi^2)=2g^2; four-loop distinction from exp(R6) includes (R6^(2))^2/2",
+  "lower_loop_conversion_control": "ff_boot_triple_published_target_check.json independently verified factor8 at three loops",
+  "published_denominators": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256
+  ],
+  "first_entry_counts": [
+    514735,
+    514735,
+    514735,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "last_entry_counts": [
+    170413,
+    170413,
+    170413,
+    170413,
+    170413,
+    170413,
+    173909,
+    173909,
+    173909
+  ],
+  "first_entries_and_even_parity": true,
+  "table": "results/ff_four_loop/holdouts/TC_R4.bin",
+  "table_sha256": "ae97ba3ff9fc83941d053033659fd7bb72e89b6f558b619bd8ca08f0d95526c6",
+  "table_bytes": 24707280,
+  "used_as_solve_input": false,
+  "candidate_form_factor_read": false,
+  "wall_seconds": 7.676486926997313,
+  "peak_rss_kib": 388588,
+  "rusage_maxrss_kib_including_inherited_high_water": 717352
+}

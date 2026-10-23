@@ -1,0 +1,171 @@
+{
+  "status": "ready_for_lazy_affine_constraint",
+  "affine_equation": "spur(rho F4)=H8Oracle.coefficient(word,quotient=True), for all words containing at least one spurious boundary letter",
+  "finite_boundary_targets": "not specified or consumed",
+  "known_four_loop_target": "not consumed",
+  "factors": {
+    "DC": {
+      "file": "H8_DC_factors.json",
+      "alphabet": 22,
+      "finite": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "counts": [
+        27,
+        84,
+        4770
+      ]
+    },
+    "TC": {
+      "file": "H8_TC_factors.json",
+      "alphabet": 29,
+      "finite": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "counts": [
+        18,
+        129,
+        18879
+      ]
+    }
+  },
+  "api": "from ff_four_loop_H8_oracle import H8Oracle; H8Oracle(path).coefficient(tuple_of_8_one_based_indices,quotient=True)",
+  "full_origin": "Use quotient=False to restore all finite words including R2 shuffle R2 / 2. Factor files preserve that correction explicitly.",
+  "resource_measurements": {
+    "fresh_Wolfram_projection_seconds": 4.934057,
+    "fresh_Wolfram_projection_max_memory_bytes": 317171616,
+    "Python_factor_build_and_audit_seconds": 4.518175729986979,
+    "Python_peak_RSS_bytes": 114765824,
+    "workers": 1
+  },
+  "files": [
+    {
+      "path": "research/4pformfactor/code/ff_four_loop_H8_build.py",
+      "sha256": "db1d0a0816fd534ded1ea042af0a506c593e103914b5f0244f0e0fda7a8ddeaa",
+      "bytes": 5761
+    },
+    {
+      "path": "research/4pformfactor/code/ff_four_loop_H8_export.wls",
+      "sha256": "78445e3d04c74b329adc3bf2f7081ef9d3cf5503e4ba1135460071d5cd697c91",
+      "bytes": 950
+    },
+    {
+      "path": "research/4pformfactor/code/ff_four_loop_H8_factors.wls",
+      "sha256": "3e9abeea3c38b02eceb805008a2b4e3b12c123d083a5d5a17f70c8d416edaa3d",
+      "bytes": 3866
+    },
+    {
+      "path": "research/4pformfactor/code/ff_four_loop_H8_oracle.py",
+      "sha256": "5d28a0fd611537753e5d79e0e60a7c4e6352a06d646fc259b24f28318d01f2c8",
+      "bytes": 2988
+    },
+    {
+      "path": "research/4pformfactor/code/ff_four_loop_H8_profile.wls",
+      "sha256": "7ae54c5312a515a16ef538f9d9523b3e1e80b1b4ee326603fc6cdbadcae00042",
+      "bytes": 702
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_E1.wxf",
+      "sha256": "65439bf602b5d35aa44d8e643329158eacc3eefb507225d7e593bf66873538bd",
+      "bytes": 144
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_F2.wxf",
+      "sha256": "bd6921ee843c601fd35880ef233ccbdaa300f508f0da1b3c5b01da4148464abd",
+      "bytes": 4873
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_F3.wxf",
+      "sha256": "dc510d8f33d1ae6253a0f396c1c3cf7342b205edffde866e266515a6fdf4fd97",
+      "bytes": 387359
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_factors.json",
+      "sha256": "99e60b5736348dc0c9179d87af380ba6408522066ba9e9fda47436d8633e0b44",
+      "bytes": 102367
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_factors.wxf",
+      "sha256": "d2063d8afb90987baca7d36cf880aca7a9c451132c08abd3dae401b22a1d191b",
+      "bytes": 29771
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_DC_lower_boundary.json",
+      "sha256": "514655eda0bd93ceb9166dfed9b295be172a4463e21246c5ad43282c6cd9a3b7",
+      "bytes": 5935648
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_E1.wxf",
+      "sha256": "cf7a4964ccfaaf13d4db8f83248eeb54af89c6d90c00ae2f19327ad45a1323b0",
+      "bytes": 133
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_F2.wxf",
+      "sha256": "3a7955df8288a40e0711f56591a4fe6e3a4f92270c18bb4f99fd5ea7d3b09c41",
+      "bytes": 3287
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_F3.wxf",
+      "sha256": "5c9a91cc959a9338c3b9749c34b09641c796894f7d40e0812bfca65a87a5dfab",
+      "bytes": 729949
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_factors.json",
+      "sha256": "6f42fb7b07991b2d1837f3e777d0a4692c2f9aa41ad33e68e76f6f83f5cd2d48",
+      "bytes": 428681
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_factors.wxf",
+      "sha256": "7520c00ec656301592edbf0a1a585a8024270543d686c164f061dce5bab26276",
+      "bytes": 393308
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_TC_lower_boundary.json",
+      "sha256": "d4e240b4f2ea9625a437f1049bda6ddbec9d7ea64c2498f17b6f5c0e25627916",
+      "bytes": 6340901
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_factor_audit.json",
+      "sha256": "c13c9e464aa48b4d288a0c634da71a53ec2a5ee93f7107ef5678328aea89a25a",
+      "bytes": 7123
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_factor_audit.log",
+      "sha256": "055d33e29649881f7881577c5a4d92fad973540c31dc17c33dbaf29885e1cb97",
+      "bytes": 9854
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_factor_audit.time",
+      "sha256": "db3a7e1e426c36876fabae139001167f7805a1911428e370c2f163037205b369",
+      "bytes": 781
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_profile.json",
+      "sha256": "99e918b94f0857bf134abdaae8ac1a4615ec16fc39f0896622758d8ba524a0d8",
+      "bytes": 1000
+    },
+    {
+      "path": "research/4pformfactor/results/ff_four_loop/H8_projection_provenance.json",
+      "sha256": "6a5376ec58ec4ed408602e62bddb1c4bb2a2373d97bd92da98db895f0e0b5e25",
+      "bytes": 2259
+    },
+    {
+      "path": "research/4pformfactor/tex/fragments/ff_four_loop_H8.tex",
+      "sha256": "5c295cdaaad22d5be917ddff6e15cf8cc9238901c2e18a2b17f25595aebc3cfc",
+      "bytes": 1919
+    }
+  ]
+}

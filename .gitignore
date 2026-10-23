@@ -351,3 +351,8 @@ __pycache__/
 
 # Local bulk archives (2026-10-23 cleanup)
 /archives/
+
+# Local research tree (kept local; the four-loop form factor benchmark is
+# packaged under benchmarks/formfactor-mhv-four-loop, everything else stays
+# on this machine — see the explicit large-file exclusions above for history)
+/research/

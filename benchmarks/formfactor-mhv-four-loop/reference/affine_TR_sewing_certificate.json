@@ -1,0 +1,70 @@
+{
+  "recorded_utc": "2026-10-11T05:22:10.968021+00:00",
+  "state": "exact sewn affine family complete; boundary regularity pending",
+  "weight": 8,
+  "coordinates": "S4=O_invariant*alpha+X.J",
+  "raw_augmented_columns": 3275017,
+  "presolved_columns": 721272,
+  "augmented_kernel_dimension": 4,
+  "affine_dimension": 3,
+  "kernel_nonzeros": 595502,
+  "one_alpha_supported_row": true,
+  "sampled_transition_nullity": 256,
+  "complete_unsampled_operator_nullity": 4,
+  "modular_rank": 721268,
+  "reconstruction_modulus_bits": 61,
+  "integer_residual_bound_bits": 91,
+  "certified_residue_product_bits": 121,
+  "exact_certificate": "Full unsampled factored residues at independent primes; product exceeds rigorous denominator-aware integer residual height bound; modular rank supplies completeness.",
+  "finite_boundary_targets_read": false,
+  "version": {
+    "executable": "code/ff_four_loop/sew_affine_TR",
+    "sha256": "2cfe28203e1d22c74c8e3b58cea50182e84903496fb9d02c279006c6960df644",
+    "source_manifest": "sew_affine_TR_build_v1/manifest.json",
+    "unused_api_guard_note": "affine_unused_api_guard.json; active residual and height paths unchanged"
+  },
+  "hashes": {
+    "SEW_6p2_affine_TR_matrix.wxf": "b11785295bb52fde109245a855f77f4b26e20fd93b452148e9f064f6015fd85b",
+    "sewn_affine_w8_origin.wxf": "7a5901f4f4daf36c9e0a158229d954b63e10f1c378d76e363ed2c06c7a86a4fd",
+    "sewn_affine_w8_directions_TR92.wxf": "2a70019ee3638617bb081de41c40efb4e1aa03a0199695d6ae2298a57cf55167",
+    "affine_tail_w8_invariant_TF175_origin.wxf": "b1f55532d416b031d988e93099c2f3e794f9ca67681d085f053c317c909152f1",
+    "affine_TR_rhs_w8_residual.wxf": "a90bec256e91180d5187927cdb3bda826acea77a5e367df45f905229707721ef",
+    "suffix_TR92_to_TF175.wxf": "94e850a792d26ee0a848a172618949a8e6a9692e486474cf26fed2b522b8a90f",
+    "boundary_local_TR_rref.wxf": "e33937fede984c31e1d6fc6398b777654d63a4062e677c6113e0c3f04dd42eda",
+    "sew_w8_affine_TR_6p2.log": "de42d962bb0ecb66a9e596d83f174bbd6754f5f5ed1dd8d21ff80656a3008685"
+  },
+  "resources": {
+    "wall_seconds": 4445.310201179003,
+    "cpu_seconds": 14050.01,
+    "cpu_hours": 3.9027805555555557,
+    "maxrss_kib": 9944068,
+    "sampled_peak_bytes": 10185674752,
+    "workers": 4,
+    "shared_limit_bytes": 50000000000
+  },
+  "extraction": {
+    "consistent": true,
+    "augmented_kernel_dimension": 4,
+    "affine_dimension": 3,
+    "prefix_dimension": 35598,
+    "origin_suffix_TF_dimension": 175,
+    "direction_suffix_dimension": 92,
+    "origin_nonzeros": 988569,
+    "directions_nonzeros": 168,
+    "coordinate_map": "S=O_invariant*t+X.J; t=1, directions t=0",
+    "direction_embedding": "Native TR92; multiply suffix_TR92_to_TF175 before adding to TF origin",
+    "input_rows_released_during_extraction": true,
+    "scope": "Complete symmetry, proposed adjacency, integrability and continued remainder-tail equations. DC/TC boundary regularity pending."
+  },
+  "extraction_resources": {
+    "user_seconds": 3.31,
+    "system_seconds": 0.19,
+    "maxrss_kib": 442056
+  },
+  "remaining": [
+    "complete DC and TC all-slot regularity",
+    "reserved finite descendant tensors",
+    "independent affine extraction audit"
+  ],
+  "qualification": "Scoped complete solve measurement, not a V16 optimization qualification or a claim of overall performance optimality."
+}

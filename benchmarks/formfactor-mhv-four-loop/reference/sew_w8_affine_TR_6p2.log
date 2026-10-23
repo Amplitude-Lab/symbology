@@ -1,0 +1,100 @@
+GRADE_NORMALITY generator=5 exact_support_terms=12808573 injective=1
+GRADE_NORMALITY generator=6 exact_support_terms=13584678 injective=1
+GRADE_MASK active_product=1333398 of=3275016
+READY mode=masked prefix_weight=6 columns=3275017 generators=7 full_residual_blocks=128 setup_seconds=12.5829
+presolve_pass=1 relations=2496281 remaining_columns=778736
+presolve_pass=2 relations=49818 remaining_columns=728918
+presolve_pass=3 relations=6423 remaining_columns=722495
+presolve_pass=4 relations=1023 remaining_columns=721472
+presolve_pass=5 relations=157 remaining_columns=721315
+presolve_pass=6 relations=31 remaining_columns=721284
+presolve_pass=7 relations=11 remaining_columns=721273
+presolve_pass=8 relations=1 remaining_columns=721272
+streaming_batch=1 input_rows=1725903 rank=435295 retained_nnz=3907996
+REFINE_SEED rows=1725903 cols=721272 nnz=29598442 bounded=0 elapsed=93.2747
+REFINE_ZERO_SUBSTITUTION columns=38847 limit=256 sample_denominator=1
+streaming_batch=32 input_rows=1852879 rank=480314 retained_nnz=11130043
+streaming_batch=64 input_rows=1983951 rank=499058 retained_nnz=28266416
+streaming_batch=96 input_rows=2115023 rank=506732 retained_nnz=34436442
+streaming_batch=128 input_rows=2246095 rank=515348 retained_nnz=41103554
+streaming_batch=160 input_rows=2377167 rank=523967 retained_nnz=42721861
+streaming_batch=192 input_rows=2508239 rank=531316 retained_nnz=43910768
+streaming_batch=224 input_rows=2639311 rank=536843 retained_nnz=42231666
+streaming_batch=256 input_rows=2770383 rank=540173 retained_nnz=41216415
+streaming_batch=288 input_rows=2901455 rank=541192 retained_nnz=40637198
+REFINE_DISCOVERY limit=256 rank=541192 nullity=180080 elapsed=249.866
+REFINE_ZERO_SUBSTITUTION columns=48135 limit=1024 sample_denominator=1
+streaming_batch=320 input_rows=3028997 rank=580618 retained_nnz=49144409
+streaming_batch=352 input_rows=3160069 rank=597692 retained_nnz=54548268
+streaming_batch=384 input_rows=3291141 rank=615069 retained_nnz=62613337
+streaming_batch=416 input_rows=3422213 rank=624443 retained_nnz=68120591
+streaming_batch=448 input_rows=3553285 rank=630713 retained_nnz=71992998
+streaming_batch=480 input_rows=3684357 rank=636300 retained_nnz=73911796
+streaming_batch=512 input_rows=3815429 rank=640203 retained_nnz=73830049
+streaming_batch=544 input_rows=3946501 rank=642717 retained_nnz=73495780
+streaming_batch=576 input_rows=4077573 rank=644660 retained_nnz=70289605
+streaming_batch=608 input_rows=4208645 rank=645597 retained_nnz=69282821
+streaming_batch=640 input_rows=4339717 rank=646232 retained_nnz=67602992
+REFINE_DISCOVERY limit=1024 rank=646377 nullity=74895 elapsed=1125.51
+REFINE_ZERO_SUBSTITUTION columns=57023 limit=4096 sample_denominator=16
+streaming_batch=672 input_rows=4461739 rank=655415 retained_nnz=68440373
+REFINE_DISCOVERY limit=4096 rank=663096 nullity=58176 elapsed=1280.49
+REFINE_ZERO_SUBSTITUTION columns=58237 limit=16384 sample_denominator=16
+streaming_batch=704 input_rows=4554554 rank=668026 retained_nnz=68525365
+streaming_batch=736 input_rows=4588013 rank=677821 retained_nnz=74253036
+streaming_batch=768 input_rows=4628461 rank=684375 retained_nnz=73372664
+REFINE_DISCOVERY limit=16384 rank=686066 nullity=35206 elapsed=1651.65
+REFINE_ZERO_SUBSTITUTION columns=59513 limit=18446744073709551615 sample_denominator=16
+streaming_batch=800 input_rows=4661579 rank=688079 retained_nnz=70275225
+streaming_batch=832 input_rows=4668864 rank=692083 retained_nnz=71476851
+streaming_batch=864 input_rows=4677644 rank=696680 retained_nnz=78559636
+streaming_batch=896 input_rows=4686001 rank=700955 retained_nnz=86603905
+streaming_batch=928 input_rows=4695219 rank=704979 retained_nnz=90503241
+streaming_batch=960 input_rows=4705540 rank=708268 retained_nnz=91380731
+streaming_batch=992 input_rows=4716699 rank=710639 retained_nnz=89753951
+REFINE_DISCOVERY limit=18446744073709551615 rank=711132 nullity=10140 elapsed=2345.44
+REFINE_ZERO_SUBSTITUTION columns=60241 limit=18446744073709551615 sample_denominator=4
+streaming_batch=1024 input_rows=4731016 rank=714307 retained_nnz=87763836
+streaming_batch=1056 input_rows=4751030 rank=717266 retained_nnz=84005929
+streaming_batch=1088 input_rows=4777697 rank=717425 retained_nnz=83012650
+streaming_batch=1120 input_rows=4801267 rank=719075 retained_nnz=82297734
+streaming_batch=1152 input_rows=4817007 rank=719461 retained_nnz=82086731
+streaming_batch=1184 input_rows=4836670 rank=719489 retained_nnz=82068104
+streaming_batch=1216 input_rows=4864276 rank=719580 retained_nnz=81789957
+streaming_batch=1248 input_rows=4882802 rank=719866 retained_nnz=81768916
+streaming_batch=1280 input_rows=4900506 rank=720067 retained_nnz=81588932
+streaming_batch=1312 input_rows=4919631 rank=720206 retained_nnz=80701137
+streaming_batch=1344 input_rows=4935532 rank=720436 retained_nnz=80684302
+streaming_batch=1376 input_rows=4949841 rank=720586 retained_nnz=80657272
+streaming_batch=1408 input_rows=4965843 rank=720648 retained_nnz=80654044
+streaming_batch=1440 input_rows=4980916 rank=720811 retained_nnz=80643111
+streaming_batch=1472 input_rows=4996048 rank=720862 retained_nnz=80605515
+streaming_batch=1504 input_rows=5014467 rank=720908 retained_nnz=80605416
+streaming_batch=1536 input_rows=5032811 rank=720942 retained_nnz=80602114
+streaming_batch=1568 input_rows=5052873 rank=720979 retained_nnz=79221775
+streaming_batch=1600 input_rows=5072470 rank=720995 retained_nnz=79214139
+streaming_batch=1632 input_rows=5087820 rank=721013 retained_nnz=79210574
+REFINE_STAGNATION nullity=256 batches=40 elapsed=4357.98
+REFINE_DISCOVERY limit=18446744073709551615 rank=721016 nullity=256 elapsed=4358.01
+streaming_complete rows=5093619 input_nnz=4639196093 rank=721016 retained_nnz=79210580
+REFINE_INTERSECT dimension=256->35 elapsed=4397.59
+REFINE_INTERSECT dimension=35->26 elapsed=4399.06
+REFINE_INTERSECT dimension=26->17 elapsed=4399.35
+REFINE_INTERSECT dimension=17->16 elapsed=4399.6
+REFINE_INTERSECT dimension=16->15 elapsed=4399.97
+REFINE_INTERSECT dimension=15->13 elapsed=4400.71
+REFINE_INTERSECT dimension=13->11 elapsed=4401.51
+REFINE_INTERSECT dimension=11->10 elapsed=4402.61
+REFINE_INTERSECT dimension=10->7 elapsed=4402.78
+REFINE_INTERSECT dimension=7->4 elapsed=4402.91
+REFINE_COMPLETE nullity=4 residual_nonzero_rows=909 complete_discovery=0 full_operator=1 elapsed=4407.78
+modular_assembly rows=721268 cols=721272 nnz=1232660 seconds=4407.8
+modular_private_unit_pivots=721268
+modular_elimination_seconds=4407.83
+modular_attempt=1 rows=721268 cols=721272 input_nnz=1232660 rank=721268
+rational_reconstruction modulus_bits=61 reconstructed_rows=4 total_rows=4 rational_nnz=511396 residue_nnz=0
+combined_certificate_bound_bits=91
+extra_residual_prime=1152921504606847067 certified_modulus_bits=121
+exact_certificate=complete_factored_residues_plus_height modulus_bits=121
+reconstruction_modulus_bits=61
+COMPLETE mode=masked dimension=4 nnz=595502 presolve_seconds=16.4243 solve_seconds=4415.78 total_seconds=4444.88

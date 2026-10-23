@@ -1,0 +1,382 @@
+{
+  "all_checks_pass": true,
+  "method": "Recursive exact Lucas order criterion with complete n-1 factorization; every integer product, modular power and gcd is replayed.",
+  "primes": [
+    1152921504606847009,
+    1152921504606847067,
+    1152921504606847081
+  ],
+  "certificate_modulus": "1532495540865889162751558061896062551851824241891921843",
+  "proven_integer_bound": "731541046292053079161137607165385619844885339176960000",
+  "modulus_exceeds_bound": true,
+  "certificates": [
+    {
+      "prime": 2,
+      "base_case": true
+    },
+    {
+      "prime": 3,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2
+      ]
+    },
+    {
+      "prime": 5,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2
+      ]
+    },
+    {
+      "prime": 7,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3
+      ]
+    },
+    {
+      "prime": 11,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        5
+      ]
+    },
+    {
+      "prime": 13,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3
+      ]
+    },
+    {
+      "prime": 17,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "prime": 23,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        11
+      ]
+    },
+    {
+      "prime": 31,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "prime": 43,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        7
+      ]
+    },
+    {
+      "prime": 47,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        23
+      ]
+    },
+    {
+      "prime": 53,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        13
+      ]
+    },
+    {
+      "prime": 73,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "prime": 89,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        11
+      ]
+    },
+    {
+      "prime": 179,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        89
+      ]
+    },
+    {
+      "prime": 181,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        3,
+        5
+      ]
+    },
+    {
+      "prime": 277,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        23
+      ]
+    },
+    {
+      "prime": 293,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        73
+      ]
+    },
+    {
+      "prime": 659,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        47
+      ]
+    },
+    {
+      "prime": 683,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        11,
+        31
+      ]
+    },
+    {
+      "prime": 1223,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        13,
+        47
+      ]
+    },
+    {
+      "prime": 1811,
+      "witness": 6,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        181
+      ]
+    },
+    {
+      "prime": 2447,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        1223
+      ]
+    },
+    {
+      "prime": 2971,
+      "witness": 10,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        3,
+        3,
+        5,
+        11
+      ]
+    },
+    {
+      "prime": 10837,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        3,
+        7,
+        43
+      ]
+    },
+    {
+      "prime": 14683,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        2447
+      ]
+    },
+    {
+      "prime": 19333,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        179
+      ]
+    },
+    {
+      "prime": 209563,
+      "witness": 26,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        53,
+        659
+      ]
+    },
+    {
+      "prime": 323027,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        11,
+        14683
+      ]
+    },
+    {
+      "prime": 6350483,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        293,
+        10837
+      ]
+    },
+    {
+      "prime": 12700967,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        6350483
+      ]
+    },
+    {
+      "prime": 48912491,
+      "witness": 10,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        11,
+        23,
+        19333
+      ]
+    },
+    {
+      "prime": 2159164391,
+      "witness": 13,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        17,
+        12700967
+      ]
+    },
+    {
+      "prime": 196075085817491,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        11,
+        11,
+        277,
+        1811,
+        323027
+      ]
+    },
+    {
+      "prime": 6334733541795863,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        209563,
+        2159164391
+      ]
+    },
+    {
+      "prime": 1152921504606847009,
+      "witness": 13,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        11,
+        11,
+        683,
+        2971,
+        48912491
+      ]
+    },
+    {
+      "prime": 1152921504606847067,
+      "witness": 6,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        13,
+        6334733541795863
+      ]
+    },
+    {
+      "prime": 1152921504606847081,
+      "witness": 11,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        3,
+        5,
+        7,
+        7,
+        196075085817491
+      ]
+    }
+  ],
+  "log_sha256": "7d49db92e03014d1f9c712a0a5d9b8a01ee595eb600df14974f73cd3eff7bbe5",
+  "seconds": 0.01723743401817046
+}

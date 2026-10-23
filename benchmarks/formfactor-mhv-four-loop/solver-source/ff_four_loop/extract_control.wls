@@ -1,0 +1,6 @@
+b=FileNameJoin[{DirectoryName[$InputFileName],"..","..","results","ff_four_loop"}];
+o=Import[FileNameJoin[{b,"sewn_affine_w6_origin.wxf"}],"WXF"]; old=Import[FileNameJoin[{b,"sewn_affine_w6_directions.wxf"}],"WXF"];
+n=Import[FileNameJoin[{b,"extract_TR_control","sewn_affine_w6_directions_TR92.wxf"}],"WXF"];j=Import[FileNameJoin[{b,"suffix_TR92_to_TF175.wxf"}],"WXF"];np=Import[FileNameJoin[{b,"extract_TR_control","sewn_affine_w6_origin.wxf"}],"WXF"];
+If[!And@@(Head[#]===SparseArray& /@ {o,old,n,j,np}),Print["Input sparse tensors missing"];Exit[1]];
+a=AbsoluteTiming[m=ArrayReshape[ArrayReshape[Normal[n],{2*1548,92}].Normal[j],{2,1548,175}]; checks=<|"native_TR_embedding_equals_original_TF_directions"->SameQ[m,Normal[old]],"origin_equals_original"->SameQ[Normal[np],Normal[o]],"directions"->2,"prefix_dimension"->1548,"TR_suffix_dimension"->92,"TF_suffix_dimension"->175|>;];
+checks=Join[checks,<|"all_checks_pass"->And[checks["native_TR_embedding_equals_original_TF_directions"],checks["origin_equals_original"]],"seconds"->a[[1]],"maximum_memory"->MaxMemoryUsed[]|>];Export[FileNameJoin[{b,"extract_TR_control","independent_WL_audit.json"}],checks,"RawJSON"];Print["EXTRACTION_AUDIT_PASS="<>ToString[checks["all_checks_pass"]]];If[!checks["all_checks_pass"],Exit[1]];

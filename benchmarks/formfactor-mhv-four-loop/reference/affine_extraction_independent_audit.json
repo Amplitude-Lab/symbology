@@ -1,0 +1,41 @@
+{
+  "all_checks_pass": true,
+  "augmented_kernel_dimension": 4,
+  "alpha_supported_rows": 1,
+  "affine_dimension": 3,
+  "prefix_dimension": 35598,
+  "origin_nonzeros": 988569,
+  "directions_nonzeros": 168,
+  "full_origin_coefficients_checked": true,
+  "directions_exact_rowspace_equality": true,
+  "local_affine_tail_RHS_preserved": true,
+  "scope": "Independent exact coordinate extraction and tail reconstruction audit. The saved full-operator modular rank and height certificate establish sewing completeness; this audit does not rerun that large operator. Boundary regularity and reserved targets are separate.",
+  "seconds": 1.08947,
+  "input_hashes": {
+    "SEW_6p2_affine_TR_matrix.wxf": "b11785295bb52fde109245a855f77f4b26e20fd93b452148e9f064f6015fd85b",
+    "affine_tail_w8_invariant_TF175_origin.wxf": "b1f55532d416b031d988e93099c2f3e794f9ca67681d085f053c317c909152f1",
+    "suffix_TR92_to_TF175.wxf": "94e850a792d26ee0a848a172618949a8e6a9692e486474cf26fed2b522b8a90f",
+    "sewn_affine_w8_origin.wxf": "7a5901f4f4daf36c9e0a158229d954b63e10f1c378d76e363ed2c06c7a86a4fd",
+    "sewn_affine_w8_directions_TR92.wxf": "2a70019ee3638617bb081de41c40efb4e1aa03a0199695d6ae2298a57cf55167",
+    "lastpair_E.wxf": "2d1ddc57ee61043d497bbce9da397dd15972c9e6c961d713300e5af411ac4f0e",
+    "affine_TR_sewing_certificate.json": "83381a4726b9f54e06aeb33f0b109cdec030d4a66bd9c7768cd8bba5f46046c2"
+  },
+  "all_overlapping_sewing_certificate_hashes_match": true,
+  "source_sha256": "dc4c65ef779f3b3a72b9f24fef44fe925e26f437c77c9a2b4eeefec96cbb7ea4",
+  "certificate_scope_review": {
+    "complete_unsampled_operator_used": true,
+    "sampled_nullity256_is_not_final": true,
+    "final_augmented_nullity": 4,
+    "presolved_columns": 721272,
+    "modular_rank": 721268,
+    "independent_residue_product_bits": 121,
+    "integer_residual_bound_bits": 91,
+    "meaning": "The exact kernel is complete for the proposed-adjacency symmetry/integrability/seam/TR12 affine operator. DC and TC regularity and finite holdouts are not part of this sewing certificate. This audit checked recorded scope and hashes, not the full unsampled operator again."
+  },
+  "resources": {
+    "maxrss_kib": 243696,
+    "user_seconds": 0.84,
+    "system_seconds": 0.26,
+    "workers": 1
+  }
+}

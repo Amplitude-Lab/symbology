@@ -1,0 +1,87 @@
+{
+  "all_checks_pass": true,
+  "checks": {
+    "loop2_same_reconstruction_equals_published_full_symbol": true,
+    "loop2_unit_normalization_equals_registered_independent_DC_target": true,
+    "loop3_same_reconstruction_equals_published_full_symbol": true,
+    "loop3_unit_normalization_equals_registered_independent_DC_target": true,
+    "published_R4u_reflection_symmetric": true,
+    "R4_cyclic_invariant": true,
+    "R4_reflection_invariant": true,
+    "first_entries_u_v_w": true,
+    "all_three_last_entry_relations": true,
+    "exact_integrability_slot1": true,
+    "exact_integrability_slot2": true,
+    "exact_integrability_slot3": true,
+    "exact_integrability_slot4": true,
+    "exact_integrability_slot5": true,
+    "exact_integrability_slot6": true,
+    "exact_integrability_slot7": true,
+    "all_tests_pass": true
+  },
+  "normalization_controls": [
+    {
+      "loop": 2,
+      "published_terms": 84,
+      "u_coproduct_terms": 14,
+      "normalization_factor": "1",
+      "exact_equality": true
+    },
+    {
+      "loop": 3,
+      "published_terms": 4770,
+      "u_coproduct_terms": 795,
+      "normalization_factor": "1",
+      "exact_equality": true
+    }
+  ],
+  "u_coproduct_terms": 36284,
+  "R4_terms": 217704,
+  "integrability": [
+    {
+      "pair_slot": 1,
+      "context_count": 36252,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 2,
+      "context_count": 20658,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 3,
+      "context_count": 14700,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 4,
+      "context_count": 11556,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 5,
+      "context_count": 9720,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 6,
+      "context_count": 8712,
+      "nonzero_polynomial_residuals": 0
+    },
+    {
+      "pair_slot": 7,
+      "context_count": 8058,
+      "nonzero_polynomial_residuals": 0
+    }
+  ],
+  "source_path": "/home/ana/Documents/symbology/research/4pformfactor/sources/2012.12286/anc/cEandRsymbols.txt",
+  "source_sha256": "34099198db05c27a8d13f9f5bbc5e1d7e2e604f5f9598fde15a1c0a13e4135c9",
+  "artifact_path": "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/holdouts/DC_R4.json",
+  "artifact_sha256": "5a46c2ddc90897b3961dab2cc626b5ed77dc5b91ea76d49496cdb56b4ae754fb",
+  "script_sha256": "e6fbdc63e91b0f8950fb24a241d7c3e0d87433e10a61b2cadec9e3e6abc24ff0",
+  "lower_target_sha256": "e1ffc5803c4b99402352281886a517c93ea4be9f5b2c0afc64d68b388c014c80",
+  "four_point_symbol_read": false,
+  "weight_eight_candidate_read": false,
+  "seconds": 1.8455499209812842,
+  "maximum_rss_kib": 157344
+}

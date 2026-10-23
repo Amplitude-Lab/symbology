@@ -1,0 +1,45 @@
+{
+  "command": [
+    "research/4pformfactor/code/ff_four_loop/boundary_affine_solve_mixed",
+    "research/4pformfactor/results/ff_four_loop",
+    "TC",
+    "6",
+    "9",
+    "research/4pformfactor/results/ff_four_loop/boundary/DC/affine_w8_mixed/origin.wxf",
+    "research/4pformfactor/results/ff_four_loop/boundary/DC/affine_w8_mixed/directions_TR92.wxf",
+    "research/4pformfactor/results/ff_four_loop/boundary/TC/affine_w8_mixed"
+  ],
+  "returncode": 0,
+  "wall_seconds": 52.17416224000044,
+  "sampled_peak_rss_bytes": 3847315456,
+  "own_memory_cap_bytes": 12000000000,
+  "shared_accounted_cap_bytes": 45000000000,
+  "stop_reason": null,
+  "samples": [
+    [
+      0.0,
+      12288
+    ],
+    [
+      10.03,
+      961941504
+    ],
+    [
+      20.06,
+      961941504
+    ],
+    [
+      30.1,
+      961941504
+    ],
+    [
+      40.13,
+      961941504
+    ],
+    [
+      50.17,
+      961941504
+    ]
+  ],
+  "binary_sha256": "3307cf3dfa44bdb11f0e89f9e92575ea58967b66d5f09ac0a05db3973760aef5"
+}

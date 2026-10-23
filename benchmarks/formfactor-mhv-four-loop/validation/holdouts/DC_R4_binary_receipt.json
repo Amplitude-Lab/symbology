@@ -1,0 +1,8 @@
+{
+  "source_sha256": "5a46c2ddc90897b3961dab2cc626b5ed77dc5b91ea76d49496cdb56b4ae754fb",
+  "records": 217704,
+  "schema": ">IqI",
+  "encoding": "base6, zero-based finite DC letters",
+  "table_sha256": "d26a5a12d2bba102821459af9039ac7cd4edf53a48779f6ef4feef5a18d005c6",
+  "used_for_solve": false
+}

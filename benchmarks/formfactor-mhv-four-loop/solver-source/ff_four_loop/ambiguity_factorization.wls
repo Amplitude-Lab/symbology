@@ -1,0 +1,13 @@
+x=Import["research/4pformfactor/results/ff_four_loop/ambiguity_polynomials.json","RawJSON"];
+v={l1,l2,l3,l4};
+p=Table[Total[Function[t,Times@@(v^t[[1]]) ToExpression[t[[2]]]] /@ r["polynomial_terms"]],{r,x["directions"]}];
+f=Factor /@ p;
+Print[f];
+Export["research/4pformfactor/results/ff_four_loop/ambiguity_factorization.wxf",<|"Variables"->v,"Polynomials"->p,"Factored"->f,"ExactCheck"->(Expand/@(p-f)===ConstantArray[0,3])|>];
+Export["research/4pformfactor/results/ff_four_loop/ambiguity_factorization.json",<|"factorized"->(ToString[#,InputForm]&/@f),"all_exact_reexpansions_pass"->(Expand/@(p-f)===ConstantArray[0,3])|>,"RawJSON"];
+a=l1-l3;b=l2-l4;
+c={(a^8+b^8)/8!,a^4 b^4/288,-a^2 b^2(a^4+b^4)/720};
+If[Expand/@(p-c)=!=ConstantArray[0,3],Print["FAILED simple formulas"];Exit[1]];
+Export["research/4pformfactor/results/ff_four_loop/ambiguity_factorization.wxf",<|"Variables"->v,"Polynomials"->p,"SimpleFormulas"->c,"ExactCheck"->True|>];
+Export["research/4pformfactor/results/ff_four_loop/ambiguity_factorization.json",<|"variables"-><|"a"->"log(u1/u3)","b"->"log(u2/u4)"|>,"row_formulas"->{"(a^8+b^8)/40320","a^4*b^4/288","-a^2*b^2*(a^4+b^4)/720"},"all_exact_reexpansions_pass"->True,"invariant_polynomial_space"->"Span of a^8+b^8, a^6 b^2+a^2 b^6, a^4 b^4; the full degree-eight polynomial space invariant under a↔b and independent sign changes."|>,"RawJSON"];
+Print["PASS exact compact formulas"];

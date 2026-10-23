@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "taskset",
+    "-c",
+    "3",
+    "nice",
+    "-n",
+    "10",
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop",
+    "DC",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/DC/affine_w8_mixed/origin.wxf",
+    "DC_final_candidate_check"
+  ],
+  "returncode": 0,
+  "stop_reason": null,
+  "wall_seconds": 6.115225315093994,
+  "peak_RSS_bytes": 1574645760,
+  "peak_shared_RSS_bytes": 2551660544,
+  "own_cap_bytes": 6000000000,
+  "shared_cap_bytes": 45000000000,
+  "workers": 1,
+  "affinity": [
+    3
+  ],
+  "candidate_modified": false,
+  "finite_targets_used_only_as_holdouts": true,
+  "sha256": {
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare": "bce54caf6213b6ceb291b99115034b31cb436d1a2ee5679b09e9db876ab2357c",
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare.cpp": "115458ec74a9265becb13fbefbf0ef6a04030c617fa4b996962d81a6dfdfe2e2",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/DC/affine_w8_mixed/origin.wxf": "5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/DC/collinear/first_w6.wxf": "2420058d7de6127016ef1a3576f8f0259a047125b991ca4d62a2a5c8288133c1",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/DC/suffix_TF175_raw2.wxf": "1fb2cb1c7645cff91a6386d2d90ce2be7dc095371fd0f5b001ca9eea85fc3179",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/holdouts/DC_prefix_probe/F4_target_prefix6_raw2.wxf": "6628e7229f335769811a97013d8e86011c23beabdbff342ca4fe5bfd2be536c8"
+  },
+  "samples": [
+    [
+      0.011,
+      14200832,
+      991215616
+    ],
+    [
+      5.072,
+      710262784,
+      1687281664
+    ]
+  ]
+}

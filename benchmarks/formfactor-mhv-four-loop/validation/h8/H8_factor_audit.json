@@ -1,0 +1,381 @@
+{
+  "status": "PASS",
+  "reports": [
+    {
+      "boundary": "DC",
+      "factor_word_counts": {
+        "E1": 27,
+        "R2": 84,
+        "R3": 4770
+      },
+      "all_R2_R3_mixed_spurious_coefficients_cancel_exactly": true,
+      "independent_original_formula_words_checked": 240,
+      "nonzero_checked": 201,
+      "mixed_spurious_checked": 214,
+      "matching_formula_square_cube_nonzero_words_checked": 65185,
+      "sample_coefficients": [
+        {
+          "word": [
+            1,
+            1,
+            1,
+            3,
+            4,
+            2,
+            3,
+            3
+          ],
+          "full_H8": "12",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            1,
+            2,
+            2,
+            5,
+            3,
+            5,
+            5
+          ],
+          "full_H8": "16",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            1,
+            2,
+            9,
+            7,
+            5,
+            1,
+            3
+          ],
+          "full_H8": "6",
+          "spurious_H8": "6"
+        },
+        {
+          "word": [
+            1,
+            1,
+            3,
+            3,
+            2,
+            9,
+            9,
+            2
+          ],
+          "full_H8": "-8",
+          "spurious_H8": "-8"
+        },
+        {
+          "word": [
+            1,
+            2,
+            1,
+            2,
+            5,
+            7,
+            3,
+            9
+          ],
+          "full_H8": "-8",
+          "spurious_H8": "-8"
+        },
+        {
+          "word": [
+            1,
+            2,
+            1,
+            3,
+            2,
+            2,
+            3,
+            6
+          ],
+          "full_H8": "-88",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            2,
+            1,
+            4,
+            1,
+            7,
+            4,
+            8
+          ],
+          "full_H8": "24",
+          "spurious_H8": "24"
+        },
+        {
+          "word": [
+            1,
+            2,
+            2,
+            2,
+            1,
+            3,
+            6,
+            5
+          ],
+          "full_H8": "72",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            2,
+            3,
+            1,
+            2,
+            4,
+            5,
+            3
+          ],
+          "full_H8": "128",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            2,
+            3,
+            2,
+            2,
+            7,
+            7,
+            9
+          ],
+          "full_H8": "-12",
+          "spurious_H8": "-12"
+        },
+        {
+          "word": [
+            1,
+            2,
+            5,
+            2,
+            8,
+            1,
+            9,
+            5
+          ],
+          "full_H8": "12",
+          "spurious_H8": "12"
+        },
+        {
+          "word": [
+            1,
+            2,
+            5,
+            8,
+            3,
+            1,
+            2,
+            7
+          ],
+          "full_H8": "-4",
+          "spurious_H8": "-4"
+        }
+      ],
+      "factor_json_sha256": "99e60b5736348dc0c9179d87af380ba6408522066ba9e9fda47436d8633e0b44",
+      "elapsed_seconds": 2.619090497988509
+    },
+    {
+      "boundary": "TC",
+      "factor_word_counts": {
+        "E1": 18,
+        "R2": 129,
+        "R3": 18879
+      },
+      "all_R2_R3_mixed_spurious_coefficients_cancel_exactly": true,
+      "independent_original_formula_words_checked": 240,
+      "nonzero_checked": 212,
+      "mixed_spurious_checked": 210,
+      "matching_formula_square_cube_nonzero_words_checked": 41430,
+      "sample_coefficients": [
+        {
+          "word": [
+            1,
+            1,
+            1,
+            2,
+            3,
+            7,
+            7,
+            4
+          ],
+          "full_H8": "-21/4",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            1,
+            2,
+            9,
+            5,
+            6,
+            4,
+            9
+          ],
+          "full_H8": "1/4",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            1,
+            3,
+            4,
+            1,
+            2,
+            4,
+            5
+          ],
+          "full_H8": "-1/4",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            1,
+            4,
+            11,
+            8,
+            12,
+            3,
+            9
+          ],
+          "full_H8": "-1/4",
+          "spurious_H8": "-1/4"
+        },
+        {
+          "word": [
+            1,
+            1,
+            11,
+            3,
+            4,
+            10,
+            1,
+            6
+          ],
+          "full_H8": "1/4",
+          "spurious_H8": "1/4"
+        },
+        {
+          "word": [
+            1,
+            1,
+            12,
+            12,
+            13,
+            13,
+            12,
+            12
+          ],
+          "full_H8": "-15",
+          "spurious_H8": "-15"
+        },
+        {
+          "word": [
+            1,
+            2,
+            2,
+            2,
+            4,
+            7,
+            5,
+            7
+          ],
+          "full_H8": "57/8",
+          "spurious_H8": "0"
+        },
+        {
+          "word": [
+            1,
+            2,
+            2,
+            12,
+            11,
+            9,
+            5,
+            8
+          ],
+          "full_H8": "1/2",
+          "spurious_H8": "1/2"
+        },
+        {
+          "word": [
+            1,
+            2,
+            3,
+            10,
+            13,
+            6,
+            11,
+            13
+          ],
+          "full_H8": "-1",
+          "spurious_H8": "-1"
+        },
+        {
+          "word": [
+            1,
+            2,
+            9,
+            9,
+            10,
+            3,
+            13,
+            2
+          ],
+          "full_H8": "-1/8",
+          "spurious_H8": "-1/8"
+        },
+        {
+          "word": [
+            1,
+            2,
+            11,
+            1,
+            12,
+            1,
+            2,
+            1
+          ],
+          "full_H8": "-3",
+          "spurious_H8": "-3"
+        },
+        {
+          "word": [
+            1,
+            2,
+            13,
+            3,
+            9,
+            8,
+            6,
+            13
+          ],
+          "full_H8": "3/8",
+          "spurious_H8": "3/8"
+        }
+      ],
+      "factor_json_sha256": "6f42fb7b07991b2d1837f3e777d0a4692c2f9aa41ad33e68e76f6f83f5cd2d48",
+      "elapsed_seconds": 4.512678024999332
+    }
+  ],
+  "known_finite_targets_read": false,
+  "published_four_point_symbols_read": false,
+  "weight8_tensor_materialized": false,
+  "seconds": 4.518175729986979,
+  "peak_RSS_bytes": 114765824,
+  "scope": "Exact factor construction and exhaustive R2/R3 boundary regularity; sampled independent weight8 coefficient audit. Algebraic shuffle identity proves the factorization for every word."
+}

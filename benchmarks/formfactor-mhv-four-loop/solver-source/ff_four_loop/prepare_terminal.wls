@@ -1,0 +1,1 @@
+$HistoryLength=0;base=DirectoryName[DirectoryName[DirectoryName[$InputFileName]]];out=base<>"/results/ff_four_loop";names={"cycmat","flipmat","galois1a","galois1b","galois2a","galois2b","galois3"};Do[g=Import[out<>"/data/"<>s<>".wxf"];Export[out<>"/data/terminal_"<>s<>".wxf",g[[1;;8,1;;8]],"WXF"],{s,names}];Print["Exported exact weight-one terminal actions"];

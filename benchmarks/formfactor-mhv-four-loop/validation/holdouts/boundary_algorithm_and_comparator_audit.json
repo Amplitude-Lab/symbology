@@ -1,0 +1,46 @@
+{
+  "prose_audit": "tex/fragments/ff_four_loop_boundary_algorithm.tex",
+  "mathematics_matches_implementation": true,
+  "identified_prose_issue": "135266 corrected-source nonzeros referred only to DC; TC has 53854. Parent corrected the wording.",
+  "proof_checks": [
+    "The H8 tensor train includes R2 shuffle R2 / 2 and every exact M=C R factorization is checked.",
+    "The joint prefix construction keeps all residual directions; source correction is explicitly wholly finite and fully saved.",
+    "Spurious suffixes keep all prefix coordinates; finite suffixes use the complete finite-prefix quotient.",
+    "The augmented source coefficient alpha is transported by every candidate row map.",
+    "The prose records actual complete lower-loop controls and does not infer global four-loop existence."
+  ],
+  "new_holdout_text": "tex/fragments/ff_four_loop_holdouts.tex",
+  "comparison_formula": "P6^T S B_suffix = T_published",
+  "denominator_scale": "LCMden(P6)*LCMden(S)*LCMden(B_suffix)*LCMden(T)",
+  "entry_height_bound": "scale*(maxabsnum(T)+max_column_sum_abs_num(P6)*max_row_sum_abs_num(S)*maxabsnum(B_suffix))",
+  "equality_certificate": "Every residual component is zero modulo distinct proven good primes until their product exceeds the bound on the cleared integer residual.",
+  "inequality_certificate": "A modular mismatch is replayed by a full exact rational calculation of that coefficient and saved as a nonzero witness.",
+  "independence_scope": "The literature target is independent; the already certified projection maps are shared inputs. This is validation, not a new independent reconstruction of those maps.",
+  "self_test": {
+    "all_checks_pass": true,
+    "nonunit_denominators_and_both_maps": true,
+    "matrix_and_rank_three_candidate_formats": true,
+    "perturbed_candidate_exact_difference": "4/255",
+    "first_prime_invisible_error_rejected": true,
+    "accepted_prime_tracking": true,
+    "zero_case_pass": true,
+    "independent_expected_value_method": "complete rational matrix products",
+    "physical_inputs_read": false,
+    "seconds": 0.000208199
+  },
+  "production_candidate_comparison_run": false,
+  "production_guard": "code/ff_four_loop_boundary_holdout_compare_guard.py (one CPU, 6 GB own cap, 45 GB shared guard)",
+  "hashes": {
+    "code/ff_four_loop/boundary_holdout_compare.cpp": "115458ec74a9265becb13fbefbf0ef6a04030c617fa4b996962d81a6dfdfe2e2",
+    "code/ff_four_loop/boundary_holdout_compare": "bce54caf6213b6ceb291b99115034b31cb436d1a2ee5679b09e9db876ab2357c",
+    "code/ff_four_loop_boundary_holdout_compare_guard.py": "cf227483ef89a5b68981af540f06a962d3359eb2e41e8ea54e190bd3a2044037",
+    "tex/fragments/ff_four_loop_holdouts.tex": "6c57b0302a0a7f5caae9957ca7fcb4ff5d435b4863c144f8eda261561d658831"
+  },
+  "prose_sha256": "77ec4e9b9a18b574cf40ec33dd3570e2f034a997600a9213c9ffa83447c9ce5b",
+  "receipt_metadata_amendment": {
+    "output_component_count": "Ambient output size only; does not claim traversal after an early mismatch.",
+    "all_output_components_certified": "Equals result.equal; false on every failing comparison.",
+    "accepted_primes": "Explicit ordered list of primes for which every residual component vanished; excludes a failing pass.",
+    "numerical_algorithm_changed": false
+  }
+}

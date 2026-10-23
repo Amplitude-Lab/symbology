@@ -1,0 +1,178 @@
+{
+  "recorded_utc": "2026-10-11T05:34:38.683267+00:00",
+  "object": "Candidate four-loop four-point MHV form factor, finite normalization, weight-eight symbol",
+  "candidate": {
+    "path": "results/ff_four_loop/F4_candidate_prefix6_suffix2.wxf",
+    "bytes": 22457737,
+    "sha256": "5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38"
+  },
+  "native_tensor_dimensions": [
+    1,
+    35598,
+    175
+  ],
+  "alphabet_order_original_indices": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    74,
+    75,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93
+  ],
+  "interpretation": "S4=sum_(i=1..35598,a=1..175) C[1,i,a] P6_i tensor Q2_a. No extra factorial or coupling rescaling is applied to these coefficients.",
+  "prefix_recursion": "P0_1=1; Pn_i=sum_(j,k) FEC_n[i,j,k] P(n-1)_j tensor [W_k], n=1..6. Here k is the retained 88-letter index, mapped to the original W index by alphabet_order_original_indices.",
+  "suffix_decoding": "Q2_a=sum_(k,l) suffix_TF175_physical[a,88*(k-1)+l] [W_k] tensor [W_l], with one-based Mathematica indices.",
+  "basis_files": [
+    {
+      "path": "results/ff_four_loop/FEC_1.wxf",
+      "bytes": 101,
+      "sha256": "8d5f937314a93c4aa5edbb52072283bcf041a8d46c611552f57ad84b6098b8b7"
+    },
+    {
+      "path": "results/ff_four_loop/FEC_2.wxf",
+      "bytes": 580,
+      "sha256": "92d2f8fecdbd778a965bb15df8115418e9dc5fbebfc1f0802da88a070d658c1e"
+    },
+    {
+      "path": "results/ff_four_loop/FEC_3.wxf",
+      "bytes": 13076,
+      "sha256": "efcbcd5398be9f1dc45717dd61852dfa45eb8586553fc946af1ac1fdaaf0be34"
+    },
+    {
+      "path": "results/ff_four_loop/FEC_4.wxf",
+      "bytes": 404842,
+      "sha256": "4a1b104e98933e97419c11181ca62bd310d57ceed38c5285c62d7d0d790a817d"
+    },
+    {
+      "path": "results/ff_four_loop/FEC_5.wxf",
+      "bytes": 13663890,
+      "sha256": "0a15009868d1555cdf68fea3699e029cb1bebb7c7a0cc2124ba1aca897a9df24"
+    },
+    {
+      "path": "results/ff_four_loop/FEC_6.wxf",
+      "bytes": 503203260,
+      "sha256": "d116600adefe3486b6f530e96f08a9ebbf3518c1b802b08869bf9c23e10ace99"
+    },
+    {
+      "path": "results/ff_four_loop/suffix_TF175_physical.wxf",
+      "bytes": 17332,
+      "sha256": "08ecb9134435647a34e37c7006973eb694243e81e7622747f85b92aaddea6f20"
+    },
+    {
+      "path": "results/ff_four_loop/LEC_1.wxf",
+      "bytes": 324,
+      "sha256": "84a4385bf41d295fc5cdcabe502f7f751117949c81b2f7eaf6e0fd414ccab4a5"
+    },
+    {
+      "path": "results/ff_four_loop/LEC_2.wxf",
+      "bytes": 14364,
+      "sha256": "73bff474be55e68f6dc71de548f0ca83ada25b19d441c966a3507ab278b2b3a4"
+    },
+    {
+      "path": "results/alphabet88.json",
+      "bytes": 18219,
+      "sha256": "c96fad4437619d999572e5f297c4dbebbf632d5fb608ef890edb309090e92090"
+    }
+  ],
+  "certificates": [
+    {
+      "path": "results/ff_four_loop/four_loop_construction_certificate.json",
+      "bytes": 2590,
+      "sha256": "89c58c8f83ef0969a465f3eaabc4c0407d874cdb8cb207120655dacf3900918c"
+    },
+    {
+      "path": "results/ff_four_loop/final_coordinate_chain_independent_audit.json",
+      "bytes": 496,
+      "sha256": "8d347f17695a114f41b7667f2cae0ec8c76ac9f4f8561fc273e29363934f10cd"
+    },
+    {
+      "path": "results/ff_four_loop/four_loop_evidence_chain_independent_audit.json",
+      "bytes": 6834,
+      "sha256": "1aff73290f40de3543a870ccb64a7dd942a523ea54ec37bbf6432abbefd14984"
+    }
+  ],
+  "scope": "Unique under the explicit proposed adjacency and continued literature remainder TR12 hypotheses, integrability, first entry, symmetry, lower-loop normalization and complete collinear regularity. Both reserved finite four-loop descendants pass exactly. No full-parent comparison, all-loop theorem, or larger-ES uniqueness claim.",
+  "nonzero_coefficients": 988559
+}

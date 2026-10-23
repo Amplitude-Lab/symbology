@@ -1,0 +1,331 @@
+{
+  "all_checks_pass": true,
+  "sewing": {
+    "complete_augmented_dimension": 4,
+    "sampled_intermediate_nullity_not_used_as_final": 256,
+    "rank_plus_nullity_equals_presolved_columns": true,
+    "full_operator_residue_product_bits": 121,
+    "integer_residual_bound_bits": 91,
+    "full_operator_not_rerun_by_this_audit": true
+  },
+  "independent_coordinate_extraction": true,
+  "independent_final_coordinate_transport": true,
+  "boundaries": {
+    "DC": {
+      "initial_affine_dimension": 3,
+      "final_affine_dimension": 0,
+      "checked_nonzero_pair_blocks": 141,
+      "verified_zero_input_blocks": 343,
+      "regularity_components": 2273673,
+      "holdout_components": 7901300,
+      "accepted_proven_primes": [
+        1152921504606847009,
+        1152921504606847067
+      ],
+      "certificate_modulus": "1329227995784916015866073631529372603",
+      "certificate_integer_bound": "10051647050603419729920",
+      "all_logged_prime_passes_complete": true,
+      "all_recorded_hashes_match_current_inputs": true,
+      "finite_target_not_used_to_solve": true
+    },
+    "TC": {
+      "initial_affine_dimension": 0,
+      "final_affine_dimension": 0,
+      "checked_nonzero_pair_blocks": 203,
+      "verified_zero_input_blocks": 638,
+      "regularity_components": 2089544,
+      "holdout_components": 8697622,
+      "accepted_proven_primes": [
+        1152921504606847009,
+        1152921504606847067
+      ],
+      "certificate_modulus": "1329227995784916015866073631529372603",
+      "certificate_integer_bound": "11397249185385367134535680",
+      "all_logged_prime_passes_complete": true,
+      "all_recorded_hashes_match_current_inputs": true,
+      "finite_target_not_used_to_solve": true
+    }
+  },
+  "final_DC_TC_origin_sha256": "5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38",
+  "prime_proof": "Recursive exact Lucas order certificates independently replayed with Python integers.",
+  "replayed_prime_certificates": [
+    {
+      "prime": 2,
+      "base_case": true
+    },
+    {
+      "prime": 3,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2
+      ]
+    },
+    {
+      "prime": 5,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2
+      ]
+    },
+    {
+      "prime": 7,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3
+      ]
+    },
+    {
+      "prime": 11,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        5
+      ]
+    },
+    {
+      "prime": 13,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3
+      ]
+    },
+    {
+      "prime": 17,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "prime": 23,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        11
+      ]
+    },
+    {
+      "prime": 31,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        5
+      ]
+    },
+    {
+      "prime": 43,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        7
+      ]
+    },
+    {
+      "prime": 47,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        23
+      ]
+    },
+    {
+      "prime": 53,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        13
+      ]
+    },
+    {
+      "prime": 73,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "prime": 89,
+      "witness": 3,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        11
+      ]
+    },
+    {
+      "prime": 179,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        89
+      ]
+    },
+    {
+      "prime": 293,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        73
+      ]
+    },
+    {
+      "prime": 659,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        47
+      ]
+    },
+    {
+      "prime": 683,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        11,
+        31
+      ]
+    },
+    {
+      "prime": 2971,
+      "witness": 10,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        3,
+        3,
+        5,
+        11
+      ]
+    },
+    {
+      "prime": 10837,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        3,
+        7,
+        43
+      ]
+    },
+    {
+      "prime": 19333,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        179
+      ]
+    },
+    {
+      "prime": 209563,
+      "witness": 26,
+      "complete_n_minus_one_factors": [
+        2,
+        3,
+        53,
+        659
+      ]
+    },
+    {
+      "prime": 6350483,
+      "witness": 2,
+      "complete_n_minus_one_factors": [
+        2,
+        293,
+        10837
+      ]
+    },
+    {
+      "prime": 12700967,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        6350483
+      ]
+    },
+    {
+      "prime": 48912491,
+      "witness": 10,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        11,
+        23,
+        19333
+      ]
+    },
+    {
+      "prime": 2159164391,
+      "witness": 13,
+      "complete_n_minus_one_factors": [
+        2,
+        5,
+        17,
+        12700967
+      ]
+    },
+    {
+      "prime": 6334733541795863,
+      "witness": 5,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        209563,
+        2159164391
+      ]
+    },
+    {
+      "prime": 1152921504606847009,
+      "witness": 13,
+      "complete_n_minus_one_factors": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        11,
+        11,
+        683,
+        2971,
+        48912491
+      ]
+    },
+    {
+      "prime": 1152921504606847067,
+      "witness": 6,
+      "complete_n_minus_one_factors": [
+        2,
+        7,
+        13,
+        6334733541795863
+      ]
+    }
+  ],
+  "scope": "Unique four-loop candidate in the proposed adjacency and fixed TR12 class, using regularity only. Full normalized DC and TC boundaries equal independently published targets. This does not certify larger-ES uniqueness, local adjacency/ES equivalence, or equality to an independently known full four-point symbol.",
+  "review_limit": "Boundary block receipts, prior independent algorithm audits, exact saved coordinate-map replay, complete comparator prime logs, heights and hashes were checked. The full native sewing and boundary equation operators were not independently recomputed in this light audit.",
+  "source_sha256": "8146956161c14fb11b02fbff7719ecd9bc73b10c3dc2d5240aee40cf8d7b230a",
+  "seconds": 0.23322799801826477
+}

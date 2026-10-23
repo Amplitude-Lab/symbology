@@ -1,0 +1,651 @@
+{
+  "all_checks_pass": true,
+  "checks": {
+    "full_table_cycle_invariant": true,
+    "full_table_transposition_invariant": true,
+    "first_entries_and_even_parity": true,
+    "independent_source_term_count": true,
+    "all_sampled_source_coefficients_match": true,
+    "paper_defines_logarithmic_BDS_remainder": true,
+    "paper_expands_in_a": true,
+    "paper_a_denominator8pi2": true,
+    "paper_distinguishes_four_loop_exponentiation": true,
+    "previous_factor8_exact_lower_loop_control": true,
+    "not_registered_as_solve_input": true
+  },
+  "symmetry": [
+    {
+      "generator": "cycle",
+      "all_words_checked": 1544205,
+      "nonzero_residuals": 0
+    },
+    {
+      "generator": "transposition",
+      "all_words_checked": 1544205,
+      "nonzero_residuals": 0
+    }
+  ],
+  "source_samples": [
+    {
+      "source_term_index": 0,
+      "word_code": 1793613,
+      "published_coefficient": "-15/2",
+      "converted_coefficient": "-120"
+    },
+    {
+      "source_term_index": 1,
+      "word_code": 1793610,
+      "published_coefficient": "15/2",
+      "converted_coefficient": "120"
+    },
+    {
+      "source_term_index": 2,
+      "word_code": 1793586,
+      "published_coefficient": "6",
+      "converted_coefficient": "96"
+    },
+    {
+      "source_term_index": 16085,
+      "word_code": 1823943,
+      "published_coefficient": "-1/16",
+      "converted_coefficient": "-1"
+    },
+    {
+      "source_term_index": 32170,
+      "word_code": 1631475,
+      "published_coefficient": "1/128",
+      "converted_coefficient": "1/8"
+    },
+    {
+      "source_term_index": 48256,
+      "word_code": 1679194,
+      "published_coefficient": "15/256",
+      "converted_coefficient": "15/16"
+    },
+    {
+      "source_term_index": 64341,
+      "word_code": 1695913,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 80427,
+      "word_code": 1742813,
+      "published_coefficient": "1/128",
+      "converted_coefficient": "1/8"
+    },
+    {
+      "source_term_index": 96512,
+      "word_code": 1763579,
+      "published_coefficient": "1/128",
+      "converted_coefficient": "1/8"
+    },
+    {
+      "source_term_index": 112598,
+      "word_code": 1982801,
+      "published_coefficient": "-3/256",
+      "converted_coefficient": "-3/16"
+    },
+    {
+      "source_term_index": 128683,
+      "word_code": 2032499,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 144769,
+      "word_code": 2048053,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 160854,
+      "word_code": 2098072,
+      "published_coefficient": "5/256",
+      "converted_coefficient": "5/16"
+    },
+    {
+      "source_term_index": 176940,
+      "word_code": 2119364,
+      "published_coefficient": "13/128",
+      "converted_coefficient": "13/8"
+    },
+    {
+      "source_term_index": 193025,
+      "word_code": 221211,
+      "published_coefficient": "9/128",
+      "converted_coefficient": "9/8"
+    },
+    {
+      "source_term_index": 209110,
+      "word_code": 61081,
+      "published_coefficient": "3/64",
+      "converted_coefficient": "3/4"
+    },
+    {
+      "source_term_index": 225196,
+      "word_code": 125278,
+      "published_coefficient": "-7/128",
+      "converted_coefficient": "-7/8"
+    },
+    {
+      "source_term_index": 241281,
+      "word_code": 714929,
+      "published_coefficient": "33/256",
+      "converted_coefficient": "33/16"
+    },
+    {
+      "source_term_index": 257367,
+      "word_code": 755309,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 273452,
+      "word_code": 546244,
+      "published_coefficient": "7/32",
+      "converted_coefficient": "7/2"
+    },
+    {
+      "source_term_index": 289538,
+      "word_code": 779817,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 305623,
+      "word_code": 613426,
+      "published_coefficient": "13/16",
+      "converted_coefficient": "13"
+    },
+    {
+      "source_term_index": 321709,
+      "word_code": 673502,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 337794,
+      "word_code": 666752,
+      "published_coefficient": "17/64",
+      "converted_coefficient": "17/4"
+    },
+    {
+      "source_term_index": 353880,
+      "word_code": 1009736,
+      "published_coefficient": "-5/64",
+      "converted_coefficient": "-5/4"
+    },
+    {
+      "source_term_index": 369965,
+      "word_code": 1050730,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 386051,
+      "word_code": 1251193,
+      "published_coefficient": "3/128",
+      "converted_coefficient": "3/8"
+    },
+    {
+      "source_term_index": 402136,
+      "word_code": 1298868,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 418221,
+      "word_code": 1144623,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 434307,
+      "word_code": 1137974,
+      "published_coefficient": "-11/128",
+      "converted_coefficient": "-11/8"
+    },
+    {
+      "source_term_index": 450392,
+      "word_code": 1359581,
+      "published_coefficient": "5/128",
+      "converted_coefficient": "5/8"
+    },
+    {
+      "source_term_index": 466478,
+      "word_code": 1402708,
+      "published_coefficient": "-21/256",
+      "converted_coefficient": "-21/16"
+    },
+    {
+      "source_term_index": 482563,
+      "word_code": 1215355,
+      "published_coefficient": "5/128",
+      "converted_coefficient": "5/8"
+    },
+    {
+      "source_term_index": 498649,
+      "word_code": 1487514,
+      "published_coefficient": "1/64",
+      "converted_coefficient": "1/4"
+    },
+    {
+      "source_term_index": 514734,
+      "word_code": 1535273,
+      "published_coefficient": "25/64",
+      "converted_coefficient": "25/4"
+    },
+    {
+      "source_term_index": 530820,
+      "word_code": 4974223,
+      "published_coefficient": "-11/256",
+      "converted_coefficient": "-11/16"
+    },
+    {
+      "source_term_index": 546905,
+      "word_code": 4809476,
+      "published_coefficient": "-7/128",
+      "converted_coefficient": "-7/8"
+    },
+    {
+      "source_term_index": 562991,
+      "word_code": 5024857,
+      "published_coefficient": "5/256",
+      "converted_coefficient": "5/16"
+    },
+    {
+      "source_term_index": 579076,
+      "word_code": 5068338,
+      "published_coefficient": "7/256",
+      "converted_coefficient": "7/16"
+    },
+    {
+      "source_term_index": 595161,
+      "word_code": 4859457,
+      "published_coefficient": "-7/64",
+      "converted_coefficient": "-7/4"
+    },
+    {
+      "source_term_index": 611247,
+      "word_code": 4909189,
+      "published_coefficient": "93/256",
+      "converted_coefficient": "93/16"
+    },
+    {
+      "source_term_index": 627332,
+      "word_code": 4958911,
+      "published_coefficient": "-3/256",
+      "converted_coefficient": "-3/16"
+    },
+    {
+      "source_term_index": 643418,
+      "word_code": 5272172,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 659503,
+      "word_code": 6910251,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 675589,
+      "word_code": 6954129,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 691674,
+      "word_code": 7160224,
+      "published_coefficient": "3/128",
+      "converted_coefficient": "3/8"
+    },
+    {
+      "source_term_index": 707760,
+      "word_code": 6997916,
+      "published_coefficient": "-7/256",
+      "converted_coefficient": "-7/16"
+    },
+    {
+      "source_term_index": 723845,
+      "word_code": 7019011,
+      "published_coefficient": "1/64",
+      "converted_coefficient": "1/4"
+    },
+    {
+      "source_term_index": 739931,
+      "word_code": 7062809,
+      "published_coefficient": "-1/256",
+      "converted_coefficient": "-1/16"
+    },
+    {
+      "source_term_index": 756016,
+      "word_code": 7287044,
+      "published_coefficient": "-1/256",
+      "converted_coefficient": "-1/16"
+    },
+    {
+      "source_term_index": 772102,
+      "word_code": 7302639,
+      "published_coefficient": "11/128",
+      "converted_coefficient": "11/8"
+    },
+    {
+      "source_term_index": 788187,
+      "word_code": 7352645,
+      "published_coefficient": "-1/256",
+      "converted_coefficient": "-1/16"
+    },
+    {
+      "source_term_index": 804272,
+      "word_code": 7373942,
+      "published_coefficient": "5/256",
+      "converted_coefficient": "5/16"
+    },
+    {
+      "source_term_index": 820358,
+      "word_code": 7418189,
+      "published_coefficient": "1/64",
+      "converted_coefficient": "1/4"
+    },
+    {
+      "source_term_index": 836443,
+      "word_code": 5339221,
+      "published_coefficient": "1/32",
+      "converted_coefficient": "1/2"
+    },
+    {
+      "source_term_index": 852529,
+      "word_code": 5577411,
+      "published_coefficient": "-25/64",
+      "converted_coefficient": "-25/4"
+    },
+    {
+      "source_term_index": 868614,
+      "word_code": 5607743,
+      "published_coefficient": "1/128",
+      "converted_coefficient": "1/8"
+    },
+    {
+      "source_term_index": 884700,
+      "word_code": 5471432,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 900785,
+      "word_code": 5853685,
+      "published_coefficient": "-33/128",
+      "converted_coefficient": "-33/8"
+    },
+    {
+      "source_term_index": 916871,
+      "word_code": 5900180,
+      "published_coefficient": "1/32",
+      "converted_coefficient": "1/2"
+    },
+    {
+      "source_term_index": 932956,
+      "word_code": 6121062,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 949042,
+      "word_code": 5931245,
+      "published_coefficient": "35/128",
+      "converted_coefficient": "35/8"
+    },
+    {
+      "source_term_index": 965127,
+      "word_code": 6142748,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 981212,
+      "word_code": 6185921,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 997298,
+      "word_code": 5998323,
+      "published_coefficient": "1/32",
+      "converted_coefficient": "1/2"
+    },
+    {
+      "source_term_index": 1013383,
+      "word_code": 6211160,
+      "published_coefficient": "-21/256",
+      "converted_coefficient": "-21/16"
+    },
+    {
+      "source_term_index": 1029469,
+      "word_code": 6259193,
+      "published_coefficient": "25/64",
+      "converted_coefficient": "25/4"
+    },
+    {
+      "source_term_index": 1045554,
+      "word_code": 9757207,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 1061640,
+      "word_code": 9572770,
+      "published_coefficient": "-21/64",
+      "converted_coefficient": "-21/4"
+    },
+    {
+      "source_term_index": 1077725,
+      "word_code": 9630156,
+      "published_coefficient": "-31/256",
+      "converted_coefficient": "-31/16"
+    },
+    {
+      "source_term_index": 1093811,
+      "word_code": 9669930,
+      "published_coefficient": "1/256",
+      "converted_coefficient": "1/16"
+    },
+    {
+      "source_term_index": 1109896,
+      "word_code": 9870973,
+      "published_coefficient": "-79/256",
+      "converted_coefficient": "-79/16"
+    },
+    {
+      "source_term_index": 1125982,
+      "word_code": 9915051,
+      "published_coefficient": "7/256",
+      "converted_coefficient": "7/16"
+    },
+    {
+      "source_term_index": 1142067,
+      "word_code": 9735319,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 1158153,
+      "word_code": 9996092,
+      "published_coefficient": "3/256",
+      "converted_coefficient": "3/16"
+    },
+    {
+      "source_term_index": 1174238,
+      "word_code": 10101205,
+      "published_coefficient": "11/128",
+      "converted_coefficient": "11/8"
+    },
+    {
+      "source_term_index": 1190323,
+      "word_code": 10138509,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 1206409,
+      "word_code": 10366167,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 1222494,
+      "word_code": 10386218,
+      "published_coefficient": "-9/128",
+      "converted_coefficient": "-9/8"
+    },
+    {
+      "source_term_index": 1238580,
+      "word_code": 10199585,
+      "published_coefficient": "1/32",
+      "converted_coefficient": "1/2"
+    },
+    {
+      "source_term_index": 1254665,
+      "word_code": 10430962,
+      "published_coefficient": "-3/256",
+      "converted_coefficient": "-3/16"
+    },
+    {
+      "source_term_index": 1270751,
+      "word_code": 10244118,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 1286836,
+      "word_code": 10456028,
+      "published_coefficient": "7/256",
+      "converted_coefficient": "7/16"
+    },
+    {
+      "source_term_index": 1302922,
+      "word_code": 10499906,
+      "published_coefficient": "5/256",
+      "converted_coefficient": "5/16"
+    },
+    {
+      "source_term_index": 1319007,
+      "word_code": 12230780,
+      "published_coefficient": "35/256",
+      "converted_coefficient": "35/16"
+    },
+    {
+      "source_term_index": 1335093,
+      "word_code": 12277471,
+      "published_coefficient": "-1/128",
+      "converted_coefficient": "-1/8"
+    },
+    {
+      "source_term_index": 1351178,
+      "word_code": 12321306,
+      "published_coefficient": "-1/256",
+      "converted_coefficient": "-1/16"
+    },
+    {
+      "source_term_index": 1367263,
+      "word_code": 12527869,
+      "published_coefficient": "-1/32",
+      "converted_coefficient": "-1/2"
+    },
+    {
+      "source_term_index": 1383349,
+      "word_code": 12361681,
+      "published_coefficient": "-3/256",
+      "converted_coefficient": "-3/16"
+    },
+    {
+      "source_term_index": 1399434,
+      "word_code": 12359386,
+      "published_coefficient": "-1/64",
+      "converted_coefficient": "-1/4"
+    },
+    {
+      "source_term_index": 1415520,
+      "word_code": 12606998,
+      "published_coefficient": "1/256",
+      "converted_coefficient": "1/16"
+    },
+    {
+      "source_term_index": 1431605,
+      "word_code": 12627862,
+      "published_coefficient": "-5/64",
+      "converted_coefficient": "-5/4"
+    },
+    {
+      "source_term_index": 1447691,
+      "word_code": 12672323,
+      "published_coefficient": "1/256",
+      "converted_coefficient": "1/16"
+    },
+    {
+      "source_term_index": 1463776,
+      "word_code": 12717263,
+      "published_coefficient": "1/32",
+      "converted_coefficient": "1/2"
+    },
+    {
+      "source_term_index": 1479862,
+      "word_code": 12735430,
+      "published_coefficient": "-3/128",
+      "converted_coefficient": "-3/8"
+    },
+    {
+      "source_term_index": 1495947,
+      "word_code": 10641154,
+      "published_coefficient": "-1/16",
+      "converted_coefficient": "-1"
+    },
+    {
+      "source_term_index": 1512033,
+      "word_code": 10723923,
+      "published_coefficient": "-1/16",
+      "converted_coefficient": "-1"
+    },
+    {
+      "source_term_index": 1528118,
+      "word_code": 10938205,
+      "published_coefficient": "-3/64",
+      "converted_coefficient": "-3/4"
+    },
+    {
+      "source_term_index": 1544203,
+      "word_code": 10786282,
+      "published_coefficient": "-1/8",
+      "converted_coefficient": "-2"
+    },
+    {
+      "source_term_index": 1544204,
+      "word_code": 10786283,
+      "published_coefficient": "-5/32",
+      "converted_coefficient": "-5/2"
+    }
+  ],
+  "source_sample_count": 100,
+  "table_term_count": 1544205,
+  "converted_denominators": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "normalization_audit": "The paper defines A/A_BDS=exp(R6), expands R6 in a^L and sets a=gYM^2 Nc/(8 pi^2). With the established project convention a=2g^2, its logarithmic four-loop coefficient is multiplied by16. The existing independently published three-loop comparison fixes the same conversion by factor8. No R2-shuffle-R2/2 is added: that belongs to exp(R6), not R6.",
+  "scope": "Every stored coefficient checked for the two generators of S3, hence all six permutations; direct raw-source coefficient grammar replay on deterministic samples. This is not a fresh full four-loop integrability audit. The earlier exact factor8 certificate is inspected, not rerun here. No four-point candidate data read.",
+  "seconds": 3.2187000040139537,
+  "maximum_rss_kib": 434468,
+  "sha256": {
+    "/home/ana/Documents/symbology/research/4pformfactor/sources/1402.3300/R64symb.m.gz": "9701ba8fdcbff8466ab0f6ce3107d013de888783bb1564ef725dd7e0f7441b8a",
+    "/home/ana/Documents/symbology/research/4pformfactor/sources/1402.3300/R64.tex": "080280735aa2b8d83d706d0f08353e5892d9059a438b6a3437c3e13539eeee8e",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/holdouts/TC_R4.json": "9b9b649e0310f47ec1e56d88f5c9248b4be2be2045f74ebe495b4333e9ebbb20",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/holdouts/TC_R4.bin": "ae97ba3ff9fc83941d053033659fd7bb72e89b6f558b619bd8ca08f0d95526c6",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_boot_triple_published_target_check.json": "994edbe8f045cdad17eba9b0a393bca4547f7b4aa64282819550c180fef6b0c7",
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop_TC_holdout_audit.py": "c6b806c29d861322638f9659f3242224aa200e2d291b590d1d381a077f33601e"
+  }
+}

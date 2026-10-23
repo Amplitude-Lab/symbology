@@ -1,0 +1,13 @@
+{
+	"variables":{
+		"a":"log(u1\/u3)",
+		"b":"log(u2\/u4)"
+	},
+	"row_formulas":[
+		"(a^8+b^8)\/40320",
+		"a^4*b^4\/288",
+		"-a^2*b^2*(a^4+b^4)\/720"
+	],
+	"all_exact_reexpansions_pass":true,
+	"invariant_polynomial_space":"Span of a^8+b^8, a^6 b^2+a^2 b^6, a^4 b^4; the full degree-eight polynomial space invariant under aâb and independent sign changes."
+}

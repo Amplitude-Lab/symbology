@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "taskset",
+    "-c",
+    "3",
+    "nice",
+    "-n",
+    "10",
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop",
+    "TC",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/TC/affine_w8_mixed/origin.wxf",
+    "TC_final_candidate_check"
+  ],
+  "returncode": 0,
+  "stop_reason": null,
+  "wall_seconds": 9.98480749130249,
+  "peak_RSS_bytes": 3858870272,
+  "peak_shared_RSS_bytes": 3858870272,
+  "own_cap_bytes": 6000000000,
+  "shared_cap_bytes": 45000000000,
+  "workers": 1,
+  "affinity": [
+    3
+  ],
+  "candidate_modified": false,
+  "finite_targets_used_only_as_holdouts": true,
+  "sha256": {
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare": "bce54caf6213b6ceb291b99115034b31cb436d1a2ee5679b09e9db876ab2357c",
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/boundary_holdout_compare.cpp": "115458ec74a9265becb13fbefbf0ef6a04030c617fa4b996962d81a6dfdfe2e2",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/TC/affine_w8_mixed/origin.wxf": "5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/TC/collinear/first_w6.wxf": "75f2e575c4d5d4ac15b2a4471e78d458535c9d9dcfe1f3d75267a541ee27d6b8",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/boundary/TC/suffix_TF175_raw2.wxf": "8390174ba75bc47c8f92f83961f098a90f9637516849fef8be64db9b9579f30d",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/holdouts/TC_prefix_probe/F4_target_prefix6_raw2.wxf": "3cc4aa2d8eadb3b5cedbe837b2ea37fabf631e22575a8841bfe3e7d5486c1c60"
+  },
+  "samples": [
+    [
+      0.016,
+      10207232,
+      10207232
+    ],
+    [
+      5.148,
+      1692295168,
+      1692295168
+    ]
+  ]
+}

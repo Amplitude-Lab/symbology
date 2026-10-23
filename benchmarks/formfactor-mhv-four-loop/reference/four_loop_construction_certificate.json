@@ -1,0 +1,45 @@
+{
+  "recorded_utc": "2026-10-11T05:27:26.252720+00:00",
+  "state": "complete",
+  "object": "Weight-eight four-point form factor in the finite normalization, at symbol level",
+  "conditional_hypotheses": [
+    "retained88-letter alphabet",
+    "the proposed first and interior adjacency spaces",
+    "continued literature remainder marking TR12",
+    "physical first entry, D4/parity/fourquadratic Galois symmetry, integrability",
+    "analytic S1 and independently reconstructed S2,S3",
+    "complete double- and triple-collinear regularity of S4-H4"
+  ],
+  "external_Steinmann_equations_imposed": false,
+  "finite_four_loop_targets_imposed": false,
+  "augmented_kernel_dimension_before_boundaries": 4,
+  "affine_dimension_before_boundaries": 3,
+  "affine_dimension_after_DC": 0,
+  "TC_checked_without_parameter_change": true,
+  "ambiguity_space": "S(span_Q{a^8+b^8,a^6*b^2+a^2*b^6,a^4*b^4}), a=log(u1/u3),b=log(u2/u4)",
+  "generated_candidate": "boundary/DC/affine_w8_mixed/origin.wxf",
+  "candidate_sha256": "5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38",
+  "TC_copy_byte_identical": true,
+  "native_coordinates": [
+    1,
+    35598,
+    175
+  ],
+  "all_independent_finite_descendant_components_pass": {
+    "DC": 7901300,
+    "TC": 8697622
+  },
+  "public_full_kinematic_parent_target_compared": false,
+  "scope": "Unique tensor within explicit proposed-adjacency and continued-tail hypotheses; exact finite descendant validations, not an all-loop theorem or full comparison to a public four-loop parent tensor. Independent source targets share the certified boundary projection maps.",
+  "certificate_receipts": {
+    "affine_TR_sewing_certificate.json": "83381a4726b9f54e06aeb33f0b109cdec030d4a66bd9c7768cd8bba5f46046c2",
+    "affine_extraction_independent_audit.json": "33fd58efb7207ed01f710894f39d407f3083153a09c25d8ba0615fbb94b82f81",
+    "ambiguity_polynomials.json": "5ce9beba455cb02e7d1776fb47b4868200f6f76ec0767be01fc17fc0ad13ed7e",
+    "ambiguity_factorization.json": "64212bc86fe6791b935e2101035d289fd36c12a094a10e8c97ff05e3eb19393c",
+    "boundary/DC/affine_w8_mixed/receipt.json": "72ab59d017f10e0a335c435ed998aafcd213bd4b1c47931ba5cc917bc880e4c7",
+    "boundary/TC/affine_w8_mixed/receipt.json": "0b36d22eee06108ab06eea9dc60a2e547e749892f5821b0c18b9aa33522a2d18",
+    "holdouts/DC_final_candidate_check/receipt.json": "41642d5ea73d4432e2859e85a9fbffb89a4e8e35a988da7440494c3a4f4d0e30",
+    "holdouts/TC_final_candidate_check/receipt.json": "e2aaff1c887d7b1caede2af56bb99aade6e569e49478d9976931d852e30f1e9e"
+  },
+  "all_large_artifacts_preserved": true
+}
