@@ -1,0 +1,32 @@
+{
+ "schema": "workspace-cleanup-completion-v1",
+ "created": 1792745415.8873932,
+ "deleted_bytes_manifest": 428472864220,
+ "archives": [
+  {
+   "path": "archives/hexagon-v18-v19-v23-packages.tar.zst",
+   "bytes": 11721616544,
+   "entries": 8977,
+   "sha256": "6b42fd1f86f519a8af8e63b9b855afb41dc3364f6e4c6dc0af9c9a9df2bb7703",
+   "originals": "output_hexagon_v18/v19/v23_20261009 (deleted after zstd -t verification)"
+  },
+  {
+   "path": "archives/pentagon-last-entry-solve-20261013.tar.zst",
+   "bytes": 18365485913,
+   "entries": 522,
+   "sha256": "92aa4d4ab01c5c979f064bafeb1d37bad264d4290e6f33ffae5b50c3b7441f9d",
+   "originals": "research/4pformfactor/results/pentagon_last_entry_20261013/solve (deleted after zstd -t verification)"
+  }
+ ],
+ "workspace_bytes_before": 696000000000,
+ "workspace_bytes_after": 179000000000,
+ "kept_verified": [
+  "output_hexagon_ten_v27d_20261009 native-17p3 joint caches (8 primes)",
+  "output_hexagon_17p3_20261007 ten-v17-main joint (v27d runner reference, 8 primes)",
+  "output_hexagon_14p4_20261006 cached-nine joint (7 primes)",
+  "output_hexagon_16p4_20261006 FEC w01-w17 tensors",
+  "output_hexagon_18p2_20261021 FEC w18 tensors + first-prime joint payload + receipts",
+  "output_hexagon_v27_20261009 package-v27d + suites (frozen profile dependencies)"
+ ],
+ "git": "results/ curated records + INDEX.md; branch 4pformfactor pushed to origin"
+}
