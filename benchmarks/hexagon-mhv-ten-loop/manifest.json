@@ -27,22 +27,22 @@
   "phase_benchmark": "One sequential mapped and heap replay of the identical frozen V17 finishing function, same prime2 post-OPE checkpoint. Warm input/OS caches; shared workstation; fixed order.",
   "memory_units": "GB = 10^9 bytes; sampled process-tree RSS every0.1s; per-job hard cgroup cap50,000,000,000 bytes.",
   "evidence_review": {
-    "path": "/home/ana/Documents/symbology/output_hexagon_validation_20261009/final-additional-review.json",
+    "path": "additional-measurements.json (packaged copy of the original output_hexagon_validation_20261009/final-additional-review.json)",
     "sha256": "5f10b99d309415870ce2c7b6950831d8227a615da4b6b759641d0fabaf0e968f"
   },
   "report": {
-    "path": "/home/ana/Documents/symbology/audits/hexagon-ten-loop-2026-10-06/TECHNIQUE.tex",
+    "path": "audits/hexagon-ten-loop-2026-10-06/TECHNIQUE.tex",
     "sha256": "7135293967d182963f2391fb50589d472e92e36e9c4a1871f35c54449b5a2fab",
-    "compilation": "source complete; preview compilation blocked by app environment"
+    "compilation": "LaTeX source committed; the compiled PDF is not part of the repository"
   },
   "files": {
     "README.md": {
-      "sha256": "839cc370329ce1228a029f01fe2af0e3130c6a1600d1d812bc8cc55bcb3e6eed",
-      "bytes": 11407
+      "sha256": "73c973915419a19498d6cabe2aa77250f0c0f5cc3cec5450f92bafd659c45908",
+      "bytes": 6228
     },
     "VALIDATION.md": {
-      "sha256": "7586341b5e849a2d2fabd3cb4d6aaaf70097705e7449d51705393c970681723a",
-      "bytes": 40359
+      "sha256": "53fc0b38788fe4d5514c2111736825d1ef7b65d0d09e10f783d0fd2d00724384",
+      "bytes": 40662
     },
     "additional-measurements.json": {
       "sha256": "5f10b99d309415870ce2c7b6950831d8227a615da4b6b759641d0fabaf0e968f",

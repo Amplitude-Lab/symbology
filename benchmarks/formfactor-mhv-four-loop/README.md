@@ -87,7 +87,7 @@ four threads; the recorded runs peaked at 11.9 GB sampled RSS for the staged
 control that was **not** adopted. The boundary training that produced the two
 committed collinear projection maps (`bootstrap --project --symmetry collinear
 --target FEC_6`, driver `solver-source/ff_four_loop_boundary_run.py`) and the
-Wolfran-side H8 factor exports (`solver-source/ff_four_loop_H8_*.wls`, a
+Wolfram-side H8 factor exports (`solver-source/ff_four_loop_H8_*.wls`, a
 licensed `wolframscript`, measured 4.9 s / 0.3 GB) can be regenerated the same
 way; the committed maps let `replay-final` skip them.
 

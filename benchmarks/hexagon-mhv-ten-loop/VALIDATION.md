@@ -1,4 +1,8 @@
-# Validation scope and measured optimization
+# Validation record and changelog
+
+Validation scope and measured optimization history, newest entries last. The
+[README](README.md) carries the committed result and reproduction instructions
+only; solver-optimization campaigns and their interim statuses live here.
 
 The native and shifted results use the same fixed recurrence bases and CG
 normalization. All statements below concern ordinary symbols. Conditional
@@ -593,8 +597,9 @@ The replay solve at prime 1152921504606847067 passes the recorded complete
 989,800-row factored seam and fresh supplied collinear/MRK/OPE checks.
 Independent receipt review again compares all **275,246 native** and
 **518,048 shifted** coefficients with the preserved same-prime reference.
-Prime 3 is active, while fresh rational reconstruction, new-prime validation
-and final exact certificates remain pending for this chain.
+At this snapshot a third V27D prime had been launched; no prime-3 receipt is
+archived in this package. Fresh rational reconstruction, new-prime validation
+and final exact certificates for this V27D chain remain pending.
 
 | Native V27D/16 solve | CPU-hours | Wall seconds | Sampled peak RSS, GB |
 | --- | ---: | ---: | ---: |
