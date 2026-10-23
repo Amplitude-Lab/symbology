@@ -3990,6 +3990,13 @@
       "receipt": "output_hexagon_18p2_20261021/audit/solve-18p2-heap60.json",
       "conclusion": "the 62 GB machine is exhausted before any guard; heap 18+2 requires more RAM than this host can supply; further relaxation only risks the desktop session"
      }
+    },
+    "solve_17p3_mapped_first_prime": {
+     "wall_seconds": 7459.1,
+     "cpu_hours": 23.88,
+     "peak_rss_gb": 35.24,
+     "checks": "seam+collinear+mrk+ope all passed; unique; nnz payload 246,941 identical to the heap receipt",
+     "note": "mapped mode costs 17+3 only +13% wall (evaluate 7,339 vs 6,485 s) and +2.4% CPU while CUTTING peak RSS from 46.2 to 35.2 GB; the 10x collinear serialization observed for 18+2 is specific to its working set exceeding the 40 GiB soft cap, not to mapped mode"
     }
    }
   }
