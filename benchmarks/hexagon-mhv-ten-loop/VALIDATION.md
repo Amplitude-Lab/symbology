@@ -681,3 +681,21 @@ split parts plus the heap seam replay completed with `REPLAY_PASS`,
 `all_coefficients_equal=true` on all 275,246 columns (phase 243.3 s; the
 same replay measured 222.1 s in the recorded serial pair and 323.6 s under
 load with the original archives).
+
+## Committed cold-regeneration path for the warm bases (2026-10-23)
+
+The base-generation programs (`irr_fec`, `irr_lec`, `irr_sew`, `irr_convert`,
+`irr_conditions`, `irr_pipeline`, `irr_cache`), the package `Makefile` and
+`run_workflow.sh` stage entries, and the 60 MB dlogmat/cyclic-matrix seed
+data (`solver-source/data/`, per-file checksums) are now committed, so the
+FEC/LEC chains are regenerable from the repository alone. The mechanism is
+not speculative: the audit receipt `audits/hexagon-ten-loop-2026-10-06/
+fec16.json` records a full `irr_fec 16` rerun from the seed data (422 s
+wall, 1,169 CPU-s, 13.7 GB peak, 8 threads). A complete cold FEC1–17 chain
+rebuild has not been timed end-to-end. Of the package's build-time
+`SOURCE_SHA256.tsv` pins, 406 of 411 committed source files verify; the
+five differing files carry post-freeze edits and are identical in the
+committed snapshot and the current local package. The OPE small-s
+checkpoint and per-prime joint caches remain production outputs of the
+solver phases; the committed `reference/` symbols are the certified
+endpoints.

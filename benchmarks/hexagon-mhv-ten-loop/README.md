@@ -46,6 +46,36 @@ from `solver-source/` needs the repository
 or Git LFS is required; the ten-loop warm-basis archives noted above are
 the only non-repository dependency.
 
+### Regenerating the bases from committed sources (cold path)
+
+Everything that *generates* the warm-basis inputs is committed in this
+repository:
+
+- `solver-source/src/reduced_d3/` — the base and sewing programs
+  (`irr_fec`, `irr_lec`, `irr_sew`, `irr_convert`, `irr_conditions`,
+  `irr_pipeline`, `irr_cache`);
+- `solver-source/Makefile` and `solver-source/run_workflow.sh` — the build
+  and stage entries (`STAGE: FEC | LEC | SEW | CONDITIONS | SHIFT | RELEASE`);
+- `solver-source/data/` — the dlogmat seed conditions and cyclic matrices
+  (60 MB), with per-file checksums;
+- [bench/hexagon_joint_build_v17.py](../../bench/hexagon_joint_build_v17.py)
+  — builds the frozen V17 solver from the committed package sources with
+  the environment-linux.yml toolchain;
+- [bench/hexagon_seam_replay.cpp](../../bench/hexagon_seam_replay.cpp) —
+  the seam-replay binary.
+
+A recorded audit already re-ran `irr_fec 16` from the seed data (422 s wall,
+1,169 CPU-s, 13.7 GB peak — `audits/hexagon-ten-loop-2026-10-06/fec16.json`),
+which proves the regeneration mechanism; a complete cold rebuild of the
+FEC1–17 chain has not been timed end-to-end and was excluded from the
+production cost table. `solver-source/SOURCE_SHA256.tsv` pins the package's
+build-time source state; five source files in the committed snapshot carry
+later post-freeze edits (both states are documented by the TSV and the
+manifest). The OPE small-s checkpoint and the per-prime joint caches remain
+production outputs: a new prime computes its own cache via the solver, and
+the committed `reference/` symbols are the certified endpoints compared
+against.
+
 ## How to repeat the calculation
 
 Two reproduction levels are packaged. Both are **warm-basis** computations:
@@ -56,12 +86,13 @@ for the repository). Two local locations work interchangeably: the original
 `output_hexagon_*` archives, or the split xz copies at
 `inputs/` (4.1 GB in 48 parts plus the recorded seam-replay binary, pinned
 in `inputs/SHA256SUMS`; the runners materialize them automatically into
-`inputs/.materialized/`). A validated cold regeneration of the bases
-themselves is not part of this package, and they are never silently treated
-as free computation: on a machine without these archives the two levels
-below cannot run, and that dependency is stated here explicitly rather than
-hidden. Everything else in this benchmark — both committed rational
-symbols, all receipts, certificates and evidence — is in the repository.
+`inputs/.materialized/`). On a machine without these archives the two
+levels below cannot run at warm-basis speed; the cold regeneration path
+from committed sources is described in its own subsection above. The bases
+are never silently treated as free computation, and that dependency is
+stated here explicitly rather than hidden. Everything else in this
+benchmark — both committed rational symbols, all receipts, certificates and
+evidence — is in the repository.
 
 On the workstation the runners find the archives automatically; add
 `--source bench` to force the `inputs/` split copies.

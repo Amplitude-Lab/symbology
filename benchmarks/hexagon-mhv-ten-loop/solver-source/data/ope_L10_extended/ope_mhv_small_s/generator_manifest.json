@@ -1,0 +1,28 @@
+{
+	"status":"complete",
+	"endpoint":"SmallS",
+	"variable":"S",
+	"ordered_limit":"T->0 first, then expansion variable ->0",
+	"max_loop":10,
+	"max_twist":2,
+	"max_power":14,
+	"log_depth":"All",
+	"normalization":"both",
+	"scope":"maximal helicity only, ordinary-symbol period-free coefficients",
+	"negative_helicity":"same coefficient; positive-helicity rows are NOT the sum of both signs",
+	"complete_logs":true,
+	"complete_twist_expansion":false,
+	"input_data_files":[],
+	"references":[
+		"https:\/\/arxiv.org\/html\/1407.1736",
+		"https:\/\/arxiv.org\/html\/1903.10890v2#S3.SS3"
+	],
+	"source_sha256":"c0b5d1e0e2c0a6bf37f0a57e524d911ffa0e01ef2a910710394ce952c90a2905",
+	"wolfram_version":"13.3.1 for Microsoft Windows (64-bit) (July 24, 2023)",
+	"started":"2026-09-29T03:26:12",
+	"reuse_parent_sha256":"f4aadc6a821d956e1be0553714f679f25c0b2dc0f1da4aa1fe2de9ef6facfe98",
+	"completed_loop":10,
+	"elapsed_seconds":1385.2602884,
+	"kernel_peak_bytes":243560048,
+	"finished":"2026-09-29T03:49:19"
+}

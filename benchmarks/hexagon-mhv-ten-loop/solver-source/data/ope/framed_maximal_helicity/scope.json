@@ -1,0 +1,13 @@
+{
+	"normalization":"framed Wilson loop",
+	"max_loop":9,
+	"max_twist":5,
+	"max_residue":1,
+	"log_depth":3,
+	"helicity":"plus\/minus twist; same coefficient for both signs",
+	"variables":"z=1\/S, log_z=Log[z], log_t=Log[T]",
+	"zeta_free":true,
+	"complete_twist_expansion":false,
+	"direct_calE_rhs":false,
+	"peak_kernel_bytes":81507000
+}

@@ -1,0 +1,10 @@
+# Copy to config.mk and edit for the compute node, not the login node CPU.
+CXX = g++
+# Portable default: leave ARCH_FLAGS empty. Example homogeneous AMD partition:
+# ARCH_FLAGS = -march=znver4 -mtune=znver4
+# FLINT_DIR = $(HOME)/Soft/flint
+# GMP_DIR = $(HOME)/Soft/gmp
+# MPFR_DIR = $(HOME)/Soft/mpfr
+# MIMALLOC_DIR = $(HOME)/Soft/mimalloc
+# TBB_DIR = /path/to/tbb
+# Static archives may be specified explicitly by overriding LDLIBS on make's CLI.

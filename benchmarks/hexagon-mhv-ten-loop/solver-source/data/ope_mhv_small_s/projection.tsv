@@ -1,0 +1,6 @@
+"schema"	"mhv-small-s-v1"
+"endpoint"	"SmallS"
+"max_t"	2
+"grade"	12
+"solve_power"	8
+"check_power"	10
