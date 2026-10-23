@@ -448,7 +448,7 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
     for staged in ("boundary_local_rref.wxf", "boundary_local_TR_rref.wxf",
                    "affine_TR_rhs_w8_residual.wxf"):
         shutil.copy2(BENCH / "reference" / staged, out / staged)
-    (out / "actions").mkdir()
+    (out / "actions").mkdir(exist_ok=True)
     for tr in (BENCH / "reference/actions").glob("suffix_TR_*.wxf"):
         shutil.copy2(tr, out / "actions" / tr.name)
 
