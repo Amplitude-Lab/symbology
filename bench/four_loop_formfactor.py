@@ -474,13 +474,16 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
 
     # The symmetry-action files consumed by the sewing stage are regenerated
     # deterministically from the committed data generators right before the
-    # first sewing stage, because their producers read the FEC bases.
+    # first sewing stage, because their producers read the FEC bases.  The
+    # prefix-side helpers run to weight 6 (FEC_1..6 all exist); the
+    # suffix-side helpers stop at weight 2 — the sewing consumes only the
+    # weight-2 suffix actions, and no recorded stage produces LEC_5+.
     def prep_actions() -> None:
         for label, name, args in (
                 ("galois", "galois", [out, "6"]),
-                ("galois_suffix", "galois_suffix", [out, "6"]),
+                ("galois_suffix", "galois_suffix", [out, "2"]),
                 ("actions_prefix", "actions", [out, "prefix", "6"]),
-                ("actions_suffix", "actions", [out, "suffix", "6"])):
+                ("actions_suffix", "actions", [out, "suffix", "2"])):
             binary = resolve_binary(name, solver_bin)
             r = run_stage([binary, *args], out / f"prep_{label}.log")
             if r["returncode"]:
