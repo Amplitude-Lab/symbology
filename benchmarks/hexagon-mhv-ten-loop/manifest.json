@@ -37,8 +37,8 @@
   },
   "files": {
     "README.md": {
-      "sha256": "aeac08120035eebdb096654728c627170298cd53e3ec0301b3a83d1433106c5c",
-      "bytes": 7132
+      "sha256": "0dd0750f3956fd6000a00c9dc96eb21ce90f8af6edbfc116ed3e79338fc6c03c",
+      "bytes": 7630
     },
     "VALIDATION.md": {
       "sha256": "68b82bc37bbc9d19dbe8d85651762364c2fa89daa6f617a42af5b78f72f90be7",
@@ -3231,7 +3231,7 @@
     "discovery_route_step_fraction": 0.019676667098027706
   },
   "inputs": {
-    "description": "Self-contained warm-basis inputs for both reproduction levels; split xz parts materialized and verified by bench/hexagon_bench_inputs.py",
+    "description": "Local-only warm-basis input staging (NOT pushed: too large for the repository); split xz parts materialized and verified by bench/hexagon_bench_inputs.py",
     "sha256_manifest": "inputs/SHA256SUMS",
     "files": 49,
     "total_bytes": 4105783788,
@@ -3244,6 +3244,8 @@
       "solver.tar.xz": "frozen V17 solver package (binary, sources, tests)",
       "runtime.tar.xz": "solver runtime libraries (libflint, gmp, mpfr, tbb, allocator)",
       "bin/hexagon_seam_replay": "recorded seam-replay executable (source: bench/hexagon_seam_replay.cpp)"
-    }
+    },
+    "pushed": false,
+    "note": "Reproduction levels require these archives on the machine (original output_hexagon_* trees or this staging). Everything else in the benchmark is committed."
   }
 }

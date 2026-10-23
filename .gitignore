@@ -360,3 +360,7 @@ __pycache__/
 # Benchmark-local build and materialization caches
 benchmarks/**/_build/
 benchmarks/hexagon-mhv-ten-loop/inputs/.materialized/
+
+# Hexagon warm-basis input archives stay local (4.1 GB; not pushed — the
+# runners materialize them if present; see the benchmark README)
+benchmarks/hexagon-mhv-ten-loop/inputs/
