@@ -430,9 +430,17 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
 
     # Seed the experiment directory: the committed small inputs plus the
     # hash-pinned FEC_2 basis (its producer predates the recorded receipts;
-    # its sha256 is pinned in reference/candidate_manifest.json).
+    # its sha256 is pinned in reference/candidate_manifest.json), and the
+    # committed boundary-local constraint files and TR action variants that
+    # the masked/affine sewing stages read from the experiment root.
     shutil.copytree(BENCH / "data", out / "data")
     shutil.copy2(BENCH / "reference/FEC_2.wxf", out / "FEC_2.wxf")
+    for staged in ("boundary_local_rref.wxf", "boundary_local_TR_rref.wxf",
+                   "affine_TR_rhs_w8_residual.wxf"):
+        shutil.copy2(BENCH / "reference" / staged, out / staged)
+    (out / "actions").mkdir()
+    for tr in (BENCH / "reference/actions").glob("suffix_TR_*.wxf"):
+        shutil.copy2(tr, out / "actions" / tr.name)
 
     cap_bytes = int(cap_gb * 1e9)
 

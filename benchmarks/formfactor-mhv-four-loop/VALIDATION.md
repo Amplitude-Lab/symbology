@@ -82,3 +82,20 @@ byte-identical to the recorded research-tree build products. The runner
 invokes these generators automatically when no prebuilt sew helper is
 available, so `run-core` needs only the repository, the
 `environment-linux.yml` toolchain and `make bootstrap symrep`.
+
+## Sewing-stage input closure (2026-10-23)
+
+A procedure-fidelity audit (prompted by re-examination of the recorded
+commands) confirmed that `sew_masked` additionally reads
+`boundary_local_rref.wxf` and `sew_affine_TR` reads
+`boundary_local_TR_rref.wxf`, `affine_TR_rhs_w8_residual.wxf` and the seven
+`actions/suffix_TR_*_w2.wxf` variants from the experiment root, none of
+which are products of the recorded stage commands. These files (2.1 MB +
+0.8 MB + 55 MB + 19 KB) are now committed as staged inputs and seeded by
+`run-core`; their producers (`local_TR_gate.cpp`, `suffix_TR_embedding.cpp`)
+are committed in `solver-source` for regeneration. Also verified: the two
+`symrep prepare` variants write to different directories
+(`symrep_prepared`/`symrep_cached_prepared`), neither is read by any
+downstream stage (the sewing consumes only `data/`, the bases and the
+action files), and skipping the cached variant and the stopped staged
+control matches the accepted chain.

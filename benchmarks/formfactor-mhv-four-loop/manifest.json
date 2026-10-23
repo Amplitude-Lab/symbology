@@ -49,8 +49,8 @@
       "bytes": 8700
     },
     "VALIDATION.md": {
-      "sha256": "2ba5b4b263f84c9fc796b5bf5b729f0a05f2951cec3b51c2d5f3412628dfcd82",
-      "bytes": 4963
+      "sha256": "b9e32ee8ea8613d9353f6def46f14c8ae1a7486d7335ef7f0b7146d557b78fdb",
+      "bytes": 5935
     },
     "boundary-preparation/DC/H8_mod_finite_prefix6_raw2.wxf": {
       "sha256": "3306af1740ecc9c3150120d08a1feb6c5ff4560d8c5ef7a03705caec20902dca",
@@ -699,6 +699,38 @@
     "validation/prime-audit/TC_w6_modcert.prime_audit.json": {
       "sha256": "bbbad5b2fa288c71745d7a7f0ec5681ac27411be9af4fcedc18a9ea04b037db2",
       "bytes": 6133
+    },
+    "reference/boundary_local_rref.wxf": {
+      "sha256": "1cb0b24a4c56a2bf3f2a8878bc7cd7ab03d4ead533c02d16133abc92f4302d75",
+      "bytes": 2173835
+    },
+    "reference/actions/suffix_TR_cycmat_w2.wxf": {
+      "sha256": "f80d9210c02a9ef08112b90df907ad0028aa2c93ba2a1dd5788fd46e674f9414",
+      "bytes": 5836
+    },
+    "reference/actions/suffix_TR_flipmat_w2.wxf": {
+      "sha256": "560d8676adcd5e8b3abd870bd609c840d65d36e235457aab0e98d351913680e8",
+      "bytes": 7902
+    },
+    "reference/actions/suffix_TR_galois1a_w2.wxf": {
+      "sha256": "9bbb46df4eefafa778b106a354a621a0fc43308500449db6d962ba0c5cbb9188",
+      "bytes": 1105
+    },
+    "reference/actions/suffix_TR_galois1b_w2.wxf": {
+      "sha256": "e9f08f5f68b8df0de3b95500265fb62248a1d502336d34fab3606a3c33a38fe8",
+      "bytes": 1105
+    },
+    "reference/actions/suffix_TR_galois2a_w2.wxf": {
+      "sha256": "ccbf257d86fb73a4b5c6ba54491753d4d733f63a5a7d86eae74ced20665f6c8d",
+      "bytes": 1105
+    },
+    "reference/actions/suffix_TR_galois2b_w2.wxf": {
+      "sha256": "4d7dfdce046fdb6bc20d9c6b218262998c2af469d3d93a436a5929c187ffee6d",
+      "bytes": 1105
+    },
+    "reference/actions/suffix_TR_galois3_w2.wxf": {
+      "sha256": "4a617ad92af9d0b3037ebd62b7107c228c6aee293dca651b459c32ac3af0d0da",
+      "bytes": 1105
     }
   },
   "compressed_inputs": {
