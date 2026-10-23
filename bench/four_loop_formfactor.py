@@ -425,8 +425,11 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
         die("missing repository binaries: " + ", ".join(missing) +
             "; build them first (make bootstrap symrep with the "
             "environment-linux.yml toolchain)")
-    if out.exists() and any(out.iterdir()):
-        die(f"{out} already exists and is not empty; use a fresh directory")
+    if out.exists() and any(p.name not in ("actions",)
+                             and not p.name.startswith(("galois", "suffix_galois"))
+                             for p in out.iterdir()):
+        die(f"{out} already exists and is not empty; use a fresh directory "
+            "(only pre-seeded symmetry-action files may be present)")
     out.mkdir(parents=True, exist_ok=True)
 
     # Seed the experiment directory: the committed small inputs plus the
