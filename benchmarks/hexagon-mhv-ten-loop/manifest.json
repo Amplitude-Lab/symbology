@@ -37,12 +37,12 @@
   },
   "files": {
     "README.md": {
-      "sha256": "73c973915419a19498d6cabe2aa77250f0c0f5cc3cec5450f92bafd659c45908",
-      "bytes": 6228
+      "sha256": "aeac08120035eebdb096654728c627170298cd53e3ec0301b3a83d1433106c5c",
+      "bytes": 7132
     },
     "VALIDATION.md": {
-      "sha256": "53fc0b38788fe4d5514c2111736825d1ef7b65d0d09e10f783d0fd2d00724384",
-      "bytes": 40662
+      "sha256": "68b82bc37bbc9d19dbe8d85651762364c2fa89daa6f617a42af5b78f72f90be7",
+      "bytes": 41985
     },
     "additional-measurements.json": {
       "sha256": "5f10b99d309415870ce2c7b6950831d8227a615da4b6b759641d0fabaf0e968f",
@@ -3229,5 +3229,21 @@
     },
     "discovery_CPU_saving_fraction": 0.0007755281471096831,
     "discovery_route_step_fraction": 0.019676667098027706
+  },
+  "inputs": {
+    "description": "Self-contained warm-basis inputs for both reproduction levels; split xz parts materialized and verified by bench/hexagon_bench_inputs.py",
+    "sha256_manifest": "inputs/SHA256SUMS",
+    "files": 49,
+    "total_bytes": 4105783788,
+    "components": {
+      "fec.tar.xz": "FEC1-17 recurrence bases (9.5 GB raw)",
+      "lec.tar.xz": "MHV LEC1-3 bases",
+      "data.tar.xz": "physical input data (dlog matrices etc.)",
+      "early_ope.tar.xz": "OPE small-s checkpoint inputs",
+      "joint.tar.xz": "reference joint dir incl. per-prime caches and basis identity",
+      "solver.tar.xz": "frozen V17 solver package (binary, sources, tests)",
+      "runtime.tar.xz": "solver runtime libraries (libflint, gmp, mpfr, tbb, allocator)",
+      "bin/hexagon_seam_replay": "recorded seam-replay executable (source: bench/hexagon_seam_replay.cpp)"
+    }
   }
 }

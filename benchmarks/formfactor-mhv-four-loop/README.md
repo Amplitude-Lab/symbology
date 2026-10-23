@@ -40,7 +40,7 @@ published finite descendants pass exactly.
 | `reference/` | Accepted candidate, decoding bases, sewing outputs (affine origin + TR92 directions), all consolidated certificates, recorded stage receipts |
 | `boundary-preparation/DC/`, `boundary-preparation/TC/` | Boundary inputs of the final solves; the two weight-6 collinear projection maps are committed xz-compressed (142.7 MB → 46.1 MB and 458.5 MB → 81.0 MB) |
 | `validation/` | DC/TC affine-solve receipts and block chains, holdout receipts/guards/logs and published targets, ambiguity certificates, replayed Lucas prime certificates, H8 boundary factor exports |
-| `solver-source/` | All helper `.cpp`/`.py`/`.wls` sources of the accepted chain (39 C++ programs, drivers, audits, H8 factor build) |
+| `solver-source/` | All helper `.cpp`/`.py`/`.wls` sources of the accepted chain (39 C++ programs, drivers, audits, H8 factor build). `sew_masked` and `sew_affine_TR` have no static source: the packaged `build_masked_sew.py` / `build_affine_tr_sew.py` generate them by patching the repository headers, reproducing the recorded sources byte-for-byte (verified at packaging time); the runner invokes them automatically. The remaining `.py`/`.wls` drivers are provenance copies of the research-tree originals |
 
 ## Verify the packaged result (seconds, pure Python)
 
@@ -106,15 +106,31 @@ exports (`solver-source/ff_four_loop_H8_*.wls`, a licensed `wolframscript`,
 measured 4.9 s / 0.3 GB) can be regenerated the same way; the committed maps
 let `replay-final` skip them.
 
+## Environment
+
+All recorded measurements ran on one workstation: Intel Core Ultra 7 265
+(20 cores, no SMT), 62 GiB RAM, Ubuntu 22.04.5 LTS, kernel 6.8.0-138-generic.
+The native stages use four threads (`OMP_NUM_THREADS=4` in the recorded
+receipts) under the recorded 44 GB own-process cap; adopted stages peaked at
+≤ 11.2 GB sampled RSS. The optional Wolfram-side H8 factor exports were
+measured with WolframScript 1.11.0 (Wolfram 14) at 4.9 s / 0.3 GB. The
+`bootstrap` and `symrep` binaries are built with the repository
+[environment-linux.yml](../../environment-linux.yml) toolchain
+(gxx_linux-64 14.4.0, libflint 3.2.2, gmp, tbb); the C++ helpers compile
+from `solver-source/` with the same toolchain. No external dataset or
+research-tree access is needed: every input is committed and hash-bound in
+[manifest.json](manifest.json).
+
 ## Toolchain
 
-Use Linux, Python 3 (standard library only for `verify`), a C++20 compiler
-with `<format>` and the `environment-linux.yml` packages at the repository
-root (gxx_linux-64 = 14.4.0, libflint 3.2.2, gmp, tbb) for
-`make bootstrap` and for compiling `solver-source/`. `xz` (or Python's
-`lzma`) is used by the runner to decompress the two projection maps. The
-upstream research tree that produced the result is kept local and is not part
-of this package; every input it contributed is hashed in the manifest.
+Beyond the environment above: Python 3 standard library for `verify`, and
+`xz` (or Python's `lzma`, used by the runner) to decompress the two
+projection maps. A licensed Wolfram kernel (`wolframscript`) is needed only
+to regenerate the H8 boundary factor exports from
+`solver-source/ff_four_loop_H8_*.wls`; the committed factor files let every
+runner mode skip that step. The upstream research tree that produced the
+result is kept local and is not part of this package; every input it
+contributed is hashed in the manifest.
 
 ## What is regenerated versus committed
 

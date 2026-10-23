@@ -72,3 +72,13 @@ bypassed by the committed maps; their receipts and sources are included.
 - `run-core` replays the adopted streamed baseline; the staged control that
   measured 11.9 GB was stopped and is not part of the accepted chain.
 - No function-level (beyond-symbol) or full-kinematic-parent claim.
+
+## Packaging self-checks (2026-10-23)
+
+The packaged `build_masked_sew.py` and `build_affine_tr_sew.py` were made
+location-independent and re-executed from `solver-source/`: the regenerated
+`sew_masked.cpp`, `sew_affine_TR.cpp` and patched `tensor_kernel.hpp` are
+byte-identical to the recorded research-tree build products. The runner
+invokes these generators automatically when no prebuilt sew helper is
+available, so `run-core` needs only the repository, the
+`environment-linux.yml` toolchain and `make bootstrap symrep`.

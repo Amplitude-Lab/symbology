@@ -1,6 +1,9 @@
 from pathlib import Path
 import shutil
-B=Path(__file__).resolve().parents[2];D=B/'results/ff_four_loop/sew_affine_TR_build';D.mkdir(exist_ok=True);S=B/'results/ff_four_loop/sew_masked_build'
+import os
+_here=Path(__file__).resolve().parent
+_root=Path(os.environ.get('FF_BUILD_ROOT',_here/'_build'))
+D=_root/'sew_affine_TR_build';D.mkdir(parents=True,exist_ok=True);S=_root/'sew_masked_build'
 for p in S.glob('*.hpp'):shutil.copy2(p,D/p.name)
 p=D/'tensor_kernel.hpp';s=p.read_text()
 def rep(a,b):

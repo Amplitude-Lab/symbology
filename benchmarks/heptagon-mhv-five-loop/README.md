@@ -89,6 +89,20 @@ timeout or memory guard. Keep the logs if a run stops; the runner deliberately
 does not silently reuse partial or uncertified results. Compiler time is
 outside the numerical benchmark.
 
+## Environment
+
+The published cold reproduction and all stage measurements ran on one
+workstation: Intel Core Ultra 7 265 (20 cores, no SMT), 62 GiB RAM,
+Ubuntu 22.04.5 LTS, kernel 6.8.0-138-generic, NVMe storage. The driver uses
+eight workers; per-process address-space limits and a sampled aggregate
+process-tree RSS limit were active, with a separate host-available-memory
+floor. The audit notes the historical measurements ran under CPU contention
+on this workstation. Compiler and library versions are pinned in
+[environment-linux.yml](../../environment-linux.yml) (gxx_linux-64 14.4.0,
+libflint 3.2.2, gmp, tbb); SparseRREF is fetched from its public repository
+at the pinned revision by `scripts/setup-sparserref.sh`. No Wolfram
+installation, Git LFS or external dataset is required.
+
 ## Cost and interpretation
 
 The published driver passed a complete cold reproduction in **8,280.83 s

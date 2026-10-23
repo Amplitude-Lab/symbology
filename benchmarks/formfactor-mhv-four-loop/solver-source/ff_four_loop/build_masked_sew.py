@@ -1,6 +1,9 @@
 from pathlib import Path
 import shutil,json,hashlib
-B=Path(__file__).resolve().parents[2];R=B.parents[1];D=B/'results/ff_four_loop/sew_masked_build';D.mkdir(exist_ok=True)
+import os
+_here=Path(__file__).resolve().parent
+R=Path(os.environ['FF_REPO_ROOT']) if os.environ.get('FF_REPO_ROOT') else next(p for p in [_here,*_here.parents] if (p/'tensor_kernel.hpp').is_file() and (p/'Makefile').is_file())
+D=Path(os.environ.get('FF_BUILD_ROOT',_here/'_build'))/'sew_masked_build';D.mkdir(parents=True,exist_ok=True)
 for p in R.glob('*.hpp'):shutil.copy2(p,D/p.name)
 p=D/'product_invariance.hpp';s=p.read_text().replace('namespace staged_kernel {','namespace staged_kernel {\ninline std::vector<unsigned char> ff_active_output;\ninline size_t ff_diagonal_generators=5;',1)
 s=s.replace('size_t diagonal=l*right_dimension+r;','size_t diagonal=l*right_dimension+r;\n            if(g>=ff_diagonal_generators&&!ff_active_output.empty()&&!ff_active_output[diagonal])continue;')
@@ -14,7 +17,7 @@ s=s.replace('for(size_t old=0;old<older;++old)for(const auto& equation:local.row
 s=s.replace('old=id/cm.size();if((seen&&', 'old=id/cm.size();if(!ff_row_grades.empty()&&ff_old_grades[old]!=ff_row_grades[id%cm.size()])return ModVec{};if((seen&&',1)
 s=s.replace('for(auto [lj,a]:cm[id%cm.size()])cost+=fm[old*letters+lj/next].nnz();','if(ff_row_grades.empty()||ff_old_grades[old]==ff_row_grades[id%cm.size()])for(auto [lj,a]:cm[id%cm.size()])cost+=fm[old*letters+lj/next].nnz();',1)
 p.write_text(s)
-s=(B/'code/ff_four_loop/sew_selective_presolve.cpp').read_text();s=s.replace('require(argc>=5&&argc<=6,','require(argc>=5,').replace('require(mode=="full"||mode=="galois","bad mode");rref_option_t opt;opt->pool.reset(1);','require(mode=="full"||mode=="galois"||mode=="masked","bad mode");size_t threads=1;std::string referencePath;for(int i=5;i<argc;++i){if(std::string(argv[i])=="--threads"){require(i+1<argc,"missing threads");threads=std::stoul(argv[++i]);}else referencePath=argv[i];}rref_option_t opt;opt->pool.reset(threads);')
+s=(_here/'sew_selective_presolve.cpp').read_text();s=s.replace('require(argc>=5&&argc<=6,','require(argc>=5,').replace('require(mode=="full"||mode=="galois","bad mode");rref_option_t opt;opt->pool.reset(1);','require(mode=="full"||mode=="galois"||mode=="masked","bad mode");size_t threads=1;std::string referencePath;for(int i=5;i<argc;++i){if(std::string(argv[i])=="--threads"){require(i+1<argc,"missing threads");threads=std::stoul(argv[++i]);}else referencePath=argv[i];}rref_option_t opt;opt->pool.reset(threads);')
 needle=' staged_kernel::ProductInvarianceRows invariants(std::move(left),std::move(right)),galois(std::move(short_left),std::move(short_right));'
 repl=''' if(mode=="masked"){
  auto grades=[](const std::vector<Mat>&a){std::vector<unsigned>g(a[0].nrow);for(size_t k=0;k<5;++k)for(size_t i=0;i<g.size();++i){require(a[k][i].nnz()==1&&a[k][i](0)==index(i)&&(a[k][i][0]==1||a[k][i][0]==-1),"non-diagonal Galois action");if(a[k][i][0]==-1)g[i]|=1u<<k;}return g;};

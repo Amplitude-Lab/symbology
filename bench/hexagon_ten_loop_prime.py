@@ -7,10 +7,13 @@ occurs only after the solver exits successfully. This excludes basis generation.
 import argparse,hashlib,json,subprocess,time,uuid,struct
 from pathlib import Path
 from hexagon_ten_loop_benchmark import sha
+from hexagon_bench_inputs import roots as input_roots
 R=Path(__file__).resolve().parents[1]
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- for name,default in [('fec','output_hexagon_16p4_20261006/FEC'),('lec','output_hexagon_16p4_20261006/LEC/MHV'),('data','output_hexagon_16p4_20261006/data'),('solver','output_hexagon_17p3_20261007/joint-v17-schedule-package/bin/joint_physics_v17'),('reference','output_hexagon_17p3_20261007/ten-v17-main/joint'),('library','output_hexagon_runtime_recovery_20261008/env/lib')]:p.add_argument('--'+name,type=Path,default=R/default)
+ p.add_argument('--source',choices=['auto','local','bench'],default='auto',help='local: workstation archives; bench: committed benchmarks/hexagon-mhv-ten-loop/inputs parts')
+ a0=p.parse_known_args()[0];roots=input_roots(a0.source)
+ for name,path in [('fec',roots['fec']),('lec',roots['lec']),('data',roots['data']),('solver',roots['solver']),('reference',roots['reference']),('library',roots['library'])]:p.add_argument('--'+name,type=Path,default=path)
  p.add_argument('--output',type=Path,required=True);p.add_argument('--prime-index',type=int,choices=range(1,9),default=2);p.add_argument('--hours',type=float,default=8);p.add_argument('--plan-only',action='store_true');a=p.parse_args();out=a.output.resolve();assert not out.exists()
  n=a.prime_index;primes=[1152921504606847009,1152921504606847067,1152921504606847081,1152921504606847123,1152921504606847127,1152921504606847189,1152921504606847201,1152921504606847229];prime=primes[n-1]
  # Verify the coordinate system against the archived result before solving.

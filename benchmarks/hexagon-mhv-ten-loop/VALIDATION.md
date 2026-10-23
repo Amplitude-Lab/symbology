@@ -660,3 +660,25 @@ introduced. All required physical equations, affine RHS/origin and final
 checks remain. Receipts and the independent review are in
 `evidence/v27-ten-prime2`; the ongoing calculation remains under its frozen
 V27D controller and existing limits.
+
+## Self-containment audit and gate (2026-10-23)
+
+All reproduction inputs (FEC1–17 bases, LEC bases, physical data, OPE
+checkpoint inputs, reference caches, the frozen V17 solver package, its
+runtime libraries and the recorded seam-replay binary; 10 GB raw) are
+committed xz-compressed in `inputs/` — 48 split parts, 4.1 GB, every part
+pinned in `inputs/SHA256SUMS`. The runners resolve them via
+`bench/hexagon_bench_inputs.py`: `--source bench` forces the committed
+inputs, `--source local` the workstation archives, `auto` (default) prefers
+local archives and falls back to the committed parts on a fresh clone. No
+reproduction level depends on a local path any more; the only external
+assumptions are the repository, Python 3 and `systemd-run`.
+
+Gate executed with `--source bench` (machine frequency-throttled to
+1.5 GHz, concurrent single-core job): materialization of all components from
+the committed parts plus the heap seam replay completed with
+`REPLAY_PASS`, `all_coefficients_equal=true` on all 275,246 columns
+(phase 243.3 s; the same replay measured 222.1 s in the recorded serial
+pair and 323.6 s under load with the local archives). Historical absolute
+paths remaining in `evidence/`, `controller-source/` and receipt records are
+provenance of the original measurements and are not read by the runners.

@@ -356,3 +356,7 @@ __pycache__/
 # packaged under benchmarks/formfactor-mhv-four-loop, everything else stays
 # on this machine — see the explicit large-file exclusions above for history)
 /research/
+
+# Benchmark-local build and materialization caches
+benchmarks/**/_build/
+benchmarks/hexagon-mhv-ten-loop/inputs/.materialized/
