@@ -3983,7 +3983,13 @@
       "result": "killed by the 2 GiB available floor at 2,516 s, peak 56.6 GB and climbing, inside the collinear training",
       "receipt": "output_hexagon_18p2_20261021/audit/solve-18p2-heapdiag.json"
      },
-     "genuine_18p2_cpu_excess": "OPE phases: early 25,791 vs 9,202 CPU-s; checks 25,663 vs 5,587 CPU-s (chain-length driven)"
+     "genuine_18p2_cpu_excess": "OPE phases: early 25,791 vs 9,202 CPU-s; checks 25,663 vs 5,587 CPU-s (chain-length driven)",
+     "heap60_diagnostic": {
+      "envelope": "60G cgroup cap, 60 GB decimal rss guard",
+      "result": "guard never tripped; killed by the 2 GiB system-memory floor at 2,482 s, peak 56.7 GB, same collinear-training point as the 58 GB attempt (56.6 GB at 2,516 s)",
+      "receipt": "output_hexagon_18p2_20261021/audit/solve-18p2-heap60.json",
+      "conclusion": "the 62 GB machine is exhausted before any guard; heap 18+2 requires more RAM than this host can supply; further relaxation only risks the desktop session"
+     }
     }
    }
   }
