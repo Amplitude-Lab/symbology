@@ -53,7 +53,7 @@ re-checked; factorizations are not trusted).
 | --- | --- | --- |
 | `verify` | seconds | every packaged file matches the manifest; all receipts, block chains, prime proofs and guard hashes are internally consistent; the candidate equals the certificate identity |
 | `replay-final` | ~2 min, ≤ 12 GB cap | the DC and TC exact affine solves re-executed from committed inputs regenerate the candidate **byte-identically**; both holdout comparisons re-pass with the recorded component counts and moduli |
-| `run-core` | ~100 s prefix chain + sewing, 503 MB FEC_6 regenerated | the recorded native stage commands rebuild every committed base bit-for-bit |
+| `run-core` | 8,157 s recorded (~2.3 h), ≤ 11.2 GB peak, 503 MB FEC_6 regenerated | the recorded native stage commands rebuild every committed base bit-for-bit (FEC_3, FEC_4, FEC_5, LEC_2, affine-TR sewing matrix) |
 
 Measured envelope of the accepted chain (from the packaged receipts):
 prefix chain 94 s total on four threads; DC solve 25.8 s; TC solve 52.2 s at

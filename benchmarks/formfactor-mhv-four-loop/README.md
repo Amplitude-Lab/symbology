@@ -77,19 +77,34 @@ receipts to the output directory.
 ## Regenerate the full core chain
 
 `python3 bench/four_loop_formfactor.py run-core --output DIR` replays the
-recorded native stage commands of `reference/stage_receipts.json` (prefix
-bases FEC_2→FEC_6, symmetry projections, suffix chain, weight-8 sewing,
-invariant masked sewing, affine TR extraction) and compares every regenerated
-base against the committed reference bytes. It requires the `bootstrap` binary
-built from the repository root sources (`make bootstrap`), regenerates the
-503 MB FEC_6 basis, and was measured at roughly 100 s for the prefix chain on
-four threads; the recorded runs peaked at 11.9 GB sampled RSS for the staged
-control that was **not** adopted. The boundary training that produced the two
-committed collinear projection maps (`bootstrap --project --symmetry collinear
---target FEC_6`, driver `solver-source/ff_four_loop_boundary_run.py`) and the
-Wolfram-side H8 factor exports (`solver-source/ff_four_loop_H8_*.wls`, a
-licensed `wolframscript`, measured 4.9 s / 0.3 GB) can be regenerated the same
-way; the committed maps let `replay-final` skip them.
+recorded native stage commands of `reference/stage_receipts.json`:
+
+1. prefix bases FEC_3→FEC_6 (`bootstrap --extend`, starting from the
+   committed hash-pinned FEC_2 basis),
+2. `symrep` representation preparation from the committed generators,
+3. the suffix chain LEC_2→LEC_4 and the cyclic LEC_2 projection,
+4. the symmetry-action files (`galois`, `galois_suffix`, `actions` helpers
+   from `solver-source`, deterministic from `data/`),
+5. the weight-8 sewing: invariant, masked and affine-TR stages.
+
+Every regenerable base with a committed copy — FEC_3, FEC_4, FEC_5, LEC_2 and
+the affine-TR sewing matrix — is then compared byte-for-byte against
+`reference/`. The 503 MB FEC_6 basis is regenerated, not committed. The
+`bootstrap` and `symrep` binaries are built from the repository root sources
+(`make bootstrap symrep` with the environment-linux.yml toolchain); a locally
+prebuilt binary linking the recovered FLINT runtime under
+`output_hexagon_runtime_recovery_20261008/env/lib` is picked up automatically
+when present. Recorded cost of the accepted chain: **8,157 s (about 2.3 h)**
+in total, dominated by the three sewing stages (1,069 / 1,910 / 4,445 s),
+with sampled peaks at most 11.2 GB on adopted stages (the 11.9 GB spike in
+the receipts is the staged control that was **not** adopted).
+
+The boundary training that produced the two committed collinear projection
+maps (`bootstrap --project --symmetry collinear --target FEC_6`, driver
+`solver-source/ff_four_loop_boundary_run.py`) and the Wolfram-side H8 factor
+exports (`solver-source/ff_four_loop_H8_*.wls`, a licensed `wolframscript`,
+measured 4.9 s / 0.3 GB) can be regenerated the same way; the committed maps
+let `replay-final` skip them.
 
 ## Toolchain
 
