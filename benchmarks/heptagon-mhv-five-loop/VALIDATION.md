@@ -62,7 +62,20 @@ comparison. It reconstructed the lower-loop amplitudes and FEC6, certified the
 joint kernel, checked the complete collinear divergent part and published
 words, and reproduced the recorded E4 byte for byte. This initial control
 validates the orchestration; clean-source build and publication checks are
-recorded below.
+recorded below. No receipt of this initial 24.66 s run is retained in the
+package — the figure traces to a local control directory
+(`output/five-loop-release-control4/`) that is not uploaded; the retained
+four-loop control receipts are the 23.41 s and 23.01 s runs.
+
+One packaging-time drift is disclosed: `cold-five-loop-provenance.json`
+froze `reference/manifest.json` at sha256 `f263f0aa…f9ff` at launch, while
+the published manifest hashes `b1464efd…b17c` (the manifest was edited
+about 135 s after the run started — run start 21:04:25.1, manifest mtime
+21:06:40.6, both Oct 4 — before the packaging commit). Every
+hash field the binding checks consume — seeds, FEC_2..FEC_8, lower-loop
+E/R files, LEC_2 and the solution — agrees between the run's recorded
+artifacts and the published manifest; the edit touched no
+binding-relevant field.
 
 The selected Git files were exported into an empty directory, with no previous
 output trees. The pinned SparseRREF dependency was fetched and patched from
