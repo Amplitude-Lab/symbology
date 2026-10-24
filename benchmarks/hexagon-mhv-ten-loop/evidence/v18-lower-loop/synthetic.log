@@ -1,0 +1,27 @@
+V18_SEAM_RESTRICT block=0 rank=1 remaining=0
+V18_SEAM_VERIFIED full_operator=1 rows=3 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=1 contractions=3 lifts=1 initial_directions=1 final_directions=0 solve_seconds=0.000534849 verify_seconds=3.276e-06
+V18_SEAM_VERIFIED full_operator=1 rows=3 directions=0
+V18_SEAM_COMPLETE replay=1 selected_rows=1 contractions=1 lifts=1 initial_directions=1 final_directions=0 solve_seconds=0.00135236 verify_seconds=1.3121e-05
+V18_SEAM_RESTRICT block=0 rank=8 remaining=0
+V18_SEAM_VERIFIED full_operator=1 rows=24 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=8 contractions=24 lifts=1 initial_directions=8 final_directions=0 solve_seconds=0.000441601 verify_seconds=3.752e-06
+V18_SEAM_VERIFIED full_operator=1 rows=24 directions=0
+V18_SEAM_COMPLETE replay=1 selected_rows=8 contractions=8 lifts=1 initial_directions=8 final_directions=0 solve_seconds=0.000231241 verify_seconds=5.541e-06
+V18_SEAM_RESTRICT block=1 rank=69 remaining=0
+V18_SEAM_VERIFIED full_operator=1 rows=207 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=69 contractions=207 lifts=1 initial_directions=69 final_directions=0 solve_seconds=0.000553153 verify_seconds=1.7536e-05
+V18_SEAM_VERIFIED full_operator=1 rows=207 directions=0
+V18_SEAM_COMPLETE replay=1 selected_rows=69 contractions=69 lifts=1 initial_directions=69 final_directions=0 solve_seconds=0.000222648 verify_seconds=1.6522e-05
+V18_SEAM_RESTRICT block=1 rank=86 remaining=58
+V18_SEAM_RESTRICT block=3 rank=58 remaining=0
+V18_SEAM_VERIFIED full_operator=1 rows=432 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=144 contractions=432 lifts=2 initial_directions=144 final_directions=0 solve_seconds=0.00119676 verify_seconds=2.9869e-05
+V18_SEAM_VERIFIED full_operator=1 rows=432 directions=0
+V18_SEAM_COMPLETE replay=1 selected_rows=144 contractions=144 lifts=1 initial_directions=144 final_directions=0 solve_seconds=0.0011458 verify_seconds=2.9326e-05
+V18_SEAM_RESTRICT block=0 rank=5 remaining=3
+V18_SEAM_VERIFIED full_operator=1 rows=5 directions=3
+V18_SEAM_COMPLETE replay=0 selected_rows=5 contractions=5 lifts=1 initial_directions=8 final_directions=3 solve_seconds=0.000300818 verify_seconds=1.906e-06
+V18_SEAM_VERIFIED full_operator=1 rows=5 directions=3
+V18_SEAM_COMPLETE replay=1 selected_rows=5 contractions=5 lifts=1 initial_directions=8 final_directions=3 solve_seconds=0.000412529 verify_seconds=3.497e-06
+V18_SYNTHETIC_PASS cases=10 exact_rational_origins=1 plan_guards=4

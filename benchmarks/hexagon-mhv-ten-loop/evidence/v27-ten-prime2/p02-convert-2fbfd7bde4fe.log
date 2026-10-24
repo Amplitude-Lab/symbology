@@ -1,0 +1,6 @@
+threads: 16
+RESUME prime=1152921504606847009
+CONVERT phase=cache_shift_read h=17 k=3 elapsed_seconds=2.4002e-05 memory_valid=1 rss_bytes=33206272 process_peak_rss_bytes=32620544
+CONVERT phase=cache_shift_solution row=1/1 elapsed_seconds=33.0728 memory_valid=1 rss_bytes=8451538944 process_peak_rss_bytes=10818916352
+SHIFT_CACHE prime=1152921504606847067 rows=1 columns=518048 nnz=491197 verified=PASS
+CACHE_ONLY completed_primes=2 (source caches retained; no new primes evaluated)

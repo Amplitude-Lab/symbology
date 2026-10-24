@@ -1,0 +1,4 @@
+threads: 16
+PROFILE phase=cache_read seconds=0.00828556 rss_bytes=22949888 process_peak_bytes=24047616
+PROFILE phase=cache_read seconds=0.00725463 rss_bytes=20795392 process_peak_bytes=24121344
+PASS affine spaces directions=0 columns=195155

@@ -1,0 +1,3 @@
+threads: 2
+PROFILE phase=cache_read seconds=0.00464039 cpu_seconds=0.004665 rss_bytes=61190144 process_peak_bytes=60833792
+PASS affine spaces directions=0 columns=195155

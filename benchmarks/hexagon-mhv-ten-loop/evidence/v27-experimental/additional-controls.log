@@ -1,0 +1,2 @@
+WIDE_CONTROL overflow_cases=5077 canonical_reference_equal=1
+ADDITIONAL_CONTROL passed=1 queue_operations=756718 compression_cases=144 deterministic_schedules=64 packed_budget_and_damage_controls=1 exact_density_and_persistent_cycle_controls=1

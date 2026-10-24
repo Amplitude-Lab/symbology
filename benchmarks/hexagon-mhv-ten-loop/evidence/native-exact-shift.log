@@ -1,0 +1,20 @@
+threads: 16
+CONVERT phase=read_object begin elapsed_seconds=2.6584e-05 memory_valid=1 rss_bytes=12554240 process_peak_rss_bytes=12177408
+CONVERT phase=read_object end directions=0 elapsed_seconds=0.0596462 memory_valid=1 rss_bytes=78299136 process_peak_rss_bytes=77856768
+CONVERT phase=read_moving begin h=17 k=3 elapsed_seconds=0.0688489 memory_valid=1 rss_bytes=78684160 process_peak_rss_bytes=78184448
+CONVERT phase=read_target begin elapsed_seconds=22.4922 memory_valid=1 rss_bytes=11861913600 process_peak_rss_bytes=14291791872
+CONVERT phase=build_index begin elapsed_seconds=22.4938 memory_valid=1 rss_bytes=11861917696 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=pe_A1 elapsed_seconds=23.3802 memory_valid=1 rss_bytes=13242515456 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=pe_A2 elapsed_seconds=23.3803 memory_valid=1 rss_bytes=13242519552 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=pe_E elapsed_seconds=23.3804 memory_valid=1 rss_bytes=13242519552 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=po_A1 elapsed_seconds=23.381 memory_valid=1 rss_bytes=13242519552 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=po_A2 elapsed_seconds=23.381 memory_valid=1 rss_bytes=13242519552 process_peak_rss_bytes=14291791872
+CONVERT phase=right_inverse begin block=po_E elapsed_seconds=23.3818 memory_valid=1 rss_bytes=13242519552 process_peak_rss_bytes=14291791872
+CONVERT phase=target_coordinates begin solution=1/1 block=pe_A2 ambient_nnz=109859 elapsed_seconds=54.8335 memory_valid=1 rss_bytes=12422942720 process_peak_rss_bytes=14291791872
+CONVERT phase=target_coordinates begin solution=1/1 block=pe_E ambient_nnz=639809 elapsed_seconds=106.023 memory_valid=1 rss_bytes=12469317632 process_peak_rss_bytes=14291791872
+CONVERT phase=solution_complete solution=1/1 elapsed_seconds=113.632 memory_valid=1 rss_bytes=12524716032 process_peak_rss_bytes=14291791872
+PERF phase=shift seconds=115.185 peak_rss_bytes=14291791872
+SHIFT exact_factorization=PASS h=16 k=4 kind=unique directions=0
+CONVERT phase=write_output begin elapsed_seconds=115.258 memory_valid=1 rss_bytes=12020662272 process_peak_rss_bytes=14291791872
+CONVERT phase=write_output end elapsed_seconds=115.376 memory_valid=1 rss_bytes=10206113792 process_peak_rss_bytes=14291791872
+COMPLETE shift h=16 k=4 kind=unique directions=0

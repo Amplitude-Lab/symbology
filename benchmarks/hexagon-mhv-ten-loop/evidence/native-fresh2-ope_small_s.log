@@ -1,0 +1,125 @@
+threads: 16
+OPE_HEAD_CACHE budget_bytes=17179869184
+CACHE budget_bytes=8589934592
+PROFILE phase=exact_source seconds=0.128994 rss_bytes=94273536 process_peak_bytes=94056448
+PREFLIGHT operator=ope_small_s loop=10 solve=2736 check=456 grade=16
+MHV_SMALL_S solve=2736 check=456 validation=0
+MHV_SMALL_S F=2 validation=0 rows=1
+CACHE reset prime=1152921504606947161 limit_bytes=8589934592
+CACHE stored prime=1152921504606947161 tensor=irrFEC_1 required_bytes=88 used_bytes=88 limit_bytes=8589934592 remaining_bytes=8589934504 reason=fits
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000474306 peak_rss=94220288 cache_bytes=88 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_2 required_bytes=248 used_bytes=336 limit_bytes=8589934592 remaining_bytes=8589934256 reason=fits
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00177462 peak_rss=94220288 cache_bytes=336 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_3 required_bytes=588 used_bytes=924 limit_bytes=8589934592 remaining_bytes=8589933668 reason=fits
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00174851 peak_rss=94384128 cache_bytes=924 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_4 required_bytes=1468 used_bytes=2392 limit_bytes=8589934592 remaining_bytes=8589932200 reason=fits
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.00373455 peak_rss=94547968 cache_bytes=2392 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_5 required_bytes=4088 used_bytes=6480 limit_bytes=8589934592 remaining_bytes=8589928112 reason=fits
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.00706971 peak_rss=96514048 cache_bytes=6480 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_6 required_bytes=10956 used_bytes=17436 limit_bytes=8589934592 remaining_bytes=8589917156 reason=fits
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.0205012 peak_rss=110112768 cache_bytes=17436 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_7 required_bytes=32992 used_bytes=50428 limit_bytes=8589934592 remaining_bytes=8589884164 reason=fits
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0421153 peak_rss=145010688 cache_bytes=50428 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_8 required_bytes=100720 used_bytes=151148 limit_bytes=8589934592 remaining_bytes=8589783444 reason=fits
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0921156 peak_rss=180592640 cache_bytes=151148 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_9 required_bytes=322180 used_bytes=473328 limit_bytes=8589934592 remaining_bytes=8589461264 reason=fits
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.202564 peak_rss=271286272 cache_bytes=473328 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_10 required_bytes=1061640 used_bytes=1534968 limit_bytes=8589934592 remaining_bytes=8588399624 reason=fits
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.460834 peak_rss=362725376 cache_bytes=1534968 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_11 required_bytes=3461752 used_bytes=4996720 limit_bytes=8589934592 remaining_bytes=8584937872 reason=fits
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.905545 peak_rss=501919744 cache_bytes=4996720 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_12 required_bytes=10899368 used_bytes=15896088 limit_bytes=8589934592 remaining_bytes=8574038504 reason=fits
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=2.0114 peak_rss=740528128 cache_bytes=15896088 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_13 required_bytes=32815056 used_bytes=48711144 limit_bytes=8589934592 remaining_bytes=8541223448 reason=fits
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=4.62989 peak_rss=1218949120 cache_bytes=48711144 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_14 required_bytes=96961908 used_bytes=145673052 limit_bytes=8589934592 remaining_bytes=8444261540 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=1075986432 rss_after=772956160 seconds=0.0138657
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=11.486 peak_rss=1723281408 cache_bytes=145673052 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_15 required_bytes=276524904 used_bytes=422197956 limit_bytes=8589934592 remaining_bytes=8167736636 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=2628472832 rss_after=1520848896 seconds=0.0722692
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=28.9265 peak_rss=2991411200 cache_bytes=422197956 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_16 required_bytes=767103812 used_bytes=1189301768 limit_bytes=8589934592 remaining_bytes=7400632824 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=7170084864 rss_after=3000487936 seconds=0.303437
+ope_head_16 rows=23961 cols=133083 nnz=63882715 seconds=77.7944 peak_rss=7169646592 cache_bytes=1189301768 private=0
+CACHE stored prime=1152921504606947161 tensor=irrFEC_17 required_bytes=2064226160 used_bytes=3253527928 limit_bytes=8589934592 remaining_bytes=5336406664 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=19059122176 rss_after=6331523072 seconds=0.988724
+ope_head_17 rows=38472 cols=215649 nnz=171950436 seconds=202.388 peak_rss=19058671616 cache_bytes=3253527928 private=0
+OPE_HEAD_CACHE stored prime=1152921504606947161 bytes=3625909056 used=3625909056
+CACHE stored prime=1152921504606947161 tensor=irrLEC_1 required_bytes=176 used_bytes=3253528104 limit_bytes=8589934592 remaining_bytes=5336406488 reason=fits
+CACHE stored prime=1152921504606947161 tensor=irrLEC_2 required_bytes=1060 used_bytes=3253529164 limit_bytes=8589934592 remaining_bytes=5336405428 reason=fits
+CACHE stored prime=1152921504606947161 tensor=irrLEC_3 required_bytes=5584 used_bytes=3253534748 limit_bytes=8589934592 remaining_bytes=5336399844 reason=fits
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.875895
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.906199 peak_rss=19058671616 cache_bytes=3253534748 private=0
+MHV_SMALL_S F=3 validation=0 rows=1
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000561591 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00128808 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00285304 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.0028088 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.00614857 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.0123416 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0254253 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0590255 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.185923 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.446173 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.902617 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=1.98013 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=4.56123 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=11.2195 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=29.1709 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_16 rows=23961 cols=133083 nnz=63882715 seconds=78.0338 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_17 rows=38472 cols=215649 nnz=171950436 seconds=204.994 peak_rss=19058671616 cache_bytes=3253534748 private=0
+OPE_HEAD_CACHE stored prime=1152921504606947161 bytes=3625909056 used=7251818112
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.902585
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.937059 peak_rss=19058671616 cache_bytes=3253534748 private=0
+MHV_SMALL_S F=4 validation=0 rows=1
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000689113 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00212852 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00335985 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.00383797 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.0049579 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.0118948 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0322826 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.060183 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.182757 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.452276 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.890241 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=1.93848 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=4.46727 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=11.2047 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=28.9216 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_16 rows=23961 cols=133083 nnz=63882715 seconds=78.6529 peak_rss=19058671616 cache_bytes=3253534748 private=0
+ope_head_17 rows=38472 cols=215649 nnz=171950436 seconds=208.939 peak_rss=19058671616 cache_bytes=3253534748 private=0
+OPE_HEAD_CACHE stored prime=1152921504606947161 bytes=3625909056 used=10877727168
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.898736
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.931678 peak_rss=19058671616 cache_bytes=3253534748 private=0
+PHYSICAL_HOLDOUT {"condition":"ope_original_solve_role","prime":1152921504606947161,"seed":202610090731,"rows":2736,"mismatches":0,"S_power_above_10":456}
+OPE_POWER power=1 rows=228
+OPE_POWER power=2 rows=228
+OPE_POWER power=3 rows=228
+OPE_POWER power=4 rows=228
+OPE_POWER power=5 rows=228
+OPE_POWER power=6 rows=228
+OPE_POWER power=7 rows=228
+OPE_POWER power=8 rows=228
+OPE_POWER power=9 rows=228
+OPE_POWER power=10 rows=228
+OPE_POWER power=11 rows=228
+OPE_POWER power=12 rows=228
+MHV_SMALL_S solve=2736 check=456 validation=1
+MHV_SMALL_S F=2 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606947161 bytes=3625909056
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.900002
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.930915 peak_rss=19058671616 cache_bytes=3253534748 private=0
+MHV_SMALL_S F=3 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606947161 bytes=3625909056
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.900755
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.936795 peak_rss=19058671616 cache_bytes=3253534748 private=0
+MHV_SMALL_S F=4 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606947161 bytes=3625909056
+OPE_SEED rows=1 stride=11781 nnz=246941 seconds=0.904532
+ope_apply rows=1 cols=11781 nnz=246941 seconds=0.940245 peak_rss=19058671616 cache_bytes=3253534748 private=0
+PHYSICAL_HOLDOUT {"condition":"ope_original_check_role","prime":1152921504606947161,"seed":202610090731,"rows":456,"mismatches":0,"S_power_above_10":456}
+OPE_POWER power=13 rows=228
+OPE_POWER power=14 rows=228
+CACHE batch prime=1152921504606947161 hits=49 misses=20 not_stored=0 entries=20 used_bytes=3253534748 limit_bytes=8589934592 remaining_bytes=5336399844
+PHYSICAL_SUMMARY {"rows":3192,"mismatches":0,"multiplier":1,"passed":true}

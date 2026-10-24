@@ -693,9 +693,15 @@ not speculative: the audit receipt `audits/hexagon-ten-loop-2026-10-06/
 fec16.json` records a full `irr_fec 16` rerun from the seed data (422 s
 wall, 1,169 CPU-s, 13.7 GB peak, 8 threads). A complete cold FEC1–17 chain
 rebuild has not been timed end-to-end. Of the package's build-time
-`SOURCE_SHA256.tsv` pins, 406 of 411 committed source files verify; the
-five differing files carry post-freeze edits and are identical in the
-committed snapshot and the current local package. The OPE small-s
+`SOURCE_SHA256.tsv` pins, 406 of the 466 pinned files are present in the
+packaged tree; 401 of those verify against their build-time hashes and
+five carry post-freeze edits (`src/nmhv_ope_germ.hpp`,
+`src/reduced_d3/irr_bulk.hpp`, `src/reduced_d3/irr_projection.hpp`,
+`src/reduced_d3/irr_sew.cpp`, `src/SparseRREF/sparse_rref.h`), each
+identical between the committed snapshot and the current local package
+and matching the package manifest's committed-state hashes; the
+remaining 60 pins reference solver data files not shipped in the
+package. The OPE small-s
 checkpoint and per-prime joint caches remain production outputs of the
 solver phases; the committed `reference/` symbols are the certified
 endpoints.

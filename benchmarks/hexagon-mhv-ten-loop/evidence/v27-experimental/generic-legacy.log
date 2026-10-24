@@ -1,0 +1,865 @@
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=9.2e-05 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=2e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=3e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=0 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1e-06 forward_cpu=0.000127 discarded_verify_cpu=0 back_cpu=6.4e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1.3e-05 discarded_verify_cpu=7.2e-05 back_cpu=1.6e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.4e-05 discarded_verify_cpu=2.6e-05 back_cpu=2e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=1 input_nnz=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=3.9e-05 discarded_verify_cpu=0 back_cpu=1e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=1 input_nnz=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1e-06 forward_cpu=6e-06 discarded_verify_cpu=0 back_cpu=9e-06 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=1 input_nnz=1 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=6e-06 discarded_verify_cpu=6e-06 back_cpu=1.4e-05 independent_inputs=1 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+streaming_batch=1 input_rows=3 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=6 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=5.6e-05 discarded_verify_cpu=0 back_cpu=2.4e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=3 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=2 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=2 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=6 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1.1e-05 discarded_verify_cpu=2.1e-05 back_cpu=3.5e-05 independent_inputs=1 verified_dependent_inputs=2
+streaming_batch=1 input_rows=3 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=2 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=2 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=6 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=9e-06 discarded_verify_cpu=1.8e-05 back_cpu=1.7e-05 independent_inputs=1 verified_dependent_inputs=2
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1e-06 forward_cpu=5.6e-05 discarded_verify_cpu=0 back_cpu=2.4e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1.9e-05 discarded_verify_cpu=2.7e-05 back_cpu=1.6e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1.1e-05 discarded_verify_cpu=1e-05 back_cpu=1.9e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=3 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=4 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1e-06 forward_cpu=5.3e-05 discarded_verify_cpu=0 back_cpu=2.3e-05 independent_inputs=2 verified_dependent_inputs=0
+streaming_batch=1 input_rows=3 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=2
+DEPENDENCY_PROFILE heap_steps=1 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=1 queue_pushes=1 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=4 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=2
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1.9e-05 discarded_verify_cpu=6e-06 back_cpu=1.3e-05 independent_inputs=2 verified_dependent_inputs=1
+streaming_batch=1 input_rows=3 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=2
+DEPENDENCY_PROFILE heap_steps=1 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=1 queue_pushes=1 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=3 input_nnz=4 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=2
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=3.4e-05 discarded_verify_cpu=1.4e-05 back_cpu=1.7e-05 independent_inputs=2 verified_dependent_inputs=1
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=0 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=1e-06 independent_inputs=0 verified_dependent_inputs=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=0 input_nnz=0 rank=0 retained_nnz=0 retained_alloc=0 retained_array_bytes=0 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=0 discarded_verify_cpu=0 back_cpu=2e-06 independent_inputs=0 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=6e-05 discarded_verify_cpu=0 back_cpu=2.7e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=8 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.5e-05 discarded_verify_cpu=3.1e-05 back_cpu=1.9e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=8 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.7e-05 discarded_verify_cpu=2.1e-05 back_cpu=2.1e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1e-06 forward_cpu=4.4e-05 discarded_verify_cpu=0 back_cpu=2e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1e-05 discarded_verify_cpu=1.8e-05 back_cpu=1.8e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=4 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4 queue_pushes=4 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=5 rank=1 retained_nnz=1 retained_alloc=1 retained_array_bytes=12 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.6e-05 discarded_verify_cpu=2.5e-05 back_cpu=2.1e-05 independent_inputs=1 verified_dependent_inputs=4
+streaming_batch=1 input_rows=5 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=9.4e-05 discarded_verify_cpu=0 back_cpu=2.6e-05 independent_inputs=2 verified_dependent_inputs=0
+streaming_batch=1 input_rows=5 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=6 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=9 queue_pushes=6 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=4.4e-05 discarded_verify_cpu=2.6e-05 back_cpu=1.6e-05 independent_inputs=2 verified_dependent_inputs=3
+streaming_batch=1 input_rows=5 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=6 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=9 queue_pushes=6 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=5 input_nnz=10 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=4.3e-05 discarded_verify_cpu=1.2e-05 back_cpu=2.6e-05 independent_inputs=2 verified_dependent_inputs=3
+streaming_batch=1 input_rows=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=3.7e-05 discarded_verify_cpu=0 back_cpu=1.8e-05 independent_inputs=3 verified_dependent_inputs=0
+streaming_batch=1 input_rows=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=5 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=5 queue_pushes=5 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=1e-05 discarded_verify_cpu=2.5e-05 back_cpu=1.9e-05 independent_inputs=3 verified_dependent_inputs=5
+streaming_batch=1 input_rows=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=5 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=5 queue_pushes=5 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=8 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.3e-05 discarded_verify_cpu=1.1e-05 back_cpu=2.4e-05 independent_inputs=3 verified_dependent_inputs=5
+streaming_batch=1 input_rows=8 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=6.2e-05 discarded_verify_cpu=0 back_cpu=2.2e-05 independent_inputs=6 verified_dependent_inputs=0
+streaming_batch=1 input_rows=8 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+DEPENDENCY_PROFILE heap_steps=2 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=2 queue_pushes=2 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1e-06 forward_cpu=2e-05 discarded_verify_cpu=2.4e-05 back_cpu=2.1e-05 independent_inputs=6 verified_dependent_inputs=2
+streaming_batch=1 input_rows=8 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+DEPENDENCY_PROFILE heap_steps=2 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=2 queue_pushes=2 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=8 input_nnz=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.3e-05 discarded_verify_cpu=2.4e-05 back_cpu=2.9e-05 independent_inputs=6 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=6 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18 queue_pushes=6 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=2.3e-05 forward_cpu=6.6e-05 discarded_verify_cpu=0 back_cpu=2.1e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=6 route_hits=6 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.1e-05 forward_cpu=7e-06 discarded_verify_cpu=3e-05 back_cpu=1.8e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=16 route_steps=0 route_hits=6 local_fallbacks=6 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.6e-05 forward_cpu=2e-05 discarded_verify_cpu=3.2e-05 back_cpu=1.7e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=9 input_nnz=13 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=4.5e-05 discarded_verify_cpu=0 back_cpu=2.6e-05 independent_inputs=6 verified_dependent_inputs=0
+streaming_batch=1 input_rows=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+DEPENDENCY_PROFILE heap_steps=7 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=7 queue_pushes=7 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=9 input_nnz=13 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2e-05 discarded_verify_cpu=2.3e-05 back_cpu=1.7e-05 independent_inputs=6 verified_dependent_inputs=3
+streaming_batch=1 input_rows=9 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+DEPENDENCY_PROFILE heap_steps=7 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=7 queue_pushes=7 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=9 input_nnz=13 rank=6 retained_nnz=6 retained_alloc=6 retained_array_bytes=72 pivot_capacity_freed_slots=6
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=3.2e-05 discarded_verify_cpu=3.2e-05 back_cpu=2.6e-05 independent_inputs=6 verified_dependent_inputs=3
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=11 input_nnz=18 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=5.9e-05 discarded_verify_cpu=0 back_cpu=2.5e-05 independent_inputs=3 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=15 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=15 queue_pushes=15 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=11 input_nnz=18 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.2e-05 discarded_verify_cpu=2.3e-05 back_cpu=2.9e-05 independent_inputs=3 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=15 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=15 queue_pushes=15 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=11 input_nnz=18 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0 forward_cpu=2.6e-05 discarded_verify_cpu=2.3e-05 back_cpu=1.2e-05 independent_inputs=3 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=9
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=66 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=9
+STRUCTURAL_PROFILE replay=0 reduce_cpu=2.7e-05 forward_cpu=0.00017 discarded_verify_cpu=0 back_cpu=2.8e-05 independent_inputs=7 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=18
+DEPENDENCY_PROFILE heap_steps=18 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=21 queue_pushes=18 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=66 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=18
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.6e-05 forward_cpu=6.9e-05 discarded_verify_cpu=2.3e-05 back_cpu=2e-05 independent_inputs=7 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=18
+DEPENDENCY_PROFILE heap_steps=18 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=21 queue_pushes=18 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=66 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=18
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.2e-05 forward_cpu=5.1e-05 discarded_verify_cpu=2.8e-05 back_cpu=2.2e-05 independent_inputs=7 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=6 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18 queue_pushes=6 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1.7e-05 forward_cpu=7.4e-05 discarded_verify_cpu=0 back_cpu=1.6e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=6 route_hits=6 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.8e-05 forward_cpu=2.4e-05 discarded_verify_cpu=1.7e-05 back_cpu=1.9e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=16 route_steps=0 route_hits=6 local_fallbacks=6 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.4e-05 forward_cpu=2.5e-05 discarded_verify_cpu=1.3e-05 back_cpu=2.1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=59 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1.9e-05 forward_cpu=0.000208 discarded_verify_cpu=0 back_cpu=2.7e-05 independent_inputs=8 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=20
+DEPENDENCY_PROFILE heap_steps=16 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=37 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=59 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=20
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.2e-05 forward_cpu=0.000128 discarded_verify_cpu=2.7e-05 back_cpu=2.2e-05 independent_inputs=8 verified_dependent_inputs=3
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=20
+DEPENDENCY_PROFILE heap_steps=16 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=37 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=59 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=20
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.7e-05 forward_cpu=0.000155 discarded_verify_cpu=2.1e-05 back_cpu=2.2e-05 independent_inputs=8 verified_dependent_inputs=3
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=48 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1.6e-05 forward_cpu=0.000152 discarded_verify_cpu=0 back_cpu=1.8e-05 independent_inputs=3 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=5
+DEPENDENCY_PROFILE heap_steps=24 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=40 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=48 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=5
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.1e-05 forward_cpu=7.5e-05 discarded_verify_cpu=5.4e-05 back_cpu=1.7e-05 independent_inputs=3 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=5
+DEPENDENCY_PROFILE heap_steps=24 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=40 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=48 rank=3 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=5
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.7e-05 forward_cpu=9.9e-05 discarded_verify_cpu=1.6e-05 back_cpu=2.6e-05 independent_inputs=3 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=126 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1e-05 forward_cpu=0.000227 discarded_verify_cpu=0 back_cpu=1.8e-05 independent_inputs=7 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=64
+DEPENDENCY_PROFILE heap_steps=28 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=104 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=126 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=64
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.6e-05 forward_cpu=0.000181 discarded_verify_cpu=1.8e-05 back_cpu=2.2e-05 independent_inputs=7 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=64
+DEPENDENCY_PROFILE heap_steps=28 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=104 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=126 rank=7 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=64
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.3e-05 forward_cpu=0.000177 discarded_verify_cpu=1.8e-05 back_cpu=2e-05 independent_inputs=7 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=6 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18 queue_pushes=6 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=1.8e-05 forward_cpu=4.8e-05 discarded_verify_cpu=0 back_cpu=2.2e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=6 route_hits=6 local_fallbacks=0 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.8e-05 forward_cpu=8e-06 discarded_verify_cpu=3.2e-05 back_cpu=1.5e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=16 route_steps=0 route_hits=6 local_fallbacks=6 stored_edges=6 stored_route_bytes=504 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=48 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=51 rank=1 retained_nnz=3 retained_alloc=3 retained_array_bytes=36 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.5e-05 forward_cpu=1.4e-05 discarded_verify_cpu=2.1e-05 back_cpu=3e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=130 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=2.7e-05 forward_cpu=0.000275 discarded_verify_cpu=0 back_cpu=2.3e-05 independent_inputs=8 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=77
+DEPENDENCY_PROFILE heap_steps=24 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=105 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=130 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=77
+STRUCTURAL_PROFILE replay=1 reduce_cpu=2.1e-05 forward_cpu=0.000211 discarded_verify_cpu=2.5e-05 back_cpu=2.1e-05 independent_inputs=8 verified_dependent_inputs=3
+streaming_batch=1 input_rows=11 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=77
+DEPENDENCY_PROFILE heap_steps=24 route_steps=0 route_hits=6 local_fallbacks=0 stored_edges=0 stored_route_bytes=480 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=105 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=17 input_nnz=130 rank=8 retained_nnz=8 retained_alloc=8 retained_array_bytes=96 pivot_capacity_freed_slots=77
+STRUCTURAL_PROFILE replay=1 reduce_cpu=1.6e-05 forward_cpu=0.000211 discarded_verify_cpu=2e-05 back_cpu=1.8e-05 independent_inputs=8 verified_dependent_inputs=3
+streaming_batch=1 input_rows=11 rank=10 retained_nnz=15 retained_alloc=15 retained_array_bytes=180 pivot_capacity_freed_slots=2
+DEPENDENCY_PROFILE heap_steps=37 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=37 stored_route_bytes=2788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=57 queue_pushes=37 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=44 input_nnz=89 rank=15 retained_nnz=20 retained_alloc=20 retained_array_bytes=240 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=0 reduce_cpu=7e-05 forward_cpu=0.000149 discarded_verify_cpu=0 back_cpu=2.2e-05 independent_inputs=15 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=10 retained_nnz=15 retained_alloc=15 retained_array_bytes=180 pivot_capacity_freed_slots=13
+DEPENDENCY_PROFILE heap_steps=9 route_steps=37 route_hits=33 local_fallbacks=0 stored_edges=37 stored_route_bytes=2788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=66 queue_pushes=9 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=44 input_nnz=89 rank=15 retained_nnz=20 retained_alloc=20 retained_array_bytes=240 pivot_capacity_freed_slots=14
+STRUCTURAL_PROFILE replay=1 reduce_cpu=7e-05 forward_cpu=0.000105 discarded_verify_cpu=3.1e-05 back_cpu=2.2e-05 independent_inputs=15 verified_dependent_inputs=5
+streaming_batch=1 input_rows=11 rank=10 retained_nnz=15 retained_alloc=15 retained_array_bytes=180 pivot_capacity_freed_slots=13
+DEPENDENCY_PROFILE heap_steps=46 route_steps=0 route_hits=33 local_fallbacks=20 stored_edges=37 stored_route_bytes=2788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=66 queue_pushes=46 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=44 input_nnz=89 rank=15 retained_nnz=20 retained_alloc=20 retained_array_bytes=240 pivot_capacity_freed_slots=14
+STRUCTURAL_PROFILE replay=1 reduce_cpu=7e-05 forward_cpu=8.5e-05 discarded_verify_cpu=4e-05 back_cpu=2.3e-05 independent_inputs=15 verified_dependent_inputs=5
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=35 retained_alloc=35 retained_array_bytes=420 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=395 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=395 stored_route_bytes=5580 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=1737 queue_pushes=395 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=61 input_nnz=215 rank=31 retained_nnz=119 retained_alloc=119 retained_array_bytes=1428 pivot_capacity_freed_slots=1
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.00016 forward_cpu=0.000598 discarded_verify_cpu=0 back_cpu=4.3e-05 independent_inputs=31 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=35 retained_alloc=35 retained_array_bytes=420 pivot_capacity_freed_slots=21
+DEPENDENCY_PROFILE heap_steps=17 route_steps=395 route_hits=50 local_fallbacks=0 stored_edges=395 stored_route_bytes=5580 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=1791 queue_pushes=17 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=61 input_nnz=215 rank=31 retained_nnz=119 retained_alloc=119 retained_array_bytes=1428 pivot_capacity_freed_slots=53
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000109 forward_cpu=0.000417 discarded_verify_cpu=1.2e-05 back_cpu=3.7e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=35 retained_alloc=35 retained_array_bytes=420 pivot_capacity_freed_slots=21
+DEPENDENCY_PROFILE heap_steps=412 route_steps=0 route_hits=50 local_fallbacks=43 stored_edges=395 stored_route_bytes=5580 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=1791 queue_pushes=412 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=61 input_nnz=215 rank=31 retained_nnz=119 retained_alloc=119 retained_array_bytes=1428 pivot_capacity_freed_slots=53
+STRUCTURAL_PROFILE replay=1 reduce_cpu=9.9e-05 forward_cpu=0.000362 discarded_verify_cpu=1.1e-05 back_cpu=3.2e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=54 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=594 queue_pushes=54 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=6.2e-05 forward_cpu=3.3e-05 discarded_verify_cpu=0 back_cpu=1e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=54 route_hits=54 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=5.6e-05 forward_cpu=1e-05 discarded_verify_cpu=1.7e-05 back_cpu=1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=64 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=64 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=5.8e-05 forward_cpu=9e-06 discarded_verify_cpu=1.9e-05 back_cpu=1.1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=26 retained_alloc=26 retained_array_bytes=312 pivot_capacity_freed_slots=1
+DEPENDENCY_PROFILE heap_steps=177 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=177 stored_route_bytes=4788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=381 queue_pushes=177 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=62 input_nnz=178 rank=32 retained_nnz=74 retained_alloc=74 retained_array_bytes=888 pivot_capacity_freed_slots=8
+STRUCTURAL_PROFILE replay=0 reduce_cpu=6.8e-05 forward_cpu=0.000249 discarded_verify_cpu=0 back_cpu=2.3e-05 independent_inputs=32 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=26 retained_alloc=26 retained_array_bytes=312 pivot_capacity_freed_slots=12
+DEPENDENCY_PROFILE heap_steps=16 route_steps=177 route_hits=51 local_fallbacks=0 stored_edges=177 stored_route_bytes=4788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=397 queue_pushes=16 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=62 input_nnz=178 rank=32 retained_nnz=74 retained_alloc=74 retained_array_bytes=888 pivot_capacity_freed_slots=26
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6.1e-05 forward_cpu=0.000183 discarded_verify_cpu=1.9e-05 back_cpu=2.3e-05 independent_inputs=32 verified_dependent_inputs=6
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=26 retained_alloc=26 retained_array_bytes=312 pivot_capacity_freed_slots=12
+DEPENDENCY_PROFILE heap_steps=193 route_steps=0 route_hits=51 local_fallbacks=40 stored_edges=177 stored_route_bytes=4788 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=397 queue_pushes=193 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=62 input_nnz=178 rank=32 retained_nnz=74 retained_alloc=74 retained_array_bytes=888 pivot_capacity_freed_slots=26
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6e-05 forward_cpu=0.000167 discarded_verify_cpu=2e-05 back_cpu=2.1e-05 independent_inputs=32 verified_dependent_inputs=6
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=75 retained_alloc=75 retained_array_bytes=900 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=636 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=636 stored_route_bytes=6864 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=3614 queue_pushes=636 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=461 rank=15 retained_nnz=85 retained_alloc=85 retained_array_bytes=1020 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=8.4e-05 forward_cpu=0.000438 discarded_verify_cpu=0 back_cpu=2.1e-05 independent_inputs=15 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=75 retained_alloc=75 retained_array_bytes=900 pivot_capacity_freed_slots=49
+DEPENDENCY_PROFILE heap_steps=28 route_steps=636 route_hits=54 local_fallbacks=0 stored_edges=636 stored_route_bytes=6864 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=3684 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=461 rank=15 retained_nnz=85 retained_alloc=85 retained_array_bytes=1020 pivot_capacity_freed_slots=55
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6.5e-05 forward_cpu=0.000198 discarded_verify_cpu=1.2e-05 back_cpu=2.3e-05 independent_inputs=15 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=75 retained_alloc=75 retained_array_bytes=900 pivot_capacity_freed_slots=49
+DEPENDENCY_PROFILE heap_steps=664 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=636 stored_route_bytes=6864 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=3684 queue_pushes=664 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=461 rank=15 retained_nnz=85 retained_alloc=85 retained_array_bytes=1020 pivot_capacity_freed_slots=55
+STRUCTURAL_PROFILE replay=1 reduce_cpu=7.1e-05 forward_cpu=0.000197 discarded_verify_cpu=1.3e-05 back_cpu=2.3e-05 independent_inputs=15 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=209 retained_alloc=209 retained_array_bytes=2508 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=1202 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=1202 stored_route_bytes=9128 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=17528 queue_pushes=1202 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=955 rank=31 retained_nnz=419 retained_alloc=419 retained_array_bytes=5028 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000139 forward_cpu=0.000553 discarded_verify_cpu=0 back_cpu=5.9e-05 independent_inputs=31 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=209 retained_alloc=209 retained_array_bytes=2508 pivot_capacity_freed_slots=65
+DEPENDENCY_PROFILE heap_steps=18 route_steps=1202 route_hits=54 local_fallbacks=0 stored_edges=1202 stored_route_bytes=9128 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=17618 queue_pushes=18 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=955 rank=31 retained_nnz=419 retained_alloc=419 retained_array_bytes=5028 pivot_capacity_freed_slots=156
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000103 forward_cpu=0.000504 discarded_verify_cpu=1.3e-05 back_cpu=5.6e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=209 retained_alloc=209 retained_array_bytes=2508 pivot_capacity_freed_slots=65
+DEPENDENCY_PROFILE heap_steps=1220 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=1202 stored_route_bytes=9128 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=17618 queue_pushes=1220 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=955 rank=31 retained_nnz=419 retained_alloc=419 retained_array_bytes=5028 pivot_capacity_freed_slots=156
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000138 forward_cpu=0.000496 discarded_verify_cpu=1.1e-05 back_cpu=5.2e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=54 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=594 queue_pushes=54 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=5.5e-05 forward_cpu=3.3e-05 discarded_verify_cpu=0 back_cpu=1.1e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=54 route_hits=54 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6.1e-05 forward_cpu=9e-06 discarded_verify_cpu=1.3e-05 back_cpu=1.1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=64 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=64 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6e-05 forward_cpu=1e-05 discarded_verify_cpu=1.4e-05 back_cpu=1.1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=216 retained_alloc=216 retained_array_bytes=2592 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=1222 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=1222 stored_route_bytes=9208 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18266 queue_pushes=1222 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=991 rank=32 retained_nnz=447 retained_alloc=447 retained_array_bytes=5364 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000148 forward_cpu=0.00057 discarded_verify_cpu=0 back_cpu=4.9e-05 independent_inputs=32 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=216 retained_alloc=216 retained_array_bytes=2592 pivot_capacity_freed_slots=65
+DEPENDENCY_PROFILE heap_steps=10 route_steps=1222 route_hits=54 local_fallbacks=0 stored_edges=1222 stored_route_bytes=9208 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18321 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=991 rank=32 retained_nnz=447 retained_alloc=447 retained_array_bytes=5364 pivot_capacity_freed_slots=165
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000107 forward_cpu=0.000551 discarded_verify_cpu=1.1e-05 back_cpu=5.5e-05 independent_inputs=32 verified_dependent_inputs=1
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=216 retained_alloc=216 retained_array_bytes=2592 pivot_capacity_freed_slots=65
+DEPENDENCY_PROFILE heap_steps=1232 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=1222 stored_route_bytes=9208 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=18321 queue_pushes=1232 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=991 rank=32 retained_nnz=447 retained_alloc=447 retained_array_bytes=5364 pivot_capacity_freed_slots=165
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000152 forward_cpu=0.000519 discarded_verify_cpu=8e-06 back_cpu=4.7e-05 independent_inputs=32 verified_dependent_inputs=1
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=108 retained_alloc=108 retained_array_bytes=1296 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=763 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=763 stored_route_bytes=7372 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=6223 queue_pushes=763 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=931 rank=15 retained_nnz=118 retained_alloc=118 retained_array_bytes=1416 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=8e-05 forward_cpu=0.000305 discarded_verify_cpu=0 back_cpu=1.9e-05 independent_inputs=15 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=108 retained_alloc=108 retained_array_bytes=1296 pivot_capacity_freed_slots=142
+DEPENDENCY_PROFILE heap_steps=28 route_steps=763 route_hits=54 local_fallbacks=0 stored_edges=763 stored_route_bytes=7372 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=6293 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=931 rank=15 retained_nnz=118 retained_alloc=118 retained_array_bytes=1416 pivot_capacity_freed_slots=148
+STRUCTURAL_PROFILE replay=1 reduce_cpu=6.5e-05 forward_cpu=0.000289 discarded_verify_cpu=1.2e-05 back_cpu=2.3e-05 independent_inputs=15 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=108 retained_alloc=108 retained_array_bytes=1296 pivot_capacity_freed_slots=142
+DEPENDENCY_PROFILE heap_steps=791 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=763 stored_route_bytes=7372 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=6293 queue_pushes=791 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=931 rank=15 retained_nnz=118 retained_alloc=118 retained_array_bytes=1416 pivot_capacity_freed_slots=148
+STRUCTURAL_PROFILE replay=1 reduce_cpu=9.9e-05 forward_cpu=0.000262 discarded_verify_cpu=1.2e-05 back_cpu=3.3e-05 independent_inputs=15 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=281 retained_alloc=281 retained_array_bytes=3372 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=1351 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=1351 stored_route_bytes=9724 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=23605 queue_pushes=1351 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1954 rank=31 retained_nnz=491 retained_alloc=491 retained_array_bytes=5892 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000148 forward_cpu=0.000652 discarded_verify_cpu=0 back_cpu=5e-05 independent_inputs=31 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=281 retained_alloc=281 retained_array_bytes=3372 pivot_capacity_freed_slots=273
+DEPENDENCY_PROFILE heap_steps=18 route_steps=1351 route_hits=54 local_fallbacks=0 stored_edges=1351 stored_route_bytes=9724 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=23695 queue_pushes=18 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1954 rank=31 retained_nnz=491 retained_alloc=491 retained_array_bytes=5892 pivot_capacity_freed_slots=364
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000103 forward_cpu=0.000582 discarded_verify_cpu=1.1e-05 back_cpu=6.4e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=281 retained_alloc=281 retained_array_bytes=3372 pivot_capacity_freed_slots=273
+DEPENDENCY_PROFILE heap_steps=1369 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=1351 stored_route_bytes=9724 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=23695 queue_pushes=1369 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1954 rank=31 retained_nnz=491 retained_alloc=491 retained_array_bytes=5892 pivot_capacity_freed_slots=364
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000146 forward_cpu=0.000674 discarded_verify_cpu=1.1e-05 back_cpu=6.1e-05 independent_inputs=31 verified_dependent_inputs=2
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=54 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=594 queue_pushes=54 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=5.5e-05 forward_cpu=3.6e-05 discarded_verify_cpu=0 back_cpu=1.1e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=54 route_hits=54 local_fallbacks=0 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=5.5e-05 forward_cpu=9e-06 discarded_verify_cpu=1.4e-05 back_cpu=1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=64 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=54 stored_route_bytes=4536 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=704 queue_pushes=64 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=715 rank=1 retained_nnz=11 retained_alloc=11 retained_array_bytes=132 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=5.8e-05 forward_cpu=9e-06 discarded_verify_cpu=1.4e-05 back_cpu=1e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=294 retained_alloc=294 retained_array_bytes=3528 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=1383 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=1383 stored_route_bytes=9852 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=25088 queue_pushes=1383 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1979 rank=32 retained_nnz=525 retained_alloc=525 retained_array_bytes=6300 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000151 forward_cpu=0.000657 discarded_verify_cpu=0 back_cpu=5.4e-05 independent_inputs=32 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=294 retained_alloc=294 retained_array_bytes=3528 pivot_capacity_freed_slots=261
+DEPENDENCY_PROFILE heap_steps=10 route_steps=1383 route_hits=54 local_fallbacks=0 stored_edges=1383 stored_route_bytes=9852 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=25143 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1979 rank=32 retained_nnz=525 retained_alloc=525 retained_array_bytes=6300 pivot_capacity_freed_slots=361
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000121 forward_cpu=0.000737 discarded_verify_cpu=1e-05 back_cpu=5.7e-05 independent_inputs=32 verified_dependent_inputs=1
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=294 retained_alloc=294 retained_array_bytes=3528 pivot_capacity_freed_slots=261
+DEPENDENCY_PROFILE heap_steps=1393 route_steps=0 route_hits=54 local_fallbacks=54 stored_edges=1383 stored_route_bytes=9852 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=25143 queue_pushes=1393 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=65 input_nnz=1979 rank=32 retained_nnz=525 retained_alloc=525 retained_array_bytes=6300 pivot_capacity_freed_slots=361
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000135 forward_cpu=0.000595 discarded_verify_cpu=1e-05 back_cpu=5.8e-05 independent_inputs=32 verified_dependent_inputs=1
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=59 retained_alloc=59 retained_array_bytes=708 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=2109 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=2109 stored_route_bytes=20436 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=10839 queue_pushes=2109 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=161 input_nnz=632 rank=40 retained_nnz=226 retained_alloc=226 retained_array_bytes=2712 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000258 forward_cpu=0.000444 discarded_verify_cpu=0 back_cpu=4.5e-05 independent_inputs=40 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=59 retained_alloc=59 retained_array_bytes=708 pivot_capacity_freed_slots=16
+DEPENDENCY_PROFILE heap_steps=21 route_steps=2109 route_hits=150 local_fallbacks=0 stored_edges=2109 stored_route_bytes=20436 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=10900 queue_pushes=21 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=161 input_nnz=632 rank=40 retained_nnz=226 retained_alloc=226 retained_array_bytes=2712 pivot_capacity_freed_slots=73
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000228 forward_cpu=0.000446 discarded_verify_cpu=1.6e-05 back_cpu=4e-05 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=59 retained_alloc=59 retained_array_bytes=708 pivot_capacity_freed_slots=16
+DEPENDENCY_PROFILE heap_steps=2130 route_steps=0 route_hits=150 local_fallbacks=145 stored_edges=2109 stored_route_bytes=20436 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=10900 queue_pushes=2130 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=161 input_nnz=632 rank=40 retained_nnz=226 retained_alloc=226 retained_array_bytes=2712 pivot_capacity_freed_slots=73
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000238 forward_cpu=0.000388 discarded_verify_cpu=1.3e-05 back_cpu=4.2e-05 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=97 retained_alloc=97 retained_array_bytes=1164 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=5656 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=5656 stored_route_bytes=34784 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=130298 queue_pushes=5656 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1214 rank=80 retained_nnz=1553 retained_alloc=1553 retained_array_bytes=18636 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.00068 forward_cpu=0.001548 discarded_verify_cpu=0 back_cpu=0.000125 independent_inputs=80 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=97 retained_alloc=97 retained_array_bytes=1164 pivot_capacity_freed_slots=29
+DEPENDENCY_PROFILE heap_steps=24 route_steps=5656 route_hits=152 local_fallbacks=0 stored_edges=5656 stored_route_bytes=34784 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=130346 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1214 rank=80 retained_nnz=1553 retained_alloc=1553 retained_array_bytes=18636 pivot_capacity_freed_slots=224
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000448 forward_cpu=0.001134 discarded_verify_cpu=1.6e-05 back_cpu=0.000157 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=97 retained_alloc=97 retained_array_bytes=1164 pivot_capacity_freed_slots=29
+DEPENDENCY_PROFILE heap_steps=5680 route_steps=0 route_hits=152 local_fallbacks=144 stored_edges=5656 stored_route_bytes=34784 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=130346 queue_pushes=5680 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1214 rank=80 retained_nnz=1553 retained_alloc=1553 retained_array_bytes=18636 pivot_capacity_freed_slots=224
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.00063 forward_cpu=0.001118 discarded_verify_cpu=1.4e-05 back_cpu=0.000144 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=152 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4104 queue_pushes=152 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000241 forward_cpu=4.9e-05 discarded_verify_cpu=0 back_cpu=1.3e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=152 route_hits=152 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000173 forward_cpu=9e-06 discarded_verify_cpu=1.7e-05 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=162 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=162 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000172 forward_cpu=1e-05 discarded_verify_cpu=2.2e-05 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=138 retained_alloc=138 retained_array_bytes=1656 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=6359 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=6359 stored_route_bytes=37596 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=173037 queue_pushes=6359 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1271 rank=81 retained_nnz=2006 retained_alloc=2006 retained_array_bytes=24072 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000847 forward_cpu=0.00149 discarded_verify_cpu=0 back_cpu=0.000137 independent_inputs=81 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=138 retained_alloc=138 retained_array_bytes=1656 pivot_capacity_freed_slots=25
+DEPENDENCY_PROFILE heap_steps=28 route_steps=6359 route_hits=152 local_fallbacks=0 stored_edges=6359 stored_route_bytes=37596 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=173107 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1271 rank=81 retained_nnz=2006 retained_alloc=2006 retained_array_bytes=24072 pivot_capacity_freed_slots=264
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000561 forward_cpu=0.001262 discarded_verify_cpu=1.5e-05 back_cpu=0.00019 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=138 retained_alloc=138 retained_array_bytes=1656 pivot_capacity_freed_slots=25
+DEPENDENCY_PROFILE heap_steps=6387 route_steps=0 route_hits=152 local_fallbacks=149 stored_edges=6359 stored_route_bytes=37596 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=173107 queue_pushes=6387 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=1271 rank=81 retained_nnz=2006 retained_alloc=2006 retained_array_bytes=24072 pivot_capacity_freed_slots=264
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000793 forward_cpu=0.00126 discarded_verify_cpu=1.6e-05 back_cpu=0.000175 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=283 retained_alloc=283 retained_array_bytes=3396 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=5106 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=5106 stored_route_bytes=32584 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=94531 queue_pushes=5106 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=3069 rank=40 retained_nnz=718 retained_alloc=718 retained_array_bytes=8616 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000485 forward_cpu=0.00084 discarded_verify_cpu=0 back_cpu=6.8e-05 independent_inputs=40 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=283 retained_alloc=283 retained_array_bytes=3396 pivot_capacity_freed_slots=33
+DEPENDENCY_PROFILE heap_steps=28 route_steps=5106 route_hits=152 local_fallbacks=0 stored_edges=5106 stored_route_bytes=32584 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=94643 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=3069 rank=40 retained_nnz=718 retained_alloc=718 retained_array_bytes=8616 pivot_capacity_freed_slots=164
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000336 forward_cpu=0.00076 discarded_verify_cpu=1.9e-05 back_cpu=8.2e-05 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=283 retained_alloc=283 retained_array_bytes=3396 pivot_capacity_freed_slots=33
+DEPENDENCY_PROFILE heap_steps=5134 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=5106 stored_route_bytes=32584 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=94643 queue_pushes=5134 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=3069 rank=40 retained_nnz=718 retained_alloc=718 retained_array_bytes=8616 pivot_capacity_freed_slots=164
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000493 forward_cpu=0.0008 discarded_verify_cpu=1.7e-05 back_cpu=0.000108 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=608 retained_alloc=608 retained_array_bytes=7296 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=9061 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=9061 stored_route_bytes=48404 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=377589 queue_pushes=9061 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6371 rank=80 retained_nnz=3023 retained_alloc=3023 retained_array_bytes=36276 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.001218 forward_cpu=0.002024 discarded_verify_cpu=0 back_cpu=0.000325 independent_inputs=80 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=608 retained_alloc=608 retained_array_bytes=7296 pivot_capacity_freed_slots=92
+DEPENDENCY_PROFILE heap_steps=24 route_steps=9061 route_hits=152 local_fallbacks=0 stored_edges=9061 stored_route_bytes=48404 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=377637 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6371 rank=80 retained_nnz=3023 retained_alloc=3023 retained_array_bytes=36276 pivot_capacity_freed_slots=425
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000899 forward_cpu=0.001795 discarded_verify_cpu=1.7e-05 back_cpu=0.000351 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=608 retained_alloc=608 retained_array_bytes=7296 pivot_capacity_freed_slots=92
+DEPENDENCY_PROFILE heap_steps=9085 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=9061 stored_route_bytes=48404 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=377637 queue_pushes=9085 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6371 rank=80 retained_nnz=3023 retained_alloc=3023 retained_array_bytes=36276 pivot_capacity_freed_slots=425
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.001231 forward_cpu=0.001682 discarded_verify_cpu=2.2e-05 back_cpu=0.0003 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=152 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4104 queue_pushes=152 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000252 forward_cpu=0.0001 discarded_verify_cpu=0 back_cpu=1.4e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=152 route_hits=152 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000212 forward_cpu=1.1e-05 discarded_verify_cpu=2.1e-05 back_cpu=1.7e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=162 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=162 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000201 forward_cpu=1e-05 discarded_verify_cpu=2.4e-05 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=670 retained_alloc=670 retained_array_bytes=8040 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=9235 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=9235 stored_route_bytes=49100 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=397380 queue_pushes=9235 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6256 rank=81 retained_nnz=3155 retained_alloc=3155 retained_array_bytes=37860 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.001305 forward_cpu=0.002044 discarded_verify_cpu=0 back_cpu=0.000238 independent_inputs=81 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=670 retained_alloc=670 retained_array_bytes=8040 pivot_capacity_freed_slots=92
+DEPENDENCY_PROFILE heap_steps=28 route_steps=9235 route_hits=152 local_fallbacks=0 stored_edges=9235 stored_route_bytes=49100 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=397450 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6256 rank=81 retained_nnz=3155 retained_alloc=3155 retained_array_bytes=37860 pivot_capacity_freed_slots=428
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000782 forward_cpu=0.001701 discarded_verify_cpu=1.7e-05 back_cpu=0.000243 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=670 retained_alloc=670 retained_array_bytes=8040 pivot_capacity_freed_slots=92
+DEPENDENCY_PROFILE heap_steps=9263 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=9235 stored_route_bytes=49100 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=397450 queue_pushes=9263 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6256 rank=81 retained_nnz=3155 retained_alloc=3155 retained_array_bytes=37860 pivot_capacity_freed_slots=428
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.001251 forward_cpu=0.001641 discarded_verify_cpu=1.7e-05 back_cpu=0.000277 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=377 retained_alloc=377 retained_array_bytes=4524 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=5480 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=5480 stored_route_bytes=34080 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=116205 queue_pushes=5480 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6174 rank=40 retained_nnz=812 retained_alloc=812 retained_array_bytes=9744 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000476 forward_cpu=0.000955 discarded_verify_cpu=0 back_cpu=8.3e-05 independent_inputs=40 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=377 retained_alloc=377 retained_array_bytes=4524 pivot_capacity_freed_slots=305
+DEPENDENCY_PROFILE heap_steps=28 route_steps=5480 route_hits=152 local_fallbacks=0 stored_edges=5480 stored_route_bytes=34080 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=116317 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6174 rank=40 retained_nnz=812 retained_alloc=812 retained_array_bytes=9744 pivot_capacity_freed_slots=436
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000512 forward_cpu=0.000984 discarded_verify_cpu=1.6e-05 back_cpu=0.000127 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=377 retained_alloc=377 retained_array_bytes=4524 pivot_capacity_freed_slots=305
+DEPENDENCY_PROFILE heap_steps=5508 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=5480 stored_route_bytes=34080 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=116317 queue_pushes=5508 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=6174 rank=40 retained_nnz=812 retained_alloc=812 retained_array_bytes=9744 pivot_capacity_freed_slots=436
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000599 forward_cpu=0.001008 discarded_verify_cpu=2.2e-05 back_cpu=8.2e-05 independent_inputs=40 verified_dependent_inputs=4
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=817 retained_alloc=817 retained_array_bytes=9804 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=9369 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=9369 stored_route_bytes=49636 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=419906 queue_pushes=9369 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12512 rank=80 retained_nnz=3232 retained_alloc=3232 retained_array_bytes=38784 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.001164 forward_cpu=0.001899 discarded_verify_cpu=0 back_cpu=0.000283 independent_inputs=80 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=817 retained_alloc=817 retained_array_bytes=9804 pivot_capacity_freed_slots=569
+DEPENDENCY_PROFILE heap_steps=24 route_steps=9369 route_hits=152 local_fallbacks=0 stored_edges=9369 stored_route_bytes=49636 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=419954 queue_pushes=24 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12512 rank=80 retained_nnz=3232 retained_alloc=3232 retained_array_bytes=38784 pivot_capacity_freed_slots=902
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000783 forward_cpu=0.001953 discarded_verify_cpu=1.9e-05 back_cpu=0.000245 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=817 retained_alloc=817 retained_array_bytes=9804 pivot_capacity_freed_slots=569
+DEPENDENCY_PROFILE heap_steps=9393 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=9369 stored_route_bytes=49636 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=419954 queue_pushes=9393 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12512 rank=80 retained_nnz=3232 retained_alloc=3232 retained_array_bytes=38784 pivot_capacity_freed_slots=902
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.001125 forward_cpu=0.001629 discarded_verify_cpu=1.2e-05 back_cpu=0.000283 independent_inputs=80 verified_dependent_inputs=8
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=152 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4104 queue_pushes=152 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.000225 forward_cpu=4.1e-05 discarded_verify_cpu=0 back_cpu=1.3e-05 independent_inputs=1 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=10 route_steps=152 route_hits=152 local_fallbacks=0 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=10 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000195 forward_cpu=1e-05 discarded_verify_cpu=2e-05 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+DEPENDENCY_PROFILE heap_steps=162 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=152 stored_route_bytes=12768 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=4374 queue_pushes=162 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=4401 rank=1 retained_nnz=27 retained_alloc=27 retained_array_bytes=324 pivot_capacity_freed_slots=3
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000192 forward_cpu=9e-06 discarded_verify_cpu=1.9e-05 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=10
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=824 retained_alloc=824 retained_array_bytes=9888 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=9454 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=9454 stored_route_bytes=49976 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=429385 queue_pushes=9454 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12535 rank=81 retained_nnz=3309 retained_alloc=3309 retained_array_bytes=39708 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0.001179 forward_cpu=0.001842 discarded_verify_cpu=0 back_cpu=0.000304 independent_inputs=81 verified_dependent_inputs=0
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=824 retained_alloc=824 retained_array_bytes=9888 pivot_capacity_freed_slots=562
+DEPENDENCY_PROFILE heap_steps=28 route_steps=9454 route_hits=152 local_fallbacks=0 stored_edges=9454 stored_route_bytes=49976 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=429455 queue_pushes=28 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12535 rank=81 retained_nnz=3309 retained_alloc=3309 retained_array_bytes=39708 pivot_capacity_freed_slots=898
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.000842 forward_cpu=0.001618 discarded_verify_cpu=1.4e-05 back_cpu=0.000255 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=11 rank=11 retained_nnz=824 retained_alloc=824 retained_array_bytes=9888 pivot_capacity_freed_slots=562
+DEPENDENCY_PROFILE heap_steps=9482 route_steps=0 route_hits=152 local_fallbacks=152 stored_edges=9454 stored_route_bytes=49976 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=429455 queue_pushes=9482 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=163 input_nnz=12535 rank=81 retained_nnz=3309 retained_alloc=3309 retained_array_bytes=39708 pivot_capacity_freed_slots=898
+STRUCTURAL_PROFILE replay=1 reduce_cpu=0.001142 forward_cpu=0.001572 discarded_verify_cpu=1e-05 back_cpu=0.000269 independent_inputs=81 verified_dependent_inputs=7
+streaming_batch=1 input_rows=2 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=2 input_nnz=4 rank=2 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=4e-05 discarded_verify_cpu=0 back_cpu=1.6e-05 independent_inputs=2 verified_dependent_inputs=0
+streaming_batch=1 input_rows=2 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+DEPENDENCY_PROFILE heap_steps=0 route_steps=0 route_hits=0 local_fallbacks=0 stored_edges=0 stored_route_bytes=0 route_payload_cap_bytes=67108864
+KERNEL_WORK coefficient_updates=0 queue_pushes=0 bitqueue=0
+WIDE_KERNEL updates=0 exact_overflow_corrections=0
+streaming_complete rows=2 input_nnz=4 rank=1 retained_nnz=2 retained_alloc=2 retained_array_bytes=24 pivot_capacity_freed_slots=0
+STRUCTURAL_PROFILE replay=0 reduce_cpu=0 forward_cpu=3.1e-05 discarded_verify_cpu=0 back_cpu=1.2e-05 independent_inputs=1 verified_dependent_inputs=0
+GENERIC_CONTROL passed=1 field_cases=96 successful_replays=48 guarded_fallbacks=2 factor_cases=72

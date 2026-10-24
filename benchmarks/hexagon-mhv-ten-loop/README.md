@@ -154,7 +154,7 @@ divided by 10^9; RSS sampled every 100 ms. Full per-prime records are in
 | V17 native primes 2–8, observed range | 12,627.650–13,382.666 s | 38.513–39.141 GB |
 | V17 native mean | 12,991.948 s (3.61 h) | — |
 | All eight successful native primes | 103,655.526 s (28.79 h) | 39.141 GB |
-| Eight modular 17+3 → 16+4 conversions | 537.176 s (8.95 min) | approximately 12.02 GB |
+| Eight modular 17+3 → 16+4 conversions | 537.176 s (8.95 min) | 12.035 GB |
 
 These totals exclude basis/input preparation, failed or deliberately stopped
 experiments, reboot downtime, reconstruction and later certification. Total

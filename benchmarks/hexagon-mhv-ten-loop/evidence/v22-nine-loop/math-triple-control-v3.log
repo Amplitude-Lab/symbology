@@ -1,0 +1,14 @@
+threads: 2
+BONUS_COPY_KERNEL weight=3 block=pe_A1 old=11 new=9 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=pe_A2 old=4 new=3 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=pe_E old=14 new=11 irrep_components=2 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_A1 old=9 new=8 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_A2 old=5 new=3 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_E old=13 new=10 irrep_components=2 common_copy_transform=1 exact_residual=0
+TRIPLE_BONUS_EXACT_REFERENCE loop=8 checked=87048 Eq92_nonzeros=0 double_nonzeros=0 all_loop_claim=0
+PROFILE phase=cache_read seconds=0.00358599 cpu_seconds=0.00139 rss_bytes=49963008 process_peak_bytes=71118848
+TRIPLE_BONUS_NATIVE_REFERENCE loop=8 Eq92_nonzeros=0 double_nonzeros=0
+TRIPLE_BONUS_EXACT_REFERENCE loop=9 checked=243378 Eq92_nonzeros=0 double_nonzeros=0 all_loop_claim=0
+PROFILE phase=cache_read seconds=0.0036079 cpu_seconds=0.003614 rss_bytes=72966144 process_peak_bytes=81113088
+TRIPLE_BONUS_NATIVE_REFERENCE loop=9 Eq92_nonzeros=0 double_nonzeros=0
+TRIPLE_BONUS_CONTROL_PASS actual_LEC3_extra_rank=3 known_QQ_loops=8,9

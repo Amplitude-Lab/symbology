@@ -37,12 +37,12 @@
   },
   "files": {
     "README.md": {
-      "sha256": "ef57e263cd2add0f02292f71dd6a2f76a5c2453492abcc0b181ffa59866941c3",
-      "bytes": 9292
+      "sha256": "6e1b6901e2544ebaf387a6e7e68768b198a5dec69c8ed5bed8405886e87a4c3d",
+      "bytes": 9279
     },
     "VALIDATION.md": {
-      "sha256": "f5edad3d36286af9d0ef4aa9d82d854c4fb0fce4d44c3f5e8a3da5035e006f2f",
-      "bytes": 42987
+      "sha256": "4a1463f597697c49f6b51261d070b22ab316f1dc64e9675ad1e8cd736dbcb128",
+      "bytes": 43339
     },
     "additional-measurements.json": {
       "sha256": "5f10b99d309415870ce2c7b6950831d8227a615da4b6b759641d0fabaf0e968f",

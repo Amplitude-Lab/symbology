@@ -1,0 +1,14 @@
+threads: 16
+FACTORED_SEAM rows=372388 columns=105898 contraction=right full_product_stored=0
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=1013358592 rss_after=384561152 seconds=0.0754956
+PROFILE phase=sparse_checkpoint_read seconds=0.0108599 rss_bytes=387305472 process_peak_bytes=1428910080
+V18_SEAM_RESTRICT block=2 rank=67 remaining=313
+V18_SEAM_RESTRICT block=20 rank=65 remaining=248
+V18_SEAM_RESTRICT block=31 rank=97 remaining=151
+V18_SEAM_RESTRICT block=61 rank=65 remaining=86
+V18_SEAM_RESTRICT block=72 rank=64 remaining=22
+V18_SEAM_RESTRICT block=2909 rank=22 remaining=0
+V18_SEAM_VERIFIED full_operator=1 rows=372388 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=380 contractions=372388 lifts=6 initial_directions=380 final_directions=0 solve_seconds=3.56763 verify_seconds=3.41763
+PROFILE phase=cache_read seconds=0.0034968 rss_bytes=398917632 process_peak_bytes=1428910080
+V18_CONTROL_PASS {"mode":"v18","phase_seconds":6.98913,"initial_rows":381,"rows":1,"columns":105898,"nnz":94807,"all_coefficients_equal":true,"original_rows_verified":372388}

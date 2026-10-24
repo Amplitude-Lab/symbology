@@ -1,0 +1,22 @@
+threads: 16
+PROFILE phase=cache_read seconds=0.0139755 rss_bytes=11032641536 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847009 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00671008 rss_bytes=11968720896 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847067 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00669835 rss_bytes=12009578496 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847081 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.0071416 rss_bytes=11929890816 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847123 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00687337 rss_bytes=11948822528 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847127 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00675028 rss_bytes=11986239488 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847189 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00667442 rss_bytes=12004642816 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847201 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+PROFILE phase=cache_read seconds=0.00669758 rss_bytes=11936215040 process_peak_bytes=14334201856
+ORIGINAL_SEAM_PRIME prime=1152921504606847229 rows=2053259 affine_rows=1 native_congruence=1 passed=1
+ORIGINAL_SEAM_PRIME prime=1152921504606847253 rows=2053259 affine_rows=1 native_congruence=0 passed=1
+ORIGINAL_SEAM_PRIME prime=1152921504606847291 rows=2053259 affine_rows=1 native_congruence=0 passed=1
+ORIGINAL_SEAM_PRIME prime=1152921504606847301 rows=2053259 affine_rows=1 native_congruence=0 passed=1
+ORIGINAL_SEAM_PRIME prime=1152921504606847309 rows=2053259 affine_rows=1 native_congruence=0 passed=1
+JOINT_CERTIFICATE {"exact_QQ_original_seam":true,"directions":0,"original_rows":2053259,"columns":275246,"residual_primes":12,"native_congruence_primes":8,"extra_residual_primes":4,"bound_bits":700,"modulus_bits":721}

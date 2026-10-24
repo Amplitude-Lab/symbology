@@ -1,0 +1,42 @@
+threads: 16
+OPE_HEAD_CACHE budget_bytes=17179869184
+CACHE budget_bytes=8589934592
+PROFILE phase=exact_source seconds=0.0303088 rss_bytes=49840128 process_peak_bytes=49364992
+CACHE reset prime=1152921504606947147 limit_bytes=8589934592
+CACHE stored prime=1152921504606947147 tensor=irrFEC_1 required_bytes=88 used_bytes=88 limit_bytes=8589934592 remaining_bytes=8589934504 reason=fits
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=8.0373e-05 peak_rss=49528832 cache_bytes=88 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_2 required_bytes=248 used_bytes=336 limit_bytes=8589934592 remaining_bytes=8589934256 reason=fits
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000763327 peak_rss=49528832 cache_bytes=336 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_3 required_bytes=588 used_bytes=924 limit_bytes=8589934592 remaining_bytes=8589933668 reason=fits
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000319031 peak_rss=49528832 cache_bytes=924 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_4 required_bytes=1468 used_bytes=2392 limit_bytes=8589934592 remaining_bytes=8589932200 reason=fits
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000401067 peak_rss=49528832 cache_bytes=2392 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_5 required_bytes=4088 used_bytes=6480 limit_bytes=8589934592 remaining_bytes=8589928112 reason=fits
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00048688 peak_rss=49528832 cache_bytes=6480 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_6 required_bytes=10956 used_bytes=17436 limit_bytes=8589934592 remaining_bytes=8589917156 reason=fits
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000557826 peak_rss=53743616 cache_bytes=17436 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_7 required_bytes=32992 used_bytes=50428 limit_bytes=8589934592 remaining_bytes=8589884164 reason=fits
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000666251 peak_rss=60071936 cache_bytes=50428 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_8 required_bytes=100720 used_bytes=151148 limit_bytes=8589934592 remaining_bytes=8589783444 reason=fits
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000703577 peak_rss=66363392 cache_bytes=151148 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_9 required_bytes=322180 used_bytes=473328 limit_bytes=8589934592 remaining_bytes=8589461264 reason=fits
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00107869 peak_rss=74752000 cache_bytes=473328 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_10 required_bytes=1061640 used_bytes=1534968 limit_bytes=8589934592 remaining_bytes=8588399624 reason=fits
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00351947 peak_rss=82100224 cache_bytes=1534968 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_11 required_bytes=3461752 used_bytes=4996720 limit_bytes=8589934592 remaining_bytes=8584937872 reason=fits
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00497238 peak_rss=96927744 cache_bytes=4996720 private=0
+CACHE stored prime=1152921504606947147 tensor=irrFEC_12 required_bytes=10899368 used_bytes=15896088 limit_bytes=8589934592 remaining_bytes=8574038504 reason=fits
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0131266 peak_rss=144216064 cache_bytes=15896088 private=0
+CACHE stored prime=1152921504606947147 tensor=irrLEC_1 required_bytes=176 used_bytes=15896264 limit_bytes=8589934592 remaining_bytes=8574038328 reason=fits
+collinear_tail_1 rows=6 cols=9 nnz=4 seconds=7.8342e-05 peak_rss=144216064 cache_bytes=15896264 private=0
+CACHE stored prime=1152921504606947147 tensor=irrLEC_2 required_bytes=1060 used_bytes=15897324 limit_bytes=8589934592 remaining_bytes=8574037268 reason=fits
+collinear_tail_2 rows=25 cols=54 nnz=43 seconds=0.000371295 peak_rss=144216064 cache_bytes=15897324 private=0
+CACHE stored prime=1152921504606947147 tensor=irrLEC_3 required_bytes=5584 used_bytes=15902908 limit_bytes=8589934592 remaining_bytes=8574031684 reason=fits
+collinear_tail_3 rows=83 cols=225 nnz=316 seconds=0.000555082 peak_rss=144216064 cache_bytes=15902908 private=0
+CACHE stored prime=1152921504606947147 tensor=irrLEC_4 required_bytes=38864 used_bytes=15941772 limit_bytes=8589934592 remaining_bytes=8573992820 reason=fits
+collinear_tail_4 rows=249 cols=747 nnz=2796 seconds=0.000693637 peak_rss=144216064 cache_bytes=15941772 private=0
+collinear_rhs rows=8 cols=1 nnz=0 seconds=0.000659841 peak_rss=151097344 cache_bytes=15941772 private=0
+collinear_apply rows=8 cols=1 nnz=65344 seconds=0.00477692 peak_rss=151097344 cache_bytes=15941772 private=0
+PHYSICAL_HOLDOUT {"condition":"collinear","prime":1152921504606947147,"seed":202610090731,"rows":8,"mismatches":0,"S_power_above_10":0}
+CACHE batch prime=1152921504606947147 hits=0 misses=16 not_stored=0 entries=16 used_bytes=15941772 limit_bytes=8589934592 remaining_bytes=8573992820
+PHYSICAL_SUMMARY {"rows":8,"mismatches":0,"multiplier":1,"passed":true}

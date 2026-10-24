@@ -1,0 +1,231 @@
+threads: 16
+FACTORED_SEAM rows=989800 columns=275246 contraction=right full_product_stored=0
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=11008843776 rss_after=2414485504 seconds=1.1245
+PROFILE phase=sparse_checkpoint_read seconds=0.0827486 rss_bytes=2435887104 process_peak_bytes=14409973760
+REPLAY_INPUT rows=2878 columns=275246 nnz=1645065
+JOINT_SEAM_CHECK pass=1 block=0/7733 remaining=2877
+JOINT_SEAM pass=1 block=1 rank=92 remaining=2785 visited=256
+JOINT_SEAM_CHECK pass=2 block=0/7733 remaining=2785
+JOINT_SEAM pass=2 block=3 rank=89 remaining=2696 visited=768
+JOINT_SEAM_CHECK pass=3 block=0/7733 remaining=2696
+JOINT_SEAM pass=3 block=27 rank=123 remaining=2573 visited=4352
+JOINT_SEAM_CHECK pass=4 block=0/7733 remaining=2573
+JOINT_SEAM pass=4 block=28 rank=69 remaining=2504 visited=8064
+JOINT_SEAM_CHECK pass=5 block=0/7733 remaining=2504
+JOINT_SEAM pass=5 block=30 rank=124 remaining=2380 visited=12032
+JOINT_SEAM_CHECK pass=6 block=0/7733 remaining=2380
+JOINT_SEAM pass=6 block=32 rank=67 remaining=2313 visited=16256
+JOINT_SEAM_CHECK pass=7 block=0/7733 remaining=2313
+JOINT_SEAM pass=7 block=55 rank=103 remaining=2210 visited=23424
+JOINT_SEAM_CHECK pass=8 block=0/7733 remaining=2210
+JOINT_SEAM pass=8 block=57 rank=84 remaining=2126 visited=30848
+JOINT_SEAM_CHECK pass=9 block=0/7733 remaining=2126
+JOINT_SEAM pass=9 block=81 rank=122 remaining=2004 visited=41344
+JOINT_SEAM_CHECK pass=10 block=0/7733 remaining=2004
+JOINT_SEAM pass=10 block=83 rank=125 remaining=1879 visited=52096
+JOINT_SEAM_CHECK pass=11 block=0/7733 remaining=1879
+JOINT_SEAM pass=11 block=85 rank=109 remaining=1770 visited=63104
+JOINT_SEAM_CHECK pass=12 block=0/7733 remaining=1770
+JOINT_SEAM pass=12 block=108 rank=72 remaining=1698 visited=77056
+JOINT_SEAM_CHECK pass=13 block=0/7733 remaining=1698
+JOINT_SEAM pass=13 block=110 rank=67 remaining=1631 visited=91264
+JOINT_SEAM_CHECK pass=14 block=0/7733 remaining=1631
+JOINT_SEAM pass=14 block=113 rank=68 remaining=1563 visited=105856
+JOINT_SEAM_CHECK pass=15 block=0/7733 remaining=1563
+JOINT_SEAM_CHECK pass=15 block=128/7733 remaining=1563
+JOINT_SEAM pass=15 block=135 rank=90 remaining=1473 visited=123264
+JOINT_SEAM_CHECK pass=16 block=0/7733 remaining=1473
+JOINT_SEAM_CHECK pass=16 block=128/7733 remaining=1473
+JOINT_SEAM pass=16 block=137 rank=111 remaining=1362 visited=140928
+JOINT_SEAM_CHECK pass=17 block=0/7733 remaining=1362
+JOINT_SEAM_CHECK pass=17 block=128/7733 remaining=1362
+JOINT_SEAM pass=17 block=161 rank=73 remaining=1289 visited=161664
+JOINT_SEAM_CHECK pass=18 block=0/7733 remaining=1289
+JOINT_SEAM_CHECK pass=18 block=128/7733 remaining=1289
+JOINT_SEAM pass=18 block=163 rank=64 remaining=1225 visited=182656
+JOINT_SEAM_CHECK pass=19 block=0/7733 remaining=1225
+JOINT_SEAM_CHECK pass=19 block=128/7733 remaining=1225
+JOINT_SEAM pass=19 block=166 rank=65 remaining=1160 visited=204032
+JOINT_SEAM_CHECK pass=20 block=0/7733 remaining=1160
+JOINT_SEAM_CHECK pass=20 block=128/7733 remaining=1160
+JOINT_SEAM pass=20 block=189 rank=92 remaining=1068 visited=228352
+JOINT_SEAM_CHECK pass=21 block=0/7733 remaining=1068
+JOINT_SEAM_CHECK pass=21 block=128/7733 remaining=1068
+JOINT_SEAM pass=21 block=191 rank=120 remaining=948 visited=252928
+JOINT_SEAM_CHECK pass=22 block=0/7733 remaining=948
+JOINT_SEAM_CHECK pass=22 block=128/7733 remaining=948
+JOINT_SEAM pass=22 block=215 rank=64 remaining=884 visited=280576
+JOINT_SEAM_CHECK pass=23 block=0/7733 remaining=884
+JOINT_SEAM_CHECK pass=23 block=128/7733 remaining=884
+JOINT_SEAM_CHECK pass=23 block=256/7733 remaining=884
+JOINT_SEAM pass=23 block=271 rank=85 remaining=799 visited=315392
+JOINT_SEAM_CHECK pass=24 block=0/7733 remaining=799
+JOINT_SEAM_CHECK pass=24 block=128/7733 remaining=799
+JOINT_SEAM_CHECK pass=24 block=256/7733 remaining=799
+JOINT_SEAM pass=24 block=296 rank=82 remaining=717 visited=353408
+JOINT_SEAM_CHECK pass=25 block=0/7733 remaining=717
+JOINT_SEAM_CHECK pass=25 block=128/7733 remaining=717
+JOINT_SEAM_CHECK pass=25 block=256/7733 remaining=717
+JOINT_SEAM pass=25 block=299 rank=87 remaining=630 visited=391808
+JOINT_SEAM_CHECK pass=26 block=0/7733 remaining=630
+JOINT_SEAM_CHECK pass=26 block=128/7733 remaining=630
+JOINT_SEAM_CHECK pass=26 block=256/7733 remaining=630
+JOINT_SEAM pass=26 block=325 rank=66 remaining=564 visited=433536
+JOINT_SEAM_CHECK pass=27 block=0/7733 remaining=564
+JOINT_SEAM_CHECK pass=27 block=128/7733 remaining=564
+JOINT_SEAM_CHECK pass=27 block=256/7733 remaining=564
+JOINT_SEAM pass=27 block=350 rank=68 remaining=496 visited=478464
+JOINT_SEAM_CHECK pass=28 block=0/7733 remaining=496
+JOINT_SEAM_CHECK pass=28 block=128/7733 remaining=496
+JOINT_SEAM_CHECK pass=28 block=256/7733 remaining=496
+JOINT_SEAM pass=28 block=353 rank=78 remaining=418 visited=523776
+JOINT_SEAM_CHECK pass=29 block=0/7733 remaining=418
+JOINT_SEAM_CHECK pass=29 block=128/7733 remaining=418
+JOINT_SEAM_CHECK pass=29 block=256/7733 remaining=418
+JOINT_SEAM pass=29 block=379 rank=74 remaining=344 visited=572416
+JOINT_SEAM_CHECK pass=30 block=0/7733 remaining=344
+JOINT_SEAM_CHECK pass=30 block=128/7733 remaining=344
+JOINT_SEAM_CHECK pass=30 block=256/7733 remaining=344
+JOINT_SEAM_CHECK pass=30 block=384/7733 remaining=344
+JOINT_SEAM pass=30 block=404 rank=86 remaining=258 visited=624256
+JOINT_SEAM_CHECK pass=31 block=0/7733 remaining=258
+JOINT_SEAM_CHECK pass=31 block=128/7733 remaining=258
+JOINT_SEAM_CHECK pass=31 block=256/7733 remaining=258
+JOINT_SEAM_CHECK pass=31 block=384/7733 remaining=258
+JOINT_SEAM pass=31 block=406 rank=71 remaining=187 visited=676352
+JOINT_SEAM_CHECK pass=32 block=0/7733 remaining=187
+JOINT_SEAM_CHECK pass=32 block=128/7733 remaining=187
+JOINT_SEAM_CHECK pass=32 block=256/7733 remaining=187
+JOINT_SEAM_CHECK pass=32 block=384/7733 remaining=187
+JOINT_SEAM pass=32 block=433 rank=72 remaining=115 visited=731904
+JOINT_SEAM_CHECK pass=33 block=0/7733 remaining=115
+JOINT_SEAM_CHECK pass=33 block=128/7733 remaining=115
+JOINT_SEAM_CHECK pass=33 block=256/7733 remaining=115
+JOINT_SEAM_CHECK pass=33 block=384/7733 remaining=115
+JOINT_SEAM pass=33 block=459 rank=82 remaining=33 visited=790784
+JOINT_SEAM_CHECK pass=34 block=0/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=128/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=256/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=384/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=512/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=640/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=768/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=896/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1024/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1152/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1280/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1408/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1536/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1664/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1792/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=1920/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2048/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2176/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2304/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2432/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2560/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2688/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2816/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=2944/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3072/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3200/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3328/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3456/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3584/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3712/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3840/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=3968/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4096/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4224/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4352/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4480/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4608/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4736/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4864/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=4992/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5120/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5248/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5376/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5504/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5632/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5760/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=5888/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6016/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6144/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6272/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6400/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6528/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6656/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6784/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=6912/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7040/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7168/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7296/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7424/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7552/7733 remaining=33
+JOINT_SEAM_CHECK pass=34 block=7680/7733 remaining=33
+JOINT_SEAM pass=34 block=7732 rank=33 remaining=0 visited=1780584
+JOINT_SEAM_CHECK pass=35 block=0/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=128/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=256/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=384/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=512/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=640/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=768/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=896/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1024/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1152/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1280/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1408/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1536/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1664/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1792/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=1920/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2048/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2176/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2304/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2432/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2560/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2688/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2816/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=2944/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3072/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3200/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3328/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3456/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3584/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3712/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3840/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=3968/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4096/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4224/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4352/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4480/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4608/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4736/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4864/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=4992/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5120/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5248/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5376/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5504/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5632/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5760/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=5888/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6016/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6144/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6272/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6400/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6528/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6656/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6784/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=6912/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7040/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7168/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7296/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7424/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7552/7733 remaining=0
+JOINT_SEAM_CHECK pass=35 block=7680/7733 remaining=0
+JOINT_SEAM_COMPLETE full_operator=1 rows=989800 passes=35 remaining=0
+PROFILE phase=cache_read seconds=0.00853295 rss_bytes=2464104448 process_peak_bytes=14409973760
+REPLAY_PASS {"columns":275246,"rows":1,"nnz":246941,"phase_seconds":222.071,"all_coefficients_equal":true,"equation_changes":false}

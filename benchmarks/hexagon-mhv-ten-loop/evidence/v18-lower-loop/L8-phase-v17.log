@@ -1,0 +1,16 @@
+threads: 16
+FACTORED_SEAM rows=133214 columns=38989 contraction=right full_product_stored=0
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=141332480 rss_after=61280256 seconds=0.0016306
+PROFILE phase=sparse_checkpoint_read seconds=0.001832 rss_bytes=61927424 process_peak_bytes=179093504
+JOINT_SEAM_CHECK pass=1 block=0/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=128/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=256/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=384/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=512/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=640/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=768/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=896/1041 remaining=0
+JOINT_SEAM_CHECK pass=1 block=1024/1041 remaining=0
+JOINT_SEAM_COMPLETE full_operator=1 rows=133214 passes=1 remaining=0
+PROFILE phase=cache_read seconds=0.00169573 rss_bytes=68722688 process_peak_bytes=179093504
+V18_CONTROL_PASS {"mode":"v17","phase_seconds":1.47028,"initial_rows":1,"rows":1,"columns":38989,"nnz":34419,"all_coefficients_equal":true,"original_rows_verified":133214}

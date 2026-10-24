@@ -136,7 +136,6 @@ __pycache__/
 
 # Large local research data (SHA-256 inventory: docs/large_file_checksums.json)
 # Explicit paths keep source code and small provenance records visible to Git.
-/benchmarks/hexagon-mhv-ten-loop/reference/16p4/irrSEW_16p4_pe_E_origin.wxf
 /bonusrelation/all_loop/numerics/L6-input/collinear.json
 /bonusrelation/all_loop/numerics/L6-input/collinear.tsv
 /bonusrelation/all_loop/numerics/L6-input/seam.tsv

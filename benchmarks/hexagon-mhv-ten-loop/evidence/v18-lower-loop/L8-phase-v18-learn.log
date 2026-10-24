@@ -1,0 +1,8 @@
+threads: 16
+FACTORED_SEAM rows=133214 columns=38989 contraction=right full_product_stored=0
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=144064512 rss_after=59744256 seconds=0.00297904
+PROFILE phase=sparse_checkpoint_read seconds=0.00176307 rss_bytes=60391424 process_peak_bytes=180404224
+V18_SEAM_VERIFIED full_operator=1 rows=133214 directions=0
+V18_SEAM_COMPLETE replay=0 selected_rows=0 contractions=0 lifts=0 initial_directions=0 final_directions=0 solve_seconds=0.000765255 verify_seconds=0.558993
+PROFILE phase=cache_read seconds=0.00141393 rss_bytes=61837312 process_peak_bytes=180404224
+V18_CONTROL_PASS {"mode":"v18","phase_seconds":0.56321,"initial_rows":1,"rows":1,"columns":38989,"nnz":34419,"all_coefficients_equal":true,"original_rows_verified":133214}

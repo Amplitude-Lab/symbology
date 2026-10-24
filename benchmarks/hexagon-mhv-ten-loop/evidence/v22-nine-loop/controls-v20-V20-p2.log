@@ -1,0 +1,1038 @@
+threads: 16
+OPE_HEAD_CACHE budget_bytes=3221225472
+CACHE budget_bytes=4294967296
+PREFLIGHT operator=ope_small_s loop=9 solve=1496 check=374 grade=12
+PROFILE phase=bind_identity seconds=1.32999 cpu_seconds=1.3276 rss_bytes=15917056 process_peak_bytes=15319040
+JOINT_SELECTED_PRIME index=2 prime=1152921504606847067
+FACTORED_SEAM rows=372388 columns=105898 contraction=right full_product_stored=0
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=1020043264 rss_after=387338240 seconds=0.0728366
+PROFILE phase=bind_identity seconds=0.000626714 cpu_seconds=0.000628 rss_bytes=387338240 process_peak_bytes=1437945856
+streaming_batch=1 input_rows=40749 rank=24586 retained_nnz=413641 retained_alloc=413641 retained_array_bytes=4963692 pivot_capacity_freed_slots=9
+REFINE_SEED rows=40749 cols=105898 augmented_cols=105899 nnz=432691 bounded=0 elapsed=0.0753612
+BONUS_COPY_KERNEL weight=3 block=pe_A1 old=11 new=9 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=pe_A2 old=4 new=3 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=pe_E old=14 new=11 irrep_components=2 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_A1 old=9 new=8 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_A2 old=5 new=3 irrep_components=1 common_copy_transform=1 exact_residual=0
+BONUS_COPY_KERNEL weight=3 block=po_E old=13 new=10 irrep_components=2 common_copy_transform=1 exact_residual=0
+CONDITIONAL_MHV_DOUBLE_BONUS equations=22383 input_nnz=58255 rank_gain=17851 rank=42437 original_columns=105898 conditional_tail_columns=83515 full_D3_orbit=1 shared_E_copy_map=1 empirical_ten_loop_assumption=1 seconds=0.0627025
+CACHE reset prime=1152921504606847067 limit_bytes=4294967296
+CACHE stored prime=1152921504606847067 tensor=irrFEC_1 required_bytes=88 used_bytes=88 limit_bytes=4294967296 remaining_bytes=4294967208 reason=fits
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000469718 peak_rss=1437945856 cache_bytes=88 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_2 required_bytes=248 used_bytes=336 limit_bytes=4294967296 remaining_bytes=4294966960 reason=fits
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000882184 peak_rss=1437945856 cache_bytes=336 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_3 required_bytes=588 used_bytes=924 limit_bytes=4294967296 remaining_bytes=4294966372 reason=fits
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000248711 peak_rss=1437945856 cache_bytes=924 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_4 required_bytes=1468 used_bytes=2392 limit_bytes=4294967296 remaining_bytes=4294964904 reason=fits
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00143717 peak_rss=1437945856 cache_bytes=2392 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_5 required_bytes=4088 used_bytes=6480 limit_bytes=4294967296 remaining_bytes=4294960816 reason=fits
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000431737 peak_rss=1437945856 cache_bytes=6480 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_6 required_bytes=10956 used_bytes=17436 limit_bytes=4294967296 remaining_bytes=4294949860 reason=fits
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000660507 peak_rss=1437945856 cache_bytes=17436 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_7 required_bytes=32992 used_bytes=50428 limit_bytes=4294967296 remaining_bytes=4294916868 reason=fits
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000471349 peak_rss=1437945856 cache_bytes=50428 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_8 required_bytes=100720 used_bytes=151148 limit_bytes=4294967296 remaining_bytes=4294816148 reason=fits
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000543241 peak_rss=1437945856 cache_bytes=151148 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_9 required_bytes=322180 used_bytes=473328 limit_bytes=4294967296 remaining_bytes=4294493968 reason=fits
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00151495 peak_rss=1437945856 cache_bytes=473328 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_10 required_bytes=1061640 used_bytes=1534968 limit_bytes=4294967296 remaining_bytes=4293432328 reason=fits
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00135242 peak_rss=1437945856 cache_bytes=1534968 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_11 required_bytes=3461752 used_bytes=4996720 limit_bytes=4294967296 remaining_bytes=4289970576 reason=fits
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00432701 peak_rss=1437945856 cache_bytes=4996720 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_12 required_bytes=10899368 used_bytes=15896088 limit_bytes=4294967296 remaining_bytes=4279071208 reason=fits
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.00574079 peak_rss=1437945856 cache_bytes=15896088 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_13 required_bytes=32815056 used_bytes=48711144 limit_bytes=4294967296 remaining_bytes=4246256152 reason=fits
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.013836 peak_rss=1437945856 cache_bytes=48711144 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_14 required_bytes=96961908 used_bytes=145673052 limit_bytes=4294967296 remaining_bytes=4149294244 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=660205568 rss_after=566587392 seconds=0.0168499
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.032242 peak_rss=1437945856 cache_bytes=145673052 private=0
+CACHE stored prime=1152921504606847067 tensor=irrFEC_15 required_bytes=276524904 used_bytes=422197956 limit_bytes=4294967296 remaining_bytes=3872769340 reason=fits
+NATIVE_INTEGER_CACHE_RELEASE workers=16 main=1 rss_before=1495244800 rss_after=992407552 seconds=0.0912077
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.0692471 peak_rss=1799127040 cache_bytes=422197956 private=0
+CACHE stored prime=1152921504606847067 tensor=irrLEC_1 required_bytes=176 used_bytes=422198132 limit_bytes=4294967296 remaining_bytes=3872769164 reason=fits
+collinear_exact_tail_1 rows=6 cols=9 nnz=4 seconds=0.000864169 peak_rss=1799127040 cache_bytes=422198132 private=0
+CACHE stored prime=1152921504606847067 tensor=irrLEC_2 required_bytes=1060 used_bytes=422199192 limit_bytes=4294967296 remaining_bytes=3872768104 reason=fits
+collinear_exact_tail_2 rows=25 cols=54 nnz=43 seconds=0.000362803 peak_rss=1799127040 cache_bytes=422199192 private=0
+CACHE stored prime=1152921504606847067 tensor=irrLEC_3 required_bytes=5584 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520 reason=fits
+collinear_exact_tail_3 rows=83 cols=225 nnz=316 seconds=0.000950986 peak_rss=1799127040 cache_bytes=422204776 private=0
+EXACT_TAIL words=36/64 entries=5312
+collinear_rhs rows=36 cols=1 nnz=0 seconds=0.00538529 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_direct_tail_exact rows=36 cols=105898 nnz=745608 seconds=0.0282822 peak_rss=1799127040 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=0 operator=collinear_tail_exact samples=0..1 equations=36 nnz=745616 min_row_nnz=0 max_row_nnz=71288 nonzero_rhs=8 rank_before=42437 rank_after=42444 gain=7 augmented_nullity=63455
+ADAPTIVE_PHYSICS_COST operator=collinear_tail_exact seconds=4.268 rank_gain=7 gain_per_second=1.64011
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.000383212 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00105506 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.000744994 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.00137996 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.00108041 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.000751856 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.000816371 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000991406 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00128703 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00231429 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00427285 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0124739 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0271204 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0614918 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.1699 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.000766974 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00152924 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.00425269 peak_rss=1799127040 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=1 offset=0 generated=4 prefetch_width=4 cache_entries=4 seconds=2.35441
+mrk_rhs rows=18 cols=1 nnz=0 seconds=2.46875 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_direct rows=18 cols=105898 nnz=1551481 seconds=0.0263317 peak_rss=1799127040 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=0 operator=mrk samples=0..1 equations=18 nnz=1551499 min_row_nnz=57259 max_row_nnz=94209 nonzero_rhs=18 rank_before=42444 rank_after=42462 gain=18 augmented_nullity=63437
+ADAPTIVE_PHYSICS_COST operator=mrk seconds=2.93619 rank_gain=18 gain_per_second=6.13039
+JOINT_EARLY_PHYSICS round=0 before_rank=24586 rank=42462 nullity=63437 elapsed=7.34234
+REFINE_ZERO_SUBSTITUTION columns=9212 limit=256 sample_denominator=1
+REFINE_DISCOVERY limit=256 rank=47920 nullity=57979 elapsed=7.89496
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000438696 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000914802 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000304954 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00043139 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000565103 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000591912 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000678162 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000799169 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00087637 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00116814 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0019851 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.00606481 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0144139 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0261404 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.0520377 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_rhs rows=36 cols=1 nnz=0 seconds=0.0116731 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_direct_tail_exact rows=36 cols=105898 nnz=745608 seconds=0.0339831 peak_rss=1799127040 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=1 operator=collinear_tail_exact samples=1..2 equations=36 nnz=745616 min_row_nnz=0 max_row_nnz=71288 nonzero_rhs=8 rank_before=47920 rank_after=47927 gain=7 augmented_nullity=57972
+ADAPTIVE_PHYSICS_COST operator=collinear_tail_exact seconds=0.220118 rank_gain=7 gain_per_second=31.8011
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.00054374 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00185564 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.000245801 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.00061588 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.00042011 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.000571125 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.000734877 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00117004 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00172011 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00367586 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00934882 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0140978 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0286814 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0588141 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.152256 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.00127794 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00416453 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.00155544 peak_rss=1799127040 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=1 offset=1 generated=0 prefetch_width=4 cache_entries=4 seconds=7.03e-07
+mrk_rhs rows=18 cols=1 nnz=0 seconds=0.00645198 peak_rss=1799127040 cache_bytes=422204776 private=0
+mrk_direct rows=18 cols=105898 nnz=1551481 seconds=0.0237514 peak_rss=1799127040 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=1 operator=mrk samples=1..2 equations=18 nnz=1551499 min_row_nnz=57259 max_row_nnz=94209 nonzero_rhs=18 rank_before=47927 rank_after=47944 gain=17 augmented_nullity=57955
+ADAPTIVE_PHYSICS_COST operator=mrk seconds=0.449781 rank_gain=17 gain_per_second=37.7962
+JOINT_EARLY_PHYSICS round=1 before_rank=47920 rank=47944 nullity=57955 elapsed=8.62645
+REFINE_ZERO_SUBSTITUTION columns=9217 limit=1024 sample_denominator=1
+streaming_batch=32 input_rows=144714 rank=68894 retained_nnz=26788314 retained_alloc=26788314 retained_array_bytes=321459768 pivot_capacity_freed_slots=9
+REFINE_DISCOVERY limit=1024 rank=68894 nullity=37005 elapsed=17.4748
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.00151716 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=9.9591e-05 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00164118 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00215283 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000459595 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000525767 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000652398 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000746891 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00083613 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00115047 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00198953 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.00416173 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0121825 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0258731 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.0516361 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_rhs rows=36 cols=1 nnz=0 seconds=0.00563298 peak_rss=1799127040 cache_bytes=422204776 private=0
+collinear_direct_tail_exact rows=36 cols=105898 nnz=745608 seconds=0.0297385 peak_rss=1799127040 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=2 operator=collinear_tail_exact samples=2..3 equations=36 nnz=745616 min_row_nnz=0 max_row_nnz=71288 nonzero_rhs=8 rank_before=68894 rank_after=68901 gain=7 augmented_nullity=36998
+ADAPTIVE_PHYSICS_COST operator=collinear_tail_exact seconds=0.297233 rank_gain=7 gain_per_second=23.5505
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.000182644 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.000789443 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.000477496 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.000455391 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.000517392 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.000683261 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.000909794 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000867628 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00535639 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00351696 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00402806 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0113832 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0232426 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0519441 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.149008 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.000393582 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00497461 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.00222984 peak_rss=1803915264 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=1 offset=2 generated=0 prefetch_width=4 cache_entries=4 seconds=7.49e-07
+mrk_rhs rows=18 cols=1 nnz=0 seconds=0.00125115 peak_rss=1803915264 cache_bytes=422204776 private=0
+mrk_direct rows=18 cols=105898 nnz=1551481 seconds=0.0230112 peak_rss=1803915264 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=2 operator=mrk samples=2..3 equations=18 nnz=1551499 min_row_nnz=57259 max_row_nnz=94209 nonzero_rhs=18 rank_before=68901 rank_after=68917 gain=16 augmented_nullity=36982
+ADAPTIVE_PHYSICS_COST operator=mrk seconds=0.515862 rank_gain=16 gain_per_second=31.016
+JOINT_EARLY_PHYSICS round=2 before_rank=68894 rank=68917 nullity=36982 elapsed=18.288
+REFINE_ZERO_SUBSTITUTION columns=9363 limit=4096 sample_denominator=16
+REFINE_DISCOVERY limit=4096 rank=73166 nullity=32733 elapsed=21.4386
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000566445 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000205494 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000877085 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00254337 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000975764 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000540503 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000560914 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000673387 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.000864176 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00121944 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00222231 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.00401691 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0126785 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0263985 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.0507058 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_rhs rows=36 cols=1 nnz=0 seconds=0.00615803 peak_rss=1931145216 cache_bytes=422204776 private=0
+collinear_direct_tail_exact rows=36 cols=105898 nnz=745608 seconds=0.0257138 peak_rss=1931145216 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=3 operator=collinear_tail_exact samples=3..4 equations=36 nnz=745616 min_row_nnz=0 max_row_nnz=71288 nonzero_rhs=8 rank_before=73166 rank_after=73173 gain=7 augmented_nullity=32726
+ADAPTIVE_PHYSICS_COST operator=collinear_tail_exact seconds=0.3266 rank_gain=7 gain_per_second=21.433
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.000251267 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00110499 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.000565763 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.00037594 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.000483947 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.000563863 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.000695585 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00081888 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00101974 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00163424 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0040126 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.00876023 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0245499 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.0535838 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.149284 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.000666373 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.000286997 peak_rss=1953509376 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.0060173 peak_rss=1953509376 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=1 offset=3 generated=0 prefetch_width=4 cache_entries=4 seconds=7.22e-07
+mrk_rhs rows=18 cols=1 nnz=0 seconds=0.00658319 peak_rss=1966288896 cache_bytes=422204776 private=0
+mrk_direct rows=18 cols=105898 nnz=1551481 seconds=0.0240013 peak_rss=1966288896 cache_bytes=422204776 private=0
+ADAPTIVE_PHYSICS round=3 operator=mrk samples=3..4 equations=18 nnz=1551499 min_row_nnz=57259 max_row_nnz=94209 nonzero_rhs=18 rank_before=73173 rank_after=73189 gain=16 augmented_nullity=32710
+ADAPTIVE_PHYSICS_COST operator=mrk seconds=0.537955 rank_gain=16 gain_per_second=29.7423
+JOINT_EARLY_PHYSICS round=3 before_rank=73166 rank=73189 nullity=32710 elapsed=22.445
+REFINE_ZERO_SUBSTITUTION columns=9375 limit=16384 sample_denominator=16
+REFINE_DISCOVERY limit=16384 rank=79162 nullity=26737 elapsed=31.4146
+JOINT_EARLY_PHYSICS round=4 before_rank=79162 rank=79162 nullity=26737 elapsed=31.4713
+REFINE_ZERO_SUBSTITUTION columns=9377 limit=18446744073709551615 sample_denominator=16
+REFINE_DISCOVERY limit=18446744073709551615 rank=81244 nullity=24655 elapsed=38.8313
+JOINT_EARLY_PHYSICS round=5 before_rank=81244 rank=81244 nullity=24655 elapsed=38.8314
+REFINE_ZERO_SUBSTITUTION columns=9377 limit=18446744073709551615 sample_denominator=4
+streaming_batch=64 input_rows=164127 rank=84856 retained_nnz=75505796 retained_alloc=75505796 retained_array_bytes=906069552 pivot_capacity_freed_slots=11
+streaming_batch=96 input_rows=185456 rank=97136 retained_nnz=95617496 retained_alloc=95617496 retained_array_bytes=1147409952 pivot_capacity_freed_slots=11
+REFINE_DISCOVERY limit=18446744073709551615 rank=99921 nullity=5978 elapsed=123.539
+streaming_complete rows=195982 input_nnz=363028508 rank=99921 retained_nnz=97717242 retained_alloc=97717242 retained_array_bytes=1172606904 pivot_capacity_freed_slots=11
+JOINT_DISCOVERY directions=5977 complete=0 affine_origin=1 nnz=47127363
+SPARSE_CHECKPOINT rows=5978 columns=105898 nnz=47127363 bytes=754085712 exact_readback=1 origin_row=last
+PROFILE phase=sparse_checkpoint_write_verify seconds=2.51912 cpu_seconds=2.49793 rss_bytes=2832109568 process_peak_bytes=3969253376
+PROFILE phase=compute_discovery seconds=137.359 cpu_seconds=1015.41 rss_bytes=2832109568 process_peak_bytes=3969253376
+PROFILE phase=bind_identity seconds=0.000630441 cpu_seconds=0.000632 rss_bytes=2832109568 process_peak_bytes=3969253376
+PROFILE phase=consume_unpack seconds=0.49722 cpu_seconds=0.49721 rss_bytes=2522431488 process_peak_bytes=3969253376
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000770701 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00188206 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00127113 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00119042 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000572519 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000631496 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000720602 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000857703 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00167404 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00456951 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0110782 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0295704 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0435397 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.132244 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.352194 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0155058 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.5128 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.0886202 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=32 equations=448 rank=196 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=132 misses=18 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000575452 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00239436 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00322727 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00239163 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00117907 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000756696 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000755416 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00131264 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00366916 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00296804 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00829981 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0292259 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0515214 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.137291 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.35812 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0157671 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.52112 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.132964 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=64 equations=896 rank=420 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000746776 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00730981 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00490064 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00305314 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000632626 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000660657 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000780289 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00097777 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00187914 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00363216 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0111923 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0227745 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0576372 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.140711 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.36049 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0144943 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.53263 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.155718 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=96 equations=1344 rank=644 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000556362 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00136794 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00399923 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00201699 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00190427 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00064525 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000754053 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00102842 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00181418 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0109735 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0175506 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0273505 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0591195 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.137898 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.353898 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0132818 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.47843 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.175 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=128 equations=1792 rank=868 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000554026 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00143904 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000931357 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00278186 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00150834 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00075618 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00085865 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00102891 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00201114 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00454633 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0117745 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.023399 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0545605 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.137737 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.360041 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0134831 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.48763 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.182307 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=160 equations=2240 rank=1092 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000726565 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00122717 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000115103 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00234986 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00383173 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000678769 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00679505 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00110985 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00413671 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00435869 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0101097 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0201747 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0590795 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.134463 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.363679 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0142244 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.52292 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.19805 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=192 equations=2688 rank=1316 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000369207 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00153488 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.0020488 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000457861 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000543 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000602527 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000730265 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00129313 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00200177 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00510318 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0113816 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0270405 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0593175 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.139117 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.359539 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0128702 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.4982 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.214547 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=224 equations=3136 rank=1540 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000726116 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00327896 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00092901 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00163246 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00331706 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00230794 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000776568 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00115486 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00184847 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00446595 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0138243 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0243814 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0568927 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.140346 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.363367 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0139426 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50029 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.231295 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=256 equations=3584 rank=1764 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.00032057 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00164859 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00140122 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00457447 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00176944 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000670567 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000700607 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00110929 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00205087 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00484666 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.011721 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0230308 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0571188 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.135602 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.354501 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0141595 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.52951 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.248519 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=288 equations=4032 rank=1988 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000368435 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00311575 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000921373 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00169616 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000695822 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000634636 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000754154 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00104912 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.0020799 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0047996 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0144064 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0228089 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.055765 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.140816 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.361142 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0140911 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.48488 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.270108 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=320 equations=4480 rank=2212 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000643558 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00373053 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.0019577 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00312466 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00284672 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000602724 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000675559 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00240664 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00163365 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00353875 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00925568 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0214275 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0558834 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.136578 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.361036 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0148218 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50157 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.292175 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=352 equations=4928 rank=2436 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000689786 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00159839 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000238208 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00272961 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000808585 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000690702 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000798153 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00102894 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00150626 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00338352 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0110818 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0279227 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0569709 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.138943 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.365244 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0141809 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.52135 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.308081 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=384 equations=5376 rank=2660 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000589425 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.0026997 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00137874 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00102126 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00637659 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00124736 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00137785 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000846547 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00161412 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0035754 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.011743 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0241316 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0542242 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.137594 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.362118 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0139294 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.52069 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.31265 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=416 equations=5824 rank=2884 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000627322 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00612541 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00190158 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000392355 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00259381 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00070205 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000749541 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000973623 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00206466 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00450088 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0128929 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0207659 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0545895 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.136315 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.360915 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0139395 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.47486 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.327671 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=448 equations=6272 rank=3108 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000622922 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00225429 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000226438 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00149523 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00120922 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00109704 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000727319 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000931378 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00164724 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00331628 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0125055 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0249257 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0621044 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.141103 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.359663 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0129996 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.48727 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.344662 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=480 equations=6720 rank=3332 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000773925 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.0015746 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00477631 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00480254 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00130425 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.0013315 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000689007 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00108786 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00212904 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0049274 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.010714 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0236625 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0606527 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.139903 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.361135 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0136617 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.54731 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.335421 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=512 equations=7168 rank=3556 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000472362 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00240852 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00166364 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00159326 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000517502 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00132373 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000784876 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00102775 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00206994 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00452938 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.015512 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0217692 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0579246 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.14095 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.360186 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0147268 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50637 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.334536 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=544 equations=7616 rank=3780 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000609715 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00298462 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00306438 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000891392 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00165854 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00121629 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000806977 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00109244 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00210993 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00559328 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0103652 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0206587 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0565139 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.133981 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.358031 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.01437 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.53762 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.34056 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=576 equations=8064 rank=4004 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000648688 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00332169 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000683785 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000587442 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00194325 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000713951 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000771619 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00105014 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00203156 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00570039 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0120949 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0194346 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0557412 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.13743 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.358916 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0143958 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50703 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.353793 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=608 equations=8512 rank=4228 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.00188099 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00291568 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00222033 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000448165 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00138267 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000708665 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000796598 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00182165 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00356158 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00690772 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0124554 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0248061 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0608173 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.142615 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.361208 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0137536 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.53078 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.350129 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=640 equations=8960 rank=4452 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000184974 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00349427 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00146998 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000241608 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00143141 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00137598 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000818345 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00116828 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00196641 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00430987 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0120405 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0234125 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0545539 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.139816 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.360553 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0127691 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.5235 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.35829 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=672 equations=9408 rank=4676 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000632754 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00477385 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.001842 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00116172 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00319763 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000539481 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00650576 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00336865 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00610405 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00426633 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0104851 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0239763 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0604475 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.133137 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.35843 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0131481 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50968 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.377804 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=704 equations=9856 rank=4900 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000481145 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00611233 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00506288 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00213474 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00235775 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00139604 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000780602 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.000931201 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00157866 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00358205 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0119588 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0250029 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0624193 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.137882 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.357355 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0141182 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.55473 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.37854 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=736 equations=10304 rank=5124 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000570716 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000225277 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00209699 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00185028 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000894105 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000741297 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00071382 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00116994 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00245363 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00442209 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0128301 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0245222 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0530425 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.134691 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.358782 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0144764 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.55361 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.378926 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=768 equations=10752 rank=5331 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000603197 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00322221 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00143814 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00066081 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000722137 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000742215 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00090463 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00133709 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00246064 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00562786 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0139625 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0268301 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0523375 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.113485 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.355491 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0145487 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.53517 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.376149 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=800 equations=11200 rank=5427 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000502209 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.000354282 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00141279 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00143827 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.0010954 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000714159 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000828215 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00094161 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00154177 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00348025 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0112478 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.020514 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0551642 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.138717 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.35968 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0145939 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50989 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.360263 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=832 equations=11648 rank=5469 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000526328 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.0029263 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.000659611 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000744767 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000617879 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000597162 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.000756782 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00101897 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00150823 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00412488 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.00738005 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0166386 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0566923 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.136257 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.353776 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=1152 cols=1 nnz=0 seconds=0.0137704 peak_rss=3969253376 cache_bytes=422204776 private=0
+COL_TAIL_COMPRESSION raw_words=36 selected_words=14 affine_rank=14 certificate_entries=4140 rhs_columns=32 complete_operator_preserved=1
+collinear_apply rows=448 cols=5978 nnz=47127363 seconds=1.50874 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=448 cols=5978 nnz=0 seconds=0.374022 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING collinear prime=1152921504606847067 points=864 equations=12096 rank=5469 unknowns=5977 limit=11986
+CACHE batch prime=1152921504606847067 hits=15 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+affine_backward rows=5469 cols=5978 nnz=18054 seconds=7.74701 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.000297221 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00162125 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00180671 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.00188521 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.000580998 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.00124741 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00124367 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00090215 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00164016 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00411148 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0122055 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0246147 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0536927 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.140039 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.360835 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_tail_1 rows=6 cols=9 nnz=4 seconds=0.000733979 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_tail_2 rows=25 cols=54 nnz=43 seconds=0.006164 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_tail_3 rows=83 cols=225 nnz=316 seconds=0.00207754 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_rhs rows=32 cols=1 nnz=0 seconds=0.00346529 peak_rss=3969253376 cache_bytes=422204776 private=0
+collinear_apply rows=32 cols=5978 nnz=47127363 seconds=0.135001 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING_CHECK collinear attempt=1 passed=1
+PROFILE phase=block_affine_product seconds=0.157636 cpu_seconds=0.163416 rss_bytes=2363518976 process_peak_bytes=3969253376
+JOINT_PHYSICS operator=collinear before=5977 remaining=508 nnz=270476
+SPARSE_CHECKPOINT rows=509 columns=105898 nnz=270476 bytes=4331768 exact_readback=1 origin_row=last
+PROFILE phase=sparse_checkpoint_write_verify seconds=0.0148625 cpu_seconds=0.014869 rss_bytes=2077835264 process_peak_bytes=3969253376
+PROFILE phase=compute_early_collinear seconds=74.6754 cpu_seconds=951.697 rss_bytes=2077835264 process_peak_bytes=3969253376
+PROFILE phase=bind_identity seconds=0.000666663 cpu_seconds=0.000668 rss_bytes=2077835264 process_peak_bytes=3969253376
+PROFILE phase=consume_unpack seconds=0.00315563 cpu_seconds=0.003157 rss_bytes=2059747328 process_peak_bytes=3969253376
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.00037944 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00181528 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.00156112 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.00060781 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.000845539 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.00155691 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.00488916 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0117144 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.0191296 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0274148 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0425739 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0914018 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.201658 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.617764 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=1.848 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.00136102 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00520371 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.0040077 peak_rss=3969253376 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=32 offset=0 generated=28 prefetch_width=32 cache_entries=32 seconds=7.09981
+mrk_rhs rows=576 cols=1 nnz=0 seconds=7.10003 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_apply rows=576 cols=509 nnz=270476 seconds=0.507292 peak_rss=3969253376 cache_bytes=422204776 private=0
+affine_forward rows=576 cols=509 nnz=0 seconds=0.000711509 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING mrk prime=1152921504606847067 points=32 equations=576 rank=0 unknowns=508 limit=1048
+CACHE batch prime=1152921504606847067 hits=36 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+affine_backward rows=0 cols=509 nnz=508 seconds=0.000106263 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.000779099 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00497661 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.000549861 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.00218235 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.0010982 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.00163051 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.00329667 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00903295 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.0150835 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0197549 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0357916 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0778819 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.210904 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.593815 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=1.90314 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.000217684 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00454516 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.00515291 peak_rss=3969253376 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=32 offset=0 generated=32 prefetch_width=32 cache_entries=64 seconds=7.84005
+mrk_rhs rows=576 cols=1 nnz=0 seconds=7.84064 peak_rss=3969253376 cache_bytes=422204776 private=0
+mrk_apply rows=576 cols=509 nnz=270476 seconds=0.502165 peak_rss=3969253376 cache_bytes=422204776 private=0
+SAMPLING_CHECK mrk attempt=1 passed=1
+PROFILE phase=block_affine_product seconds=0.00617016 cpu_seconds=0.006012 rss_bytes=2636673024 process_peak_bytes=3969253376
+JOINT_PHYSICS operator=mrk before=508 remaining=508 nnz=270476
+SPARSE_CHECKPOINT rows=509 columns=105898 nnz=270476 bytes=4331768 exact_readback=1 origin_row=last
+PROFILE phase=sparse_checkpoint_write_verify seconds=0.0148076 cpu_seconds=0.014815 rss_bytes=2636673024 process_peak_bytes=3969253376
+PROFILE phase=compute_early_mrk seconds=21.7645 cpu_seconds=278.866 rss_bytes=2636673024 process_peak_bytes=3969253376
+PROFILE phase=bind_identity seconds=0.000663776 cpu_seconds=0.000664 rss_bytes=2636673024 process_peak_bytes=3969253376
+PROFILE phase=consume_unpack seconds=0.0027683 cpu_seconds=0.002769 rss_bytes=2634399744 process_peak_bytes=3969253376
+OPE_RANK_REPORT "/home/ana/Documents/symbology/output_hexagon_v19_20261009/controls-v20/V20/diagnostics/1791538061776817876/ope_rank/early_ope_small_s" operator=ope_small_s initial_directions=508
+MHV_SMALL_S solve=1496 check=374 validation=0
+MHV_SMALL_S F=2 validation=0 rows=509
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000426953 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00216427 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00115329 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.00174415 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.00546368 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.0101902 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0215507 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0390056 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.102226 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.211638 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.505266 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=1.24767 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=2.80948 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=7.21517 peak_rss=3969253376 cache_bytes=422204776 private=0
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=19.1436 peak_rss=4144742400 cache_bytes=422204776 private=0
+OPE_HEAD_CACHE stored prime=1152921504606847067 bytes=876573360 used=876573360
+OPE_SEED rows=509 stride=7410 nnz=270476 seconds=0.909205
+ope_apply rows=509 cols=7410 nnz=270476 seconds=9.73139 peak_rss=4144742400 cache_bytes=422204776 private=0
+MHV_SMALL_S F=3 validation=0 rows=509
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000610134 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00444343 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00166944 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.00161958 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.00434953 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.00799931 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0159214 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0315583 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.111357 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.214951 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.505585 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=1.23443 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=2.88728 peak_rss=4144742400 cache_bytes=422204776 private=0
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=7.26811 peak_rss=4474298368 cache_bytes=422204776 private=0
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=18.8141 peak_rss=5028851712 cache_bytes=422204776 private=0
+OPE_HEAD_CACHE stored prime=1152921504606847067 bytes=876573360 used=1753146720
+OPE_SEED rows=509 stride=7410 nnz=270476 seconds=0.914667
+ope_apply rows=509 cols=7410 nnz=270476 seconds=9.80897 peak_rss=5028851712 cache_bytes=422204776 private=0
+MHV_SMALL_S F=4 validation=0 rows=509
+ope_head_1 rows=3 cols=9 nnz=2 seconds=0.000390668 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_2 rows=6 cols=27 nnz=10 seconds=0.00165827 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_3 rows=13 cols=54 nnz=25 seconds=0.00141247 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_4 rows=26 cols=117 nnz=77 seconds=0.00117775 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_5 rows=51 cols=234 nnz=250 seconds=0.0055938 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_6 rows=98 cols=459 nnz=737 seconds=0.0123073 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_7 rows=184 cols=882 nnz=2424 seconds=0.0166745 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_8 rows=340 cols=1656 nnz=7788 seconds=0.0346098 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_9 rows=613 cols=3060 nnz=25755 seconds=0.102034 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.199365 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.516878 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_12 rows=3224 cols=16983 nnz=902542 seconds=1.23665 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_13 rows=5431 cols=29016 nnz=2724932 seconds=2.86055 peak_rss=5028851712 cache_bytes=422204776 private=0
+ope_head_14 rows=9014 cols=48879 nnz=8064127 seconds=7.20144 peak_rss=5360373760 cache_bytes=422204776 private=0
+ope_head_15 rows=14787 cols=81126 nnz=23017438 seconds=18.8931 peak_rss=5915041792 cache_bytes=422204776 private=0
+OPE_HEAD_CACHE stored prime=1152921504606847067 bytes=876573360 used=2629720080
+OPE_SEED rows=509 stride=7410 nnz=270476 seconds=0.915487
+ope_apply rows=509 cols=7410 nnz=270476 seconds=10.0588 peak_rss=5915041792 cache_bytes=422204776 private=0
+OPE_RANK prime=1152921504606847067 power=1 rank=21 remaining=487 new_rank=21
+OPE_RANK prime=1152921504606847067 power=2 rank=44 remaining=464 new_rank=23
+OPE_RANK prime=1152921504606847067 power=3 rank=59 remaining=449 new_rank=15
+OPE_RANK prime=1152921504606847067 power=4 rank=75 remaining=433 new_rank=16
+OPE_RANK prime=1152921504606847067 power=5 rank=89 remaining=419 new_rank=14
+OPE_RANK prime=1152921504606847067 power=6 rank=102 remaining=406 new_rank=13
+OPE_RANK prime=1152921504606847067 power=7 rank=115 remaining=393 new_rank=13
+OPE_RANK prime=1152921504606847067 power=8 rank=128 remaining=380 new_rank=13
+affine_forward rows=1496 cols=509 nnz=0 seconds=0.00602623 peak_rss=5915041792 cache_bytes=422204776 private=0
+CACHE batch prime=1152921504606847067 hits=72 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+affine_backward rows=128 cols=509 nnz=30139 seconds=0.00481091 peak_rss=5915041792 cache_bytes=422204776 private=0
+PROFILE phase=block_affine_product seconds=0.00366736 cpu_seconds=0.005704 rss_bytes=5312757760 process_peak_bytes=5915041792
+JOINT_PHYSICS operator=ope_small_s before=508 remaining=380 nnz=212921
+SPARSE_CHECKPOINT rows=381 columns=105898 nnz=212921 bytes=3409864 exact_readback=1 origin_row=last
+PROFILE phase=sparse_checkpoint_write_verify seconds=0.0120075 cpu_seconds=0.012318 rss_bytes=5312430080 process_peak_bytes=5915041792
+PROFILE phase=compute_early_ope_small_s seconds=123.237 cpu_seconds=1326.95 rss_bytes=5312430080 process_peak_bytes=5915041792
+PROFILE phase=bind_identity seconds=0.000623156 cpu_seconds=0.000624 rss_bytes=5312430080 process_peak_bytes=5915041792
+V18_SEAM_VERIFIED full_operator=1 rows=372388 directions=0
+V18_SEAM_COMPLETE replay=1 selected_rows=380 contractions=380 lifts=1 initial_directions=380 final_directions=0 solve_seconds=0.0359917 verify_seconds=3.41578
+SPARSE_CHECKPOINT rows=1 columns=105898 nnz=94807 bytes=1517000 exact_readback=1 origin_row=last
+PROFILE phase=sparse_checkpoint_write_verify seconds=0.00518989 cpu_seconds=0.005192 rss_bytes=5302587392 process_peak_bytes=5915041792
+PROFILE phase=compute_seam_complete seconds=3.45705 cpu_seconds=21.6606 rss_bytes=5302587392 process_peak_bytes=5915041792
+PROJECTION collinear prime=1152921504606847067 validation=1 samples=0..32/32
+collinear_head_1 rows=3 cols=9 nnz=2 seconds=0.00049516 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_2 rows=6 cols=27 nnz=10 seconds=0.00105314 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_3 rows=13 cols=54 nnz=25 seconds=0.00232642 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_4 rows=26 cols=117 nnz=77 seconds=0.000382819 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_5 rows=51 cols=234 nnz=250 seconds=0.00202595 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_6 rows=98 cols=459 nnz=737 seconds=0.000745255 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_7 rows=184 cols=882 nnz=2424 seconds=0.00081157 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00107231 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_9 rows=613 cols=3060 nnz=25755 seconds=0.00196464 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.00511972 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0133942 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.024337 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.0572035 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.139953 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_head_15 rows=14787 cols=81126 nnz=23017438 seconds=0.356338 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_tail_1 rows=6 cols=9 nnz=4 seconds=0.000774319 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_tail_2 rows=25 cols=54 nnz=43 seconds=0.00202609 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_tail_3 rows=83 cols=225 nnz=316 seconds=0.00109057 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_rhs rows=32 cols=1 nnz=0 seconds=0.0042031 peak_rss=5915041792 cache_bytes=422204776 private=0
+collinear_apply rows=32 cols=1 nnz=94807 seconds=0.0187449 peak_rss=5915041792 cache_bytes=422204776 private=0
+CACHE batch prime=1152921504606847067 hits=18 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+JOINT_PHYSICAL_CHECK operator=collinear passed=1 remaining=0
+PROFILE phase=check_collinear seconds=0.635701 cpu_seconds=8.25234 rss_bytes=5304180736 process_peak_bytes=5915041792
+PROJECTION mrk prime=1152921504606847067 validation=1 samples=0..32/32
+mrk_head_1 rows=3 cols=9 nnz=2 seconds=0.000799292 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_2 rows=6 cols=27 nnz=10 seconds=0.00246699 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_3 rows=13 cols=54 nnz=25 seconds=0.00182294 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_4 rows=26 cols=117 nnz=77 seconds=0.000514725 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_5 rows=51 cols=234 nnz=250 seconds=0.000911492 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_6 rows=98 cols=459 nnz=737 seconds=0.00138577 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_7 rows=184 cols=882 nnz=2424 seconds=0.00214132 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_8 rows=340 cols=1656 nnz=7788 seconds=0.00447927 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_9 rows=613 cols=3060 nnz=25755 seconds=0.0102834 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_10 rows=1085 cols=5517 nnz=86542 seconds=0.0168158 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_11 rows=1887 cols=9765 nnz=285122 seconds=0.0343292 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_12 rows=3224 cols=16983 nnz=902542 seconds=0.0788638 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_13 rows=5431 cols=29016 nnz=2724932 seconds=0.198108 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_14 rows=9014 cols=48879 nnz=8064127 seconds=0.591307 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_head_15 rows=14787 cols=81126 nnz=23017438 seconds=1.83789 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_tail_1 rows=6 cols=9 nnz=4 seconds=0.000723292 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_tail_2 rows=25 cols=54 nnz=43 seconds=0.00507511 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_tail_3 rows=83 cols=225 nnz=316 seconds=0.00335405 peak_rss=5915041792 cache_bytes=422204776 private=0
+MRK_RHS_REUSE requested=32 offset=0 generated=32 prefetch_width=32 cache_entries=96 seconds=7.14917
+mrk_rhs rows=576 cols=1 nnz=0 seconds=7.14927 peak_rss=5915041792 cache_bytes=422204776 private=0
+mrk_apply rows=576 cols=1 nnz=94807 seconds=0.490256 peak_rss=5915041792 cache_bytes=422204776 private=0
+CACHE batch prime=1152921504606847067 hits=18 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+JOINT_PHYSICAL_CHECK operator=mrk passed=1 remaining=0
+PROFILE phase=check_mrk seconds=10.4375 cpu_seconds=141.163 rss_bytes=5281136640 process_peak_bytes=5915041792
+MHV_SMALL_S solve=1496 check=374 validation=1
+MHV_SMALL_S F=2 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606847067 bytes=876573360
+OPE_SEED rows=1 stride=7410 nnz=94807 seconds=0.303448
+ope_apply rows=1 cols=7410 nnz=94807 seconds=0.326474 peak_rss=5915041792 cache_bytes=422204776 private=0
+MHV_SMALL_S F=3 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606847067 bytes=876573360
+OPE_SEED rows=1 stride=7410 nnz=94807 seconds=0.297555
+ope_apply rows=1 cols=7410 nnz=94807 seconds=0.318447 peak_rss=5915041792 cache_bytes=422204776 private=0
+MHV_SMALL_S F=4 validation=1 rows=1
+OPE_HEAD_CACHE hit prime=1152921504606847067 bytes=876573360
+OPE_SEED rows=1 stride=7410 nnz=94807 seconds=0.300037
+ope_apply rows=1 cols=7410 nnz=94807 seconds=0.322271 peak_rss=5915041792 cache_bytes=422204776 private=0
+CACHE batch prime=1152921504606847067 hits=9 misses=0 not_stored=0 entries=18 used_bytes=422204776 limit_bytes=4294967296 remaining_bytes=3872762520
+JOINT_PHYSICAL_CHECK operator=ope_small_s passed=1 remaining=0
+PROFILE phase=check_ope_small_s seconds=0.968566 cpu_seconds=11.782 rss_bytes=5281136640 process_peak_bytes=5915041792
+PROFILE phase=cache_write seconds=0.00710268 cpu_seconds=0.00473 rss_bytes=5281136640 process_peak_bytes=5915041792
+JOINT_PRIME_COMPLETE prime=1152921504606847067 directions=0 columns=105898 nnz=94807
+PROFILE phase=evaluate_joint_1152921504606847067 seconds=375.801 cpu_seconds=3759.58 rss_bytes=4969517056 process_peak_bytes=5915041792

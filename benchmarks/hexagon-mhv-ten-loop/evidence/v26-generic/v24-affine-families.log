@@ -1,0 +1,5 @@
+AFFINE_BENCH n=800 rank=720 degree=3 legacy_cpu=0.157052 factored_cpu=0.002556 coefficient_equality=1 original_equations=1
+AFFINE_BENCH n=800 rank=400 degree=8 legacy_cpu=0.035079 factored_cpu=0.00154 coefficient_equality=1 original_equations=1
+AFFINE_BENCH n=500 rank=400 degree=500 legacy_cpu=0.055245 factored_cpu=0.008846 coefficient_equality=1 original_equations=1
+AFFINE_BENCH n=800 rank=40 degree=800 legacy_cpu=0.001326 factored_cpu=0.000898 coefficient_equality=1 original_equations=1
+AFFINE_BENCH n=800 rank=800 degree=3 legacy_cpu=0.058464 factored_cpu=0.002555 coefficient_equality=1 original_equations=1
