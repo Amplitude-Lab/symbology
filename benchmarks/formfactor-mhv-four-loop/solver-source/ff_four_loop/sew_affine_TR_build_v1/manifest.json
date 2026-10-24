@@ -1,0 +1,10 @@
+{
+  "scope": "Dedicated affine TR sewing source. Global headers unchanged. Exact affine source lifted into one extra coordinate; full modular residual replay and denominator-aware height certificate. Lowweightfullspaceequality independentlycertified.",
+  "sha256": {
+    "code/ff_four_loop/build_affine_tr_sew.py": "7b86d6470cdf971d33e74c4c2184d2847a6ced815c8aa53a91e27db26cd1b7f4",
+    "results/ff_four_loop/sew_affine_TR_build/sew_affine_TR.cpp": "2be35ac3976d59e588405a44d30eef9ee35e1e9a3c0e69c3d51e7bbdbdaa9153",
+    "results/ff_four_loop/sew_affine_TR_build/tensor_kernel.hpp": "1811883704a072036c713e9273fce19678d3b1cb127aa7f17d543dff75b86dc7",
+    "results/ff_four_loop/sew_affine_TR_build/product_invariance.hpp": "79823c5365d8420a5f14ed524c267986488f9a62e82e8ed55b7a1c6161ddbb9d",
+    "code/ff_four_loop/sew_affine_TR": "2cfe28203e1d22c74c8e3b58cea50182e84903496fb9d02c279006c6960df644"
+  }
+}

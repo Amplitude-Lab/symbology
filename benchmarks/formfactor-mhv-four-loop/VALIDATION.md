@@ -52,14 +52,18 @@ re-checked; factorizations are not trusted).
 | Gate | Cost | What it proves |
 | --- | --- | --- |
 | `verify` | seconds | every packaged file matches the manifest; all receipts, block chains, prime proofs and guard hashes are internally consistent; the candidate equals the certificate identity |
-| `replay-final` | ~2 min, ≤ 12 GB cap | the DC and TC exact affine solves re-executed from committed inputs regenerate the candidate **byte-identically**; both holdout comparisons re-pass with the recorded component counts and moduli |
-| `run-core` | 8,157 s recorded (~2.3 h), ≤ 11.2 GB peak, 503 MB FEC_6 regenerated | the recorded native stage commands rebuild every committed base bit-for-bit (FEC_3, FEC_4, FEC_5, LEC_2, affine-TR sewing matrix) |
+| `replay-final` | ~2 min, ≤ 12 GB cap | the DC and TC exact affine solves re-executed from selected committed or regenerated sewing outputs regenerate the candidate **byte-identically**; both holdout comparisons re-pass with the recorded component counts and moduli |
+| `run-core` | 4,564 s recorded (~76 min) plus action preparation/extraction; 10.2 GB sampled sewing peak | the accepted native stages rebuild FEC_3, FEC_4, FEC_5, LEC_2, the affine-TR matrix, affine origin and TR92 directions bit-for-bit; terminated plain/masked sewing experiments are not run |
 
 Measured envelope of the accepted chain (from the packaged receipts):
-prefix chain 94 s total on four threads; DC solve 25.8 s; TC solve 52.2 s at
-3.8 GB; holdout comparisons 6.0 s and 6.1 s at ≤ 1.6 GB own RSS. The heavier
-boundary-training projections and H8 Wolfram exports (minutes at ≤ 12 GB) are
-bypassed by the committed maps; their receipts and sources are included.
+prefix and suffix stages 118.7 s total on four threads; affine-TR sewing
+4,445.3 s at 10.2 GB sampled peak; extraction 3.5 s CPU at 442,056 KiB maximum
+RSS; DC solve 25.8 s; TC solve 52.2 s at 3.8 GB; holdout comparisons 6.0 s and
+6.1 s at ≤ 1.6 GB own RSS. Accepted structural prefix-action construction used
+13.30 s user CPU, 3.08 s system CPU and 4,132,904 KiB maximum RSS; the
+interrupted all-row control is not part of the accepted path. The heavier
+boundary-training projections and H8 Wolfram exports are bypassed by
+the committed maps; their receipts and sources are included.
 
 ## Not claimed
 
@@ -69,31 +73,34 @@ bypassed by the committed maps; their receipts and sources are included.
   but all-loop 96→88 exclusion is open.
 - No comparison against a published full four-loop parent symbol (none was
   available); the two finite descendants are the published cross-checks.
-- `run-core` replays the adopted streamed baseline; the staged control that
-  measured 11.9 GB was stopped and is not part of the accepted chain.
+- `run-core` replays the adopted affine-TR baseline; the staged prefix control
+  and terminated plain/masked sewing attempts are not part of the accepted chain.
 - No function-level (beyond-symbol) or full-kinematic-parent claim.
 
-## Packaging self-checks (2026-10-23)
+## Accepted legacy source recovery (2026-10-24)
 
-The packaged `build_masked_sew.py` and `build_affine_tr_sew.py` were made
-location-independent and re-executed from `solver-source/`: the regenerated
-`sew_masked.cpp`, `sew_affine_TR.cpp` and patched `tensor_kernel.hpp` are
-byte-identical to the recorded research-tree build products. The runner
-invokes these generators automatically when no prebuilt sew helper is
-available, so `run-core` needs only the repository, the
-`environment-linux.yml` toolchain and `make bootstrap`.
+The accepted sewing certificate pins `sew_affine_TR_build_v1` and executable
+SHA256 `2cfe28203e1d22c74c8e3b58cea50182e84903496fb9d02c279006c6960df644`.
+The complete v1 source, headers, generator and provenance manifest were found
+in the research tree and are now frozen under
+`solver-source/ff_four_loop/sew_affine_TR_build_v1/`; fresh builds use that
+copy, not current repository headers. The later `build_affine_tr_sew.py`
+guarded successor and `build_masked_sew.py` remain as provenance only. The
+original 2026-10-23 generator self-check concerned those later build products,
+not the certificate-pinned v1 binary.
 
 ## Sewing-stage input closure (2026-10-23)
 
 A procedure-fidelity audit (prompted by re-examination of the recorded
-commands) confirmed that `sew_masked` additionally reads
-`boundary_local_rref.wxf` and `sew_affine_TR` reads
+commands) confirmed that the abandoned `sew_masked` reads
+`boundary_local_rref.wxf`, while accepted `sew_affine_TR` reads
 `boundary_local_TR_rref.wxf`, `affine_TR_rhs_w8_residual.wxf` and the seven
 `actions/suffix_TR_*_w2.wxf` variants from the experiment root, none of
-which are products of the recorded stage commands. These files (2.1 MB +
-0.8 MB + 55 MB + 19 KB) are now committed as staged inputs and seeded by
-`run-core`; their producers (`local_TR_gate.cpp`, `suffix_TR_embedding.cpp`)
-are committed in `solver-source` for regeneration.
+which are products of the recorded stage commands. The accepted inputs and
+extraction inputs are committed and seeded by `run-core`; their producers
+(`local_TR_gate.cpp`, `suffix_TR_embedding.cpp`) are committed in
+`solver-source` for regeneration. The masked-only local RREF remains committed
+as experimental provenance but is not needed by the accepted run.
 
 ## Archived: isotypic sewing experiment (2026-10-23)
 
@@ -148,3 +155,27 @@ the alternative explanation previously offered for the auxiliary symrep
 timing anomaly (archived with that experiment under
 `experimental/symrep-isotypic-sewing/`), leaving the pre-merge file
 chronology as its sole recorded attribution.
+
+## Accepted-path cold replay (2026-10-24)
+
+A fresh `run-core` used the explicit accepted-stage allowlist and frozen v1
+solver, with no plain/masked sewing or all-row prefix-action control. Structural
+prefix actions completed in 14.8 s; affine-TR sewing completed in 4,564.9 s at
+10.09 GB sampled peak RSS; extraction completed in 3.6 s. The regenerated
+FEC_3, FEC_4, FEC_5, LEC_2, affine-TR matrix, affine origin and TR92 directions
+are all byte-identical to `reference/`. See
+`output/formfactor-4l-accepted-core/core_summary.json`. The complete core took
+4,719.870 s. Exact per-stage ranks, fixed-parameter counts, wall times and peak
+RSS are tabulated in [README.md](README.md); preparation-stage memory was
+independently measured in `output/formfactor-4l-prep-replay-20261024/`.
+
+`replay-final --sewing-dir output/formfactor-4l-accepted-core` then consumed
+these regenerated outputs. DC (26.5 s) and TC (52.7 s) both regenerated the
+accepted candidate byte-identically, and the reserved DC/TC holdouts certified
+exact equality for 7,901,300 and 8,697,622 components. See
+`output/formfactor-4l-accepted-final/receipts/summary.json`. The final replay
+took 102.152 s, giving 4,822.022 s for accepted core plus final. This is a cold
+replay of the packaged accepted path, not regeneration of the committed
+boundary-preparation maps or earlier research-stage constraint inputs. The
+interrupted all-row retry is preserved separately at
+`output/formfactor-4l-allrow-control-incomplete`.

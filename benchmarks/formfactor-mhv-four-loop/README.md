@@ -40,7 +40,7 @@ published finite descendants pass exactly.
 | `reference/` | Accepted candidate, decoding bases, sewing outputs (affine origin + TR92 directions), all consolidated certificates, recorded stage receipts |
 | `boundary-preparation/DC/`, `boundary-preparation/TC/` | Boundary inputs of the final solves; the two weight-6 collinear projection maps are committed xz-compressed (142.7 MB → 46.1 MB and 458.5 MB → 81.0 MB) |
 | `validation/` | DC/TC affine-solve receipts and block chains, holdout receipts/guards/logs and published targets, ambiguity certificates, replayed Lucas prime certificates, H8 boundary factor exports |
-| `solver-source/` | All helper `.cpp`/`.py`/`.wls` sources of the accepted chain (39 C++ programs, drivers, audits, H8 factor build). `sew_masked` and `sew_affine_TR` have no static source: the packaged `build_masked_sew.py` / `build_affine_tr_sew.py` generate them by patching the repository headers, reproducing the recorded sources byte-for-byte (verified at packaging time); the runner invokes them automatically. The remaining `.py`/`.wls` drivers are provenance copies of the research-tree originals |
+| `solver-source/` | Helper `.cpp`/`.py`/`.wls` sources, drivers, audits and H8 factor build. The accepted solver is frozen with all its headers in `ff_four_loop/sew_affine_TR_build_v1/`, exactly as recovered from the certificate-pinned research-tree source; fresh builds use this copy. The later `build_affine_tr_sew.py` guarded successor and `build_masked_sew.py` experiment are retained only as provenance |
 
 ## Verify the packaged result (seconds, pure Python)
 
@@ -58,11 +58,15 @@ Lucas certificates, and verifies the guard hashes of the holdout inputs
 ## Replay the final accepted stages (~2 min measured)
 
 Rebuilds the DC and TC exact affine boundary solves and both reserved holdout
-comparisons from the committed sewing outputs and boundary preparation:
+comparisons from sewing outputs and committed boundary preparation. With no
+`--sewing-dir`, it uses the committed reference outputs:
 
 ```bash
 python3 bench/four_loop_formfactor.py replay-final --output output/formfactor-4l-replay
 ```
+
+To consume a fresh `run-core` result instead, append
+`--sewing-dir output/formfactor-4l-core`.
 
 The regenerated DC origin must be **byte-identical** to the committed
 candidate, the TC solve (which consumes the regenerated DC solution) must
@@ -74,59 +78,124 @@ values, or compiled fresh from `solver-source/` (needs the toolchain below).
 Every stage runs under a sampled memory cap (default 12 GB) and writes
 receipts to the output directory.
 
-## Regenerate the full core chain
+## Accepted replay: the only normal core path
 
-`python3 bench/four_loop_formfactor.py run-core --output DIR` replays the
-recorded native stage commands of `reference/stage_receipts.json`:
+Run the following from the repository root with fresh output directories:
 
-1. prefix bases FEC_3→FEC_6 (`bootstrap --extend`, starting from the
-   committed hash-pinned FEC_2 basis),
-2. the suffix chain LEC_2→LEC_4 and the cyclic LEC_2 projection,
-3. the symmetry-action files (`galois`, `galois_suffix`, `actions` helpers
-   from `solver-source`, deterministic from `data/`),
-4. the weight-8 sewing: invariant, masked and affine-TR stages.
+```bash
+python3 bench/four_loop_formfactor.py run-core \
+  --output output/formfactor-4l-core
+python3 bench/four_loop_formfactor.py replay-final \
+  --sewing-dir output/formfactor-4l-core \
+  --output output/formfactor-4l-core-final
+```
 
-The staged control, the cyclic LEC_2 projection and the invariant
-`bootstrap --sew` stage on the recorded list are skipped: their outputs
-are read by no downstream stage (the masked and affine-TR sewings build
-their own operators from FEC_6, the action files and the constraint
-caches). The chain uses no irreducible-representation decomposition; the
-experimental isotypic sewing preparations were removed from the recorded
-list and are archived under
-[experimental/symrep-isotypic-sewing/](experimental/symrep-isotypic-sewing/).
+`run-core` uses an explicit allowlist, not “every historical receipt except a
+few skips.” A newly encountered receipt is never executed by default. The
+accepted sequence is:
 
-Every regenerable base with a committed copy — FEC_3, FEC_4, FEC_5, LEC_2 and
-the affine-TR sewing matrix — is then compared byte-for-byte against
-`reference/`. The 503 MB FEC_6 basis is regenerated, not committed. The
-`bootstrap` binary is built from the repository root sources
-(`make bootstrap` with the environment-linux.yml toolchain); a locally
-prebuilt binary linking the recovered FLINT runtime under
-`output_hexagon_runtime_recovery_20261008/env/lib` is picked up automatically
-when present. Recorded cost of the accepted chain: **8,157 s (about 2.3 h)**
-in total, dominated by the three sewing stages (1,069 / 1,910 / 4,445 s),
-with sampled peaks at most 11.2 GB on adopted stages (the 11.9 GB spike in
-the receipts is the staged control that was **not** adopted).
+1. FEC_3→FEC_6 with `bootstrap --extend`, starting from committed FEC_2;
+2. LEC_2→LEC_4;
+3. `galois`, `galois_suffix`, `actions_structural` for prefix actions, and the
+   low-cost `actions` helper only for suffix actions through weight 2;
+4. the original certificate-pinned `sew_affine_TR_build_v1` solver;
+5. `affine_TR_extract OUT 6 SEW_6p2_affine_TR_matrix.wxf
+   affine_tail_w8_invariant_TF175_origin.wxf tr`;
+6. DC then TC exact affine boundary solves and the two reserved holdouts.
 
-The boundary training that produced the two committed collinear projection
-maps (`bootstrap --project --symmetry collinear --target FEC_6`, driver
-`solver-source/ff_four_loop_boundary_run.py`) and the Wolfram-side H8 factor
-exports (`solver-source/ff_four_loop_H8_*.wls`, a licensed `wolframscript`,
-measured 4.9 s / 0.3 GB) can be regenerated the same way; the committed maps
-let `replay-final` skip them.
+Every accepted output with a committed copy is compared byte-for-byte:
+FEC_3/4/5, LEC_2, the affine-TR matrix, affine origin and TR92 directions. DC
+and TC must both regenerate the candidate hash shown above. New runs write
+`core_stage_receipts.jsonl` with each command, wall time and sampled peak RSS.
 
-## Environment
+### Excluded paths (removed from normal replay, retained as provenance)
 
-All recorded measurements ran on one workstation: Intel Core Ultra 7 265
-(20 cores, no SMT), 62 GiB RAM, Ubuntu 22.04.5 LTS, kernel 6.8.0-138-generic.
-The native stages use four threads (`OMP_NUM_THREADS=4` in the recorded
-receipts) under the recorded 44 GB own-process cap; adopted stages peaked at
-≤ 11.2 GB sampled RSS. The optional Wolfram-side H8 factor exports were
-measured with WolframScript 1.11.0 (Wolfram 14) at 4.9 s / 0.3 GB. The
-`bootstrap` binary is built with the repository
-[environment-linux.yml](../../environment-linux.yml) toolchain
-(gxx_linux-64 14.4.0, libflint 3.2.2, gmp, tbb); the C++ helpers compile
-from `solver-source/` with the same toolchain. No external dataset or
-research-tree access is needed: every input is committed and hash-bound in
+| Historical route | Status and why it is not replayed |
+| --- | --- |
+| `prefix_w6_staged` | Stopped prefix control; the completed streamed FEC_6 baseline is used. |
+| `cyclic_LEC_2` | Failed with exit 1; its output has no consumer. |
+| All-row `actions ... prefix 6` | Interrupted expensive control, about 2,767 s per generator in a completed comparison. Replaced by the certified `actions_structural` construction; outputs were independently byte-identical. The suffix-only `actions` call is still accepted. |
+| `sew_w8_6p2` | Terminated with exit 143; no accepted output. |
+| `sew_w8_masked_6p2` | Terminated with exit 143. The unfinished necessary-TF discovery was explicitly superseded by validated affine-TR coordinates. The separate `sew_masked` executable is never run. The internal `mode=masked` label inside `sew_affine_TR` is expected and is not this abandoned stage. |
+| Symrep/isotypic preparation | No downstream consumer; archived under `experimental/symrep-isotypic-sewing/`. |
+
+These routes are removed from the executable replay path, not deleted from the
+historical record. Their receipts and sources remain available for audit.
+
+### Measured accepted replay and parameter counts
+
+The table reports the 2026-10-24 accepted replay. “Fixed” means independent
+coordinates eliminated by that stage, not merely nonzero output entries.
+Basis stages use the exact condition-matrix rank; action and validation stages
+add no elimination. Memory is sampled process-tree RSS in decimal GB.
+
+| Stage | Coordinates before → after | Parameters fixed | Wall seconds | Peak RSS, GB |
+| --- | ---: | ---: | ---: | ---: |
+| FEC_3 | 949 → 288 | 661 | 0.20 | <0.01 |
+| FEC_4 | 6,919 → 1,548 | 5,371 | 0.20 | 0.01 |
+| FEC_5 | 47,460 → 7,701 | 39,759 | 2.60 | 0.19 |
+| FEC_6 | 276,267 → 35,598 | 240,669 | 100.10 | 6.27 |
+| LEC_2 | 681 → 175 | 506 | 0.20 | <0.01 |
+| LEC_3 | 6,974 → 1,506 | 5,468 | 0.20 | <0.01 |
+| LEC_4 | 64,575 → 10,578 | 53,997 | 26.10 | 1.83 |
+| `galois` | induced maps on FEC_1…6 | 0 | 6.40 | 4.211* |
+| `galois_suffix` | induced maps on LEC_1…2 | 0 | 0.20 | 0.000217* |
+| `actions_structural` prefix | induced maps at 35,598 prefix coordinates | 0 | 14.80 | 4.248* |
+| `actions` suffix | induced maps at 175 suffix coordinates | 0 | 0.20 | 0.00322* |
+| Affine-TR sewing | 3,275,017 augmented → 4 homogeneous (3 affine) | 3,275,013 | 4,564.90 | 10.09 |
+| Affine extraction | 4 augmented → one origin + 3 directions | 0 | 3.60 | 0.45 |
+| DC boundary | affine dimension 3 → 0 | 3 | 26.46 | 1.56 |
+| TC boundary after DC | affine dimension 0 → 0 | 0 | 52.73 | 3.85 |
+| DC reserved holdout | validation only; 7,901,300 components | 0 | 7.02 | 1.57 |
+| TC reserved holdout | validation only; 8,697,622 components | 0 | 10.83 | 3.86 |
+
+*Preparation peaks come from the immediate same-path preparation control
+`output/formfactor-4l-prep-replay-20261024/prep_receipts.json`; every output
+was byte-identical to the main core run. Main core walls are from
+`output/formfactor-4l-accepted-core`; final-stage walls/peaks are from
+`output/formfactor-4l-accepted-final/receipts/`.
+
+The complete core took **4,719.870 s** and peaked at **10.09 GB**. The final
+replay took **102.152 s** and peaked at **3.86 GB**. Total measured accepted
+core-plus-final time was **4,822.022 s (80 min 22 s)**, ending with zero free
+affine parameters and candidate SHA256
+`5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38`.
+
+The 503 MB FEC_6 basis is regenerated, not committed. The `bootstrap` binary
+is built with `make bootstrap`; the recovered FLINT runtime under
+`output_hexagon_runtime_recovery_20261008/env/lib` is used automatically when
+present. Boundary training and Wolfram-side H8 exports are not repeated by
+this packaged replay: their committed maps and factors are explicit inputs.
+The replay therefore covers the accepted packaged pipeline, not raw
+re-derivation of every earlier research-stage constraint.
+
+## Environment and machine parameters
+
+The measured accepted replay used the following complete environment. Earlier
+receipts used a 44 GB own-process guard; the 2026-10-24 replay used the runner's
+46 GB core cap and 12 GB final-stage cap.
+
+| Parameter | Value |
+| --- | --- |
+| Host | ThinkStation P3 Ultra SFF G2, NVMe storage |
+| CPU | Intel Core Ultra 7 265; 20 cores, no SMT; 800–6,600 MHz reported range |
+| Memory / swap | 66,681,028,608 bytes RAM (62.10 GiB); no swap |
+| OS / kernel | Ubuntu 22.04.5 LTS; Linux 6.8.0-138-generic, x86_64 |
+| Python | 3.10.12; standard-library runner |
+| Compiler | conda-forge GCC/G++ 14.4.0 (`gxx_linux-64=14.4.0`) |
+| Numerical libraries | FLINT 3.2.2, GMP 6.3.0, MPFR 4.2.2, TBB 2023.1.0, mimalloc 3.4.1 |
+| Thread settings | `OMP_NUM_THREADS=4`, `OPENBLAS_NUM_THREADS=1` |
+| Memory guards | 46 GB decimal core cap; 12 GB final cap; 0.2 s RSS sampling |
+| Runtime | `output_hexagon_runtime_recovery_20261008/env/lib` on `LD_LIBRARY_PATH` when present |
+| Accepted sewing identity | Original binary SHA256 `2cfe28203e1d22c74c8e3b58cea50182e84903496fb9d02c279006c6960df644`; frozen source `solver-source/ff_four_loop/sew_affine_TR_build_v1/` |
+| Fresh-build check | The frozen v1 source compiled and linked independently with GCC 14.4.0; no research-tree source access |
+
+The repository [environment-linux.yml](../../environment-linux.yml) pins the
+supported build environment. The C++ helpers compile from `solver-source/`;
+receipt-pinned local binaries are checked before use. The optional historical
+H8 factor exports used WolframScript 1.11.0 (Wolfram 14), but Wolfram is not
+needed by any normal replay mode. No external dataset or research-tree input
+is needed: every packaged input is committed and hash-bound in
 [manifest.json](manifest.json).
 
 ## Toolchain
@@ -146,7 +215,8 @@ contributed is hashed in the manifest.
 | --- | --- |
 | FEC_6 forward basis (503 MB) | regenerated by `run-core` |
 | DC/TC weight-6 collinear projection maps | committed xz-compressed, decompressed by the runner |
-| Candidate tensor, FEC_2..FEC_5, LEC_2, suffix bases, sewing outputs | committed, hash-verified |
+| Affine-TR matrix, origin and TR92 directions | regenerated and byte-compared by `run-core`; committed copies retained |
+| Candidate tensor, FEC_2..FEC_5, LEC_2, suffix bases | committed, hash-verified |
 | All receipts, certificates, prime proofs, holdout targets | committed |
 | Solver binaries | compiled from committed sources (or checked against receipt-pinned hashes) |
 

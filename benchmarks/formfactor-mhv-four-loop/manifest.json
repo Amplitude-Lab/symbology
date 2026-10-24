@@ -22,16 +22,21 @@
   ],
   "accepted_chain": [
     "prefix bases FEC_2..FEC_6 via bootstrap --extend (FEC_6 503 MB regenerated, not committed)",
-    "cyclic/flip/galois generator actions lifted onto the FEC/LEC bases (galois, galois_suffix, actions helpers); no irreducible-representation decomposition is used anywhere in the chain (the unused isotypic experiment is archived under experimental/symrep-isotypic-sewing/)",
+    "cyclic/flip/galois generator actions lifted onto the FEC/LEC bases (galois, galois_suffix, accepted actions_structural prefix and low-cost actions suffix); interrupted all-row prefix actions and isotypic experiments are not part of the chain",
     "suffix chain LEC_1..LEC_4 (the cyclic LEC_2 projection receipt failed, exit 1, output unconsumed)",
-    "weight-8 sewing SEW_6p2, invariant masked sewing, affine TR extraction (augmented kernel dim 4, affine dim 3)",
+    "weight-8 affine-TR sewing using frozen certificate-pinned sew_affine_TR_build_v1, followed by affine TR extraction (augmented kernel dim 4, affine dim 3); plain and masked sewing runs were terminated experiments with no accepted outputs",
     "DC exact affine boundary solve: affine dim 3 -> 0 (26 s measured, 141 nonzero + 343 zero pair blocks)",
     "TC exact affine boundary solve consuming the DC solution: affine dim 0 retained (52 s measured)",
     "reserved DC/TC holdout comparisons vs published four-loop remainders: exact equality",
     "independent Python audits: extraction, final coordinate chain, evidence chain"
   ],
   "fully_optimized_claimed": false,
-  "cold_end_to_end_measured": false,
+  "cold_end_to_end_measured": true,
+  "cold_end_to_end_scope": "Fresh accepted-path run-core plus replay-final from regenerated sewing outputs passed on 2026-10-24; committed prepared constraints, TR maps and boundary-preparation maps were inputs, not regenerated raw-data stages",
+  "cold_end_to_end_receipts": [
+    "output/formfactor-4l-accepted-core/core_summary.json",
+    "output/formfactor-4l-accepted-final/receipts/summary.json"
+  ],
   "uniqueness_scope": "Unique tensor within the explicit proposed-adjacency and continued-TR12 hypotheses; not uniqueness in the larger extended-Steinmann space; no all-loop claim; no comparison to a separately known full four-loop parent symbol",
   "evidence_review": {
     "path": "reference/four_loop_evidence_chain_independent_audit.json",
@@ -40,17 +45,18 @@
   "reproduce": {
     "verify": "python3 bench/four_loop_formfactor.py verify",
     "replay_final": "python3 bench/four_loop_formfactor.py replay-final --output output/formfactor-4l-replay",
-    "run_core": "python3 bench/four_loop_formfactor.py run-core --output output/formfactor-4l-core"
+    "run_core": "python3 bench/four_loop_formfactor.py run-core --output output/formfactor-4l-core",
+    "replay_regenerated_final": "python3 bench/four_loop_formfactor.py replay-final --sewing-dir output/formfactor-4l-core --output output/formfactor-4l-core-final"
   },
   "toolchain": "environment-linux.yml (gxx_linux-64=14.4.0, libflint, gmp, tbb); bootstrap built from repository root sources (make bootstrap)",
   "files": {
     "README.md": {
-      "sha256": "836ba93ac28ff79b64f9e93cd2c4fd9565b7edf2a533cd9654b7087e2abda4ef",
-      "bytes": 9122
+      "sha256": "2528482bc75da51d5496163d755941f64f08e0ac7ca3e624d870b7da4cdb9f5d",
+      "bytes": 13363
     },
     "VALIDATION.md": {
-      "sha256": "00248700da332261e03ef3ee7db1963215e55976bdb8a4109edc0d352827664e",
-      "bytes": 8807
+      "sha256": "90a25caf5209aa41f14294d065cb84baddb8babecc07efc6134e546491a33055",
+      "bytes": 10941
     },
     "boundary-preparation/DC/H8_mod_finite_prefix6_raw2.wxf": {
       "sha256": "3306af1740ecc9c3150120d08a1feb6c5ff4560d8c5ef7a03705caec20902dca",
@@ -459,6 +465,134 @@
     "solver-source/ff_four_loop/seam_origin_residual.cpp": {
       "sha256": "31eedaa62f449d0d585b504d31e589e107580ce5f75742ad3f3806ac7c8e3092",
       "bytes": 2508
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/bootstrap.hpp": {
+      "sha256": "8e6491b3448e23fa35e97ad2b0a17b5ba6d6f804105e1ea086183588b5dec834",
+      "bytes": 15013
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/build_affine_tr_sew.py": {
+      "sha256": "7b86d6470cdf971d33e74c4c2184d2847a6ced815c8aa53a91e27db26cd1b7f4",
+      "bytes": 7009
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/certified_kernel.hpp": {
+      "sha256": "8a82735567bb788b5e201326e39ba81013e9cfdfd46adda30b5a53ec606aad5d",
+      "bytes": 9770
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/column_restriction.hpp": {
+      "sha256": "f79eec21049bbc6b494f85b667d11e7091723f499fc18be2feafd2bd2831b0b5",
+      "bytes": 3921
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/compute_rhs.hpp": {
+      "sha256": "77fb6b9d22b6f2ed0644f3e61f5b310494b0b8678fe7acd03ef24373cdbdeb84",
+      "bytes": 40395
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/early_sew.hpp": {
+      "sha256": "079c577d0b84c73cf4d926554ff1e2a8d47df1acd61ba4e43e7e47f25d26b40a",
+      "bytes": 2585
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/incremental_solve.hpp": {
+      "sha256": "01098e232e4f040bda7bbcbf7d0cbd4aabbdc38f0c5aa3fc3f302d6110cc0c77",
+      "bytes": 21599
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/linear_solve.hpp": {
+      "sha256": "18117823a1df457fab9d09ef41da7c78b46dacd8a76f3d02f9ede2e6124d92c5",
+      "bytes": 12471
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/manifest.json": {
+      "sha256": "654ed9a5c522250b43932366b6cb28303d69561f4c22f799c7c4a70821ebc5c1",
+      "bytes": 902
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/native_cache.hpp": {
+      "sha256": "54131e4496d41976af273ae79843ea8dd845ad87d8e6365536869c7959529456",
+      "bytes": 6481
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/numeric_parse.hpp": {
+      "sha256": "ec3c28ebe81304205cb91388c4734e436c32217e15df3dd38d231fcde1c97ddc",
+      "bytes": 1088
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/packed_shuffle.hpp": {
+      "sha256": "d9785aea36122202b1c4348147e39712eb2697ce7f665b3e2f9d52d504e4487c",
+      "bytes": 3387
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/partitioned_tensor_view.hpp": {
+      "sha256": "79127be3744fa22d9d54ee776ce32e0f6ac5683dc6a4cb58cb832c6ad6d1e7c7",
+      "bytes": 2345
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/product_invariance.hpp": {
+      "sha256": "79823c5365d8420a5f14ed524c267986488f9a62e82e8ed55b7a1c6161ddbb9d",
+      "bytes": 9164
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/projection.hpp": {
+      "sha256": "ff531745b7ef0f59c4c0fddd2f68d978c709fb5b1a0a6eb3eb4e8f755c33999e",
+      "bytes": 26619
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/recursive_word_chart.hpp": {
+      "sha256": "ae6d7edfa657637dbf0c0ddcdd739b9529bab6d5142da700f1d95dd59bba5e83",
+      "bytes": 7362
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/restricted_projection.hpp": {
+      "sha256": "e5334c5a1b0aa342a14321453da4f07d8d8821c4dd3fccc103978a2b3fa0548d",
+      "bytes": 2940
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/sew_affine_TR.cpp": {
+      "sha256": "2be35ac3976d59e588405a44d30eef9ee35e1e9a3c0e69c3d51e7bbdbdaa9153",
+      "bytes": 7485
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/solve_collinear.hpp": {
+      "sha256": "38f826c513076d94bb051d8c81220ce193ce75476c9344fb8a34eb49a7fd1843",
+      "bytes": 63052
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/solve_symmetry.hpp": {
+      "sha256": "a847d0e13632a025467cc14e2887be19aa324b69839249301c8f6207baa96299",
+      "bytes": 7648
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/staged_kernel.hpp": {
+      "sha256": "be7c7816ce9a908e8b47d24f73bfe5c297328bce5902b05a10779ca78f80ba69",
+      "bytes": 16450
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/staged_matrix.hpp": {
+      "sha256": "6b770a41102ebed7e84a8a0daabb9f589793335df99380fcab4963a0f598dcad",
+      "bytes": 6341
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/streaming_echelon.hpp": {
+      "sha256": "57d60d033944551984789adaba71b65f72533b08cb3ac4379c19c2a476aabea4",
+      "bytes": 8233
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/structured_kernel.hpp": {
+      "sha256": "df97da3d1bea8566419a14f423cf790099d495caa3179813e474f00e953151a0",
+      "bytes": 9536
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep.hpp": {
+      "sha256": "fc8ba583c2ae0d555807a48378cc6bfb0bc2a1eff15b22d25114036610616a16",
+      "bytes": 40957
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep_bootstrap.hpp": {
+      "sha256": "0fab1526c1d5e1dc7c7cb642f40b87d7adb64f57bc15a9f3ad8b1bea49e1ba29",
+      "bytes": 44841
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep_carrier.hpp": {
+      "sha256": "bcac208041fdc33a4d53a31cb9add70f7b5cca84bb56f3b7a51cb13502af0ee7",
+      "bytes": 34602
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep_io.hpp": {
+      "sha256": "ebceb2ae7cec2246ef98aacb6489c7915b1b107ec83f6e15432f250fed0dc527",
+      "bytes": 18354
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep_multiplicity.hpp": {
+      "sha256": "2f89389529f665712b25bede496e8d56eb07f0a000e5f408a4c61b329d5481ad",
+      "bytes": 13756
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/symrep_orbits.hpp": {
+      "sha256": "c0a8c392b0ac38eed7d672fe8cbc9a562de829ae13dd4515aca0be144c563ff1",
+      "bytes": 30447
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/tensor_expand.hpp": {
+      "sha256": "3d4349aafbe15a24f8e56027c4d34cf3b9fbc61eaacdff9ae6eb1cfce2defcc9",
+      "bytes": 5679
+    },
+    "solver-source/ff_four_loop/sew_affine_TR_build_v1/tensor_kernel.hpp": {
+      "sha256": "1811883704a072036c713e9273fce19678d3b1cb127aa7f17d543dff75b86dc7",
+      "bytes": 42979
     },
     "solver-source/ff_four_loop/sew_selective_presolve.cpp": {
       "sha256": "a2eb516d87624681a69ec25758a1ec0a3939ad72f6d68ffcf0a0984f7801392d",

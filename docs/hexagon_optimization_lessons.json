@@ -1,6 +1,6 @@
 {
   "schema": "symbology-optimization-lessons-v1",
-  "updated": "2026-10-24T03:53:36.054552+00:00",
+  "updated": "2026-10-24T07:44:17+00:00",
   "user_preference": "Continue optimizing both algorithms and engineering during calculations, reuse measured experience in subsequent calculations, and prioritize universally reusable solver algorithms rather than changes tailored to one amplitude or loop order. Make physical constraints available from the start, while allowing expensive constraint blocks to be assembled and solved later; judge scheduling by complete-solve CPU-hours and RSS.",
   "scope": "Fresh V27D/16 ten-loop computation and exact native17+3 and shifted16+4 reconstructions are complete. Native17+3 is the selected primary benchmark; both representations and all historical receipts are preserved. Fixed V16 >15% CPU / <=5% RSS qualification is unchanged: direct nine-loop comparison remains unverified, and the historical ten-loop first-prime comparison fails the RSS tolerance. No universal optimality claim. Fresh 18+2 split-height comparison (2026-10-21/22): streaming FEC-18 generation validated byte-identical at w17; 18+2 first native prime measured in mapped mode after heap exceeded the 50 GB guard; 17+3 remains cheaper per prime (CPU +45.9% for 18+2, wall 3.92x).",
   "lessons": [
@@ -9573,5 +9573,26 @@
     },
     "remaining_obligations": "Common admissible parent extension and negative-defect control remain open. No complete finite normal form or degree bound exists in the audited arguments.",
     "resources_and_scope": "One worker for bounded finite replays. No solver gate or production job changed. Retain V16 >15% CPU threshold, 5% RSS tolerance and 50 GB decimal ten-loop cap."
+  },
+  "formfactor_benchmark_accepted_pipeline_recovery_20261024": {
+    "finding": "The four-loop four-point benchmark's plain invariant and masked sewing runs were both terminated experiments (receipt exit 143), not accepted stages. Only sew_w8_affine_TR_6p2 completed and produced the certified augmented kernel. The rerun driver incorrectly executed the abandoned masked variant, omitted affine extraction, and selected the interrupted all-row prefix-action control instead of actions_structural.",
+    "legacy_recovery": "No Git deletion was found. The exact certificate-pinned sew_affine_TR_build_v1 source remained in research/4pformfactor/results/ff_four_loop/sew_affine_TR_build_v1 and is now frozen with all 32 source/provenance files under benchmarks/formfactor-mhv-four-loop/solver-source/ff_four_loop/sew_affine_TR_build_v1. The original executable SHA256 is 2cfe28203e1d22c74c8e3b58cea50182e84903496fb9d02c279006c6960df644; the later guarded successor is not substituted for this source.",
+    "practice": "Use an explicit accepted-stage allowlist: prefix/suffix bases, galois helpers, actions_structural prefix actions, low-cost suffix actions, affine-TR sewing and affine_TR_extract. Never run a newly encountered receipt by default. Keep masked/isotypic/all-row sources and failed receipts as experimental provenance, not benchmark stages. Use replay-final --sewing-dir with the regenerated core directory so DC/TC consume the new extraction. Do not add terminated variant wall times to accepted-chain cost.",
+    "evidence": [
+      "benchmarks/formfactor-mhv-four-loop/reference/stage_receipts.json",
+      "benchmarks/formfactor-mhv-four-loop/reference/affine_TR_sewing_certificate.json",
+      "research/4pformfactor/results/ff_four_loop/affine_TR_selection.json",
+      "research/4pformfactor/results/ff_four_loop/actions_structural_certificate.json",
+      "output/formfactor-4l-recovery-build/structural-action-control/actions_structural.log",
+      "output/formfactor-4l-replay-recovered-control/receipts/summary.json",
+      "output/formfactor-4l-accepted-core/core_summary.json",
+      "output/formfactor-4l-accepted-final/receipts/summary.json",
+      "output/formfactor-4l-prep-replay-20261024/prep_receipts.json",
+      "benchmarks/formfactor-mhv-four-loop/README.md",
+      "benchmarks/formfactor-mhv-four-loop/VALIDATION.md"
+    ],
+    "completed_replays": "The fresh allowlisted run-core completed with all seven regenerated accepted artifacts byte-identical to reference: FEC_3/4/5, LEC_2, affine-TR matrix, origin and TR92 directions. Sewing took 4564.9 s at 10.09 GB sampled peak RSS; extraction took 3.6 s. replay-final consumed these regenerated outputs: DC 26.5 s and TC 52.7 s both reproduced candidate SHA256 5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38, and both reserved holdouts passed with 7901300 and 8697622 certified components. Core plus final took 4822.022 s. Frozen v1 also compiled with GCC 14 without research-tree source access. Structural actions were independently byte-identical to the completed all-row control. The interrupted all-row rerun remains preserved at output/formfactor-4l-allrow-control-incomplete.",
+    "documentation_and_reuse": "The benchmark README now explicitly separates the accepted allowlist from every excluded route and records full host/toolchain parameters, per-stage coordinate ranks, eliminated/fixed parameters, wall time and peak RSS. Future run-core executions persist core_stage_receipts.jsonl. Sewing eliminates 3275013 augmented directions, leaving four homogeneous/three affine parameters; DC fixes the remaining three, TC and holdouts fix none.",
+    "resources_and_scope": "Benchmark recovery, not a solver optimization or V16 qualification. Existing failed outputs and original research sources remain untouched. Committed prepared constraints, TR maps and DC/TC projection maps remain explicit inputs rather than claimed raw-data regeneration."
   }
 }
