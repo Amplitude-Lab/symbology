@@ -51,12 +51,12 @@
   "toolchain": "environment-linux.yml (gxx_linux-64=14.4.0, libflint, gmp, tbb); bootstrap built from repository root sources (make bootstrap)",
   "files": {
     "README.md": {
-      "sha256": "2528482bc75da51d5496163d755941f64f08e0ac7ca3e624d870b7da4cdb9f5d",
-      "bytes": 13363
+      "sha256": "f15d1036b62d586c74ae08007a5ca24a668d31047c01ae85acb1bb2c51050adc",
+      "bytes": 7282
     },
     "VALIDATION.md": {
-      "sha256": "90a25caf5209aa41f14294d065cb84baddb8babecc07efc6134e546491a33055",
-      "bytes": 10941
+      "sha256": "925e0b3204fac3df7cf27dd3aa678ff4f14681edcd5eed521dfd0763eb42a16c",
+      "bytes": 6781
     },
     "boundary-preparation/DC/H8_mod_finite_prefix6_raw2.wxf": {
       "sha256": "3306af1740ecc9c3150120d08a1feb6c5ff4560d8c5ef7a03705caec20902dca",
