@@ -465,17 +465,18 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
     def run_stage(command, log):
         return guarded_run(command, log, cap_bytes, env=core_env)
 
-    # Replay the recorded stage commands in order.  Control/variant stages
-    # and the auxiliary symrep/cyclic-projection receipts are not on the
-    # accepted artifact path: symrep's output directory is read by no
-    # downstream stage, the recorded sewing consumes only data/, the bases
-    # and the action files (never cyclic/), and both auxiliary receipts
-    # predate the final condition tensor (VALIDATION.md, "symrep timing
-    # anomaly") — their recorded geometry no longer applies, while the
-    # artifacts they once guarded are reproduced exactly (FEC_3..5, LEC_2).
+    # Replay the recorded stage commands in order.  Skipped stages are not
+    # on the accepted artifact path: the stopped staged control; the symrep
+    # preparations and the cyclic projection, whose outputs are read by no
+    # downstream stage; and the invariant `bootstrap --sew` stage, whose
+    # output SEW_6p2_invariant.wxf likewise has no consumers — the masked
+    # and affine-TR sewings build their own operators from FEC_6, the
+    # action files and the constraint caches (verified in the generated
+    # sources), and only their outputs are hash-pinned.  The first four
+    # auxiliary receipts also predate the final condition tensor.
     stages = json.loads((BENCH / "reference/stage_receipts.json").read_text())
     skip = {"prefix_w6_staged", "symrep_cached_prepare", "symrep_prepare",
-            "cyclic_LEC_2"}
+            "cyclic_LEC_2", "sew_w8_6p2"}
 
     # The symmetry-action files consumed by the sewing stage are regenerated
     # deterministically from the committed data generators right before the
