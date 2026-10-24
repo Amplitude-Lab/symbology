@@ -502,7 +502,8 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
             print(f"skip {name} (control/variant/auxiliary stage, not on the "
                   f"accepted artifact chain)")
             continue
-        if name == "sew_w8_6p2" and not (out / "galois5_w6.wxf").is_file():
+        if (name in ("sew_w8_masked_6p2", "sew_w8_affine_TR_6p2")
+                and not (out / "galois5_w6.wxf").is_file()):
             prep_actions()
         command = []
         for c in stage["command"]:
