@@ -1,6 +1,6 @@
 {
   "schema": "symbology-optimization-lessons-v1",
-  "updated": "2026-10-24T07:44:17+00:00",
+  "updated": "2026-10-24T09:42:07+00:00",
   "user_preference": "Continue optimizing both algorithms and engineering during calculations, reuse measured experience in subsequent calculations, and prioritize universally reusable solver algorithms rather than changes tailored to one amplitude or loop order. Make physical constraints available from the start, while allowing expensive constraint blocks to be assembled and solved later; judge scheduling by complete-solve CPU-hours and RSS.",
   "scope": "Fresh V27D/16 ten-loop computation and exact native17+3 and shifted16+4 reconstructions are complete. Native17+3 is the selected primary benchmark; both representations and all historical receipts are preserved. Fixed V16 >15% CPU / <=5% RSS qualification is unchanged: direct nine-loop comparison remains unverified, and the historical ten-loop first-prime comparison fails the RSS tolerance. No universal optimality claim. Fresh 18+2 split-height comparison (2026-10-21/22): streaming FEC-18 generation validated byte-identical at w17; 18+2 first native prime measured in mapped mode after heap exceeded the 50 GB guard; 17+3 remains cheaper per prime (CPU +45.9% for 18+2, wall 3.92x).",
   "lessons": [
@@ -9594,5 +9594,20 @@
     "completed_replays": "The fresh allowlisted run-core completed with all seven regenerated accepted artifacts byte-identical to reference: FEC_3/4/5, LEC_2, affine-TR matrix, origin and TR92 directions. Sewing took 4564.9 s at 10.09 GB sampled peak RSS; extraction took 3.6 s. replay-final consumed these regenerated outputs: DC 26.5 s and TC 52.7 s both reproduced candidate SHA256 5fd5b1d60c703bd303804307d467aec7b713213e278c923707db6580e0238f38, and both reserved holdouts passed with 7901300 and 8697622 certified components. Core plus final took 4822.022 s. Frozen v1 also compiled with GCC 14 without research-tree source access. Structural actions were independently byte-identical to the completed all-row control. The interrupted all-row rerun remains preserved at output/formfactor-4l-allrow-control-incomplete.",
     "documentation_and_reuse": "The benchmark README is restricted to the accepted result, replay instructions and performance, including full host/toolchain parameters and per-stage fixed counts. VALIDATION.md separately records route exclusions, provenance and certificates; stale nondeterminism and contradictory historical explanations were removed. Future run-core executions persist core_stage_receipts.jsonl. Sewing eliminates 3275013 augmented directions, leaving four homogeneous/three affine parameters; DC fixes the remaining three, TC and holdouts fix none.",
     "resources_and_scope": "Benchmark recovery, not a solver optimization or V16 qualification. Existing failed outputs and original research sources remain untouched. Committed prepared constraints, TR maps and DC/TC projection maps remain explicit inputs rather than claimed raw-data regeneration."
+  },
+  "heptagon_and_hexagon_replay_crosschecks_20261024": {
+    "heptagon": "The five-loop runner uses a fixed accepted 11-stage pipeline, not historical receipt selection. Rebuilding after tensor_kernel.hpp drift passed 106 rational cases, 16 product-invariance controls, 64 packed-shuffle cases, all eight process-budget tests and a 22.963 s four-loop control. A fresh full five-loop cold run passed every stage and final byte binding in 5863.275 s at 33.463 GB sampled peak RSS. Rebuild before running because executable presence alone is not accepted-binary validation.",
+    "hexagon": "V27D/16 native17+3 is the current selected benchmark. Its preflight passed and its completed eight-prime selection matches reference/17p3. The V17 native-plan and heap seam replay are historical accepted-replay checks only: all 275246 coefficients matched, with phase 290.212 s, process 364.334 s and 14.280 GB peak RSS. Do not call V17 the current benchmark or use its replay as fresh V27D validation.",
+    "engineering": "The V17 build helper now uses CXX/CONDA_PREFIX/LDLIBS rather than a deleted /tmp toolchain and compiled successfully. A missing unversioned TBB linker alias in the recovered runtime was resolved with libtbb.so.12, without changing numerical sources. Hexagon split inputs remain local-only and absent from Git; fresh clones must install them separately.",
+    "evidence": [
+      "output/five-loop-control4-20261024/status.json",
+      "output/five-loop-heptagon-20261024/status.json",
+      "output/hexagon-replay-heap-20261024/manifest.json",
+      "output/formfactor-4l-recovery-build/hexagon-v27d-preflight.json",
+      "output/formfactor-4l-recovery-build/hexagon-v17-build.log",
+      "benchmarks/heptagon-mhv-five-loop/VALIDATION.md",
+      "benchmarks/hexagon-mhv-ten-loop/VALIDATION.md"
+    ],
+    "scope": "Current-source correctness and replay-path validation, not controlled performance comparisons. No fresh V27D solve or full cold FEC1-17 rebuild was performed; historical V16 qualification and the V27D RSS failure remain unchanged."
   }
 }

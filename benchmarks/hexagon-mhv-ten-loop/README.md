@@ -22,6 +22,15 @@ verified using Wolfram's WXF reader. The shifted candidate was frozen after
 six CRT primes and validated against two subsequently computed primes.
 Prime 1 was computed by V16; primes 2–8 by V17.
 
+**Current selection versus historical replay.** The later
+[current-benchmark.json](current-benchmark.json) selects V27D/16, native 17+3,
+and explicitly marks the older manifest state historical. Its coefficients are
+identical to these committed references, but its first-prime RSS growth fails
+the 5% qualification tolerance; selection is not a combined performance-gate
+pass. The packaged complete-prime and final-seam commands below reproduce the
+**historical V17 route**, not V27D. They are valid accepted replays, not
+abandoned pipelines and not evidence of a fresh V27D run.
+
 Completed exact validation: both representations pass their complete original
 seam, the 44 exact origin predictions per split, and exhaustive exact
 conversion between the splits. The native result additionally passed **9,072**
@@ -39,8 +48,8 @@ Intel Core Ultra 7 265 (20 cores, no SMT), 62 GiB RAM, Ubuntu 22.04.5 LTS,
 kernel 6.8.0-138-generic, NVMe storage. Numerical jobs used 16 threads under
 a 50,000,000,000-byte hard memory cgroup limit with swap disabled and a 3 GiB
 host reserve; RSS was sampled every 100 ms. The frozen solver binary and its
-runtime libraries are committed under `inputs/` (see below); rebuilding them
-from `solver-source/` needs the repository
+runtime libraries are kept locally under `inputs/` and are deliberately not
+pushed (see below); rebuilding them from `solver-source/` needs the repository
 [environment-linux.yml](../../environment-linux.yml) toolchain
 (gxx_linux-64 14.4.0, libflint 3.2.2, gmp, tbb). No Wolfram installation
 or Git LFS is required; the ten-loop warm-basis archives noted above are
@@ -76,9 +85,33 @@ production outputs: a new prime computes its own cache via the solver, and
 the committed `reference/` symbols are the certified endpoints compared
 against.
 
-## How to repeat the calculation
+## Current benchmark: V27D/16, native 17+3
 
-Two reproduction levels are packaged. Both are **warm-basis** computations:
+V27D is the current selected benchmark, not V17. The selection receipt is
+[current-benchmark.json](current-benchmark.json); its full audit records eight
+fresh V27D native prime solves, seven CRT primes plus one retrospective check,
+2,053,259 exact native seam rows, 44 exact origin checks, independent WXF
+decoding and exact split equality. The selected V27D native WXF files are
+byte-identical to `reference/17p3`, so the committed reference remains the
+correct coefficient target. Selection does not erase the recorded first-prime
+RSS-qualification failure.
+
+Validate the current V27D installation without launching a new solve:
+
+```bash
+python3 bench/hexagon_ten_loop_runner_v27d.py --preflight-only
+```
+
+This checks the V27D/16 profile, solver SHA256
+`493bbc1a5712a27060e3f3641b75d1820ff031fb4658d022e7c4df733f2d1091`,
+frozen package, controls and runtime. It passed in the 2026-10-24 audit. The
+full V27D producer is `bench/hexagon_ten_loop_runner_v27d.py` under its
+installed 50 GB service; it is not the V17 wrapper below. No fresh V27D solve
+was launched in this audit.
+
+## Historical V17 warm-basis replays
+
+Two historical reproduction levels are packaged. Both are **warm-basis** computations:
 they consume the FEC1–17 and MHV LEC1–3 bases, physical input data, the
 frozen V17 solver executable, its runtime libraries and the hash-bound
 checkpoints — about 10 GB that is **not pushed to the remote** (too large
@@ -98,8 +131,10 @@ On the workstation the runners find the archives automatically; add
 `--source bench` to force the `inputs/` split copies.
 
 On the workstation with the original archives under `output_hexagon_*` the
-runners use those directly; add `--source bench` to force the committed
-inputs, which is also the automatic behaviour on a fresh clone.
+runners use those directly; add `--source bench` to force the local split
+inputs. **A fresh clone does not contain `inputs/` or `SHA256SUMS`.** Install
+the split parts separately before using `--source bench`, or provide the
+original archives; warm-basis commands cannot work from Git alone.
 
 ### 1. Reproduce one complete native prime (about 4 h, 16 threads, 50 GB cap)
 
@@ -139,8 +174,23 @@ Solver sources, the original V17 driver and the package's normalization
 instructions are under [solver-source](solver-source). They need a C++20
 compiler with `<format>`, FLINT 3, MPFR, GMP and the allocator libraries
 specified by the package. A rebuild is a separate binary and must retain its
-own build receipt; the committed `inputs/` solver binary is the recorded
-production executable for byte-identical comparison.
+own build receipt; the local `inputs/` solver binary is the recorded
+production executable for byte-identical comparison. The build helper accepts
+`CXX`, `CONDA_PREFIX` and `LDLIBS`; it no longer depends on a removed `/tmp`
+toolchain.
+
+### Current-source replay audit (2026-10-24)
+
+The current V27D installation passed `--preflight-only`; its previously
+completed eight-prime selection and exact certificates were reviewed without
+launching another solve. Separately, the historical V17 native-prime
+`--plan-only` check passed with the local split inputs. The heap final-seam replay then passed with
+`all_coefficients_equal=true` on all **275,246** columns and unchanged input
+hashes: phase 290.212 s, whole measured process 364.334 s, sampled peak RSS
+14.280 GB. See `output/hexagon-replay-heap-20261024/manifest.json`. The V17
+build helper also compiled successfully with GCC 14.4.0 and the recovered
+runtime. These checks validate the historical V17 replay only; they do not
+claim a fresh complete prime, cold FEC1–17 regeneration, or a V27D run.
 
 ## Measured production cost
 

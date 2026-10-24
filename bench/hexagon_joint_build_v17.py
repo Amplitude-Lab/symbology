@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build a separate physics-schedule correction; never modify an active package."""
 import argparse
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -27,11 +28,19 @@ new_schedule = '4 light rounds; persistent COL/MRK cycle cursor across 120-secon
 assert driver.count(old_schedule) == 1
 driver = driver.replace(old_schedule, new_schedule)
 (out / 'tests/joint_physics_v17.cpp').write_text(driver)
-prefix = Path('/tmp/symbology-audit-toolchain/env')
-cmd = [str(prefix / 'bin/x86_64-conda-linux-gnu-c++'), '-O3', '-std=c++20',
-       '-Isrc', '-Isrc/shared', '-Isrc/reduced_d3', '-Isrc/SparseRREF',
-       '-I' + str(prefix / 'include'), 'tests/joint_physics_v17.cpp', '-o', 'bin/joint_physics_v17',
-       '-L' + str(prefix / 'lib'), '-Wl,-rpath,' + str(prefix / 'lib'),
-       '-lflint', '-lmpfr', '-lgmp', '-lmimalloc', '-ltbb', '-pthread']
+prefix = os.environ.get('CONDA_PREFIX')
+cxx = os.environ.get('CXX')
+if not prefix and not cxx:
+    p.error('Set CONDA_PREFIX to the environment-linux.yml environment, or CXX to a C++20 compiler.')
+compiler = cxx or str(Path(prefix) / 'bin/x86_64-conda-linux-gnu-c++')
+cmd = [compiler, '-O3', '-std=c++20',
+       '-Isrc', '-Isrc/shared', '-Isrc/reduced_d3', '-Isrc/SparseRREF']
+if prefix:
+    cmd += ['-I' + str(Path(prefix) / 'include')]
+cmd += ['tests/joint_physics_v17.cpp', '-o', 'bin/joint_physics_v17']
+if prefix:
+    cmd += ['-L' + str(Path(prefix) / 'lib'), '-Wl,-rpath,' + str(Path(prefix) / 'lib')]
+cmd += os.environ.get(
+    'LDLIBS', '-lflint -lmpfr -lgmp -lmimalloc -ltbb -pthread').split()
 print(cmd, flush=True)
 subprocess.run(cmd, cwd=out, check=True)

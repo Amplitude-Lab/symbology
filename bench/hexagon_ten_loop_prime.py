@@ -11,7 +11,7 @@ from hexagon_bench_inputs import roots as input_roots
 R=Path(__file__).resolve().parents[1]
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- p.add_argument('--source',choices=['auto','local','bench'],default='auto',help='local: workstation archives; bench: committed benchmarks/hexagon-mhv-ten-loop/inputs parts')
+ p.add_argument('--source',choices=['auto','local','bench'],default='auto',help='local: workstation archives; bench: local benchmarks/hexagon-mhv-ten-loop/inputs parts (not pushed)')
  a0=p.parse_known_args()[0];roots=input_roots(a0.source)
  for name,path in [('fec',roots['fec']),('lec',roots['lec']),('data',roots['data']),('solver',roots['solver']),('reference',roots['reference']),('library',roots['library'])]:p.add_argument('--'+name,type=Path,default=path)
  p.add_argument('--output',type=Path,required=True);p.add_argument('--prime-index',type=int,choices=range(1,9),default=2);p.add_argument('--hours',type=float,default=8);p.add_argument('--plan-only',action='store_true');a=p.parse_args();out=a.output.resolve();assert not out.exists()

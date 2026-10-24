@@ -7,12 +7,11 @@ local  The archived production packages on the workstation
        (``output_hexagon_16p4_20261006``, ``output_hexagon_17p3_20261007``,
        ``output_hexagon_runtime_recovery_20261008``,
        ``output_hexagon_validation_20261009``).
-bench  The split xz parts committed under
-       ``benchmarks/hexagon-mhv-four-loop/../hexagon-mhv-ten-loop/inputs/``,
+bench  The split xz parts kept locally under
+       ``benchmarks/hexagon-mhv-ten-loop/inputs/``,
        materialized once into ``inputs/.materialized/`` and verified against
-       ``SHA256SUMS``.  This makes both reproduction levels self-contained
-       from a fresh clone: no local archive, dataset or Wolfram installation
-       is needed, only the repository and the environment-linux.yml toolchain.
+       ``SHA256SUMS``.  These large inputs are deliberately not pushed; a fresh
+       clone needs the parts installed separately or the original local archives.
 
 The materialized layout mirrors the production packages so that path-building
 code can treat both identically.
@@ -50,12 +49,12 @@ def sha256(path: Path) -> str:
 def _parts(stem: str) -> list[Path]:
     parts = sorted(BENCH_INPUTS.glob(stem + ".part.*"))
     if not parts:
-        raise SystemExit(f"no committed input parts matching {stem}.part.* under {BENCH_INPUTS}")
+        raise SystemExit(f"no local input parts matching {stem}.part.* under {BENCH_INPUTS}; install the split inputs separately")
     return parts
 
 
 def materialize(force: bool = False) -> Path:
-    """Materialize every committed component into inputs/.materialized."""
+    """Materialize every local split component into inputs/.materialized."""
     cache = BENCH_INPUTS / ".materialized"
     sums = BENCH_INPUTS / "SHA256SUMS"
     if not sums.is_file():

@@ -706,3 +706,30 @@ benchmark package. The OPE small-s
 checkpoint and per-prime joint caches remain production outputs of the
 solver phases; the committed `reference/` symbols are the certified
 endpoints.
+
+## Historical V17 replay revalidation and current-selection scope (2026-10-24)
+
+No abandoned-stage selection was found in the packaged V17 native-prime or
+final-seam commands. The complete-prime `--plan-only` preflight passed against
+the local split inputs. The fresh heap replay at prime 1152921504606847067
+passed `REPLAY_PASS` with `all_coefficients_equal=true` on all 275,246 columns,
+`equation_changes=false`, and unchanged input hashes. Its phase took 290.212 s;
+the measured process took 364.334 s with 14.280 GB sampled peak RSS. Evidence:
+`output/hexagon-replay-heap-20261024/manifest.json`.
+
+`bench/hexagon_joint_build_v17.py` now takes `CXX`, `CONDA_PREFIX` and optional
+`LDLIBS` instead of requiring the deleted `/tmp/symbology-audit-toolchain/env`.
+A fresh build passed with GCC 14.4.0 and the recovered runtime.
+
+The current `current-benchmark.json` selection is V27D/16 native 17+3. Its own
+`bench/hexagon_ten_loop_runner_v27d.py --preflight-only` passed, binding the
+selected solver, frozen package, controls and runtime. The completed selection
+contains eight fresh V27D native solves and its native WXF files are identical
+to `reference/17p3`. The V17 checks above are historical accepted-replay
+checks, not the current benchmark producer or a fresh V27D execution. Earlier
+statements that V27D reconstruction/certification was pending describe that
+historical two-prime snapshot, not the later completed selection. The current
+selection retains the recorded RSS-qualification failure and does not establish
+a combined performance-gate pass. No fresh complete prime, cold FEC1–17 chain,
+or V27D solve was run in this audit. The 10 GB raw inputs and split parts
+remain local-only and are not pushed.

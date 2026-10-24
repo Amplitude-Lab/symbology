@@ -107,3 +107,41 @@ outputs; no numerical algorithm was changed for this correction.
 [GitHub Actions run 37265455121](https://github.com/Amplitude-Lab/symbology/actions/runs/37265455121)
 passed on commit `043c346`: both C++ allocator configurations, process-budget
 tests, WXF sanitizer checks, web build, API tests and Windows editor checks.
+
+## Current-source replay audit (2026-10-24)
+
+The accepted 11-stage runner was audited against the original and cold-run
+receipts. It selects `refine-hybrid`, `coefficients`, `verify`, `words` and the
+recorded prerequisite stages directly, with no exploratory receipt replay.
+The current `tensor_kernel.hpp` (SHA256
+`023042217792e325dd61d4ab09afbda948668424df7aff64b018ecc76b650058`)
+was rebuilt and revalidated because it postdates the earlier cold receipts.
+
+Targeted checks passed: 106 rational factored extension/sewing cases, 16
+product-invariance intersections and certificate-rejection checks, 64 packed
+shuffle cases, and all eight process-budget tests. A fresh four-loop control
+passed all 11 stages and final E4 binding in 22.963 s at 0.533 GB sampled peak
+RSS (`output/five-loop-control4-20261024/status.json`). The recovered runtime
+lacked only the unversioned TBB linker alias; linking `libtbb.so.12` directly
+resolved the build setup without changing numerical sources.
+
+A fresh full five-loop cold replay then passed all 11 stages and final
+reference binding. The recursive tensor is byte-identical to the accepted
+reference and all four published-word checks passed. No timeout, memory guard
+or host-memory guard triggered (`output/five-loop-heptagon-20261024/status.json`).
+
+| Current five-loop stage | Wall seconds | Sampled peak RSS, GB |
+| --- | ---: | ---: |
+| Lower-loop amplitudes and FEC2…7 | 71.016 | 5.593 |
+| FEC8 construction | 419.236 | 33.463 |
+| Recursive generator actions | 49.768 | 13.445 |
+| Independent five-loop boundary | 346.770 | 15.113 |
+| Exact joint kernel | 4,551.720 | 19.064 |
+| Unique physical coefficients | 48.419 | 12.934 |
+| Complete collinear verification | 358.879 | 14.134 |
+| Four published-word checks | 13.961 | 12.775 |
+| Total including bindings and controller | **5,863.275** | **33.463** |
+
+This validates the current source and fixed accepted pipeline, not an
+alternative exploratory route or a controlled performance comparison with the
+earlier cold run.

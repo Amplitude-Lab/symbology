@@ -14,7 +14,7 @@ def sha(path):
   for b in iter(lambda:f.read(1048576),b''):h.update(b)
  return h.hexdigest()
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['replay']);p.add_argument('--output',type=Path,required=True);p.add_argument('--storage',choices=['heap','mapped'],required=True);p.add_argument('--threads',type=int,default=16);p.add_argument('--timeout',type=int,default=3600);p.add_argument('--source',choices=['auto','local','bench'],default='auto',help='local: workstation archives; bench: committed benchmarks/hexagon-mhv-ten-loop/inputs parts');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=['replay']);p.add_argument('--output',type=Path,required=True);p.add_argument('--storage',choices=['heap','mapped'],required=True);p.add_argument('--threads',type=int,default=16);p.add_argument('--timeout',type=int,default=3600);p.add_argument('--source',choices=['auto','local','bench'],default='auto',help='local: workstation archives; bench: local benchmarks/hexagon-mhv-ten-loop/inputs parts (not pushed)');a=p.parse_args()
  assert 1<=a.threads<=16
  out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
  roots=input_roots(a.source);prime=1152921504606847067

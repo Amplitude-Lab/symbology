@@ -55,6 +55,17 @@ The expected solution is used only after construction, for comparison. Its
 known dimension and published word coefficients are not fitting inputs or
 discovery stopping criteria.
 
+## Replay path selection
+
+The runner uses a fixed accepted 11-stage sequence; it does not execute stages
+from historical experiment receipts. Exploratory `refine`, `refine-sample`,
+unrestricted FEC9, staged, masked, or isotypic routes are not selected. Always
+rebuild with `make five-loop-tools` before a fresh run: executable presence is
+checked, but workspace binaries are not pre-approved against accepted hashes.
+The runner fingerprints the actual sources and binaries it snapshots, then
+requires final coordinate and byte bindings, so stale or experimental results
+cannot be promoted silently.
+
 ## What the runner regenerates
 
 | Stage | Computation and acceptance |
