@@ -2,17 +2,8 @@
   "schema": 1,
   "algorithm": "SHA-256",
   "recorded_at_utc": "2026-10-14T01:50:18.520935+00:00",
-  "scope": "Explicitly ignored large local research files; source code and small provenance records stay visible to Git.",
+  "scope": "Explicitly ignored large local research files; source code and small provenance records stay visible to Git. (Entry removed 2026-10-23: irrSEW_16p4_pe_E_origin.wxf is now committed with the hexagon package.)",
   "files": [
-    {
-      "path": "benchmarks/hexagon-mhv-ten-loop/reference/16p4/irrSEW_16p4_pe_E_origin.wxf",
-      "sha256": "78dffab3fa3173b519e13ddf842a5108c2529970a99382815e60f9cec9ff22fd",
-      "size": 13234945,
-      "mtime_ns": 1791524704515434264,
-      "ctime_ns": 1791526672071717778,
-      "dev": 66309,
-      "ino": 28318232
-    },
     {
       "path": "bonusrelation/all_loop/numerics/L6-input/collinear.json",
       "sha256": "f0b1470a4859a82f9550ee37de4013c98dc4e16f0cb740bf8fa0df3a6b4a486c",

@@ -700,8 +700,9 @@ five carry post-freeze edits (`src/nmhv_ope_germ.hpp`,
 `src/reduced_d3/irr_sew.cpp`, `src/SparseRREF/sparse_rref.h`), each
 identical between the committed snapshot and the current local package
 and matching the package manifest's committed-state hashes; the
-remaining 60 pins reference solver data files not shipped in the
-package. The OPE small-s
+remaining 60 pins reference the solver package's documentation,
+slurm/tools scripts and L10 plan tables, which are not shipped with the
+benchmark package. The OPE small-s
 checkpoint and per-prime joint caches remain production outputs of the
 solver phases; the committed `reference/` symbols are the certified
 endpoints.
