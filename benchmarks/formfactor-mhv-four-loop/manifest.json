@@ -22,8 +22,8 @@
   ],
   "accepted_chain": [
     "prefix bases FEC_2..FEC_6 via bootstrap --extend (FEC_6 503 MB regenerated, not committed)",
-    "cyclic/flip/galois symmetry projections and symrep representation preparation",
-    "suffix chain LEC_1..LEC_4 and cyclic LEC_2 projection",
+    "cyclic/flip/galois generator actions lifted onto the FEC/LEC bases (galois, galois_suffix, actions helpers); no irreducible-representation decomposition is used anywhere in the chain \u2014 the symrep representation-preparation stage is auxiliary (killed receipt, exit 143/1, output read by no downstream stage)",
+    "suffix chain LEC_1..LEC_4 (the cyclic LEC_2 projection receipt failed, exit 1, output unconsumed)",
     "weight-8 sewing SEW_6p2, invariant masked sewing, affine TR extraction (augmented kernel dim 4, affine dim 3)",
     "DC exact affine boundary solve: affine dim 3 -> 0 (26 s measured, 141 nonzero + 343 zero pair blocks)",
     "TC exact affine boundary solve consuming the DC solution: affine dim 0 retained (52 s measured)",
