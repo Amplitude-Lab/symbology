@@ -22,7 +22,7 @@
   ],
   "accepted_chain": [
     "prefix bases FEC_2..FEC_6 via bootstrap --extend (FEC_6 503 MB regenerated, not committed)",
-    "cyclic/flip/galois generator actions lifted onto the FEC/LEC bases (galois, galois_suffix, actions helpers); no irreducible-representation decomposition is used anywhere in the chain \u2014 the symrep representation-preparation stage is auxiliary (killed receipt, exit 143/1, output read by no downstream stage)",
+    "cyclic/flip/galois generator actions lifted onto the FEC/LEC bases (galois, galois_suffix, actions helpers); no irreducible-representation decomposition is used anywhere in the chain (the unused isotypic experiment is archived under experimental/symrep-isotypic-sewing/)",
     "suffix chain LEC_1..LEC_4 (the cyclic LEC_2 projection receipt failed, exit 1, output unconsumed)",
     "weight-8 sewing SEW_6p2, invariant masked sewing, affine TR extraction (augmented kernel dim 4, affine dim 3)",
     "DC exact affine boundary solve: affine dim 3 -> 0 (26 s measured, 141 nonzero + 343 zero pair blocks)",
@@ -45,12 +45,12 @@
   "toolchain": "environment-linux.yml (gxx_linux-64=14.4.0, libflint, gmp, tbb); bootstrap built from repository root sources (make bootstrap)",
   "files": {
     "README.md": {
-      "sha256": "a7af375b02dd8cdaa27c1a2a4aa16d7672ef1bba636c401bd9e5f42cd38ede90",
-      "bytes": 9104
+      "sha256": "836ba93ac28ff79b64f9e93cd2c4fd9565b7edf2a533cd9654b7087e2abda4ef",
+      "bytes": 9122
     },
     "VALIDATION.md": {
-      "sha256": "0115212df205dbf1e865beda10bb1a2d0dc8d323dc1f209a1757b7479d370aae",
-      "bytes": 10237
+      "sha256": "00248700da332261e03ef3ee7db1963215e55976bdb8a4109edc0d352827664e",
+      "bytes": 8807
     },
     "boundary-preparation/DC/H8_mod_finite_prefix6_raw2.wxf": {
       "sha256": "3306af1740ecc9c3150120d08a1feb6c5ff4560d8c5ef7a03705caec20902dca",
@@ -261,8 +261,8 @@
       "bytes": 22458416
     },
     "reference/stage_receipts.json": {
-      "sha256": "d74dce1c1867f654bcbb3a17eac5cb809017461ba792cdcf9f09a80b204c3f72",
-      "bytes": 59321
+      "sha256": "f85dcebd47608358d119729837d9ae003e648245db487751ca77f4accd293705",
+      "bytes": 50669
     },
     "reference/suffix_TF175_physical.wxf": {
       "sha256": "08ecb9134435647a34e37c7006973eb694243e81e7622747f85b92aaddea6f20",
@@ -380,14 +380,6 @@
       "sha256": "4d2ffade10df4a0919ff4748e9510e12a61826e4df03f486cdb2ddf6c30c29f0",
       "bytes": 5953
     },
-    "solver-source/ff_four_loop/build_symrep_separating.py": {
-      "sha256": "b55fb5e01eba47df353996ce1d212f20c41a0650cf56482c58d951c0185ba293",
-      "bytes": 2728
-    },
-    "solver-source/ff_four_loop/build_symrep_variant.py": {
-      "sha256": "2e6d0c38cf30c83b233a90a852d251f3e8da8fe73133351663485ea14e4697e5",
-      "bytes": 2806
-    },
     "solver-source/ff_four_loop/dual_origin_audit.cpp": {
       "sha256": "1baca2d9d8ce93111cad2b4a41f52ef91c65443a583a748c993567ec0484a9a0",
       "bytes": 7033
@@ -463,10 +455,6 @@
     "solver-source/ff_four_loop/run.py": {
       "sha256": "b900858a8e7ddf82a16e12a511533b1452ed11df009953deaeced69c562cf604",
       "bytes": 3161
-    },
-    "solver-source/ff_four_loop/run_separating_prepare.py": {
-      "sha256": "9dec723325d6ed3428227b622c138fcc455e27a825bf674673d0a16d820001b1",
-      "bytes": 2380
     },
     "solver-source/ff_four_loop/seam_origin_residual.cpp": {
       "sha256": "31eedaa62f449d0d585b504d31e589e107580ce5f75742ad3f3806ac7c8e3092",
@@ -731,6 +719,30 @@
     "reference/actions/suffix_TR_galois3_w2.wxf": {
       "sha256": "4a617ad92af9d0b3037ebd62b7107c228c6aee293dca651b459c32ac3af0d0da",
       "bytes": 1105
+    },
+    "experimental/symrep-isotypic-sewing/README.md": {
+      "sha256": "1589837e5ddc32a923bb0e24df5185c05e27a93057e25c4ddfd86704cf4daf04",
+      "bytes": 3245
+    },
+    "experimental/symrep-isotypic-sewing/stage_receipts.json": {
+      "sha256": "c4992adb987d72eb4048d07e57cfa3be0ee712762affb653bbd37ee0fa698f48",
+      "bytes": 8655
+    },
+    "experimental/symrep-isotypic-sewing/symrep_separating_prepare.json": {
+      "sha256": "46058ce6d055e342686619da2746857d2929e898e37fdc6feecd859cbd9cc175",
+      "bytes": 3267
+    },
+    "experimental/symrep-isotypic-sewing/solver-source/build_symrep_separating.py": {
+      "sha256": "b55fb5e01eba47df353996ce1d212f20c41a0650cf56482c58d951c0185ba293",
+      "bytes": 2728
+    },
+    "experimental/symrep-isotypic-sewing/solver-source/build_symrep_variant.py": {
+      "sha256": "2e6d0c38cf30c83b233a90a852d251f3e8da8fe73133351663485ea14e4697e5",
+      "bytes": 2806
+    },
+    "experimental/symrep-isotypic-sewing/solver-source/run_separating_prepare.py": {
+      "sha256": "9dec723325d6ed3428227b622c138fcc455e27a825bf674673d0a16d820001b1",
+      "bytes": 2380
     }
   },
   "compressed_inputs": {

@@ -18,12 +18,11 @@ three modes:
   run-core      Full native rebuild of the recorded stage chain
                 (reference/stage_receipts.json): prefix bases FEC_3..FEC_6,
                 suffix chain, cyclic projection, weight-8 sewing, invariant
-                masked sewing and the affine TR matrix.  The auxiliary symrep
-                stage is skipped (its output feeds no downstream stage).
-                Starts from the committed hash-pinned FEC_2 basis, regenerates
+                masked sewing and the affine TR matrix.  Starts from the
+                committed hash-pinned FEC_2 basis, regenerates
                 the 503 MB FEC_6 and the symmetry-action files, and compares
                 every regenerable base against the committed reference bytes.
-                Requires the bootstrap and symrep binaries built from the
+                Requires the bootstrap binary built from the
                 repository root sources.
 
 Solver binaries are resolved in this order: --solver-bin DIR, the local
@@ -419,11 +418,10 @@ CORE_HELPER_BINARIES = ("galois", "galois_suffix", "actions", "sew_masked", "sew
 
 def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
     bootstrap = REPO / "bootstrap"
-    symrep = REPO / "symrep"
-    missing = [p.name for p in (bootstrap, symrep) if not p.is_file()]
+    missing = [p.name for p in (bootstrap,) if not p.is_file()]
     if missing:
         die("missing repository binaries: " + ", ".join(missing) +
-            "; build them first (make bootstrap symrep with the "
+            "; build them first (make bootstrap with the "
             "environment-linux.yml toolchain)")
     if out.exists() and any(p.name not in ("actions",)
                              and not p.name.startswith(("galois", "suffix_galois"))
@@ -454,7 +452,7 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
 
     cap_bytes = int(cap_gb * 1e9)
 
-    # The prebuilt repository bootstrap/symrep binaries link against the
+    # The prebuilt repository bootstrap binary links against the
     # recovered FLINT runtime when present; a fresh `make bootstrap` against
     # the environment-linux.yml toolchain does not need it.
     runtime_lib = REPO / "output_hexagon_runtime_recovery_20261008/env/lib"
@@ -466,17 +464,17 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
         return guarded_run(command, log, cap_bytes, env=core_env)
 
     # Replay the recorded stage commands in order.  Skipped stages are not
-    # on the accepted artifact path: the stopped staged control; the symrep
-    # preparations and the cyclic projection, whose outputs are read by no
-    # downstream stage; and the invariant `bootstrap --sew` stage, whose
-    # output SEW_6p2_invariant.wxf likewise has no consumers — the masked
-    # and affine-TR sewings build their own operators from FEC_6, the
-    # action files and the constraint caches (verified in the generated
-    # sources), and only their outputs are hash-pinned.  The first four
-    # auxiliary receipts also predate the final condition tensor.
+    # on the accepted artifact path: the stopped staged control; the cyclic
+    # projection, whose output is read by no downstream stage; and the
+    # invariant `bootstrap --sew` stage, whose output SEW_6p2_invariant.wxf
+    # likewise has no consumers — the masked and affine-TR sewings build
+    # their own operators from FEC_6, the action files and the constraint
+    # caches (verified in the generated sources), and only their outputs
+    # are hash-pinned.  (The experimental isotypic-sewing preparations were
+    # removed from the recorded list and archived under
+    # experimental/symrep-isotypic-sewing/.)
     stages = json.loads((BENCH / "reference/stage_receipts.json").read_text())
-    skip = {"prefix_w6_staged", "symrep_cached_prepare", "symrep_prepare",
-            "cyclic_LEC_2", "sew_w8_6p2"}
+    skip = {"prefix_w6_staged", "cyclic_LEC_2", "sew_w8_6p2"}
 
     # The symmetry-action files consumed by the sewing stage are regenerated
     # deterministically from the committed data generators right before the
@@ -511,8 +509,6 @@ def run_core(out: Path, solver_bin: Path | None, cap_gb: float) -> None:
             s = str(c)
             if s.endswith("/bootstrap") or s == "bootstrap":
                 command.append(bootstrap)
-            elif s.endswith("/symrep") or s == "symrep":
-                command.append(symrep)
             elif "/code/ff_four_loop/" in s:
                 command.append(resolve_binary(s.rsplit("/", 1)[-1], solver_bin))
             else:

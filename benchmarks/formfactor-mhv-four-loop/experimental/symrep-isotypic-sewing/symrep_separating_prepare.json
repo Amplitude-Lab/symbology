@@ -1,0 +1,84 @@
+{
+  "state": "PASS",
+  "command": [
+    "/home/ana/Documents/symbology/research/4pformfactor/code/ff_four_loop/symrep_separating",
+    "prepare",
+    "--generator",
+    "cycmat=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/cycmat.wxf",
+    "--generator",
+    "flipmat=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/flipmat.wxf",
+    "--generator",
+    "galois1a=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/galois1a.wxf",
+    "--generator",
+    "galois1b=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/galois1b.wxf",
+    "--generator",
+    "galois2a=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/galois2a.wxf",
+    "--generator",
+    "galois2b=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/galois2b.wxf",
+    "--generator",
+    "galois3=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/galois3.wxf",
+    "--terminal-generator",
+    "cycmat=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_cycmat.wxf",
+    "--terminal-generator",
+    "flipmat=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_flipmat.wxf",
+    "--terminal-generator",
+    "galois1a=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_galois1a.wxf",
+    "--terminal-generator",
+    "galois1b=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_galois1b.wxf",
+    "--terminal-generator",
+    "galois2a=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_galois2a.wxf",
+    "--terminal-generator",
+    "galois2b=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_galois2b.wxf",
+    "--terminal-generator",
+    "galois3=/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/terminal_galois3.wxf",
+    "--condition",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/data/interior.wxf",
+    "--seed",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/FEC_2.wxf",
+    "--direction",
+    "forward",
+    "--output",
+    "/home/ana/Documents/symbology/research/4pformfactor/results/ff_four_loop/symrep_separating_prepared",
+    "--max-order",
+    "256",
+    "--threads",
+    "1"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 26.69072969898116,
+  "peak_sampled_RSS_bytes": 200732672,
+  "resources": "{\"user_seconds\":26.47,\"system_seconds\":0.07,\"maxrss_kib\":196012}\n",
+  "samples": [
+    [
+      0.0005960459820926189,
+      98304
+    ],
+    [
+      5.017607263987884,
+      21946368
+    ],
+    [
+      10.034113834990421,
+      22028288
+    ],
+    [
+      15.052735801989911,
+      22134784
+    ],
+    [
+      20.070937536977,
+      191967232
+    ],
+    [
+      25.086075798986712,
+      193576960
+    ]
+  ],
+  "threads": 1,
+  "affinity": [
+    3
+  ],
+  "memory_limit_bytes": 5000000000,
+  "binary_sha256": "41e916898ed5bf15442c7894b0eba4c1c8135864a7abdc697c7cdf9e100d83e9",
+  "scope": "Representation and seed/condition preparation only. Does not construct or certify a four-loop symbol."
+}

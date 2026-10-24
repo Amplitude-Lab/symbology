@@ -81,7 +81,7 @@ location-independent and re-executed from `solver-source/`: the regenerated
 byte-identical to the recorded research-tree build products. The runner
 invokes these generators automatically when no prebuilt sew helper is
 available, so `run-core` needs only the repository, the
-`environment-linux.yml` toolchain and `make bootstrap symrep`.
+`environment-linux.yml` toolchain and `make bootstrap`.
 
 ## Sewing-stage input closure (2026-10-23)
 
@@ -93,40 +93,19 @@ commands) confirmed that `sew_masked` additionally reads
 which are products of the recorded stage commands. These files (2.1 MB +
 0.8 MB + 55 MB + 19 KB) are now committed as staged inputs and seeded by
 `run-core`; their producers (`local_TR_gate.cpp`, `suffix_TR_embedding.cpp`)
-are committed in `solver-source` for regeneration. Also verified: the two
-`symrep prepare` variants write to different directories
-(`symrep_prepared`/`symrep_cached_prepared`), neither is read by any
-downstream stage (the sewing consumes only `data/`, the bases and the
-action files), and skipping the cached variant and the stopped staged
-control matches the accepted chain.
+are committed in `solver-source` for regeneration.
 
-## symrep timing anomaly: root cause (2026-10-23)
+## Archived: isotypic sewing experiment (2026-10-23)
 
-The recorded `symrep_prepare` receipt (371.6 s wall, 370.97 s CPU, flat
-20 MB RSS) is not reproducible with the committed inputs: a verbatim replay
-of the exact recorded command, with hash-verified identical binary, data,
-runtime libraries and environment, exceeded the recorded total CPU within
-~11 minutes and both observed instances compute steadily at one full core
-(the probe's core verified at 5.1 GHz boost, exonerating frequency
-throttling; the runtime libraries pass their own recovery-validation gate).
-
-The file chronology of the recording day explains it. `interior.wxf` and
-`FEC_2.wxf` were regenerated at Oct 10 19:46:23.85 (the adjacency condition
-merge; `adjacency_symmetric.json` written at 19:46:01, superseding the
-05:39-era condition tensor). The recorded symrep run started ~19:46:19 —
-four seconds **before** the rewrite — so it computed against the older,
-smaller pre-merge tensor; every downstream stage (prefix bases 19:46:52→
-19:48:25, suffix chain 20:03, sewing 20:16→22:19) ran against the final
-tensor. `stage_receipts.json` is an append-only log and carries no
-timestamps, so the 371.6 s entry is a receipt of the earlier input
-generation. The `symrep_prepared` output is read by no downstream stage
-(the sewing consumes only `data/`, the bases and the action files), so the
-divergence has no effect on artifact identity — which the byte-identical
-regeneration of FEC_3/FEC_4/FEC_5 and the exact-size FEC_6 independently
-confirm. Consequence for `run-core`: with the committed final tensor the
-symrep stage legitimately takes hours (measured: 3+ h CPU, still running at
-the time of this entry); its recorded 371.6 s should not be used as a cost
-estimate, and the stage is auxiliary to the compared artifacts.
+The auxiliary `symrep prepare` stages were removed from the recorded
+stage list: the chain uses no irreducible-representation decomposition
+anywhere (the FEC/LEC bases are plain condition-tensor kernel recursions,
+and the sewing imposes the seven symmetry generators as explicit
+invariance rows). The killed/failed receipts, the timing anomaly history
+(the 371.6 s receipt predates the adjacency condition merge) and the
+experiment sources are archived under
+`experimental/symrep-isotypic-sewing/` as a documented alternative
+approach to optimizing the sewing.
 
 ## Sew-stage trajectories are deterministic; nondeterminism claim retracted (2026-10-23)
 
@@ -165,6 +144,7 @@ hypothesis is that the binary that produced the Oct-10 receipts differed
 from the on-disk `bootstrap` (untracked; receipts pin no binary hash).
 `run-core` skips the stage on the no-consumers ground (99538b1b); the
 byte-comparison gate remains the arbiter. This retraction also removes
-the alternative explanation previously offered for the symrep timing
-anomaly, leaving the pre-merge file chronology as its sole recorded
-attribution.
+the alternative explanation previously offered for the auxiliary symrep
+timing anomaly (archived with that experiment under
+`experimental/symrep-isotypic-sewing/`), leaving the pre-merge file
+chronology as its sole recorded attribution.

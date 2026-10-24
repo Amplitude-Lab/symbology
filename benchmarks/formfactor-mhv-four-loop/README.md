@@ -86,25 +86,26 @@ recorded native stage commands of `reference/stage_receipts.json`:
    from `solver-source`, deterministic from `data/`),
 4. the weight-8 sewing: invariant, masked and affine-TR stages.
 
-The `symrep` receipt on the recorded list is auxiliary and skipped: its
-output directory is read by no downstream stage, and its recorded 371.6 s
-predates the final condition tensor (VALIDATION.md).
+The staged control, the cyclic LEC_2 projection and the invariant
+`bootstrap --sew` stage on the recorded list are skipped: their outputs
+are read by no downstream stage (the masked and affine-TR sewings build
+their own operators from FEC_6, the action files and the constraint
+caches). The chain uses no irreducible-representation decomposition; the
+experimental isotypic sewing preparations were removed from the recorded
+list and are archived under
+[experimental/symrep-isotypic-sewing/](experimental/symrep-isotypic-sewing/).
 
 Every regenerable base with a committed copy — FEC_3, FEC_4, FEC_5, LEC_2 and
 the affine-TR sewing matrix — is then compared byte-for-byte against
 `reference/`. The 503 MB FEC_6 basis is regenerated, not committed. The
-`bootstrap` and `symrep` binaries are built from the repository root sources
-(`make bootstrap symrep` with the environment-linux.yml toolchain); a locally
+`bootstrap` binary is built from the repository root sources
+(`make bootstrap` with the environment-linux.yml toolchain); a locally
 prebuilt binary linking the recovered FLINT runtime under
 `output_hexagon_runtime_recovery_20261008/env/lib` is picked up automatically
 when present. Recorded cost of the accepted chain: **8,157 s (about 2.3 h)**
 in total, dominated by the three sewing stages (1,069 / 1,910 / 4,445 s),
 with sampled peaks at most 11.2 GB on adopted stages (the 11.9 GB spike in
-the receipts is the staged control that was **not** adopted). One receipt
-caveat: the 371.6 s `symrep` entry predates the final condition tensor (see
-VALIDATION.md, "symrep timing anomaly"); with the committed tensor that
-stage takes hours, and since its output is read by no downstream stage it is
-auxiliary to the compared artifacts.
+the receipts is the staged control that was **not** adopted).
 
 The boundary training that produced the two committed collinear projection
 maps (`bootstrap --project --symmetry collinear --target FEC_6`, driver
@@ -121,7 +122,7 @@ The native stages use four threads (`OMP_NUM_THREADS=4` in the recorded
 receipts) under the recorded 44 GB own-process cap; adopted stages peaked at
 ≤ 11.2 GB sampled RSS. The optional Wolfram-side H8 factor exports were
 measured with WolframScript 1.11.0 (Wolfram 14) at 4.9 s / 0.3 GB. The
-`bootstrap` and `symrep` binaries are built with the repository
+`bootstrap` binary is built with the repository
 [environment-linux.yml](../../environment-linux.yml) toolchain
 (gxx_linux-64 14.4.0, libflint 3.2.2, gmp, tbb); the C++ helpers compile
 from `solver-source/` with the same toolchain. No external dataset or
