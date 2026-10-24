@@ -128,23 +128,43 @@ symrep stage legitimately takes hours (measured: 3+ h CPU, still running at
 the time of this entry); its recorded 371.6 s should not be used as a cost
 estimate, and the stage is auxiliary to the compared artifacts.
 
-## Solver path nondeterminism observed with byte-identical inputs (2026-10-23)
+## Sew-stage trajectories are deterministic; nondeterminism claim retracted (2026-10-23)
 
-A rerun of the recorded `sew_w8_6p2` stage with hash-verified identical
-binary, `interior.wxf`, FEC_6 (sha d116600a... — the candidate-manifest
-pin), LEC_2 and all ten action files (each compared byte-for-byte against
-the originals) entered a multi-pass presolve trajectory the recorded run
-never printed: the original completed in 1,069 s after the interface
-reduction with no presolve output, while the rerun was still reducing
-~1.25 M remaining columns after six presolve passes and 2+ h. The presolve
-skips rows against a relation state that evolves during parallel emission,
-so scheduling order can change the trajectory; the exact kernel, when
-reached, is unchanged. Consequences recorded honestly: (1) the receipt
-timings are single samples of a path-nondeterministic solver, not strict
-upper bounds; (2) run-to-run wall time can vary by orders of magnitude
-under identical inputs; (3) this finding also weakens the earlier
-"pre-merge fossil" attribution for the symrep anomaly to one of two
-consistent explanations (input-generation difference, as the file
-chronology suggests, or the same path nondeterminism). A rerun taking the
-recorded fast path would reproduce the original timings; the final
-byte-comparison gate remains the arbiter of correctness either way.
+This file earlier recorded "solver path nondeterminism observed with
+byte-identical inputs" for `sew_w8_6p2`. That claim is retracted: it was
+written from a single rerun, and every same-day rerun — six launches in
+total, the first being the rerun the retracted claim was based on; one
+(`ff-exp-taskset`) ran with restricted CPU placement and ~4x slower
+timings — reproduced **bit-identical trajectories**. Every rerun of the
+invariant sewing prints the same numbers — pass 1 `relations=4879894
+remaining_columns=1349756`, and two independent runs agree through pass 8
+(`relations=4 remaining_columns=1255224`, `REFINE_SEED rows=3473367
+cols=1255224 nnz=58523063`) with only timing strings
+(`elapsed=`/`setup_seconds=`) differing. The masked
+sewing reproduces the same way: the 2026-10-23 `run-core` rerun repeated
+the original recording's eight passes number-for-number
+(`4883699/1345951 … 57/1250698`) and its streaming batches, ranks and nnz.
+No run-to-run divergence has been observed in any log.
+
+The recording itself was also misread. The receipts show `exit_code 143`
+for both `sew_w8_6p2` (wall 1,068.96 s) and `sew_w8_masked_6p2`
+(1,909.70 s): both recorded runs were terminated by signal 15, and
+`SEW_6p2_invariant.wxf` was never written — the invariant log stops at
+`sew_strategy=staged product_generators=7` with no presolve output. The
+earlier statement that "the original completed in 1,069 s" is wrong:
+these walls are kill times, not completions, and are not cost estimates.
+Only `sew_w8_affine_TR_6p2` completed (exit 0, 4,445.31 s).
+
+With determinism established, the same-day eliminations stand: inputs
+(byte-identical interior/FEC_6/LEC_2/actions), argv, library runtime,
+environment, scheduling/serialization and timing-based switching were all
+excluded, so the recording was not produced by the current binary and
+inputs under any of the exercised conditions (concurrent load, solo
+relaunch, restricted-core placement). The standing (unproven)
+hypothesis is that the binary that produced the Oct-10 receipts differed
+from the on-disk `bootstrap` (untracked; receipts pin no binary hash).
+`run-core` skips the stage on the no-consumers ground (99538b1b); the
+byte-comparison gate remains the arbiter. This retraction also removes
+the alternative explanation previously offered for the symrep timing
+anomaly, leaving the pre-merge file chronology as its sole recorded
+attribution.
